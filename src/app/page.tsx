@@ -12,15 +12,15 @@ const SECTIONS = [
 ];
 
 const TOOLS = [
-  { name: "Focus Timer", desc: "Pomodoro-style interval timer." },
-  { name: "Budget Tracker", desc: "Capital flow visualization spreadsheet." },
-  { name: "Habit Engine", desc: "Daily biometric and action logger." },
+  { name: "Focus Timer", desc: "Pomodoro-style interval timer.", image: "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?q=80&w=800&auto=format&fit=crop" },
+  { name: "Budget Tracker", desc: "Capital flow visualization spreadsheet.", image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=800&auto=format&fit=crop" },
+  { name: "Habit Engine", desc: "Daily biometric and action logger.", image: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=800&auto=format&fit=crop" },
 ];
 
 const BLOG_POSTS = [
-  { title: "Building Resilient Architectures", date: "Mar 1, 2026" },
-  { title: "The High-Contrast Lifestyle", date: "Feb 15, 2026" },
-  { title: "Capital Allocation in the 21st Century", date: "Feb 2, 2026" },
+  { title: "Building Resilient Architectures", date: "Mar 1, 2026", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop" },
+  { title: "The High-Contrast Lifestyle", date: "Feb 15, 2026", image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop" },
+  { title: "Capital Allocation in the 21st Century", date: "Feb 2, 2026", image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800&auto=format&fit=crop" },
 ];
 
 export default function Home() {
@@ -113,9 +113,18 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {TOOLS.map((tool, idx) => (
-              <div key={idx} className="group relative bg-white/5 border border-white/10 hover:-translate-y-1 hover:bg-white/10 transition-all duration-300 cursor-pointer p-6 min-h-[160px] flex flex-col justify-between">
-                <h4 className="font-fuel-decay text-4xl uppercase tracking-wide text-white group-hover:text-sor7ed-yellow transition-colors">{tool.name}</h4>
-                <p className="font-roboto text-sm text-zinc-400">{tool.desc}</p>
+              <div key={idx} className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-white/30 transition-all duration-300 cursor-pointer min-h-[300px] flex flex-col justify-end overflow-hidden p-6">
+                <Image
+                  src={tool.image}
+                  alt={tool.name}
+                  fill
+                  className="object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-300 blur-[2px] group-hover:blur-none"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none" />
+                <div className="z-10 relative">
+                  <h4 className="font-fuel-decay text-4xl uppercase tracking-wide text-white group-hover:text-sor7ed-yellow transition-colors">{tool.name}</h4>
+                  <p className="font-roboto text-sm text-zinc-400 mt-1">{tool.desc}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -133,9 +142,20 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {BLOG_POSTS.map((post, idx) => (
-              <div key={idx} className="group border-b border-white/5 hover:border-sor7ed-yellow pb-6 flex flex-col justify-between cursor-pointer transition-colors duration-300">
-                <p className="font-mono-headline text-xs text-sor7ed-yellow mb-3">{post.date}</p>
-                <h4 className="font-roboto text-xl font-medium text-white group-hover:text-zinc-300 transition-colors">{post.title}</h4>
+              <div key={idx} className="group border border-white/5 bg-black hover:border-sor7ed-yellow flex flex-col cursor-pointer transition-colors duration-300 overflow-hidden hover:-translate-y-1 shadow-lg">
+                <div className="relative w-full h-48 overflow-hidden bg-black/50">
+                  <Image
+                    src={post.image}
+                    alt={post.title}
+                    fill
+                    className="object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+                </div>
+                <div className="p-6 flex flex-col flex-1 justify-between bg-black/90 border-t border-white/5">
+                  <p className="font-mono-headline text-xs text-sor7ed-yellow mb-3">{post.date}</p>
+                  <h4 className="font-roboto text-xl font-medium text-white group-hover:text-sor7ed-yellow transition-colors leading-tight">{post.title}</h4>
+                </div>
               </div>
             ))}
           </div>
