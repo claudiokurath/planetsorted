@@ -128,21 +128,17 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {TOOLS.map((tool, idx) => (
-              <Link href={`/tools/${tool.Slug || '#'}`} key={idx} className="group border border-white/5 bg-black hover:border-sor7ed-yellow flex flex-col cursor-pointer transition-colors duration-300 overflow-hidden hover:-translate-y-1 shadow-lg">
-                <div className="relative w-full h-56 overflow-hidden bg-black/50">
-                  <Image
-                    src={tool["Cover Image"] || getFallbackImage('tool', idx)}
-                    alt={tool.Name || "Tool"}
-                    fill
-                    className="object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 pointer-events-none" />
-                </div>
-                <div className="p-6 flex flex-col flex-1 justify-between bg-black/90 border-t border-white/5">
-                  <div className="mb-4">
-                    <h4 className="font-fuel-decay text-6xl uppercase tracking-wide text-white group-hover:text-sor7ed-yellow transition-colors leading-[0.9]">{tool.Name}</h4>
-                  </div>
-                  <p className="font-roboto text-sm text-zinc-400 mt-auto">{tool.Description || "System optimization tool."}</p>
+              <Link href={`/tools/${tool.Slug || '#'}`} key={idx} className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-white/30 transition-all duration-300 cursor-pointer min-h-[400px] flex flex-col justify-end overflow-hidden p-8 text-center">
+                <Image
+                  src={tool["Cover Image"] || getFallbackImage('tool', idx)}
+                  alt={tool.Name || "Tool"}
+                  fill
+                  className="object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500 blur-[1px] group-hover:blur-none"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
+                <div className="z-10 relative mt-auto flex flex-col items-center justify-end w-full">
+                  <h4 className="font-fuel-decay text-6xl md:text-7xl uppercase tracking-widest text-white group-hover:text-sor7ed-yellow transition-colors leading-[0.85] mb-2">{tool.Name}</h4>
+                  <p className="font-roboto text-sm md:text-base text-zinc-400 uppercase tracking-wider font-medium">{tool.Description || "SYSTEM OPTIMIZATION TOOL"}</p>
                 </div>
               </Link>
             ))}
@@ -161,19 +157,17 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {BLOG_POSTS.map((post, idx) => (
-              <Link href={`/blog/${post.Slug || '#'}`} key={idx} className="group border border-white/5 bg-black hover:border-sor7ed-yellow flex flex-col cursor-pointer transition-colors duration-300 overflow-hidden hover:-translate-y-1 shadow-lg">
-                <div className="relative w-full h-56 overflow-hidden bg-black/50">
-                  <Image
-                    src={post["Cover Image"] || getFallbackImage('blog', idx)}
-                    alt={post.Title || "Post"}
-                    fill
-                    className="object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 pointer-events-none" />
-                </div>
-                <div className="p-6 flex flex-col flex-1 bg-black/90 border-t border-white/5">
-                  <p className="font-mono-headline text-xs text-sor7ed-yellow mb-3">{post["Publish Date"] || "Transmission Date Unknown"}</p>
-                  <h4 className="font-roboto text-3xl md:text-4xl font-medium text-white group-hover:text-sor7ed-yellow transition-colors leading-[1.1] mb-2">{post.Title}</h4>
+              <Link href={`/blog/${post.Slug || '#'}`} key={idx} className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-white/30 transition-all duration-300 cursor-pointer min-h-[400px] flex flex-col justify-end overflow-hidden p-8 text-center">
+                <Image
+                  src={post["Cover Image"] || getFallbackImage('blog', idx)}
+                  alt={post.Title || "Post"}
+                  fill
+                  className="object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500 blur-[1px] group-hover:blur-none"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
+                <div className="z-10 relative mt-auto flex flex-col items-center justify-end w-full">
+                  <p className="font-mono-headline text-xs text-sor7ed-yellow mb-3 uppercase tracking-widest">{post["Publish Date"] || "TRANSMISSION DATE UNKNOWN"}</p>
+                  <h4 className="font-fuel-decay text-5xl md:text-6xl uppercase tracking-widest text-white group-hover:text-sor7ed-yellow transition-colors leading-[0.9]">{post.Title}</h4>
                 </div>
               </Link>
             ))}
