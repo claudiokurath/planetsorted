@@ -29,8 +29,8 @@ const getFallbackImage = (type: 'tool' | 'blog', index: number) => {
   return pool[index % pool.length];
 };
 
-const TOOLS = (toolsData as any[]).slice(0, 6);
-const BLOG_POSTS = (blogData as any[]).slice(0, 6);
+const TOOLS = (toolsData as any[]).filter(tool => tool.Status === "Published").slice(0, 6);
+const BLOG_POSTS = (blogData as any[]).filter(post => post.Status === "Published").slice(0, 6);
 
 export default function Home() {
   return (
