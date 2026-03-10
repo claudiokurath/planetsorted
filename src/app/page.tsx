@@ -128,17 +128,20 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {TOOLS.map((tool, idx) => (
-              <Link href={`/tools/${tool.Slug || '#'}`} key={idx} className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-white/30 transition-all duration-300 cursor-pointer min-h-[400px] flex flex-col justify-end overflow-hidden p-8 text-center">
+              <Link href={`/tools/${tool.Slug || '#'}`} key={idx} className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-white/30 transition-all duration-300 cursor-pointer min-h-[220px] flex flex-col justify-between overflow-hidden p-6 text-left">
                 <Image
                   src={tool["Cover Image"] || getFallbackImage('tool', idx)}
                   alt={tool.Name || "Tool"}
                   fill
                   className="object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500 blur-[1px] group-hover:blur-none"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
-                <div className="z-10 relative mt-auto flex flex-col items-center justify-end w-full">
-                  <h4 className="font-fuel-decay text-6xl md:text-7xl uppercase tracking-widest text-white group-hover:text-sor7ed-yellow transition-colors leading-[0.85] mb-2">{tool.Name}</h4>
-                  <p className="font-roboto text-sm md:text-base text-zinc-400 uppercase tracking-wider font-medium">{tool.Description || "SYSTEM OPTIMIZATION TOOL"}</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black transition-opacity duration-500 pointer-events-none" />
+                <div className="z-10 relative flex w-full justify-between items-start">
+                  {/* Optional top-left metadata if desired in future */}
+                </div>
+                <div className="z-10 relative mt-8 w-full">
+                  <h4 className="font-fuel-decay text-5xl md:text-6xl uppercase leading-none tracking-tight text-white group-hover:text-sor7ed-yellow transition-colors">{tool.Name}</h4>
+                  <p className="font-roboto text-xs md:text-sm text-zinc-400 uppercase tracking-wider font-medium mt-2">{tool.Description || "SYSTEM OPTIMIZATION TOOL"}</p>
                 </div>
               </Link>
             ))}
@@ -157,17 +160,19 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {BLOG_POSTS.map((post, idx) => (
-              <Link href={`/blog/${post.Slug || '#'}`} key={idx} className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-white/30 transition-all duration-300 cursor-pointer min-h-[400px] flex flex-col justify-end overflow-hidden p-8 text-center">
+              <Link href={`/blog/${post.Slug || '#'}`} key={idx} className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-white/30 transition-all duration-300 cursor-pointer min-h-[220px] flex flex-col justify-between overflow-hidden p-6 text-left">
                 <Image
                   src={post["Cover Image"] || getFallbackImage('blog', idx)}
                   alt={post.Title || "Post"}
                   fill
                   className="object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500 blur-[1px] group-hover:blur-none"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
-                <div className="z-10 relative mt-auto flex flex-col items-center justify-end w-full">
-                  <p className="font-mono-headline text-xs text-sor7ed-yellow mb-3 uppercase tracking-widest">{post["Publish Date"] || "TRANSMISSION DATE UNKNOWN"}</p>
-                  <h4 className="font-fuel-decay text-5xl md:text-6xl uppercase tracking-widest text-white group-hover:text-sor7ed-yellow transition-colors leading-[0.9]">{post.Title}</h4>
+                <div className="absolute inset-0 bg-gradient-to-t from-black transition-opacity duration-500 pointer-events-none" />
+                <div className="z-10 relative flex w-full justify-between items-start">
+                  <p className="font-mono-headline text-[10px] text-sor7ed-yellow uppercase tracking-widest border border-sor7ed-yellow/30 px-2 py-1 bg-black/50">{post["Publish Date"] || "TRANSMISSION DATE UNKNOWN"}</p>
+                </div>
+                <div className="z-10 relative mt-8 w-full">
+                  <h4 className="font-fuel-decay text-5xl md:text-6xl uppercase leading-none tracking-tight text-white group-hover:text-sor7ed-yellow transition-colors">{post.Title}</h4>
                 </div>
               </Link>
             ))}
