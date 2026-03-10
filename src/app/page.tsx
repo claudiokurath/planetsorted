@@ -81,7 +81,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {SECTIONS.map((section) => (
-              <div
+              <Link
+                href={`/domains/${section.name.toLowerCase().replace(/\s+/g, '-')}`}
                 key={section.id}
                 className="group relative bg-sor7ed-yellow hover:-translate-y-2 transition-transform duration-300 ease-in-out cursor-pointer p-6 flex flex-col justify-between min-h-[220px] shadow-[0_10px_30px_rgba(245,198,20,0.05)] border border-transparent hover:border-white/20 text-sor7ed-black"
               >
@@ -105,7 +106,7 @@ export default function Home() {
                     <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
@@ -122,7 +123,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {TOOLS.map((tool, idx) => (
-              <div key={idx} className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-white/30 transition-all duration-300 cursor-pointer min-h-[300px] flex flex-col justify-end overflow-hidden p-6">
+              <Link href={`/tools/${tool.Slug || '#'}`} key={idx} className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-white/30 transition-all duration-300 cursor-pointer min-h-[300px] flex flex-col justify-end overflow-hidden p-6">
                 <Image
                   src={tool["Cover Image"] || getFallbackImage('tool', idx)}
                   alt={tool.Name || "Tool"}
@@ -134,7 +135,7 @@ export default function Home() {
                   <h4 className="font-fuel-decay text-4xl uppercase tracking-wide text-white group-hover:text-sor7ed-yellow transition-colors">{tool.Name}</h4>
                   <p className="font-roboto text-sm text-zinc-400 mt-1">{tool.Description || "System optimization tool."}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
@@ -151,7 +152,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {BLOG_POSTS.map((post, idx) => (
-              <div key={idx} className="group border border-white/5 bg-black hover:border-sor7ed-yellow flex flex-col cursor-pointer transition-colors duration-300 overflow-hidden hover:-translate-y-1 shadow-lg">
+              <Link href={`/blog/${post.Slug || '#'}`} key={idx} className="group border border-white/5 bg-black hover:border-sor7ed-yellow flex flex-col cursor-pointer transition-colors duration-300 overflow-hidden hover:-translate-y-1 shadow-lg">
                 <div className="relative w-full h-48 overflow-hidden bg-black/50">
                   <Image
                     src={post["Cover Image"] || getFallbackImage('blog', idx)}
@@ -165,7 +166,7 @@ export default function Home() {
                   <p className="font-mono-headline text-xs text-sor7ed-yellow mb-3">{post["Publish Date"] || "Transmission Date Unknown"}</p>
                   <h4 className="font-roboto text-xl font-medium text-white group-hover:text-sor7ed-yellow transition-colors leading-tight">{post.Title}</h4>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
