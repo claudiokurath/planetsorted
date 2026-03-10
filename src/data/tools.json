@@ -2,7 +2,7 @@
   {
     "Branch": "Keep Going",
     "CTA": "Text TRIAGE to +44 7360 277713 to get your Executive Function Triage via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Executive%20Function%20Triage/image.png",
+    "Cover Image": "/images/tools/executive-function.png",
     "Description": "Identify which executive function is struggling today and get targeted support strategies.",
     "FAQ": "Q: Is this a replacement for professional neuropsychological assessment?\nA: Absolutely not. It's a triage tool for immediate situational awareness, not a diagnostic tool.\n\nQ: How accurate is the Triage Score?\nA: The score is based on your subjective self-assessment, providing a relative indication of your current executive function capacity in relation to the specific task.\n\nQ: Will this \"cure\" my ADHD?\nA: No. It is a strategy to manage symptoms in real time.\n\nQ: Is my data secure?\nA: Yes. All processing occurs locally within the WhatsApp session. No data is stored or retained by SOR7ED.\n\nQ: How often can I use the tool?\nA: As often as you need. There are no limitations.",
     "Launch Date": "",
@@ -21,7 +21,7 @@
   {
     "Branch": "Spend Smart",
     "CTA": "Text SPEND to +44 7360 277713 to access your Impulse Spending Interrupter via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Task%20Breakdown%20Wizard/image.png",
+    "Cover Image": "/images/tools/task-breakdown.png",
     "Description": "Break overwhelming projects into ADHD-friendly micro-tasks with time estimates.",
     "FAQ": "Q: Is my data stored? A: No. All processing is done locally, and your input is not retained after the deconstruction is complete. Zero-retention policy is our standard.\n\nQ: Can this handle tasks with subjective elements? A: Yes, but the more specific you are in your initial description, the better the results. Use detail to clarify the desired outcome.\n\nQ: How is this different from a to-do list? A: It's not just a list. It's a structured, recursive deconstruction of a complex task into the smallest possible executable actions, prioritized based on dependencies and urgency.\n\nQ: What if the algorithm misses a crucial step? A: You have the ability to manually refine the output, adding, merging, or splitting steps as needed, ensuring comprehensive coverage. The algorithm learns from user refinements.\n\nQ: Does this integrate with project management software? A: Not directly, but the output is formatted for easy copy-pasting into your preferred platform. Native integration is planned for a future release.",
     "Launch Date": "",
@@ -78,7 +78,7 @@
   {
     "Branch": "Feel Good",
     "CTA": "Text DOPAMINE to +44 7360 277713 to get your Dopamine Menu Generator via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Dopamine%20Menu%20Generator/image.png",
+    "Cover Image": "/images/tools/dopamine-menu.png",
     "Description": "Create a personalized menu of activities sorted by effort level to fight decision fatigue.",
     "FAQ": "   Q: How does this differ from generic decision-making advice? A: It is personalized to YOUR cognitive profile, leveraging AI to pinpoint weaknesses and deliver targeted solutions.\n   Q: What kind of decisions is this best suited for? A: High-stakes, complex decisions where overthinking is the primary obstacle.\n   Q: How private is my data? A: Data is processed locally and purged immediately after the interaction. Zero retention.\n   Q: Can this guarantee the right decision? A: No. It provides clarity and confidence to make INFORMED decisions, mitigating paralysis.",
     "Launch Date": "",
@@ -116,7 +116,7 @@
   {
     "Branch": "Keep Going",
     "CTA": "Text FLOWSTATE to +44 7360 277713 to get your Decision Clarity Tool via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Decision%20Clarity%20Tool/image.png",
+    "Cover Image": "/images/tools/decision-clarity-tool.png",
     "Description": "Confidently navigate overwhelm and initiate tasks with purpose by quantifying task dynamics.",
     "FAQ": "   Q: How is 'Flow Potential' calculated? A: It's a proprietary algorithm balancing task difficulty and perceived urgency to identify your ideal productivity zone.\n   Q: Is this another to-do list app? A: No. It's a pre-action diagnostic tool that optimizes your mindset before you start, removing mental blocks.\n   Q: What if I disagree with the suggested action? A: The suggestions are prompts. Refine them. The tool is designed to spark your intuition, not replace it.\n   Q: Does it integrate with other apps? A: Currently, no. It's designed for focused, independent use to minimize distraction.\n   Q: How accurate is this tool?* A: The accuracy is dependent on the accurate reflection of urgency/difficulty that the user inputs.",
     "Launch Date": "",
@@ -135,7 +135,7 @@
   {
     "Branch": "Spend Smart",
     "CTA": "Text TAX to +44 7360 277713 to get your ADHD Tax Calculator via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/ADHD%20Tax%20Calculator/image.png",
+    "Cover Image": "/images/tools/adhd-tax-calculator.png",
     "Description": "Quantify the invisible financial burden of ADHD. Gain clarity and take control of your finances.",
     "FAQ": "   Q: Is this a definitive diagnosis? A: No, this calculator is for illustrative purposes only and not a substitute for professional medical or financial advice.\n   Q: How accurate is the calculation? A: Accuracy depends on the precision of your input data. Use realistic estimates.\n   Q: Can this tool help me get a tax deduction? A: Consult with a tax professional. This calculator provides financial insights, not tax advice.\n   Q: What if I don't know some of the numbers? A: Best estimates are fine! This is directional.\n   Q: Is my data stored?* A: No, the calculations are performed locally and no data is retained.",
     "Launch Date": "",
@@ -154,7 +154,7 @@
   {
     "Branch": "Level Up",
     "CTA": "Text MATCH to +44 7360 277713 to get your Body Double Matchmaker results via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Body%20Double%20Matchmaker/image.png",
+    "Cover Image": "/images/tools/body-double-matchmaker.png",
     "Description": "Uncover your ideal physical blueprint using biometrics and aspirational targets.",
     "FAQ": "   Q: What is a \"Body Double\"? A: It's a high-performing individual with a physique aligned with your aspirations. We use them as a North Star for your transformation.\n   Q: How accurate is the roadmap? A: It's based on scientifically validated principles, tailored to your unique biometrics and aspirations. Adherence to the plan is key.\n   Q: What if I don't like my Body Double matches? A: The matches are algorithmically suggested, but ultimately the final choice is yours based on preference.\n   Q: Is my data secure? A: Yes. We employ zero-retention data processing. Your biometric data is used exclusively to generate your personalized roadmap and is not stored.\n   Q: Will this guarantee results?* A: No system can guarantee results. Outcomes depend on your discipline, effort, and adherence to the recommended plan. However, using this as a north star will reduce cognitive friction by 90%.",
     "Launch Date": "",
@@ -173,7 +173,7 @@
   {
     "Branch": "Keep Going",
     "CTA": "Text SIMULATE to +44 7360 277713 to start your Body Doubling Simulator via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Body%20Doubling%20Simulator/image.png",
+    "Cover Image": "/images/tools/body-doubling-simulator.png",
     "Description": "Effortlessly conquer procrastination with on-demand AI body doubling.",
     "FAQ": "   Q: How is this different from a Pomodoro timer? A: It provides active, personalized accountability and a dynamic environment, not just timed intervals.\n   Q: Does it replace a real body double? A: It supplements, offering a consistent, on-demand solution when a physical presence isn't feasible.\n   Q: What if I don't respond to the accountability prompts? A: The AI will gently escalate the frequency and intensity of prompts, never becoming intrusive.\n   Q: Is my data secure? A: Absolutely. Sessions are end-to-end encrypted, and no personal data is stored.\n   Q: Can I customize the auditory environment?* A: Yes, there are various pre-set environments, and the ability to fine-tune individual sound elements is coming in a future release.",
     "Launch Date": "",
@@ -192,7 +192,7 @@
   {
     "Branch": "Be Connected",
     "CTA": "Text SCRIPT to +44 7360 277713 to get your Conversation Script Generator via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Conversation%20Script%20Generator/image.png",
+    "Cover Image": "/images/tools/conversation-script-generator.png",
     "Description": "Unlock strategic dialogue. Generate compelling conversation scripts tailored to specific outcomes.",
     "FAQ": "Q: How does the AI understand complex character motivations?\nA: We use Gemini Pro 2.0, trained on a massive dataset of literature, screenplays, and real-world conversations, allowing it to infer nuanced character motivations based on provided personality profiles and context.\n\nQ: Can I edit the generated script?\nA: Absolutely. The generated script serves as a foundation, and you retain full control to refine and customize the dialogue to perfectly match your vision.\n\nQ: Is the data I input kept private?\nA: Yes. We employ zero-retention data processing. All inputs are processed locally and immediately discarded after script generation, ensuring complete privacy.\n\nQ: What formats can I export the script in?\nA: Currently supports TXT, DOCX, and PDF.\n\nQ: Is there a limit to the length of the generated script?\nA: There is a soft limit of 50 turns to maintain script quality. Contact us for enterprise solutions requiring longer scripts.",
     "Launch Date": "",
@@ -211,7 +211,7 @@
   {
     "Branch": "Be Connected",
     "CTA": "Text CONSENT to +44 7360 277713 to get your Consent Kit via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Consent%20Kit/image.png",
+    "Cover Image": "/images/tools/consent-kit.png",
     "Description": "Empower yourself with clarity in consent. Personalized Consent Snapshot for social interactions.",
     "FAQ": "   Q: Is this tool a substitute for professional therapy? A: No. This tool complements therapy but does not replace it.\n   Q: How does this tool cater to different neurodivergent needs? A: The questionnaire is designed to surface key areas of potential difficulty with consent for neurodivergent individuals, taking into consideration sensitivities and differing communication styles.\n   Q: Is my data secure? A: Yes. Data is processed locally and WhatsApp responses are not retained. The output document is encrypted.\n   Q: Can I share my Consent Snapshot? A: Yes, sharing is optional and at your discretion. It can be a helpful tool for informing partners or caregivers.\n   Q: What if I don't understand a question?* A: Re-initiate the process by texting \"AGREEMENT\" again, which will reset the questionnaire.",
     "Launch Date": "",
@@ -230,7 +230,7 @@
   {
     "Branch": "Plan Ahead",
     "CTA": "",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/ADHD-Friendly%20Calendar/image.png",
+    "Cover Image": "/images/tools/adhd-friendly-calendar.png",
     "Description": "Conquer ADHD time-blindness with a personalized, visual calendar delivered directly to WhatsApp.",
     "FAQ": "Q: How is this different from a regular calendar app?\nA: This isn't a calendar replacement, it's an ADHD-optimized action enabler. It uses personalized prioritization and dynamic prompting to overcome executive dysfunction, unlike generic reminders.\n\nQ: Will this integrate with my existing calendar?\nA: Not directly. It's designed as a supplemental tool for critical tasks. The focus is on immediate execution via WhatsApp.\n\nQ: How does it account for my individual needs?\nA: The customizable schema lets you tailor the prioritization algorithm to your unique ADHD profile.\n\nQ: Is my data secure?\nA: Absolutely. We utilize zero-retention processing. Your data is used exclusively for calendar event generation within your WhatsApp session and then discarded.\n\nQ: What if I don't know how to set up the schema?\nA: We provide example schemas tailored for common ADHD profiles to get you started. You can adjust them as needed.",
     "Launch Date": "",
@@ -249,7 +249,7 @@
   {
     "Branch": "Be Connected",
     "CTA": "Text BOUNDARIES to +44 7360 277713 to get your Boundaries Pack via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Boundaries%20Pack%20(Holidays)/image.png",
+    "Cover Image": "/images/tools/boundaries-pack-(holidays).png",
     "Description": "Defend your time and energy this holiday season. Generate a personalized Boundaries Protocol.",
     "FAQ": "Q: How is this different from generic boundary advice?\nA: This protocol is custom-built. The system analyzes your specific pressure points and generates tailored strategies.\n\nQ: Is this therapy?\nA: No. This is a proactive tool for managing holiday-related boundary challenges. Consult a professional for mental health support.\n\nQ: What if the situation escalates despite the protocol?\nA: The protocol provides mitigation strategies. If escalation continues, prioritize your wellbeing and disengage respectfully. Seek professional help if needed.\n\nQ: How long does it take to complete the questionnaire?\nA: Approximately 3 minutes.\n\nQ: Is my data secure?\nA: Absolutely. Processing occurs locally. Zero data retention.",
     "Launch Date": "",
@@ -268,7 +268,7 @@
   {
     "Branch": "Plan Ahead",
     "CTA": "Text BIOMETRIC to +44 7360 277713 to start your Biometric State Tracker via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Biometric%20State%20Tracker/image.png",
+    "Cover Image": "/images/tools/biometric-state-tracker.png",
     "Description": "Unlock peak cognitive function through personalized hydration. AI-powered system optimizing water intake.",
     "FAQ": "Q: How does this differ from generic hydration apps?\nA: Unlike generic apps, our system utilizes sophisticated algorithms factoring in biometric data, environmental conditions, and activity levels for hyper-personalized recommendations, delivered directly via WhatsApp for seamless integration.\n\nQ: Is my biometric data secure?\nA: Data is processed locally and securely. No data is retained after the calculation unless explicitly opted into for long-term tracking.\n\nQ: Can I use this with my smartwatch?\nA: Yes, compatible smartwatches/trackers can be integrated for automated HRV and sleep data input.\n\nQ: What if I have specific medical conditions?\nA: This tool is not a substitute for professional medical advice. Consult your doctor before making significant changes to your hydration habits.\n\nQ: Is the reminder frequency customizable?\nA: Yes, you can adjust the reminder frequency to suit your preferences.",
     "Launch Date": "",
@@ -306,7 +306,7 @@
   {
     "Branch": "Plan Ahead",
     "CTA": "Text MEDS to +44 7360 277713 to set up your medication tracker via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Did%20I%20Take%20My%20Meds%20Tracker/image.png",
+    "Cover Image": "/images/tools/did-i-take-my-meds-tracker.png",
     "Description": "Confidently manage your medication schedule with discreet WhatsApp reminders and local tracking.",
     "FAQ": "Q: Is my medication data stored securely? A: Yes. All data is processed and stored locally on your device. We have zero server-side retention.\nQ: Can I track multiple medications? A: Currently, the tracker focuses on one medication at a time. Future versions may support multiple entries.\nQ: What happens if I miss a reminder? A: You can manually input \"TAKEN\" at any time to update your record. No shaming; just accurate data.\nQ: Does this replace professional medical advice? A: Absolutely not. This is a memory aid, not a substitute for consultation with your physician.",
     "Launch Date": "",
@@ -325,7 +325,7 @@
   {
     "Branch": "Keep Going",
     "CTA": "Text DECIDE to +44 7360 277713 to get your Decision Paralysis Solver via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Decision%20Paralysis%20Solver/image.png",
+    "Cover Image": "/images/tools/decision-paralysis-solver.png",
     "Description": "Overcome indecision. Analyzes your decision-making context and delivers a personalized plan.",
     "FAQ": "Q: How is this different from generic decision-making advice?\nA: It is personalized to YOUR cognitive profile, leveraging AI to pinpoint weaknesses and deliver targeted solutions.\n\nQ: What kind of decisions is this best suited for?\nA: High-stakes, complex decisions where overthinking is the primary obstacle.\n\nQ: How private is my data?\nA: Data is processed locally and purged immediately after the interaction. Zero retention.\n\nQ: Can this guarantee the right decision?\nA: No. It provides clarity and confidence to make INFORMED decisions, mitigating paralysis.",
     "Launch Date": "",
@@ -458,7 +458,7 @@
   {
     "Branch": "Spend Smart",
     "CTA": "Text AUTOPILOT to +44 7360 277713 to get your Financial Autopilot running via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Financial%20Autopilot/image.png",
+    "Cover Image": "/images/tools/financial-autopilot.png",
     "Description": "Navigate your financial future with AI-powered automation. Personalized strategy and seamless execution.",
     "FAQ": "Q: How does this differ from other financial apps?\nA: It goes beyond tracking. We provide bespoke, automated implementation tailored to your precise circumstances. No generic advice.\n\nQ: Is my data secure?\nA: Absolute privacy is paramount. We employ zero-retention processing. Data is used only for the immediate calculation.\n\nQ: What if my financial situation changes?\nA: The system continuously monitors and adjusts to life events, ensuring your plan remains optimal.\n\nQ: Can I override the automated recommendations?\nA: Yes. You maintain full control. The system is a powerful tool, not a rigid constraint.\n\nQ: What investment platforms do you support?\nA: We integrate with major platforms, including Fidelity, Schwab, Vanguard, and Coinbase (subject to change).",
     "Launch Date": "",
@@ -648,7 +648,7 @@
   {
     "Branch": "Plan Ahead",
     "CTA": "Text HABIT to +44 7360 277713 to start your Habit Tracker via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Routine%20Architect/image.png",
+    "Cover Image": "/images/tools/routine-architect.png",
     "Description": "Master your workflow with Routine Architect. Designed for neurodivergent minds to enhance focus and reduce overwhelm.",
     "FAQ": "Q: What if I can\u2019t keep routines consistently?\nA: This is built for restarts. The goal is rapid rebuild, not perfection.\n\nQ: Should I do morning routines?\nA: Only if they help. Start with one anchor habit and build from there.\n\nQ: How long should the routine be?\nA: Shorter than you think. Minimum viable first, then expand.",
     "Launch Date": "",
@@ -705,7 +705,7 @@
   {
     "Branch": "Feel Good",
     "CTA": "",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/Worry%20Box%20Animator/image.png",
+    "Cover Image": "/images/tools/worry-box-animator.png",
     "Description": "Transform anxiety into actionable clarity. Visualize worries and diminish their impact.",
     "FAQ": "   Q: Is this a replacement for therapy?  \n    A: No. This is a tool to augment your wellbeing practices; not replace professional guidance.\n   Q: How secure is my data?  \n    A: Our systems adhere to zero-retention principles. Your worry data is processed in the moment and not stored.\n   Q: What kind of worries is this best for?  \n    A: Best for specific, definable worries that you can articulate. Vague existential anxieties may be harder to process directly.\n   Q: What if I don't feel a difference?  \n    A: The tool's efficacy depends on your consistent engagement and willingness to reframe your thinking. Experiment and refine your input.",
     "Launch Date": "",
@@ -914,7 +914,7 @@
   {
     "Branch": "Be Yourself",
     "CTA": "Text DIAGNOSE to +44 7360 277713 to get your Diagnosis Pathway Guide via WhatsApp.",
-    "Cover Image": "../SOR7ED%20LAB/2a90d6014acc817d8a0500426af2eb6c/TOOLS/The%20body%20battery/image.png",
+    "Cover Image": "/images/tools/body-battery.png",
     "Description": "Track physical, mental, and emotional energy to schedule around real capacity.",
     "FAQ": "Q: What if tracking feels like too much?\nA: Track once a day for a week instead of three. Consistency beats detail.\n\nQ: What if my energy is always low?\nA: The goal is still useful: identify drains, protect recovery time, and reduce overcommitment. If it is severe, consider medical support.\n\nQ: How long until patterns show up?\nA: Usually 7\u201314 days.",
     "Launch Date": "",
