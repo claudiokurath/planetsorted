@@ -40,10 +40,15 @@ export default function Home() {
         <Link href="/" className="font-fuel-decay text-3xl tracking-widest uppercase hover:text-sor7ed-yellow transition-colors">
           SOR7ED
         </Link>
-        <div className="flex gap-6 font-mono-headline text-xs uppercase tracking-widest text-zinc-400">
-          <a href="#domains" className="hover:text-sor7ed-yellow transition-colors">Domains</a>
-          <a href="#tools" className="hover:text-sor7ed-yellow transition-colors">Tools</a>
-          <a href="#blog" className="hover:text-sor7ed-yellow transition-colors">Blog</a>
+        <div className="flex gap-6 font-mono-headline text-xs uppercase tracking-widest text-zinc-400 items-center">
+          <a href="#domains" className="hover:text-white transition-colors">Domains</a>
+          <a href="#tools" className="hover:text-white transition-colors">Tools</a>
+          <a href="#blog" className="hover:text-white transition-colors">Blog</a>
+          <div className="h-4 w-px bg-zinc-700 mx-2" />
+          <Link href="/login" className="hover:text-white transition-colors">Log In</Link>
+          <Link href="/signup" className="border border-sor7ed-yellow text-sor7ed-yellow hover:bg-sor7ed-yellow hover:text-black px-4 py-2 transition-colors">
+            Initialize Connection
+          </Link>
         </div>
       </nav>
 
