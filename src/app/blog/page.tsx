@@ -68,7 +68,7 @@ export default function BlogDirectory() {
                 </header>
 
                 <div className="w-full pb-8">
-                    <div className="w-full h-[35vh] md:h-[45vh] border border-zinc-800 rounded-sm bg-[url('/images/blog-hero.png')] bg-cover bg-center bg-fixed bg-no-repeat opacity-80" />
+                    <div className="w-full h-32 md:h-56 border border-zinc-800 rounded-sm bg-[url('/images/blog-hero.png')] bg-cover bg-center bg-fixed bg-no-repeat opacity-80" />
                 </div>
 
                 {loading ? (

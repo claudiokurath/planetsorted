@@ -130,7 +130,7 @@ export default function Home() {
 
       {/* Tools Section Banner */}
       <div className="max-w-7xl mx-auto px-6 w-full pt-12 pb-8">
-        <div className="w-full h-[35vh] md:h-[45vh] border border-zinc-800 rounded-sm bg-[url('/images/tools-hero.png')] bg-cover bg-center bg-fixed bg-no-repeat opacity-80" />
+        <div className="w-full h-32 md:h-56 border border-zinc-800 rounded-sm bg-[url('/images/tools-hero.png')] bg-cover bg-center bg-fixed bg-no-repeat opacity-80" />
       </div>
 
       <main className="max-w-7xl mx-auto px-6 py-24 space-y-32">
@@ -169,7 +169,7 @@ export default function Home() {
 
       {/* Blog Section Banner */}
       <div className="max-w-7xl mx-auto px-6 w-full pt-12 pb-8">
-        <div className="w-full h-[35vh] md:h-[45vh] border border-zinc-800 rounded-sm bg-[url('/images/blog-hero.png')] bg-cover bg-center bg-fixed bg-no-repeat opacity-80" />
+        <div className="w-full h-32 md:h-56 border border-zinc-800 rounded-sm bg-[url('/images/blog-hero.png')] bg-cover bg-center bg-fixed bg-no-repeat opacity-80" />
       </div>
 
       <main className="max-w-7xl mx-auto px-6 py-24 space-y-32 mb-12">
