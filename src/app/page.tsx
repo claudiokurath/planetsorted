@@ -79,6 +79,45 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Split Parallax Gateway */}
+      <section className="grid grid-cols-1 md:grid-cols-2 min-h-[70vh] w-full border-b border-sor7ed-gray-light">
+        {/* Tools Side */}
+        <Link href="/tools" className="relative group overflow-hidden border-b md:border-b-0 md:border-r border-sor7ed-gray-light flex flex-col justify-center items-center text-center p-12 min-h-[50vh] md:min-h-full cursor-pointer">
+          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-700 z-10" />
+          <div className="absolute inset-0 z-0 bg-[url('/images/tools-hero.png')] bg-cover bg-center bg-fixed opacity-60 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105" />
+
+          <div className="relative z-20 space-y-4 pt-10">
+            <div className="inline-block px-3 py-1 border border-sor7ed-yellow text-sor7ed-yellow font-mono-headline text-[10px] tracking-widest uppercase bg-black/80 backdrop-blur-sm shadow-[0_0_10px_rgba(245,198,20,0.2)]">
+              // INITIALIZE_TOOLS
+            </div>
+            <h2 className="font-fuel-decay text-7xl md:text-8xl uppercase tracking-tight text-white group-hover:text-sor7ed-yellow transition-colors duration-500 leading-none drop-shadow-2xl">
+              Enter The <br className="hidden md:block" /> Lab.
+            </h2>
+            <p className="font-roboto text-zinc-300 font-light max-w-sm mx-auto drop-shadow-xl mt-4">
+              Access the master database of unbreakable protocols and executive tools.
+            </p>
+          </div>
+        </Link>
+
+        {/* Blog Side */}
+        <Link href="/blog" className="relative group overflow-hidden flex flex-col justify-center items-center text-center p-12 min-h-[50vh] md:min-h-full cursor-pointer">
+          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors duration-700 z-10" />
+          <div className="absolute inset-0 z-0 bg-[url('/images/blog-hero.png')] bg-cover bg-center bg-fixed opacity-60 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105" />
+
+          <div className="relative z-20 space-y-4 pt-10">
+            <div className="inline-block px-3 py-1 border border-white/50 text-white font-mono-headline text-[10px] tracking-widest uppercase bg-black/80 backdrop-blur-sm">
+              // READ_TRANSMISSIONS
+            </div>
+            <h2 className="font-fuel-decay text-7xl md:text-8xl uppercase tracking-tight text-white transition-colors duration-500 leading-none drop-shadow-2xl">
+              Explore The <br className="hidden md:block" /> Log.
+            </h2>
+            <p className="font-roboto text-zinc-300 font-light max-w-sm mx-auto drop-shadow-xl mt-4">
+              Decentralized updates, deep-dives, and technical architecture analysis.
+            </p>
+          </div>
+        </Link>
+      </section>
+
       {/* Main Content Areas */}
       <main className="max-w-7xl mx-auto px-6 py-24 space-y-32">
 
