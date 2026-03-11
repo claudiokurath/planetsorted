@@ -67,10 +67,6 @@ export default function BlogDirectory() {
                     </p>
                 </header>
 
-                <div className="w-full pb-8">
-                    <div className="w-full h-32 md:h-56 border border-zinc-800 rounded-sm bg-[url('/images/blog-hero.png')] bg-cover bg-center bg-fixed bg-no-repeat opacity-80" />
-                </div>
-
                 {loading ? (
                     <div className="flex flex-col items-center justify-center py-20 opacity-50 space-y-4">
                         <div className="w-12 h-12 border-2 border-sor7ed-yellow border-t-transparent rounded-full animate-spin"></div>

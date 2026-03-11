@@ -126,14 +126,6 @@ export default function Home() {
             ))}
           </div>
         </section>
-      </main>
-
-      {/* Tools Section Banner */}
-      <div className="max-w-7xl mx-auto px-6 w-full pt-12 pb-8">
-        <div className="w-full h-32 md:h-56 border border-zinc-800 rounded-sm bg-[url('/images/tools-hero.png')] bg-cover bg-center bg-fixed bg-no-repeat opacity-80" />
-      </div>
-
-      <main className="max-w-7xl mx-auto px-6 py-24 space-y-32">
         {/* Tools Section */}
         <section id="tools">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
@@ -165,14 +157,6 @@ export default function Home() {
             ))}
           </div>
         </section>
-      </main>
-
-      {/* Blog Section Banner */}
-      <div className="max-w-7xl mx-auto px-6 w-full pt-12 pb-8">
-        <div className="w-full h-32 md:h-56 border border-zinc-800 rounded-sm bg-[url('/images/blog-hero.png')] bg-cover bg-center bg-fixed bg-no-repeat opacity-80" />
-      </div>
-
-      <main className="max-w-7xl mx-auto px-6 py-24 space-y-32 mb-12">
         {/* Blog Section */}
         <section id="blog">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
