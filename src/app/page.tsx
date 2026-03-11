@@ -41,10 +41,10 @@ export default function Home() {
           SOR7ED
         </Link>
         <div className="flex gap-6 font-mono-headline text-xs uppercase tracking-widest text-zinc-400 items-center">
-          <a href="#domains" className="hover:text-white transition-colors">Domains</a>
-          <a href="#tools" className="hover:text-white transition-colors">Tools</a>
-          <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
-          <a href="#blog" className="hover:text-white transition-colors">Blog</a>
+          <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <Link href="/tools" className="hover:text-white transition-colors">Tools</Link>
+          <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
+          <Link href="/about" className="hover:text-white transition-colors">About</Link>
           <div className="h-4 w-px bg-zinc-700 mx-2" />
           <Link href="/login" className="hover:text-white transition-colors">Log In</Link>
           <Link href="/signup" className="border border-sor7ed-yellow text-sor7ed-yellow hover:bg-sor7ed-yellow hover:text-black px-4 py-2 transition-colors">
@@ -69,11 +69,11 @@ export default function Home() {
             A high-contrast stealth framework for mastering the seven core domains of a well-architected life.
           </p>
           <div className="pt-10 flex flex-col md:flex-row gap-4 justify-center items-center font-mono-headline text-xs uppercase tracking-widest">
-            <Link href="#pricing" className="bg-sor7ed-yellow text-black border border-sor7ed-yellow hover:bg-white hover:border-white px-8 py-4 transition-colors font-bold shadow-[0_0_20px_rgba(245,198,20,0.3)] w-full md:w-auto text-center">
-              Try Starter Free →
+            <Link href="/tools" className="bg-sor7ed-yellow text-black border border-sor7ed-yellow hover:bg-white hover:border-white px-8 py-4 transition-colors font-bold shadow-[0_0_20px_rgba(245,198,20,0.3)] w-full md:w-auto text-center">
+              Enter the Lab →
             </Link>
-            <Link href="#tools" className="border border-white/30 text-zinc-300 hover:border-white hover:bg-white hover:text-black px-8 py-4 transition-colors w-full md:w-auto text-center">
-              Explore Tools
+            <Link href="/about" className="border border-white/30 text-zinc-300 hover:border-white hover:bg-white hover:text-black px-8 py-4 transition-colors w-full md:w-auto text-center">
+              Explore Architecture
             </Link>
           </div>
         </div>
@@ -309,6 +309,12 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-sor7ed-gray-light py-12 px-6 text-center text-zinc-600 font-mono-headline text-xs">
+        <div className="flex justify-center gap-6 mb-6">
+          <Link href="/" className="hover:text-white transition-colors uppercase tracking-widest">Home</Link>
+          <Link href="/tools" className="hover:text-white transition-colors uppercase tracking-widest">Tools</Link>
+          <Link href="/blog" className="hover:text-white transition-colors uppercase tracking-widest">Blog</Link>
+          <Link href="/about" className="hover:text-white transition-colors uppercase tracking-widest">About</Link>
+        </div>
         <p>// END_OF_TRANSMISSION — SYSTEM VER 2.0.26</p>
       </footer>
     </div>
