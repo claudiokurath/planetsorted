@@ -54,20 +54,20 @@ export default function BlogDirectory() {
                 </div>
             </nav>
 
-            <header className="relative flex flex-col justify-center pt-40 pb-24 px-6 border-b border-sor7ed-gray-light overflow-hidden min-h-[50vh]">
-                <div className="fixed inset-0 z-0 pointer-events-none">
+            <header className="relative flex flex-col justify-center pt-32 pb-16 px-6 border-b border-sor7ed-gray-light overflow-hidden min-h-[35vh]">
+                <div className="absolute inset-0 z-0 pointer-events-none">
                     <Image
                         src="/images/blog-hero.png"
                         alt="Blog Cover"
                         fill
-                        className="object-cover opacity-50"
+                        className="object-cover opacity-60 mix-blend-luminosity"
                         priority
                         quality={100}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-sor7ed-black via-sor7ed-black/60 to-black/30" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-sor7ed-black via-transparent to-black/80" />
                 </div>
 
-                <div className="relative z-10 max-w-7xl mx-auto w-full space-y-6 pt-12">
+                <div className="relative z-10 max-w-7xl mx-auto w-full space-y-4 pt-12">
                     <div className="inline-block px-3 py-1 border border-sor7ed-gray-light text-sor7ed-yellow font-mono-headline text-xs tracking-widest uppercase opacity-90 shadow-[0_0_15px_rgba(245,198,20,0.1)] bg-black/50 backdrop-blur-sm">
                         // DIRECTORY // BLOG
                     </div>
@@ -80,7 +80,7 @@ export default function BlogDirectory() {
                 </div>
             </header>
 
-            <main className="relative z-10 max-w-7xl mx-auto px-6 py-16 space-y-12 bg-sor7ed-black min-h-screen w-full border-t border-zinc-800">
+            <main className="relative z-10 max-w-7xl mx-auto px-6 py-12 space-y-12 bg-sor7ed-black min-h-screen w-full">
 
                 {loading ? (
                     <div className="flex flex-col items-center justify-center py-20 opacity-50 space-y-4">
