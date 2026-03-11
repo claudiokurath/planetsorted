@@ -38,7 +38,7 @@ export default function ToolsDirectory() {
     };
 
     return (
-        <div className="min-h-screen bg-sor7ed-black text-white selection:bg-sor7ed-yellow selection:text-black pt-24 pb-20">
+        <div className="min-h-screen bg-sor7ed-black text-white selection:bg-sor7ed-yellow selection:text-black">
             {/* Quick Nav */}
             <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-sor7ed-gray-light px-6 py-4 flex justify-between items-center">
                 <Link href="/" className="font-fuel-decay text-3xl tracking-widest uppercase hover:text-sor7ed-yellow transition-colors">
@@ -54,18 +54,33 @@ export default function ToolsDirectory() {
                 </div>
             </nav>
 
-            <main className="max-w-7xl mx-auto px-6 space-y-12">
-                <header className="space-y-6 pt-12 border-b border-sor7ed-gray-light pb-12">
-                    <div className="inline-block px-3 py-1 border border-sor7ed-gray-light text-sor7ed-yellow font-mono-headline text-xs tracking-widest uppercase opacity-80 shadow-[0_0_15px_rgba(245,198,20,0.1)]">
+            <header className="relative flex flex-col justify-center pt-40 pb-24 px-6 border-b border-sor7ed-gray-light overflow-hidden min-h-[50vh]">
+                <div className="fixed inset-0 z-0 pointer-events-none">
+                    <Image
+                        src="/images/tools-hero.png"
+                        alt="Tools Cover"
+                        fill
+                        className="object-cover opacity-50"
+                        priority
+                        quality={100}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-sor7ed-black via-sor7ed-black/60 to-black/30" />
+                </div>
+
+                <div className="relative z-10 max-w-7xl mx-auto w-full space-y-6 pt-12">
+                    <div className="inline-block px-3 py-1 border border-sor7ed-gray-light text-sor7ed-yellow font-mono-headline text-xs tracking-widest uppercase opacity-90 shadow-[0_0_15px_rgba(245,198,20,0.1)] bg-black/50 backdrop-blur-sm">
                         // DIRECTORY // TOOLS
                     </div>
                     <h1 className="font-fuel-decay text-6xl md:text-8xl uppercase tracking-tight text-white leading-none">
                         Tool System.
                     </h1>
-                    <p className="font-roboto text-xl text-zinc-400 font-light max-w-2xl">
+                    <p className="font-roboto text-xl text-zinc-300 font-light max-w-2xl drop-shadow-xl">
                         Unrestricted access to the full suite of SOR7ED optimization protocols. Active API connection established.
                     </p>
-                </header>
+                </div>
+            </header>
+
+            <main className="relative z-10 max-w-7xl mx-auto px-6 py-16 space-y-12 bg-sor7ed-black min-h-screen w-full border-t border-zinc-800">
 
                 {loading ? (
                     <div className="flex flex-col items-center justify-center py-20 opacity-50 space-y-4">
