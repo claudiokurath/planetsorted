@@ -88,9 +88,9 @@ export default function ToolsDirectory() {
                                     src={tool["Cover Image"] || getFallbackImage(idx)}
                                     alt={tool.Name || "Tool"}
                                     fill
-                                    className="object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500 blur-[1px] group-hover:blur-none"
+                                    className="object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500 blur-[1px] group-hover:blur-none"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black transition-opacity duration-500 pointer-events-none" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 transition-opacity duration-500 pointer-events-none" />
                                 <div className="z-10 relative flex w-full justify-between items-start">
                                     <span className="font-mono-headline text-[10px] text-zinc-500 border border-zinc-700 px-2 py-1 uppercase bg-black/50">
                                         v2.0
