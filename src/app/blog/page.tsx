@@ -68,7 +68,7 @@ export default function BlogDirectory() {
                 </header>
 
                 <div className="w-full pb-8">
-                    <Image src="/images/blog-hero.png" width={2000} height={800} alt="Blog Banner" className="w-full h-auto border border-zinc-800 rounded-sm" priority />
+                    <div className="w-full h-[35vh] md:h-[45vh] border border-zinc-800 rounded-sm bg-[url('/images/blog-hero.png')] bg-cover bg-center bg-fixed bg-no-repeat opacity-80" />
                 </div>
 
                 {loading ? (
