@@ -129,23 +129,9 @@ export default function Home() {
       </main>
 
       {/* Tools Section Banner */}
-      <section className="relative w-full overflow-hidden border-y border-sor7ed-gray-light min-h-[30vh] md:min-h-[40vh] flex flex-col justify-center items-center lg:py-0 py-12">
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <Image src="/images/tools-hero.png" alt="Tools Divider" fill className="object-cover opacity-60 mix-blend-luminosity" priority />
-          <div className="absolute inset-0 bg-gradient-to-t from-sor7ed-black via-black/40 to-black/80" />
-        </div>
-        <div className="relative z-20 text-center space-y-4 px-6 md:pt-10">
-          <div className="inline-block px-3 py-1 border border-sor7ed-yellow text-sor7ed-yellow font-mono-headline text-[10px] tracking-widest uppercase bg-black/80 backdrop-blur-sm shadow-[0_0_10px_rgba(245,198,20,0.2)]">
-            // INITIALIZE_TOOLS
-          </div>
-          <h2 className="font-fuel-decay text-6xl md:text-8xl uppercase tracking-tight text-white drop-shadow-2xl">
-            Enter The Lab.
-          </h2>
-          <p className="font-roboto text-zinc-300 font-light max-w-lg mx-auto drop-shadow-xl md:mt-4 text-sm md:text-base">
-            Access the master database of unbreakable protocols and executive tools.
-          </p>
-        </div>
-      </section>
+      <div className="max-w-7xl mx-auto px-6 w-full pt-12 pb-8">
+        <Image src="/images/tools-hero.png" alt="Tools Divider" width={2000} height={800} className="w-full h-auto border border-zinc-800 rounded-sm" priority />
+      </div>
 
       <main className="max-w-7xl mx-auto px-6 py-24 space-y-32">
         {/* Tools Section */}
@@ -182,23 +168,9 @@ export default function Home() {
       </main>
 
       {/* Blog Section Banner */}
-      <section className="relative w-full overflow-hidden border-y border-sor7ed-gray-light min-h-[30vh] md:min-h-[40vh] flex flex-col justify-center items-center lg:py-0 py-12">
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <Image src="/images/blog-hero.png" alt="Blog Divider" fill className="object-cover opacity-60 mix-blend-luminosity" priority />
-          <div className="absolute inset-0 bg-gradient-to-t from-sor7ed-black via-black/40 to-black/80" />
-        </div>
-        <div className="relative z-20 text-center space-y-4 px-6 md:pt-10">
-          <div className="inline-block px-3 py-1 border border-white/50 text-white font-mono-headline text-[10px] tracking-widest uppercase bg-black/80 backdrop-blur-sm">
-            // READ_TRANSMISSIONS
-          </div>
-          <h2 className="font-fuel-decay text-6xl md:text-8xl uppercase tracking-tight text-white drop-shadow-2xl">
-            Explore The Log.
-          </h2>
-          <p className="font-roboto text-zinc-300 font-light max-w-lg mx-auto drop-shadow-xl md:mt-4 text-sm md:text-base">
-            Decentralized updates, deep-dives, and technical architecture analysis.
-          </p>
-        </div>
-      </section>
+      <div className="max-w-7xl mx-auto px-6 w-full pt-12 pb-8">
+        <Image src="/images/blog-hero.png" alt="Blog Divider" width={2000} height={800} className="w-full h-auto border border-zinc-800 rounded-sm" priority />
+      </div>
 
       <main className="max-w-7xl mx-auto px-6 py-24 space-y-32 mb-12">
         {/* Blog Section */}

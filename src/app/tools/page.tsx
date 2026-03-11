@@ -54,33 +54,22 @@ export default function ToolsDirectory() {
                 </div>
             </nav>
 
-            <header className="relative flex flex-col justify-center pt-32 pb-16 px-6 border-b border-sor7ed-gray-light overflow-hidden min-h-[35vh]">
-                <div className="absolute inset-0 z-0 pointer-events-none">
-                    <Image
-                        src="/images/tools-hero.png"
-                        alt="Tools Cover"
-                        fill
-                        className="object-cover opacity-60 mix-blend-luminosity"
-                        priority
-                        quality={100}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-sor7ed-black via-transparent to-black/80" />
-                </div>
-
-                <div className="relative z-10 max-w-7xl mx-auto w-full space-y-4 pt-12">
-                    <div className="inline-block px-3 py-1 border border-sor7ed-gray-light text-sor7ed-yellow font-mono-headline text-xs tracking-widest uppercase opacity-90 shadow-[0_0_15px_rgba(245,198,20,0.1)] bg-black/50 backdrop-blur-sm">
+            <main className="max-w-7xl mx-auto px-6 pt-24 pb-12 space-y-12 bg-sor7ed-black min-h-screen w-full">
+                <header className="space-y-6">
+                    <div className="inline-block px-3 py-1 border border-sor7ed-gray-light text-sor7ed-yellow font-mono-headline text-xs tracking-widest uppercase opacity-80 shadow-[0_0_15px_rgba(245,198,20,0.1)]">
                         // DIRECTORY // TOOLS
                     </div>
                     <h1 className="font-fuel-decay text-6xl md:text-8xl uppercase tracking-tight text-white leading-none">
                         Tool System.
                     </h1>
-                    <p className="font-roboto text-xl text-zinc-300 font-light max-w-2xl drop-shadow-xl">
+                    <p className="font-roboto text-xl text-zinc-400 font-light max-w-2xl">
                         Unrestricted access to the full suite of SOR7ED optimization protocols. Active API connection established.
                     </p>
-                </div>
-            </header>
+                </header>
 
-            <main className="relative z-10 max-w-7xl mx-auto px-6 py-16 space-y-12 bg-sor7ed-black min-h-screen w-full border-t border-zinc-800">
+                <div className="w-full pb-8">
+                    <Image src="/images/tools-hero.png" width={2000} height={800} alt="Tools Banner" className="w-full h-auto border border-zinc-800 rounded-sm" priority />
+                </div>
 
                 {loading ? (
                     <div className="flex flex-col items-center justify-center py-20 opacity-50 space-y-4">
