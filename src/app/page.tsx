@@ -58,22 +58,32 @@ export default function Home() {
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 via-black/80 to-black pointer-events-none" />
 
         <div className="relative z-10 text-center max-w-4xl mx-auto space-y-4">
-          <div className="inline-block px-3 py-1 mb-4 border border-sor7ed-gray-light text-sor7ed-yellow font-mono-headline text-xs tracking-widest uppercase opacity-80 shadow-[0_0_15px_rgba(245,198,20,0.1)]">
-            // SOR7ED_SYSTEM_ONLINE
-          </div>
-          <h1 className="font-fuel-decay text-7xl md:text-9xl uppercase tracking-tight leading-[0.85] text-white">
-            Unbreakable <br />
-            <span className="text-sor7ed-yellow">Architecture.</span>
+          {/* We'll use a clean text representation of the SOR7ED logo for now, or just move straight to the headline */}
+          <h1 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight leading-[0.9] text-white max-w-4xl mx-auto pb-4 pt-8">
+            <span className="text-sor7ed-yellow">SOR7ED</span> IS A SHAME-FREE PLATFORM BUILT FOR NEURODIVERGENT AND BUSY MINDS
           </h1>
-          <p className="font-roboto text-zinc-400 max-w-lg mx-auto text-lg md:text-xl pt-6 font-light">
-            A high-contrast stealth framework for mastering the seven core domains of a well-architected life.
-          </p>
-          <div className="pt-10 flex flex-col md:flex-row gap-4 justify-center items-center font-mono-headline text-xs uppercase tracking-widest">
+
+          <div className="font-roboto text-zinc-400 max-w-3xl mx-auto text-sm md:text-base space-y-8 text-center pt-8">
+            <p>
+              — people with ADHD, autism, dyslexia, RSD, and related experiences who are tired of productivity advice that doesn't work for them.
+            </p>
+            <p>
+              We publish practical articles three times a week and deliver <span className="text-white font-bold">free templates via WhatsApp</span> — no new apps, no downloads, just the app you already use.
+            </p>
+            <p className="opacity-90">
+              <span className="text-white font-bold">We're not therapy, medicine, or a crisis service.</span> We're a content platform that gives you templates, scripts, and tools to handle the life admin that feels impossible.
+            </p>
+            <p>
+              SOR7ED was built by neurodivergent people who got tired of advice that never worked for their brains — so built something that does.
+            </p>
+            <p className="text-sor7ed-yellow font-bold uppercase font-fuel-decay text-2xl tracking-widest pt-4">
+              TEMPLATES ARE FREE. FOREVER.
+            </p>
+          </div>
+
+          <div className="pt-12 flex flex-col md:flex-row gap-4 justify-center items-center font-mono-headline text-xs uppercase tracking-widest">
             <Link href="/tools" className="bg-sor7ed-yellow text-black border border-sor7ed-yellow hover:bg-white hover:border-white px-8 py-4 transition-colors font-bold shadow-[0_0_20px_rgba(245,198,20,0.3)] w-full md:w-auto text-center">
-              Enter the Lab →
-            </Link>
-            <Link href="/about" className="border border-white/30 text-zinc-300 hover:border-white hover:bg-white hover:text-black px-8 py-4 transition-colors w-full md:w-auto text-center">
-              Explore Architecture
+              ENTER THE LAB →
             </Link>
           </div>
         </div>
