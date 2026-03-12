@@ -65,9 +65,6 @@ export default function Home() {
 
           <div className="font-roboto text-zinc-400 max-w-3xl mx-auto text-sm md:text-base space-y-8 text-center pt-8">
             <p>
-              — people with ADHD, autism, dyslexia, RSD, and related experiences who are tired of productivity advice that doesn't work for them.
-            </p>
-            <p>
               We publish practical articles three times a week and deliver <span className="text-white font-bold">free templates via WhatsApp</span> — no new apps, no downloads, just the app you already use.
             </p>
             <p className="opacity-90">
@@ -153,9 +150,9 @@ export default function Home() {
                   src={tool["Cover Image"] || getFallbackImage('tool', idx)}
                   alt={tool.Name || "Tool"}
                   fill
-                  className="object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500 blur-[1px] group-hover:blur-none"
+                  className="object-cover opacity-85 group-hover:opacity-100 transition-opacity duration-500 blur-[1px] group-hover:blur-none"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 transition-opacity duration-500 pointer-events-none" />
                 <div className="z-10 relative flex w-full justify-between items-start">
                   {/* Optional top-left metadata if desired in future */}
                 </div>
@@ -184,9 +181,9 @@ export default function Home() {
                   src={post["Cover Image"] || getFallbackImage('blog', idx)}
                   alt={post.Title || "Post"}
                   fill
-                  className="object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500 blur-[1px] group-hover:blur-none"
+                  className="object-cover opacity-85 group-hover:opacity-100 transition-opacity duration-500 blur-[1px] group-hover:blur-none"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 transition-opacity duration-500 pointer-events-none" />
                 <div className="z-10 relative flex w-full justify-between items-start">
                   <p className="font-mono-headline text-[10px] text-sor7ed-yellow uppercase tracking-widest border border-sor7ed-yellow/30 px-2 py-1 bg-black/50">{post["Publish Date"] || "TRANSMISSION DATE UNKNOWN"}</p>
                 </div>
