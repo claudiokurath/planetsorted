@@ -7,12 +7,19 @@ export default function Signup() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [consent, setConsent] = useState(false);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        
+        if (!consent) {
+            setError('You must agree to receive WhatsApp messages to continue.');
+            return;
+        }
+
         setLoading(true);
         setError('');
 
@@ -21,10 +28,10 @@ export default function Signup() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    name,
+                    customerName: name,
                     email,
                     phoneNumber: phone,
-                    creditsBalance: 0, // Set default or remove if not needed right away
+                    creditsBalance: 0,
                 }),
             });
 
@@ -75,7 +82,7 @@ export default function Signup() {
                         <h3 className="font-mono-headline tracking-widest text-sor7ed-yellow text-xl">SUCCESS</h3>
                         <p className="font-roboto text-zinc-400 text-sm">Welcome to the grid.</p>
                         <a
-                            href="https://wa.me/447360277713?text=MENU"
+                            href="https://wa.me/447360277713?text=HELP"
                             target="_blank"
                             rel="noreferrer"
                             className="block w-full bg-sor7ed-yellow text-black font-bold uppercase tracking-widest font-mono-headline text-xs py-4 hover:bg-white transition-colors mt-8 shadow-[0_0_15px_rgba(245,198,20,0.2)] hover:shadow-white/20"
@@ -121,6 +128,20 @@ export default function Signup() {
                                 className="w-full bg-zinc-900 border border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-sor7ed-yellow transition-colors font-roboto text-sm placeholder:text-zinc-600 focus:bg-black"
                                 placeholder="+1234567890"
                             />
+                        </div>
+
+                        <div className="flex items-start space-x-3">
+                            <input
+                                type="checkbox"
+                                id="consentCheckbox"
+                                required
+                                checked={consent}
+                                onChange={(e) => setConsent(e.target.checked)}
+                                className="mt-1 w-4 h-4 text-sor7ed-yellow bg-zinc-900 border-zinc-800 rounded focus:ring-sor7ed-yellow focus:ring-2"
+                            />
+                            <label htmlFor="consentCheckbox" className="font-roboto text-sm text-zinc-400">
+                                I agree to receive WhatsApp messages to activate and use my account.
+                            </label>
                         </div>
 
                         <button

@@ -9,10 +9,10 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
         // Extract whatever fields your frontend or webhook sends here
-        const { phoneNumber, email, name, status, creditsBalance } = body;
+        const { customerName, email, phoneNumber, creditsBalance } = body;
 
-        if (!phoneNumber) {
-            return NextResponse.json({ error: 'Missing phoneNumber in body' }, { status: 400 });
+        if (!phoneNumber || !customerName) {
+            return NextResponse.json({ error: 'Missing phoneNumber or customerName in body' }, { status: 400 });
         }
 
         // Rigidly format to E.164: remove all non-digits entirely, then ensure it starts with +
@@ -26,30 +26,40 @@ export async function POST(request: Request) {
         // 1) CREATE NOTION CRM RECORD
         // ==========================================
         let notionRecordId = null;
-        const crmDbId = process.env.NOTION_CRM_DB_ID || '29e2bff4d39e4bbe90ef0f72d310256b';
+        const crmDbId = process.env.NOTION_CRM_DB_ID;
         if (crmDbId) {
+            // We use the Notion JS client to match proper field types
+            const notionProperties: Record<string, any> = {
+                'Customer Name': {
+                    title: [
+                        {
+                            text: { content: customerName },
+                        },
+                    ],
+                },
+                'Phone Number': {
+                    phone_number: whatsapp_e164,
+                },
+                'Status': {
+                    select: { name: 'Trial' },
+                },
+                'Credits Balance': {
+                    number: Number(creditsBalance) || 0,
+                },
+            };
+
+            if (email) {
+                notionProperties['Email'] = { email: email };
+            }
+
             try {
                 const response = await notion.pages.create({
                     parent: { database_id: crmDbId },
-                    properties: {
-                        'Customer Name': {
-                            title: [
-                                {
-                                    text: {
-                                        content: name || phoneNumber,
-                                    },
-                                },
-                            ],
-                        },
-                        // Uncomment these if your Notion DB has identical properties:
-                        // 'Email': { email: email || null },
-                        // 'Status': { select: { name: status || 'Trial' } }
-                    },
+                    properties: notionProperties,
                 });
                 notionRecordId = response.id;
             } catch (notionErr) {
                 console.error('Notion CRM record creation failed:', notionErr);
-                // Optionally throw if Notion is critical to your flow
             }
         } else {
             console.warn('NOTION_CRM_DB_ID environment variable not set, skipping Notion CRM creation.');
@@ -66,7 +76,7 @@ export async function POST(request: Request) {
                 {
                     whatsapp_e164,
                     email: email || null,
-                    status: status || 'Trial',
+                    status: 'Trial',
                 },
                 { onConflict: 'whatsapp_e164' }
             )
@@ -75,9 +85,8 @@ export async function POST(request: Request) {
 
         if (userErr) {
             console.error('Supabase user upsert failed:', userErr)
-            // Don’t fail signup if logging fails (optional but recommended)
         } else {
-            // 2) Optional: credits grant ledger entry (if you give free credits on signup)
+            // 2) If credits > 0, insert ledger entry
             const initialCredits = Number(creditsBalance ?? 0)
             if (initialCredits > 0) {
                 const { error: ledgerErr } = await supabaseAdmin
@@ -87,6 +96,7 @@ export async function POST(request: Request) {
                         delta: initialCredits,
                         reason: 'signup_free_credits',
                         source: 'website_signup',
+                        // stripe_event_id conceptually null or not required for simple signup
                     })
 
                 if (ledgerErr) console.error('Supabase credits_ledger insert failed:', ledgerErr)

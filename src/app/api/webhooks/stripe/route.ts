@@ -32,22 +32,28 @@ export async function POST(req: Request) {
             const session = event.data.object as Stripe.Checkout.Session | Stripe.Invoice;
 
             // Attempt to extract identifying information
+            const metadata = (session.metadata as Record<string, string>) || {};
+            const deltaCredits = Number(metadata.granted_credits);
+
+            if (isNaN(deltaCredits) || deltaCredits <= 0) {
+                throw new Error('missing or strictly positive metadata.granted_credits');
+            }
+
+            const customerPhone = (session as Stripe.Checkout.Session).customer_details?.phone;
             const customerEmail =
                 (session as Stripe.Checkout.Session).customer_details?.email ||
                 (session as Stripe.Invoice).customer_email;
-            const customerPhone = (session as Stripe.Checkout.Session).customer_details?.phone;
 
-            // Determine credits granted (defaulting to 1 if not explicitly passed in metadata)
-            // Pass { metadata: { granted_credits: '5' } } in Stripe product or checkout session
-            const deltaCredits = Number(session.metadata?.granted_credits || 1);
-
-            // 1) Find the user in Supabase by email or phone
+            // 1) Find the user in Supabase by phone OR email
             let userQuery = supabaseAdmin.from('users').select('id, email, whatsapp_e164');
-
-            if (customerEmail) {
+            
+            if (customerPhone) {
+                // Preformat for our DB
+                const digitsOnly = customerPhone.replace(/\D/g, '');
+                const formattedPhone = `+${digitsOnly}`;
+                userQuery = userQuery.eq('whatsapp_e164', formattedPhone);
+            } else if (customerEmail) {
                 userQuery = userQuery.eq('email', customerEmail);
-            } else if (customerPhone) {
-                userQuery = userQuery.eq('whatsapp_e164', customerPhone);
             } else {
                 throw new Error('No email or phone attached to Stripe event.');
             }
@@ -55,7 +61,7 @@ export async function POST(req: Request) {
             const { data: users, error: userErr } = await userQuery;
 
             if (userErr || !users || users.length === 0) {
-                console.warn(`Webhook: User not found for email (${customerEmail}) / phone (${customerPhone}). Need manual reconciliation.`);
+                console.warn(`Webhook: User not found for phone (${customerPhone}) or email (${customerEmail}).`);
                 return NextResponse.json({ received: true, note: 'User not found in Supabase' }, { status: 200 });
             }
 
@@ -67,24 +73,23 @@ export async function POST(req: Request) {
                 .insert({
                     user_id: userId,
                     delta: deltaCredits,
-                    reason: event.type, // 'checkout.session.completed' or 'invoice.paid'
-                    source: 'stripe_webhook',
+                    reason: 'stripe_payment',
+                    source: event.type,
+                    stripe_event_id: event.id
                 });
 
             if (ledgerErr) {
+                // Handle idempotency nicely: if unique constraint on stripe_event_id is violated, it's safe to ignore
+                if (ledgerErr.code === '23505') {
+                    console.warn(`Credits already applied for event ${event.id}`);
+                    return NextResponse.json({ received: true, note: 'Already processed' }, { status: 200 });
+                }
+                
                 console.error('Supabase credits_ledger insert failed:', ledgerErr);
                 throw ledgerErr;
             }
 
             console.log(`Successfully granted ${deltaCredits} credits to user ${userId}`);
-
-            // 3) OPTIONAL: Mirror to Notion if you want to keep Notion updated for manual viewing
-            /*
-            if (process.env.NOTION_CRM_DB_ID) {
-               // Requires creating a separate script that searches the CRM by email/phone 
-               // and updates the "Credits" property. 
-            }
-            */
         }
 
         return NextResponse.json({ received: true }, { status: 200 });

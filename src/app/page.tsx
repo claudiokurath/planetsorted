@@ -208,7 +208,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Starter Tier */}
-            <div className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-sor7ed-yellow transition-all duration-300 p-8 flex flex-col justify-between mix-blend-screen h-full">
+            <div className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-sor7ed-yellow transition-all duration-300 p-6 flex flex-col justify-between text-left h-full min-h-[220px]">
               <div>
                 <div className="font-mono-headline text-[10px] text-sor7ed-yellow uppercase tracking-widest border border-sor7ed-yellow/30 px-2 py-1 inline-block mb-6 bg-black/50">
                   FREE STARTER
@@ -234,49 +234,49 @@ export default function Home() {
                   </li>
                 </ul>
               </div>
-              <Link href="/signup" className="mt-12 w-full text-center border py-3 font-mono-headline text-xs tracking-widest uppercase border-white/20 hover:bg-white hover:text-black transition-colors">
+              <Link href="/signup" className="mt-12 w-full text-center border py-3 font-mono-headline text-xs tracking-widest uppercase border-white/20 hover:border-sor7ed-yellow hover:bg-sor7ed-yellow hover:text-black transition-colors">
                 Start Free
               </Link>
             </div>
 
             {/* Pro Tier */}
-            <div className="group relative bg-sor7ed-yellow text-black border border-sor7ed-yellow hover:-translate-y-1 transition-all duration-300 p-8 flex flex-col justify-between shadow-[0_0_30px_rgba(245,198,20,0.15)] h-full">
-              <div className="absolute top-0 left-0 w-full h-1 bg-white opacity-50"></div>
+            <div className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-sor7ed-yellow transition-all duration-300 p-6 flex flex-col justify-between text-left h-full min-h-[220px]">
+              <div className="absolute top-0 right-0 w-16 h-16 border-t font-mono-headline border-r border-sor7ed-yellow opacity-50 m-2 pointer-events-none group-hover:opacity-100 transition-opacity"></div>
               <div>
-                <div className="font-mono-headline text-[10px] text-black uppercase tracking-widest border border-black/30 px-2 py-1 inline-block mb-6 font-bold">
+                <div className="font-mono-headline text-[10px] text-black uppercase tracking-widest border border-sor7ed-yellow bg-sor7ed-yellow px-2 py-1 inline-block mb-6 font-bold shadow-[0_0_10px_rgba(245,198,20,0.2)]">
                   PRO MEMBER
                 </div>
-                <h3 className="font-fuel-decay text-5xl uppercase leading-none tracking-tight">
-                  £9.99<span className="text-2xl font-roboto text-black/60">/mo</span>
+                <h3 className="font-fuel-decay text-5xl uppercase leading-none tracking-tight text-white group-hover:text-sor7ed-yellow transition-colors">
+                  £9.99<span className="text-2xl font-roboto text-zinc-500">/mo</span>
                 </h3>
-                <p className="font-roboto text-sm mt-4 mb-8 font-medium">
+                <p className="font-roboto text-sm mt-4 mb-8 text-white font-medium">
                   Full unrestricted access to the complete SOR7ED tool system via WhatsApp.
                 </p>
-                <ul className="space-y-4 font-mono-headline text-xs tracking-wider opacity-90 font-medium">
+                <ul className="space-y-4 font-mono-headline text-xs tracking-wider text-zinc-200">
                   <li className="flex items-start gap-2">
-                    <span>»</span> Unlimited tool requests
+                    <span className="text-sor7ed-yellow">»</span> Unlimited tool requests
                   </li>
                   <li className="flex items-start gap-2">
-                    <span>»</span> Full library access (30+ tools)
+                    <span className="text-sor7ed-yellow">»</span> Full library access (30+ tools)
                   </li>
                   <li className="flex items-start gap-2">
-                    <span>»</span> Priority response speed
+                    <span className="text-sor7ed-yellow">»</span> Priority response speed
                   </li>
                   <li className="flex items-start gap-2">
-                    <span>»</span> WhatsApp Voice Message support
+                    <span className="text-sor7ed-yellow">»</span> WhatsApp Voice Message support
                   </li>
                   <li className="flex items-start gap-2">
-                    <span>»</span> Private coaching channel
+                    <span className="text-sor7ed-yellow">»</span> Private coaching channel
                   </li>
                 </ul>
               </div>
-              <Link href="/signup" className="mt-12 w-full text-center border-2 border-black py-3 font-mono-headline text-xs tracking-widest text-[14px] font-bold uppercase hover:bg-black hover:text-sor7ed-yellow transition-colors">
+              <Link href="/signup" className="mt-12 w-full text-center border py-3 font-mono-headline text-xs tracking-widest uppercase border-sor7ed-yellow bg-sor7ed-yellow/10 text-sor7ed-yellow hover:bg-sor7ed-yellow hover:text-black transition-colors shadow-[0_0_15px_rgba(245,198,20,0.1)] hover:shadow-[0_0_20px_rgba(245,198,20,0.3)]">
                 Upgrade to Pro
               </Link>
             </div>
 
             {/* Coach Tier */}
-            <div className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-sor7ed-yellow transition-all duration-300 p-8 flex flex-col justify-between h-full">
+            <div className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-sor7ed-yellow transition-all duration-300 p-6 flex flex-col justify-between text-left h-full min-h-[220px]">
               <div>
                 <div className="font-mono-headline text-[10px] text-zinc-400 uppercase tracking-widest border border-white/20 px-2 py-1 inline-block mb-6 bg-black/50">
                   COACH
@@ -305,7 +305,7 @@ export default function Home() {
                   </li>
                 </ul>
               </div>
-              <Link href="/signup" className="mt-12 w-full text-center border py-3 font-mono-headline text-xs tracking-widest uppercase border-white/20 hover:bg-white hover:text-black transition-colors">
+              <Link href="/signup" className="mt-12 w-full text-center border py-3 font-mono-headline text-xs tracking-widest uppercase border-white/20 hover:border-sor7ed-yellow hover:bg-sor7ed-yellow hover:text-black transition-colors">
                 Apply for Coach
               </Link>
             </div>
