@@ -1,0 +1,481 @@
+{
+    "id": "OS7Gzy8CIHmPmLRF",
+    "name": "S0R7ED Master WhatsApp Bot",
+    "nodes": [
+        {
+            "type": "n8n-nodes-base.twilioTrigger",
+            "version": 1,
+            "name": "Twilio Trigger",
+            "parameters": {
+                "updates": [
+                    "com.twilio.messaging.inbound-message.received"
+                ]
+            },
+            "credentials": {
+                "twilioApi": {
+                    "id": "A5HK0AIBvmaUm9Y1",
+                    "name": "Twilio account 2"
+                }
+            },
+            "position": [
+                -1792,
+                288
+            ]
+        },
+        {
+            "type": "n8n-nodes-base.set",
+            "version": 1,
+            "name": "Extract Metadata",
+            "parameters": {
+                "keepOnlySet": true,
+                "values": {
+                    "string": [
+                        {
+                            "name": "message",
+                            "value": "={{ $json.data.body }}"
+                        },
+                        {
+                            "name": "trigger",
+                            "value": "={{ $json.data.body.trim().toUpperCase() }}"
+                        },
+                        {
+                            "name": "sender",
+                            "value": "={{ $json.data.from }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "position": [
+                -1568,
+                288
+            ]
+        },
+        {
+            "type": "n8n-nodes-base.notion",
+            "version": 2.2,
+            "name": "Check User Signup",
+            "parameters": {
+                "notionNotice": "",
+                "Credentials": "",
+                "resource": "databasePage",
+                "operation": "getAll",
+                "databaseId": {
+                    "__rl": true,
+                    "value": "2e90d6014acc80c0b603ffa9e74f7f7d",
+                    "mode": "id"
+                },
+                "returnAll": false,
+                "limit": 1,
+                "simple": true,
+                "filterType": "manual",
+                "matchType": "anyFilter",
+                "filters": {
+                    "conditions": [
+                        {
+                            "key": "Customer Name|title",
+                            "type": "title",
+                            "condition": "equals",
+                            "titleValue": "={{ $('Extract Metadata').item.json.sender }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "credentials": {
+                "notionApi": {
+                    "id": "Pi8CVEvyBPV7GaVn",
+                    "name": "Notion account"
+                }
+            },
+            "position": [
+                -1344,
+                288
+            ]
+        },
+        {
+            "type": "n8n-nodes-base.if",
+            "version": 2,
+            "name": "User Signed Up?",
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": true,
+                        "leftValue": "",
+                        "typeValidation": "loose"
+                    },
+                    "conditions": [
+                        {
+                            "id": "id-1",
+                            "leftValue": "={{ $json.results.length > 0 }}",
+                            "rightValue": true,
+                            "operator": {
+                                "type": "boolean",
+                                "operation": "equals"
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                },
+                "options": {}
+            },
+            "position": [
+                -1120,
+                288
+            ]
+        },
+        {
+            "type": "n8n-nodes-base.notion",
+            "version": 2.2,
+            "name": "Query Notion Tools",
+            "parameters": {
+                "notionNotice": "",
+                "Credentials": "",
+                "resource": "databasePage",
+                "operation": "getAll",
+                "databaseId": {
+                    "__rl": true,
+                    "value": "08ac767d-3138-45ca-9188-6ce45c379b99",
+                    "mode": "list",
+                    "cachedResultName": "TOOLS",
+                    "cachedResultUrl": "https://www.notion.so/08ac767d313845ca91886ce45c379b99"
+                },
+                "returnAll": false,
+                "limit": 50,
+                "simple": true,
+                "filterType": "manual",
+                "matchType": "anyFilter",
+                "filters": {
+                    "conditions": [
+                        {
+                            "key": "WhatsApp Keyword|rich_text",
+                            "type": "rich_text",
+                            "condition": "equals",
+                            "richTextValue": "={{ $('Extract Metadata').item.json.trigger }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "credentials": {
+                "notionApi": {
+                    "id": "Pi8CVEvyBPV7GaVn",
+                    "name": "Notion account"
+                }
+            },
+            "position": [
+                -896,
+                192
+            ]
+        },
+        {
+            "type": "n8n-nodes-base.if",
+            "version": 2,
+            "name": "Tools Match Found?",
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": true,
+                        "leftValue": "",
+                        "typeValidation": "strict"
+                    },
+                    "conditions": [
+                        {
+                            "id": "id-1",
+                            "leftValue": "={{ $json.results.length > 0 }}",
+                            "rightValue": true,
+                            "operator": {
+                                "type": "boolean",
+                                "operation": "equals"
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                },
+                "options": {}
+            },
+            "position": [
+                -672,
+                192
+            ]
+        },
+        {
+            "type": "n8n-nodes-base.twilio",
+            "version": 1,
+            "name": "Send Tools Response",
+            "parameters": {
+                "resource": "sms",
+                "operation": "send",
+                "from": "whatsapp:+447360277713",
+                "to": "={{ $('Extract Metadata').item.json.sender }}",
+                "toWhatsapp": false,
+                "message": "={{ $('Query Notion Tools').item.json.results[0].properties.Template.rich_text.map(t => t.plain_text).join('') }}",
+                "options": {}
+            },
+            "credentials": {
+                "twilioApi": {
+                    "id": "QViu2iQO2jSBDHtv",
+                    "name": "Twilio account"
+                }
+            },
+            "position": [
+                -448,
+                288
+            ]
+        },
+        {
+            "type": "n8n-nodes-base.notion",
+            "version": 2.2,
+            "name": "Query Notion Blog",
+            "parameters": {
+                "notionNotice": "",
+                "Credentials": "",
+                "resource": "databasePage",
+                "operation": "getAll",
+                "databaseId": {
+                    "__rl": true,
+                    "value": "db668e46-87ed-4554-9835-7b8d11d2c714",
+                    "mode": "list",
+                    "cachedResultName": "BLOG",
+                    "cachedResultUrl": "https://www.notion.so/db668e4687ed455498357b8d11d2c714"
+                },
+                "returnAll": false,
+                "limit": 50,
+                "simple": true,
+                "filterType": "manual",
+                "matchType": "anyFilter",
+                "filters": {
+                    "conditions": [
+                        {
+                            "key": "WhatsApp Keyword|rich_text",
+                            "type": "rich_text",
+                            "condition": "equals",
+                            "richTextValue": "={{ $('Extract Metadata').item.json.trigger }}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "credentials": {
+                "notionApi": {
+                    "id": "Pi8CVEvyBPV7GaVn",
+                    "name": "Notion account"
+                }
+            },
+            "position": [
+                -448,
+                96
+            ]
+        },
+        {
+            "type": "n8n-nodes-base.if",
+            "version": 2,
+            "name": "Blog Match Found?",
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": true,
+                        "leftValue": "",
+                        "typeValidation": "strict"
+                    },
+                    "conditions": [
+                        {
+                            "id": "id-1",
+                            "leftValue": "={{ $json.results.length > 0 }}",
+                            "rightValue": true,
+                            "operator": {
+                                "type": "boolean",
+                                "operation": "equals"
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                },
+                "options": {}
+            },
+            "position": [
+                -224,
+                96
+            ]
+        },
+        {
+            "type": "n8n-nodes-base.twilio",
+            "version": 1,
+            "name": "Send Blog Response",
+            "parameters": {
+                "resource": "sms",
+                "operation": "send",
+                "from": "whatsapp:+447360277713",
+                "to": "={{ $('Extract Metadata').item.json.sender }}",
+                "toWhatsapp": false,
+                "message": "={{ $('Query Notion Blog').item.json.results[0].properties.Excerpt.rich_text.map(t => t.plain_text).join('') + \"\\n\\nFull article: https://sor7ed.com/blog/\" + $('Query Notion Blog').item.json.results[0].properties.Slug.rich_text.map(t => t.plain_text).join('') + \"\\n\\nNeed support? Reply HELP\" }}",
+                "options": {}
+            },
+            "credentials": {
+                "twilioApi": {
+                    "id": "QViu2iQO2jSBDHtv",
+                    "name": "Twilio account"
+                }
+            },
+            "position": [
+                0,
+                192
+            ]
+        },
+        {
+            "type": "n8n-nodes-base.twilio",
+            "version": 1,
+            "name": "Send Unknown Keyword Message",
+            "parameters": {
+                "resource": "sms",
+                "operation": "send",
+                "from": "whatsapp:+447360277713",
+                "to": "={{ $('Extract Metadata').item.json.sender }}",
+                "toWhatsapp": false,
+                "message": "=SOR7ED Bot: \"{{ $('Extract Metadata').item.json.trigger }}\" unknown. Valid protocols include DOPAMINE, TRIAGE, COOLOFF, SENSORY.\\n\\nReply MENU for more.",
+                "options": {}
+            },
+            "credentials": {
+                "twilioApi": {
+                    "id": "QViu2iQO2jSBDHtv",
+                    "name": "Twilio account"
+                }
+            }
+        },
+        {
+            "type": "n8n-nodes-base.twilio",
+            "version": 1,
+            "name": "Send Signup Required Message",
+            "parameters": {
+                "resource": "sms",
+                "operation": "send",
+                "from": "whatsapp:+447360277713",
+                "to": "={{ $('Extract Metadata').item.json.sender }}",
+                "toWhatsapp": false,
+                "message": "Please sign up first to access our services. Visit [signup link] to get started.",
+                "options": {}
+            },
+            "credentials": {
+                "twilioApi": {
+                    "id": "A5HK0AIBvmaUm9Y1",
+                    "name": "Twilio account 2"
+                }
+            },
+            "position": [
+                -896,
+                384
+            ]
+        }
+    ],
+    "connections": {
+        "Twilio Trigger": {
+            "main": [
+                [
+                    {
+                        "node": "Extract Metadata",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Extract Metadata": {
+            "main": [
+                [
+                    {
+                        "node": "Check User Signup",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Check User Signup": {
+            "main": [
+                [
+                    {
+                        "node": "User Signed Up?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "User Signed Up?": {
+            "main": [
+                [
+                    {
+                        "node": "Query Notion Tools",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Send Signup Required Message",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Query Notion Tools": {
+            "main": [
+                [
+                    {
+                        "node": "Tools Match Found?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Tools Match Found?": {
+            "main": [
+                [
+                    {
+                        "node": "Send Tools Response",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Query Notion Blog",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Query Notion Blog": {
+            "main": [
+                [
+                    {
+                        "node": "Blog Match Found?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Blog Match Found?": {
+            "main": [
+                [
+                    {
+                        "node": "Send Blog Response",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Send Unknown Keyword Message",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}

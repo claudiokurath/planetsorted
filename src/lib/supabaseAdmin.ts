@@ -1,7 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Server-only Supabase client with Service Role bypass
-export const supabaseAdmin = createClient(
-    process.env.SUPABASE_URL || 'https://placeholder.supabase.co',
-    process.env.SUPABASE_SECRET_KEY || 'placeholder'
-);
+const url = process.env.SUPABASE_URL
+const serviceKey = process.env.SUPABASE_SECRET_KEY
+
+if (!url || !serviceKey) {
+    throw new Error('Missing SUPABASE_URL or SUPABASE_SECRET_KEY (server-side env vars)')
+}
+
+export const supabaseAdmin = createClient(url, serviceKey)
