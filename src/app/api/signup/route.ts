@@ -15,14 +15,21 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Missing phoneNumber in body' }, { status: 400 });
         }
 
+        // Rigidly format to E.164: remove all non-digits entirely, then ensure it starts with +
+        const digitsOnly = phoneNumber.replace(/\D/g, '');
+        if (digitsOnly.length < 10) {
+            return NextResponse.json({ error: 'Phone number is too short for E.164 format' }, { status: 400 });
+        }
+        const whatsapp_e164 = `+${digitsOnly}`;
+
         // ==========================================
         // 1) CREATE NOTION CRM RECORD
         // ==========================================
         let notionRecordId = null;
-        if (process.env.NOTION_USERS_DB) {
+        if (process.env.NOTION_CRM_DB_ID) {
             try {
                 const response = await notion.pages.create({
-                    parent: { database_id: process.env.NOTION_USERS_DB },
+                    parent: { database_id: process.env.NOTION_CRM_DB_ID },
                     properties: {
                         'Customer Name': {
                             title: [
@@ -44,13 +51,12 @@ export async function POST(request: Request) {
                 // Optionally throw if Notion is critical to your flow
             }
         } else {
-            console.warn('NOTION_USERS_DB environment variable not set, skipping Notion CRM creation.');
+            console.warn('NOTION_CRM_DB_ID environment variable not set, skipping Notion CRM creation.');
         }
 
         // ==========================================
         // 2) UPSERT TO SUPABASE (User's provided code)
         // ==========================================
-        const whatsapp_e164 = phoneNumber
 
         // 1) Upsert user in Supabase
         const { data: userRow, error: userErr } = await supabaseAdmin
