@@ -26,10 +26,11 @@ export async function POST(request: Request) {
         // 1) CREATE NOTION CRM RECORD
         // ==========================================
         let notionRecordId = null;
-        if (process.env.NOTION_CRM_DB_ID) {
+        const crmDbId = process.env.NOTION_CRM_DB_ID || '29e2bff4d39e4bbe90ef0f72d310256b';
+        if (crmDbId) {
             try {
                 const response = await notion.pages.create({
-                    parent: { database_id: process.env.NOTION_CRM_DB_ID },
+                    parent: { database_id: crmDbId },
                     properties: {
                         'Customer Name': {
                             title: [
