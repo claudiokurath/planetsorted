@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 // import { Client } from '@notionhq/client';
 
-const stripe = new Stripe((process.env.STRIPE_RESTRICTED_KEY || process.env.STRIPE_SECRET_KEY) as string, {
+const stripe = new Stripe((process.env.STRIPE_RESTRICTED_KEY || process.env.STRIPE_SECRET_KEY || 'sk_test_dummy') as string, {
     apiVersion: '2025-02-24.acacia', // Update to recent version
 });
 
