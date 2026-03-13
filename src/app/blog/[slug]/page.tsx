@@ -68,6 +68,14 @@ export default async function BlogDetailPage(props: { params: Params }) {
                             {post.Template}
                         </div>
                     )}
+
+                    {post.CTA && (
+                        <div className="mt-12 p-6 border-l-4 border-sor7ed-yellow bg-sor7ed-yellow/10">
+                            <p className="font-roboto text-lg md:text-xl font-medium text-white">
+                                {post.CTA}
+                            </p>
+                        </div>
+                    )}
                 </article>
             </main>
         </div>
