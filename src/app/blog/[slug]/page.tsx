@@ -57,27 +57,17 @@ export default async function BlogDetailPage(props: { params: Params }) {
                 </div>
 
                 <article className="font-roboto text-zinc-300 leading-relaxed space-y-6 text-lg">
-                    {post.Summary && (
+                    {post.Excerpt && (
                         <p className="text-xl text-zinc-100 font-light border-l-2 border-sor7ed-yellow pl-4">
-                            {post.Summary}
+                            {post.Excerpt}
                         </p>
                     )}
 
-                    <div className="bg-[#111] border border-white/10 p-8 md:p-12 relative overflow-hidden mt-12 group">
-                        <div className="relative z-10 flex flex-col items-center text-center space-y-6">
-                            <h2 className="font-fuel-decay text-3xl md:text-4xl uppercase tracking-wide text-sor7ed-yellow">
-                                FULL POST LOCKED
-                            </h2>
-                            <p className="font-roboto text-zinc-400 max-w-lg leading-relaxed pt-4">
-                                This transmission is restricted. Connect your device to the SOR7ED system to read the full brief.
-                            </p>
-                            <div className="pt-6 flex gap-4 w-full md:w-auto">
-                                <Link href="/signup" className="flex-1 md:flex-none bg-sor7ed-yellow text-black font-mono-headline text-xs tracking-widest uppercase px-8 py-4 hover:bg-white transition-colors duration-300 shadow-[0_0_20px_rgba(245,198,20,0.3)]">
-                                    Initialize Connection
-                                </Link>
-                            </div>
+                    {post.Template && (
+                        <div className="bg-[#111] border border-white/10 p-8 md:p-12 relative overflow-hidden mt-12 whitespace-pre-wrap font-mono-headline text-sm md:text-base tracking-wide leading-relaxed text-zinc-300 shadow-[0_0_30px_rgba(245,198,20,0.05)]">
+                            {post.Template}
                         </div>
-                    </div>
+                    )}
                 </article>
             </main>
         </div>
