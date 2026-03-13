@@ -82,7 +82,7 @@ export default function Signup() {
                         <h3 className="font-mono-headline tracking-widest text-sor7ed-yellow text-xl">ALMOST THERE</h3>
                         <p className="font-roboto text-zinc-400 text-sm">Tap the button below to open WhatsApp and send your first message to activate your assistant.</p>
                         <a
-                            href="https://wa.me/447360277713?text=HELP"
+                            href="https://wa.me/447360277713"
                             target="_blank"
                             rel="noreferrer"
                             className="block w-full bg-sor7ed-yellow text-black font-bold uppercase tracking-widest font-mono-headline text-xs py-4 hover:bg-white transition-colors mt-8 shadow-[0_0_15px_rgba(245,198,20,0.2)] hover:shadow-white/20"

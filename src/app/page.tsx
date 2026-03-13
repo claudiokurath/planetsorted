@@ -58,10 +58,16 @@ export default function Home() {
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 via-black/80 to-black pointer-events-none" />
 
         <div className="relative z-10 text-center max-w-4xl mx-auto space-y-4">
-          {/* We'll use a clean text representation of the SOR7ED logo for now, or just move straight to the headline */}
-          <h1 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight leading-[0.9] text-white max-w-4xl mx-auto pb-4 pt-8">
-            <span className="text-sor7ed-yellow">SOR7ED</span> IS A SHAME-FREE PLATFORM BUILT FOR NEURODIVERGENT AND BUSY MINDS
-          </h1>
+          {/* Massive Text Logo for Hero */}
+          <div className="mb-10 inline-block text-center border-b-[6px] border-sor7ed-yellow pb-2">
+            <span className="font-fuel-decay text-8xl md:text-[10rem] uppercase tracking-tighter text-sor7ed-yellow leading-[0.8] block">
+              SOR7ED
+            </span>
+          </div>
+
+          <h2 className="font-fuel-decay text-4xl md:text-6xl uppercase tracking-tight leading-[0.9] text-white/90 max-w-4xl mx-auto pb-4">
+            IS A SHAME-FREE PLATFORM BUILT FOR NEURODIVERGENT AND BUSY MINDS
+          </h2>
 
           <div className="font-roboto text-zinc-400 max-w-3xl mx-auto text-sm md:text-base space-y-8 text-center pt-8">
             <p>
