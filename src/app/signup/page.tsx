@@ -60,15 +60,15 @@ export default function Signup() {
 
                 <div className="mb-8 relative z-10">
                     <div className="font-mono-headline text-[10px] text-sor7ed-yellow uppercase tracking-widest border border-sor7ed-yellow/30 px-2 py-1 inline-block mb-4 shadow-[0_0_10px_rgba(245,198,20,0.1)]">
-                        INITIALIZE_CONNECTION
+                        WHATSAPP INTEGRATION
                     </div>
                     <h1 className="font-fuel-decay text-5xl md:text-6xl uppercase tracking-tight text-white leading-[0.85]">
                         Create <br /> Account.
                     </h1>
                     <p className="font-roboto text-zinc-400 mt-4 text-sm font-light">
                         {success
-                            ? "Connection verified. Your biometric data is synced."
-                            : "Enter your details below to sync with the SOR7ED network and access biometric tasking."}
+                            ? "Your account is created. Let's finish setup in WhatsApp."
+                            : "Enter your details to create your account and connect SOR7ED to your WhatsApp."}
                     </p>
                 </div>
 
@@ -79,8 +79,8 @@ export default function Signup() {
                                 <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
                         </div>
-                        <h3 className="font-mono-headline tracking-widest text-sor7ed-yellow text-xl">SUCCESS</h3>
-                        <p className="font-roboto text-zinc-400 text-sm">Welcome to the grid.</p>
+                        <h3 className="font-mono-headline tracking-widest text-sor7ed-yellow text-xl">ALMOST THERE</h3>
+                        <p className="font-roboto text-zinc-400 text-sm">Tap the button below to open WhatsApp and send your first message to activate your assistant.</p>
                         <a
                             href="https://wa.me/447360277713?text=HELP"
                             target="_blank"
@@ -149,7 +149,7 @@ export default function Signup() {
                             disabled={loading}
                             className="w-full bg-sor7ed-yellow text-black font-bold uppercase tracking-widest font-mono-headline text-xs py-4 hover:bg-white transition-colors mt-8 shadow-[0_0_15px_rgba(245,198,20,0.2)] hover:shadow-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {loading ? "Syncing..." : "Initialize Access →"}
+                            {loading ? "Creating Account..." : "Create Account →"}
                         </button>
                     </form>
                 )}
@@ -157,9 +157,9 @@ export default function Signup() {
                 {!success && (
                     <div className="mt-8 pt-8 border-t border-white/5 text-center relative z-10">
                         <p className="font-roboto text-sm text-zinc-500">
-                            Already have a connection?{' '}
+                            Already have an account?{' '}
                             <Link href="/login" className="text-white hover:text-sor7ed-yellow transition-colors font-medium border-b border-transparent hover:border-sor7ed-yellow pb-0.5">
-                                Log in
+                                Log in here
                             </Link>
                         </p>
                     </div>
