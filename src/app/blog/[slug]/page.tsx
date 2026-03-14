@@ -5,6 +5,8 @@ import { Client } from '@notionhq/client';
 import NotionRenderer from '@/components/NotionRenderer';
 import blogData from '../../../data/blog.json';
 
+export const dynamic = 'force-dynamic';
+
 type Params = Promise<{ slug: string }>;
 
 export default async function BlogDetailPage(props: { params: Params }) {
@@ -45,6 +47,7 @@ export default async function BlogDetailPage(props: { params: Params }) {
 
     // Attempt to pull the ACTUAL BODY of the post from Notion if credentials exist
     let notionBlocks: any[] = [];
+    let errorMessage: string | null = null;
     const notionSecret = process.env.NOTION_SECRET || process.env.NOTION_API_KEY;
     const articleDbId = process.env.NOTION_ARTICLES_DB_ID || 'db668e4687ed455498357b8d11d2c714';
     
@@ -73,10 +76,15 @@ export default async function BlogDetailPage(props: { params: Params }) {
                     notionBlocks = [...notionBlocks, ...blockRes.results];
                     blockCursor = blockRes.next_cursor || undefined;
                 } while (blockCursor);
+            } else {
+                errorMessage = `No page found in Notion DB ${articleDbId} with Slug '${slug}'. (Check if the Notion Integration has access to the Blog Database!)`;
             }
-        } catch (error) {
+        } catch (error: any) {
+            errorMessage = error.message;
             console.error("Failed to fetch page body from Notion:", error);
         }
+    } else {
+        errorMessage = "No NOTION_SECRET environment variable is configured on Vercel.";
     }
 
     return (
@@ -123,15 +131,22 @@ export default async function BlogDetailPage(props: { params: Params }) {
                             <NotionRenderer blocks={notionBlocks} />
                         </div>
                     ) : (
-                        templateSections.length > 0 && (
-                            <div className="space-y-8 pt-6">
-                                {templateSections.map((section: string, idx: number) => (
-                                    <div key={idx} className="whitespace-pre-wrap font-roboto text-lg md:text-xl text-zinc-300 leading-loose">
-                                        {section}
-                                    </div>
-                                ))}
-                            </div>
-                        )
+                        <div className="space-y-8 pt-6">
+                            {errorMessage && (
+                                <div className="bg-red-900/40 border border-red-500/50 p-6 rounded-lg text-red-200 font-mono-headline text-sm mb-6">
+                                    <h4 className="text-red-400 font-bold mb-2 break-words">SYSTEM ERROR: UNABLE TO FETCH FROM NOTION</h4>
+                                    <p className="break-words">{errorMessage}</p>
+                                    <p className="mt-4 text-xs text-red-400/80">
+                                        If it says "Object not found", you must open the Notion Blog database, click the ••• menu in top right, click "Connections" or "Add Connections", and grant access to your SOR7ED Integration bot!
+                                    </p>
+                                </div>
+                            )}
+                            {templateSections.length > 0 && templateSections.map((section: string, idx: number) => (
+                                <div key={idx} className="whitespace-pre-wrap font-roboto text-lg md:text-xl text-zinc-300 leading-loose">
+                                    {section}
+                                </div>
+                            ))}
+                        </div>
                     )}
 
                     {post.CTA && (
