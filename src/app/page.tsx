@@ -34,27 +34,29 @@ const BLOG_POSTS = (blogData as any[]).filter(post => post.Status === "Published
 
 export default function Home() {
   return (
-    <div className="h-screen overflow-y-auto snap-y snap-mandatory bg-sor7ed-black text-white selection:bg-sor7ed-yellow selection:text-black">
+    <div className="h-screen overflow-y-auto md:snap-y md:snap-mandatory bg-sor7ed-black text-white selection:bg-sor7ed-yellow selection:text-black">
       {/* Navigation Bar */}
       <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-sor7ed-gray-light px-6 py-4 flex justify-between items-center">
         <Link href="/" className="hover:opacity-80 transition-opacity">
           <Image src="/images/Logo.PNG" alt="SOR7ED Logo" width={100} height={30} className="object-contain" priority />
         </Link>
         <div className="flex gap-6 font-mono-headline text-xs uppercase tracking-widest text-zinc-400 items-center">
-          <Link href="/" className="hover:text-white transition-colors">Home</Link>
-          <Link href="/tools" className="hover:text-white transition-colors">Tools</Link>
-          <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
-          <Link href="/about" className="hover:text-white transition-colors">About</Link>
-          <div className="h-4 w-px bg-zinc-700 mx-2" />
-          <Link href="/login" className="hover:text-white transition-colors">Log In</Link>
+          <div className="hidden md:flex gap-6 items-center">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            <Link href="/tools" className="hover:text-white transition-colors">Tools</Link>
+            <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
+            <Link href="/about" className="hover:text-white transition-colors">About</Link>
+            <div className="h-4 w-px bg-zinc-700 mx-2" />
+            <Link href="/login" className="hover:text-white transition-colors">Log In</Link>
+          </div>
           <Link href="/signup" className="border border-sor7ed-yellow text-sor7ed-yellow hover:bg-sor7ed-yellow hover:text-black px-4 py-2 transition-colors">
-            Initialize Connection
+            Initialize
           </Link>
         </div>
       </nav>
 
       {/* Hero Header */}
-      <header className="h-screen snap-start relative flex flex-col items-center justify-center px-6 overflow-hidden border-b border-sor7ed-gray-light">
+      <header className="min-h-screen md:h-screen md:snap-start relative flex flex-col items-center justify-center px-6 overflow-hidden border-b border-sor7ed-gray-light pt-24 md:pt-0">
         <Image
           src="/images/hero.png"
           alt="Hero Background"
@@ -96,7 +98,7 @@ export default function Home() {
       {/* Main Content Areas */}
       <main>
         {/* Core Domains */}
-        <section id="domains" className="min-h-screen snap-start flex flex-col justify-center w-full max-w-7xl mx-auto px-6 py-24">
+        <section id="domains" className="min-h-screen md:snap-start flex flex-col justify-center w-full max-w-7xl mx-auto px-6 py-32 md:py-24">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
             <h2 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight text-white leading-none">
               CORE <span className="text-sor7ed-yellow">DOMAINS.</span>
@@ -138,7 +140,7 @@ export default function Home() {
           </div>
         </section>
         {/* Tools Section */}
-        <section id="tools" className="min-h-screen snap-start flex flex-col justify-center w-full max-w-7xl mx-auto px-6 py-24">
+        <section id="tools" className="min-h-screen md:snap-start flex flex-col justify-center w-full max-w-7xl mx-auto px-6 py-32 md:py-24">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
             <h2 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight text-white leading-none">
               TOOL <span className="text-sor7ed-yellow">SYSTEM.</span>
@@ -170,7 +172,7 @@ export default function Home() {
           </div>
         </section>
         {/* Blog Section */}
-        <section id="blog" className="min-h-screen snap-start flex flex-col justify-center w-full max-w-7xl mx-auto px-6 py-24">
+        <section id="blog" className="min-h-screen md:snap-start flex flex-col justify-center w-full max-w-7xl mx-auto px-6 py-32 md:py-24">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
             <h2 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight text-white leading-none">
               TRANSMISSION <span className="text-sor7ed-yellow">LOG.</span>
@@ -206,7 +208,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="snap-start min-h-[50vh] flex flex-col justify-center border-t border-sor7ed-gray-light py-12 px-6 text-center text-zinc-600 font-mono-headline text-xs w-full max-w-7xl mx-auto">
+      <footer className="md:snap-start min-h-[50vh] flex flex-col justify-center border-t border-sor7ed-gray-light py-12 px-6 text-center text-zinc-600 font-mono-headline text-xs w-full max-w-7xl mx-auto">
         <div className="flex justify-center gap-6 mb-6">
           <Link href="/" className="hover:text-white transition-colors uppercase tracking-widest">Home</Link>
           <Link href="/tools" className="hover:text-white transition-colors uppercase tracking-widest">Tools</Link>
