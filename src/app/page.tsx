@@ -59,10 +59,9 @@ export default function Home() {
           src="/images/hero.png"
           alt="Hero Background"
           fill
-          className="object-cover z-0 opacity-80 pointer-events-none"
+          className="object-contain z-0 opacity-100 pointer-events-none"
           priority
         />
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/0 via-black/40 to-black pointer-events-none" />
 
         <div className="relative z-10 text-center max-w-4xl mx-auto space-y-4 flex flex-col items-center">
           <h1 className="font-fuel-decay text-5xl md:text-8xl uppercase tracking-tight leading-[0.85] text-white pt-10 pb-4">
