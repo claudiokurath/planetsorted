@@ -37,8 +37,8 @@ export default function Home() {
     <div className="min-h-screen bg-sor7ed-black text-white selection:bg-sor7ed-yellow selection:text-black">
       {/* Navigation Bar */}
       <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-sor7ed-gray-light px-6 py-4 flex justify-between items-center">
-        <Link href="/" className="font-fuel-decay text-3xl tracking-widest uppercase hover:text-sor7ed-yellow transition-colors">
-          SOR7ED
+        <Link href="/" className="hover:opacity-80 transition-opacity">
+          <Image src="/images/Logo.PNG" alt="SOR7ED Logo" width={100} height={30} className="object-contain" priority />
         </Link>
         <div className="flex gap-6 font-mono-headline text-xs uppercase tracking-widest text-zinc-400 items-center">
           <Link href="/" className="hover:text-white transition-colors">Home</Link>
@@ -73,12 +73,16 @@ export default function Home() {
         />
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 via-black/80 to-black pointer-events-none" />
 
-        <div className="relative z-10 text-center max-w-4xl mx-auto space-y-4">
-          {/* Massive Text Logo for Hero */}
-          <div className="mb-10 inline-block text-center border-b-[6px] border-sor7ed-yellow pb-2">
-            <span className="font-fuel-decay text-8xl md:text-[10rem] uppercase tracking-tighter text-sor7ed-yellow leading-[0.8] block">
-              SOR7ED
-            </span>
+        <div className="relative z-10 text-center max-w-4xl mx-auto space-y-4 flex flex-col items-center">
+          {/* Main Hero Image Logo */}
+          <div className="mb-10 w-full max-w-xs md:max-w-md mx-auto relative h-24 md:h-32">
+            <Image 
+              src="/images/Logo.PNG" 
+              alt="SOR7ED Logo" 
+              fill 
+              className="object-contain" 
+              priority 
+            />
           </div>
 
           <h2 className="font-fuel-decay text-4xl md:text-6xl uppercase tracking-tight leading-[0.9] text-white/90 max-w-4xl mx-auto pb-4">
