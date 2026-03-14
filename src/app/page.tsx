@@ -121,7 +121,7 @@ export default function Home() {
         <section id="domains">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
             <h2 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight text-white leading-none">
-              CORE DOMAINS.
+              CORE <span className="text-sor7ed-yellow">DOMAINS.</span>
             </h2>
             <span className="font-mono-headline text-xs text-sor7ed-yellow animate-pulse">
               STATUS: ACTIVE
@@ -163,7 +163,7 @@ export default function Home() {
         <section id="tools">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
             <h2 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight text-white leading-none">
-              TOOL SYSTEM.
+              TOOL <span className="text-sor7ed-yellow">SYSTEM.</span>
             </h2>
             <Link href="/tools" className="font-mono-headline text-xs text-zinc-500 hover:text-white transition-colors">
               VIEW_ALL_TOOLS →
@@ -195,7 +195,7 @@ export default function Home() {
         <section id="blog">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
             <h2 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight text-white leading-none">
-              TRANSMISSION LOG.
+              TRANSMISSION <span className="text-sor7ed-yellow">LOG.</span>
             </h2>
             <Link href="/blog" className="font-mono-headline text-xs text-zinc-500 hover:text-white transition-colors">
               VIEW_ARCHIVE →
@@ -223,122 +223,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Pricing Section */}
-        <section id="pricing">
-          <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
-            <h2 className="font-mono-headline text-sm tracking-widest text-white uppercase">
-              [ System // Pricing ]
-            </h2>
-            <span className="font-mono-headline text-xs text-sor7ed-yellow animate-pulse">
-              NO_HIDDEN_FEES
-            </span>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Starter Tier */}
-            <div className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-sor7ed-yellow transition-all duration-300 p-6 flex flex-col justify-between text-left h-full min-h-[220px]">
-              <div>
-                <div className="font-mono-headline text-[10px] text-sor7ed-yellow uppercase tracking-widest border border-sor7ed-yellow/30 px-2 py-1 inline-block mb-6 bg-black/50">
-                  FREE STARTER
-                </div>
-                <h3 className="font-fuel-decay text-5xl uppercase leading-none tracking-tight text-white group-hover:text-sor7ed-yellow transition-colors">
-                  £0<span className="text-2xl text-zinc-500 font-roboto">/mo</span>
-                </h3>
-                <p className="font-roboto text-sm text-zinc-400 mt-4 mb-8">
-                  Begin your system initialization. Perfect for testing the architecture.
-                </p>
-                <ul className="space-y-4 font-mono-headline text-xs text-zinc-300 tracking-wider">
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> 3 Active Tools
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> 10 interactions / week
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> Basic tool library
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> Self-service support
-                  </li>
-                </ul>
-              </div>
-              <Link href="/signup" className="mt-12 w-full text-center border py-3 font-mono-headline text-xs tracking-widest uppercase border-white/20 hover:border-sor7ed-yellow hover:bg-sor7ed-yellow hover:text-black transition-colors">
-                Start Free
-              </Link>
-            </div>
-
-            {/* Pro Tier */}
-            <div className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-sor7ed-yellow transition-all duration-300 p-6 flex flex-col justify-between text-left h-full min-h-[220px]">
-              <div className="absolute top-0 right-0 w-16 h-16 border-t font-mono-headline border-r border-sor7ed-yellow opacity-50 m-2 pointer-events-none group-hover:opacity-100 transition-opacity"></div>
-              <div>
-                <div className="font-mono-headline text-[10px] text-black uppercase tracking-widest border border-sor7ed-yellow bg-sor7ed-yellow px-2 py-1 inline-block mb-6 font-bold shadow-[0_0_10px_rgba(245,198,20,0.2)]">
-                  PRO MEMBER
-                </div>
-                <h3 className="font-fuel-decay text-5xl uppercase leading-none tracking-tight text-white group-hover:text-sor7ed-yellow transition-colors">
-                  £9.99<span className="text-2xl font-roboto text-zinc-500">/mo</span>
-                </h3>
-                <p className="font-roboto text-sm mt-4 mb-8 text-white font-medium">
-                  Full unrestricted access to the complete SOR7ED tool system via WhatsApp.
-                </p>
-                <ul className="space-y-4 font-mono-headline text-xs tracking-wider text-zinc-200">
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> Unlimited tool requests
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> Full library access (30+ tools)
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> Priority response speed
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> WhatsApp Voice Message support
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> Private coaching channel
-                  </li>
-                </ul>
-              </div>
-              <Link href="/signup" className="mt-12 w-full text-center border py-3 font-mono-headline text-xs tracking-widest uppercase border-sor7ed-yellow bg-sor7ed-yellow/10 text-sor7ed-yellow hover:bg-sor7ed-yellow hover:text-black transition-colors shadow-[0_0_15px_rgba(245,198,20,0.1)] hover:shadow-[0_0_20px_rgba(245,198,20,0.3)]">
-                Upgrade to Pro
-              </Link>
-            </div>
-
-            {/* Coach Tier */}
-            <div className="group relative bg-black border border-white/10 hover:-translate-y-1 hover:border-sor7ed-yellow transition-all duration-300 p-6 flex flex-col justify-between text-left h-full min-h-[220px]">
-              <div>
-                <div className="font-mono-headline text-[10px] text-zinc-400 uppercase tracking-widest border border-white/20 px-2 py-1 inline-block mb-6 bg-black/50">
-                  COACH
-                </div>
-                <h3 className="font-fuel-decay text-5xl uppercase leading-none tracking-tight text-white group-hover:text-sor7ed-yellow transition-colors">
-                  £29.99<span className="text-2xl text-zinc-500 font-roboto">/mo</span>
-                </h3>
-                <p className="font-roboto text-sm text-zinc-400 mt-4 mb-8">
-                  Built for professionals supporting multiple neurodivergent clients.
-                </p>
-                <ul className="space-y-4 font-mono-headline text-xs text-zinc-300 tracking-wider">
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> Everything in Pro
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> Up to 20 client accounts
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> API access
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> Custom tool requests
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-sor7ed-yellow">»</span> White-label support
-                  </li>
-                </ul>
-              </div>
-              <Link href="/signup" className="mt-12 w-full text-center border py-3 font-mono-headline text-xs tracking-widest uppercase border-white/20 hover:border-sor7ed-yellow hover:bg-sor7ed-yellow hover:text-black transition-colors">
-                Apply for Coach
-              </Link>
-            </div>
-          </div>
-        </section>
 
       </main>
 

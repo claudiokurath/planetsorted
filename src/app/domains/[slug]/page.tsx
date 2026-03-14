@@ -5,13 +5,13 @@ import toolsData from '../../../data/tools.json';
 import blogData from '../../../data/blog.json';
 
 const SECTIONS = [
-    { id: "01", name: "Keep Going", annotation: "// FUEL_SYSTEM" },
-    { id: "02", name: "Feel Good", annotation: "// BIOMETRICS" },
-    { id: "03", name: "Spend Smart", annotation: "// CAPITAL" },
-    { id: "04", name: "Be Connected", annotation: "// NETWORK" },
-    { id: "05", name: "Plan Ahead", annotation: "// LOGISTICS" },
-    { id: "06", name: "Be Yourself", annotation: "// IDENTITY" },
-    { id: "07", name: "Level Up", annotation: "// EXPANSION" },
+    { id: "01", name: "Keep Going", annotation: "// FUEL_SYSTEM", description: "Protocols for burnout recovery, task initiation, and maintaining momentum without relying on anxiety." },
+    { id: "02", name: "Feel Good", annotation: "// BIOMETRICS", description: "Somatic regulation, dopamine management, and building physical well-being alongside neurodivergence." },
+    { id: "03", name: "Spend Smart", annotation: "// CAPITAL", description: "Strategies to reduce the ADHD tax, guilt-free financial automation, and impulse management tools." },
+    { id: "04", name: "Be Connected", annotation: "// NETWORK", description: "Navigating Rejection Sensitive Dysphoria (RSD), setting boundaries, and maintaining relationships without burnout." },
+    { id: "05", name: "Plan Ahead", annotation: "// LOGISTICS", description: "Working with time blindness, designing functional routines, and offloading executive functioning." },
+    { id: "06", name: "Be Yourself", annotation: "// IDENTITY", description: "Unmasking strategies, self-advocacy protocols, and dismantling systemic shame." },
+    { id: "07", name: "Level Up", annotation: "// EXPANSION", description: "Harnessing hyperfocus, career progression, and building sustainable side-hustles." },
 ];
 
 const getFallbackImage = (type: 'tool' | 'blog', index: number) => {
@@ -71,6 +71,9 @@ export default async function DomainDetailPage(props: { params: Params }) {
                     <h1 className="font-fuel-decay text-6xl md:text-8xl uppercase tracking-tight text-white leading-none pt-8">
                         {domain.name}
                     </h1>
+                    <p className="font-roboto text-xl text-zinc-400 font-light max-w-2xl mt-6">
+                        {domain.description}
+                    </p>
                 </header>
 
                 <section id="tools">
