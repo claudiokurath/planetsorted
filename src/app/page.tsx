@@ -34,7 +34,7 @@ const BLOG_POSTS = (blogData as any[]).filter(post => post.Status === "Published
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-sor7ed-black text-white selection:bg-sor7ed-yellow selection:text-black">
+    <div className="h-screen overflow-y-auto snap-y snap-mandatory bg-sor7ed-black text-white selection:bg-sor7ed-yellow selection:text-black">
       {/* Navigation Bar */}
       <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-sor7ed-gray-light px-6 py-4 flex justify-between items-center">
         <Link href="/" className="hover:opacity-80 transition-opacity">
@@ -54,15 +54,15 @@ export default function Home() {
       </nav>
 
       {/* Hero Header */}
-      <header className="relative flex flex-col items-center justify-center pt-40 pb-20 px-6 border-b border-sor7ed-gray-light overflow-hidden">
+      <header className="h-screen snap-start relative flex flex-col items-center justify-center px-6 overflow-hidden border-b border-sor7ed-gray-light">
         <Image
           src="/images/hero.png"
           alt="Hero Background"
           fill
-          className="object-cover z-0 opacity-60 mix-blend-lighten pointer-events-none"
+          className="object-cover z-0 opacity-80 pointer-events-none"
           priority
         />
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 via-black/80 to-black pointer-events-none" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/0 via-black/40 to-black pointer-events-none" />
 
         <div className="relative z-10 text-center max-w-4xl mx-auto space-y-4 flex flex-col items-center">
           <h1 className="font-fuel-decay text-5xl md:text-8xl uppercase tracking-tight leading-[0.85] text-white pt-10 pb-4">
@@ -95,10 +95,9 @@ export default function Home() {
 
 
       {/* Main Content Areas */}
-      <main className="max-w-7xl mx-auto px-6 py-24 space-y-32">
-
+      <main>
         {/* Core Domains */}
-        <section id="domains">
+        <section id="domains" className="min-h-screen snap-start flex flex-col justify-center w-full max-w-7xl mx-auto px-6 py-24">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
             <h2 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight text-white leading-none">
               CORE <span className="text-sor7ed-yellow">DOMAINS.</span>
@@ -140,7 +139,7 @@ export default function Home() {
           </div>
         </section>
         {/* Tools Section */}
-        <section id="tools">
+        <section id="tools" className="min-h-screen snap-start flex flex-col justify-center w-full max-w-7xl mx-auto px-6 py-24">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
             <h2 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight text-white leading-none">
               TOOL <span className="text-sor7ed-yellow">SYSTEM.</span>
@@ -172,7 +171,7 @@ export default function Home() {
           </div>
         </section>
         {/* Blog Section */}
-        <section id="blog">
+        <section id="blog" className="min-h-screen snap-start flex flex-col justify-center w-full max-w-7xl mx-auto px-6 py-24">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
             <h2 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight text-white leading-none">
               TRANSMISSION <span className="text-sor7ed-yellow">LOG.</span>
@@ -208,7 +207,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-sor7ed-gray-light py-12 px-6 text-center text-zinc-600 font-mono-headline text-xs">
+      <footer className="snap-start min-h-[50vh] flex flex-col justify-center border-t border-sor7ed-gray-light py-12 px-6 text-center text-zinc-600 font-mono-headline text-xs w-full max-w-7xl mx-auto">
         <div className="flex justify-center gap-6 mb-6">
           <Link href="/" className="hover:text-white transition-colors uppercase tracking-widest">Home</Link>
           <Link href="/tools" className="hover:text-white transition-colors uppercase tracking-widest">Tools</Link>
