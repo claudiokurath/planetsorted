@@ -120,8 +120,8 @@ export default function Home() {
         {/* Core Domains */}
         <section id="domains">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
-            <h2 className="font-mono-headline text-sm tracking-widest text-white uppercase">
-              [ System // Domains ]
+            <h2 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight text-white leading-none">
+              CORE DOMAINS.
             </h2>
             <span className="font-mono-headline text-xs text-sor7ed-yellow animate-pulse">
               STATUS: ACTIVE
@@ -162,10 +162,10 @@ export default function Home() {
         {/* Tools Section */}
         <section id="tools">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
-            <h2 className="font-mono-headline text-sm tracking-widest text-white uppercase">
-              [ System // Tools ]
+            <h2 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight text-white leading-none">
+              TOOL SYSTEM.
             </h2>
-            <Link href="#tools" className="font-mono-headline text-xs text-zinc-500 hover:text-white transition-colors">
+            <Link href="/tools" className="font-mono-headline text-xs text-zinc-500 hover:text-white transition-colors">
               VIEW_ALL_TOOLS →
             </Link>
           </div>
@@ -194,10 +194,10 @@ export default function Home() {
         {/* Blog Section */}
         <section id="blog">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
-            <h2 className="font-mono-headline text-sm tracking-widest text-white uppercase">
-              [ System // Transmission Log ]
+            <h2 className="font-fuel-decay text-5xl md:text-7xl uppercase tracking-tight text-white leading-none">
+              TRANSMISSION LOG.
             </h2>
-            <Link href="#blog" className="font-mono-headline text-xs text-zinc-500 hover:text-white transition-colors">
+            <Link href="/blog" className="font-mono-headline text-xs text-zinc-500 hover:text-white transition-colors">
               VIEW_ARCHIVE →
             </Link>
           </div>
