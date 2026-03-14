@@ -90,7 +90,8 @@ export default function BlogDirectory() {
                                     fill
                                     className="object-cover opacity-85 group-hover:opacity-100 transition-opacity duration-500 blur-[1px] group-hover:blur-none"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 transition-opacity duration-500 pointer-events-none" />
+                                <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-500 pointer-events-none" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-transparent pointer-events-none" />
                                 <div className="z-10 relative flex w-full justify-between items-start">
                                     <p className="font-mono-headline text-[10px] text-sor7ed-yellow uppercase tracking-widest border border-sor7ed-yellow/30 px-2 py-1 bg-black/50">
                                         {post["Publish Date"] || "TRANSMISSION DATE UNKNOWN"}
