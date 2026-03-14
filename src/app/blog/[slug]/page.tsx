@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Client } from '@notionhq/client';
+import NotionRenderer from '@/components/NotionRenderer';
 import blogData from '../../../data/blog.json';
 
 type Params = Promise<{ slug: string }>;
@@ -38,13 +40,47 @@ export default async function BlogDetailPage(props: { params: Params }) {
     const ctaUrl = ctaMatch ? ctaMatch[0] : null;
     let ctaCleanText = ctaTextRaw;
     if (ctaUrl) {
-        // Strip the raw URL out of the text so it reads cleanly
         ctaCleanText = ctaTextRaw.replace(ctaUrl, '').replace('Text BATHROOM to  for', 'Click below for').replace('to  for', 'for').trim();
+    }
+
+    // Attempt to pull the ACTUAL BODY of the post from Notion if credentials exist
+    let notionBlocks: any[] = [];
+    const notionSecret = process.env.NOTION_SECRET || process.env.NOTION_API_KEY;
+    const articleDbId = process.env.NOTION_ARTICLES_DB_ID || 'db668e4687ed455498357b8d11d2c714';
+    
+    if (notionSecret) {
+        try {
+            const notion = new Client({ auth: notionSecret });
+            const pageQuery = await notion.databases.query({
+                database_id: articleDbId.replace(/-/g, ''),
+                filter: {
+                    property: 'Slug',
+                    rich_text: { equals: slug }
+                }
+            });
+
+            if (pageQuery.results.length > 0) {
+                const pageId = pageQuery.results[0].id;
+                
+                // Fetch all blocks on the page
+                let blockCursor: string | undefined;
+                do {
+                    const blockRes: any = await notion.blocks.children.list({
+                        block_id: pageId,
+                        start_cursor: blockCursor,
+                        page_size: 100,
+                    });
+                    notionBlocks = [...notionBlocks, ...blockRes.results];
+                    blockCursor = blockRes.next_cursor || undefined;
+                } while (blockCursor);
+            }
+        } catch (error) {
+            console.error("Failed to fetch page body from Notion:", error);
+        }
     }
 
     return (
         <div className="min-h-screen bg-sor7ed-black text-white selection:bg-sor7ed-yellow selection:text-black pt-24 pb-32">
-            {/* Quick Nav */}
             <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/5 px-6 py-4 flex justify-between items-center">
                 <Link href="/" className="font-fuel-decay text-3xl tracking-widest uppercase hover:text-sor7ed-yellow transition-colors">
                     SOR7ED
@@ -82,17 +118,22 @@ export default async function BlogDetailPage(props: { params: Params }) {
                         </p>
                     )}
 
-                    {templateSections.length > 0 && (
-                        <div className="space-y-8 pt-6">
-                            {templateSections.map((section: string, idx: number) => (
-                                <div key={idx} className="whitespace-pre-wrap font-roboto text-lg md:text-xl text-zinc-300 leading-loose">
-                                    {section}
-                                </div>
-                            ))}
+                    {notionBlocks.length > 0 ? (
+                        <div className="pt-8">
+                            <NotionRenderer blocks={notionBlocks} />
                         </div>
+                    ) : (
+                        templateSections.length > 0 && (
+                            <div className="space-y-8 pt-6">
+                                {templateSections.map((section: string, idx: number) => (
+                                    <div key={idx} className="whitespace-pre-wrap font-roboto text-lg md:text-xl text-zinc-300 leading-loose">
+                                        {section}
+                                    </div>
+                                ))}
+                            </div>
+                        )
                     )}
 
-                    {/* Massive CTA Upgrade */}
                     {post.CTA && (
                         <div className="mt-16 bg-[#111] border border-white/10 p-8 md:p-12 rounded-2xl flex flex-col items-center text-center space-y-6 shadow-[0_0_40px_rgba(245,198,20,0.08)]">
                             <h3 className="font-fuel-decay text-3xl text-sor7ed-yellow uppercase tracking-wide">
