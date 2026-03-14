@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { Client } from '@notionhq/client';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
     try {
         // Initialize Notion Client at runtime to catch fresh environment variables
