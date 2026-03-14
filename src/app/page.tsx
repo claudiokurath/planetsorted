@@ -65,20 +65,9 @@ export default function Home() {
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 via-black/80 to-black pointer-events-none" />
 
         <div className="relative z-10 text-center max-w-4xl mx-auto space-y-4 flex flex-col items-center">
-          {/* Main Hero Image Logo */}
-          <div className="mb-10 w-full max-w-xs md:max-w-md mx-auto relative h-24 md:h-32">
-            <Image 
-              src="/images/Logo.PNG" 
-              alt="SOR7ED Logo" 
-              fill 
-              className="object-contain" 
-              priority 
-            />
-          </div>
-
-          <h2 className="font-fuel-decay text-4xl md:text-6xl uppercase tracking-tight leading-[0.9] text-white/90 max-w-4xl mx-auto pb-4">
-            IS A SHAME-FREE PLATFORM BUILT FOR NEURODIVERGENT AND BUSY MINDS
-          </h2>
+          <h1 className="font-fuel-decay text-5xl md:text-8xl uppercase tracking-tight leading-[0.85] text-white pt-10 pb-4">
+            A SHAME-FREE PLATFORM BUILT FOR NEURODIVERGENT AND BUSY MINDS
+          </h1>
 
           <div className="font-roboto text-zinc-400 max-w-3xl mx-auto text-sm md:text-base space-y-8 text-center pt-8">
             <p>
