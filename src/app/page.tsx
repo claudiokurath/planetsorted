@@ -55,21 +55,12 @@ export default function Home() {
 
       {/* Hero Header */}
       <header className="relative flex flex-col items-center justify-center pt-40 pb-20 px-6 border-b border-sor7ed-gray-light overflow-hidden">
-        <div 
-          className="absolute inset-0 w-full h-full z-0 opacity-60 mix-blend-lighten"
-          dangerouslySetInnerHTML={{
-            __html: `
-              <video
-                autoplay
-                loop
-                muted
-                playsinline
-                style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;"
-              >
-                <source src="/hero.mp4" type="video/mp4" />
-              </video>
-            `
-          }}
+        <Image
+          src="/images/hero.png"
+          alt="Hero Background"
+          fill
+          className="object-cover z-0 opacity-60 mix-blend-lighten pointer-events-none"
+          priority
         />
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 via-black/80 to-black pointer-events-none" />
 
