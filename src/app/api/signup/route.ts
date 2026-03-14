@@ -2,11 +2,17 @@ import { NextResponse } from 'next/server';
 import { Client } from '@notionhq/client';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
-// Initialize Notion Client (if you have the Secret)
-const notion = new Client({ auth: process.env.NOTION_SECRET || 'placeholder_secret' });
-
 export async function POST(request: Request) {
     try {
+        // Initialize Notion Client at runtime to catch fresh environment variables
+        const secret = process.env.NOTION_SECRET;
+        if (!secret) {
+            console.error('NOTION_SECRET is not defined in environment variables.');
+            return NextResponse.json({ error: 'Server configuration error: Missing NOTION_SECRET' }, { status: 500 });
+        }
+        
+        const notion = new Client({ auth: secret });
+
         const body = await request.json();
         // Extract whatever fields your frontend or webhook sends here
         const { customerName, email, phoneNumber, creditsBalance } = body;
