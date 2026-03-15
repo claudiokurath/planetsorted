@@ -73,14 +73,14 @@ export default function Home() {
           className="block md:hidden object-cover object-center z-0 opacity-100 pointer-events-none"
           priority
         />
-        <div className="absolute inset-0 z-0 bg-black/70 pointer-events-none" />
+        <div className="absolute inset-0 z-0 bg-black/40 pointer-events-none" />
 
         <div className="relative z-10 text-center max-w-4xl mx-auto space-y-4 flex flex-col items-center">
           <h1 className="font-fuel-decay text-5xl md:text-8xl uppercase tracking-tight leading-[0.85] text-white pt-10 pb-4">
             A SHAME-FREE PLATFORM BUILT FOR NEURODIVERGENT AND BUSY MINDS
           </h1>
 
-          <div className="font-roboto text-gray-200 max-w-3xl mx-auto text-sm md:text-base space-y-8 text-center pt-8 drop-shadow-md">
+          <div className="font-roboto text-gray-200 max-w-3xl mx-auto text-base md:text-lg space-y-8 text-center pt-8 drop-shadow-md">
             <p>
               We publish practical articles every week and drop <span className="text-white font-bold">free templates straight into your WhatsApp</span> — no new apps, no downloads, just the one you're already glued to.
             </p>
