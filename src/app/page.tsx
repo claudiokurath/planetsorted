@@ -57,11 +57,20 @@ export default function Home() {
 
       {/* Hero Header */}
       <header className="min-h-screen md:h-screen md:snap-start relative flex flex-col items-center justify-center px-6 overflow-hidden border-b border-sor7ed-gray-light pt-24 md:pt-0">
+        {/* Desktop Hero Image */}
         <Image
           src="/images/hero.png"
           alt="Hero Background"
           fill
-          className="object-contain z-0 opacity-100 pointer-events-none"
+          className="hidden md:block object-contain z-0 opacity-100 pointer-events-none"
+          priority
+        />
+        {/* Mobile Hero Image */}
+        <Image
+          src="/images/mobile-hero.png"
+          alt="Mobile Hero Background"
+          fill
+          className="block md:hidden object-cover object-center z-0 opacity-100 pointer-events-none"
           priority
         />
 
