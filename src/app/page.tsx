@@ -73,6 +73,7 @@ export default function Home() {
           className="block md:hidden object-cover object-center z-0 opacity-100 pointer-events-none"
           priority
         />
+        <div className="absolute inset-0 z-0 bg-black/50 pointer-events-none" />
 
         <div className="relative z-10 text-center max-w-4xl mx-auto space-y-4 flex flex-col items-center">
           <h1 className="font-fuel-decay text-5xl md:text-8xl uppercase tracking-tight leading-[0.85] text-white pt-10 pb-4">
