@@ -60,6 +60,16 @@ export async function POST(request: Request) {
             return new NextResponse(`<Response></Response>`, { status: 200, headers: { 'Content-Type': 'text/xml' } });
         }
 
+        // Helper to format Notion text for WhatsApp (strips IFrames and extracts their URLs so it's clickable)
+        const formatTemplateForWhatsApp = (rawText: string) => {
+            // Notion plain_text might include the raw HTML of the iframe. 
+            // We want to replace it with just the click-able URL link.
+            const iframeRegex = /<iframe[^>]*src=["']([^"']+)["'][^>]*>.*?<\/iframe>/gi;
+            return rawText.replace(iframeRegex, (match, srcUrl) => {
+                return `Here is your tool link:\n${srcUrl}`;
+            }).trim();
+        };
+
         // 1) Verify User Signup in CRM
         const crmDbId = process.env.NOTION_CRM_DB_ID || '2e90d6014acc80c0b603ffa9e74f7f7d';
         const userQuery = await notion.databases.query({
@@ -88,7 +98,8 @@ export async function POST(request: Request) {
 
         if (toolQuery.results.length > 0) {
             const toolPage = toolQuery.results[0] as any;
-            const templateText = toolPage.properties?.Template?.rich_text?.map((t: any) => t.plain_text).join('') || 'Tool details omitted. Access error.';
+            let templateText = toolPage.properties?.Template?.rich_text?.map((t: any) => t.plain_text).join('') || 'Tool details omitted. Access error.';
+            templateText = formatTemplateForWhatsApp(templateText);
             await sendTwilioMessage(from, templateText);
             return new NextResponse(`<Response></Response>`, { status: 200, headers: { 'Content-Type': 'text/xml' } });
         }
@@ -105,7 +116,8 @@ export async function POST(request: Request) {
 
         if (blogQuery.results.length > 0) {
             const blogPage = blogQuery.results[0] as any;
-            const templateText = blogPage.properties?.Template?.rich_text?.map((t: any) => t.plain_text).join('') || 'Transmission extracted.';
+            let templateText = blogPage.properties?.Template?.rich_text?.map((t: any) => t.plain_text).join('') || 'Transmission extracted.';
+            templateText = formatTemplateForWhatsApp(templateText);
             const slug = blogPage.properties?.Slug?.rich_text?.map((t: any) => t.plain_text).join('') || '';
             const message = `${templateText}\n\nFull transmission: https://sor7ed.com/blog/${slug}`;
             
