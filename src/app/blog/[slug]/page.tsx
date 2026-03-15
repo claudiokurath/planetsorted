@@ -35,19 +35,13 @@ export default async function BlogDetailPage(props: { params: Params }) {
     // Split by Markdown hyphens so we can style sections distinctly
     const templateSections = formattedTemplate.split('---').map((s: string) => s.trim()).filter(Boolean);
 
-    // Parse the CTA to extract the raw URL into a big button style
-    const ctaTextRaw = post.CTA || "";
-    const urlRegex = /(https:\/\/wa\.me\/[^\s]+)/;
-    const ctaMatch = ctaTextRaw.match(urlRegex);
-    const ctaUrl = ctaMatch ? ctaMatch[0] : null;
-    let ctaCleanText = ctaTextRaw;
-    if (ctaUrl) {
-        ctaCleanText = ctaTextRaw.replace(ctaUrl, '').replace('Text BATHROOM to  for', 'Click below for').replace('to  for', 'for').trim();
-    }
-
-    // Attempt to pull the ACTUAL BODY of the post from Notion if credentials exist
     let notionBlocks: any[] = [];
     let errorMessage: string | null = null;
+    let liveTitle: string | null = null;
+    let liveTLDR: string | null = null;
+    let liveAdCopy: string | null = null;
+    let liveCTA: string | null = null;
+
     const notionSecret = process.env.NOTION_SECRET || process.env.NOTION_API_KEY;
     const articleDbId = process.env.NOTION_ARTICLES_DB_ID || 'db668e4687ed455498357b8d11d2c714';
     
@@ -64,6 +58,20 @@ export default async function BlogDetailPage(props: { params: Params }) {
 
             if (pageQuery.results.length > 0) {
                 const pageId = pageQuery.results[0].id;
+                const liveProps = (pageQuery.results[0] as any).properties;
+                
+                const extractText = (prop: any) => {
+                    if (!prop) return null;
+                    if (prop.type === 'rich_text') return prop.rich_text.map((t:any) => t.plain_text).join('');
+                    if (prop.type === 'title') return prop.title.map((t:any) => t.plain_text).join('');
+                    return null;
+                };
+
+                liveTitle = extractText(liveProps['Title']) || extractText(liveProps['Name']);
+                liveTLDR = extractText(liveProps['TL;DR']) || extractText(liveProps['TLDR']);
+                liveAdCopy = extractText(liveProps['Ad Copy']);
+                liveCTA = extractText(liveProps['CTA']);
+                
                 
                 // Fetch all blocks on the page
                 let blockCursor: string | undefined;
@@ -87,6 +95,16 @@ export default async function BlogDetailPage(props: { params: Params }) {
         errorMessage = "No NOTION_SECRET environment variable is configured on Vercel.";
     }
 
+    // Parse the CTA to extract the raw URL into a big button style
+    const ctaTextRaw = liveCTA || post.CTA || "";
+    const urlRegex = /(https:\/\/wa\.me\/[^\s]+)/;
+    const ctaMatch = ctaTextRaw.match(urlRegex);
+    const ctaUrl = ctaMatch ? ctaMatch[0] : null;
+    let ctaCleanText = ctaTextRaw;
+    if (ctaUrl) {
+        ctaCleanText = ctaTextRaw.replace(ctaUrl, '').replace(/Text.*?to\s+for/i, 'Click below for').replace(/to\s*for/i, 'for').trim();
+    }
+
     return (
         <div className="min-h-screen bg-sor7ed-black text-white selection:bg-sor7ed-yellow selection:text-black pt-24 pb-32">
             <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/5 px-6 py-4 flex justify-between items-center">
@@ -104,7 +122,7 @@ export default async function BlogDetailPage(props: { params: Params }) {
                         TRANSMISSION // {post["Publish Date"] || "DATE UNKNOWN"}
                     </div>
                     <h1 className="font-fuel-decay text-5xl md:text-6xl uppercase tracking-tight text-white leading-none mx-auto max-w-2xl">
-                        {post.Title}
+                        {liveTitle || post.Title}
                     </h1>
                 </header>
 
@@ -120,10 +138,19 @@ export default async function BlogDetailPage(props: { params: Params }) {
                 </div>
 
                 <article className="font-roboto text-zinc-300 leading-relaxed space-y-10 text-lg">
-                    {post.Excerpt && (
-                        <p className="text-xl md:text-2xl text-white font-light border-l-4 border-sor7ed-yellow pl-6 italic leading-relaxed">
-                            "{post.Excerpt}"
-                        </p>
+                    
+                    {/* TL;DR Section */}
+                    {(liveTLDR || post["TL;DR"]) && (
+                        <div className="whitespace-pre-wrap font-roboto text-xl md:text-2xl text-white font-light border-l-4 border-sor7ed-yellow pl-6 leading-relaxed">
+                            {liveTLDR || post["TL;DR"]}
+                        </div>
+                    )}
+                    
+                    {/* Ad Copy Section */}
+                    {(liveAdCopy || post["Ad Copy"]) && (
+                        <div className="whitespace-pre-wrap font-roboto text-lg md:text-xl text-zinc-300 leading-loose pt-4">
+                            {liveAdCopy || post["Ad Copy"]}
+                        </div>
                     )}
 
                     {notionBlocks.length > 0 ? (
@@ -168,7 +195,7 @@ export default async function BlogDetailPage(props: { params: Params }) {
                                     OPEN IN WHATSAPP →
                                 </a>
                             ) : (
-                                <p className="text-sor7ed-yellow font-mono-headline text-sm tracking-widest">{post.CTA}</p>
+                                <p className="text-sor7ed-yellow font-mono-headline text-sm tracking-widest">{ctaTextRaw}</p>
                             )}
                         </div>
                     )}
