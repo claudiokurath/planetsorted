@@ -57,23 +57,25 @@ export default function Home() {
 
       {/* Hero Header */}
       <header className="min-h-screen md:h-screen md:snap-start relative flex flex-col items-center justify-center px-6 overflow-hidden border-b border-sor7ed-gray-light pt-24 md:pt-0">
-        {/* Desktop Hero Image */}
-        <Image
-          src="/images/hero.png"
-          alt="Hero Background"
-          fill
-          className="hidden md:block object-contain z-0 opacity-100 pointer-events-none"
-          priority
-        />
-        {/* Mobile Hero Image */}
-        <Image
-          src="/images/mobile-hero.png"
-          alt="Mobile Hero Background"
-          fill
-          className="block md:hidden object-cover object-center z-0 opacity-100 pointer-events-none"
-          priority
-        />
-        <div className="absolute inset-0 z-0 bg-black/40 pointer-events-none" />
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          {/* Desktop Hero Image */}
+          <Image
+            src="/images/hero.png"
+            alt="Hero Background"
+            fill
+            className="hidden md:block object-contain opacity-100"
+            priority
+          />
+          {/* Mobile Hero Image */}
+          <Image
+            src="/images/mobile-hero.png"
+            alt="Mobile Hero Background"
+            fill
+            className="block md:hidden object-cover object-center opacity-100"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
 
         <div className="relative z-10 text-center max-w-4xl mx-auto space-y-4 flex flex-col items-center">
           <h1 className="font-fuel-decay text-5xl md:text-8xl uppercase tracking-tight leading-[0.85] text-white pt-10 pb-4">
@@ -106,7 +108,7 @@ export default function Home() {
 
 
       {/* Main Content Areas */}
-      <main>
+      <main className="bg-sor7ed-black relative z-10">
         {/* Core Domains */}
         <section id="domains" className="min-h-screen md:snap-start flex flex-col justify-center w-full max-w-7xl mx-auto px-6 py-32 md:py-24">
           <div className="flex items-center justify-between mb-12 border-b border-sor7ed-gray-light pb-4">
@@ -218,7 +220,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="md:snap-start min-h-[50vh] flex flex-col justify-center border-t border-sor7ed-gray-light py-12 px-6 text-center text-zinc-600 font-mono-headline text-xs w-full max-w-7xl mx-auto">
+      <footer className="bg-sor7ed-black relative z-10 md:snap-start min-h-[50vh] flex flex-col justify-center border-t border-sor7ed-gray-light py-12 px-6 text-center text-zinc-600 font-mono-headline text-xs w-full max-w-7xl mx-auto">
         <div className="flex justify-center gap-6 mb-6">
           <Link href="/" className="hover:text-white transition-colors uppercase tracking-widest">Home</Link>
           <Link href="/tools" className="hover:text-white transition-colors uppercase tracking-widest">Tools</Link>
