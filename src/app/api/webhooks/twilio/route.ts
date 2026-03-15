@@ -81,7 +81,7 @@ export async function POST(request: Request) {
         const toolQuery = await notion.databases.query({
             database_id: toolsDbId.replace(/-/g, ''), // safe format
             filter: {
-                property: 'WhatsApp Keyword',
+                property: 'WhatsApp Trigger',
                 rich_text: { equals: trigger }
             }
         });
@@ -98,16 +98,16 @@ export async function POST(request: Request) {
         const blogQuery = await notion.databases.query({
             database_id: blogDbId.replace(/-/g, ''), // safe format
             filter: {
-                property: 'WhatsApp Keyword',
+                property: 'WhatsApp Trigger',
                 rich_text: { equals: trigger }
             }
         });
 
         if (blogQuery.results.length > 0) {
             const blogPage = blogQuery.results[0] as any;
-            const excerptText = blogPage.properties?.Excerpt?.rich_text?.map((t: any) => t.plain_text).join('') || 'Transmission extracted.';
+            const templateText = blogPage.properties?.Template?.rich_text?.map((t: any) => t.plain_text).join('') || 'Transmission extracted.';
             const slug = blogPage.properties?.Slug?.rich_text?.map((t: any) => t.plain_text).join('') || '';
-            const message = `${excerptText}\n\nFull transmission: https://sor7ed.com/blog/${slug}`;
+            const message = `${templateText}\n\nFull transmission: https://sor7ed.com/blog/${slug}`;
             
             await sendTwilioMessage(from, message);
             return new NextResponse(`<Response></Response>`, { status: 200, headers: { 'Content-Type': 'text/xml' } });
