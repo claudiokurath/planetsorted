@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/sync-notion",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/cron/weekly-broadcast",
+      "schedule": "0 10 * * 2"
+    }
+  ]
+}
