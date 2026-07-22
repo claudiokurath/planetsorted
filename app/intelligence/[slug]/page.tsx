@@ -54,6 +54,7 @@ export default async function ArticlePage({ params }: Props) {
   if (!protocol) notFound()
 
   const categoryStyle = getCategoryStyle(protocol.category)
+  const audioUrl = protocol.audio_url || protocol.audio
 
   return (
     <article className="mx-auto max-w-2xl px-6 py-12">
@@ -98,6 +99,33 @@ export default async function ArticlePage({ params }: Props) {
         </p>
       )}
 
+      {/* NotebookLM Audio Deep Dive Card (Rendered if audio URL exists) */}
+      {audioUrl && (
+        <div className="mb-10 rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-950/40 via-gray-900 to-gray-950 p-6 shadow-xl">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-bold text-emerald-400 mb-2">
+                <span>🎙️ NotebookLM Deep Dive</span>
+              </div>
+              <h3 className="text-lg font-bold text-white">Audio Protocol Overview</h3>
+              <p className="text-xs text-gray-400 mt-0.5">Listen on web or get the audio delivered straight to your WhatsApp.</p>
+            </div>
+
+            <a
+              href={`https://wa.me/447591922247?text=${encodeURIComponent(`AUDIO ${slug}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="glow-button inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold text-gray-950 whitespace-nowrap"
+            >
+              <span>Send Audio to WhatsApp</span>
+              <span>💬</span>
+            </a>
+          </div>
+
+          <audio controls src={audioUrl} className="w-full mt-2 rounded-lg focus:outline-none" />
+        </div>
+      )}
+
       {/* Article body (markdown) */}
       {protocol.problem && (
         <div className="prose prose-invert mb-10 max-w-none text-gray-300">
@@ -115,8 +143,17 @@ export default async function ArticlePage({ params }: Props) {
         </div>
       )}
 
-      <div className="pt-6 border-t border-gray-800">
+      <div className="pt-6 border-t border-gray-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <SaveToPhoneButton slug={slug} context="article" isLoggedIn={false} whatsappVerified={false} />
+
+        <a
+          href={`https://wa.me/447591922247?text=${encodeURIComponent(`AUDIO ${slug}`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-full border border-gray-800 bg-gray-900 px-5 py-2.5 text-xs font-bold text-gray-300 hover:border-emerald-500/40 hover:text-emerald-400 transition-colors text-center"
+        >
+          🎧 Request WhatsApp Audio Deep Dive
+        </a>
       </div>
     </article>
   )

@@ -16,6 +16,8 @@ export interface Protocol {
   protocol: string            // actual protocol (WhatsApp delivery)
   keyword: string             // WhatsApp trigger keyword
   cover_image: string | null  // URL — Storage or external
+  audio_url?: string | null   // NotebookLM Audio Deep Dive URL
+  audio?: string | null       // Alternate audio URL key
   read_time: string           // e.g. '3 min'
   meta_description: string    // SEO meta description
   seo_title: string           // SEO page title override
@@ -115,25 +117,6 @@ export interface Database {
         Insert: Omit<Entitlement, 'id'> & { id?: string }
         Update: Partial<Entitlement>
       }
-      tool_requests: {
-        Row: ToolRequest
-        Insert: Omit<ToolRequest, 'id' | 'created_at'> & { id?: string; created_at?: string }
-        Update: Partial<ToolRequest>
-      }
-      tool_runs: {
-        Row: ToolRun
-        Insert: Omit<ToolRun, 'id' | 'created_at'> & { id?: string; created_at?: string }
-        Update: Partial<ToolRun>
-      }
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      [_ in never]: never
-    }
-    Enums: {
-      [_ in never]: never
     }
   }
 }
