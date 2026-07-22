@@ -6,23 +6,27 @@ import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
-const HELP_TEXT = `Here's what you can do:
+const HELP_TEXT = `Here's what you can do on Planet Sorted:
 
-SAVE [slug] — save anything to your library (always free)
-RUN [tool] — run a tool and get your result
-ARTICLE [keyword] — get a protocol delivered here
-AUDIO [keyword] — listen to the deep dive podcast
-LIBRARY — see everything you've saved
-LOGIN — get a magic link to your dashboard
+Text one of these keywords to run a tool instantly:
+• TAX — ADHD Tax Calculator
+• AUTOPILOT — Financial Autopilot Map
+• CLARITY — Decision Paralysis Solver
 
-Quick tools: TAX · AUTOPILOT · CLARITY · DOPAMINE · TRIAGE · RSD · SENSORY · BURNOUT
-
-STOP — unsubscribe from everything
-STOPWEEKLY — stop just the weekly check-in
-START / STARTWEEKLY — turn them back on
+System commands:
+• MENU / HELP — see this list
+• LOGIN — get a magic link to your account
+• STOP — pause all messages
+• START — turn messages back on
 
 Planet Sorted is not a crisis service.
 In immediate danger: call 999. To talk now: text SHOUT to 85258.`
+
+const toolSlugs: Record<string, string> = {
+  TAX: 'adhd-tax-calculator',
+  AUTOPILOT: 'financial-autopilot',
+  CLARITY: 'decision-paralysis-solver',
+}
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
@@ -68,7 +72,7 @@ export async function POST(req: NextRequest) {
 
     case 'STOP':
       if (user) await supabase.from('users').update({ whatsapp_opted_out: true }).eq('user_id', user.user_id)
-      await sendWhatsAppMessage(from, "You've been unsubscribed from all Planet Sorted WhatsApp messages. Text START to re-subscribe. Your account and saved library are still at planetsorted.com.")
+      await sendWhatsAppMessage(from, "You've been unsubscribed from all Planet Sorted WhatsApp messages. Text START to re-subscribe. Your account and saved history are still at planetsorted.com.")
       break
 
     case 'STOPWEEKLY':
@@ -78,13 +82,35 @@ export async function POST(req: NextRequest) {
 
     case 'START':
       if (user) await supabase.from('users').update({ whatsapp_opted_out: false }).eq('user_id', user.user_id)
-      await sendWhatsAppMessage(from, "You're back on. Text MENU to see what you can do, or jump straight in: TAX · CLARITY · BURNOUT · DOPAMINE")
+      await sendWhatsAppMessage(from, "You're back on. Text MENU to see what you can do, or jump straight in: TAX · CLARITY · AUTOPILOT")
       break
 
     case 'STARTWEEKLY':
       if (user) await supabase.from('users').update({ weekly_opted_in: true }).eq('user_id', user.user_id)
       await sendWhatsAppMessage(from, "Weekly check-in is on. Every Tuesday around 10am we'll send you one practical nudge. Text STOPWEEKLY to turn it off again.")
       break
+
+    case 'LOGIN': {
+      if (!user) {
+        await sendWhatsAppMessage(from, `Sign up first at ${SITE}/signup — no password needed, just your email.`)
+        break
+      }
+      await sendWhatsAppMessage(from, `Here's your magic link to sign in 👇\n${SITE}/signup\n\nIt'll send a link straight to your email. No password needed.`)
+      break
+    }
+
+    case 'TOOL': {
+      const keyword = arg.toUpperCase()
+      const slug = toolSlugs[keyword]
+      if (!slug) {
+        await sendWhatsAppMessage(from, "That one's coming soon — text MENU to see what's live right now.")
+        break
+      }
+
+      const richUrl = `${SITE}/r/${slug}`
+      await sendWhatsAppMessage(from, `Here's your tool 👇\n${richUrl}`, richUrl)
+      break
+    }
 
     case 'SAVE': {
       const targetUrl = `${SITE}/intelligence/${arg}`
@@ -100,70 +126,6 @@ export async function POST(req: NextRequest) {
       break
     }
 
-    case 'LOGIN': {
-      if (!user) {
-        await sendWhatsAppMessage(from, `Sign up first at ${SITE}/signup — no password needed, just your email.`)
-        break
-      }
-      await sendWhatsAppMessage(from, `Here's your magic link to sign in 👇\n${SITE}/signup\n\nIt'll send a link straight to your email. No password needed.`)
-      break
-    }
-
-    case 'RUN': {
-      if (!user) {
-        await sendWhatsAppMessage(from, `Sign up free at ${SITE}/signup to run tools — no password needed.`)
-        break
-      }
-      const { data: entitlement } = await supabase
-        .from('entitlements').select('status').eq('user_id', user.user_id).single()
-      const hasPaidPlan = entitlement?.status === 'active'
-
-      if (!hasPaidPlan) {
-        const { data: ledger } = await supabase.from('credits_ledger').select('delta').eq('user_id', user.user_id)
-        const balance = (ledger ?? []).reduce((sum: number, r: any) => sum + r.delta, 0)
-        if (balance <= 0) {
-          await sendWhatsAppMessage(from, `You've used your 5 free tool runs. Upgrade to Plus for unlimited runs, saved history, and full plans — £5.99/month or £49/year. Scholarships available, no questions asked: ${SITE}/r/upgrade`)
-          break
-        }
-        await supabase.from('credits_ledger').insert({ user_id: user.user_id, delta: -1, reason: 'run_command', source: 'whatsapp' })
-      }
-
-      const richUrl = `${SITE}/r/${arg}`
-      await sendWhatsAppMessage(from, `Here's your tool 👇\n${richUrl}`, richUrl)
-      break
-    }
-
-    case 'ARTICLE': {
-      const { data: protocol } = await supabase
-        .from('protocols').select('title, protocol, audio_url').eq('slug', arg).eq('status', 'Published').single()
-      if (!protocol) {
-        await sendWhatsAppMessage(from, `Couldn't find that article. Text MENU to see what's available.`)
-        break
-      }
-      const articleUrl = `${SITE}/intelligence/${arg}`
-      let msg = `*${protocol.title}*\n\n${protocol.protocol}\n\nRead the full article: ${articleUrl}`
-      if (protocol.audio_url) {
-        msg += `\n\n🎧 Prefer to listen? Text AUDIO ${arg} for the deep dive.`
-      }
-      await sendWhatsAppMessage(from, msg, articleUrl)
-      break
-    }
-
-    case 'AUDIO': {
-      const { data: protocol } = await supabase
-        .from('protocols').select('title, audio_url').eq('slug', arg).eq('status', 'Published').single()
-      if (!protocol) {
-        await sendWhatsAppMessage(from, `Couldn't find that article. Text MENU to see what's available.`)
-        break
-      }
-      if (protocol.audio_url) {
-        await sendWhatsAppMessage(from, `*${protocol.title} — Audio Deep Dive*\n\nListen to the podcast overview:\n${protocol.audio_url}`, protocol.audio_url)
-      } else {
-        await sendWhatsAppMessage(from, `There isn't an audio deep dive for this one yet.`)
-      }
-      break
-    }
-
     case 'LIBRARY': {
       if (!user) {
         await sendWhatsAppMessage(from, `Sign up to save things to your library: ${SITE}/signup`)
@@ -172,7 +134,7 @@ export async function POST(req: NextRequest) {
       const { data: items } = await supabase
         .from('saved_items').select('title, target_url, created_at').eq('user_id', user.user_id).order('created_at', { ascending: false }).limit(10)
       if (!items || items.length === 0) {
-        await sendWhatsAppMessage(from, "Your library is empty. Save any article by texting SAVE [slug], or browse at planetsorted.com.")
+        await sendWhatsAppMessage(from, "Your library is empty. Browse protocols at planetsorted.com.")
         break
       }
       const list = items.map((i: any) => `• ${i.title || 'Saved item'}: ${i.target_url}`).join('\n')
@@ -180,8 +142,32 @@ export async function POST(req: NextRequest) {
       break
     }
 
-    default:
-      await sendWhatsAppMessage(from, `Sorry, didn't catch that.\n\n${HELP_TEXT}`)
+    case 'ARTICLE_KEYWORD':
+    default: {
+      const searchTerm = arg.trim().toLowerCase()
+      // Try searching protocols by keyword or slug
+      const { data: protocols } = await supabase
+        .from('protocols')
+        .select('title, protocol, slug, keyword')
+        .eq('status', 'Published')
+
+      const match = (protocols || []).find((p: any) => 
+        (p.keyword && p.keyword.toLowerCase() === searchTerm) ||
+        (p.slug && p.slug.toLowerCase() === searchTerm)
+      )
+
+      if (match) {
+        const articleUrl = `${SITE}/intelligence/${match.slug}`
+        await sendWhatsAppMessage(
+          from,
+          `*${match.title}*\n\n${match.protocol || ''}\n\nRead full guide: ${articleUrl}`,
+          articleUrl
+        )
+      } else {
+        await sendWhatsAppMessage(from, `Sorry, didn't recognise "${rawText}". Text MENU to see what's live right now.`)
+      }
+      break
+    }
   }
 
   return NextResponse.json({ status: 'ok' })
