@@ -11,8 +11,19 @@ interface ContentCardProps {
   category?: string | null
 }
 
+const CATEGORY_GRADIENTS: Record<string, string> = {
+  Mind: 'from-indigo-950 via-slate-900 to-indigo-900',
+  Wealth: 'from-emerald-950 via-teal-900 to-emerald-900',
+  Body: 'from-amber-950 via-stone-900 to-amber-900',
+  Tech: 'from-cyan-950 via-slate-900 to-cyan-900',
+  Connection: 'from-rose-950 via-pink-900 to-rose-900',
+  Impression: 'from-purple-950 via-slate-900 to-purple-900',
+  Growth: 'from-orange-950 via-amber-900 to-orange-900',
+}
+
 export function ContentCard({ href, title, summary, coverImage, meta, category }: ContentCardProps) {
   const style = getCategoryStyle(category)
+  const gradientClass = CATEGORY_GRADIENTS[category ?? ''] ?? 'from-gray-900 via-stone-900 to-gray-800'
 
   return (
     <Link
@@ -24,8 +35,10 @@ export function ContentCard({ href, title, summary, coverImage, meta, category }
         {coverImage ? (
           <Image src={coverImage} alt={title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center">
-            <div className="h-12 w-12 rounded-full opacity-20" style={{ backgroundColor: '#C0392B' }} />
+          <div className={`relative flex h-full w-full items-center justify-center bg-gradient-to-br ${gradientClass}`}>
+            <span className="text-6xl font-black uppercase tracking-widest text-white opacity-10 select-none">
+              {category || 'SORTED'}
+            </span>
           </div>
         )}
       </div>
