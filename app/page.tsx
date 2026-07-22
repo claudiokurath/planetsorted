@@ -32,22 +32,22 @@ export default async function HomePage() {
   const articles = (rawProtocols as Protocol[]) || []
 
   return (
-    <div style={{ backgroundColor: '#FAF7F2' }} className="min-h-screen">
+    <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#FAF7F2] to-[#F0E5D8]">
+      <section className="bg-gradient-to-b from-[#141414] via-[#0A0A0A] to-black">
         <div className="mx-auto max-w-7xl px-4 pt-12 pb-20 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <div className="space-y-8">
-              <p className="mb-3 font-bold text-sm tracking-[0.25em] uppercase" style={{ color: '#2980B9' }}>Planet Sorted</p>
-              <h1 className="text-6xl font-black uppercase leading-none tracking-tight sm:text-7xl" style={{ fontFamily: "'Bebas Neue', sans-serif", color: '#1A1A1A' }}>
+              <p className="mb-3 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Planet Sorted</p>
+              <h1 className="text-6xl font-black uppercase leading-none tracking-tight sm:text-7xl text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
                 Templates,<br /><span style={{ color: '#C0392B' }}>not inspiration.</span>
               </h1>
-              <p className="max-w-md text-xl leading-relaxed" style={{ color: '#444' }}>
+              <p className="max-w-md text-xl leading-relaxed text-neutral-300">
                 Practical protocols and tools for neurodivergent adults. No app. No spam. Just what works.
               </p>
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <GetSortedButton slug="home" context="article" />
-                <Link href="/intelligence" className="text-sm font-semibold uppercase tracking-widest underline underline-offset-4" style={{ color: '#C0392B' }}>
+                <Link href="/intelligence" className="text-sm font-semibold uppercase tracking-widest underline underline-offset-4 text-[#C0392B] hover:text-white transition-colors">
                   Browse Guidebook →
                 </Link>
               </div>
@@ -57,7 +57,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px w-full" style={{ backgroundColor: '#E8E0D5' }} /></div>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px w-full bg-neutral-800" /></div>
 
       {/* Guidebook Posts Section (4 small cards) */}
       {articles.length > 0 && (
@@ -66,12 +66,12 @@ export default async function HomePage() {
             <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
                 <div className="h-1 w-16 rounded-full bg-[#C0392B] mb-4" />
-                <p className="mb-1 font-bold text-sm tracking-[0.25em] uppercase" style={{ color: '#2980B9' }}>Protocols &amp; Briefs</p>
-                <h2 className="text-5xl font-black uppercase text-[#1A1A1A]" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+                <p className="mb-1 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Protocols &amp; Briefs</p>
+                <h2 className="text-5xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
                   Guidebook
                 </h2>
               </div>
-              <Link href="/intelligence" className="text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:underline underline-offset-4">
+              <Link href="/intelligence" className="text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:text-white transition-colors underline underline-offset-4">
                 View full Guidebook →
               </Link>
             </div>
@@ -91,7 +91,7 @@ export default async function HomePage() {
             </div>
           </section>
 
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px w-full" style={{ backgroundColor: '#E8E0D5' }} /></div>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px w-full bg-neutral-800" /></div>
         </>
       )}
 
@@ -100,13 +100,13 @@ export default async function HomePage() {
         <div className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="h-1 w-16 rounded-full bg-[#C0392B] mb-4" />
-            <p className="mb-1 font-bold text-sm tracking-[0.25em] uppercase" style={{ color: '#2980B9' }}>Sorted Lab</p>
-            <h2 className="text-5xl font-black uppercase text-[#1A1A1A]" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+            <p className="mb-1 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Sorted Lab</p>
+            <h2 className="text-5xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
               Toolbox
             </h2>
-            <p className="mt-2 max-w-xl text-lg text-[#555]">Text one word. Get your result. Come back any time.</p>
+            <p className="mt-2 max-w-xl text-lg text-neutral-400">Text one word. Get your result. Come back any time.</p>
           </div>
-          <Link href="/tools" className="text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:underline underline-offset-4">
+          <Link href="/tools" className="text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:text-white transition-colors underline underline-offset-4">
             View all tools →
           </Link>
         </div>
@@ -118,19 +118,19 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px w-full" style={{ backgroundColor: '#E8E0D5' }} /></div>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px w-full bg-neutral-800" /></div>
 
       {/* WhatsApp Callout Footer */}
-      <section className="py-20 text-center" style={{ backgroundColor: '#1A1A1A' }}>
+      <section className="py-20 text-center bg-[#090909]">
         <div className="mx-auto max-w-3xl px-4">
           <h2 className="text-5xl font-black uppercase text-white sm:text-6xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             One text. <span style={{ color: '#C0392B' }}>Sorted.</span>
           </h2>
-          <p className="mt-6 text-xl" style={{ color: '#aaa' }}>
+          <p className="mt-6 text-xl text-neutral-400">
             Text <strong className="text-white">TAX</strong>, <strong className="text-white">CLARITY</strong>, or <strong className="text-white">BURNOUT</strong> to +44 7591 922247.
             No app. No login. Just your result — straight to WhatsApp.
           </p>
-          <p className="mt-8 text-sm" style={{ color: '#666' }}>
+          <p className="mt-8 text-sm text-neutral-600">
             Planet Sorted provides educational tools and protocols. Not medical, clinical, legal, or financial advice.
             Not a crisis service. In immediate danger: call 999. To talk: text SHOUT to 85258.
           </p>
