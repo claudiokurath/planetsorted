@@ -1,9 +1,12 @@
 import fs from 'fs'
 import path from 'path'
+import Link from 'next/link'
 import { RotatingHero } from '@/components/RotatingHero'
 import { ContentCard } from '@/components/ContentCard'
 import { GetSortedButton } from '@/components/buttons/GetSortedButton'
 import { PRIORITY_TOOLS } from '@/lib/toolsData'
+import { createServerClient } from '@/lib/supabase/server'
+import type { Protocol } from '@/lib/types/database'
 
 function getHeroImages(): string[] {
   try {
@@ -15,11 +18,22 @@ function getHeroImages(): string[] {
   }
 }
 
-export default function HomePage() {
+export default async function HomePage() {
   const heroImages = getHeroImages()
+  const supabase = createServerClient()
+
+  const { data: rawProtocols } = await supabase
+    .from('protocols')
+    .select('slug, title, summary, cover_image, category, read_time')
+    .eq('status', 'Published')
+    .order('updated_at', { ascending: false })
+    .limit(4)
+
+  const articles = (rawProtocols as Protocol[]) || []
 
   return (
     <div style={{ backgroundColor: '#FAF7F2' }} className="min-h-screen">
+      {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#FAF7F2] to-[#F0E5D8]">
         <div className="mx-auto max-w-7xl px-4 pt-12 pb-20 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
@@ -33,9 +47,9 @@ export default function HomePage() {
               </p>
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <GetSortedButton slug="home" context="article" />
-                <a href="/intelligence" className="text-sm font-semibold uppercase tracking-widest underline underline-offset-4" style={{ color: '#C0392B' }}>
-                  Browse the protocols →
-                </a>
+                <Link href="/intelligence" className="text-sm font-semibold uppercase tracking-widest underline underline-offset-4" style={{ color: '#C0392B' }}>
+                  Browse Guidebook →
+                </Link>
               </div>
             </div>
             <RotatingHero images={heroImages} />
@@ -45,13 +59,58 @@ export default function HomePage() {
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px w-full" style={{ backgroundColor: '#E8E0D5' }} /></div>
 
+      {/* Guidebook Posts Section (4 small cards) */}
+      {articles.length > 0 && (
+        <>
+          <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+            <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+              <div>
+                <div className="h-1 w-16 rounded-full bg-[#C0392B] mb-4" />
+                <p className="mb-1 font-bold text-sm tracking-[0.25em] uppercase" style={{ color: '#2980B9' }}>Protocols &amp; Briefs</p>
+                <h2 className="text-5xl font-black uppercase text-[#1A1A1A]" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+                  Guidebook
+                </h2>
+              </div>
+              <Link href="/intelligence" className="text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:underline underline-offset-4">
+                View full Guidebook →
+              </Link>
+            </div>
+
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {articles.map((article) => (
+                <ContentCard
+                  key={article.slug}
+                  href={`/intelligence/${article.slug}`}
+                  title={article.title}
+                  summary={article.summary || ''}
+                  coverImage={article.cover_image}
+                  category={article.category}
+                  meta={article.read_time ? `${article.read_time} read` : undefined}
+                />
+              ))}
+            </div>
+          </section>
+
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px w-full" style={{ backgroundColor: '#E8E0D5' }} /></div>
+        </>
+      )}
+
+      {/* Toolbox Section */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mb-12">
-          <div className="h-1 w-16 rounded-full bg-[#C0392B] mb-4" />
-          <p className="mb-2 font-bold text-sm tracking-[0.25em] uppercase" style={{ color: '#2980B9' }}>Sorted Lab</p>
-          <h2 className="text-5xl font-black uppercase" style={{ fontFamily: "'Bebas Neue', sans-serif", color: '#1A1A1A' }}>Toolbox</h2>
-          <p className="mt-4 max-w-xl text-lg" style={{ color: '#555' }}>Text one word. Get your result. Come back any time.</p>
+        <div className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div className="h-1 w-16 rounded-full bg-[#C0392B] mb-4" />
+            <p className="mb-1 font-bold text-sm tracking-[0.25em] uppercase" style={{ color: '#2980B9' }}>Sorted Lab</p>
+            <h2 className="text-5xl font-black uppercase text-[#1A1A1A]" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+              Toolbox
+            </h2>
+            <p className="mt-2 max-w-xl text-lg text-[#555]">Text one word. Get your result. Come back any time.</p>
+          </div>
+          <Link href="/tools" className="text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:underline underline-offset-4">
+            View all tools →
+          </Link>
         </div>
+
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {PRIORITY_TOOLS.map((tool) => (
             <ContentCard key={tool.slug} href={`/tools/${tool.slug}`} title={tool.title} summary={tool.summary} coverImage={tool.image} category={tool.category} />
@@ -61,6 +120,7 @@ export default function HomePage() {
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px w-full" style={{ backgroundColor: '#E8E0D5' }} /></div>
 
+      {/* WhatsApp Callout Footer */}
       <section className="py-20 text-center" style={{ backgroundColor: '#1A1A1A' }}>
         <div className="mx-auto max-w-3xl px-4">
           <h2 className="text-5xl font-black uppercase text-white sm:text-6xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>

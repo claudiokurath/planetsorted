@@ -18,7 +18,7 @@ export default async function GuidebookListingPage() {
         <div className="mb-12 text-center">
           <div className="mx-auto h-1 w-16 rounded-full bg-[#C0392B] mb-4" />
           <h1 className="text-5xl font-black uppercase text-[#1A1A1A] sm:text-6xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-            The Guidebook
+            Guidebook
           </h1>
           <p className="mt-4 text-xl text-[#555]">Plain-English protocols that turn chaos into a next step.</p>
         </div>
