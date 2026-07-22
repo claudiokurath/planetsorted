@@ -9,7 +9,7 @@ export function SmartNav() {
         </Link>
         <div className="flex items-center gap-6">
           <Link href="/intelligence" className="text-xs font-bold uppercase tracking-widest text-[#444] hover:text-[#C0392B] transition-colors">
-            The Guidebook
+            Guidebook
           </Link>
           <Link href="/tools" className="text-xs font-bold uppercase tracking-widest text-[#444] hover:text-[#C0392B] transition-colors">
             Toolbox
