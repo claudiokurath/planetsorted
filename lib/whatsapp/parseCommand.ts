@@ -1,17 +1,23 @@
-const TOOL_SHORTHANDS: Record<string, string> = {
-  TAX: 'adhd-tax-calculator',
-  AUTOPILOT: 'financial-autopilot',
-  CLARITY: 'decision-paralysis-solver',
-  DOPAMINE: 'dopamine-menu-generator',
-  TRIAGE: 'task-triage',
-  RSD: 'rsd-response-scripts',
-  SENSORY: 'sensory-audit',
-  BURNOUT: 'burnout-assessment',
-}
+export const TOOL_KEYWORDS = new Set([
+  'TAX',
+  'AUTOPILOT',
+  'CLARITY',
+  'DOPAMINE',
+  'TRIAGE',
+  'RSD',
+  'SENSORY',
+  'BURNOUT',
+])
 
-const BARE_VERBS = new Set([
-  'LIBRARY', 'LOGIN', 'STOP', 'STOPWEEKLY',
-  'START', 'STARTWEEKLY', 'HELP', 'MENU',
+const SYSTEM_COMMANDS = new Set([
+  'LOGIN',
+  'STOP',
+  'STOPWEEKLY',
+  'START',
+  'STARTWEEKLY',
+  'HELP',
+  'MENU',
+  'LIBRARY',
 ])
 
 export function parseCommand(raw: string): { verb: string; arg: string } {
@@ -19,16 +25,30 @@ export function parseCommand(raw: string): { verb: string; arg: string } {
   const upper = trimmed.toUpperCase()
   const parts = upper.split(/\s+/)
   const first = parts[0]
-  const rest = trimmed.slice(first.length).trim().toLowerCase()
+  const rest = trimmed.slice(first.length).trim()
 
-  if (TOOL_SHORTHANDS[first] && parts.length === 1) {
-    return { verb: 'RUN', arg: TOOL_SHORTHANDS[first] }
+  // 1. Tool keyword typed directly (e.g. "TAX" or "RUN TAX")
+  if (first === 'RUN' && rest) {
+    const target = rest.toUpperCase()
+    if (TOOL_KEYWORDS.has(target)) {
+      return { verb: 'TOOL', arg: target }
+    }
   }
-  if (['SAVE', 'RUN', 'ARTICLE', 'AUDIO'].includes(first) && rest) {
+
+  if (TOOL_KEYWORDS.has(first) && parts.length === 1) {
+    return { verb: 'TOOL', arg: first }
+  }
+
+  // 2. System command typed directly
+  if (SYSTEM_COMMANDS.has(first)) {
     return { verb: first, arg: rest }
   }
-  if (BARE_VERBS.has(first)) {
-    return { verb: first, arg: '' }
+
+  // 3. Optional SAVE command
+  if (first === 'SAVE' && rest) {
+    return { verb: 'SAVE', arg: rest }
   }
-  return { verb: 'UNKNOWN', arg: raw }
+
+  // 4. Anything else treated as potential article keyword lookup
+  return { verb: 'ARTICLE_KEYWORD', arg: trimmed }
 }

@@ -55,51 +55,52 @@ export default async function ArticlePage({ params }: Props) {
 
   const categoryStyle = getCategoryStyle(protocol.category)
   const audioUrl = protocol.audio_url || protocol.audio
+  const triggerKeyword = (protocol as any).whatsapp_trigger || slug.toUpperCase()
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <article className="mx-auto max-w-3xl px-6 py-12">
-        {/* Cover image */}
+    <div style={{ backgroundColor: '#FAF7F2' }} className="min-h-screen">
+      <article className="max-w-2xl mx-auto px-4 sm:px-6 py-12">
+        {/* Cover image above title (16:9 aspect ratio, rounded-2xl, shadow-lg) */}
         {protocol.cover_image && (
-          <div className="mb-8 overflow-hidden rounded-2xl border border-neutral-800">
+          <div className="relative aspect-video w-full mb-8 overflow-hidden rounded-2xl shadow-lg border border-[#E8E0D5]">
             <Image
               src={protocol.cover_image}
               alt={`${protocol.title} — Planet Sorted illustration`}
-              width={1200}
-              height={630}
-              className="w-full h-auto object-cover"
+              fill
+              className="object-cover"
               priority
             />
           </div>
         )}
 
-        {/* Category + tagline + read time */}
-        <div className="mb-4 space-y-1">
-          {categoryStyle && (
-            <div className="flex items-center gap-3">
-              <span className={`inline-block rounded-full px-3 py-1 text-xs font-bold ${categoryStyle.className}`}>
-                {categoryStyle.label}
-              </span>
-              <span className="text-xs text-neutral-400">{categoryStyle.tagline}</span>
-            </div>
-          )}
-          {protocol.read_time && (
-            <p className="text-xs font-medium text-neutral-500 pt-1">{protocol.read_time} read</p>
-          )}
-        </div>
+        {/* Category badge above title */}
+        {categoryStyle && (
+          <div className="mb-2">
+            <span className={`inline-block rounded-full px-3 py-1 text-xs font-bold ${categoryStyle.className}`}>
+              {categoryStyle.label}
+            </span>
+          </div>
+        )}
 
         {/* Title */}
         <h1
-          className="mb-6 text-5xl sm:text-6xl md:text-7xl font-black uppercase leading-none tracking-tight text-white"
-          style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+          className="mb-3 text-4xl sm:text-5xl md:text-6xl font-black uppercase leading-tight"
+          style={{ fontFamily: "'Bebas Neue', sans-serif", color: '#1A1A1A' }}
         >
           {protocol.title}
         </h1>
 
+        {/* Tagline & read time below title */}
+        <div className="mb-8 flex items-center gap-3 text-sm text-gray-500">
+          {categoryStyle?.tagline && <span>{categoryStyle.tagline}</span>}
+          {categoryStyle?.tagline && protocol.read_time && <span>•</span>}
+          {protocol.read_time && <span>{protocol.read_time} read</span>}
+        </div>
+
         {/* Audio Deep Dive Block */}
         {audioUrl && (
-          <div className="my-8 rounded-2xl border border-neutral-800 bg-[#141414] p-6 shadow-xl">
-            <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-neutral-400">🎧 Listen to the Deep Dive</h3>
+          <div className="my-8 rounded-2xl border border-[#E8E0D5] bg-white p-6 shadow-sm">
+            <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">🎧 Listen to the Deep Dive</h3>
             <audio controls className="w-full" src={audioUrl}>
               Your browser does not support the audio element.
             </audio>
@@ -107,7 +108,7 @@ export default async function ArticlePage({ params }: Props) {
               href={`https://wa.me/447591922247?text=${encodeURIComponent('AUDIO ' + slug)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-block text-sm font-semibold text-green-400 hover:text-green-300 underline"
+              className="mt-3 inline-block text-sm font-semibold text-green-700 underline"
             >
               Send this to WhatsApp instead →
             </a>
@@ -116,32 +117,42 @@ export default async function ArticlePage({ params }: Props) {
 
         {/* Excerpt */}
         {protocol.excerpt && (
-          <p className="mb-8 text-lg font-medium leading-relaxed text-neutral-200">
+          <p className="mb-8 text-xl leading-relaxed font-medium" style={{ color: '#333' }}>
             {protocol.excerpt}
           </p>
         )}
 
-        {/* Article body (markdown) */}
+        {/* Article body (markdown wrapped in prose prose-lg max-w-none) */}
         {protocol.problem && (
-          <div className="prose prose-invert prose-lg mb-10 max-w-none prose-p:text-neutral-200 prose-headings:text-white prose-strong:text-white prose-li:text-neutral-200">
+          <div className="prose prose-lg max-w-none mb-10 prose-p:text-[#333] prose-headings:text-[#1A1A1A] prose-strong:text-[#1A1A1A] prose-li:text-[#333]" style={{ color: '#333' }}>
             <ReactMarkdown>{protocol.problem}</ReactMarkdown>
           </div>
         )}
 
         {/* Action Protocol */}
         {protocol.protocol && (
-          <div className="mb-10 rounded-2xl p-6 border border-neutral-800 bg-[#141414] shadow-xl">
-            <h2 className="text-2xl font-black uppercase text-white mb-3" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+          <div className="mb-10 rounded-2xl p-6 border border-[#E8E0D5] bg-white shadow-sm">
+            <h2 className="text-2xl font-black uppercase text-[#1A1A1A] mb-3" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
               Practical Next Steps
             </h2>
-            <div className="prose prose-invert max-w-none text-sm text-neutral-200 prose-p:text-neutral-200 prose-strong:text-white prose-li:text-neutral-200">
+            <div className="prose max-w-none text-sm text-[#333] prose-p:text-[#333] prose-strong:text-[#1A1A1A] prose-li:text-[#333]">
               <ReactMarkdown>{protocol.protocol}</ReactMarkdown>
             </div>
           </div>
         )}
 
-        <div className="pt-6 border-t border-neutral-800">
-          <SaveToPhoneButton slug={slug} context="article" isLoggedIn={false} whatsappVerified={false} />
+        {/* Styled WhatsApp CTA Box */}
+        <div className="my-10 rounded-2xl bg-[#1A1A1A] p-8 text-white shadow-xl space-y-4">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Save to WhatsApp</p>
+          <div className="text-4xl sm:text-5xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+            TEXT {triggerKeyword}
+          </div>
+          <p className="text-sm leading-relaxed text-gray-300">
+            Text <strong className="text-white">{triggerKeyword}</strong> to <strong className="text-white">+44 7591 922247</strong> to save this protocol directly to your WhatsApp thread for instant reference any time.
+          </p>
+          <div className="pt-2">
+            <SaveToPhoneButton slug={slug} context="article" isLoggedIn={false} whatsappVerified={false} />
+          </div>
         </div>
       </article>
     </div>
