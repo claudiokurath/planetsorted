@@ -4,6 +4,7 @@ import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import { createServerClient } from '@/lib/supabase/server'
 import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
+import { getCategoryStyle } from '@/lib/categoryStyles'
 import type { Protocol } from '@/lib/types/database'
 
 interface Props {
@@ -52,15 +53,13 @@ export default async function ArticlePage({ params }: Props) {
   const protocol = rawProtocol as Protocol | null
   if (!protocol) notFound()
 
-  const waNumber = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447360277713'
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+  const categoryStyle = getCategoryStyle(protocol.category)
 
   return (
     <article className="mx-auto max-w-2xl px-6 py-12">
-
       {/* Cover image */}
       {protocol.cover_image && (
-        <div className="mb-8 overflow-hidden rounded-2xl">
+        <div className="mb-8 overflow-hidden rounded-2xl border border-gray-800">
           <Image
             src={protocol.cover_image}
             alt={`${protocol.title} — Planet Sorted illustration`}
@@ -72,75 +71,53 @@ export default async function ArticlePage({ params }: Props) {
         </div>
       )}
 
-      {/* Category + read time */}
-      <div className="mb-4 flex items-center gap-3 text-sm text-gray-500">
-        {protocol.category && (
-          <span className="rounded-full bg-gray-100 px-3 py-1 font-medium text-gray-700">
-            {protocol.category}
-          </span>
+      {/* Category + tagline + read time */}
+      <div className="mb-4 space-y-1">
+        {categoryStyle && (
+          <div className="flex items-center gap-3">
+            <span className={`inline-block rounded-full px-3 py-1 text-xs font-bold ${categoryStyle.className}`}>
+              {categoryStyle.label}
+            </span>
+            <span className="text-xs text-gray-500">{categoryStyle.tagline}</span>
+          </div>
         )}
-        {protocol.read_time && <span>{protocol.read_time} read</span>}
+        {protocol.read_time && (
+          <p className="text-xs font-medium text-gray-500 pt-1">{protocol.read_time} read</p>
+        )}
       </div>
 
       {/* Title */}
-      <h1 className="mb-4 text-3xl font-bold leading-tight text-gray-900">
+      <h1 className="mb-4 text-3xl font-extrabold leading-tight text-white sm:text-4xl">
         {protocol.title}
       </h1>
 
       {/* Excerpt */}
       {protocol.excerpt && (
-        <p className="mb-8 text-lg leading-relaxed text-gray-600">
+        <p className="mb-8 text-base leading-relaxed text-gray-300">
           {protocol.excerpt}
         </p>
       )}
 
       {/* Article body (markdown) */}
       {protocol.problem && (
-        <div className="prose prose-gray mb-10 max-w-none">
+        <div className="prose prose-invert mb-10 max-w-none text-gray-300">
           <ReactMarkdown>{protocol.problem}</ReactMarkdown>
         </div>
       )}
 
-      {/* GET IT SORTED button */}
-      <div className="my-10 rounded-xl border border-gray-100 bg-gray-50 p-6">
-        <SaveToPhoneButton
-          slug={slug}
-          context="article"
-          isLoggedIn={false}
-          whatsappVerified={false}
-        />
-      </div>
-
-      {/* CTA copy */}
-      {protocol.cta && (
-        <p className="mb-10 text-base text-gray-700">{protocol.cta}</p>
-      )}
-
-      {/* End-of-article WhatsApp keyword block */}
-      {protocol.keyword && (
-        <div className="rounded-xl border border-green-100 bg-green-50 p-6 text-sm text-gray-700">
-          <p>
-            Text <strong>{protocol.keyword}</strong> to{' '}
-            <a
-              href={`https://wa.me/${waNumber}?text=${encodeURIComponent(protocol.keyword)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-green-700 underline"
-            >
-              +44 7360 277713
-            </a>{' '}
-            to get the full protocol on WhatsApp.
-          </p>
-          <p className="mt-2 text-gray-500">
-            Sign up first at{' '}
-            <a href={`${site}/signup`} className="underline">
-              {site.replace('https://', '')}/signup
-            </a>
-            . No app. No spam. Just what works.
-          </p>
+      {/* Action Protocol */}
+      {protocol.protocol && (
+        <div className="glass-card mb-10 rounded-2xl p-6 border-emerald-500/30">
+          <h2 className="text-lg font-bold text-white mb-3">Practical Next Steps</h2>
+          <div className="prose prose-invert text-xs text-gray-300">
+            <ReactMarkdown>{protocol.protocol}</ReactMarkdown>
+          </div>
         </div>
       )}
 
+      <div className="pt-6 border-t border-gray-800">
+        <SaveToPhoneButton slug={slug} context="article" isLoggedIn={false} whatsappVerified={false} />
+      </div>
     </article>
   )
 }
