@@ -24,7 +24,7 @@ export function parseCommand(raw: string): { verb: string; arg: string } {
   if (TOOL_SHORTHANDS[first] && parts.length === 1) {
     return { verb: 'RUN', arg: TOOL_SHORTHANDS[first] }
   }
-  if (['SAVE', 'RUN', 'ARTICLE'].includes(first) && rest) {
+  if (['SAVE', 'RUN', 'ARTICLE', 'AUDIO'].includes(first) && rest) {
     return { verb: first, arg: rest }
   }
   if (BARE_VERBS.has(first)) {

@@ -11,6 +11,7 @@ const HELP_TEXT = `Here's what you can do:
 SAVE [slug] — save anything to your library (always free)
 RUN [tool] — run a tool and get your result
 ARTICLE [keyword] — get a protocol delivered here
+AUDIO [keyword] — listen to the deep dive podcast
 LIBRARY — see everything you've saved
 LOGIN — get a magic link to your dashboard
 
@@ -134,13 +135,32 @@ export async function POST(req: NextRequest) {
 
     case 'ARTICLE': {
       const { data: protocol } = await supabase
-        .from('protocols').select('title, protocol').eq('slug', arg).eq('status', 'Published').single()
+        .from('protocols').select('title, protocol, audio_url').eq('slug', arg).eq('status', 'Published').single()
       if (!protocol) {
         await sendWhatsAppMessage(from, `Couldn't find that article. Text MENU to see what's available.`)
         break
       }
       const articleUrl = `${SITE}/intelligence/${arg}`
-      await sendWhatsAppMessage(from, `*${protocol.title}*\n\n${protocol.protocol}\n\nRead the full article: ${articleUrl}`, articleUrl)
+      let msg = `*${protocol.title}*\n\n${protocol.protocol}\n\nRead the full article: ${articleUrl}`
+      if (protocol.audio_url) {
+        msg += `\n\n🎧 Prefer to listen? Text AUDIO ${arg} for the deep dive.`
+      }
+      await sendWhatsAppMessage(from, msg, articleUrl)
+      break
+    }
+
+    case 'AUDIO': {
+      const { data: protocol } = await supabase
+        .from('protocols').select('title, audio_url').eq('slug', arg).eq('status', 'Published').single()
+      if (!protocol) {
+        await sendWhatsAppMessage(from, `Couldn't find that article. Text MENU to see what's available.`)
+        break
+      }
+      if (protocol.audio_url) {
+        await sendWhatsAppMessage(from, `*${protocol.title} — Audio Deep Dive*\n\nListen to the podcast overview:\n${protocol.audio_url}`, protocol.audio_url)
+      } else {
+        await sendWhatsAppMessage(from, `There isn't an audio deep dive for this one yet.`)
+      }
       break
     }
 
@@ -150,19 +170,18 @@ export async function POST(req: NextRequest) {
         break
       }
       const { data: items } = await supabase
-        .from('saved_items').select('title, target_url').eq('user_id', user.user_id)
-        .order('created_at', { ascending: false }).limit(10)
-      if (!items?.length) {
-        await sendWhatsAppMessage(from, `Your library is empty. Text SAVE [slug] on any article or tool to add it.`)
+        .from('saved_items').select('title, target_url, created_at').eq('user_id', user.user_id).order('created_at', { ascending: false }).limit(10)
+      if (!items || items.length === 0) {
+        await sendWhatsAppMessage(from, "Your library is empty. Save any article by texting SAVE [slug], or browse at planetsorted.com.")
         break
       }
-      const list = items.map((item, i) => `${i + 1}. ${item.title}\n${item.target_url}`).join('\n\n')
-      await sendWhatsAppMessage(from, `Your saved items:\n\n${list}`)
+      const list = items.map((i: any) => `• ${i.title || 'Saved item'}: ${i.target_url}`).join('\n')
+      await sendWhatsAppMessage(from, `Your saved items 👇\n\n${list}`)
       break
     }
 
     default:
-      await sendWhatsAppMessage(from, `I didn't recognise that. Text MENU to see everything you can do.`)
+      await sendWhatsAppMessage(from, `Sorry, didn't catch that.\n\n${HELP_TEXT}`)
   }
 
   return NextResponse.json({ status: 'ok' })
