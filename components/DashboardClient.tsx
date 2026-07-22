@@ -7,13 +7,11 @@ import { createBrowserClient } from '@/lib/supabase/client'
 import type { SavedItem, User } from '@/lib/types/database'
 
 type Tab = 'tools' | 'library' | 'settings'
-type Category = 'All' | 'Mind' | 'Wealth' | 'Body' | 'Tech' | 'Connection' | 'Impression' | 'Growth'
 type VerifyState = 'unverified' | 'otp_sent' | 'verified'
 
 interface ToolItem {
   slug: string
   title: string
-  category: Category
   description: string
   time: string
 }
@@ -22,69 +20,58 @@ const DASHBOARD_TOOLS: ToolItem[] = [
   {
     slug: 'adhd-tax-calculator',
     title: 'ADHD Tax Calculator',
-    category: 'Wealth',
     description: 'Calculate subscription leaks, late fees, and impulse buying overhead.',
     time: '3 min run',
   },
   {
     slug: 'financial-autopilot',
     title: 'Financial Autopilot',
-    category: 'Wealth',
     description: 'Friction-free bill and savings automation system.',
     time: '5 min setup',
   },
   {
     slug: 'decision-paralysis-solver',
     title: 'Decision Paralysis Solver',
-    category: 'Mind',
     description: 'Break through overthinking with forced binary elimination.',
     time: '2 min run',
   },
   {
     slug: 'dopamine-menu-generator',
     title: 'Dopamine Menu Generator',
-    category: 'Mind',
     description: 'Customized brain reset menu (starters, mains, sides, desserts).',
     time: '4 min builder',
   },
   {
     slug: 'task-triage',
     title: 'Task Triage & Matrix',
-    category: 'Tech',
     description: 'Convert chaotic task dumps into single next-step priorities.',
     time: '3 min run',
   },
   {
     slug: 'rsd-response-scripts',
     title: 'RSD Response Scripts',
-    category: 'Connection',
     description: 'Instant boundary templates for sensitive situations.',
     time: 'Instant',
   },
   {
     slug: 'sensory-audit',
     title: 'Sensory Audit & Reset',
-    category: 'Body',
     description: 'Identify environmental noise, light, and sensory drains.',
     time: '4 min audit',
   },
   {
     slug: 'burnout-assessment',
     title: 'Burnout Assessment & Recovery',
-    category: 'Growth',
     description: 'Evaluate burnout stage & get non-shame restoration steps.',
     time: '5 min protocol',
   },
 ]
-
-const CATEGORIES: Category[] = ['All', 'Mind', 'Wealth', 'Body', 'Tech', 'Connection', 'Impression', 'Growth']
 
 export function DashboardClient() {
   const router = useRouter()
   const supabase = createBrowserClient()
 
   const [activeTab, setActiveTab] = useState<Tab>('tools')
-  const [selectedCategory, setSelectedCategory] = useState<Category>('All')
   const [loading, setLoading] = useState(true)
   const [session, setSession] = useState<any>(null)
   const [profile, setProfile] = useState<User | null>(null)
@@ -272,10 +259,6 @@ export function DashboardClient() {
     router.replace('/signup')
   }
 
-  const filteredTools = selectedCategory === 'All'
-    ? DASHBOARD_TOOLS
-    : DASHBOARD_TOOLS.filter(t => t.category === selectedCategory)
-
   const filteredLibrary = savedItems.filter(item => 
     (item.title || '').toLowerCase().includes(libraryFilter.toLowerCase()) ||
     (item.description || '').toLowerCase().includes(libraryFilter.toLowerCase())
@@ -370,42 +353,15 @@ export function DashboardClient() {
       {/* TAB 1: INTERACTIVE TOOLS HUB */}
       {activeTab === 'tools' && (
         <div className="space-y-8">
-          {/* Category Filter Pills */}
-          <div className="flex flex-wrap gap-2 items-center justify-between">
-            <div className="flex flex-wrap gap-2">
-              {CATEGORIES.map(cat => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-all ${
-                    selectedCategory === cat
-                      ? 'bg-emerald-500 text-gray-950 font-bold shadow-md shadow-emerald-500/20'
-                      : 'bg-gray-900/80 text-gray-400 border border-gray-800 hover:border-gray-700 hover:text-gray-200'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-
-            <span className="text-xs text-gray-500 font-medium">
-              Showing {filteredTools.length} tool{filteredTools.length === 1 ? '' : 's'}
-            </span>
-          </div>
-
-          {/* Tools Grid */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {filteredTools.map(tool => (
+            {DASHBOARD_TOOLS.map(tool => (
               <div
                 key={tool.slug}
                 className="glass-card glass-card-hover flex flex-col justify-between rounded-2xl p-6 relative group"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
-                      {tool.category}
-                    </span>
-                    <span className="text-[10px] font-medium text-gray-500">{tool.time}</span>
+                    <span className="text-[10px] font-medium text-emerald-400 font-mono">{tool.time}</span>
                   </div>
 
                   <h3 className="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">
@@ -474,16 +430,9 @@ export function DashboardClient() {
               {filteredLibrary.map((item) => (
                 <div key={item.id} className="glass-card glass-card-hover rounded-2xl p-5 flex flex-col justify-between">
                   <div>
-                    <div className="flex items-center justify-between gap-2 mb-2">
-                      <h3 className="font-bold text-white text-sm hover:text-emerald-400 transition-colors">
-                        {item.title || 'Saved Item'}
-                      </h3>
-                      {item.type && (
-                        <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 text-[10px] font-bold text-emerald-400 capitalize">
-                          {item.type}
-                        </span>
-                      )}
-                    </div>
+                    <h3 className="font-bold text-white text-sm hover:text-emerald-400 transition-colors mb-1">
+                      {item.title || 'Saved Item'}
+                    </h3>
                     {item.description && (
                       <p className="text-xs text-gray-400 leading-relaxed mb-4">{item.description}</p>
                     )}
