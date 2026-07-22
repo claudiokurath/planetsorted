@@ -28,15 +28,15 @@ export function ContentCard({ href, title, summary, coverImage, meta, category }
   return (
     <Link
       href={href}
-      className="group flex flex-col overflow-hidden rounded-xl transition-all hover:-translate-y-1 hover:shadow-xl"
-      style={{ backgroundColor: '#FFFFFF', border: '1px solid #E8E0D5' }}
+      className="group flex flex-col overflow-hidden rounded-xl transition-all hover:-translate-y-1 hover:shadow-2xl hover:border-neutral-700"
+      style={{ backgroundColor: '#141414', border: '1px solid #262626' }}
     >
-      <div className="relative aspect-[16/9] w-full overflow-hidden" style={{ backgroundColor: '#F0EBE3' }}>
+      <div className="relative aspect-[16/9] w-full overflow-hidden" style={{ backgroundColor: '#0D0D0D' }}>
         {coverImage ? (
           <Image src={coverImage} alt={title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
         ) : (
           <div className={`relative flex h-full w-full items-center justify-center bg-gradient-to-br ${gradientClass}`}>
-            <span className="text-6xl font-black uppercase tracking-widest text-white opacity-10 select-none">
+            <span className="text-6xl font-black uppercase tracking-widest text-white opacity-15 select-none">
               {category || 'SORTED'}
             </span>
           </div>
@@ -49,12 +49,12 @@ export function ContentCard({ href, title, summary, coverImage, meta, category }
               {style.label}
             </span>
           )}
-          <h3 className="text-xl font-black uppercase leading-tight" style={{ fontFamily: "'Bebas Neue', sans-serif", color: '#1A1A1A' }}>
+          <h3 className="text-xl font-black uppercase leading-tight text-white group-hover:text-[#C0392B] transition-colors" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             {title}
           </h3>
-          <p className="mt-2 line-clamp-2 text-sm leading-relaxed" style={{ color: '#666' }}>{summary}</p>
+          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-neutral-400">{summary}</p>
         </div>
-        {meta && <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#999' }}>{meta}</p>}
+        {meta && <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500">{meta}</p>}
       </div>
     </Link>
   )

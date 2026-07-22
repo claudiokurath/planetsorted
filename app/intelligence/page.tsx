@@ -13,18 +13,18 @@ export default async function GuidebookListingPage() {
     .order('updated_at', { ascending: false })
 
   return (
-    <div style={{ backgroundColor: '#FAF7F2' }} className="min-h-screen">
+    <div className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <div className="mx-auto h-1 w-16 rounded-full bg-[#C0392B] mb-4" />
-          <h1 className="text-5xl font-black uppercase text-[#1A1A1A] sm:text-6xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+          <h1 className="text-5xl font-black uppercase text-white sm:text-6xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             Guidebook
           </h1>
-          <p className="mt-4 text-xl text-[#555]">Plain-English protocols that turn chaos into a next step.</p>
+          <p className="mt-4 text-xl text-neutral-400">Plain-English protocols that turn chaos into a next step.</p>
         </div>
 
         {!articles || articles.length === 0 ? (
-          <p className="text-center text-gray-500">No protocols published yet.</p>
+          <p className="text-center text-neutral-500">No protocols published yet.</p>
         ) : (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {articles.map((article) => (
