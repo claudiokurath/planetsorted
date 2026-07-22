@@ -3,44 +3,44 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 
-interface RotatingHeroProps {
-  images: string[]
-  intervalMs?: number
-}
-
-export function RotatingHero({ images, intervalMs = 5000 }: RotatingHeroProps) {
+export function RotatingHero({ images }: { images: string[] }) {
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
     if (images.length <= 1) return
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % images.length)
-    }, intervalMs)
+    const timer = setInterval(() => setIndex((prev) => (prev + 1) % images.length), 5000)
     return () => clearInterval(timer)
-  }, [images.length, intervalMs])
+  }, [images.length])
 
   if (images.length === 0) {
     return (
-      <div className="relative h-[320px] w-full overflow-hidden rounded-3xl md:h-[420px] bg-gradient-to-br from-emerald-950/40 via-gray-900 to-gray-950 border border-gray-800/80 flex items-center justify-center p-8 text-center">
-        <div className="space-y-2">
-          <span className="text-xs font-bold uppercase tracking-widest text-emerald-400">Planet Sorted</span>
-          <p className="text-xl font-bold text-white">Practical tools & protocols for neurodivergent minds</p>
-        </div>
+      <div className="relative h-[420px] w-full rounded-2xl md:h-[520px] overflow-hidden flex flex-col items-center justify-center p-8 text-center" style={{ backgroundColor: '#E8E0D5' }}>
+        <span className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#2980B9' }}>Planet Sorted</span>
+        <h2 className="text-3xl font-black uppercase mt-2" style={{ fontFamily: "'Bebas Neue', sans-serif", color: '#1A1A1A' }}>
+          Templates, Not Inspiration.
+        </h2>
       </div>
     )
   }
 
   return (
-    <div className="relative h-[380px] w-full overflow-hidden rounded-3xl border border-gray-800/80 shadow-2xl md:h-[500px]">
+    <div className="relative h-[420px] w-full overflow-hidden rounded-2xl shadow-2xl md:h-[520px]">
       {images.map((src, i) => (
-        <div
-          key={src}
-          className={`absolute inset-0 transition-opacity duration-1000 ${i === index ? 'opacity-100' : 'opacity-0'}`}
-        >
+        <div key={src} className={`absolute inset-0 transition-opacity duration-1000 ${i === index ? 'opacity-100' : 'opacity-0'}`}>
           <Image src={src} alt="Planet Sorted brand artwork" fill className="object-cover" priority={i === 0} />
         </div>
       ))}
-      <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/40 to-transparent" />
+      <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2 z-10">
+        {images.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIndex(i)}
+            className="h-2 w-2 rounded-full transition-all"
+            style={{ backgroundColor: i === index ? '#FAF7F2' : 'rgba(250,247,242,0.4)' }}
+            aria-label={`Image ${i + 1}`}
+          />
+        ))}
+      </div>
     </div>
   )
 }
