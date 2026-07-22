@@ -2,17 +2,89 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { createBrowserClient } from '@/lib/supabase/client'
 import type { SavedItem, User } from '@/lib/types/database'
 
-type Tab = 'overview' | 'settings'
+type Tab = 'tools' | 'library' | 'settings'
+type Category = 'All' | 'Mind' | 'Wealth' | 'Body' | 'Tech' | 'Connection' | 'Impression' | 'Growth'
 type VerifyState = 'unverified' | 'otp_sent' | 'verified'
+
+interface ToolItem {
+  slug: string
+  title: string
+  category: Category
+  description: string
+  time: string
+}
+
+const DASHBOARD_TOOLS: ToolItem[] = [
+  {
+    slug: 'adhd-tax-calculator',
+    title: 'ADHD Tax Calculator',
+    category: 'Wealth',
+    description: 'Calculate subscription leaks, late fees, and impulse buying overhead.',
+    time: '3 min run',
+  },
+  {
+    slug: 'financial-autopilot',
+    title: 'Financial Autopilot',
+    category: 'Wealth',
+    description: 'Friction-free bill and savings automation system.',
+    time: '5 min setup',
+  },
+  {
+    slug: 'decision-paralysis-solver',
+    title: 'Decision Paralysis Solver',
+    category: 'Mind',
+    description: 'Break through overthinking with forced binary elimination.',
+    time: '2 min run',
+  },
+  {
+    slug: 'dopamine-menu-generator',
+    title: 'Dopamine Menu Generator',
+    category: 'Mind',
+    description: 'Customized brain reset menu (starters, mains, sides, desserts).',
+    time: '4 min builder',
+  },
+  {
+    slug: 'task-triage',
+    title: 'Task Triage & Matrix',
+    category: 'Tech',
+    description: 'Convert chaotic task dumps into single next-step priorities.',
+    time: '3 min run',
+  },
+  {
+    slug: 'rsd-response-scripts',
+    title: 'RSD Response Scripts',
+    category: 'Connection',
+    description: 'Instant boundary templates for sensitive situations.',
+    time: 'Instant',
+  },
+  {
+    slug: 'sensory-audit',
+    title: 'Sensory Audit & Reset',
+    category: 'Body',
+    description: 'Identify environmental noise, light, and sensory drains.',
+    time: '4 min audit',
+  },
+  {
+    slug: 'burnout-assessment',
+    title: 'Burnout Assessment & Recovery',
+    category: 'Growth',
+    description: 'Evaluate burnout stage & get non-shame restoration steps.',
+    time: '5 min protocol',
+  },
+]
+
+const CATEGORIES: Category[] = ['All', 'Mind', 'Wealth', 'Body', 'Tech', 'Connection', 'Impression', 'Growth']
 
 export function DashboardClient() {
   const router = useRouter()
   const supabase = createBrowserClient()
 
-  const [activeTab, setActiveTab] = useState<Tab>('overview')
+  const [activeTab, setActiveTab] = useState<Tab>('tools')
+  const [selectedCategory, setSelectedCategory] = useState<Category>('All')
   const [loading, setLoading] = useState(true)
   const [session, setSession] = useState<any>(null)
   const [profile, setProfile] = useState<User | null>(null)
@@ -34,6 +106,7 @@ export function DashboardClient() {
   // Saved Items State
   const [savedItems, setSavedItems] = useState<SavedItem[]>([])
   const [itemsLoading, setItemsLoading] = useState(false)
+  const [libraryFilter, setLibraryFilter] = useState('')
 
   // GDPR Deletion State
   const [deletingAccount, setDeletingAccount] = useState(false)
@@ -163,7 +236,7 @@ export function DashboardClient() {
       if (!res.ok) throw new Error(data.error || 'Verification failed')
       setVerifyState('verified')
       setWhatsappSuccess('WhatsApp number successfully verified ✓')
-      await fetchProfile() // reload state
+      await fetchProfile()
     } catch (err: any) {
       setWhatsappError(err.message || 'Verification failed. Please check the code and try again.')
     } finally {
@@ -173,7 +246,7 @@ export function DashboardClient() {
 
   async function handleDeleteAccount() {
     const confirmed = window.confirm(
-      'Are you absolutely sure you want to delete your account?\n\nThis will permanently delete your library, settings, tool history, credits, and all other data associated with your profile. This cannot be undone.'
+      'Are you sure you want to delete your account?\n\nThis will permanently remove your library and settings. This operation is fully GDPR compliant and cannot be undone.'
     )
     if (!confirmed) return
 
@@ -186,11 +259,10 @@ export function DashboardClient() {
       })
       if (!res.ok) throw new Error()
       
-      // Force logout and redirect
       await supabase.auth.signOut()
       router.replace('/signup?info=deleted')
     } catch {
-      alert('Failed to delete account. Please contact support or try again.')
+      alert('Failed to delete account. Please try again.')
       setDeletingAccount(false)
     }
   }
@@ -200,131 +272,249 @@ export function DashboardClient() {
     router.replace('/signup')
   }
 
+  const filteredTools = selectedCategory === 'All'
+    ? DASHBOARD_TOOLS
+    : DASHBOARD_TOOLS.filter(t => t.category === selectedCategory)
+
+  const filteredLibrary = savedItems.filter(item => 
+    (item.title || '').toLowerCase().includes(libraryFilter.toLowerCase()) ||
+    (item.description || '').toLowerCase().includes(libraryFilter.toLowerCase())
+  )
+
   if (loading) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
-        <p className="text-gray-500">Loading your Sorted Lab...</p>
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <div className="flex items-center gap-3 rounded-2xl border border-gray-800 bg-gray-900/80 px-6 py-4 shadow-xl backdrop-blur-xl">
+          <span className="h-3 w-3 rounded-full bg-emerald-400 animate-ping" />
+          <span className="text-sm font-medium text-gray-300">Loading your Sorted Lab...</span>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-12">
-      <div className="mb-8 flex flex-col justify-between gap-4 border-b border-gray-100 pb-5 sm:flex-row sm:items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">
-            Welcome back{profile?.first_name ? `, ${profile.first_name}` : ''}
-          </h1>
-          <p className="text-sm text-gray-500">{session?.user?.email}</p>
-        </div>
-        <button
-          onClick={handleSignOut}
-          className="self-start rounded-full border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
-        >
-          Sign Out
-        </button>
-      </div>
-
-      {/* Tabs Nav */}
-      <div className="mb-8 flex gap-4 border-b border-gray-200">
-        <button
-          onClick={() => setActiveTab('overview')}
-          className={`pb-3 text-sm font-semibold border-b-2 transition-all ${
-            activeTab === 'overview'
-              ? 'border-green-500 text-green-600'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
-          }`}
-        >
-          Overview
-        </button>
-        <button
-          onClick={() => setActiveTab('settings')}
-          className={`pb-3 text-sm font-semibold border-b-2 transition-all ${
-            activeTab === 'settings'
-              ? 'border-green-500 text-green-600'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
-          }`}
-        >
-          Account Settings
-        </button>
-      </div>
-
-      {/* Overview Tab Content */}
-      {activeTab === 'overview' && (
-        <div className="grid gap-8 md:grid-cols-3">
-          <div className="md:col-span-2">
-            <h2 className="mb-4 text-xl font-bold text-gray-900">My Saved Library</h2>
-            {itemsLoading ? (
-              <p className="text-sm text-gray-500">Loading library items...</p>
-            ) : savedItems.length === 0 ? (
-              <div className="rounded-xl border border-dashed border-gray-200 p-8 text-center text-gray-500">
-                <p className="mb-2">Your library is currently empty.</p>
-                <p className="text-sm text-gray-400">
-                  Text SAVE [slug] on WhatsApp to save articles, templates, or tool results here.
-                </p>
-              </div>
-            ) : (
-              <ul className="divide-y divide-gray-100 rounded-xl border border-gray-200 bg-white">
-                {savedItems.map((item) => (
-                  <li key={item.id} className="p-4 hover:bg-gray-50 transition-colors">
-                    <a
-                      href={item.target_url || '#'}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block"
-                    >
-                      <div className="flex justify-between items-start gap-4">
-                        <div>
-                          <h3 className="font-semibold text-gray-900 hover:underline">
-                            {item.title || 'Saved Item'}
-                          </h3>
-                          {item.description && (
-                            <p className="mt-1 text-sm text-gray-500">{item.description}</p>
-                          )}
-                        </div>
-                        {item.type && (
-                          <span className="rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-semibold text-green-700 capitalize">
-                            {item.type}
-                          </span>
-                        )}
-                      </div>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
+    <div className="mx-auto max-w-6xl px-6 py-10">
+      {/* Top Banner / Welcome Card */}
+      <div className="glass-card mb-8 rounded-3xl p-8 relative overflow-hidden">
+        <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
+          <div>
+            <div className="flex items-center gap-3">
+              <h1 className="text-2xl font-black text-white sm:text-3xl">
+                Welcome back{profile?.first_name ? `, ${profile.first_name}` : ''}
+              </h1>
+              <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 text-xs font-bold text-emerald-400">
+                Member
+              </span>
+            </div>
+            <p className="mt-1 text-xs text-gray-400 font-mono">{session?.user?.email}</p>
           </div>
 
-          <div>
-            <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
-              <h2 className="mb-2 font-bold text-gray-900">WhatsApp Remote Control</h2>
-              <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                Saved items are pushed straight to your phone so you don&apos;t have to hunt for URLs on low-energy days.
-              </p>
-              {verifyState === 'verified' ? (
-                <div className="text-sm text-green-800 bg-green-50 border border-green-200 rounded-xl p-3 flex items-center gap-2 font-medium">
-                  <span>✓ Phone linked: +{profile?.whatsapp_number}</span>
-                </div>
-              ) : (
-                <div className="text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-xl p-3 flex flex-col gap-2">
-                  <span className="font-semibold">⚠️ WhatsApp Not Connected</span>
-                  <span>Link your number in Settings to enable direct Save-to-Phone functionality.</span>
-                </div>
-              )}
+          <div className="flex items-center gap-3">
+            <div className="rounded-2xl border border-gray-800 bg-gray-950/80 px-4 py-2 text-center">
+              <span className="block text-[10px] uppercase font-bold text-gray-500 tracking-wider">Free Credits</span>
+              <span className="text-base font-black text-emerald-400">5 Runs Available</span>
             </div>
+
+            <button
+              onClick={handleSignOut}
+              className="rounded-full border border-gray-800 bg-gray-900 px-4 py-2 text-xs font-bold text-gray-300 hover:border-gray-700 hover:bg-gray-800 hover:text-white transition-colors"
+            >
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Dashboard Tabs */}
+      <div className="mb-8 flex border-b border-gray-800/80 gap-6">
+        <button
+          onClick={() => setActiveTab('tools')}
+          className={`pb-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
+            activeTab === 'tools'
+              ? 'border-emerald-400 text-emerald-400'
+              : 'border-transparent text-gray-400 hover:text-gray-200'
+          }`}
+        >
+          <span>⚡ Interactive Tools</span>
+          <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-400">
+            {DASHBOARD_TOOLS.length}
+          </span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('library')}
+          className={`pb-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
+            activeTab === 'library'
+              ? 'border-emerald-400 text-emerald-400'
+              : 'border-transparent text-gray-400 hover:text-gray-200'
+          }`}
+        >
+          <span>📚 Saved Library</span>
+          <span className="rounded-full bg-gray-800 px-2 py-0.5 text-[10px] text-gray-300">
+            {savedItems.length}
+          </span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('settings')}
+          className={`pb-4 text-sm font-bold border-b-2 transition-all ${
+            activeTab === 'settings'
+              ? 'border-emerald-400 text-emerald-400'
+              : 'border-transparent text-gray-400 hover:text-gray-200'
+          }`}
+        >
+          ⚙️ Account Settings
+        </button>
+      </div>
+
+      {/* TAB 1: INTERACTIVE TOOLS HUB */}
+      {activeTab === 'tools' && (
+        <div className="space-y-8">
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap gap-2 items-center justify-between">
+            <div className="flex flex-wrap gap-2">
+              {CATEGORIES.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-all ${
+                    selectedCategory === cat
+                      ? 'bg-emerald-500 text-gray-950 font-bold shadow-md shadow-emerald-500/20'
+                      : 'bg-gray-900/80 text-gray-400 border border-gray-800 hover:border-gray-700 hover:text-gray-200'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            <span className="text-xs text-gray-500 font-medium">
+              Showing {filteredTools.length} tool{filteredTools.length === 1 ? '' : 's'}
+            </span>
+          </div>
+
+          {/* Tools Grid */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {filteredTools.map(tool => (
+              <div
+                key={tool.slug}
+                className="glass-card glass-card-hover flex flex-col justify-between rounded-2xl p-6 relative group"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+                      {tool.category}
+                    </span>
+                    <span className="text-[10px] font-medium text-gray-500">{tool.time}</span>
+                  </div>
+
+                  <h3 className="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">
+                    {tool.title}
+                  </h3>
+
+                  <p className="mt-2 text-xs text-gray-400 leading-relaxed">
+                    {tool.description}
+                  </p>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-gray-800/80 flex items-center justify-between gap-2">
+                  <Link
+                    href={`/tools/${tool.slug}`}
+                    className="glow-button rounded-xl px-3 py-1.5 text-xs font-bold text-gray-950 flex-1 text-center"
+                  >
+                    Run Tool
+                  </Link>
+
+                  <Link
+                    href={`https://wa.me/447591922247?text=${encodeURIComponent(`RUN ${tool.slug}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-xl border border-gray-800 bg-gray-900/90 px-3 py-1.5 text-[11px] font-semibold text-gray-300 hover:border-emerald-500/40 hover:text-emerald-400 transition-colors"
+                  >
+                    GET IT SORTED
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}
 
-      {/* Settings Tab Content */}
+      {/* TAB 2: SAVED LIBRARY */}
+      {activeTab === 'library' && (
+        <div className="space-y-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-bold text-white">Your Saved Library</h2>
+              <p className="text-xs text-gray-400 mt-1">Articles, tools, and protocols saved from the web or WhatsApp.</p>
+            </div>
+
+            <input
+              type="text"
+              placeholder="Search library items..."
+              value={libraryFilter}
+              onChange={(e) => setLibraryFilter(e.target.value)}
+              className="w-full sm:w-64 rounded-xl border border-gray-800 bg-gray-900/90 px-4 py-2 text-xs text-white placeholder-gray-500 focus:border-emerald-500 focus:outline-none"
+            />
+          </div>
+
+          {itemsLoading ? (
+            <div className="glass-card rounded-2xl p-12 text-center text-gray-400 text-sm">
+              Loading your saved items...
+            </div>
+          ) : filteredLibrary.length === 0 ? (
+            <div className="glass-card rounded-2xl p-12 text-center text-gray-400">
+              <p className="text-base font-semibold text-gray-300 mb-2">Your library is currently empty</p>
+              <p className="text-xs text-gray-500 max-w-md mx-auto leading-relaxed">
+                Save articles and tool results right here on the web, or text <code className="bg-gray-950 px-1.5 py-0.5 rounded text-emerald-400 font-mono">SAVE [slug]</code> on WhatsApp to store items for later.
+              </p>
+            </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {filteredLibrary.map((item) => (
+                <div key={item.id} className="glass-card glass-card-hover rounded-2xl p-5 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <h3 className="font-bold text-white text-sm hover:text-emerald-400 transition-colors">
+                        {item.title || 'Saved Item'}
+                      </h3>
+                      {item.type && (
+                        <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 text-[10px] font-bold text-emerald-400 capitalize">
+                          {item.type}
+                        </span>
+                      )}
+                    </div>
+                    {item.description && (
+                      <p className="text-xs text-gray-400 leading-relaxed mb-4">{item.description}</p>
+                    )}
+                  </div>
+
+                  <a
+                    href={item.target_url || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:underline mt-2"
+                  >
+                    <span>Open Saved Protocol</span>
+                    <span>&rarr;</span>
+                  </a>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB 3: ACCOUNT SETTINGS */}
       {activeTab === 'settings' && (
-        <div className="max-w-xl space-y-12">
-          {/* General Profile Settings */}
-          <section>
-            <h2 className="mb-4 text-xl font-bold text-gray-900">Profile Settings</h2>
+        <div className="max-w-2xl space-y-10">
+          {/* Profile Form */}
+          <div className="glass-card rounded-2xl p-6 sm:p-8 space-y-6">
+            <h2 className="text-lg font-bold text-white border-b border-gray-800/80 pb-3">Profile Preferences</h2>
+            
             <form onSubmit={handleProfileSave} className="space-y-4">
               <div>
-                <label htmlFor="firstName" className="block text-sm font-semibold text-gray-700 mb-1">
+                <label htmlFor="firstName" className="block text-xs font-bold text-gray-300 mb-1.5">
                   First Name
                 </label>
                 <input
@@ -332,8 +522,8 @@ export function DashboardClient() {
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="e.g. Robin"
-                  className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-base text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
+                  placeholder="e.g. Claudio"
+                  className="w-full rounded-xl border border-gray-800 bg-gray-950 px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-emerald-500 focus:outline-none"
                 />
               </div>
 
@@ -343,47 +533,47 @@ export function DashboardClient() {
                     type="checkbox"
                     checked={weeklyOptedIn}
                     onChange={(e) => setWeeklyOptedIn(e.target.checked)}
-                    className="mt-1 h-4 w-4 rounded border-gray-300 text-green-500 focus:ring-green-500"
+                    className="mt-1 h-4 w-4 rounded border-gray-800 bg-gray-950 text-emerald-500 focus:ring-emerald-500"
                   />
                   <div>
-                    <span className="block text-sm font-semibold text-gray-800">Weekly Broadcast</span>
-                    <span className="block text-xs text-gray-500 leading-normal">
-                      Every Tuesday around 10am, get one practical neurodivergent nudge on WhatsApp. (No spam, opt-out anytime).
+                    <span className="block text-xs font-bold text-gray-200">Weekly Broadcast</span>
+                    <span className="block text-[11px] text-gray-500 leading-normal mt-0.5">
+                      Get one practical neurodivergent nudge on WhatsApp every Tuesday around 10am.
                     </span>
                   </div>
                 </label>
               </div>
 
               {profileMessage && (
-                <p className="text-sm font-medium text-green-600">{profileMessage}</p>
+                <p className="text-xs font-medium text-emerald-400">{profileMessage}</p>
               )}
 
               <button
                 type="submit"
                 disabled={profileSaving}
-                className="rounded-full bg-green-500 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-green-600 disabled:opacity-50"
+                className="glow-button rounded-xl px-6 py-2.5 text-xs font-bold text-gray-950 disabled:opacity-50"
               >
                 {profileSaving ? 'Saving…' : 'Save Changes'}
               </button>
             </form>
-          </section>
+          </div>
 
-          {/* WhatsApp Verification */}
-          <section className="border-t border-gray-100 pt-8">
-            <h2 className="mb-2 text-xl font-bold text-gray-900">WhatsApp Link</h2>
-            <p className="mb-4 text-sm text-gray-500 leading-relaxed">
-              Verify your WhatsApp number to enable direct save functions on articles and tool result pages.
+          {/* WhatsApp Verification Widget */}
+          <div className="glass-card rounded-2xl p-6 sm:p-8 space-y-6">
+            <h2 className="text-lg font-bold text-white border-b border-gray-800/80 pb-3">WhatsApp Link</h2>
+            <p className="text-xs text-gray-400 leading-relaxed">
+              Verify your WhatsApp number to enable direct Save-to-Phone capabilities from web tools and articles.
             </p>
 
             {verifyState === 'verified' && (
               <div className="space-y-4">
-                <div className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800 flex items-center justify-between">
-                  <span>Linked number: <strong>+{profile?.whatsapp_number}</strong></span>
-                  <span className="font-semibold text-xs bg-green-200 text-green-900 px-2 py-0.5 rounded-full uppercase">Verified</span>
+                <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-xs text-emerald-400 flex items-center justify-between">
+                  <span>Linked Phone Number: <strong>+{profile?.whatsapp_number}</strong></span>
+                  <span className="font-bold text-[10px] bg-emerald-500 text-gray-950 px-2 py-0.5 rounded-full uppercase">Verified</span>
                 </div>
                 <button
                   onClick={() => setVerifyState('unverified')}
-                  className="text-xs text-gray-500 hover:text-gray-700 underline"
+                  className="text-xs text-gray-400 hover:text-white underline"
                 >
                   Change linked phone number
                 </button>
@@ -393,29 +583,29 @@ export function DashboardClient() {
             {verifyState === 'unverified' && (
               <form onSubmit={handleSendOtp} className="space-y-4">
                 <div>
-                  <label htmlFor="whatsapp" className="block text-sm font-semibold text-gray-700 mb-1">
-                    WhatsApp Phone Number
+                  <label htmlFor="whatsapp" className="block text-xs font-bold text-gray-300 mb-1.5">
+                    WhatsApp Phone Number (Digits only, starting with country code)
                   </label>
                   <input
                     id="whatsapp"
                     type="tel"
                     value={whatsappNumber}
                     onChange={(e) => setWhatsappNumber(e.target.value.replace(/\D/g, ''))}
-                    placeholder="e.g. 447360277713 (include country code, no spaces or +)"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-base text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
+                    placeholder="e.g. 447591922247"
+                    className="w-full rounded-xl border border-gray-800 bg-gray-950 px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-emerald-500 focus:outline-none font-mono"
                   />
-                  <p className="mt-1 text-xs text-gray-400">
-                    Always format in E.164: start with country code, digits only (e.g. 44 for UK, 1 for US).
+                  <p className="mt-1 text-[11px] text-gray-500">
+                    Format: Country code + phone number (e.g. 44 for UK, 1 for US). No plus signs or spaces.
                   </p>
                 </div>
 
-                {whatsappError && <p className="text-sm text-red-600">{whatsappError}</p>}
-                {whatsappSuccess && <p className="text-sm text-green-600">{whatsappSuccess}</p>}
+                {whatsappError && <p className="text-xs text-red-400">{whatsappError}</p>}
+                {whatsappSuccess && <p className="text-xs text-emerald-400">{whatsappSuccess}</p>}
 
                 <button
                   type="submit"
                   disabled={whatsappLoading}
-                  className="rounded-full bg-green-500 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-green-600 disabled:opacity-50"
+                  className="glow-button rounded-xl px-6 py-2.5 text-xs font-bold text-gray-950 disabled:opacity-50"
                 >
                   {whatsappLoading ? 'Sending…' : 'Send Verification Code'}
                 </button>
@@ -425,7 +615,7 @@ export function DashboardClient() {
             {verifyState === 'otp_sent' && (
               <form onSubmit={handleVerifyOtp} className="space-y-4">
                 <div>
-                  <label htmlFor="otp" className="block text-sm font-semibold text-gray-700 mb-1">
+                  <label htmlFor="otp" className="block text-xs font-bold text-gray-300 mb-1.5">
                     Enter Verification Code
                   </label>
                   <input
@@ -435,18 +625,18 @@ export function DashboardClient() {
                     value={otp}
                     onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
                     placeholder="6-digit code"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-base text-gray-900 placeholder-gray-400 focus:border-green-500 focus:outline-none"
+                    className="w-full rounded-xl border border-gray-800 bg-gray-950 px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-emerald-500 focus:outline-none font-mono"
                   />
                 </div>
 
-                {whatsappError && <p className="text-sm text-red-600">{whatsappError}</p>}
-                {whatsappSuccess && <p className="text-sm text-green-600">{whatsappSuccess}</p>}
+                {whatsappError && <p className="text-xs text-red-400">{whatsappError}</p>}
+                {whatsappSuccess && <p className="text-xs text-emerald-400">{whatsappSuccess}</p>}
 
                 <div className="flex gap-3">
                   <button
                     type="submit"
                     disabled={whatsappLoading}
-                    className="rounded-full bg-green-500 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-green-600 disabled:opacity-50"
+                    className="glow-button rounded-xl px-6 py-2.5 text-xs font-bold text-gray-950 disabled:opacity-50"
                   >
                     {whatsappLoading ? 'Verifying…' : 'Verify Code'}
                   </button>
@@ -457,29 +647,29 @@ export function DashboardClient() {
                       setWhatsappError('')
                       setWhatsappSuccess('')
                     }}
-                    className="rounded-full border border-gray-200 px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+                    className="rounded-xl border border-gray-800 px-4 py-2.5 text-xs font-medium text-gray-400 hover:text-white"
                   >
                     Back
                   </button>
                 </div>
               </form>
             )}
-          </section>
+          </div>
 
-          {/* GDPR Account Deletion */}
-          <section className="border-t border-red-100 pt-8">
-            <h2 className="mb-2 text-xl font-bold text-red-600">Delete Account</h2>
-            <p className="mb-4 text-sm text-gray-500 leading-relaxed">
-              This will instantly and permanently erase all saved articles, tool history, credits, and linked profiles. This operation is fully GDPR compliant and cannot be reversed.
+          {/* Account Deletion */}
+          <div className="glass-card rounded-2xl p-6 sm:p-8 space-y-4 border-red-500/20">
+            <h2 className="text-base font-bold text-red-400">Delete Account (GDPR)</h2>
+            <p className="text-xs text-gray-400 leading-relaxed">
+              Permanently erase all saved articles, tool history, credits, and profiles. This operation cannot be reversed.
             </p>
             <button
               onClick={handleDeleteAccount}
               disabled={deletingAccount}
-              className="rounded-full bg-red-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-red-700 transition-colors disabled:opacity-50"
+              className="rounded-xl border border-red-500/40 bg-red-500/10 px-5 py-2 text-xs font-bold text-red-400 hover:bg-red-500/20 transition-colors disabled:opacity-50"
             >
               {deletingAccount ? 'Deleting Account…' : 'Permanently Delete My Account'}
             </button>
-          </section>
+          </div>
         </div>
       )}
     </div>
