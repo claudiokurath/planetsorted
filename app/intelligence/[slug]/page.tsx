@@ -57,86 +57,93 @@ export default async function ArticlePage({ params }: Props) {
   const audioUrl = protocol.audio_url || protocol.audio
 
   return (
-    <article className="mx-auto max-w-2xl px-6 py-12">
-      {/* Cover image */}
-      {protocol.cover_image && (
-        <div className="mb-8 overflow-hidden rounded-2xl border border-gray-800">
-          <Image
-            src={protocol.cover_image}
-            alt={`${protocol.title} — Planet Sorted illustration`}
-            width={1200}
-            height={630}
-            className="w-full h-auto object-cover"
-            priority
-          />
-        </div>
-      )}
-
-      {/* Category + tagline + read time */}
-      <div className="mb-4 space-y-1">
-        {categoryStyle && (
-          <div className="flex items-center gap-3">
-            <span className={`inline-block rounded-full px-3 py-1 text-xs font-bold ${categoryStyle.className}`}>
-              {categoryStyle.label}
-            </span>
-            <span className="text-xs text-gray-500">{categoryStyle.tagline}</span>
+    <div style={{ backgroundColor: '#FAF7F2' }} className="min-h-screen">
+      <article className="mx-auto max-w-3xl px-6 py-12">
+        {/* Cover image */}
+        {protocol.cover_image && (
+          <div className="mb-8 overflow-hidden rounded-2xl border border-[#E8E0D5]">
+            <Image
+              src={protocol.cover_image}
+              alt={`${protocol.title} — Planet Sorted illustration`}
+              width={1200}
+              height={630}
+              className="w-full h-auto object-cover"
+              priority
+            />
           </div>
         )}
-        {protocol.read_time && (
-          <p className="text-xs font-medium text-gray-500 pt-1">{protocol.read_time} read</p>
-        )}
-      </div>
 
-      {/* Title */}
-      <h1 className="mb-4 text-3xl font-extrabold leading-tight text-white sm:text-4xl">
-        {protocol.title}
-      </h1>
-
-      {/* Audio Deep Dive Block */}
-      {audioUrl && (
-        <div className="my-8 rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
-          <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">🎧 Listen to the Deep Dive</h3>
-          <audio controls className="w-full" src={audioUrl}>
-            Your browser does not support the audio element.
-          </audio>
-          <a
-            href={`https://wa.me/447591922247?text=${encodeURIComponent('AUDIO ' + slug)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-3 inline-block text-sm font-semibold text-green-600 underline"
-          >
-            Send this to WhatsApp instead →
-          </a>
+        {/* Category + tagline + read time */}
+        <div className="mb-4 space-y-1">
+          {categoryStyle && (
+            <div className="flex items-center gap-3">
+              <span className={`inline-block rounded-full px-3 py-1 text-xs font-bold ${categoryStyle.className}`}>
+                {categoryStyle.label}
+              </span>
+              <span className="text-xs text-gray-600">{categoryStyle.tagline}</span>
+            </div>
+          )}
+          {protocol.read_time && (
+            <p className="text-xs font-medium text-gray-500 pt-1">{protocol.read_time} read</p>
+          )}
         </div>
-      )}
 
-      {/* Excerpt */}
-      {protocol.excerpt && (
-        <p className="mb-8 text-base leading-relaxed text-gray-300">
-          {protocol.excerpt}
-        </p>
-      )}
+        {/* Title */}
+        <h1
+          className="mb-6 text-5xl sm:text-6xl md:text-7xl font-black uppercase leading-none tracking-tight text-[#1A1A1A]"
+          style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+        >
+          {protocol.title}
+        </h1>
 
-      {/* Article body (markdown) */}
-      {protocol.problem && (
-        <div className="prose prose-invert mb-10 max-w-none text-gray-300">
-          <ReactMarkdown>{protocol.problem}</ReactMarkdown>
-        </div>
-      )}
-
-      {/* Action Protocol */}
-      {protocol.protocol && (
-        <div className="glass-card mb-10 rounded-2xl p-6 border-emerald-500/30">
-          <h2 className="text-lg font-bold text-white mb-3">Practical Next Steps</h2>
-          <div className="prose prose-invert text-xs text-gray-300">
-            <ReactMarkdown>{protocol.protocol}</ReactMarkdown>
+        {/* Audio Deep Dive Block */}
+        {audioUrl && (
+          <div className="my-8 rounded-2xl border border-[#E8E0D5] bg-white p-6 shadow-sm">
+            <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">🎧 Listen to the Deep Dive</h3>
+            <audio controls className="w-full" src={audioUrl}>
+              Your browser does not support the audio element.
+            </audio>
+            <a
+              href={`https://wa.me/447591922247?text=${encodeURIComponent('AUDIO ' + slug)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-block text-sm font-semibold text-green-700 underline"
+            >
+              Send this to WhatsApp instead →
+            </a>
           </div>
-        </div>
-      )}
+        )}
 
-      <div className="pt-6 border-t border-gray-800">
-        <SaveToPhoneButton slug={slug} context="article" isLoggedIn={false} whatsappVerified={false} />
-      </div>
-    </article>
+        {/* Excerpt */}
+        {protocol.excerpt && (
+          <p className="mb-8 text-lg font-medium leading-relaxed text-[#1A1A1A]">
+            {protocol.excerpt}
+          </p>
+        )}
+
+        {/* Article body (markdown) */}
+        {protocol.problem && (
+          <div className="prose prose-lg mb-10 max-w-none prose-p:text-[#1A1A1A] prose-headings:text-[#1A1A1A] prose-strong:text-[#1A1A1A] prose-li:text-[#1A1A1A] text-[#1A1A1A]">
+            <ReactMarkdown>{protocol.problem}</ReactMarkdown>
+          </div>
+        )}
+
+        {/* Action Protocol */}
+        {protocol.protocol && (
+          <div className="mb-10 rounded-2xl p-6 border border-[#E8E0D5] bg-white shadow-sm">
+            <h2 className="text-2xl font-black uppercase text-[#1A1A1A] mb-3" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+              Practical Next Steps
+            </h2>
+            <div className="prose max-w-none text-sm text-[#1A1A1A] prose-p:text-[#1A1A1A] prose-strong:text-[#1A1A1A] prose-li:text-[#1A1A1A]">
+              <ReactMarkdown>{protocol.protocol}</ReactMarkdown>
+            </div>
+          </div>
+        )}
+
+        <div className="pt-6 border-t border-[#E8E0D5]">
+          <SaveToPhoneButton slug={slug} context="article" isLoggedIn={false} whatsappVerified={false} />
+        </div>
+      </article>
+    </div>
   )
 }
