@@ -27,6 +27,9 @@ export async function GET(req: NextRequest) {
     if (coverFiles[0]?.type === 'file') cover_image = await syncCoverImage(slug, coverFiles[0].file.url)
     else if (coverFiles[0]?.type === 'external') cover_image = coverFiles[0].external.url
 
+    const audioUrlProp = props['Audio URL']
+    const audio_url = audioUrlProp?.type === 'url' ? (audioUrlProp.url ?? null) : (getText(audioUrlProp) || null)
+
     const row = {
       slug,
       title: getText(props['Title']),
@@ -39,6 +42,7 @@ export async function GET(req: NextRequest) {
       protocol: getText(props['Protocol']),
       keyword: getText(props['WhatsApp Trigger']),
       cover_image,
+      audio_url,
       read_time: getText(props['Read Time']),
       meta_description: getText(props['Meta Description']),
       seo_title: getText(props['SEO Title']),
