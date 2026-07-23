@@ -55,14 +55,15 @@ export default async function ArticlePage({ params }: Props) {
 
   const categoryStyle = getCategoryStyle(protocol.category)
   const audioUrl = protocol.audio_url
-  const triggerKeyword = (protocol as any).whatsapp_trigger || slug.toUpperCase()
+  const triggerKeyword = (protocol as any).whatsapp_trigger || protocol.keyword || slug.toUpperCase()
+  const waClickUrl = `https://wa.me/447591922247?text=${encodeURIComponent(triggerKeyword)}`
 
   return (
     <div style={{ backgroundColor: '#FAF7F2' }} className="min-h-screen">
-      <article className="max-w-2xl mx-auto px-4 sm:px-6 py-12">
+      <article className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
         {/* Cover image above title (16:9 aspect ratio, rounded-2xl, shadow-lg) */}
         {protocol.cover_image && (
-          <div className="relative aspect-video w-full mb-8 overflow-hidden rounded-2xl shadow-lg border border-[#E8E0D5]">
+          <div className="relative aspect-video w-full mb-8 overflow-hidden rounded-2xl shadow-xl border border-[#E8E0D5]">
             <Image
               src={protocol.cover_image}
               alt={`${protocol.title} — Planet Sorted illustration`}
@@ -75,8 +76,8 @@ export default async function ArticlePage({ params }: Props) {
 
         {/* Category badge above title */}
         {categoryStyle && (
-          <div className="mb-2">
-            <span className={`inline-block rounded-full px-3 py-1 text-xs font-bold ${categoryStyle.className}`}>
+          <div className="mb-3">
+            <span className={`inline-block rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider ${categoryStyle.className}`}>
               {categoryStyle.label}
             </span>
           </div>
@@ -84,14 +85,14 @@ export default async function ArticlePage({ params }: Props) {
 
         {/* Title */}
         <h1
-          className="mb-3 text-4xl sm:text-5xl md:text-6xl font-black uppercase leading-tight"
-          style={{ fontFamily: "'Bebas Neue', sans-serif", color: '#1A1A1A' }}
+          className="mb-4 text-4xl sm:text-5xl md:text-6xl font-black uppercase leading-tight text-[#1A1A1A]"
+          style={{ fontFamily: "'Bebas Neue', sans-serif" }}
         >
           {protocol.title}
         </h1>
 
         {/* Tagline & read time below title */}
-        <div className="mb-8 flex items-center gap-3 text-sm text-gray-500">
+        <div className="mb-10 flex items-center gap-3 text-sm font-medium text-gray-500 pb-6 border-b border-[#E8E0D5]">
           {categoryStyle?.tagline && <span>{categoryStyle.tagline}</span>}
           {categoryStyle?.tagline && protocol.read_time && <span>•</span>}
           {protocol.read_time && <span>{protocol.read_time} read</span>}
@@ -99,8 +100,8 @@ export default async function ArticlePage({ params }: Props) {
 
         {/* Audio Deep Dive Block */}
         {audioUrl && (
-          <div className="my-8 rounded-2xl border border-[#E8E0D5] bg-white p-6 shadow-sm">
-            <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-gray-500">🎧 Listen to the Deep Dive</h3>
+          <div className="my-8 rounded-2xl border border-[#E8E0D5] bg-white p-6 shadow-sm space-y-3">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-gray-500">🎧 Listen to the Deep Dive</h3>
             <audio controls className="w-full" src={audioUrl}>
               Your browser does not support the audio element.
             </audio>
@@ -108,37 +109,58 @@ export default async function ArticlePage({ params }: Props) {
               href={`https://wa.me/447591922247?text=${encodeURIComponent('AUDIO ' + slug)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-block text-sm font-semibold text-green-700 underline"
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-[#C0392B] underline hover:text-red-800 transition-colors pt-1"
             >
-              Send this to WhatsApp instead →
+              Send audio to WhatsApp →
             </a>
           </div>
         )}
 
         {/* Excerpt */}
         {protocol.excerpt && (
-          <p className="mb-8 text-xl leading-relaxed font-medium" style={{ color: '#333' }}>
+          <p className="mb-8 text-xl sm:text-2xl leading-relaxed font-semibold text-[#1A1A1A]">
             {protocol.excerpt}
           </p>
         )}
 
-        {/* Article body (markdown wrapped in prose prose-lg max-w-none) */}
+        {/* Article body with enhanced typography */}
         {protocol.problem && (
-          <div className="prose prose-lg max-w-none mb-10 prose-p:text-[#333] prose-headings:text-[#1A1A1A] prose-strong:text-[#1A1A1A] prose-li:text-[#333]" style={{ color: '#333' }}>
+          <div className="prose prose-lg max-w-none mb-12 
+            prose-p:text-[#222222] prose-p:text-lg prose-p:leading-relaxed prose-p:mb-6
+            prose-headings:font-black prose-headings:uppercase prose-headings:text-[#1A1A1A] prose-headings:tracking-tight prose-headings:mt-8 prose-headings:mb-4
+            prose-h2:text-3xl prose-h2:border-b prose-h2:border-[#E8E0D5] prose-h2:pb-2
+            prose-h3:text-2xl prose-h3:text-[#C0392B]
+            prose-strong:font-bold prose-strong:text-[#1A1A1A]
+            prose-ul:my-6 prose-li:text-[#222222] prose-li:text-lg prose-li:my-1.5
+            prose-blockquote:border-l-4 prose-blockquote:border-[#C0392B] prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-700"
+          >
             <ReactMarkdown>{protocol.problem}</ReactMarkdown>
           </div>
         )}
 
-        {/* Styled WhatsApp CTA Box */}
-        <div className="my-10 rounded-2xl bg-[#1A1A1A] p-8 text-white shadow-xl space-y-4">
-          <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Get Protocol on WhatsApp</p>
-          <div className="text-4xl sm:text-5xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-            TEXT {triggerKeyword}
+        {/* Styled WhatsApp CTA Box with Direct wa.me Click Link */}
+        <div className="my-12 rounded-2xl bg-[#1A1A1A] p-8 sm:p-10 text-white shadow-2xl space-y-6">
+          <div className="space-y-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#3498DB]">Instant WhatsApp Protocol</span>
+            <div className="text-4xl sm:text-6xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+              TEXT &ldquo;{triggerKeyword}&rdquo;
+            </div>
           </div>
-          <p className="text-sm leading-relaxed text-gray-300">
-            Text <strong className="text-white">{triggerKeyword}</strong> to <strong className="text-white">+44 7591 922247</strong> to get the full protocol on WhatsApp. Sign up first at planetsorted.com. No app. No spam. Just what works.
+
+          <p className="text-base sm:text-lg leading-relaxed text-neutral-300">
+            Click below to open WhatsApp directly with <strong className="text-white">&ldquo;{triggerKeyword}&rdquo;</strong> pre-filled — no typing needed.
           </p>
-          <div className="pt-2">
+
+          <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <a
+              href={waClickUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C0392B] px-8 py-4 text-base sm:text-lg font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg"
+            >
+              <span>GET IT SORTED ON WHATSAPP →</span>
+            </a>
+
             <SaveToPhoneButton slug={slug} context="article" isLoggedIn={false} whatsappVerified={false} />
           </div>
         </div>
