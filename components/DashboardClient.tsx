@@ -101,11 +101,12 @@ export function DashboardClient() {
   // Initialize and check session
   useEffect(() => {
     async function initAuth() {
-      const { data: { session: activeSession } } = await supabase.auth.getSession()
-      if (!activeSession) {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
         router.replace('/signup')
         return
       }
+      const { data: { session: activeSession } } = await supabase.auth.getSession()
       setSession(activeSession)
       await Promise.all([fetchProfile(activeSession), fetchSavedItems(activeSession)])
       setLoading(false)
