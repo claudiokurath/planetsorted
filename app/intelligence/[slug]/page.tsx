@@ -45,7 +45,7 @@ export default async function ArticlePage({ params }: Props) {
 
   const { data: rawProtocol } = await supabase
     .from('protocols')
-    .select('*')
+    .select('title, summary, category, cover_image, problem, keyword, read_time, cta, excerpt, audio_url, audio, slug')
     .eq('slug', slug)
     .eq('status', 'Published')
     .single()
@@ -129,26 +129,14 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         )}
 
-        {/* Action Protocol */}
-        {protocol.protocol && (
-          <div className="mb-10 rounded-2xl p-6 border border-[#E8E0D5] bg-white shadow-sm">
-            <h2 className="text-2xl font-black uppercase text-[#1A1A1A] mb-3" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-              Practical Next Steps
-            </h2>
-            <div className="prose max-w-none text-sm text-[#333] prose-p:text-[#333] prose-strong:text-[#1A1A1A] prose-li:text-[#333]">
-              <ReactMarkdown>{protocol.protocol}</ReactMarkdown>
-            </div>
-          </div>
-        )}
-
         {/* Styled WhatsApp CTA Box */}
         <div className="my-10 rounded-2xl bg-[#1A1A1A] p-8 text-white shadow-xl space-y-4">
-          <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Save to WhatsApp</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Get Protocol on WhatsApp</p>
           <div className="text-4xl sm:text-5xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             TEXT {triggerKeyword}
           </div>
           <p className="text-sm leading-relaxed text-gray-300">
-            Text <strong className="text-white">{triggerKeyword}</strong> to <strong className="text-white">+44 7591 922247</strong> to save this protocol directly to your WhatsApp thread for instant reference any time.
+            Text <strong className="text-white">{triggerKeyword}</strong> to <strong className="text-white">+44 7360 277713</strong> to get the full protocol on WhatsApp. Sign up first at planetsorted.com. No app. No spam. Just what works.
           </p>
           <div className="pt-2">
             <SaveToPhoneButton slug={slug} context="article" isLoggedIn={false} whatsappVerified={false} />
