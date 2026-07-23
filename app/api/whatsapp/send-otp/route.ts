@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
   const { whatsappNumber } = await req.json()
   if (!whatsappNumber || !/^\d{10,15}$/.test(whatsappNumber)) {
-    return NextResponse.json({ error: 'Please enter a valid WhatsApp number including country code (e.g. 447360277713)' }, { status: 400 })
+    return NextResponse.json({ error: 'Please enter a valid WhatsApp number including country code (e.g. 447591922247)' }, { status: 400 })
   }
 
   // Generate 6-digit OTP

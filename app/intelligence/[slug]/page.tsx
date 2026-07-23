@@ -136,7 +136,7 @@ export default async function ArticlePage({ params }: Props) {
             TEXT {triggerKeyword}
           </div>
           <p className="text-sm leading-relaxed text-gray-300">
-            Text <strong className="text-white">{triggerKeyword}</strong> to <strong className="text-white">+44 7360 277713</strong> to get the full protocol on WhatsApp. Sign up first at planetsorted.com. No app. No spam. Just what works.
+            Text <strong className="text-white">{triggerKeyword}</strong> to <strong className="text-white">+44 7591 922247</strong> to get the full protocol on WhatsApp. Sign up first at planetsorted.com. No app. No spam. Just what works.
           </p>
           <div className="pt-2">
             <SaveToPhoneButton slug={slug} context="article" isLoggedIn={false} whatsappVerified={false} />
