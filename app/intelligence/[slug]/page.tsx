@@ -45,7 +45,7 @@ export default async function ArticlePage({ params }: Props) {
 
   const { data: rawProtocol } = await supabase
     .from('protocols')
-    .select('title, summary, category, cover_image, problem, keyword, read_time, cta, excerpt, audio_url, audio, slug')
+    .select('title, summary, category, cover_image, problem, keyword, read_time, cta, excerpt, audio_url, slug')
     .eq('slug', slug)
     .eq('status', 'Published')
     .single()
@@ -54,7 +54,7 @@ export default async function ArticlePage({ params }: Props) {
   if (!protocol) notFound()
 
   const categoryStyle = getCategoryStyle(protocol.category)
-  const audioUrl = protocol.audio_url || protocol.audio
+  const audioUrl = protocol.audio_url
   const triggerKeyword = (protocol as any).whatsapp_trigger || slug.toUpperCase()
 
   return (
