@@ -42,34 +42,23 @@ export default async function HomePage() {
               <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
               <p className="mb-3 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Planet Sorted</p>
 
-              {/* Hero headline: text-7xl sm:text-8xl */}
+              {/* Hero headline */}
               <h1 className="text-7xl sm:text-8xl font-black uppercase leading-none tracking-tight text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
                 Templates,<br /><span style={{ color: '#C0392B' }}>not inspiration.</span>
               </h1>
 
-              {/* Subheadline: text-xl sm:text-2xl */}
+              {/* Subheadline */}
               <p className="max-w-md text-xl sm:text-2xl leading-relaxed text-neutral-300">
                 Practical protocols and tools for neurodivergent adults. No app. No spam. Just what works.
               </p>
 
-              <div className="space-y-4">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                  <GetSortedButton slug="home" context="article" />
-                  <Link href="/intelligence" className="text-sm font-semibold uppercase tracking-widest underline underline-offset-4 text-[#C0392B] hover:text-white transition-colors">
-                    Browse Guidebook →
-                  </Link>
-                </div>
-
-                {/* Below CTA buttons list */}
-                <div className="flex flex-wrap gap-4 text-sm text-gray-500 pt-2">
-                  <span>✓ No app required</span>
-                  <span>✓ Free to start</span>
-                  <span>✓ WhatsApp-native</span>
-                </div>
+              {/* Clean CTA button area */}
+              <div className="pt-2">
+                <GetSortedButton slug="home" context="article" />
               </div>
             </div>
 
-            {/* RotatingHero wrapper with shadow-2xl */}
+            {/* Hero image container */}
             <div className="shadow-2xl rounded-2xl overflow-hidden">
               <RotatingHero images={heroImages} />
             </div>
@@ -77,9 +66,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px bg-[#E8E0D5] my-8" /></div>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px bg-[#262626] my-8" /></div>
 
-      {/* Guidebook Posts Section (4 small cards) */}
+      {/* Guidebook Section */}
       {articles.length > 0 && (
         <>
           <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -96,23 +85,22 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
               {articles.map((article) => (
-                <div key={article.slug} className="hover:-translate-y-2 transition-transform duration-200">
-                  <ContentCard
-                    href={`/intelligence/${article.slug}`}
-                    title={article.title}
-                    summary={article.summary || ''}
-                    coverImage={article.cover_image}
-                    category={article.category}
-                    meta={article.read_time ? `${article.read_time} read` : undefined}
-                  />
-                </div>
+                <ContentCard
+                  key={article.slug}
+                  href={`/intelligence/${article.slug}`}
+                  title={article.title}
+                  summary={article.summary || ''}
+                  coverImage={article.cover_image}
+                  category={article.category}
+                  meta={article.read_time ? `${article.read_time} read` : undefined}
+                />
               ))}
             </div>
           </section>
 
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px bg-[#E8E0D5] my-8" /></div>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px bg-[#262626] my-8" /></div>
         </>
       )}
 
@@ -132,31 +120,17 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
           {PRIORITY_TOOLS.map((tool) => (
-            <div key={tool.slug} className="hover:-translate-y-2 transition-transform duration-200">
-              <ContentCard href={`/tools/${tool.slug}`} title={tool.title} summary={tool.summary} coverImage={tool.image} category={tool.category} />
-            </div>
+            <ContentCard
+              key={tool.slug}
+              href={`/tools/${tool.slug}`}
+              title={tool.title}
+              summary={tool.summary}
+              coverImage={tool.image}
+              category={tool.category}
+            />
           ))}
-        </div>
-      </section>
-
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px bg-[#E8E0D5] my-8" /></div>
-
-      {/* WhatsApp Callout Footer */}
-      <section className="py-20 text-center bg-[#090909]">
-        <div className="mx-auto max-w-3xl px-4">
-          <h2 className="text-5xl font-black uppercase text-white sm:text-6xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-            One text. <span style={{ color: '#C0392B' }}>Sorted.</span>
-          </h2>
-          <p className="mt-6 text-xl text-neutral-400">
-            Text <strong className="text-white">TAX</strong>, <strong className="text-white">CLARITY</strong>, or <strong className="text-white">BURNOUT</strong> to +44 7591 922247.
-            No app. No login. Just your result — straight to WhatsApp.
-          </p>
-          <p className="mt-8 text-sm text-neutral-600">
-            Planet Sorted provides educational tools and protocols. Not medical, clinical, legal, or financial advice.
-            Not a crisis service. In immediate danger: call 999. To talk: text SHOUT to 85258.
-          </p>
         </div>
       </section>
     </div>

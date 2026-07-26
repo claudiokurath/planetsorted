@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { SmartNav } from '@/components/SmartNav'
 import { SiteFooter } from '@/components/SiteFooter'
+import { MobileNav } from '@/components/MobileNav'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -64,10 +65,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col pb-16 sm:pb-0">
         <SmartNav />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <MobileNav />
       </body>
     </html>
   )
