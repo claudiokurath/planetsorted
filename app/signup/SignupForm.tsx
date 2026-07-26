@@ -42,83 +42,76 @@ export function SignupForm() {
 
   if (state === 'sent') {
     return (
-      <div className="mx-auto max-w-md px-6 py-20 text-center">
-        <div className="glass-card rounded-3xl p-8 border border-emerald-500/30">
-          <div className="mb-4 text-4xl">📬</div>
-          <h1 className="mb-2 text-2xl font-black text-white">Check your email</h1>
-          <p className="text-sm text-gray-400 leading-relaxed">
-            We&apos;ve sent a magic sign-in link to <strong className="text-emerald-400 font-mono">{email}</strong>.
-            Click it to access your Sorted Lab account — no password needed.
-          </p>
-          <p className="mt-6 text-xs text-gray-500">
-            Didn&apos;t get it? Check your spam folder, or{' '}
-            <button
-              onClick={() => setState('idle')}
-              className="text-emerald-400 underline font-semibold hover:text-emerald-300"
-            >
-              try again
-            </button>
-            .
-          </p>
-        </div>
+      <div className="w-full max-w-md rounded-3xl bg-[#0a0a0a] border border-white/10 p-8 sm:p-10 text-center shadow-2xl">
+        <div className="mb-4 text-4xl">📬</div>
+        <h1 className="mb-2 text-2xl font-black text-white">Check your email</h1>
+        <p className="text-sm text-gray-400 leading-relaxed">
+          We&apos;ve sent a magic sign-in link to <strong className="text-emerald-400 font-mono">{email}</strong>.
+          Click it to access your Sorted Lab account — no password needed.
+        </p>
+        <p className="mt-6 text-xs text-gray-500">
+          Didn&apos;t get it? Check your spam folder, or{' '}
+          <button
+            onClick={() => setState('idle')}
+            className="text-emerald-400 underline font-semibold hover:text-emerald-300"
+          >
+            try again
+          </button>
+          .
+        </p>
       </div>
     )
   }
 
   return (
-    <div className="mx-auto max-w-md px-6 py-20">
-      <div className="glass-card rounded-3xl p-8 sm:p-10 shadow-2xl">
-        <div className="mb-6">
-          <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 text-[11px] font-bold text-emerald-400">
-            Sorted Lab Access
-          </span>
-          <h1 className="mt-3 text-3xl font-black text-white tracking-tight">Get started</h1>
-          <p className="mt-2 text-xs text-gray-400 leading-relaxed">
-            Enter your email and we&apos;ll send you a magic link. No passwords required.
-          </p>
-        </div>
-
-        {linkExpired && (
-          <div className="mb-6 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-xs text-amber-300 leading-relaxed">
-            That sign-in link has expired. Enter your email below to receive a fresh magic link.
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div>
-            <label htmlFor="email" className="sr-only">Email address</label>
-            <input
-              id="email"
-              type="email"
-              autoComplete="email"
-              required
-              placeholder="your.email@domain.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={state === 'loading'}
-              className="w-full rounded-2xl border border-gray-800 bg-gray-950 px-4 py-3 text-sm text-white placeholder-gray-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-50 font-mono"
-            />
-          </div>
-
-          {state === 'error' && (
-            <p className="text-xs text-red-400 font-medium">{errorMessage}</p>
-          )}
-
-          <button
-            type="submit"
-            disabled={state === 'loading'}
-            className="glow-button w-full rounded-2xl px-6 py-3.5 text-sm font-bold text-gray-950 disabled:opacity-50 shadow-lg shadow-emerald-500/20"
-          >
-            {state === 'loading' ? 'Sending Magic Link…' : 'Send my sign-in link'}
-          </button>
-        </form>
-
-        <p className="mt-6 text-center text-[11px] text-gray-500">
-          No spam. Just access. By signing in you agree to our{' '}
-          <a href="/terms" className="underline hover:text-gray-400">Terms</a> and{' '}
-          <a href="/privacy" className="underline hover:text-gray-400">Privacy Policy</a>.
+    <div className="w-full max-w-md rounded-3xl bg-[#0a0a0a] border border-white/10 p-8 sm:p-10 shadow-2xl">
+      <div className="mb-8 text-center">
+        <div className="mx-auto h-1 w-12 rounded-full bg-[#C0392B] mb-4" />
+        <h1
+          className="text-4xl font-black text-white uppercase tracking-tight"
+          style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+        >
+          Get Started
+        </h1>
+        <p className="mt-3 text-base text-gray-400">
+          Enter your email and we&apos;ll send you a magic link. No passwords required.
         </p>
       </div>
+
+      {linkExpired && (
+        <div className="mb-6 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-xs text-amber-300 leading-relaxed">
+          That sign-in link has expired. Enter your email below to receive a fresh magic link.
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div>
+          <label htmlFor="email" className="sr-only">Email address</label>
+          <input
+            id="email"
+            type="email"
+            autoComplete="email"
+            required
+            placeholder="your.email@domain.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={state === 'loading'}
+            className="w-full rounded-2xl border border-neutral-800 bg-neutral-950 px-4 py-3.5 text-sm text-white placeholder-neutral-500 focus:border-[#C0392B] focus:outline-none focus:ring-2 focus:ring-[#C0392B]/20 disabled:opacity-50 font-mono"
+          />
+        </div>
+
+        {errorMessage && (
+          <p className="text-xs text-red-400 font-medium">{errorMessage}</p>
+        )}
+
+        <button
+          type="submit"
+          disabled={state === 'loading'}
+          className="w-full rounded-2xl bg-[#C0392B] py-3.5 text-sm font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg disabled:opacity-50"
+        >
+          {state === 'loading' ? 'Sending magic link…' : 'Send Magic Link →'}
+        </button>
+      </form>
     </div>
   )
 }
