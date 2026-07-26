@@ -6,22 +6,6 @@ import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
-const HELP_TEXT = `Here's what you can do on Planet Sorted:
-
-Text one of these keywords to run a tool instantly:
-• TAX — ADHD Tax Calculator
-• AUTOPILOT — Financial Autopilot Map
-• CLARITY — Decision Paralysis Solver
-
-System commands:
-• MENU / HELP — see this list
-• LOGIN — get a magic link to your account
-• STOP — pause all messages
-• START — turn messages back on
-
-Planet Sorted is not a crisis service.
-In immediate danger: call 999. To talk now: text SHOUT to 85258.`
-
 const toolSlugs: Record<string, string> = {
   TAX: 'adhd-tax-calculator',
   AUTOPILOT: 'financial-autopilot',
@@ -67,36 +51,36 @@ export async function POST(req: NextRequest) {
 
     switch (verb) {
       case 'HELP':
-      case 'MENU':
-        await sendWhatsAppMessage(from, HELP_TEXT)
+      case 'MENU': {
+        const menuRichUrl = `${SITE}/r/tools`
+        const helpMessage = `*Planet Sorted Toolbox*\n\nExplore tools, protocols, and your saved library online 👇\n${menuRichUrl}`
+        await sendWhatsAppMessage(from, helpMessage, menuRichUrl)
         break
+      }
 
       case 'STOP':
         if (user) await supabase.from('users').update({ whatsapp_opted_out: true }).eq('user_id', user.user_id)
-        await sendWhatsAppMessage(from, "You've been unsubscribed from all Planet Sorted WhatsApp messages. Text START to re-subscribe. Your account and saved history are still at planetsorted.com.")
+        await sendWhatsAppMessage(from, `You've been unsubscribed from WhatsApp messages. Text START to re-subscribe. Account & saved library: ${SITE}/dashboard`)
         break
 
       case 'STOPWEEKLY':
         if (user) await supabase.from('users').update({ weekly_opted_in: false }).eq('user_id', user.user_id)
-        await sendWhatsAppMessage(from, "Done — you're off the weekly update. Text STARTWEEKLY to turn it back on, or STOP to stop everything.")
+        await sendWhatsAppMessage(from, "Done — turned off weekly updates. Text STARTWEEKLY to resume.")
         break
 
       case 'START':
         if (user) await supabase.from('users').update({ whatsapp_opted_out: false }).eq('user_id', user.user_id)
-        await sendWhatsAppMessage(from, "You're back on. Text MENU to see what you can do, or jump straight in: TAX · CLARITY · AUTOPILOT")
+        await sendWhatsAppMessage(from, `Welcome back to Planet Sorted! Explore interactive tools & protocols 👇\n${SITE}/r/tools`, `${SITE}/r/tools`)
         break
 
       case 'STARTWEEKLY':
         if (user) await supabase.from('users').update({ weekly_opted_in: true }).eq('user_id', user.user_id)
-        await sendWhatsAppMessage(from, "Weekly check-in is on. Every Tuesday around 10am we'll send you one practical nudge. Text STOPWEEKLY to turn it off again.")
+        await sendWhatsAppMessage(from, "Weekly updates enabled ✓ We'll send you one practical nudge every Tuesday.")
         break
 
       case 'LOGIN': {
-        if (!user) {
-          await sendWhatsAppMessage(from, `Sign up first at ${SITE}/signup — no password needed, just your email.`)
-          break
-        }
-        await sendWhatsAppMessage(from, `Here's your magic link to sign in 👇\n${SITE}/signup\n\nIt'll send a link straight to your email. No password needed.`)
+        const loginUrl = `${SITE}/r/login`
+        await sendWhatsAppMessage(from, `Access your Planet Sorted account & library 👇\n${loginUrl}`, loginUrl)
         break
       }
 
@@ -104,12 +88,12 @@ export async function POST(req: NextRequest) {
         const keyword = arg.toUpperCase()
         const slug = toolSlugs[keyword]
         if (!slug) {
-          await sendWhatsAppMessage(from, "That one's coming soon — text MENU to see what's live right now.")
+          await sendWhatsAppMessage(from, `Explore all interactive tools on Sorted Lab 👇\n${SITE}/r/tools`, `${SITE}/r/tools`)
           break
         }
 
         const richUrl = `${SITE}/r/${slug}`
-        await sendWhatsAppMessage(from, `Here's your tool 👇\n${richUrl}`, richUrl)
+        await sendWhatsAppMessage(from, `Tap to open your tool 👇\n${richUrl}`, richUrl)
         break
       }
 
@@ -123,23 +107,13 @@ export async function POST(req: NextRequest) {
           )
         }
         await supabase.from('rich_links').upsert({ slug: arg, target_url: targetUrl, title: arg }, { onConflict: 'slug' })
-        await sendWhatsAppMessage(from, `Saved ✓ Come back to it any time:\n${richUrl}`, richUrl)
+        await sendWhatsAppMessage(from, `Saved ✓ View in your library 👇\n${richUrl}`, richUrl)
         break
       }
 
       case 'LIBRARY': {
-        if (!user) {
-          await sendWhatsAppMessage(from, `Sign up to save things to your library: ${SITE}/signup`)
-          break
-        }
-        const { data: items } = await supabase
-          .from('saved_items').select('title, target_url, created_at').eq('user_id', user.user_id).order('created_at', { ascending: false }).limit(10)
-        if (!items || items.length === 0) {
-          await sendWhatsAppMessage(from, "Your library is empty. Browse protocols at planetsorted.com.")
-          break
-        }
-        const list = items.map((i: any) => `• ${i.title || 'Saved item'}: ${i.target_url}`).join('\n')
-        await sendWhatsAppMessage(from, `Your saved items 👇\n\n${list}`)
+        const libraryUrl = `${SITE}/r/library`
+        await sendWhatsAppMessage(from, `Open your saved library on Planet Sorted 👇\n${libraryUrl}`, libraryUrl)
         break
       }
 
@@ -148,7 +122,7 @@ export async function POST(req: NextRequest) {
         const searchTerm = arg.trim().toLowerCase()
         const { data: protocols } = await supabase
           .from('protocols')
-          .select('title, protocol, slug, keyword')
+          .select('title, summary, cover_image, slug, keyword')
           .eq('status', 'Published')
 
         const match = (protocols || []).find((p: any) => 
@@ -157,14 +131,22 @@ export async function POST(req: NextRequest) {
         )
 
         if (match) {
-          const articleUrl = `${SITE}/intelligence/${match.slug}`
-          await sendWhatsAppMessage(
-            from,
-            `*${match.title}*\n\n${match.protocol || ''}\n\nRead full guide: ${articleUrl}`,
-            articleUrl
-          )
+          const richUrl = `${SITE}/r/${match.slug}`
+          // Update rich_links table with high-res cover_image for WhatsApp preview
+          await supabase.from('rich_links').upsert({
+            slug: match.slug,
+            target_url: `${SITE}/intelligence/${match.slug}`,
+            title: match.title,
+            description: match.summary || 'Read full protocol on Planet Sorted.',
+            image_url: match.cover_image
+          }, { onConflict: 'slug' })
+
+          // Send clean, elegant 2-line response with rich link preview only!
+          const cleanMessage = `*${match.title}*\n\nTap to read full guide 👇\n${richUrl}`
+          await sendWhatsAppMessage(from, cleanMessage, richUrl)
         } else {
-          await sendWhatsAppMessage(from, `Sorry, didn't recognise "${rawText}". Text MENU to see what's live right now.`)
+          const exploreUrl = `${SITE}/r/tools`
+          await sendWhatsAppMessage(from, `Didn't recognise "${rawText}". Explore tools & protocols 👇\n${exploreUrl}`, exploreUrl)
         }
         break
       }

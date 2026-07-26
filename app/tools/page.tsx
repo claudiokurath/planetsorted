@@ -1,20 +1,34 @@
+import Image from 'next/image'
 import { ContentCard } from '@/components/ContentCard'
 import { PRIORITY_TOOLS } from '@/lib/toolsData'
 
 export default function ToolboxListingPage() {
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
-          <div className="mx-auto h-1 w-16 rounded-full bg-[#C0392B] mb-4" />
-          <h1 className="text-5xl font-black uppercase text-white sm:text-6xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+      {/* Banner Header */}
+      <div className="relative w-full aspect-[21/9] max-h-72 overflow-hidden bg-neutral-900 border-b border-neutral-800">
+        <Image
+          src="/images/banners/toolbox banner.png"
+          alt="Toolbox Banner"
+          fill
+          priority
+          unoptimized
+          className="object-cover opacity-80"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+        <div className="absolute bottom-6 left-0 right-0 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
+          <div className="mx-auto h-1 w-16 rounded-full bg-[#C0392B] mb-3" />
+          <h1 className="text-5xl font-black uppercase text-white sm:text-6xl tracking-tight" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             Toolbox
           </h1>
-          <p className="mt-4 text-xl text-neutral-400">
-            Practical interactive tools designed to deliver instant clarity, reduce executive load, and turn overwhelm into a next action.
+          <p className="mt-2 text-lg sm:text-xl text-neutral-300 max-w-2xl mx-auto">
+            Practical interactive tools designed to deliver instant clarity and turn overwhelm into a next action.
           </p>
         </div>
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      </div>
+
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
           {PRIORITY_TOOLS.map((tool) => (
             <ContentCard
               key={tool.slug}

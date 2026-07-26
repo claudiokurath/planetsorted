@@ -45,7 +45,7 @@ export default async function ArticlePage({ params }: Props) {
 
   const { data: rawProtocol } = await supabase
     .from('protocols')
-    .select('title, summary, category, cover_image, problem, keyword, read_time, cta, excerpt, audio_url, slug')
+    .select('title, summary, category, cover_image, problem, protocol, keyword, read_time, cta, excerpt, audio_url, slug')
     .eq('slug', slug)
     .eq('status', 'Published')
     .single()
@@ -58,9 +58,12 @@ export default async function ArticlePage({ params }: Props) {
   const triggerKeyword = (protocol as any).whatsapp_trigger || protocol.keyword || slug.toUpperCase()
   const waClickUrl = `https://wa.me/447591922247?text=${encodeURIComponent(triggerKeyword)}`
 
+  // Use problem body markdown, or fall back to protocol text
+  const mainContent = protocol.problem || protocol.protocol || protocol.summary || ''
+
   return (
     <div style={{ backgroundColor: '#FAF7F2' }} className="min-h-screen">
-      <article className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Cover image above title (16:9 aspect ratio, rounded-2xl, shadow-lg) */}
         {protocol.cover_image && (
           <div className="relative aspect-video w-full mb-8 overflow-hidden rounded-2xl shadow-xl border border-[#E8E0D5]">
@@ -70,6 +73,7 @@ export default async function ArticlePage({ params }: Props) {
               fill
               className="object-cover"
               priority
+              unoptimized
             />
           </div>
         )}
@@ -118,13 +122,15 @@ export default async function ArticlePage({ params }: Props) {
 
         {/* Excerpt */}
         {protocol.excerpt && (
-          <p className="mb-8 text-xl sm:text-2xl leading-relaxed font-semibold text-[#1A1A1A]">
-            {protocol.excerpt}
-          </p>
+          <div className="mb-8 p-6 bg-white/60 border-l-4 border-[#C0392B] rounded-r-2xl shadow-sm">
+            <p className="text-xl sm:text-2xl leading-relaxed font-semibold text-[#1A1A1A]">
+              {protocol.excerpt}
+            </p>
+          </div>
         )}
 
         {/* Article body with enhanced typography */}
-        {protocol.problem && (
+        {mainContent && (
           <div className="prose prose-lg max-w-none mb-12 
             prose-p:text-[#222222] prose-p:text-lg prose-p:leading-relaxed prose-p:mb-6
             prose-headings:font-black prose-headings:uppercase prose-headings:text-[#1A1A1A] prose-headings:tracking-tight prose-headings:mt-8 prose-headings:mb-4
@@ -134,7 +140,7 @@ export default async function ArticlePage({ params }: Props) {
             prose-ul:my-6 prose-li:text-[#222222] prose-li:text-lg prose-li:my-1.5
             prose-blockquote:border-l-4 prose-blockquote:border-[#C0392B] prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-700"
           >
-            <ReactMarkdown>{protocol.problem}</ReactMarkdown>
+            <ReactMarkdown>{mainContent}</ReactMarkdown>
           </div>
         )}
 
