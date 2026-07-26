@@ -146,7 +146,7 @@ export default async function ArticlePage({ params }: Props) {
       </section>
 
       {/* Main Reading Container */}
-      <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+      <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-12">
         {/* Audio Deep Dive Player */}
         {audioUrl && (
           <div className="rounded-2xl border border-neutral-800 bg-[#141414] p-6 shadow-xl space-y-3">
@@ -165,15 +165,15 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         )}
 
-        {/* Full Article Body Content split into beautiful paragraphs & subheadings */}
+        {/* Full Article Body Content split into airy, bold subheadings & spaced paragraphs */}
         {formattedContent && (
-          <div className="prose prose-invert prose-lg max-w-none mb-12
-            prose-p:text-neutral-200 prose-p:text-lg prose-p:leading-relaxed prose-p:mb-6
-            prose-headings:font-black prose-headings:uppercase prose-headings:text-white prose-headings:tracking-tight prose-headings:mt-10 prose-headings:mb-4
-            prose-h3:text-2xl prose-h3:text-[#C0392B] prose-h3:border-b prose-h3:border-neutral-800/80 prose-h3:pb-2
-            prose-strong:font-bold prose-strong:text-white
-            prose-ul:my-6 prose-li:text-neutral-200 prose-li:text-lg prose-li:my-1.5
-            prose-blockquote:border-l-4 prose-blockquote:border-[#C0392B] prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-neutral-300">
+          <div className="prose prose-invert prose-lg max-w-none mb-16
+            prose-p:text-neutral-200 prose-p:text-lg sm:prose-p:text-xl prose-p:leading-relaxed prose-p:mb-8
+            prose-headings:font-black prose-headings:uppercase prose-headings:text-white prose-headings:tracking-tight
+            prose-h3:text-2xl sm:prose-h3:text-3xl prose-h3:font-black prose-h3:text-white prose-h3:mt-14 prose-h3:mb-6 prose-h3:border-b prose-h3:border-neutral-800 prose-h3:pb-3
+            prose-strong:font-black prose-strong:text-white
+            prose-ul:my-8 prose-li:text-neutral-200 prose-li:text-lg prose-li:my-2
+            prose-blockquote:border-l-4 prose-blockquote:border-[#C0392B] prose-blockquote:pl-6 prose-blockquote:py-2 prose-blockquote:italic prose-blockquote:text-neutral-200">
             <ReactMarkdown>{formattedContent}</ReactMarkdown>
           </div>
         )}
