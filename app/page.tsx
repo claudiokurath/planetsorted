@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { ContentCard } from '@/components/ContentCard'
-import { GetSortedButton } from '@/components/buttons/GetSortedButton'
 import { PRIORITY_TOOLS } from '@/lib/toolsData'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
@@ -23,16 +22,13 @@ export default async function HomePage() {
       <section className="mx-auto max-w-6xl px-4 pt-16 pb-12 sm:px-6 lg:px-8">
         <div className="space-y-6 max-w-3xl">
           <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-          <p className="mb-3 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Planet SOR7ED</p>
+          <p className="mb-3 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Planet Sorted</p>
           <h1 className="text-6xl sm:text-8xl font-black uppercase leading-none tracking-tight text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             Templates,<br /><span style={{ color: '#C0392B' }}>not inspiration.</span>
           </h1>
           <p className="text-xl sm:text-2xl leading-relaxed text-neutral-300">
             Practical protocols and tools for neurodivergent adults. No app. No spam. Just what works.
           </p>
-          <div className="pt-2">
-            <GetSortedButton slug="home" context="article" />
-          </div>
         </div>
       </section>
 
