@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import ReactMarkdown from 'react-markdown'
 import { createServerClient } from '@/lib/supabase/server'
 import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
 import { getCategoryStyle } from '@/lib/categoryStyles'
@@ -11,39 +10,59 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
+interface ArticleSection {
+  heading?: string
+  text: string
+}
+
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 const WA_NUMBER = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447591922247'
 
-function formatArticleContent(text: string, title?: string): string {
-  if (!text) return ''
+function parseArticleSections(rawText: string, title?: string): ArticleSection[] {
+  if (!rawText) return []
 
-  let s = text
+  let s = rawText
 
-  // Strip duplicate raw title if present at the very beginning of the body text
+  // Strip duplicate title prefix if present at start of body text
   if (title && s.toUpperCase().startsWith(title.toUpperCase())) {
     s = s.slice(title.length).trim()
   }
 
-  // Insert double line breaks before ALL-CAPS headings stuck to sentence endings
-  s = s.replace(/([\.!\?])\s*([A-Z\s“”"'\:\-]{5,65})(?=\n|$)/g, '$1\n\n### $2\n\n')
-  s = s.replace(/([\.!\?])\s*([A-Z][A-Z\s“”"'\:\-]{5,65}\b)/g, '$1\n\n### $2\n\n')
+  // Insert explicit section separators before ALL-CAPS titles stuck to sentence endings
+  s = s.replace(/([\.!\?])\s*([A-Z\s“”"'\:\-]{5,65})(?=\n|$)/g, '$1\n\n===HEADING===$2\n\n')
+  s = s.replace(/([\.!\?])\s*([A-Z][A-Z\s“”"'\:\-]{5,65}\b)/g, '$1\n\n===HEADING===$2\n\n')
 
-  const lines = s.split(/\n+/)
-  const out: string[] = []
+  const rawBlocks = s.split('\n')
+  const sections: ArticleSection[] = []
+  let currentHeading = ''
+  let currentParagraphs: string[] = []
 
-  for (let l of lines) {
-    l = l.trim()
-    if (!l) continue
+  for (let line of rawBlocks) {
+    line = line.trim()
+    if (!line) continue
 
-    // Detect uppercase subheadings and format as H3 headings
-    if (!l.startsWith('#') && l.length > 4 && l.length < 65 && l === l.toUpperCase() && !l.startsWith('---')) {
-      out.push(`### ${l}`)
+    if (line.startsWith('===HEADING===')) {
+      if (currentParagraphs.length > 0) {
+        sections.push({ heading: currentHeading || undefined, text: currentParagraphs.join('\n\n') })
+        currentParagraphs = []
+      }
+      currentHeading = line.replace('===HEADING===', '').trim()
+    } else if (line.length > 4 && line.length < 65 && line === line.toUpperCase() && !line.startsWith('---') && !line.includes('.')) {
+      if (currentParagraphs.length > 0) {
+        sections.push({ heading: currentHeading || undefined, text: currentParagraphs.join('\n\n') })
+        currentParagraphs = []
+      }
+      currentHeading = line
     } else {
-      out.push(l)
+      currentParagraphs.push(line)
     }
   }
 
-  return out.join('\n\n')
+  if (currentParagraphs.length > 0) {
+    sections.push({ heading: currentHeading || undefined, text: currentParagraphs.join('\n\n') })
+  }
+
+  return sections
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -99,16 +118,15 @@ export default async function ArticlePage({ params }: Props) {
   const categoryStyle = getCategoryStyle(protocol.category)
   const audioUrl = protocol.audio_url?.trim() || undefined
   const triggerKeyword = protocol.keyword || slug.toUpperCase()
-  const waClickUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(triggerKeyword)}`
   const waAudioUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('AUDIO ' + slug)}`
 
-  // Format Notion body text into distinct paragraphs and section headers
+  // Parse Notion body text into structured section blocks
   const rawBodyText = protocol.problem || protocol.excerpt || protocol.summary || ''
-  const formattedContent = formatArticleContent(rawBodyText, protocol.title)
+  const sections = parseArticleSections(rawBodyText, protocol.title)
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Immersive Cover Image Hero Header Banner with Title & Tagline Overlaid */}
+      {/* Immersive Cover Image Hero Header Banner */}
       <section className="relative overflow-hidden pt-16 pb-20 border-b border-neutral-800/80 bg-neutral-950">
         {protocol.cover_image && (
           <div className="absolute inset-0 z-0 opacity-40">
@@ -165,21 +183,27 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         )}
 
-        {/* Full Article Body Content split into airy, bold subheadings & spaced paragraphs */}
-        {formattedContent && (
-          <div className="prose prose-invert prose-lg max-w-none mb-16
-            prose-p:text-neutral-200 prose-p:text-lg sm:prose-p:text-xl prose-p:leading-relaxed prose-p:mb-8
-            prose-headings:font-black prose-headings:uppercase prose-headings:text-white prose-headings:tracking-tight
-            prose-h3:text-2xl sm:prose-h3:text-3xl prose-h3:font-black prose-h3:text-white prose-h3:mt-14 prose-h3:mb-6 prose-h3:border-b prose-h3:border-neutral-800 prose-h3:pb-3
-            prose-strong:font-black prose-strong:text-white
-            prose-ul:my-8 prose-li:text-neutral-200 prose-li:text-lg prose-li:my-2
-            prose-blockquote:border-l-4 prose-blockquote:border-[#C0392B] prose-blockquote:pl-6 prose-blockquote:py-2 prose-blockquote:italic prose-blockquote:text-neutral-200">
-            <ReactMarkdown>{formattedContent}</ReactMarkdown>
-          </div>
-        )}
+        {/* Structured Article Sections with Bold Headings & Generous Spacing */}
+        <div className="space-y-14 pt-4">
+          {sections.map((sec, idx) => (
+            <div key={idx} className="space-y-4">
+              {sec.heading && (
+                <h3
+                  className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white pb-3 border-b border-neutral-800"
+                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                >
+                  {sec.heading}
+                </h3>
+              )}
+              <div className="text-lg sm:text-xl text-neutral-200 leading-relaxed font-normal whitespace-pre-line space-y-6">
+                {sec.text}
+              </div>
+            </div>
+          ))}
+        </div>
 
-        {/* Clean WhatsApp Call to Action Box */}
-        <div className="rounded-2xl border border-neutral-800 bg-[#141414] p-6 sm:p-10 text-white shadow-2xl space-y-6">
+        {/* Clean Single-Button WhatsApp Action Card */}
+        <div className="mt-16 rounded-2xl border border-neutral-800 bg-[#141414] p-6 sm:p-10 text-white shadow-2xl space-y-6">
           <div className="space-y-2">
             <span className="text-xs font-bold uppercase tracking-widest text-[#3498DB]">Instant WhatsApp Protocol</span>
             <div className="text-4xl sm:text-6xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
@@ -187,20 +211,10 @@ export default async function ArticlePage({ params }: Props) {
             </div>
           </div>
           <p className="text-base sm:text-lg leading-relaxed text-neutral-300">
-            Click below to open WhatsApp directly with <strong className="text-white">&ldquo;{triggerKeyword}&rdquo;</strong> pre-filled — no typing needed.
+            Click below to send <strong className="text-white">&ldquo;{triggerKeyword}&rdquo;</strong> directly to your phone via WhatsApp.
           </p>
-          <div className="pt-2 flex flex-col gap-4">
-            <a
-              href={waClickUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#C0392B] px-8 py-4 text-base sm:text-lg font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg text-center"
-            >
-              <span>OPEN IN WHATSAPP →</span>
-            </a>
-            <div className="flex justify-start">
-              <SaveToPhoneButton slug={slug} context="article" isLoggedIn={!!user} whatsappVerified={whatsappVerified} />
-            </div>
+          <div className="pt-2">
+            <SaveToPhoneButton slug={slug} context="article" isLoggedIn={!!user} whatsappVerified={whatsappVerified} />
           </div>
         </div>
       </article>
