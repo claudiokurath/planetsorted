@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og'
+import { loadGoogleFont } from '@/lib/loadFont'
 
 export const runtime = 'edge'
 
@@ -17,6 +18,13 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const card = CARDS[searchParams.get('card') ?? 'welcome'] ?? CARDS.welcome
 
+  let fontData: ArrayBuffer | undefined
+  try {
+    fontData = await loadGoogleFont()
+  } catch (err) {
+    console.error('Failed to load font:', err)
+  }
+
   return new ImageResponse(
     (
       <div
@@ -30,6 +38,7 @@ export async function GET(req: Request) {
           justifyContent: 'center',
           padding: '80px',
           border: '24px solid #1A1A1A',
+          fontFamily: fontData ? 'Inter' : 'sans-serif',
         }}
       >
         <div
@@ -70,6 +79,21 @@ export async function GET(req: Request) {
         </div>
       </div>
     ),
-    { width: 1200, height: 630 }
+    {
+      width: 1200,
+      height: 630,
+      ...(fontData
+        ? {
+            fonts: [
+              {
+                name: 'Inter',
+                data: fontData,
+                style: 'normal',
+                weight: 900,
+              },
+            ],
+          }
+        : {}),
+    }
   )
 }

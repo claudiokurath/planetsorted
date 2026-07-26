@@ -4,8 +4,6 @@ import { detectCrisis, CRISIS_RESPONSE } from '@/lib/whatsapp/crisis'
 import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-const START_URL = `${SITE}/r/start?v=2`
-const GOODBYE_URL = `${SITE}/r/goodbye?v=2`
 
 const TOOL_KEYWORDS: Record<string, string> = {
   TAX: 'adhd-tax-calculator',
@@ -42,9 +40,11 @@ export async function POST(req: NextRequest) {
     const verb = text.toUpperCase()
     const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
 
-    // ── Consent commands — isolated on purpose. Currently cards, per your
-    //    request. Swap the sendWhatsAppMessage lines for one-line plain text
-    //    here alone if you decide the compliance trade-off matters more.
+    const cacheBust = Date.now()
+    const START_URL = `${SITE}/r/start?v=${cacheBust}`
+    const GOODBYE_URL = `${SITE}/r/goodbye?v=${cacheBust}`
+
+    // ── Consent commands — isolated on purpose.
     if (verb === 'STOP') {
       await sb.from('users').update({ whatsapp_opted_out: true }).eq('whatsapp_number', from)
       await sendWhatsAppMessage(from, GOODBYE_URL, GOODBYE_URL)
@@ -66,10 +66,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ status: 'ok' })
     }
 
-    // ── LOGIN — bare link, no card wrapper needed since /signup is a real
-    //    destination page. Confirm it has its own title/description metadata
-    //    so this still forms a decent preview; add a basic `metadata` export
-    //    to app/signup/page.tsx if it doesn't yet.
+    // ── LOGIN — bare link, no card wrapper needed
     if (verb === 'LOGIN') {
       const url = `${SITE}/signup`
       await sendWhatsAppMessage(from, url, url)
