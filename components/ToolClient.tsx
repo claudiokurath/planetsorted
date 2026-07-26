@@ -99,9 +99,7 @@ export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
   const [optionB, setOptionB] = useState('')
   const [fear, setFear] = useState('')
 
-  const handleReset = () => {
-    setSubmitted(false)
-  }
+  const waDirectUrl = `https://wa.me/447591922247?text=${encodeURIComponent(meta.keyword)}`
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -109,28 +107,26 @@ export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
   }
 
   // Calculations
-  const subVal = parseFloat(subscriptions) || 0
-  const lateVal = parseFloat(lateFees) || 0
-  const repVal = parseFloat(replacements) || 0
-  const impVal = parseFloat(impulse) || 0
-  
-  const monthlyTax = subVal + lateVal + repVal + impVal
+  const subNum = parseFloat(subscriptions) || 0
+  const lateNum = parseFloat(lateFees) || 0
+  const repNum = parseFloat(replacements) || 0
+  const impNum = parseFloat(impulse) || 0
+
+  const monthlyTax = subNum + lateNum + repNum + impNum
   const yearlyTax = monthlyTax * 12
 
-  const incomeVal = parseFloat(income) || 0
-  const goalVal = parseFloat(savingsGoal) || 0
-  const billsVal = Math.round(incomeVal * 0.4)
-  const spendingVal = Math.round(incomeVal - billsVal - goalVal)
-
-  const waDirectUrl = `https://wa.me/447591922247?text=${encodeURIComponent(meta.keyword)}`
+  const incNum = parseFloat(income) || 0
+  const savNum = parseFloat(savingsGoal) || 0
+  const fixedBills = Math.round(incNum * 0.5)
+  const guiltFree = Math.max(0, incNum - fixedBills - savNum)
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Hero Section */}
+      {/* Tool Hero Header */}
       <section className="relative overflow-hidden pt-12 pb-20 border-b border-neutral-800">
-        <div className="absolute inset-0 z-0 opacity-40">
-          <Image src={meta.cover} alt={meta.title} fill className="object-cover" priority />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/60 to-black/95" />
+        <div className="absolute inset-0 z-0 opacity-50">
+          <Image src={meta.cover} alt={meta.title} fill unoptimized priority className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/80 to-black" />
         </div>
 
         <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 space-y-4">
@@ -157,6 +153,27 @@ export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
       </section>
 
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
+        {/* Banner Graphic Card */}
+        <div className="mb-10 relative aspect-[21/9] w-full overflow-hidden rounded-2xl border border-neutral-800 shadow-2xl">
+          <Image
+            src={meta.cover}
+            alt={`${meta.title} Banner`}
+            fill
+            unoptimized
+            priority
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+          <div className="absolute bottom-4 left-6 right-6 flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-widest text-neutral-300 bg-black/60 backdrop-blur px-3 py-1 rounded-full border border-neutral-700">
+              Interactive Web App Tool
+            </span>
+            <span className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">
+              KEYWORD: {meta.keyword}
+            </span>
+          </div>
+        </div>
+
         {!submitted ? (
           <div className="space-y-16">
             {/* Interactive Browser Tool Form */}
@@ -225,9 +242,9 @@ export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
 
                   <button
                     type="submit"
-                    className="w-full rounded-full bg-[#C0392B] py-4 font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors text-base shadow-lg"
+                    className="w-full rounded-full bg-[#C0392B] px-8 py-4 text-base font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg"
                   >
-                    Calculate My ADHD Tax Result →
+                    CALCULATE MY TAX LEAK →
                   </button>
                 </form>
               )}
@@ -236,57 +253,56 @@ export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <h2 className="text-3xl sm:text-4xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-                      Try Interactive Preview Below
+                      Configure Payday Automation
                     </h2>
                     <p className="mt-1 text-sm text-neutral-400">
-                      Enter your monthly pay details to build your automated payday allocation.
+                      Input your income and savings target to build a zero-friction payday flow.
                     </p>
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="grid gap-4 sm:grid-cols-3">
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
-                        Monthly Take-Home Income (£)
+                        Monthly Net Income (£)
                       </label>
                       <input
                         type="number"
                         value={income}
                         onChange={(e) => setIncome(e.target.value)}
                         className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
-                        placeholder="£"
                       />
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
-                        Payday (Day of Month, 1-31)
+                        Payday (Day of Month)
                       </label>
                       <input
                         type="number"
+                        min="1"
+                        max="31"
                         value={payday}
                         onChange={(e) => setPayday(e.target.value)}
                         className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
-                        placeholder="1"
                       />
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
-                        Monthly Savings/Investing Goal (£)
+                        Monthly Savings Goal (£)
                       </label>
                       <input
                         type="number"
                         value={savingsGoal}
                         onChange={(e) => setSavingsGoal(e.target.value)}
                         className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
-                        placeholder="£"
                       />
                     </div>
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full rounded-full bg-[#C0392B] py-4 font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors text-base shadow-lg"
+                    className="w-full rounded-full bg-[#C0392B] px-8 py-4 text-base font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg"
                   >
-                    Generate Autopilot Plan →
+                    GENERATE PAYDAY FLOW →
                   </button>
                 </form>
               )}
@@ -295,63 +311,66 @@ export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <h2 className="text-3xl sm:text-4xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-                      Try Interactive Preview Below
+                      Binary Decision Framework
                     </h2>
                     <p className="mt-1 text-sm text-neutral-400">
-                      Got a choice you can&apos;t make? Input your parameters below to isolate the risk.
+                      Force binary clarity in 60 seconds. Eliminate analysis paralysis.
                     </p>
                   </div>
 
                   <div className="space-y-4">
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
-                        The Decision to Make
+                        What decision are you stuck on?
                       </label>
                       <input
                         type="text"
                         value={decision}
                         onChange={(e) => setDecision(e.target.value)}
-                        required
-                        placeholder="e.g. Booking a holiday vs saving the money"
+                        placeholder="e.g. Should I accept the new job offer or stay?"
                         className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
+                        required
                       />
                     </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
-                        Option A
-                      </label>
-                      <input
-                        type="text"
-                        value={optionA}
-                        onChange={(e) => setOptionA(e.target.value)}
-                        required
-                        placeholder="e.g. Book the trip to Spain"
-                        className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
-                      />
+
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
+                          Option A
+                        </label>
+                        <input
+                          type="text"
+                          value={optionA}
+                          onChange={(e) => setOptionA(e.target.value)}
+                          placeholder="Accept new job offer"
+                          className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
+                          Option B
+                        </label>
+                        <input
+                          type="text"
+                          value={optionB}
+                          onChange={(e) => setOptionB(e.target.value)}
+                          placeholder="Stay in current role"
+                          className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
+                          required
+                        />
+                      </div>
                     </div>
+
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
-                        Option B
-                      </label>
-                      <input
-                        type="text"
-                        value={optionB}
-                        onChange={(e) => setOptionB(e.target.value)}
-                        required
-                        placeholder="e.g. Keep the money in savings"
-                        className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
-                        What is the biggest worry about picking Option A?
+                        What is your worst-case fear if option A goes wrong?
                       </label>
                       <input
                         type="text"
                         value={fear}
                         onChange={(e) => setFear(e.target.value)}
-                        required
-                        placeholder="e.g. Feeling guilty or running out of emergency funds"
+                        placeholder="e.g. Not fitting into the team culture"
                         className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
                       />
                     </div>
@@ -359,199 +378,114 @@ export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
 
                   <button
                     type="submit"
-                    className="w-full rounded-full bg-[#C0392B] py-4 font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors text-base shadow-lg"
+                    className="w-full rounded-full bg-[#C0392B] px-8 py-4 text-base font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg"
                   >
-                    Resolve Decision →
+                    BREAK THE PARALYSIS →
                   </button>
                 </form>
               )}
             </div>
-
-            {/* How It Works Section */}
-            <div className="space-y-8">
-              <h2 className="text-4xl sm:text-5xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-                How It Works
-              </h2>
-              <div className="grid gap-6 sm:grid-cols-3">
-                {meta.steps.map((step, idx) => (
-                  <div key={idx} className="rounded-2xl border border-neutral-800 bg-[#141414] p-6 space-y-4">
-                    <div className="w-14 h-14 rounded-full bg-[#C0392B] flex items-center justify-center text-white text-3xl font-black shrink-0" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-                      {idx + 1}
-                    </div>
-                    <p className="text-base text-neutral-300 leading-relaxed">{step}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* What You Get Section (Free vs Plus) */}
-            <div className="space-y-8">
-              <h2 className="text-4xl sm:text-5xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-                What You Get
-              </h2>
-
-              <div className="grid gap-8 sm:grid-cols-2">
-                {/* Free Card */}
-                <div className="rounded-2xl border border-neutral-800 bg-[#141414] p-8 space-y-6">
-                  <div>
-                    <span className="text-xs font-bold uppercase tracking-widest text-neutral-400">Free Tier</span>
-                    <h3 className="text-3xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>Instant Result</h3>
-                    <p className="text-sm text-neutral-400 mt-1">Included for everyone. Instant clarity in your browser.</p>
-                  </div>
-                  <ul className="space-y-3 text-sm text-neutral-300">
-                    {meta.freeFeatures.map((feat, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-[#C0392B] font-bold shrink-0">✓</span>
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Plus Card */}
-                <div className="relative rounded-2xl border border-[#C0392B]/50 bg-[#1A1112] p-8 space-y-6 shadow-2xl">
-                  <span className="absolute top-4 right-4 bg-[#C0392B] text-white text-xs uppercase px-3 py-1 font-bold rounded-full">
-                    Most popular
-                  </span>
-                  <div>
-                    <span className="text-xs font-bold uppercase tracking-widest text-amber-400">Plus Tier</span>
-                    <h3 className="text-3xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>Full Action Plan</h3>
-                    <p className="text-sm text-neutral-400 mt-1">£5.99/mo or £49/yr. Deliverables + history.</p>
-                  </div>
-                  <ul className="space-y-3 text-sm text-neutral-200">
-                    {meta.plusFeatures.map((feat, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-amber-400 font-bold shrink-0">★</span>
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
           </div>
         ) : (
-          /* Results Mode — Instant Interactive Breakdown */
-          <div className="space-y-8">
-            {/* 1. Hero Result */}
-            <div className="rounded-2xl border border-[#C0392B]/40 bg-[#1A1112] p-8 text-center space-y-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#C0392B]">Your Actionable Result</span>
-              
+          <div className="space-y-12">
+            {/* Output Results Screen */}
+            <div className="rounded-2xl border border-[#C0392B]/50 bg-[#141414] p-6 sm:p-10 shadow-2xl space-y-6">
+              <div className="flex items-center justify-between border-b border-neutral-800 pb-4">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#3498DB]">
+                  Calculation Result
+                </span>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="text-xs font-bold uppercase tracking-wider text-neutral-400 hover:text-white underline"
+                >
+                  Edit Input
+                </button>
+              </div>
+
               {slug === 'adhd-tax-calculator' && (
-                <div>
-                  <p className="text-5xl sm:text-6xl font-extrabold text-white">£{monthlyTax}/mo</p>
-                  <p className="mt-1 text-sm text-neutral-300">Estimated ADHD Tax leak (£{yearlyTax} / year)</p>
-                </div>
-              )}
-
-              {slug === 'financial-autopilot' && (
-                <div>
-                  <p className="text-4xl font-extrabold text-white">Autopilot Configured</p>
-                  <p className="mt-1 text-sm text-neutral-300">Ready to run on Day {payday} of the month</p>
-                </div>
-              )}
-
-              {slug === 'decision-paralysis-solver' && (
-                <div>
-                  <p className="text-4xl font-extrabold text-white">Option A is Preferred</p>
-                  <p className="mt-1 text-sm text-neutral-300">Under the condition that we manage the fear: &quot;{fear}&quot;</p>
-                </div>
-              )}
-            </div>
-
-            {/* 2. Breakdown */}
-            <div className="rounded-2xl border border-neutral-800 bg-[#141414] p-6">
-              <h2 className="text-2xl font-black uppercase text-white mb-4" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>Calculation Breakdown</h2>
-              
-              {slug === 'adhd-tax-calculator' && (
-                <div className="space-y-3 text-sm text-neutral-300">
-                  <div className="flex justify-between border-b border-neutral-800 pb-2">
-                    <span>Subscriptions:</span>
-                    <span className="font-semibold text-white">£{subVal}</span>
+                <div className="space-y-6">
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-neutral-400">Total Estimated Leak</span>
+                    <div className="text-6xl sm:text-7xl font-black uppercase text-[#C0392B] mt-1" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+                      £{monthlyTax.toLocaleString()} / mo (£{yearlyTax.toLocaleString()} / yr)
+                    </div>
                   </div>
-                  <div className="flex justify-between border-b border-neutral-800 pb-2">
-                    <span>Late Fees:</span>
-                    <span className="font-semibold text-white">£{lateVal}</span>
-                  </div>
-                  <div className="flex justify-between border-b border-neutral-800 pb-2">
-                    <span>Lost Item Replacement:</span>
-                    <span className="font-semibold text-white">£{repVal}</span>
-                  </div>
-                  <div className="flex justify-between border-b border-neutral-800 pb-2">
-                    <span>Impulse Buys:</span>
-                    <span className="font-semibold text-white">£{impVal}</span>
+
+                  <div className="grid gap-3 sm:grid-cols-2 text-sm text-neutral-300">
+                    <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
+                      <span className="text-xs font-bold text-neutral-400 uppercase block">Subscriptions</span>
+                      <span className="text-xl font-bold text-white">£{subNum} / mo</span>
+                    </div>
+                    <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
+                      <span className="text-xs font-bold text-neutral-400 uppercase block">Late Fees</span>
+                      <span className="text-xl font-bold text-white">£{lateNum} / mo</span>
+                    </div>
+                    <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
+                      <span className="text-xs font-bold text-neutral-400 uppercase block">Replacing Items</span>
+                      <span className="text-xl font-bold text-white">£{repNum} / mo</span>
+                    </div>
+                    <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
+                      <span className="text-xs font-bold text-neutral-400 uppercase block">Impulse Purchases</span>
+                      <span className="text-xl font-bold text-white">£{impNum} / mo</span>
+                    </div>
                   </div>
                 </div>
               )}
 
               {slug === 'financial-autopilot' && (
-                <div className="space-y-3 text-sm text-neutral-300">
-                  <div className="flex justify-between border-b border-neutral-800 pb-2">
-                    <span>Total Income:</span>
-                    <span className="font-semibold text-white">£{incomeVal}</span>
+                <div className="space-y-6">
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-neutral-400">Payday Transfer Sequence</span>
+                    <div className="text-5xl sm:text-6xl font-black uppercase text-[#C0392B] mt-1" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+                      Day {payday} Automated Flow
+                    </div>
                   </div>
-                  <div className="flex justify-between border-b border-neutral-800 pb-2">
-                    <span>Fixed Bills (40%):</span>
-                    <span className="font-semibold text-white">£{billsVal}</span>
-                  </div>
-                  <div className="flex justify-between border-b border-neutral-800 pb-2">
-                    <span>Savings Target:</span>
-                    <span className="font-semibold text-white">£{goalVal}</span>
-                  </div>
-                  <div className="flex justify-between border-b border-neutral-800 pb-2">
-                    <span>Guilt-Free Spending:</span>
-                    <span className="font-semibold text-white">£{spendingVal}</span>
+
+                  <div className="grid gap-3 sm:grid-cols-3 text-sm text-neutral-300">
+                    <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
+                      <span className="text-xs font-bold text-neutral-400 uppercase block">Fixed Bills (50%)</span>
+                      <span className="text-xl font-bold text-white">£{fixedBills}</span>
+                    </div>
+                    <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
+                      <span className="text-xs font-bold text-neutral-400 uppercase block">Automated Savings</span>
+                      <span className="text-xl font-bold text-white">£{savNum}</span>
+                    </div>
+                    <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
+                      <span className="text-xs font-bold text-neutral-400 uppercase block">Guilt-Free Spending</span>
+                      <span className="text-xl font-bold text-white">£{guiltFree}</span>
+                    </div>
                   </div>
                 </div>
               )}
 
               {slug === 'decision-paralysis-solver' && (
-                <div className="space-y-3 text-sm text-neutral-300">
-                  <p>
-                    We analysed your options for <strong>&quot;{decision}&quot;</strong>.
-                  </p>
-                  <div className="rounded-xl bg-neutral-900 border border-neutral-800 p-4 space-y-1">
-                    <p><span className="font-semibold text-white">Choice A:</span> {optionA}</p>
-                    <p><span className="font-semibold text-white">Choice B:</span> {optionB}</p>
+                <div className="space-y-6">
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-neutral-400">Decision Recommendation</span>
+                    <div className="text-4xl sm:text-5xl font-black uppercase text-[#C0392B] mt-1" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+                      Choose: {optionA || 'Option A'}
+                    </div>
                   </div>
-                  <p>
-                    To eliminate paralysis, we apply safety margins: limit downside of Choice A, set a firm cutoff date, and automate follow-through.
-                  </p>
+
+                  <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800 text-sm text-neutral-300 space-y-2">
+                    <p><strong className="text-white">Decision:</strong> {decision}</p>
+                    <p><strong className="text-white">Eliminated:</strong> {optionB}</p>
+                    {fear && <p><strong className="text-white">Mitigated Fear:</strong> {fear}</p>}
+                  </div>
                 </div>
               )}
-            </div>
 
-            {/* Direct WhatsApp CTA Button & Save to Phone */}
-            <div className="rounded-2xl border border-neutral-800 bg-[#141414] p-8 text-center space-y-4">
-              <h3 className="text-2xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-                Send This Result To WhatsApp
-              </h3>
-              <p className="text-sm text-neutral-400 max-w-md mx-auto">
-                Save your calculation to your WhatsApp library so you can access it any time.
-              </p>
-              <div className="pt-2 flex justify-center">
+              <div className="pt-4 flex flex-wrap gap-4 items-center">
                 <a
                   href={waDirectUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-[#C0392B] px-8 py-3.5 text-base font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg"
                 >
-                  <span>GET RESULT ON WHATSAPP →</span>
+                  <span>SEND RESULT TO WHATSAPP ({meta.keyword}) →</span>
                 </a>
+                <SaveToPhoneButton slug={slug} context="tool" isLoggedIn={false} whatsappVerified={false} />
               </div>
-            </div>
-
-            {/* Rerun loop */}
-            <div className="flex items-center justify-between border-t border-neutral-800 pt-6">
-              <p className="text-xs text-neutral-500">
-                Suggested cadence: {slug === 'decision-paralysis-solver' ? 'Run whenever stuck' : 'Run monthly'}
-              </p>
-              <button
-                onClick={handleReset}
-                className="rounded-full border border-neutral-700 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-neutral-800 transition-colors"
-              >
-                Rerun Tool
-              </button>
             </div>
           </div>
         )}
