@@ -65,7 +65,7 @@ export function SmartNav() {
             <Link
               href="/dashboard"
               className="w-8 h-8 rounded-full bg-[#C0392B] text-white flex items-center justify-center text-sm font-bold shadow-md hover:bg-red-700 transition-colors"
-              title="Dashboard"
+              title="Account"
             >
               {userInitial}
             </Link>
@@ -76,7 +76,7 @@ export function SmartNav() {
                 pathname === '/dashboard' ? 'text-white border-b-2 border-[#C0392B]' : 'text-white/70 hover:text-white'
               }`}
             >
-              Dashboard
+              Account
             </Link>
           )}
         </div>
@@ -87,7 +87,7 @@ export function SmartNav() {
             <Link
               href="/dashboard"
               className="w-8 h-8 rounded-full bg-[#C0392B] text-white flex items-center justify-center text-sm font-bold shadow-md"
-              title="Dashboard"
+              title="Account"
             >
               {userInitial}
             </Link>
@@ -124,7 +124,7 @@ export function SmartNav() {
             onClick={() => setMobileMenuOpen(false)}
             className="block text-base font-bold uppercase tracking-wider text-white hover:text-[#C0392B] py-2 border-t border-neutral-800 pt-3"
           >
-            Dashboard
+            Account
           </Link>
         </div>
       )}
