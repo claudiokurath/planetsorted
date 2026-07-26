@@ -1,6 +1,3 @@
-import fs from 'fs'
-import path from 'path'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ContentCard } from '@/components/ContentCard'
 import { GetSortedButton } from '@/components/buttons/GetSortedButton'
@@ -8,19 +5,7 @@ import { PRIORITY_TOOLS } from '@/lib/toolsData'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
 
-function getHeroImage(): string {
-  try {
-    const dir = path.join(process.cwd(), 'public', 'images', 'heroes')
-    if (!fs.existsSync(dir)) return '/images/banners/dashboard-banner.png'
-    const files = fs.readdirSync(dir).filter((f) => /\.(jpe?g|png|webp)$/i.test(f)).sort()
-    return files.length > 0 ? `/images/heroes/${files[0]}` : '/images/banners/dashboard-banner.png'
-  } catch {
-    return '/images/banners/dashboard-banner.png'
-  }
-}
-
 export default async function HomePage() {
-  const heroImage = getHeroImage()
   const supabase = createServerClient()
 
   const { data: rawProtocols } = await supabase
@@ -35,10 +20,10 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
-      <section className="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 lg:px-8">
-        <div className="space-y-6 max-w-3xl mb-10">
+      <section className="mx-auto max-w-6xl px-4 pt-16 pb-12 sm:px-6 lg:px-8">
+        <div className="space-y-6 max-w-3xl">
           <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-          <p className="mb-3 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Planet Sorted</p>
+          <p className="mb-3 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Planet SOR7ED</p>
           <h1 className="text-6xl sm:text-8xl font-black uppercase leading-none tracking-tight text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             Templates,<br /><span style={{ color: '#C0392B' }}>not inspiration.</span>
           </h1>
@@ -49,22 +34,10 @@ export default async function HomePage() {
             <GetSortedButton slug="home" context="article" />
           </div>
         </div>
-
-        {/* Clean 16:9 Landscape Hero Image Aligned to Container */}
-        <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-neutral-800 shadow-2xl">
-          <Image
-            src={heroImage}
-            alt="Planet Sorted hero artwork"
-            fill
-            priority
-            unoptimized
-            className="object-cover"
-          />
-        </div>
       </section>
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="h-px bg-[#262626] my-8" />
+        <div className="h-px bg-[#262626] my-6" />
       </div>
 
       {/* Guidebook Section */}
