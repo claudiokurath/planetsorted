@@ -43,7 +43,7 @@ export function SaveToPhoneButton({ slug, context, isLoggedIn, whatsappVerified 
       setSent(true)
     } catch {
       window.open(
-        `https://wa.me/${process.env.NEXT_PUBLIC_WA_NUMBER}?text=${encodeURIComponent(`SAVE ${slug}`)}`,
+        `https://wa.me/${process.env.NEXT_PUBLIC_WA_NUMBER ?? '447360277713'}?text=${encodeURIComponent(slug)}`,
         '_blank'
       )
     } finally {
@@ -53,8 +53,11 @@ export function SaveToPhoneButton({ slug, context, isLoggedIn, whatsappVerified 
 
   return (
     <div className="flex flex-col items-start gap-1">
-      <button onClick={handleClick} disabled={sending}
-              className="inline-block rounded-full bg-green-500 px-6 py-3 font-bold text-white hover:bg-green-600 transition-colors disabled:opacity-50">
+      <button
+        onClick={handleClick}
+        disabled={sending}
+        className="inline-block rounded-full bg-green-500 px-6 py-3 font-bold text-white hover:bg-green-600 transition-colors disabled:opacity-50"
+      >
         {sent ? 'Sent to WhatsApp ✓' : sending ? 'Sending…' : 'GET IT SORTED'}
       </button>
       <p className="text-sm text-gray-500">
