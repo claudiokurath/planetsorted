@@ -1,25 +1,26 @@
 import fs from 'fs'
 import path from 'path'
+import Image from 'next/image'
 import Link from 'next/link'
-import { RotatingHero } from '@/components/RotatingHero'
 import { ContentCard } from '@/components/ContentCard'
 import { GetSortedButton } from '@/components/buttons/GetSortedButton'
 import { PRIORITY_TOOLS } from '@/lib/toolsData'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
 
-function getHeroImages(): string[] {
+function getHeroImage(): string {
   try {
     const dir = path.join(process.cwd(), 'public', 'images', 'heroes')
-    if (!fs.existsSync(dir)) return []
-    return fs.readdirSync(dir).filter((f) => /\.(jpe?g|png|webp)$/i.test(f)).sort().map((f) => `/images/heroes/${f}`)
+    if (!fs.existsSync(dir)) return '/images/banners/dashboard-banner.png'
+    const files = fs.readdirSync(dir).filter((f) => /\.(jpe?g|png|webp)$/i.test(f)).sort()
+    return files.length > 0 ? `/images/heroes/${files[0]}` : '/images/banners/dashboard-banner.png'
   } catch {
-    return []
+    return '/images/banners/dashboard-banner.png'
   }
 }
 
 export default async function HomePage() {
-  const heroImages = getHeroImages()
+  const heroImage = getHeroImage()
   const supabase = createServerClient()
 
   const { data: rawProtocols } = await supabase
@@ -34,44 +35,42 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-[#141414] via-[#0A0A0A] to-black">
-        <div className="mx-auto max-w-7xl px-4 pt-12 pb-20 sm:px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-            <div className="space-y-6">
-              {/* Thin red rule above headline */}
-              <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-              <p className="mb-3 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Planet Sorted</p>
-
-              {/* Hero headline */}
-              <h1 className="text-7xl sm:text-8xl font-black uppercase leading-none tracking-tight text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-                Templates,<br /><span style={{ color: '#C0392B' }}>not inspiration.</span>
-              </h1>
-
-              {/* Subheadline */}
-              <p className="max-w-md text-xl sm:text-2xl leading-relaxed text-neutral-300">
-                Practical protocols and tools for neurodivergent adults. No app. No spam. Just what works.
-              </p>
-
-              {/* Clean CTA button area */}
-              <div className="pt-2">
-                <GetSortedButton slug="home" context="article" />
-              </div>
-            </div>
-
-            {/* Hero image container */}
-            <div className="shadow-2xl rounded-2xl overflow-hidden">
-              <RotatingHero images={heroImages} />
-            </div>
+      <section className="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 lg:px-8">
+        <div className="space-y-6 max-w-3xl mb-10">
+          <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
+          <p className="mb-3 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Planet Sorted</p>
+          <h1 className="text-6xl sm:text-8xl font-black uppercase leading-none tracking-tight text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+            Templates,<br /><span style={{ color: '#C0392B' }}>not inspiration.</span>
+          </h1>
+          <p className="text-xl sm:text-2xl leading-relaxed text-neutral-300">
+            Practical protocols and tools for neurodivergent adults. No app. No spam. Just what works.
+          </p>
+          <div className="pt-2">
+            <GetSortedButton slug="home" context="article" />
           </div>
+        </div>
+
+        {/* Clean 16:9 Landscape Hero Image Aligned to Container */}
+        <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-neutral-800 shadow-2xl">
+          <Image
+            src={heroImage}
+            alt="Planet Sorted hero artwork"
+            fill
+            priority
+            unoptimized
+            className="object-cover"
+          />
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px bg-[#262626] my-8" /></div>
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="h-px bg-[#262626] my-8" />
+      </div>
 
       {/* Guidebook Section */}
       {articles.length > 0 && (
         <>
-          <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
             <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
                 <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
@@ -100,20 +99,21 @@ export default async function HomePage() {
             </div>
           </section>
 
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><div className="h-px bg-[#262626] my-8" /></div>
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="h-px bg-[#262626] my-8" />
+          </div>
         </>
       )}
 
       {/* Toolbox Section */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <section className="mx-auto max-w-6xl px-4 py-12 pb-24 sm:px-6 lg:px-8">
+        <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-            <p className="mb-1 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Sorted Lab</p>
+            <p className="mb-1 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Interactive Web Apps</p>
             <h2 className="text-5xl sm:text-6xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
               Toolbox
             </h2>
-            <p className="mt-2 max-w-xl text-lg text-neutral-400">Text one word. Get your result. Come back any time.</p>
           </div>
           <Link href="/tools" className="text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:text-white transition-colors underline underline-offset-4">
             View all tools →
