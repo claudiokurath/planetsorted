@@ -58,7 +58,7 @@ export function SaveToPhoneButton({ slug, context, isLoggedIn, whatsappVerified 
         disabled={sending}
         className="inline-block rounded-full bg-green-500 px-6 py-3 font-bold text-white hover:bg-green-600 transition-colors disabled:opacity-50"
       >
-        {sent ? 'Sent to WhatsApp ✓' : sending ? 'Sending…' : 'GET IT SORTED'}
+        {sent ? 'Sent to WhatsApp ✓' : sending ? 'Sending…' : 'GET IT SOR7ED'}
       </button>
       <p className="text-sm text-gray-500">
         {sent ? 'Check WhatsApp — it should be there now.' : HELPER_TEXT[context]}
