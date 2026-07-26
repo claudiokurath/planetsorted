@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { cookies } from 'next/headers'
 import { ToolClient } from '@/components/ToolClient'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Entitlement } from '@/lib/types/database'
@@ -39,35 +38,20 @@ export default async function ToolPage({ params }: Props) {
     notFound()
   }
 
-  const cookieStore = await cookies()
-  const allCookies = cookieStore.getAll()
-  const sbCookie = allCookies.find(c => c.name.includes('auth-token') || c.name.includes('access_token'))
-  
-  let token: string | undefined
-  if (sbCookie) {
-    try {
-      const parsed = JSON.parse(sbCookie.value)
-      token = parsed.access_token || parsed[0]
-    } catch {
-      token = sbCookie.value
-    }
-  }
+  const supabase = createServerClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
   let hasPaidPlan = false
 
-  if (token) {
-    const supabase = createServerClient()
-    const { data: userData } = await supabase.auth.getUser(token)
-    if (userData?.user) {
-      const { data: entitlement } = await supabase
-        .from('entitlements')
-        .select('status')
-        .eq('user_id', userData.user.id)
-        .single()
+  if (user) {
+    const { data: entitlement } = await supabase
+      .from('entitlements')
+      .select('status')
+      .eq('user_id', user.id)
+      .single()
 
-      const row = entitlement as Entitlement | null
-      hasPaidPlan = row?.status === 'active'
-    }
+    const row = entitlement as Entitlement | null
+    hasPaidPlan = row?.status === 'active'
   }
 
   return <ToolClient slug={slug} hasPaidPlan={hasPaidPlan} />
