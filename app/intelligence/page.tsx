@@ -18,11 +18,10 @@ export default async function GuidebookListingPage() {
       {/* Banner Header */}
       <div className="relative w-full aspect-[21/9] max-h-72 overflow-hidden bg-neutral-900 border-b border-neutral-800">
         <Image
-          src="/images/banners/guidebook banner.png"
+          src="/images/banners/guidebook-banner.png"
           alt="Guidebook Banner"
           fill
           priority
-          unoptimized
           className="object-cover opacity-80"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
