@@ -1,4 +1,3 @@
-import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
 import { RichLinkRedirect } from './RichLinkRedirect'
@@ -7,45 +6,69 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+
+const TOOL_SLUGS: Record<string, { title: string; description: string; image: string }> = {
+  'adhd-tax-calculator': {
+    title: 'ADHD Tax Calculator — Sorted Lab',
+    description: 'Calculate subscription leaks, late fees, and impulse buying overhead in 3 minutes.',
+    image: `${SITE}/images/tool-tax.jpg`,
+  },
+  'financial-autopilot': {
+    title: 'Financial Autopilot — Sorted Lab',
+    description: 'Build a friction-free bill and savings automation system in 5 minutes.',
+    image: `${SITE}/images/tool-autopilot.jpg`,
+  },
+  'decision-paralysis-solver': {
+    title: 'Decision Paralysis Solver — Sorted Lab',
+    description: 'Break through overthinking with forced binary elimination in 2 minutes.',
+    image: `${SITE}/images/tool-clarity.jpg`,
+  },
+}
+
 const SYSTEM_PAGES: Record<string, { title: string; description: string; targetUrl: string; image: string }> = {
   tools: {
     title: 'Sorted Lab — Interactive Tools',
     description: 'Practical interactive tools & calculators for neurodivergent adults.',
-    targetUrl: 'https://planetsorted.com/tools',
-    image: 'https://planetsorted.com/images/banners/toolbox banner.png',
+    targetUrl: `${SITE}/tools`,
+    image: `${SITE}/images/banners/toolbox-banner.png`,
   },
   help: {
     title: 'Planet Sorted — Toolbox & Guides',
-    description: 'Text TAX, CLARITY, or BURNOUT to run interactive tools instantly.',
-    targetUrl: 'https://planetsorted.com/tools',
-    image: 'https://planetsorted.com/images/banners/toolbox banner.png',
+    description: 'Text TAX, CLARITY, or AUTOPILOT to run interactive tools instantly.',
+    targetUrl: `${SITE}/tools`,
+    image: `${SITE}/images/banners/toolbox-banner.png`,
   },
   login: {
     title: 'Sign In — Planet Sorted',
     description: 'Magic link sign in. No password needed.',
-    targetUrl: 'https://planetsorted.com/signup',
-    image: 'https://planetsorted.com/images/banners/dashboard banner.png',
+    targetUrl: `${SITE}/signup`,
+    image: `${SITE}/images/banners/dashboard-banner.png`,
   },
   library: {
     title: 'Your Saved Library — Planet Sorted',
     description: 'Access your saved protocols, tools, and history.',
-    targetUrl: 'https://planetsorted.com/dashboard',
-    image: 'https://planetsorted.com/images/banners/dashboard banner.png',
+    targetUrl: `${SITE}/dashboard`,
+    image: `${SITE}/images/banners/dashboard-banner.png`,
   },
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const supabase = createServerClient()
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
   let title = 'Planet Sorted'
   let description = 'Practical protocols & tools for neurodivergent adults.'
-  let imageUrl = `${site}/images/heroes/hero1.jpg`
+  let imageUrl = `${SITE}/images/heroes/hero1.jpg`
 
-  // Check system routes
+  const toolMeta = TOOL_SLUGS[slug.toLowerCase()]
   const systemPage = SYSTEM_PAGES[slug.toLowerCase()]
-  if (systemPage) {
+
+  if (toolMeta) {
+    title = toolMeta.title
+    description = toolMeta.description
+    imageUrl = toolMeta.image
+  } else if (systemPage) {
     title = systemPage.title
     description = systemPage.description
     imageUrl = systemPage.image
@@ -87,7 +110,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       images: [{ url: imageUrl, width: 1200, height: 630, alt: title }],
-      url: `${site}/r/${slug}`,
+      url: `${SITE}/r/${slug}`,
       siteName: 'Planet Sorted',
       type: 'website',
     },
@@ -103,14 +126,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function RichLinkPage({ params }: Props) {
   const { slug } = await params
   const supabase = createServerClient()
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
+  // 1. Tool slugs redirect directly to /tools/[slug]
+  if (TOOL_SLUGS[slug.toLowerCase()]) {
+    return <RichLinkRedirect targetUrl={`${SITE}/tools/${slug.toLowerCase()}`} />
+  }
+
+  // 2. System pages redirect to target URL
   const systemPage = SYSTEM_PAGES[slug.toLowerCase()]
   if (systemPage) {
     return <RichLinkRedirect targetUrl={systemPage.targetUrl} />
   }
 
-  // 1. Try to find target_url from rich_links
+  // 3. Try to find target_url from rich_links
   const { data: richLink } = await supabase
     .from('rich_links')
     .select('target_url')
@@ -121,7 +149,7 @@ export default async function RichLinkPage({ params }: Props) {
   let targetUrl = linkRow?.target_url
 
   if (!targetUrl) {
-    // 2. Fall back to dynamic article route if it is a published protocol slug
+    // 4. Fall back to dynamic article route if it is a published protocol slug
     const { data: protocol } = await supabase
       .from('protocols')
       .select('slug')
@@ -131,12 +159,13 @@ export default async function RichLinkPage({ params }: Props) {
 
     const protocolRow = protocol as { slug: string } | null
     if (protocolRow) {
-      targetUrl = `${site}/intelligence/${slug}`
+      targetUrl = `${SITE}/intelligence/${slug}`
     }
   }
 
+  // Safe fallback to /tools so users are never shown a dead-end 404
   if (!targetUrl) {
-    notFound()
+    targetUrl = `${SITE}/tools`
   }
 
   return <RichLinkRedirect targetUrl={targetUrl} />
