@@ -73,9 +73,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ status: 'ok' })
     }
 
+    // Strip legacy action prefixes (SAVE, RUN, ARTICLE, AUDIO) if present
+    const cleanText = text.replace(/^(SAVE|RUN|ARTICLE|AUDIO)\s+/i, '').trim()
+    const cleanVerb = cleanText.toUpperCase()
+
     // ── Known tool keyword → that tool's card
-    if (TOOL_KEYWORDS[verb]) {
-      const url = `${SITE}/r/${TOOL_KEYWORDS[verb]}`
+    if (TOOL_KEYWORDS[cleanVerb]) {
+      const url = `${SITE}/r/${TOOL_KEYWORDS[cleanVerb]}`
       await sendWhatsAppMessage(from, url, url)
       return NextResponse.json({ status: 'ok' })
     }
@@ -85,7 +89,7 @@ export async function POST(req: NextRequest) {
       .from('protocols')
       .select('slug')
       .eq('status', 'Published')
-      .or(`keyword.ilike.${verb},slug.ilike.${text.toLowerCase()}`)
+      .or(`keyword.ilike.${cleanVerb},slug.ilike.${cleanText.toLowerCase()}`)
       .maybeSingle()
 
     if (article) {

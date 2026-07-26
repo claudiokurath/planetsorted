@@ -16,7 +16,7 @@ interface ArticleSection {
 }
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-const WA_NUMBER = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447591922247'
+const WA_NUMBER = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447360277713'
 
 function parseArticleSections(rawText: string, title?: string): ArticleSection[] {
   if (!rawText) return []
@@ -117,8 +117,8 @@ export default async function ArticlePage({ params }: Props) {
 
   const categoryStyle = getCategoryStyle(protocol.category)
   const audioUrl = protocol.audio_url?.trim() || undefined
-  const triggerKeyword = protocol.keyword || slug.toUpperCase()
-  const waAudioUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('AUDIO ' + slug)}`
+  const triggerKeyword = protocol.keyword || slug
+  const waAudioUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(triggerKeyword)}`
 
   // Parse Notion body text into structured section blocks
   const rawBodyText = protocol.problem || protocol.excerpt || protocol.summary || ''
@@ -211,7 +211,7 @@ export default async function ArticlePage({ params }: Props) {
             </div>
           </div>
           <div className="pt-2">
-            <SaveToPhoneButton slug={slug} context="article" isLoggedIn={!!user} whatsappVerified={whatsappVerified} />
+            <SaveToPhoneButton slug={triggerKeyword} context="article" isLoggedIn={!!user} whatsappVerified={whatsappVerified} />
           </div>
         </div>
       </article>

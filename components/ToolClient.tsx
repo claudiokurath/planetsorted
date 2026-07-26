@@ -99,7 +99,8 @@ export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
   const [optionB, setOptionB] = useState('')
   const [fear, setFear] = useState('')
 
-  const waDirectUrl = `https://wa.me/447591922247?text=${encodeURIComponent(meta.keyword)}`
+  const WA_NUMBER = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447360277713'
+  const waDirectUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(meta.keyword)}`
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
