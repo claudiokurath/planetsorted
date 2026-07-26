@@ -2,7 +2,24 @@ import type { Metadata } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-const TOOL_SLUGS = ['adhd-tax-calculator', 'financial-autopilot', 'decision-paralysis-solver']
+
+const TOOL_SLUGS: Record<string, { title: string; description: string; image: string }> = {
+  'adhd-tax-calculator': {
+    title: 'ADHD Tax Calculator — Sorted Lab',
+    description: 'Calculate subscription leaks, late fees, and impulse buying overhead in 3 minutes.',
+    image: `${SITE}/images/tool-tax.jpg`,
+  },
+  'financial-autopilot': {
+    title: 'Financial Autopilot — Sorted Lab',
+    description: 'Build a friction-free bill and savings automation system in 5 minutes.',
+    image: `${SITE}/images/tool-autopilot.jpg`,
+  },
+  'decision-paralysis-solver': {
+    title: 'Decision Paralysis Solver — Sorted Lab',
+    description: 'Break through overthinking with forced binary elimination in 2 minutes.',
+    image: `${SITE}/images/tool-clarity.jpg`,
+  },
+}
 
 // System cards — checked first since these slugs will never collide with real content
 const SYSTEM_SLUGS: Record<string, { target: string; title: string; desc: string; image: string }> = {
@@ -26,54 +43,94 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
+  const lowerSlug = slug.toLowerCase()
 
-  if (SYSTEM_SLUGS[slug]) {
-    const sys = SYSTEM_SLUGS[slug]
-    return {
-      title: sys.title,
-      description: sys.desc,
-      openGraph: {
-        title: sys.title,
-        description: sys.desc,
-        images: [{ url: sys.image, width: 1200, height: 630 }],
-        url: `${SITE}/r/${slug}`,
-      },
+  let title = 'Planet Sorted'
+  let description = 'No app. No spam. Just what works.'
+  let imageUrl = `${SITE}/api/og?card=welcome`
+
+  if (SYSTEM_SLUGS[lowerSlug]) {
+    const sys = SYSTEM_SLUGS[lowerSlug]
+    title = sys.title
+    description = sys.desc
+    imageUrl = sys.image
+  } else if (TOOL_SLUGS[lowerSlug]) {
+    const tool = TOOL_SLUGS[lowerSlug]
+    title = tool.title
+    description = tool.description
+    imageUrl = tool.image
+  } else {
+    const supabase = createServerClient()
+
+    // 1. Try rich_links table
+    const { data: richLink } = await supabase
+      .from('rich_links')
+      .select('title, description, image_url')
+      .eq('slug', slug)
+      .single()
+
+    if (richLink?.title || richLink?.image_url) {
+      title = richLink.title ?? title
+      description = richLink.description ?? description
+      if (richLink.image_url) imageUrl = richLink.image_url
+    } else {
+      // 2. Try protocols table
+      const { data: article } = await supabase
+        .from('protocols')
+        .select('title, summary, cover_image')
+        .eq('slug', slug)
+        .single()
+
+      if (article) {
+        title = article.title
+        description = article.summary ?? description
+        if (article.cover_image) imageUrl = article.cover_image
+      }
     }
   }
 
-  if (TOOL_SLUGS.includes(slug)) {
-    const title = `${slug.replace(/-/g, ' ')} — Sorted Lab`
-    return { title, openGraph: { title, url: `${SITE}/r/${slug}` } }
-  }
+  const isPng = imageUrl.endsWith('.png') || imageUrl.includes('/api/og')
+  const imageType = isPng ? 'image/png' : 'image/jpeg'
 
-  const supabase = createServerClient()
-  const { data } = await supabase.from('protocols').select('title, summary, cover_image').eq('slug', slug).single()
-
-  if (data) {
-    return {
-      title: data.title,
-      description: data.summary ?? undefined,
-      openGraph: {
-        title: data.title,
-        description: data.summary ?? undefined,
-        images: data.cover_image ? [{ url: data.cover_image, width: 1200, height: 630 }] : [],
-        url: `${SITE}/r/${slug}`,
-      },
-    }
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          type: imageType,
+          alt: title,
+        },
+      ],
+      url: `${SITE}/r/${slug}`,
+      siteName: 'Planet Sorted',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [imageUrl],
+    },
   }
-  return { title: 'Planet Sorted' }
 }
 
 export default async function RichLinkRedirect({ params }: Props) {
   const { slug } = await params
+  const lowerSlug = slug.toLowerCase()
   const supabase = createServerClient()
 
   let target = SITE // safe default — never dead-ends into a bare 404
 
-  if (SYSTEM_SLUGS[slug]) {
-    target = `${SITE}${SYSTEM_SLUGS[slug].target}`
-  } else if (TOOL_SLUGS.includes(slug)) {
-    target = `${SITE}/tools/${slug}`
+  if (SYSTEM_SLUGS[lowerSlug]) {
+    target = `${SITE}${SYSTEM_SLUGS[lowerSlug].target}`
+  } else if (TOOL_SLUGS[lowerSlug]) {
+    target = `${SITE}/tools/${lowerSlug}`
   } else {
     const { data: article } = await supabase.from('protocols').select('slug').eq('slug', slug).single()
     if (article) {
