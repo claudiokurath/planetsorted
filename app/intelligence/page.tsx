@@ -1,11 +1,11 @@
 import Image from 'next/image'
-import { createClient } from '@supabase/supabase-js'
+import { createServerClient } from '@/lib/supabase/server'
 import { ContentCard } from '@/components/ContentCard'
 
 export const revalidate = 60
 
 export default async function GuidebookListingPage() {
-  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+  const supabase = createServerClient()
 
   const { data: articles } = await supabase
     .from('protocols')
