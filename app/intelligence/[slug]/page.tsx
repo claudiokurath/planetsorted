@@ -202,17 +202,14 @@ export default async function ArticlePage({ params }: Props) {
           ))}
         </div>
 
-        {/* Clean Single-Button WhatsApp Action Card */}
-        <div className="mt-16 rounded-2xl border border-neutral-800 bg-[#141414] p-6 sm:p-10 text-white shadow-2xl space-y-6">
+        {/* Ultra-Clean Single-Button WhatsApp Action Card */}
+        <div className="mt-16 rounded-2xl border border-neutral-800 bg-[#141414] p-6 sm:p-10 text-white shadow-2xl space-y-4">
           <div className="space-y-2">
             <span className="text-xs font-bold uppercase tracking-widest text-[#3498DB]">Instant WhatsApp Protocol</span>
             <div className="text-4xl sm:text-6xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
               TEXT &ldquo;{triggerKeyword}&rdquo;
             </div>
           </div>
-          <p className="text-base sm:text-lg leading-relaxed text-neutral-300">
-            Click below to send <strong className="text-white">&ldquo;{triggerKeyword}&rdquo;</strong> directly to your phone via WhatsApp.
-          </p>
           <div className="pt-2">
             <SaveToPhoneButton slug={slug} context="article" isLoggedIn={!!user} whatsappVerified={whatsappVerified} />
           </div>
