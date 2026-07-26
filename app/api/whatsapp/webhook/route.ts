@@ -4,8 +4,8 @@ import { detectCrisis, CRISIS_RESPONSE } from '@/lib/whatsapp/crisis'
 import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-const START_URL = `${SITE}/r/start`
-const GOODBYE_URL = `${SITE}/r/goodbye`
+const START_URL = `${SITE}/r/start?v=2`
+const GOODBYE_URL = `${SITE}/r/goodbye?v=2`
 
 const TOOL_KEYWORDS: Record<string, string> = {
   TAX: 'adhd-tax-calculator',

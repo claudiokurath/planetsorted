@@ -4,11 +4,11 @@ export const runtime = 'edge'
 
 const CARDS: Record<string, { heading: string; sub: string }> = {
   welcome: {
-    heading: 'Text a word.\nGet a protocol.',
+    heading: 'TEXT A WORD.\nGET A PROTOCOL.',
     sub: 'No app. No spam. Just what works.',
   },
   goodbye: {
-    heading: "You're paused.",
+    heading: "YOU'RE PAUSED.",
     sub: 'Text START any time to come back.',
   },
 }
@@ -21,7 +21,7 @@ export async function GET(req: Request) {
     (
       <div
         style={{
-          background: '#0a0a0a',
+          background: '#FAF7F2',
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -29,24 +29,25 @@ export async function GET(req: Request) {
           alignItems: 'center',
           justifyContent: 'center',
           padding: '80px',
+          border: '24px solid #1A1A1A',
         }}
       >
         <div
           style={{
             color: '#C0392B',
-            fontSize: 22,
+            fontSize: 32,
             fontWeight: 900,
-            letterSpacing: '0.3em',
+            letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            marginBottom: 20,
+            marginBottom: 40,
           }}
         >
           PLANET SORTED
         </div>
         <div
           style={{
-            color: '#fff',
-            fontSize: 64,
+            color: '#1A1A1A',
+            fontSize: 96,
             fontWeight: 900,
             textTransform: 'uppercase',
             textAlign: 'center',
@@ -58,10 +59,11 @@ export async function GET(req: Request) {
         </div>
         <div
           style={{
-            color: '#999',
-            fontSize: 26,
-            marginTop: 24,
+            color: '#555555',
+            fontSize: 36,
+            marginTop: 40,
             textAlign: 'center',
+            fontWeight: 600,
           }}
         >
           {card.sub}
