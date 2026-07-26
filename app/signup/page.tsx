@@ -8,8 +8,10 @@ export const metadata = {
 
 export default function SignupPage() {
   return (
-    <Suspense fallback={null}>
-      <SignupForm />
-    </Suspense>
+    <main className="min-h-[calc(100vh-80px)] bg-black flex items-center justify-center px-4 py-12">
+      <Suspense fallback={null}>
+        <SignupForm />
+      </Suspense>
+    </main>
   )
 }
