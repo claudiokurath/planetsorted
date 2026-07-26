@@ -36,19 +36,20 @@ export async function GET(req: Request) {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '80px',
-          border: '24px solid #1A1A1A',
+          padding: '60px',
+          border: '18px solid #1A1A1A',
+          boxSizing: 'border-box',
           fontFamily: fontData ? 'Inter' : 'sans-serif',
         }}
       >
         <div
           style={{
             color: '#C0392B',
-            fontSize: 32,
+            fontSize: 28,
             fontWeight: 900,
-            letterSpacing: '0.2em',
+            letterSpacing: '0.25em',
             textTransform: 'uppercase',
-            marginBottom: 40,
+            marginBottom: 32,
           }}
         >
           PLANET SORTED
@@ -56,21 +57,21 @@ export async function GET(req: Request) {
         <div
           style={{
             color: '#1A1A1A',
-            fontSize: 96,
+            fontSize: 80,
             fontWeight: 900,
             textTransform: 'uppercase',
             textAlign: 'center',
             whiteSpace: 'pre-line',
-            lineHeight: 1.1,
+            lineHeight: 1.15,
           }}
         >
           {card.heading}
         </div>
         <div
           style={{
-            color: '#555555',
-            fontSize: 36,
-            marginTop: 40,
+            color: '#4A4A4A',
+            fontSize: 32,
+            marginTop: 32,
             textAlign: 'center',
             fontWeight: 600,
           }}
