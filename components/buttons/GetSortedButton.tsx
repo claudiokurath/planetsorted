@@ -25,7 +25,7 @@ export function GetSortedButton({ slug, context }: GetSortedButtonProps) {
         rel="noopener noreferrer"
         className="inline-block rounded-full bg-green-500 px-6 py-3 font-bold text-white hover:bg-green-600 transition-colors"
       >
-        GET IT SORTED
+        GET IT SOR7ED
       </a>
       <p className="text-sm text-gray-500">{HELPER_TEXT[context]}</p>
     </div>
