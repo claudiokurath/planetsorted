@@ -8,7 +8,7 @@ export function SiteFooter() {
           {/* Column 1: Brand */}
           <div className="space-y-3">
             <h3 className="text-2xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-              Planet Sorted
+              Planet SOR7ED
             </h3>
             <p className="text-xs text-neutral-400 max-w-xs leading-relaxed">
               Practical tools and protocols for neurodivergent adults. No app. No spam. Just what works.
@@ -41,10 +41,10 @@ export function SiteFooter() {
         {/* Bottom Legal Disclaimer */}
         <div className="pt-6 text-center space-y-2">
           <p className="text-xs text-gray-500">
-            © {new Date().getFullYear()} Planet Sorted Limited (trading as Planet Sorted). All rights reserved.
+            © {new Date().getFullYear()} Planet Sorted Limited (trading as Planet SOR7ED). All rights reserved.
           </p>
           <p className="text-xs text-gray-500 max-w-xl mx-auto">
-            Planet Sorted provides educational tools and protocols. Not medical, clinical, legal, or financial advice. Not a crisis service. In immediate danger: call 999. To talk now: text SHOUT to 85258.
+            Planet SOR7ED provides educational tools and protocols. Not medical, clinical, legal, or financial advice. Not a crisis service. In immediate danger: call 999. To talk now: text SHOUT to 85258.
           </p>
         </div>
       </div>
