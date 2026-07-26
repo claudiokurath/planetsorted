@@ -37,9 +37,9 @@ export function SmartNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-800 backdrop-blur-md bg-[#1A1A1A]/95 text-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 py-4">
-        {/* Wordmark */}
+        {/* Wordmark logo with brand 7 */}
         <Link href="/" className="text-2xl font-black uppercase tracking-wider text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-          Planet Sorted
+          Planet SOR7ED
         </Link>
 
         {/* Desktop Nav links */}
@@ -98,36 +98,31 @@ export function SmartNav() {
             aria-label="Toggle Navigation Menu"
           >
             <div className="space-y-1.5 w-6">
-              <span className="block h-0.5 w-6 bg-white" />
-              <span className="block h-0.5 w-6 bg-white" />
-              <span className="block h-0.5 w-6 bg-white" />
+              <span className={`block h-0.5 bg-white transition-transform ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`block h-0.5 bg-white transition-opacity ${mobileMenuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block h-0.5 bg-white transition-transform ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </div>
           </button>
         </div>
       </nav>
 
-      {/* Mobile Dropdown */}
+      {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-neutral-800 bg-[#1A1A1A] px-6 py-4 space-y-3">
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href || pathname?.startsWith(`${link.href}/`)
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block text-sm font-semibold uppercase tracking-wider py-2 ${
-                  isActive ? 'text-[#C0392B] font-bold' : 'text-white/80 hover:text-white'
-                }`}
-              >
-                {link.label}
-              </Link>
-            )
-          })}
+        <div className="md:hidden border-t border-neutral-800 bg-[#1A1A1A] px-4 pt-3 pb-6 space-y-3">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-base font-bold uppercase tracking-wider text-white hover:text-[#C0392B] py-2"
+            >
+              {link.label}
+            </Link>
+          ))}
           <Link
             href="/dashboard"
             onClick={() => setMobileMenuOpen(false)}
-            className="block text-sm font-semibold uppercase tracking-wider text-white/80 hover:text-white py-2"
+            className="block text-base font-bold uppercase tracking-wider text-white hover:text-[#C0392B] py-2 border-t border-neutral-800 pt-3"
           >
             Dashboard
           </Link>

@@ -14,6 +14,38 @@ interface Props {
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 const WA_NUMBER = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447591922247'
 
+function formatArticleContent(text: string, title?: string): string {
+  if (!text) return ''
+
+  let s = text
+
+  // Strip duplicate raw title if present at the very beginning of the body text
+  if (title && s.toUpperCase().startsWith(title.toUpperCase())) {
+    s = s.slice(title.length).trim()
+  }
+
+  // Insert double line breaks before ALL-CAPS headings stuck to sentence endings
+  s = s.replace(/([\.!\?])\s*([A-Z\s“”"'\:\-]{5,65})(?=\n|$)/g, '$1\n\n### $2\n\n')
+  s = s.replace(/([\.!\?])\s*([A-Z][A-Z\s“”"'\:\-]{5,65}\b)/g, '$1\n\n### $2\n\n')
+
+  const lines = s.split(/\n+/)
+  const out: string[] = []
+
+  for (let l of lines) {
+    l = l.trim()
+    if (!l) continue
+
+    // Detect uppercase subheadings and format as H3 headings
+    if (!l.startsWith('#') && l.length > 4 && l.length < 65 && l === l.toUpperCase() && !l.startsWith('---')) {
+      out.push(`### ${l}`)
+    } else {
+      out.push(l)
+    }
+  }
+
+  return out.join('\n\n')
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const supabase = createServerClient()
@@ -70,8 +102,9 @@ export default async function ArticlePage({ params }: Props) {
   const waClickUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(triggerKeyword)}`
   const waAudioUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('AUDIO ' + slug)}`
 
-  // Website shows the full story/problem text from Notion
-  const mainContent = protocol.problem || protocol.excerpt || protocol.summary || ''
+  // Format Notion body text into distinct paragraphs and section headers
+  const rawBodyText = protocol.problem || protocol.excerpt || protocol.summary || ''
+  const formattedContent = formatArticleContent(rawBodyText, protocol.title)
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -132,21 +165,20 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         )}
 
-        {/* Full Story Article Body Content */}
-        {mainContent && (
+        {/* Full Article Body Content split into beautiful paragraphs & subheadings */}
+        {formattedContent && (
           <div className="prose prose-invert prose-lg max-w-none mb-12
             prose-p:text-neutral-200 prose-p:text-lg prose-p:leading-relaxed prose-p:mb-6
-            prose-headings:font-black prose-headings:uppercase prose-headings:text-white prose-headings:tracking-tight prose-headings:mt-8 prose-headings:mb-4
-            prose-h2:text-3xl prose-h2:border-b prose-h2:border-neutral-800 prose-h2:pb-2
-            prose-h3:text-2xl prose-h3:text-[#C0392B]
+            prose-headings:font-black prose-headings:uppercase prose-headings:text-white prose-headings:tracking-tight prose-headings:mt-10 prose-headings:mb-4
+            prose-h3:text-2xl prose-h3:text-[#C0392B] prose-h3:border-b prose-h3:border-neutral-800/80 prose-h3:pb-2
             prose-strong:font-bold prose-strong:text-white
             prose-ul:my-6 prose-li:text-neutral-200 prose-li:text-lg prose-li:my-1.5
             prose-blockquote:border-l-4 prose-blockquote:border-[#C0392B] prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-neutral-300">
-            <ReactMarkdown>{mainContent}</ReactMarkdown>
+            <ReactMarkdown>{formattedContent}</ReactMarkdown>
           </div>
         )}
 
-        {/* WhatsApp Call to Action Box */}
+        {/* Clean WhatsApp Call to Action Box */}
         <div className="rounded-2xl border border-neutral-800 bg-[#141414] p-6 sm:p-10 text-white shadow-2xl space-y-6">
           <div className="space-y-2">
             <span className="text-xs font-bold uppercase tracking-widest text-[#3498DB]">Instant WhatsApp Protocol</span>
@@ -164,7 +196,7 @@ export default async function ArticlePage({ params }: Props) {
               rel="noopener noreferrer"
               className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#C0392B] px-8 py-4 text-base sm:text-lg font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg text-center"
             >
-              <span>GET IT SORTED ON WHATSAPP →</span>
+              <span>OPEN IN WHATSAPP →</span>
             </a>
             <div className="flex justify-start">
               <SaveToPhoneButton slug={slug} context="article" isLoggedIn={!!user} whatsappVerified={whatsappVerified} />
