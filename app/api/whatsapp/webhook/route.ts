@@ -1,16 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { detectCrisis, CRISIS_RESPONSE } from '@/lib/whatsapp/crisis'
-import { parseCommand } from '@/lib/whatsapp/parseCommand'
 import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
-const toolSlugs: Record<string, string> = {
+const TOOL_KEYWORDS: Record<string, string> = {
   TAX: 'adhd-tax-calculator',
   AUTOPILOT: 'financial-autopilot',
   CLARITY: 'decision-paralysis-solver',
 }
+
+const HELP_TEXT = `Planet SOR7ED — just text a word to get its link:
+
+TAX · AUTOPILOT · CLARITY — tools
+DEBT · THERAPY · CARE — protocols (or any live keyword)
+
+STOP — pause all messages · START — turn back on
+STOPWEEKLY / STARTWEEKLY — weekly check-in only
+LOGIN — get a sign-in link
+
+Not a crisis service. In danger: call 999. To talk: text SHOUT to 85258.`
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
@@ -27,132 +37,79 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
     const message = body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]
-    if (!message || message.type !== 'text') return NextResponse.json({ status: 'ignored' })
+    if (!message || message.type !== 'text') {
+      return NextResponse.json({ status: 'ignored' })
+    }
 
     const from: string = message.from
-    const rawText: string = message.text.body.trim()
+    const text: string = message.text.body.trim()
 
-    if (detectCrisis(rawText)) {
+    // Crisis check runs before anything else — never remove this ordering
+    if (detectCrisis(text)) {
       await sendWhatsAppMessage(from, CRISIS_RESPONSE)
-      return NextResponse.json({ status: 'crisis_handled' })
+      return NextResponse.json({ status: 'crisis' })
     }
 
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    const verb = text.toUpperCase()
+    const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+
+    // ── System commands — the only "special" words left ──────────────────────
+    if (verb === 'HELP' || verb === 'MENU') {
+      await sendWhatsAppMessage(from, HELP_TEXT)
+      return NextResponse.json({ status: 'ok' })
+    }
+    if (verb === 'STOP') {
+      await sb.from('users').update({ whatsapp_opted_out: true }).eq('whatsapp_number', from)
+      await sendWhatsAppMessage(from, "You've been unsubscribed from everything. Text START to turn it back on.")
+      return NextResponse.json({ status: 'ok' })
+    }
+    if (verb === 'START') {
+      await sb.from('users').update({ whatsapp_opted_out: false }).eq('whatsapp_number', from)
+      await sendWhatsAppMessage(from, "You're back on. Text a keyword to get started.")
+      return NextResponse.json({ status: 'ok' })
+    }
+    if (verb === 'STOPWEEKLY') {
+      await sb.from('users').update({ weekly_opted_in: false }).eq('whatsapp_number', from)
+      await sendWhatsAppMessage(from, "You're off the weekly check-in. Text STARTWEEKLY to turn it back on.")
+      return NextResponse.json({ status: 'ok' })
+    }
+    if (verb === 'STARTWEEKLY') {
+      await sb.from('users').update({ weekly_opted_in: true }).eq('whatsapp_number', from)
+      await sendWhatsAppMessage(from, "Weekly check-in is on — every Tuesday, one nudge.")
+      return NextResponse.json({ status: 'ok' })
+    }
+    if (verb === 'LOGIN') {
+      await sendWhatsAppMessage(from, `Sign in at ${SITE}/signup — no password, just your email.`)
+      return NextResponse.json({ status: 'ok' })
+    }
+
+    // ── Everything else: one keyword → one rich link, nothing more ───────────
+    if (TOOL_KEYWORDS[verb]) {
+      const url = `${SITE}/r/${TOOL_KEYWORDS[verb]}`
+      await sendWhatsAppMessage(from, url, url) // bare URL, preview_url: true
+      return NextResponse.json({ status: 'ok' })
+    }
+
+    const { data: article } = await sb
+      .from('protocols')
+      .select('slug')
+      .eq('status', 'Published')
+      .or(`keyword.ilike.${verb},slug.ilike.${text.toLowerCase()}`)
+      .maybeSingle() // 0 rows = null, no error noise
+
+    if (article) {
+      const url = `${SITE}/r/${article.slug}`
+      await sendWhatsAppMessage(from, url, url)
+      return NextResponse.json({ status: 'ok' })
+    }
+
+    // Nothing matched — fallback to /tools
+    await sendWhatsAppMessage(
+      from,
+      `Didn't recognise "${text}". Text HELP to see what's live, or browse ${SITE}/tools`
     )
-    const { data: user } = await supabase
-      .from('users')
-      .select('user_id, whatsapp_opted_out')
-      .eq('whatsapp_number', from)
-      .single()
-
-    const { verb, arg } = parseCommand(rawText)
-
-    switch (verb) {
-      case 'HELP':
-      case 'MENU': {
-        const menuRichUrl = `${SITE}/r/tools`
-        const helpMessage = `*Planet Sorted Toolbox*\n\nExplore tools, protocols, and your saved library online 👇\n${menuRichUrl}`
-        await sendWhatsAppMessage(from, helpMessage, menuRichUrl)
-        break
-      }
-
-      case 'STOP':
-        if (user) await supabase.from('users').update({ whatsapp_opted_out: true }).eq('user_id', user.user_id)
-        await sendWhatsAppMessage(from, `You've been unsubscribed from WhatsApp messages. Text START to re-subscribe. Account & saved library: ${SITE}/dashboard`)
-        break
-
-      case 'STOPWEEKLY':
-        if (user) await supabase.from('users').update({ weekly_opted_in: false }).eq('user_id', user.user_id)
-        await sendWhatsAppMessage(from, "Done — turned off weekly updates. Text STARTWEEKLY to resume.")
-        break
-
-      case 'START':
-        if (user) await supabase.from('users').update({ whatsapp_opted_out: false }).eq('user_id', user.user_id)
-        await sendWhatsAppMessage(from, `Welcome back to Planet Sorted! Explore interactive tools & protocols 👇\n${SITE}/r/tools`, `${SITE}/r/tools`)
-        break
-
-      case 'STARTWEEKLY':
-        if (user) await supabase.from('users').update({ weekly_opted_in: true }).eq('user_id', user.user_id)
-        await sendWhatsAppMessage(from, "Weekly updates enabled ✓ We'll send you one practical nudge every Tuesday.")
-        break
-
-      case 'LOGIN': {
-        const loginUrl = `${SITE}/r/login`
-        await sendWhatsAppMessage(from, `Access your Planet Sorted account & library 👇\n${loginUrl}`, loginUrl)
-        break
-      }
-
-      case 'TOOL': {
-        const keyword = arg.toUpperCase()
-        const slug = toolSlugs[keyword]
-        if (!slug) {
-          await sendWhatsAppMessage(from, `Explore all interactive tools on Sorted Lab 👇\n${SITE}/r/tools`, `${SITE}/r/tools`)
-          break
-        }
-
-        const richUrl = `${SITE}/r/${slug}`
-        await sendWhatsAppMessage(from, `Tap to open your tool 👇\n${richUrl}`, richUrl)
-        break
-      }
-
-      case 'SAVE': {
-        const targetUrl = `${SITE}/intelligence/${arg}`
-        const richUrl = `${SITE}/r/${arg}`
-        if (user) {
-          await supabase.from('saved_items').upsert(
-            { user_id: user.user_id, type: 'blog', source_url: targetUrl, target_url: targetUrl, title: arg },
-            { onConflict: 'user_id,source_url' }
-          )
-        }
-        await supabase.from('rich_links').upsert({ slug: arg, target_url: targetUrl, title: arg }, { onConflict: 'slug' })
-        await sendWhatsAppMessage(from, `Saved ✓ View in your library 👇\n${richUrl}`, richUrl)
-        break
-      }
-
-      case 'LIBRARY': {
-        const libraryUrl = `${SITE}/r/library`
-        await sendWhatsAppMessage(from, `Open your saved library on Planet Sorted 👇\n${libraryUrl}`, libraryUrl)
-        break
-      }
-
-      case 'ARTICLE_KEYWORD':
-      default: {
-        const searchTerm = arg.trim().toLowerCase()
-        const { data: protocols } = await supabase
-          .from('protocols')
-          .select('title, summary, cover_image, slug, keyword')
-          .eq('status', 'Published')
-
-        const match = (protocols || []).find((p: any) => 
-          (p.keyword && p.keyword.toLowerCase() === searchTerm) ||
-          (p.slug && p.slug.toLowerCase() === searchTerm)
-        )
-
-        if (match) {
-          const richUrl = `${SITE}/r/${match.slug}`
-          // Update rich_links table with high-res cover_image for WhatsApp preview
-          await supabase.from('rich_links').upsert({
-            slug: match.slug,
-            target_url: `${SITE}/intelligence/${match.slug}`,
-            title: match.title,
-            description: match.summary || 'Read full protocol on Planet Sorted.',
-            image_url: match.cover_image
-          }, { onConflict: 'slug' })
-
-          // Send clean, elegant 2-line response with rich link preview only!
-          const cleanMessage = `*${match.title}*\n\nTap to read full guide 👇\n${richUrl}`
-          await sendWhatsAppMessage(from, cleanMessage, richUrl)
-        } else {
-          const exploreUrl = `${SITE}/r/tools`
-          await sendWhatsAppMessage(from, `Didn't recognise "${rawText}". Explore tools & protocols 👇\n${exploreUrl}`, exploreUrl)
-        }
-        break
-      }
-    }
-
     return NextResponse.json({ status: 'ok' })
+
   } catch (err) {
     console.error('[Webhook error]', err)
     return NextResponse.json({ status: 'error_logged' }, { status: 200 })
