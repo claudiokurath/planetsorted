@@ -2,6 +2,17 @@ import type { MetadataRoute } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
 
+const TOOL_SLUGS = [
+  'adhd-tax-calculator',
+  'financial-autopilot',
+  'decision-paralysis-solver',
+  'dopamine-menu-generator',
+  'task-triage',
+  'rsd-response-scripts',
+  'sensory-audit',
+  'burnout-assessment',
+]
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
   const supabase = createServerClient()
@@ -36,7 +47,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  // Add dynamic articles
+  // Static tool pages
+  const toolRoutes = TOOL_SLUGS.map((slug) => ({
+    url: `${siteUrl}/tools/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.7,
+  }))
+
+  // Dynamic article pages
   const dynamicRoutes = protocols.map((item) => ({
     url: `${siteUrl}/intelligence/${item.slug}`,
     lastModified: item.updated_at ? new Date(item.updated_at) : new Date(),
@@ -44,5 +63,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  return [...routes, ...dynamicRoutes]
+  return [...routes, ...toolRoutes, ...dynamicRoutes]
 }
+

@@ -87,9 +87,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      images: row.cover_image ? [{ url: row.cover_image, width: 1200, height: 630, alt: row.title }] : [],
+      images: row.cover_image ? [{ url: row.cover_image, width: 1200, height: 630, type: 'image/jpeg', alt: row.title }] : [],
       url: `${SITE}/intelligence/${slug}`,
       type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: row.cover_image ? [row.cover_image] : [],
     },
   }
 }
