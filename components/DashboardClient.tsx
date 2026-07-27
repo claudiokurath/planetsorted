@@ -11,56 +11,67 @@ type VerifyState = 'unverified' | 'otp_sent' | 'verified'
 
 interface ToolItem {
   slug: string
+  keyword: string
   title: string
   description: string
   time: string
 }
 
+const WA_NUMBER = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447360277713'
+
 const DASHBOARD_TOOLS: ToolItem[] = [
   {
     slug: 'adhd-tax-calculator',
+    keyword: 'TAX',
     title: 'ADHD Tax Calculator',
     description: 'Calculate subscription leaks, late fees, and impulse buying overhead.',
     time: '3 min run',
   },
   {
     slug: 'financial-autopilot',
+    keyword: 'AUTOPILOT',
     title: 'Financial Autopilot',
     description: 'Friction-free bill and savings automation system.',
     time: '5 min setup',
   },
   {
     slug: 'decision-paralysis-solver',
+    keyword: 'CLARITY',
     title: 'Decision Paralysis Solver',
     description: 'Break through overthinking with forced binary elimination.',
     time: '2 min run',
   },
   {
     slug: 'dopamine-menu-generator',
+    keyword: 'DOPAMINE',
     title: 'Dopamine Menu Generator',
     description: 'Customized brain reset menu (starters, mains, sides, desserts).',
     time: '4 min builder',
   },
   {
     slug: 'task-triage',
+    keyword: 'TRIAGE',
     title: 'Task Triage & Matrix',
     description: 'Convert chaotic task dumps into single next-step priorities.',
     time: '3 min run',
   },
   {
     slug: 'rsd-response-scripts',
+    keyword: 'RSD',
     title: 'RSD Response Scripts',
     description: 'Instant boundary templates for sensitive situations.',
     time: 'Instant',
   },
   {
     slug: 'sensory-audit',
+    keyword: 'SENSORY',
     title: 'Sensory Audit & Reset',
     description: 'Identify environmental noise, light, and sensory drains.',
     time: '4 min audit',
   },
   {
     slug: 'burnout-assessment',
+    keyword: 'BURNOUT',
     title: 'Burnout Assessment & Recovery',
     description: 'Evaluate burnout stage & get non-shame restoration steps.',
     time: '5 min protocol',
@@ -383,12 +394,12 @@ export function DashboardClient() {
                   </Link>
 
                   <Link
-                    href={`https://wa.me/447591922247?text=${encodeURIComponent(`RUN ${tool.slug}`)}`}
+                    href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(tool.keyword)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="rounded-xl border border-gray-800 bg-gray-900/90 px-3 py-1.5 text-[11px] font-semibold text-gray-300 hover:border-emerald-500/40 hover:text-emerald-400 transition-colors"
                   >
-                    GET IT SORTED
+                    GET IT SOR7ED
                   </Link>
                 </div>
               </div>
@@ -541,7 +552,7 @@ export function DashboardClient() {
                     type="tel"
                     value={whatsappNumber}
                     onChange={(e) => setWhatsappNumber(e.target.value.replace(/\D/g, ''))}
-                    placeholder="e.g. 447591922247"
+                    placeholder="e.g. 447360277713"
                     className="w-full rounded-xl border border-gray-800 bg-gray-950 px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-emerald-500 focus:outline-none font-mono"
                   />
                   <p className="mt-1 text-[11px] text-gray-500">

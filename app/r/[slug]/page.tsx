@@ -19,6 +19,31 @@ const TOOL_SLUGS: Record<string, { title: string; description: string; image: st
     description: 'Break through overthinking with forced binary elimination in 2 minutes.',
     image: `${SITE}/images/tool-clarity.jpg`,
   },
+  'dopamine-menu-generator': {
+    title: 'Dopamine Menu Generator — Sorted Lab',
+    description: 'Build your personalised brain-reset menu: starters, mains, sides, and desserts.',
+    image: `${SITE}/api/og?card=welcome`,
+  },
+  'task-triage': {
+    title: 'Task Triage & Matrix — Sorted Lab',
+    description: 'Convert a chaotic task dump into a single clear next-step priority.',
+    image: `${SITE}/api/og?card=welcome`,
+  },
+  'rsd-response-scripts': {
+    title: 'RSD Response Scripts — Sorted Lab',
+    description: 'Instant boundary templates for rejection-sensitive situations.',
+    image: `${SITE}/api/og?card=welcome`,
+  },
+  'sensory-audit': {
+    title: 'Sensory Audit & Reset — Sorted Lab',
+    description: 'Identify environmental noise, light, and sensory drains — then fix them.',
+    image: `${SITE}/api/og?card=welcome`,
+  },
+  'burnout-assessment': {
+    title: 'Burnout Assessment & Recovery — Sorted Lab',
+    description: 'Evaluate your burnout stage and get non-shame restoration steps.',
+    image: `${SITE}/api/og?card=welcome`,
+  },
 }
 
 // System cards — checked first since these slugs will never collide with real content

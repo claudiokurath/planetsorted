@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { DashboardClient } from '@/components/DashboardClient'
 
 export const metadata: Metadata = {
-  title: 'Account — Planet SOR7ED',
+  title: 'Account — Planet Sorted',
   description: 'Your saved items, history, and account settings.',
   robots: { index: false, follow: false },
 }

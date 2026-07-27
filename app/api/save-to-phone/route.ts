@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { createServerClient } from '@/lib/supabase/server'
 import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
 
 export async function POST(req: NextRequest) {
-  const { slug } = await req.json()
-  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+  // Use cookie-based auth — the browser sends session cookies automatically
+  // on same-origin fetch calls; reading from an Authorization header would
+  // require SaveToPhoneButton to explicitly attach a token, which it does not.
+  const supabase = createServerClient()
 
-  const { data: { user: authUser } } = await supabase.auth.getUser(
-    req.headers.get('authorization')?.replace('Bearer ', '') ?? ''
-  )
+  const { data: { user: authUser } } = await supabase.auth.getUser()
   if (!authUser) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const { slug } = await req.json()
 
   const { data: profile } = await supabase
     .from('users').select('whatsapp_number, whatsapp_verified').eq('user_id', authUser.id).single()

@@ -9,6 +9,11 @@ const TOOL_KEYWORDS: Record<string, string> = {
   TAX: 'adhd-tax-calculator',
   AUTOPILOT: 'financial-autopilot',
   CLARITY: 'decision-paralysis-solver',
+  DOPAMINE: 'dopamine-menu-generator',
+  TRIAGE: 'task-triage',
+  RSD: 'rsd-response-scripts',
+  SENSORY: 'sensory-audit',
+  BURNOUT: 'burnout-assessment',
 }
 
 export async function GET(req: NextRequest) {

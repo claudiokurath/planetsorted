@@ -1,8 +1,38 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { ContentCard } from '@/components/ContentCard'
 import { PRIORITY_TOOLS } from '@/lib/toolsData'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
+
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+
+export const metadata: Metadata = {
+  title: 'Planet Sorted — Templates, Not Inspiration',
+  description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
+  openGraph: {
+    title: 'Planet Sorted — Templates, Not Inspiration',
+    description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
+    images: [
+      {
+        url: `${SITE}/images/banners/guidebook-banner.png`,
+        width: 1200,
+        height: 630,
+        type: 'image/png',
+        alt: 'Planet Sorted',
+      },
+    ],
+    url: SITE,
+    siteName: 'Planet Sorted',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Planet Sorted — Templates, Not Inspiration',
+    description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
+    images: [`${SITE}/images/banners/guidebook-banner.png`],
+  },
+}
 
 export default async function HomePage() {
   const supabase = createServerClient()
