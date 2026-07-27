@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
 
     // ── Known tool keyword → that tool's card
     if (TOOL_KEYWORDS[cleanVerb]) {
-      const url = `${SITE}/r/${TOOL_KEYWORDS[cleanVerb]}`
+      const url = `${SITE}/r/${TOOL_KEYWORDS[cleanVerb]}?v=${cacheBust}`
       await sendWhatsAppMessage(from, url, url)
       return NextResponse.json({ status: 'ok' })
     }
@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
       .maybeSingle()
 
     if (article) {
-      const url = `${SITE}/r/${article.slug}`
+      const url = `${SITE}/r/${article.slug}?v=${cacheBust}`
       await sendWhatsAppMessage(from, url, url)
       return NextResponse.json({ status: 'ok' })
     }
