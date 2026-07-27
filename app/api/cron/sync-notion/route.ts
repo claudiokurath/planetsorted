@@ -58,10 +58,8 @@ export async function GET(req: NextRequest) {
 
 async function syncCoverImage(slug: string, notionUrl: string): Promise<string> {
   const path = `notion-files/covers/${slug}.jpg`
-  const { data: existing } = await supabase.storage.from('public').list('notion-files/covers', { search: `${slug}.jpg` })
-  if (existing?.length) return supabase.storage.from('public').getPublicUrl(path).data.publicUrl
   const buffer = await (await fetch(notionUrl)).arrayBuffer()
-  await supabase.storage.from('public').upload(path, buffer, { contentType: 'image/jpeg', upsert: false })
+  await supabase.storage.from('public').upload(path, buffer, { contentType: 'image/jpeg', upsert: true })
   return supabase.storage.from('public').getPublicUrl(path).data.publicUrl
 }
 
