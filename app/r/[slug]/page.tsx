@@ -52,13 +52,13 @@ const SYSTEM_SLUGS: Record<string, { target: string; title: string; desc: string
     target: '/',
     title: 'Planet Sorted — Text a Word, Get a Protocol',
     desc: 'No app. No spam. Just what works.',
-    image: `${SITE}/api/og?card=welcome`,
+    image: `${SITE}/images/og-fallback.png`,
   },
   goodbye: {
     target: '/',
     title: "You're Paused",
     desc: 'Text START any time to come back.',
-    image: `${SITE}/api/og?card=goodbye`,
+    image: `${SITE}/images/og-fallback.png`,
   },
 }
 
