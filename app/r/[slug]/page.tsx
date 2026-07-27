@@ -117,21 +117,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isPng = imageUrl.endsWith('.png') || imageUrl.includes('/api/og')
   const imageType = isPng ? 'image/png' : 'image/jpeg'
 
+  // Only claim fixed dimensions for assets we know are exactly 1200×630.
+  // Notion cover images are 624×352 — claiming 1200×630 causes crawlers to
+  // stretch them, making the thumbnail blurry. Omitting dimensions lets
+  // WhatsApp/Meta measure the real size from the file itself.
+  const isKnownSize =
+    imageUrl.includes('/images/og-fallback.png') ||
+    imageUrl.includes('/images/tool-') ||
+    imageUrl.includes('/api/og')
+
+  const ogImage = isKnownSize
+    ? { url: imageUrl, width: 1200, height: 630, type: imageType, alt: title }
+    : { url: imageUrl, type: imageType, alt: title }
+
   return {
     title,
     description,
     openGraph: {
       title,
       description,
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          type: imageType,
-          alt: title,
-        },
-      ],
+      images: [ogImage],
       url: `${SITE}/r/${slug}`,
       siteName: 'Planet Sorted',
       type: 'website',
