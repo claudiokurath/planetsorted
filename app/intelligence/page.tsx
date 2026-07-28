@@ -14,8 +14,6 @@ export const metadata: Metadata = {
     images: [
       {
         url: `${SITE}/images/banners/guidebook-banner.png`,
-        width: 1200,
-        height: 630,
         type: 'image/png',
         alt: 'PLANET SOR7ED Guidebook',
       },
