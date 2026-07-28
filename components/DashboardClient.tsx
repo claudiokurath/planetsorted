@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createBrowserClient } from '@/lib/supabase/client'
 import type { SavedItem, User } from '@/lib/types/database'
 
@@ -234,30 +235,49 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
-      {/* Top Banner / Welcome Card */}
-      <div className="glass-card mb-8 rounded-3xl p-8 relative overflow-hidden">
-        <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
+      {/* Cinematic Top Banner / Welcome Card */}
+      <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl mb-10 min-h-[220px] sm:min-h-[260px] flex items-center p-6 sm:p-10">
+        {/* Background Banner Image */}
+        <Image
+          src="/images/banners/dashboard-banner.png"
+          alt="Dashboard Banner"
+          fill
+          priority
+          unoptimized
+          className="object-cover object-center opacity-65 sm:opacity-80 transition-transform duration-700 hover:scale-105"
+        />
+        {/* Sophisticated Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/75 to-black/30 sm:bg-gradient-to-r sm:from-black sm:via-black/80 sm:to-transparent" />
+
+        {/* Integrated Welcome Content */}
+        <div className="relative z-10 w-full flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
           <div>
+            <div className="flex items-center gap-3 mb-2">
+              <span className="h-0.5 w-8 rounded-full bg-[#C0392B]" />
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-300">
+                PLANET SOR7ED COMMAND
+              </span>
+            </div>
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-black text-white sm:text-3xl">
+              <h1 className="text-3xl font-black text-white sm:text-4xl tracking-tight drop-shadow-md" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
                 Welcome back{profile?.first_name ? `, ${profile.first_name}` : ''}
               </h1>
-              <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 text-xs font-bold text-emerald-400">
+              <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 text-xs font-bold text-emerald-400 backdrop-blur-md">
                 Member
               </span>
             </div>
-            <p className="mt-1 text-xs text-gray-400 font-mono">{session?.user?.email}</p>
+            <p className="mt-1 text-xs text-neutral-300 font-mono drop-shadow">{session?.user?.email}</p>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="rounded-2xl border border-gray-800 bg-gray-950/80 px-4 py-2 text-center">
-              <span className="block text-[10px] uppercase font-bold text-gray-500 tracking-wider">Free Credits</span>
+            <div className="rounded-2xl border border-neutral-800 bg-neutral-950/80 px-4 py-2 text-center backdrop-blur-md shadow-lg">
+              <span className="block text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Free Credits</span>
               <span className="text-base font-black text-emerald-400">5 Runs Available</span>
             </div>
 
             <button
               onClick={handleSignOut}
-              className="rounded-full border border-gray-800 bg-gray-900 px-4 py-2 text-xs font-bold text-gray-300 hover:border-gray-700 hover:bg-gray-800 hover:text-white transition-colors"
+              className="rounded-full border border-neutral-800 bg-neutral-900/90 px-5 py-2.5 text-xs font-bold text-neutral-300 hover:border-neutral-600 hover:bg-neutral-800 hover:text-white transition-all shadow-lg backdrop-blur-md"
             >
               Sign Out
             </button>
