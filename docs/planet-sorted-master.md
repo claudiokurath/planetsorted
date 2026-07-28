@@ -359,6 +359,7 @@ components/
 | slug | text | unique, URL-safe |
 | title | text | article title |
 | category | text | one of Mind, Wealth, Body, Tech, Connection, Impression, Growth (renamed from `branch`; see Category Taxonomy) |
+| type | text | `Article` (default) or `Tool` |
 | status | text | `Published` / `Draft` |
 | summary | text | short summary |
 | excerpt | text | article intro |
@@ -468,11 +469,12 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 
 ## Notion CMS & Content Workflow
 
-1. Author writes article in the **Notion Articles database** (`db668e4687ed455498357b8d11d2c714`).
-2. Set `Status` = `Published` in Notion.
-3. Cron runs every 5 min → upserts row in Supabase `protocols` by `slug`.
+1. Author creates row in the **Notion Content database** (`db668e4687ed455498357b8d11d2c714`).
+2. Set `Type` = `Article` or `Tool`, and `Status` = `Published` in Notion.
+3. Cron runs every 5 min (or trigger manually via `scratch/sync-and-check.js`) → upserts row in Supabase `protocols` by `slug`.
 4. **Cover images:** auto-downloaded to Supabase Storage (`notion-files/covers/{slug}.jpg`); skipped on subsequent syncs if the file exists.
-5. Article appears on `/intelligence/{slug}` within 5 minutes, with the GET IT SORTED button and end-of-article WhatsApp keyword block.
+5. Articles appear on `/intelligence/{slug}` and Tools appear on `/tools` and `/dashboard` within 5 minutes.
+6. WhatsApp keywords dynamically match `protocols.keyword` (e.g. sending `TAX`, `CLARITY`, `DOPAMINE`) and return rich link cards via `/r/{slug}`. For detailed step-by-step procedures, see [Content & Tools Workflow Runbook](docs/content-workflow-runbook.md).
 
 ### Notion DB Property Mappings
 | Notion Property | Maps to | Notes |
@@ -480,6 +482,7 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 | Title | `title` | |
 | Slug | `slug` | unique URL identifier |
 | Category | `category` | Mind, Wealth, Body, Tech, Connection, Impression, Growth |
+| Type | `type` | Article / Tool |
 | Status | `status` | Published/Draft |
 | Summary | `summary` | short meta blurb |
 | Excerpt | `excerpt` | intro text block |
