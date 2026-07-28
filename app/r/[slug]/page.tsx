@@ -162,9 +162,9 @@ export default async function RichLinkRedirect({ params }: Props) {
   } else if (TOOL_SLUGS[lowerSlug]) {
     target = `${SITE}/tools/${lowerSlug}`
   } else {
-    const { data: article } = await supabase.from('protocols').select('slug').eq('slug', slug).single()
-    if (article) {
-      target = `${SITE}/intelligence/${slug}`
+    const { data: item } = await supabase.from('protocols').select('slug, type').eq('slug', slug).single()
+    if (item) {
+      target = item.type === 'Tool' ? `${SITE}/tools/${slug}` : `${SITE}/intelligence/${slug}`
     } else {
       const { data: richLink } = await supabase.from('rich_links').select('target_url').eq('slug', slug).single()
       if (richLink?.target_url) target = richLink.target_url
