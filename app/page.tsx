@@ -105,33 +105,35 @@ export default async function HomePage() {
       )}
 
       {/* Toolbox Section */}
-      <section className="mx-auto max-w-6xl px-4 py-12 pb-24 sm:px-6 lg:px-8">
-        <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div>
-            <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-            <p className="mb-1 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Interactive Web Apps</p>
-            <h2 className="text-5xl sm:text-6xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-              Toolbox
-            </h2>
+      {PRIORITY_TOOLS.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 py-12 pb-24 sm:px-6 lg:px-8">
+          <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
+              <p className="mb-1 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Interactive Web Apps</p>
+              <h2 className="text-5xl sm:text-6xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+                Toolbox
+              </h2>
+            </div>
+            <Link href="/tools" className="text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:text-white transition-colors underline underline-offset-4">
+              View all tools →
+            </Link>
           </div>
-          <Link href="/tools" className="text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:text-white transition-colors underline underline-offset-4">
-            View all tools →
-          </Link>
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-          {PRIORITY_TOOLS.map((tool) => (
-            <ContentCard
-              key={tool.slug}
-              href={`/tools/${tool.slug}`}
-              title={tool.title}
-              summary={tool.summary}
-              coverImage={tool.image}
-              category={tool.category}
-            />
-          ))}
-        </div>
-      </section>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+            {PRIORITY_TOOLS.map((tool) => (
+              <ContentCard
+                key={tool.slug}
+                href={`/tools/${tool.slug}`}
+                title={tool.title}
+                summary={tool.summary}
+                coverImage={tool.image}
+                category={tool.category}
+              />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   )
 }
