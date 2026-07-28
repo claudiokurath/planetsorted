@@ -1,12 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
+import { calculateAdhdTax } from '@/lib/adhdTaxCalculator'
 
 interface ToolClientProps {
   slug: string
   hasPaidPlan?: boolean
+  toolData?: any
 }
 
 const TOOL_META: Record<string, { keyword: string; title: string; promise: string; cover: string; steps: string[]; freeFeatures: string[]; plusFeatures: string[] }> = {
@@ -75,18 +77,72 @@ const TOOL_META: Record<string, { keyword: string; title: string; promise: strin
       'Save decision brief to WhatsApp library',
       'Historical decision log & audit trail'
     ]
+  },
+  'dopamine-menu-generator': {
+    keyword: 'DOPAMINE',
+    title: 'Dopamine Menu Generator',
+    promise: 'Customized brain reset menu (starters, mains, sides, desserts).',
+    cover: '',
+    steps: ['Choose your current energy state and sensory needs.', 'Select healthy stimulating activities across 4 courses.', 'Save your instant Dopamine Menu directly to phone.'],
+    freeFeatures: ['Instant 4-course menu builder', 'Sensory-matched activities', 'Save menu to WhatsApp'],
+    plusFeatures: ['Unlimited custom menu items', 'Daily morning check-in prompt', 'Export printable fridge sheet']
+  },
+  'task-triage': {
+    keyword: 'TRIAGE',
+    title: 'Task Triage & Matrix',
+    promise: 'Convert chaotic task dumps into single next-step priorities.',
+    cover: '',
+    steps: ['Dump your overwhelming brain clutter into the triage hopper.', 'Apply forced 4-quadrant neurodivergent filtering.', 'Get your single non-negotiable next action.'],
+    freeFeatures: ['Instant task prioritization', 'Overwhelm elimination filter', 'Save priority action to WhatsApp'],
+    plusFeatures: ['Daily 3-item focus lock', 'Procrastination root-cause analysis', 'History tracking & completion log']
+  },
+  'rsd-response-scripts': {
+    keyword: 'RSD',
+    title: 'RSD Response Scripts',
+    promise: 'Instant boundary templates for sensitive situations.',
+    cover: '',
+    steps: ['Select the emotional trigger or communication conflict.', 'Choose your desired boundary firmness level.', 'Copy-paste neurodivergent-safe response scripts.'],
+    freeFeatures: ['Instant copy-paste templates', 'Tone-checked response framing', 'Save scripts to phone'],
+    plusFeatures: ['Custom scenario builder', 'De-escalation voice note guides', 'Emergency boundary toolkit']
+  },
+  'sensory-audit': {
+    keyword: 'SENSORY',
+    title: 'Sensory Audit & Reset',
+    promise: 'Identify environmental noise, light, and sensory drains.',
+    cover: '',
+    steps: ['Audit your immediate physical environment and lighting.', 'Identify hidden sensory drains triggering irritability.', 'Get instant nervous system reset protocol.'],
+    freeFeatures: ['Quick sensory overload checklist', 'Immediate environmental tweaks', 'Save reset protocol to WhatsApp'],
+    plusFeatures: ['Full 24-hour sensory diet plan', 'Workplace accommodation scripts', 'Sensory burnout prevention guide']
+  },
+  'burnout-assessment': {
+    keyword: 'BURNOUT',
+    title: 'Burnout Assessment & Recovery',
+    promise: 'Evaluate burnout stage & get non-shame restoration steps.',
+    cover: '',
+    steps: ['Answer 5 targeted questions about your current fatigue.', 'Identify your exact neurodivergent burnout stage.', 'Receive a zero-demand restoration prescription.'],
+    freeFeatures: ['Instant stage diagnosis', 'Zero-demand rest steps', 'Save recovery guide to phone'],
+    plusFeatures: ['30-day nervous system recovery roadmap', 'Capacity budgeting tracker', 'Partner & employer explanation scripts']
   }
 }
 
-export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
+export function ToolClient({ slug, hasPaidPlan = false, toolData }: ToolClientProps) {
   const [submitted, setSubmitted] = useState(false)
-  const meta = TOOL_META[slug] ?? TOOL_META['adhd-tax-calculator']
+  const defaultMeta = TOOL_META[slug] ?? TOOL_META['adhd-tax-calculator']
+  const meta = {
+    ...defaultMeta,
+    title: toolData?.title || defaultMeta.title,
+    promise: toolData?.summary || defaultMeta.promise,
+    keyword: toolData?.keyword || defaultMeta.keyword,
+  }
 
   // 1) ADHD Tax Calculator Form State
-  const [subscriptions, setSubscriptions] = useState('20')
   const [lateFees, setLateFees] = useState('15')
-  const [replacements, setReplacements] = useState('30')
-  const [impulse, setImpulse] = useState('100')
+  const [weeklyImpulsePurchases, setWeeklyImpulsePurchases] = useState('60')
+  const [forgottenSubscriptions, setForgottenSubscriptions] = useState('20')
+  const [lostItemReplacement, setLostItemReplacement] = useState('30')
+  const [productivityLossPercent, setProductivityLossPercent] = useState('15')
+  const [monthlyIncome, setMonthlyIncome] = useState('2500')
+  const [missedOpportunities, setMissedOpportunities] = useState('25')
 
   // 2) Financial Autopilot Form State
   const [income, setIncome] = useState('2500')
@@ -108,13 +164,17 @@ export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
   }
 
   // Calculations
-  const subNum = parseFloat(subscriptions) || 0
-  const lateNum = parseFloat(lateFees) || 0
-  const repNum = parseFloat(replacements) || 0
-  const impNum = parseFloat(impulse) || 0
+  const adhdTaxResult = useMemo(() => calculateAdhdTax({
+    lateFees: parseFloat(lateFees) || 0,
+    weeklyImpulsePurchases: parseFloat(weeklyImpulsePurchases) || 0,
+    forgottenSubscriptions: parseFloat(forgottenSubscriptions) || 0,
+    lostItemReplacement: parseFloat(lostItemReplacement) || 0,
+    productivityLossPercent: parseFloat(productivityLossPercent) || 0,
+    monthlyIncome: parseFloat(monthlyIncome) || 0,
+    missedOpportunities: parseFloat(missedOpportunities) || 0,
+  }), [lateFees, weeklyImpulsePurchases, forgottenSubscriptions, lostItemReplacement, productivityLossPercent, monthlyIncome, missedOpportunities])
 
-  const monthlyTax = subNum + lateNum + repNum + impNum
-  const yearlyTax = monthlyTax * 12
+  const { monthlyTotal, yearlyTotal, breakdown, actionPlan } = adhdTaxResult
 
   const incNum = parseFloat(income) || 0
   const savNum = parseFloat(savingsGoal) || 0
@@ -193,18 +253,6 @@ export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
-                        Unused Subscriptions (£ / mo)
-                      </label>
-                      <input
-                        type="number"
-                        value={subscriptions}
-                        onChange={(e) => setSubscriptions(e.target.value)}
-                        className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
-                        placeholder="£"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
                         Late Fees &amp; Fines (£ / mo)
                       </label>
                       <input
@@ -217,24 +265,72 @@ export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
-                        Replacing Lost Items (£ / mo)
+                        Weekly Impulse Purchases (£ / week)
                       </label>
                       <input
                         type="number"
-                        value={replacements}
-                        onChange={(e) => setReplacements(e.target.value)}
+                        value={weeklyImpulsePurchases}
+                        onChange={(e) => setWeeklyImpulsePurchases(e.target.value)}
                         className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
                         placeholder="£"
                       />
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
-                        Impulse Purchases (£ / mo)
+                        Forgotten Subscriptions (£ / mo)
                       </label>
                       <input
                         type="number"
-                        value={impulse}
-                        onChange={(e) => setImpulse(e.target.value)}
+                        value={forgottenSubscriptions}
+                        onChange={(e) => setForgottenSubscriptions(e.target.value)}
+                        className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
+                        placeholder="£"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
+                        Lost Item Replacement (£ / mo)
+                      </label>
+                      <input
+                        type="number"
+                        value={lostItemReplacement}
+                        onChange={(e) => setLostItemReplacement(e.target.value)}
+                        className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
+                        placeholder="£"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
+                        Productivity Loss (%)
+                      </label>
+                      <input
+                        type="number"
+                        value={productivityLossPercent}
+                        onChange={(e) => setProductivityLossPercent(e.target.value)}
+                        className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
+                        placeholder="%"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
+                        Monthly Income (£)
+                      </label>
+                      <input
+                        type="number"
+                        value={monthlyIncome}
+                        onChange={(e) => setMonthlyIncome(e.target.value)}
+                        className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
+                        placeholder="£"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-2">
+                        Missed Opportunities (£ / mo)
+                      </label>
+                      <input
+                        type="number"
+                        value={missedOpportunities}
+                        onChange={(e) => setMissedOpportunities(e.target.value)}
                         className="w-full rounded-xl border border-neutral-700 bg-neutral-900 px-4 py-3 text-white focus:border-[#C0392B] focus:outline-none"
                         placeholder="£"
                       />
@@ -385,6 +481,25 @@ export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
                   </button>
                 </form>
               )}
+
+              {slug !== 'adhd-tax-calculator' && slug !== 'financial-autopilot' && slug !== 'decision-paralysis-solver' && (
+                <div className="space-y-6 text-center py-6">
+                  <div className="rounded-2xl border border-neutral-800 bg-neutral-900/50 p-8">
+                    <h3 className="text-xl font-bold text-white mb-2">{meta.title}</h3>
+                    <p className="text-sm text-neutral-300 max-w-md mx-auto mb-6">
+                      {meta.promise}
+                    </p>
+                    <a
+                      href={waDirectUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="glow-button inline-block px-8 py-4 rounded-xl font-bold text-sm text-gray-950 uppercase tracking-wider"
+                    >
+                      GET IT SOR7ED ON WHATSAPP ({meta.keyword})
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         ) : (
@@ -408,27 +523,47 @@ export function ToolClient({ slug, hasPaidPlan = false }: ToolClientProps) {
                   <div>
                     <span className="text-xs font-bold uppercase tracking-wider text-neutral-400">Total Estimated Leak</span>
                     <div className="text-6xl sm:text-7xl font-black uppercase text-[#C0392B] mt-1" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-                      £{monthlyTax.toLocaleString()} / mo (£{yearlyTax.toLocaleString()} / yr)
+                      £{monthlyTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })} / mo (£{yearlyTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })} / yr)
                     </div>
                   </div>
 
                   <div className="grid gap-3 sm:grid-cols-2 text-sm text-neutral-300">
                     <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
-                      <span className="text-xs font-bold text-neutral-400 uppercase block">Subscriptions</span>
-                      <span className="text-xl font-bold text-white">£{subNum} / mo</span>
-                    </div>
-                    <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
                       <span className="text-xs font-bold text-neutral-400 uppercase block">Late Fees</span>
-                      <span className="text-xl font-bold text-white">£{lateNum} / mo</span>
-                    </div>
-                    <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
-                      <span className="text-xs font-bold text-neutral-400 uppercase block">Replacing Items</span>
-                      <span className="text-xl font-bold text-white">£{repNum} / mo</span>
+                      <span className="text-xl font-bold text-white">£{breakdown.lateFees.toFixed(2)} / mo</span>
                     </div>
                     <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
                       <span className="text-xs font-bold text-neutral-400 uppercase block">Impulse Purchases</span>
-                      <span className="text-xl font-bold text-white">£{impNum} / mo</span>
+                      <span className="text-xl font-bold text-white">£{breakdown.impulsePurchases.toFixed(2)} / mo</span>
                     </div>
+                    <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
+                      <span className="text-xs font-bold text-neutral-400 uppercase block">Forgotten Subscriptions</span>
+                      <span className="text-xl font-bold text-white">£{breakdown.forgottenSubscriptions.toFixed(2)} / mo</span>
+                    </div>
+                    <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
+                      <span className="text-xs font-bold text-neutral-400 uppercase block">Lost Item Replacement</span>
+                      <span className="text-xl font-bold text-white">£{breakdown.lostItemReplacement.toFixed(2)} / mo</span>
+                    </div>
+                    <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
+                      <span className="text-xs font-bold text-neutral-400 uppercase block">Productivity Loss</span>
+                      <span className="text-xl font-bold text-white">£{breakdown.productivityLoss.toFixed(2)} / mo</span>
+                    </div>
+                    <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
+                      <span className="text-xs font-bold text-neutral-400 uppercase block">Missed Opportunities</span>
+                      <span className="text-xl font-bold text-white">£{breakdown.missedOpportunities.toFixed(2)} / mo</span>
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border border-neutral-800 bg-neutral-900 p-5">
+                    <h3 className="text-lg font-black uppercase tracking-wide text-white">Your 30-day reset plan</h3>
+                    <ul className="mt-3 space-y-2 text-sm text-neutral-300">
+                      {actionPlan.map((step) => (
+                        <li key={step} className="flex gap-2">
+                          <span className="text-[#C0392B]">•</span>
+                          <span>{step}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               )}

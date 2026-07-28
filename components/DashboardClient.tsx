@@ -4,15 +4,26 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createBrowserClient } from '@/lib/supabase/client'
-import { PRIORITY_TOOLS } from '@/lib/toolsData'
 import type { SavedItem, User } from '@/lib/types/database'
+
+interface ToolItem {
+  slug: string
+  title: string
+  summary?: string | null
+  keyword?: string | null
+  read_time?: string | null
+}
+
+interface DashboardClientProps {
+  tools?: ToolItem[]
+}
 
 type Tab = 'tools' | 'library' | 'settings'
 type VerifyState = 'unverified' | 'otp_sent' | 'verified'
 
 const WA_NUMBER = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447360277713'
 
-export function DashboardClient() {
+export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
   const router = useRouter()
   const supabase = createBrowserClient()
 
@@ -266,7 +277,7 @@ export function DashboardClient() {
         >
           <span>⚡ Interactive Tools</span>
           <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-400">
-            {PRIORITY_TOOLS.length}
+            {tools.length}
           </span>
         </button>
 
@@ -299,18 +310,18 @@ export function DashboardClient() {
       {/* TAB 1: INTERACTIVE TOOLS HUB */}
       {activeTab === 'tools' && (
         <div className="space-y-8">
-          {!PRIORITY_TOOLS || PRIORITY_TOOLS.length === 0 ? (
+          {!tools || tools.length === 0 ? (
             <p className="text-center text-neutral-500 py-12">No interactive tools active right now.</p>
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {PRIORITY_TOOLS.map(tool => (
+              {tools.map(tool => (
                 <div
                   key={tool.slug}
                   className="glass-card glass-card-hover flex flex-col justify-between rounded-2xl p-6 relative group"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="text-[10px] font-medium text-emerald-400 font-mono">{tool.time}</span>
+                      <span className="text-[10px] font-medium text-emerald-400 font-mono">{tool.read_time || ''}</span>
                     </div>
 
                     <h3 className="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">
@@ -318,7 +329,7 @@ export function DashboardClient() {
                     </h3>
 
                     <p className="mt-2 text-xs text-gray-400 leading-relaxed">
-                      {tool.summary}
+                      {tool.summary || ''}
                     </p>
                   </div>
 
@@ -331,7 +342,7 @@ export function DashboardClient() {
                     </Link>
 
                     <Link
-                      href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(tool.keyword)}`}
+                      href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(tool.keyword || '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="rounded-xl border border-gray-800 bg-gray-900/90 px-3 py-1.5 text-[11px] font-semibold text-gray-300 hover:border-emerald-500/40 hover:text-emerald-400 transition-colors"
