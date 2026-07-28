@@ -6,10 +6,10 @@ import { ContentCard } from '@/components/ContentCard'
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
 export const metadata: Metadata = {
-  title: 'Guidebook — Planet Sorted',
+  title: 'Guidebook — PLANET SOR7ED',
   description: 'Plain-English protocols that turn chaos into a next step.',
   openGraph: {
-    title: 'Guidebook — Planet Sorted',
+    title: 'Guidebook — PLANET SOR7ED',
     description: 'Plain-English protocols that turn chaos into a next step.',
     images: [
       {
@@ -17,16 +17,16 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         type: 'image/png',
-        alt: 'Planet Sorted Guidebook',
+        alt: 'PLANET SOR7ED Guidebook',
       },
     ],
     url: `${SITE}/intelligence`,
-    siteName: 'Planet Sorted',
+    siteName: 'PLANET SOR7ED',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Guidebook — Planet Sorted',
+    title: 'Guidebook — PLANET SOR7ED',
     description: 'Plain-English protocols that turn chaos into a next step.',
     images: [`${SITE}/images/banners/guidebook-banner.png`],
   },

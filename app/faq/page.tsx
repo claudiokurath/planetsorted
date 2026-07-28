@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'FAQ — Planet Sorted',
-  description: 'Frequently asked questions about Planet Sorted and Sorted Lab.',
+  title: 'FAQ — PLANET SOR7ED',
+  description: 'Frequently asked questions about PLANET SOR7ED and Sorted Lab.',
 }
 
 export default function FAQPage() {
   const faqs = [
     {
-      q: 'What is Planet Sorted?',
-      a: 'Planet Sorted is practical templates and tools for neurodivergent adults, delivered on our website and remote-controlled via WhatsApp.'
+      q: 'What is PLANET SOR7ED?',
+      a: 'PLANET SOR7ED is practical templates and tools for neurodivergent adults, delivered on our website and remote-controlled via WhatsApp.'
     },
     {
       q: 'Do I need to install an app?',
@@ -20,7 +20,7 @@ export default function FAQPage() {
       a: 'Text one keyword (like TAX or CLARITY) to +44 7360 277713 on WhatsApp and get your result delivered straight to your chat. Sign up first at planetsorted.com — no app, no spam.'
     },
     {
-      q: 'Is Planet Sorted free?',
+      q: 'Is PLANET SOR7ED free?',
       a: 'Yes! All basic tools and protocols are free forever. Plus tier (£5.99/mo) unlocks full action plans, history, and exports.'
     }
   ]
