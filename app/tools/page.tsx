@@ -30,18 +30,22 @@ export default function ToolboxListingPage() {
         </div>
 
         {/* Tools Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-          {PRIORITY_TOOLS.map((tool) => (
-            <ContentCard
-              key={tool.slug}
-              href={`/tools/${tool.slug}`}
-              title={tool.title}
-              summary={tool.summary}
-              coverImage={tool.image}
-              category={tool.category}
-            />
-          ))}
-        </div>
+        {!PRIORITY_TOOLS || PRIORITY_TOOLS.length === 0 ? (
+          <p className="text-center text-neutral-500 py-12">No tools published yet.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+            {PRIORITY_TOOLS.map((tool) => (
+              <ContentCard
+                key={tool.slug}
+                href={`/tools/${tool.slug}`}
+                title={tool.title}
+                summary={tool.summary}
+                coverImage={tool.image}
+                category={tool.category}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

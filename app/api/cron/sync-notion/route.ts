@@ -33,6 +33,7 @@ export async function GET(req: NextRequest) {
     const row = {
       slug,
       title: getText(props['Title']),
+      type: props['Type']?.select?.name ?? 'Article',
       category: props['Category']?.select?.name ?? '',
       status: props['Status']?.status?.name ?? '',
       summary: getText(props['Summary']),
