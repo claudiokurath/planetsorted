@@ -114,10 +114,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
   }
 
-  const isPng = imageUrl.endsWith('.png') || imageUrl.includes('/api/og')
-  const imageType = isPng ? 'image/png' : 'image/jpeg'
+  // Proxy all external images through our OG endpoint so we can guarantee
+  // exact 1200x630 dimensions without stretching, and ensure they are <300KB
+  const isInternalProxy = imageUrl.includes('/api/og') || imageUrl.includes('/images/')
+  const ogImageUrl = isInternalProxy ? imageUrl : `${SITE}/api/og?image=${encodeURIComponent(imageUrl)}`
 
-  const ogImage = { url: imageUrl, type: imageType, alt: title }
+  const ogImage = { url: ogImageUrl, width: 1200, height: 630, type: 'image/png', alt: title }
 
   return {
     title,

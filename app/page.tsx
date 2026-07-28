@@ -15,8 +15,8 @@ export const metadata: Metadata = {
     description: 'Templates, not inspiration. Practical protocols and tools for neurodivergent adults.',
     images: [
       {
-        url: `${SITE}/images/banners/hero-banner.png`,
-        type: 'image/png',
+        url: `${SITE}/images/banners/hero-banner.jpg`,
+        type: 'image/jpeg',
         alt: 'PLANET SOR7ED — Templates, not inspiration.',
       },
     ],

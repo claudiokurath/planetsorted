@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "docker:build": "docker build -t sor7ed:latest .",
+    "docker:run": "docker run -p 3000:3000 --env-file .env.production sor7ed:latest"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.14",

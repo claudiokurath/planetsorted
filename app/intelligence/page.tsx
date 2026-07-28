@@ -13,8 +13,8 @@ export const metadata: Metadata = {
     description: 'Plain-English protocols that turn chaos into a next step.',
     images: [
       {
-        url: `${SITE}/images/banners/guidebook-banner.png`,
-        type: 'image/png',
+        url: `${SITE}/images/banners/guidebook-banner.jpg`,
+        type: 'image/jpeg',
         alt: 'PLANET SOR7ED Guidebook',
       },
     ],
