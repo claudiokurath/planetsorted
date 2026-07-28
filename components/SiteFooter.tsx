@@ -17,7 +17,6 @@ export function SiteFooter() {
 
           {/* Column 2: Navigation */}
           <div className="space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-[#3498DB]">Explore</h4>
             <ul className="space-y-1.5 text-sm text-neutral-300">
               <li><Link href="/intelligence" className="hover:text-white transition-colors">Guidebook</Link></li>
               <li><Link href="/tools" className="hover:text-white transition-colors">Toolbox</Link></li>
@@ -29,7 +28,6 @@ export function SiteFooter() {
 
           {/* Column 3: Legal & Safety */}
           <div className="space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-[#3498DB]">Legal &amp; Policy</h4>
             <ul className="space-y-1.5 text-sm text-neutral-300">
               <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>

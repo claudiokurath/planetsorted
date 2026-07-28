@@ -80,9 +80,6 @@ export default async function HomePage() {
           <div className="relative z-10 p-6 sm:p-12 lg:p-16 max-w-3xl space-y-5">
             <div className="flex items-center gap-3">
               <span className="h-0.5 w-10 rounded-full bg-[#C0392B]" />
-              <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#3498DB]">
-                PLANET SOR7ED
-              </span>
             </div>
             <h1 className="text-6xl sm:text-8xl font-black uppercase leading-none tracking-tight text-white drop-shadow-lg" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
               Templates,<br /><span style={{ color: '#C0392B' }}>not inspiration.</span>
@@ -105,7 +102,6 @@ export default async function HomePage() {
             <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
                 <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-                <p className="mb-1 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Protocols &amp; Briefs</p>
                 <h2 className="text-5xl sm:text-6xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
                   Guidebook
                 </h2>
@@ -142,7 +138,6 @@ export default async function HomePage() {
           <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-              <p className="mb-1 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Interactive Web Apps</p>
               <h2 className="text-5xl sm:text-6xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
                 Toolbox
               </h2>
