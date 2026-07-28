@@ -39,7 +39,7 @@ export default async function HomePage() {
   const { data: rawProtocols } = await supabase
     .from('protocols')
     .select('slug, title, summary, cover_image, category, read_time')
-    .eq('type', 'Article')
+    .or('type.eq.Article,type.is.null')
     .eq('status', 'Published')
     .order('updated_at', { ascending: false })
     .limit(4)
