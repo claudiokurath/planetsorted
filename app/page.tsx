@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { ContentCard } from '@/components/ContentCard'
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
     description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
     images: [
       {
-        url: `${SITE}/images/banners/guidebook-banner.png`,
+        url: `${SITE}/images/banners/hero-banner.png`,
         width: 1200,
         height: 630,
         type: 'image/png',
@@ -29,9 +30,11 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'PLANET SOR7ED — Templates, Not Inspiration',
     description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
-    images: [`${SITE}/images/banners/guidebook-banner.png`],
+    images: [`${SITE}/images/banners/hero-banner.png`],
   },
 }
+
+export const revalidate = 60
 
 export default async function HomePage() {
   const supabase = createServerClient()
@@ -58,17 +61,36 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Hero Section */}
-      <section className="mx-auto max-w-6xl px-4 pt-16 pb-12 sm:px-6 lg:px-8">
-        <div className="space-y-6 max-w-3xl">
-          <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-          <p className="mb-3 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">PLANET SOR7ED</p>
-          <h1 className="text-6xl sm:text-8xl font-black uppercase leading-none tracking-tight text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-            Templates,<br /><span style={{ color: '#C0392B' }}>not inspiration.</span>
-          </h1>
-          <p className="text-xl sm:text-2xl leading-relaxed text-neutral-300">
-            Practical protocols and tools for neurodivergent adults. No app. No spam. Just what works.
-          </p>
+      {/* Cinematic Hero Section */}
+      <section className="mx-auto max-w-6xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
+        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl min-h-[360px] sm:min-h-[460px] flex items-end">
+          {/* Background Banner Image */}
+          <Image
+            src="/images/banners/hero-banner.png"
+            alt="PLANET SOR7ED Hero Banner"
+            fill
+            priority
+            unoptimized
+            className="object-cover object-center opacity-75 sm:opacity-85 transition-transform duration-700 hover:scale-105"
+          />
+          {/* Sophisticated Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent sm:bg-gradient-to-r sm:from-black sm:via-black/75 sm:to-transparent" />
+
+          {/* Integrated Typography */}
+          <div className="relative z-10 p-6 sm:p-12 lg:p-16 max-w-3xl space-y-5">
+            <div className="flex items-center gap-3">
+              <span className="h-0.5 w-10 rounded-full bg-[#C0392B]" />
+              <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#3498DB]">
+                PLANET SOR7ED
+              </span>
+            </div>
+            <h1 className="text-6xl sm:text-8xl font-black uppercase leading-none tracking-tight text-white drop-shadow-lg" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+              Templates,<br /><span style={{ color: '#C0392B' }}>not inspiration.</span>
+            </h1>
+            <p className="text-lg sm:text-2xl leading-relaxed text-neutral-200 font-normal drop-shadow max-w-2xl">
+              Practical protocols and tools for neurodivergent adults. No app. No spam. Just what works.
+            </p>
+          </div>
         </div>
       </section>
 
