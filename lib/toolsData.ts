@@ -8,6 +8,9 @@ export interface ToolMeta {
   time: string
 }
 
+export const PRIORITY_TOOLS: ToolMeta[] = []
+
+/*
 export const PRIORITY_TOOLS: ToolMeta[] = [
   {
     slug: 'adhd-tax-calculator',
@@ -82,3 +85,5 @@ export const PRIORITY_TOOLS: ToolMeta[] = [
     time: '5 min protocol',
   },
 ]
+*/
+
