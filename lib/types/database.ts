@@ -22,6 +22,7 @@ export interface Protocol {
   meta_description: string    // SEO meta description
   seo_title: string           // SEO page title override
   updated_at: string          // timestamptz, set on upsert
+  type?: string               // 'Article' | 'Tool'
 }
 
 export interface User {
