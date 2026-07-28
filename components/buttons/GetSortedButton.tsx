@@ -6,7 +6,7 @@ interface GetSortedButtonProps {
 }
 
 const HELPER_TEXT = {
-  article: 'Text this to get the full protocol on WhatsApp',
+  article: 'Tap to open WhatsApp — keyword pre-filled. Hit send and the full protocol comes straight back.',
   tool: 'Text this to run the tool and save your result',
   result: 'Save your result to WhatsApp to come back to it later',
 }

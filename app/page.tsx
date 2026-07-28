@@ -8,10 +8,10 @@ import type { Protocol } from '@/lib/types/database'
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
 export const metadata: Metadata = {
-  title: 'Planet Sorted — Templates, Not Inspiration',
+  title: 'PLANET SOR7ED — Templates, Not Inspiration',
   description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
   openGraph: {
-    title: 'Planet Sorted — Templates, Not Inspiration',
+    title: 'PLANET SOR7ED — Templates, Not Inspiration',
     description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
     images: [
       {
@@ -19,16 +19,16 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         type: 'image/png',
-        alt: 'Planet Sorted',
+        alt: 'PLANET SOR7ED',
       },
     ],
     url: SITE,
-    siteName: 'Planet Sorted',
+    siteName: 'PLANET SOR7ED',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Planet Sorted — Templates, Not Inspiration',
+    title: 'PLANET SOR7ED — Templates, Not Inspiration',
     description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
     images: [`${SITE}/images/banners/guidebook-banner.png`],
   },
@@ -52,7 +52,7 @@ export default async function HomePage() {
       <section className="mx-auto max-w-6xl px-4 pt-16 pb-12 sm:px-6 lg:px-8">
         <div className="space-y-6 max-w-3xl">
           <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-          <p className="mb-3 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">Planet Sorted</p>
+          <p className="mb-3 font-bold text-sm tracking-[0.25em] uppercase text-[#3498DB]">PLANET SOR7ED</p>
           <h1 className="text-6xl sm:text-8xl font-black uppercase leading-none tracking-tight text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             Templates,<br /><span style={{ color: '#C0392B' }}>not inspiration.</span>
           </h1>

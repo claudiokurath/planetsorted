@@ -8,7 +8,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 PERSISTENT RULES FOR THIS PROJECT — DO NOT MODIFY WITHOUT EXPLICIT INSTRUCTION
 
-1. This project is called Planet Sorted. The product is Sorted Lab. Never use "SOR7ED", "sor7ed", or "GET IT SOR7ED" anywhere in generated code, copy, or comments. The CTA button is always labelled "GET IT SORTED".
+1. The visible product brand is SOR7ED / PLANET SOR7ED. Use this in all UI copy, headings, nav labels, buttons, and WhatsApp messages. Legal entity references (footer copyright, Terms, Privacy, Cookies pages) stay as Planet Sorted and SOR7ED LIMITED.
 
 2. The single source of truth for all naming, branding, database schema, and command structure is docs/planet-sorted-master.md. Read it before every task.
 

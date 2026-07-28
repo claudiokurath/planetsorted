@@ -4,79 +4,13 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { PRIORITY_TOOLS } from '@/lib/toolsData'
 import type { SavedItem, User } from '@/lib/types/database'
 
 type Tab = 'tools' | 'library' | 'settings'
 type VerifyState = 'unverified' | 'otp_sent' | 'verified'
 
-interface ToolItem {
-  slug: string
-  keyword: string
-  title: string
-  description: string
-  time: string
-}
-
 const WA_NUMBER = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447360277713'
-
-const DASHBOARD_TOOLS: ToolItem[] = [
-  {
-    slug: 'adhd-tax-calculator',
-    keyword: 'TAX',
-    title: 'ADHD Tax Calculator',
-    description: 'Calculate subscription leaks, late fees, and impulse buying overhead.',
-    time: '3 min run',
-  },
-  {
-    slug: 'financial-autopilot',
-    keyword: 'AUTOPILOT',
-    title: 'Financial Autopilot',
-    description: 'Friction-free bill and savings automation system.',
-    time: '5 min setup',
-  },
-  {
-    slug: 'decision-paralysis-solver',
-    keyword: 'CLARITY',
-    title: 'Decision Paralysis Solver',
-    description: 'Break through overthinking with forced binary elimination.',
-    time: '2 min run',
-  },
-  {
-    slug: 'dopamine-menu-generator',
-    keyword: 'DOPAMINE',
-    title: 'Dopamine Menu Generator',
-    description: 'Customized brain reset menu (starters, mains, sides, desserts).',
-    time: '4 min builder',
-  },
-  {
-    slug: 'task-triage',
-    keyword: 'TRIAGE',
-    title: 'Task Triage & Matrix',
-    description: 'Convert chaotic task dumps into single next-step priorities.',
-    time: '3 min run',
-  },
-  {
-    slug: 'rsd-response-scripts',
-    keyword: 'RSD',
-    title: 'RSD Response Scripts',
-    description: 'Instant boundary templates for sensitive situations.',
-    time: 'Instant',
-  },
-  {
-    slug: 'sensory-audit',
-    keyword: 'SENSORY',
-    title: 'Sensory Audit & Reset',
-    description: 'Identify environmental noise, light, and sensory drains.',
-    time: '4 min audit',
-  },
-  {
-    slug: 'burnout-assessment',
-    keyword: 'BURNOUT',
-    title: 'Burnout Assessment & Recovery',
-    description: 'Evaluate burnout stage & get non-shame restoration steps.',
-    time: '5 min protocol',
-  },
-]
 
 export function DashboardClient() {
   const router = useRouter()
@@ -332,7 +266,7 @@ export function DashboardClient() {
         >
           <span>⚡ Interactive Tools</span>
           <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-400">
-            {DASHBOARD_TOOLS.length}
+            {PRIORITY_TOOLS.length}
           </span>
         </button>
 
@@ -366,7 +300,7 @@ export function DashboardClient() {
       {activeTab === 'tools' && (
         <div className="space-y-8">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {DASHBOARD_TOOLS.map(tool => (
+            {PRIORITY_TOOLS.map(tool => (
               <div
                 key={tool.slug}
                 className="glass-card glass-card-hover flex flex-col justify-between rounded-2xl p-6 relative group"
@@ -381,7 +315,7 @@ export function DashboardClient() {
                   </h3>
 
                   <p className="mt-2 text-xs text-gray-400 leading-relaxed">
-                    {tool.description}
+                    {tool.summary}
                   </p>
                 </div>
 

@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Send OTP to user's WhatsApp number
-    const messageBody = `Your Planet Sorted verification code is: ${otp}\n\nThis code will expire in 10 minutes.`
+    const messageBody = `Your PLANET SOR7ED verification code is: ${otp}\n\nThis code will expire in 10 minutes.`
     await sendWhatsAppMessage(whatsappNumber, messageBody)
 
     return NextResponse.json({ success: true, message: 'OTP sent successfully' })

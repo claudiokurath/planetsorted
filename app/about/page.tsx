@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About — Planet Sorted',
+  title: 'About — PLANET SOR7ED',
   description: 'Practical tools and protocols for neurodivergent adults.',
 }
 
@@ -10,11 +10,11 @@ export default function AboutPage() {
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-3xl px-6 py-16">
         <h1 className="text-4xl sm:text-5xl font-black uppercase text-white tracking-tight" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-          About Planet Sorted
+          About PLANET SOR7ED
         </h1>
         <div className="mt-8 space-y-6 text-base sm:text-lg leading-relaxed text-neutral-300">
           <p>
-            Planet Sorted is templates, not inspiration — practical tools and protocols for neurodivergent adults.
+            PLANET SOR7ED is templates, not inspiration — practical tools and protocols for neurodivergent adults.
             No app. No spam. Just what works.
           </p>
           <p>
