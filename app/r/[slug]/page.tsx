@@ -22,27 +22,27 @@ const TOOL_SLUGS: Record<string, { title: string; description: string; image: st
   'dopamine-menu-generator': {
     title: 'Dopamine Menu Generator — Sorted Lab',
     description: 'Build your personalised brain-reset menu: starters, mains, sides, and desserts.',
-    image: `${SITE}/api/og?card=welcome`,
+    image: `${SITE}/images/og-fallback.png`,
   },
   'task-triage': {
     title: 'Task Triage & Matrix — Sorted Lab',
     description: 'Convert a chaotic task dump into a single clear next-step priority.',
-    image: `${SITE}/api/og?card=welcome`,
+    image: `${SITE}/images/og-fallback.png`,
   },
   'rsd-response-scripts': {
     title: 'RSD Response Scripts — Sorted Lab',
     description: 'Instant boundary templates for rejection-sensitive situations.',
-    image: `${SITE}/api/og?card=welcome`,
+    image: `${SITE}/images/og-fallback.png`,
   },
   'sensory-audit': {
     title: 'Sensory Audit & Reset — Sorted Lab',
     description: 'Identify environmental noise, light, and sensory drains — then fix them.',
-    image: `${SITE}/api/og?card=welcome`,
+    image: `${SITE}/images/og-fallback.png`,
   },
   'burnout-assessment': {
     title: 'Burnout Assessment & Recovery — Sorted Lab',
     description: 'Evaluate your burnout stage and get non-shame restoration steps.',
-    image: `${SITE}/api/og?card=welcome`,
+    image: `${SITE}/images/og-fallback.png`,
   },
 }
 
@@ -72,7 +72,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   let title = 'Planet Sorted'
   let description = 'No app. No spam. Just what works.'
-  let imageUrl = `${SITE}/api/og?card=welcome`
+  let imageUrl = `${SITE}/images/og-fallback.png`
 
   if (SYSTEM_SLUGS[lowerSlug]) {
     const sys = SYSTEM_SLUGS[lowerSlug]
@@ -117,18 +117,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isPng = imageUrl.endsWith('.png') || imageUrl.includes('/api/og')
   const imageType = isPng ? 'image/png' : 'image/jpeg'
 
-  // Only claim fixed dimensions for assets we know are exactly 1200×630.
-  // Notion cover images are 624×352 — claiming 1200×630 causes crawlers to
-  // stretch them, making the thumbnail blurry. Omitting dimensions lets
-  // WhatsApp/Meta measure the real size from the file itself.
-  const isKnownSize =
-    imageUrl.includes('/images/og-fallback.png') ||
-    imageUrl.includes('/images/tool-') ||
-    imageUrl.includes('/api/og')
-
-  const ogImage = isKnownSize
-    ? { url: imageUrl, width: 1200, height: 630, type: imageType, alt: title }
-    : { url: imageUrl, type: imageType, alt: title }
+  const ogImage = { url: imageUrl, type: imageType, alt: title }
 
   return {
     title,

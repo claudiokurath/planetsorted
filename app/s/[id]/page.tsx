@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: row.title ?? 'Saved Item — PLANET SOR7ED',
       description: row.description ?? 'View this saved protocol on PLANET SOR7ED.',
       images: row.og_image_url
-        ? [{ url: row.og_image_url, width: 1200, height: 630, alt: row.title ?? 'Saved Item' }]
+        ? [{ url: row.og_image_url, alt: row.title ?? 'Saved Item' }]
         : [],
       url: `${site}/s/${id}`,
       siteName: 'PLANET SOR7ED',

@@ -11,15 +11,13 @@ export const metadata: Metadata = {
   title: 'PLANET SOR7ED — Templates, Not Inspiration',
   description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
   openGraph: {
-    title: 'PLANET SOR7ED — Templates, Not Inspiration',
-    description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
+    title: 'PLANET SOR7ED',
+    description: 'Templates, not inspiration. Practical protocols and tools for neurodivergent adults.',
     images: [
       {
         url: `${SITE}/images/banners/hero-banner.png`,
-        width: 1200,
-        height: 630,
         type: 'image/png',
-        alt: 'PLANET SOR7ED',
+        alt: 'PLANET SOR7ED — Templates, not inspiration.',
       },
     ],
     url: SITE,
