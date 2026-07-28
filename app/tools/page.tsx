@@ -16,27 +16,35 @@ export default async function ToolboxListingPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 lg:px-8">
-        {/* Full 16:9 Landscape Banner Image Aligned to Content Container */}
-        <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-neutral-800 shadow-2xl mb-8">
+        {/* Cinematic Hero Banner with Integrated Typography */}
+        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl mb-12 min-h-[280px] sm:min-h-[340px] flex items-end">
+          {/* Background Banner Image */}
           <Image
             src="/images/banners/toolbox-banner.png"
             alt="Toolbox Banner"
             fill
             priority
             unoptimized
-            className="object-cover"
+            className="object-cover object-center opacity-75 sm:opacity-85 transition-transform duration-700 hover:scale-105"
           />
-        </div>
+          {/* Sophisticated Gradient Overlay (smooth transition from dark left/bottom for legibility while revealing background art on right/top) */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent sm:bg-gradient-to-r sm:from-black sm:via-black/70 sm:to-transparent" />
 
-        {/* Header Title & Subtitle */}
-        <div className="mb-10">
-          <div className="h-1 w-16 rounded-full bg-[#C0392B] mb-3" />
-          <h1 className="text-5xl sm:text-6xl font-black uppercase text-white tracking-tight" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-            Toolbox
-          </h1>
-          <p className="mt-2 text-lg sm:text-xl text-neutral-300 max-w-2xl">
-            Practical interactive tools designed to deliver instant clarity and turn overwhelm into a next action.
-          </p>
+          {/* Integrated Title & Subtitle */}
+          <div className="relative z-10 p-6 sm:p-10 lg:p-12 max-w-2xl">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="h-0.5 w-10 rounded-full bg-[#C0392B]" />
+              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-300">
+                PLANET SOR7ED LAB
+              </span>
+            </div>
+            <h1 className="text-5xl sm:text-6xl font-black uppercase text-white tracking-tight drop-shadow-md" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+              Toolbox
+            </h1>
+            <p className="mt-3 text-base sm:text-lg text-neutral-200 font-normal leading-relaxed drop-shadow">
+              Practical interactive tools designed to deliver instant clarity and turn overwhelm into a next action.
+            </p>
+          </div>
         </div>
 
         {/* Tools Grid */}
