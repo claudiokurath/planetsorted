@@ -87,7 +87,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      images: row.cover_image ? [{ url: row.cover_image, type: 'image/jpeg', alt: row.title }] : [],
+      images: row.cover_image 
+        ? [{ url: `${SITE}/api/og?image=${encodeURIComponent(row.cover_image)}`, width: 1200, height: 630, type: 'image/png', alt: row.title }] 
+        : [],
       url: `${SITE}/intelligence/${slug}`,
       type: 'article',
     },
