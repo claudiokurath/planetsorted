@@ -192,7 +192,6 @@ export function ToolClient({ slug, hasPaidPlan = false, toolData }: ToolClientPr
 
         <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 space-y-4">
           <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-          <p className="font-bold text-xs tracking-[0.25em] uppercase text-[#3498DB]">Sorted Lab Tool</p>
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-black uppercase leading-none tracking-tight text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             {meta.title}
           </h1>
