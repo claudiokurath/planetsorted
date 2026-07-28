@@ -1,8 +1,18 @@
 import Image from 'next/image'
 import { ContentCard } from '@/components/ContentCard'
-import { PRIORITY_TOOLS } from '@/lib/toolsData'
+import { createServerClient } from '@/lib/supabase/server'
 
-export default function ToolboxListingPage() {
+export const revalidate = 60
+
+export default async function ToolboxListingPage() {
+  const supabase = createServerClient()
+  const { data: tools } = await supabase
+    .from('protocols')
+    .select('slug, title, summary, cover_image, read_time, category')
+    .eq('type', 'Tool')
+    .eq('status', 'Published')
+    .order('updated_at', { ascending: false })
+
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 lg:px-8">
@@ -30,18 +40,19 @@ export default function ToolboxListingPage() {
         </div>
 
         {/* Tools Grid */}
-        {!PRIORITY_TOOLS || PRIORITY_TOOLS.length === 0 ? (
+        {!tools || tools.length === 0 ? (
           <p className="text-center text-neutral-500 py-12">No tools published yet.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-            {PRIORITY_TOOLS.map((tool) => (
+            {tools.map((tool) => (
               <ContentCard
                 key={tool.slug}
                 href={`/tools/${tool.slug}`}
                 title={tool.title}
-                summary={tool.summary}
-                coverImage={tool.image}
+                summary={tool.summary || ''}
+                coverImage={tool.cover_image}
                 category={tool.category}
+                meta={tool.read_time}
               />
             ))}
           </div>

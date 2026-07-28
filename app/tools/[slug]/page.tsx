@@ -8,37 +8,41 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
-const VALID_SLUGS = ['adhd-tax-calculator', 'financial-autopilot', 'decision-paralysis-solver']
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  if (!VALID_SLUGS.includes(slug)) return {}
+  const supabase = createServerClient()
+  const { data: tool } = await supabase
+    .from('protocols')
+    .select('title, summary')
+    .eq('slug', slug)
+    .eq('type', 'Tool')
+    .eq('status', 'Published')
+    .single()
 
-  const titles: Record<string, string> = {
-    'adhd-tax-calculator': 'ADHD Tax Calculator — Sorted Lab',
-    'financial-autopilot': 'Financial Autopilot — Sorted Lab',
-    'decision-paralysis-solver': 'Decision Paralysis Solver — Sorted Lab',
-  }
-
-  const descriptions: Record<string, string> = {
-    'adhd-tax-calculator': 'Calculate your estimated ADHD tax leak and get a plan to stop it.',
-    'financial-autopilot': 'Map out your banking and transfers to run on autopilot.',
-    'decision-paralysis-solver': 'Get unstuck on a heavy decision in under 5 minutes.',
-  }
+  if (!tool) return {}
 
   return {
-    title: titles[slug],
-    description: descriptions[slug],
+    title: `${tool.title} — PLANET SOR7ED`,
+    description: tool.summary || '',
   }
 }
 
 export default async function ToolPage({ params }: Props) {
   const { slug } = await params
-  if (!VALID_SLUGS.includes(slug)) {
+  const supabase = createServerClient()
+  
+  const { data: tool } = await supabase
+    .from('protocols')
+    .select('*')
+    .eq('slug', slug)
+    .eq('type', 'Tool')
+    .eq('status', 'Published')
+    .single()
+
+  if (!tool) {
     notFound()
   }
 
-  const supabase = createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   let hasPaidPlan = false
@@ -54,5 +58,5 @@ export default async function ToolPage({ params }: Props) {
     hasPaidPlan = row?.status === 'active'
   }
 
-  return <ToolClient slug={slug} hasPaidPlan={hasPaidPlan} />
+  return <ToolClient slug={slug} hasPaidPlan={hasPaidPlan} toolData={tool} />
 }

@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { ContentCard } from '@/components/ContentCard'
-import { PRIORITY_TOOLS } from '@/lib/toolsData'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
 
@@ -40,11 +39,22 @@ export default async function HomePage() {
   const { data: rawProtocols } = await supabase
     .from('protocols')
     .select('slug, title, summary, cover_image, category, read_time')
+    .eq('type', 'Article')
     .eq('status', 'Published')
     .order('updated_at', { ascending: false })
     .limit(4)
 
   const articles = (rawProtocols as Protocol[]) || []
+
+  const { data: rawTools } = await supabase
+    .from('protocols')
+    .select('slug, title, summary, cover_image, category, read_time')
+    .eq('type', 'Tool')
+    .eq('status', 'Published')
+    .order('updated_at', { ascending: false })
+    .limit(3)
+
+  const tools = (rawTools as Protocol[]) || []
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -105,7 +115,7 @@ export default async function HomePage() {
       )}
 
       {/* Toolbox Section */}
-      {PRIORITY_TOOLS.length > 0 && (
+      {tools.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 py-12 pb-24 sm:px-6 lg:px-8">
           <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
@@ -121,14 +131,15 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-            {PRIORITY_TOOLS.map((tool) => (
+            {tools.map((tool) => (
               <ContentCard
                 key={tool.slug}
                 href={`/tools/${tool.slug}`}
                 title={tool.title}
-                summary={tool.summary}
-                coverImage={tool.image}
+                summary={tool.summary || ''}
+                coverImage={tool.cover_image}
                 category={tool.category}
+                meta={tool.read_time}
               />
             ))}
           </div>

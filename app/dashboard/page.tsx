@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { DashboardClient } from '@/components/DashboardClient'
+import { createServerClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
   title: 'Account — PLANET SOR7ED',
@@ -7,12 +8,22 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const supabase = createServerClient()
+  const { data: rawTools } = await supabase
+    .from('protocols')
+    .select('slug, title, summary, keyword, read_time')
+    .eq('type', 'Tool')
+    .eq('status', 'Published')
+    .order('title')
+
+  const tools = rawTools || []
+
   return (
     <main className="min-h-screen bg-black text-white flex flex-col">
       <div className="flex-1 flex items-start justify-center px-4 pt-10 pb-20">
         <div className="w-full max-w-6xl">
-          <DashboardClient />
+          <DashboardClient tools={tools} />
         </div>
       </div>
     </main>
