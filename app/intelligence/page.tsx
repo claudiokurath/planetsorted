@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Guidebook — PLANET SOR7ED',
     description: 'Plain-English protocols that turn chaos into a next step.',
-    images: [`${SITE}/images/banners/guidebook-banner.png`],
+    images: [`${SITE}/images/banners/guidebook-banner.jpg`],
   },
 }
 

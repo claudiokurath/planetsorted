@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'PLANET SOR7ED — Templates, Not Inspiration',
     description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
-    images: [`${SITE}/images/banners/hero-banner.png`],
+    images: [`${SITE}/images/banners/hero-banner.jpg`],
   },
 }
 
