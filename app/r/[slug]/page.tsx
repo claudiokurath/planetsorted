@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
 const TOOL_SLUGS: Record<string, { title: string; description: string; image: string }> = {
