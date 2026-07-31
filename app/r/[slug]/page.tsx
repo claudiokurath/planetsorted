@@ -117,17 +117,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
   }
 
-  // Proxy images through Next.js built-in image optimizer to ensure they are < 300KB.
+  // Proxy images through a reliable image CDN (wsrv.nl) to force JPEG conversion.
+  // Next.js _next/image preserves the original format (which is often PNG here), leading to files > 300KB.
   // WhatsApp silently rejects images over 300KB and falls back to a tiny square.
-  let ogImageUrl = imageUrl
-  if (imageUrl.startsWith(SITE)) {
-    // Next.js optimizer requires relative paths for local images
-    const relativePath = imageUrl.replace(SITE, '')
-    ogImageUrl = `${SITE}/_next/image?url=${encodeURIComponent(relativePath)}&w=1200&q=75`
-  } else {
-    // External images (like Supabase) must be absolute
-    ogImageUrl = `${SITE}/_next/image?url=${encodeURIComponent(imageUrl)}&w=1200&q=75`
-  }
+  const ogImageUrl = `https://wsrv.nl/?url=${encodeURIComponent(imageUrl)}&w=1200&output=jpg&q=60`
 
   const ogImage = { url: ogImageUrl, width: 1200, height: 630, alt: title }
 
