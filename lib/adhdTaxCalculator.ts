@@ -1,11 +1,11 @@
 export interface AdhdTaxInputs {
-  lateFees: number
-  weeklyImpulsePurchases: number
-  forgottenSubscriptions: number
-  lostItemReplacement: number
-  productivityLossPercent: number
-  monthlyIncome: number
-  missedOpportunities: number
+  lateFees?: string | number
+  weeklyImpulsePurchases?: string | number
+  monthlyIncome?: string | number
+  productivityLossPercent?: string | number
+  forgottenSubscriptions?: string | number
+  lostItemReplacement?: string | number
+  missedOpportunities?: string | number
 }
 
 export interface AdhdTaxBreakdown {
@@ -24,24 +24,40 @@ export interface AdhdTaxResult {
   actionPlan: string[]
 }
 
-export function calculateAdhdTax(inputs: AdhdTaxInputs): AdhdTaxResult {
-  const impulsePurchases = inputs.weeklyImpulsePurchases * 4.33
-  const productivityLoss = (inputs.productivityLossPercent / 100) * inputs.monthlyIncome
+export function calculateAdhdTax(rawInputs: AdhdTaxInputs): AdhdTaxResult {
+  // Converts any blank field, undefined value, or stray text into a safe 0
+  // instead of letting it produce NaN or string concatenation downstream.
+  const safeNum = (val: unknown): number => {
+    const num = parseFloat(String(val))
+    return isNaN(num) ? 0 : num
+  }
+
+  const lateFees = safeNum(rawInputs.lateFees)
+  const weeklyImpulsePurchases = safeNum(rawInputs.weeklyImpulsePurchases)
+  const monthlyIncome = safeNum(rawInputs.monthlyIncome)
+  const productivityLossPercent = safeNum(rawInputs.productivityLossPercent)
+  const forgottenSubscriptions = safeNum(rawInputs.forgottenSubscriptions)
+  const lostItemReplacement = safeNum(rawInputs.lostItemReplacement)
+  const missedOpportunities = safeNum(rawInputs.missedOpportunities)
+
+  const impulsePurchases = weeklyImpulsePurchases * 4.33
+  const productivityLoss = (productivityLossPercent / 100) * monthlyIncome
+
   const monthlyTotal =
-    inputs.lateFees +
+    lateFees +
     impulsePurchases +
-    inputs.forgottenSubscriptions +
-    inputs.lostItemReplacement +
+    forgottenSubscriptions +
+    lostItemReplacement +
     productivityLoss +
-    inputs.missedOpportunities
+    missedOpportunities
 
   const breakdown: AdhdTaxBreakdown = {
-    lateFees: inputs.lateFees,
+    lateFees,
     impulsePurchases,
-    forgottenSubscriptions: inputs.forgottenSubscriptions,
-    lostItemReplacement: inputs.lostItemReplacement,
+    forgottenSubscriptions,
+    lostItemReplacement,
     productivityLoss,
-    missedOpportunities: inputs.missedOpportunities,
+    missedOpportunities,
   }
 
   const actionPlan = [
