@@ -117,10 +117,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
   }
 
-  // Proxy images through a reliable image CDN (wsrv.nl) to force JPEG conversion.
-  // Next.js _next/image preserves the original format (which is often PNG here), leading to files > 300KB.
-  // WhatsApp silently rejects images over 300KB and falls back to a tiny square.
-  const ogImageUrl = `https://wsrv.nl/?url=${encodeURIComponent(imageUrl)}&w=1200&output=jpg&q=60`
+  // Route the image through our custom API proxy to force JPEG conversion.
+  // We do this via a single query parameter to avoid WhatsApp's &amp; parsing bug,
+  // which broke the direct wsrv.nl URL and forced it to serve massive 2.3MB PNGs.
+  const ogImageUrl = `${SITE}/api/image-proxy?url=${encodeURIComponent(imageUrl)}`
 
   const ogImage = { url: ogImageUrl, width: 1200, height: 630, alt: title }
 
