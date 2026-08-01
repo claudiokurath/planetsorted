@@ -160,6 +160,24 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* About Us Section */}
+      <section className="mx-auto max-w-6xl px-4 py-12 pb-24 sm:px-6 lg:px-8">
+        <div className="h-px bg-[#262626] mb-12" />
+        <div className="max-w-2xl">
+          <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
+          <h2 className="text-5xl sm:text-6xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+            About Sor7ed
+          </h2>
+          <p className="mt-6 text-base sm:text-lg leading-relaxed text-neutral-300">
+            PLANET SOR7ED is templates, not inspiration — practical tools and protocols for neurodivergent adults.
+            No app. No spam. Just what works.
+          </p>
+          <Link href="/about" className="mt-6 inline-block text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:text-white transition-colors underline underline-offset-4">
+            More about us →
+          </Link>
+        </div>
+      </section>
     </div>
   )
 }

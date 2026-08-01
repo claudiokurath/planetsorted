@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { isStandaloneToolRoute } from '@/lib/isStandaloneToolRoute'
 
 export function SmartNav() {
   const pathname = usePathname()
@@ -28,6 +29,8 @@ export function SmartNav() {
     }
     checkUser()
   }, [])
+
+  if (isStandaloneToolRoute(pathname)) return null
 
   const navLinks = [
     { label: 'Guidebook', href: '/intelligence' },

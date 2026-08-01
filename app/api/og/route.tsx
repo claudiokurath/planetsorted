@@ -14,9 +14,24 @@ const CARDS: Record<string, { heading: string; sub: string }> = {
   },
 }
 
+function isTrustedImageHost(rawUrl: string): boolean {
+  let parsed: URL
+  try {
+    parsed = new URL(rawUrl)
+  } catch {
+    return false
+  }
+  if (parsed.protocol !== 'https:') return false
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseHost = supabaseUrl ? new URL(supabaseUrl).hostname : null
+  return parsed.hostname === supabaseHost
+}
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
-  const imageUrl = searchParams.get('image')
+  const rawImageUrl = searchParams.get('image')
+  const imageUrl = rawImageUrl && isTrustedImageHost(rawImageUrl) ? rawImageUrl : null
 
   if (imageUrl) {
     return new ImageResponse(

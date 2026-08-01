@@ -26,9 +26,11 @@ export async function POST(req: NextRequest) {
     // Store OTP and pending number in auth user_metadata using admin role
     const { error: updateError } = await supabase.auth.admin.updateUserById(authUser.id, {
       user_metadata: {
+        ...authUser.user_metadata,
         whatsapp_verification_otp: otp,
         whatsapp_pending_number: whatsappNumber,
-        whatsapp_otp_expiry: Date.now() + 10 * 60 * 1000 // 10 minutes expiry
+        whatsapp_otp_expiry: Date.now() + 10 * 60 * 1000, // 10 minutes expiry
+        whatsapp_otp_attempts: 0
       }
     })
 
