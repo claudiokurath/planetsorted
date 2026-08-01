@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { isStandaloneToolRoute } from '@/lib/isStandaloneToolRoute'
 
 const TABS = [
   { href: '/', label: 'Home', icon: '🏠' },
@@ -12,6 +13,8 @@ const TABS = [
 
 export function MobileNav() {
   const pathname = usePathname()
+
+  if (isStandaloneToolRoute(pathname)) return null
 
   return (
     <nav className="fixed bottom-0 inset-x-0 z-50 bg-neutral-950/95 backdrop-blur border-t border-neutral-800 flex sm:hidden">

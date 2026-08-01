@@ -1,6 +1,14 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { isStandaloneToolRoute } from '@/lib/isStandaloneToolRoute'
 
 export function SiteFooter() {
+  const pathname = usePathname()
+
+  if (isStandaloneToolRoute(pathname)) return null
+
   return (
     <footer className="border-t border-neutral-800 bg-[#0A0A0A] py-12 text-white">
       <div className="mx-auto max-w-7xl px-6">

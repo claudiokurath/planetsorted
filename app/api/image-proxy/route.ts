@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   // We do this server-side because placing multiple query parameters (using &) 
   // directly in the og:image meta tag causes WhatsApp to parse them as &amp;,
   // which breaks the wsrv.nl URL and results in massive uncompressed images.
-  const wsrvUrl = `https://wsrv.nl/?url=${encodeURIComponent(url.replace('https://', ''))}&w=1200&output=jpg&q=60`
+  const wsrvUrl = `https://wsrv.nl/?url=${encodeURIComponent(url.replace('https://', ''))}&w=1200&h=630&fit=cover&output=jpg&q=60`
   
   try {
     const response = await fetch(wsrvUrl)

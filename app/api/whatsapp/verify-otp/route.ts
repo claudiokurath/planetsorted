@@ -22,6 +22,8 @@ export async function POST(req: NextRequest) {
   const storedOtp = metadata.whatsapp_verification_otp
   const pendingNumber = metadata.whatsapp_pending_number
   const expiry = metadata.whatsapp_otp_expiry
+  const attempts = metadata.whatsapp_otp_attempts ?? 0
+  const MAX_ATTEMPTS = 5
 
   if (!storedOtp || !pendingNumber) {
     return NextResponse.json({ error: 'No active verification session found. Please request a new code.' }, { status: 400 })
@@ -31,7 +33,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Verification code has expired. Please request a new code.' }, { status: 400 })
   }
 
+  if (attempts >= MAX_ATTEMPTS) {
+    return NextResponse.json({ error: 'Too many incorrect attempts. Please request a new code.' }, { status: 429 })
+  }
+
   if (storedOtp !== otp.trim()) {
+    await supabase.auth.admin.updateUserById(authUser.id, {
+      user_metadata: { ...metadata, whatsapp_otp_attempts: attempts + 1 }
+    })
     return NextResponse.json({ error: 'Incorrect verification code. Please try again.' }, { status: 400 })
   }
 
@@ -59,7 +68,8 @@ export async function POST(req: NextRequest) {
         ...metadata,
         whatsapp_verification_otp: null,
         whatsapp_pending_number: null,
-        whatsapp_otp_expiry: null
+        whatsapp_otp_expiry: null,
+        whatsapp_otp_attempts: null
       }
     })
 
