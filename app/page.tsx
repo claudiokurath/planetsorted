@@ -6,6 +6,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+const HERO_IMAGE = '/images/PLANET_SOR7ED_--chaos_5_--ar_43_--sref_httpss.mj.runemid8j-Qb_c1abf34d-6ca5-4774-8461-1602b00bcce2_2.png'
 
 export const metadata: Metadata = {
   title: 'PLANET SOR7ED — Templates, Not Inspiration',
@@ -15,8 +16,8 @@ export const metadata: Metadata = {
     description: 'Templates, not inspiration. Practical protocols and tools for neurodivergent adults.',
     images: [
       {
-        url: `${SITE}/images/banners/hero-banner.jpg`,
-        type: 'image/jpeg',
+        url: `${SITE}${HERO_IMAGE}`,
+        type: 'image/png',
         alt: 'PLANET SOR7ED — Templates, not inspiration.',
       },
     ],
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'PLANET SOR7ED — Templates, Not Inspiration',
     description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
-    images: [`${SITE}/images/banners/hero-banner.jpg`],
+    images: [`${SITE}${HERO_IMAGE}`],
   },
 }
 
@@ -64,7 +65,7 @@ export default async function HomePage() {
         <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl min-h-[420px] sm:min-h-[560px] flex items-end">
           {/* Background Banner Image */}
           <Image
-            src="/images/banners/hero-banner.png"
+            src={HERO_IMAGE}
             alt="PLANET SOR7ED Hero Banner"
             fill
             priority

@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
 import { calculateAdhdTax } from '@/lib/adhdTaxCalculator'
 
+const DEFAULT_TOOL_COVER = '/images/httpss.mj.run7_AYEVAwp0c_PLANET_SOR7ED_--chaos_5_--ar_43_--sr_8b2dae3e-1129-4d86-a866-519a44a2a2fc_2.png'
+
 interface ToolClientProps {
   slug: string
   hasPaidPlan?: boolean
@@ -16,7 +18,7 @@ const TOOL_META: Record<string, { keyword: string; title: string; promise: strin
     keyword: 'TAX',
     title: 'ADHD Tax Calculator',
     promise: 'Calculate subscription leaks, late fees, and impulse buying overhead in 3 minutes.',
-    cover: '/images/tool-tax.jpg',
+    cover: '',
     steps: [
       'Enter your estimated monthly costs across key leak areas.',
       'Get your instant yearly ADHD tax calculation & leak breakdown.',
@@ -38,7 +40,7 @@ const TOOL_META: Record<string, { keyword: string; title: string; promise: strin
     keyword: 'AUTOPILOT',
     title: 'Financial Autopilot',
     promise: 'Build a friction-free bill and savings automation system in 5 minutes.',
-    cover: '/images/tool-autopilot.jpg',
+    cover: '',
     steps: [
       'Enter your take-home income, payday, and savings target.',
       'Generate an automated money flow sequence tied to your payday.',
@@ -60,7 +62,7 @@ const TOOL_META: Record<string, { keyword: string; title: string; promise: strin
     keyword: 'CLARITY',
     title: 'Decision Paralysis Solver',
     promise: 'Break through overthinking with forced binary elimination in 2 minutes.',
-    cover: '/images/tool-clarity.jpg',
+    cover: '',
     steps: [
       'Input the decision, option A, option B, and your primary fear.',
       'Apply structured safety margins to isolate the risk.',
@@ -133,6 +135,7 @@ export function ToolClient({ slug, hasPaidPlan = false, toolData }: ToolClientPr
     title: toolData?.title || defaultMeta.title,
     promise: toolData?.summary || defaultMeta.promise,
     keyword: toolData?.keyword || defaultMeta.keyword,
+    cover: toolData?.cover_image || defaultMeta.cover || DEFAULT_TOOL_COVER,
   }
 
   // 1) ADHD Tax Calculator Form State
