@@ -183,31 +183,31 @@ export function ToolClient({ slug, hasPaidPlan = false, toolData }: ToolClientPr
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Tool Hero Header */}
-      <section className="relative overflow-hidden pt-12 pb-20 border-b border-neutral-800">
-        <div className="absolute inset-0 z-0 opacity-50">
-          <Image src={meta.cover} alt={meta.title} fill unoptimized priority className="object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/80 to-black" />
-        </div>
+      {/* Cinematic Hero Banner with Integrated Typography */}
+      <section className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
+        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl min-h-[420px] sm:min-h-[560px] flex items-end">
+          <Image src={meta.cover} alt={meta.title} fill unoptimized priority className="object-cover object-center opacity-75 sm:opacity-85" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent sm:bg-gradient-to-r sm:from-black sm:via-black/75 sm:to-transparent" />
 
-        <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 space-y-4">
-          <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-black uppercase leading-none tracking-tight text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-            {meta.title}
-          </h1>
-          <p className="text-xl sm:text-2xl text-white/90 max-w-2xl leading-relaxed">
-            {meta.promise}
-          </p>
+          <div className="relative z-10 p-6 sm:p-12 lg:p-16 max-w-3xl space-y-4">
+            <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-2" />
+            <h1 className="text-5xl sm:text-7xl font-black uppercase leading-none tracking-tight text-white drop-shadow-lg" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+              {meta.title}
+            </h1>
+            <p className="text-lg sm:text-2xl text-neutral-200 max-w-2xl leading-relaxed drop-shadow">
+              {meta.promise}
+            </p>
 
-          <div className="pt-2 flex flex-wrap gap-4 items-center">
-            <a
-              href={waDirectUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-[#C0392B] px-8 py-3.5 text-base font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg"
-            >
-              <span>RUN ON WHATSAPP ({meta.keyword}) →</span>
-            </a>
+            <div className="pt-2 flex flex-wrap gap-4 items-center">
+              <a
+                href={waDirectUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-[#C0392B] px-8 py-3.5 text-base font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg"
+              >
+                <span>RUN ON WHATSAPP ({meta.keyword}) →</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>

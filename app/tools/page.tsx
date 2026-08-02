@@ -15,9 +15,9 @@ export default async function ToolboxListingPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pt-12 pb-16 sm:px-6 lg:px-8">
         {/* Cinematic Hero Banner with Integrated Typography */}
-        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl mb-12 min-h-[280px] sm:min-h-[340px] flex items-end">
+        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl mb-12 min-h-[420px] sm:min-h-[560px] flex items-end">
           {/* Background Banner Image */}
           <Image
             src="/images/banners/toolbox-banner.png"

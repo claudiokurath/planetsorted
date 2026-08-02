@@ -22,7 +22,7 @@ export default async function DashboardPage() {
   return (
     <main className="min-h-screen bg-black text-white flex flex-col">
       <div className="flex-1 flex items-start justify-center px-4 pt-10 pb-20">
-        <div className="w-full max-w-6xl">
+        <div className="w-full max-w-7xl">
           <DashboardClient tools={tools} />
         </div>
       </div>

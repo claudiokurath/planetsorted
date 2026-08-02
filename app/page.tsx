@@ -60,8 +60,8 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Cinematic Hero Section */}
-      <section className="mx-auto max-w-6xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
-        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl min-h-[360px] sm:min-h-[460px] flex items-end">
+      <section className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
+        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl min-h-[420px] sm:min-h-[560px] flex items-end">
           {/* Background Banner Image */}
           <Image
             src="/images/banners/hero-banner.png"
@@ -89,14 +89,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="h-px bg-[#262626] my-6" />
       </div>
 
       {/* Guidebook Section */}
       {articles.length > 0 && (
         <>
-          <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+          <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
                 <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
@@ -124,7 +124,7 @@ export default async function HomePage() {
             </div>
           </section>
 
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="h-px bg-[#262626] my-8" />
           </div>
         </>
@@ -132,7 +132,7 @@ export default async function HomePage() {
 
       {/* Toolbox Section */}
       {tools.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-12 pb-24 sm:px-6 lg:px-8">
+        <section className="mx-auto max-w-7xl px-4 py-12 pb-24 sm:px-6 lg:px-8">
           <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
@@ -162,7 +162,7 @@ export default async function HomePage() {
       )}
 
       {/* About Us Section */}
-      <section className="mx-auto max-w-6xl px-4 py-12 pb-24 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-12 pb-24 sm:px-6 lg:px-8">
         <div className="h-px bg-[#262626] mb-12" />
         <div className="max-w-2xl">
           <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
