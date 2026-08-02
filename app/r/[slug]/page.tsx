@@ -5,47 +5,48 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+const FALLBACK_IMAGE = `${SITE}/images/httpss.mj.run7_AYEVAwp0c_PLANET_SOR7ED_--chaos_5_--ar_43_--sr_8b2dae3e-1129-4d86-a866-519a44a2a2fc_2.png`
 
 const TOOL_SLUGS: Record<string, { title: string; description: string; image: string }> = {
   'adhd-tax-calculator': {
     title: 'ADHD Tax Calculator — Sorted Lab',
     description: 'Calculate subscription leaks, late fees, and impulse buying overhead in 3 minutes.',
-    image: `${SITE}/images/tool-tax.jpg`,
+    image: FALLBACK_IMAGE,
   },
   'financial-autopilot': {
     title: 'Financial Autopilot — Sorted Lab',
     description: 'Build a friction-free bill and savings automation system in 5 minutes.',
-    image: `${SITE}/images/tool-autopilot.jpg`,
+    image: FALLBACK_IMAGE,
   },
   'decision-paralysis-solver': {
     title: 'Decision Paralysis Solver — Sorted Lab',
     description: 'Break through overthinking with forced binary elimination in 2 minutes.',
-    image: `${SITE}/images/tool-clarity.jpg`,
+    image: FALLBACK_IMAGE,
   },
   'dopamine-menu-generator': {
     title: 'Dopamine Menu Generator — Sorted Lab',
     description: 'Build your personalised brain-reset menu: starters, mains, sides, and desserts.',
-    image: `${SITE}/images/og-fallback.png`,
+    image: FALLBACK_IMAGE,
   },
   'task-triage': {
     title: 'Task Triage & Matrix — Sorted Lab',
     description: 'Convert a chaotic task dump into a single clear next-step priority.',
-    image: `${SITE}/images/og-fallback.png`,
+    image: FALLBACK_IMAGE,
   },
   'rsd-response-scripts': {
     title: 'RSD Response Scripts — Sorted Lab',
     description: 'Instant boundary templates for rejection-sensitive situations.',
-    image: `${SITE}/images/og-fallback.png`,
+    image: FALLBACK_IMAGE,
   },
   'sensory-audit': {
     title: 'Sensory Audit & Reset — Sorted Lab',
     description: 'Identify environmental noise, light, and sensory drains — then fix them.',
-    image: `${SITE}/images/og-fallback.png`,
+    image: FALLBACK_IMAGE,
   },
   'burnout-assessment': {
     title: 'Burnout Assessment & Recovery — Sorted Lab',
     description: 'Evaluate your burnout stage and get non-shame restoration steps.',
-    image: `${SITE}/images/og-fallback.png`,
+    image: FALLBACK_IMAGE,
   },
 }
 
@@ -55,13 +56,13 @@ const SYSTEM_SLUGS: Record<string, { target: string; title: string; desc: string
     target: '/',
     title: 'Planet Sorted — Text a Word, Get a Protocol',
     desc: 'No app. No spam. Just what works.',
-    image: `${SITE}/images/og-fallback.png`,
+    image: FALLBACK_IMAGE,
   },
   goodbye: {
     target: '/',
     title: "You're Paused",
     desc: 'Text START any time to come back.',
-    image: `${SITE}/images/og-fallback.png`,
+    image: FALLBACK_IMAGE,
   },
 }
 
@@ -75,7 +76,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   let title = 'Planet Sorted'
   let description = 'No app. No spam. Just what works.'
-  let imageUrl = `${SITE}/images/og-fallback.png`
+  let imageUrl = FALLBACK_IMAGE
 
   if (SYSTEM_SLUGS[lowerSlug]) {
     const sys = SYSTEM_SLUGS[lowerSlug]
@@ -86,7 +87,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const tool = TOOL_SLUGS[lowerSlug]
     title = tool.title
     description = tool.description
-    imageUrl = tool.image
+    const supabase = createServerClient()
+    const { data: protocol } = await supabase
+      .from('protocols')
+      .select('cover_image')
+      .eq('slug', lowerSlug)
+      .eq('type', 'Tool')
+      .single()
+    imageUrl = protocol?.cover_image || tool.image
   } else {
     const supabase = createServerClient()
 

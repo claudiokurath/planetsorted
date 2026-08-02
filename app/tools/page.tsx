@@ -2,6 +2,8 @@ import Image from 'next/image'
 import { ContentCard } from '@/components/ContentCard'
 import { createServerClient } from '@/lib/supabase/server'
 
+const TOOLBOX_IMAGE = '/images/PLANS_AND_LISTS_--chaos_5_--ar_43_--sref_httpss.mj.runemid8j-_59e033a8-2449-4b8d-8e42-f14a59fbc67c_1.png'
+
 export const revalidate = 60
 
 export default async function ToolboxListingPage() {
@@ -20,7 +22,7 @@ export default async function ToolboxListingPage() {
         <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl mb-12 min-h-[420px] sm:min-h-[560px] flex items-end">
           {/* Background Banner Image */}
           <Image
-            src="/images/banners/toolbox-banner.png"
+            src={TOOLBOX_IMAGE}
             alt="Toolbox Banner"
             fill
             priority

@@ -239,7 +239,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl mb-10 min-h-[220px] sm:min-h-[260px] flex items-center p-6 sm:p-10">
         {/* Background Banner Image */}
         <Image
-          src="/images/banners/dashboard-banner.png"
+          src="/images/PLANET_SOR7ED_--chaos_5_--ar_43_--sref_httpss.mj.runemid8j-Qb_c1abf34d-6ca5-4774-8461-1602b00bcce2_3.png"
           alt="Dashboard Banner"
           fill
           priority
