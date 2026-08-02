@@ -234,7 +234,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-10">
+    <div className="mx-auto max-w-7xl px-6 py-10">
       {/* Cinematic Top Banner / Welcome Card */}
       <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl mb-10 min-h-[220px] sm:min-h-[260px] flex items-center p-6 sm:p-10">
         {/* Background Banner Image */}

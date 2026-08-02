@@ -134,39 +134,41 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Immersive Cover Image Hero Header Banner */}
-      <section className="relative overflow-hidden pt-16 pb-20 border-b border-neutral-800/80 bg-neutral-950">
-        {protocol.cover_image && (
-          <div className="absolute inset-0 z-0 opacity-40">
-            <Image
-              src={protocol.cover_image}
-              alt={protocol.title}
-              fill
-              priority
-              unoptimized
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/80 to-black" />
-          </div>
-        )}
-
-        <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 space-y-4">
-          {categoryStyle && (
-            <div>
-              <span className={`inline-block rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider ${categoryStyle.className}`}>
-                {categoryStyle.label}
-              </span>
-            </div>
+      {/* Cinematic Hero Banner with Integrated Typography */}
+      <section className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
+        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl min-h-[420px] sm:min-h-[560px] flex items-end">
+          {protocol.cover_image && (
+            <>
+              <Image
+                src={protocol.cover_image}
+                alt={protocol.title}
+                fill
+                priority
+                unoptimized
+                className="object-cover object-center opacity-75 sm:opacity-85"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent sm:bg-gradient-to-r sm:from-black sm:via-black/75 sm:to-transparent" />
+            </>
           )}
 
-          <h1 className="text-5xl sm:text-7xl font-black uppercase leading-none tracking-tight text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-            {protocol.title}
-          </h1>
+          <div className="relative z-10 p-6 sm:p-12 lg:p-16 max-w-3xl space-y-4">
+            {categoryStyle && (
+              <div>
+                <span className={`inline-block rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider ${categoryStyle.className}`}>
+                  {categoryStyle.label}
+                </span>
+              </div>
+            )}
 
-          <div className="flex flex-wrap items-center gap-3 text-sm sm:text-base font-medium text-neutral-300 pt-2">
-            {categoryStyle?.tagline && <span className="text-white font-semibold">{categoryStyle.tagline}</span>}
-            {categoryStyle?.tagline && protocol.read_time && <span className="text-neutral-500">•</span>}
-            {protocol.read_time && <span className="text-neutral-400">{protocol.read_time} read</span>}
+            <h1 className="text-5xl sm:text-7xl font-black uppercase leading-none tracking-tight text-white drop-shadow-lg" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+              {protocol.title}
+            </h1>
+
+            <div className="flex flex-wrap items-center gap-3 text-sm sm:text-base font-medium text-neutral-300 pt-2">
+              {categoryStyle?.tagline && <span className="text-white font-semibold">{categoryStyle.tagline}</span>}
+              {categoryStyle?.tagline && protocol.read_time && <span className="text-neutral-500">•</span>}
+              {protocol.read_time && <span className="text-neutral-400">{protocol.read_time} read</span>}
+            </div>
           </div>
         </div>
       </section>
