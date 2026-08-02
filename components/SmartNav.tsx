@@ -33,6 +33,7 @@ export function SmartNav() {
   if (isStandaloneToolRoute(pathname)) return null
 
   const navLinks = [
+    { label: 'Sounds', href: '/sounds' },
     { label: 'Guidebook', href: '/intelligence' },
     { label: 'Toolbox', href: '/tools' },
   ]
