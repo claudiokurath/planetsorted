@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { detectCrisis, CRISIS_RESPONSE } from '@/lib/whatsapp/crisis'
 import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
+import { createWhatsAppUser } from '@/lib/whatsapp/createWhatsAppUser'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
@@ -71,10 +72,55 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ status: 'ok' })
     }
 
-    // ── LOGIN — bare link, no card wrapper needed
+    // ── WhatsApp-first signup — no email required to get started.
+    //    Sits after consent commands (STOP must always work, registered or not)
+    //    and before LOGIN/tool/article handling (those need an account to mean anything).
+    const { data: existingUser } = await sb
+      .from('users')
+      .select('email')
+      .eq('whatsapp_number', from)
+      .maybeSingle()
+
+    if (!existingUser) {
+      const { data: pending } = await sb
+        .from('whatsapp_pending_signups')
+        .select('id')
+        .eq('phone', from)
+        .maybeSingle()
+
+      if (!pending) {
+        await sb.from('whatsapp_pending_signups').insert({ phone: from })
+        await sendWhatsAppMessage(from, "Welcome to PLANET SOR7ED. What's your first name?")
+        return NextResponse.json({ status: 'awaiting_name' })
+      }
+
+      const firstName = text.trim()
+      await createWhatsAppUser(from, firstName)
+      await sb.from('whatsapp_pending_signups').delete().eq('phone', from)
+      await sendWhatsAppMessage(
+        from,
+        `Nice to meet you, ${firstName}. You're in — text ${Object.keys(TOOL_KEYWORDS).join(', ')} to run a tool, or any keyword to get a protocol.`
+      )
+      return NextResponse.json({ status: 'registered' })
+    }
+
+    // ── LOGIN — real magic link pushed straight to WhatsApp, no email typing.
+    //    Sent as plain text (no preview_url): a preview fetch would hit Supabase's
+    //    verify endpoint and burn the one-time token before the user taps it.
     if (verb === 'LOGIN') {
-      const url = `${SITE}/signup`
-      await sendWhatsAppMessage(from, url, url)
+      const { data: linkData, error: linkError } = await sb.auth.admin.generateLink({
+        type: 'magiclink',
+        email: existingUser.email,
+        options: { redirectTo: `${SITE}/auth/callback` },
+      })
+      const link = linkData?.properties?.action_link
+      if (link && !linkError) {
+        await sendWhatsAppMessage(from, link)
+      } else {
+        console.error('[LOGIN generateLink error]', linkError)
+        const url = `${SITE}/signup`
+        await sendWhatsAppMessage(from, url, url)
+      }
       return NextResponse.json({ status: 'ok' })
     }
 

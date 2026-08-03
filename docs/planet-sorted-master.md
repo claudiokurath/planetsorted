@@ -526,6 +526,9 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 4. Server sets `whatsapp_verified = true`.
 5. Until step 4, the GET IT SORTED button falls back to the `wa.me` deep link with the verification helper text.
 
+### Notion CRM Sync
+Every new signup (WhatsApp-first or email/dashboard) is mirrored, best-effort, into the Notion `CRM` database (properties: Name, Email, WhatsApp, Status, Source, Signed Up) via `lib/notion/syncUserToCrm.ts`. A Notion outage never blocks account creation — sync failures are logged, not surfaced to the user.
+
 ### GDPR Deletion
 Wipes `saved_items`, `credits_ledger`, `entitlements`, `tool_requests` (cascading to `tool_runs` via `tool_request_id`, since that table has no direct `user_id`), and the `users` row, then deletes the corresponding Supabase auth user.
 
@@ -563,6 +566,8 @@ Wipes `saved_items`, `credits_ledger`, `entitlements`, `tool_requests` (cascadin
 | `SUPABASE_SERVICE_ROLE_KEY` | Server (admin operations) |
 | `NOTION_SECRET` | Notion sync cron |
 | `NOTION_ARTICLES_DB_ID` | Notion articles DB (`db668e4687ed455498357b8d11d2c714`) |
+| `NOTION_CRM_SECRET` | Notion CRM sync (new signups → CRM database) |
+| `NOTION_CRM_DB_ID` | Notion CRM database (`35e0d6014acc80ff8761c320c06835ee`) — optional, defaults to this ID |
 | `CRON_SECRET` | Cron route auth |
 | `NEXT_PUBLIC_SITE_URL` | Now defaults to `planetsorted.com` |
 | `NEXT_PUBLIC_WA_NUMBER` | GET IT SORTED button (wa.me links) |
