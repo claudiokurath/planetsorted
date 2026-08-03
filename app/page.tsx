@@ -59,124 +59,123 @@ export default async function HomePage() {
   const tools = (rawTools as Protocol[]) || []
 
   return (
-    <div className="min-h-screen overflow-hidden bg-[#090909] text-white">
-      <section className="mx-auto max-w-[1500px] px-4 pt-5 sm:px-6 lg:px-8">
-        <div className="sor7ed-hero-grid relative grid min-h-[640px] overflow-hidden border border-white/15 bg-[#111] lg:grid-cols-[1.08fr_.92fr]">
-          <div className="relative z-10 flex flex-col justify-between p-7 sm:p-12 lg:p-16">
-            <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-[.24em] text-white/55">
-              <span>Planet SOR7ED / Sorted Lab</span>
-              <span>Est. 2025</span>
-            </div>
-            <div className="max-w-4xl py-16 lg:py-8">
-              <p className="mb-6 text-sm font-bold uppercase tracking-[.28em] text-[#ef4035]">One clear next step</p>
-              <h1 className="text-[clamp(5rem,10vw,10rem)] font-black uppercase leading-[.72] tracking-[-.045em] text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-                Templates,<br /><span className="text-[#ef4035]">not noise.</span>
-              </h1>
-              <p className="mt-9 max-w-xl text-lg leading-relaxed text-white/70 sm:text-xl">
-                Practical protocols and tools for neurodivergent adults. Built to turn a loud problem into one doable move.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/tools" className="bg-[#ef4035] px-6 py-3 text-sm font-black uppercase tracking-[.14em] text-black transition hover:bg-white">Use a tool ↗</Link>
-              <Link href="/intelligence" className="border border-white/35 px-6 py-3 text-sm font-black uppercase tracking-[.14em] transition hover:border-white hover:bg-white hover:text-black">Read the guidebook</Link>
-            </div>
-          </div>
-
-          <div className="relative min-h-[420px] overflow-hidden border-t border-white/15 lg:min-h-full lg:border-l lg:border-t-0">
+    <div className="min-h-screen bg-black text-white">
+      {/* Cinematic Hero Section */}
+      <section className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
+        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl min-h-[420px] sm:min-h-[560px] flex items-end">
+          {/* Background Banner Image */}
           <Image
             src={HERO_IMAGE}
-            alt="Abstract PLANET SOR7ED artwork"
+            alt="PLANET SOR7ED Hero Banner"
             fill
             priority
             unoptimized
-            className="object-cover object-center saturate-[1.12] transition-transform duration-1000 hover:scale-[1.03]"
+            className="object-cover object-center opacity-75 sm:opacity-85 transition-transform duration-700 hover:scale-105"
           />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
-            <div className="absolute bottom-6 right-6 border border-white/40 bg-black/75 px-4 py-3 text-xs font-bold uppercase tracking-[.2em] backdrop-blur">
-              Worry less / live more
+          {/* Sophisticated Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent sm:bg-gradient-to-r sm:from-black sm:via-black/75 sm:to-transparent" />
+
+          {/* Integrated Typography */}
+          <div className="relative z-10 p-6 sm:p-12 lg:p-16 max-w-3xl space-y-5">
+            <div className="flex items-center gap-3">
+              <span className="h-0.5 w-10 rounded-full bg-[#C0392B]" />
             </div>
+            <h1 className="text-5xl sm:text-7xl font-black leading-[1.02] tracking-[-0.035em] text-white drop-shadow-lg">
+              Templates,<br /><span style={{ color: '#C0392B' }}>not inspiration.</span>
+            </h1>
+            <p className="text-lg sm:text-2xl leading-relaxed text-neutral-200 font-normal drop-shadow max-w-2xl">
+              Practical protocols and tools for neurodivergent adults. No app. No spam. Just what works.
+            </p>
           </div>
         </div>
       </section>
 
-      <div className="sor7ed-marquee mt-5 border-y border-white/15 bg-[#ef4035] py-3 text-black" aria-hidden="true">
-        <div className="sor7ed-marquee-track flex w-max gap-10 text-sm font-black uppercase tracking-[.2em]">
-          {[0, 1].map((group) => (
-            <span key={group} className="flex gap-10">
-              <span>Templates, not inspiration</span><span>◆</span><span>No app. No spam.</span><span>◆</span><span>Built for ADHD brains</span><span>◆</span><span>One clear next step</span><span>◆</span>
-            </span>
-          ))}
+      <section id="about" className="mx-auto max-w-7xl scroll-mt-24 px-4 pb-12 sm:px-6 lg:px-8">
+        <div className="grid gap-6 rounded-3xl border border-neutral-800 bg-[#141414] p-7 sm:p-10 md:grid-cols-[.7fr_1.3fr] md:items-start">
+          <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#C0392B]">About PLANET SOR7ED</p>
+          <div>
+            <h2 className="text-3xl font-extrabold leading-tight tracking-[-0.025em] text-white sm:text-4xl">Practical help for brains that already have enough going on.</h2>
+            <p className="mt-5 max-w-3xl text-base leading-relaxed text-neutral-300 sm:text-lg">
+              PLANET SOR7ED creates shame-free tools, templates and plain-English protocols for neurodivergent adults. No productivity theatre—just a clear answer and one manageable next step.
+            </p>
+          </div>
         </div>
+      </section>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="h-px bg-[#262626] my-6" />
       </div>
 
       {/* Guidebook Section */}
       {articles.length > 0 && (
         <>
-          <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-            <div className="mb-12 grid gap-8 md:grid-cols-[1fr_1fr] md:items-end">
+          <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+            <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
-                <p className="mb-4 text-xs font-bold uppercase tracking-[.28em] text-[#ef4035]">01 / Protocols</p>
-                <h2 className="text-7xl font-black uppercase leading-[.8] text-white sm:text-8xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-                  The<br />Guidebook
+                <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
+                <h2 className="text-4xl sm:text-5xl font-extrabold tracking-[-0.025em] text-white">
+                  Guidebook
                 </h2>
               </div>
-              <div className="md:justify-self-end md:text-right">
-                <p className="mb-5 max-w-md text-lg text-white/55">Plain-English protocols for the moments when your brain has too many tabs open.</p>
-                <Link href="/intelligence" className="text-sm font-black uppercase tracking-[.16em] text-[#ef4035] hover:text-white">View every protocol →</Link>
-              </div>
+              <Link href="/intelligence" className="text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:text-white transition-colors underline underline-offset-4">
+                View full Guidebook →
+              </Link>
             </div>
 
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-12">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {articles.map((article, index) => (
-                <div key={article.slug} className={index === 0 ? 'lg:col-span-6' : 'lg:col-span-2'}>
-                  <ContentCard href={`/intelligence/${article.slug}`} title={article.title} summary={article.summary || ''} coverImage={article.cover_image} category={article.category} meta={article.read_time ? `${article.read_time} read` : undefined} index={index + 1} featured={index === 0} />
+                <div key={article.slug} className={index === 0 || index === 3 ? 'lg:col-span-2' : 'lg:col-span-1'}>
+                  <ContentCard
+                    href={`/intelligence/${article.slug}`}
+                    title={article.title}
+                    summary={article.summary || ''}
+                    coverImage={article.cover_image}
+                    category={article.category}
+                    meta={article.read_time ? `${article.read_time} read` : undefined}
+                  />
                 </div>
               ))}
             </div>
           </section>
+
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="h-px bg-[#262626] my-8" />
+          </div>
         </>
       )}
 
       {/* Toolbox Section */}
       {tools.length > 0 && (
-        <section className="border-y border-white/15 bg-[#f0e4cd] text-black">
-          <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-          <div className="mb-12 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+        <section className="border-y border-neutral-300 bg-[#f0e4cd] text-black">
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
-              <p className="mb-4 text-xs font-bold uppercase tracking-[.28em] text-[#b52e27]">02 / Interactive</p>
-              <h2 className="text-7xl font-black uppercase leading-[.8] sm:text-8xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+              <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
+              <h2 className="text-4xl sm:text-5xl font-extrabold tracking-[-0.025em] text-black">
                 Toolbox
               </h2>
             </div>
-            <Link href="/tools" className="text-sm font-black uppercase tracking-[.16em] text-[#b52e27] hover:text-black">
+            <Link href="/tools" className="text-sm font-bold uppercase tracking-wider text-[#9f2f27] hover:text-black transition-colors underline underline-offset-4">
               View all tools →
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {tools.map((tool, index) => (
-              <ContentCard key={tool.slug} href={`/tools/${tool.slug}`} title={tool.title} summary={tool.summary || ''} coverImage={tool.cover_image} category={tool.category} meta={tool.read_time} index={index + 1} light />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+            {tools.map((tool) => (
+              <ContentCard
+                key={tool.slug}
+                href={`/tools/${tool.slug}`}
+                title={tool.title}
+                summary={tool.summary || ''}
+                coverImage={tool.cover_image}
+                category={tool.category}
+                meta={tool.read_time}
+              />
             ))}
           </div>
           </div>
         </section>
       )}
-
-      {/* About Us Section */}
-      <section className="mx-auto grid max-w-7xl gap-10 px-4 py-24 sm:px-6 md:grid-cols-[.8fr_1.2fr] md:items-end lg:px-8">
-        <div className="text-sm font-bold uppercase tracking-[.24em] text-white/40">03 / Why SOR7ED exists</div>
-        <div>
-          <h2 className="text-7xl font-black uppercase leading-[.82] text-white sm:text-9xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-            Life is loud.<br /><span className="text-[#ef4035]">We make it legible.</span>
-          </h2>
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white/60">
-            PLANET SOR7ED builds practical tools and protocols for neurodivergent adults—clear enough to use on a low-energy day, useful enough to come back to.
-          </p>
-          <Link href="/about" className="mt-8 inline-block border-b border-[#ef4035] pb-2 text-sm font-black uppercase tracking-[.16em] text-[#ef4035] hover:text-white">
-            More about us →
-          </Link>
-        </div>
-      </section>
     </div>
   )
 }
