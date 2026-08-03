@@ -1,68 +1,58 @@
 'use client'
-
 import { useState } from 'react'
-import { GetSortedButton } from '@/components/buttons/GetSortedButton'
 
-interface SaveToPhoneButtonProps {
+interface Props {
   slug: string
-  context: 'article' | 'tool' | 'result'
+  context: 'article' | 'tool'
   isLoggedIn: boolean
   whatsappVerified: boolean
+  keyword?: string
 }
 
-const HELPER_TEXT = {
-  article: 'Tap to open WhatsApp — keyword pre-filled. Hit send and the full protocol comes straight back.',
-  tool: 'Text this to run the tool and save your result',
-  result: 'Save your result to WhatsApp to come back to it later',
-}
+export function SaveToPhoneButton({ slug, context, isLoggedIn, whatsappVerified, keyword }: Props) {
+  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const WA = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447591922247'
 
-export function SaveToPhoneButton({ slug, context, isLoggedIn, whatsappVerified }: SaveToPhoneButtonProps) {
-  const [sending, setSending] = useState(false)
-  const [sent, setSent] = useState(false)
-
-  if (!isLoggedIn) return <GetSortedButton slug={slug} context={context} />
-
-  if (!whatsappVerified) {
+  if (!isLoggedIn) {
+    const waLink = `https://wa.me/${WA}?text=${encodeURIComponent(keyword ?? slug.toUpperCase())}`
     return (
-      <div className="flex flex-col items-start gap-1">
-        <GetSortedButton slug={slug} context={context} />
-        <p className="text-sm text-amber-600">Verify your WhatsApp number in Settings to send directly</p>
-      </div>
+      <a href={waLink} target="_blank" rel="noopener noreferrer"
+        className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C0392B] px-8 py-4 text-base font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors">
+        GET IT SOR7ED ON WHATSAPP →
+      </a>
     )
   }
 
-  async function handleClick() {
-    setSending(true)
+  if (!whatsappVerified) {
+    return (
+      <a href="/dashboard?tab=settings"
+        className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-4 text-base font-bold text-white hover:border-white/40 transition-colors">
+        Verify WhatsApp to receive directly →
+      </a>
+    )
+  }
+
+  async function handleSend() {
+    setState('sending')
     try {
       const res = await fetch('/api/save-to-phone', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, context }),
+        body: JSON.stringify({ slug, context, includeLink: false }), // flip to true once /r/[slug]'s cards are fully fixed
       })
-      if (!res.ok) throw new Error('Send failed')
-      setSent(true)
+      setState(res.ok ? 'sent' : 'error')
     } catch {
-      window.open(
-        `https://wa.me/${process.env.NEXT_PUBLIC_WA_NUMBER ?? '447360277713'}?text=${encodeURIComponent(slug)}`,
-        '_blank'
-      )
-    } finally {
-      setSending(false)
+      setState('error')
     }
   }
 
   return (
-    <div className="flex flex-col items-start gap-1">
-      <button
-        onClick={handleClick}
-        disabled={sending}
-        className="inline-block rounded-full bg-green-500 px-6 py-3 font-bold text-white hover:bg-green-600 transition-colors disabled:opacity-50"
-      >
-        {sent ? 'Sent to WhatsApp ✓' : sending ? 'Sending…' : 'GET IT SOR7ED'}
-      </button>
-      <p className="text-sm text-gray-500">
-        {sent ? 'Check WhatsApp — it should be there now.' : HELPER_TEXT[context]}
-      </p>
-    </div>
+    <button onClick={handleSend} disabled={state === 'sending' || state === 'sent'}
+      className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C0392B] px-8 py-4 text-base font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors disabled:opacity-60">
+      {state === 'idle' && 'SEND TO MY WHATSAPP →'}
+      {state === 'sending' && 'Sending…'}
+      {state === 'sent' && '✓ Sent to your WhatsApp'}
+      {state === 'error' && 'Could not send — try again'}
+    </button>
   )
 }
