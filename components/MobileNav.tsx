@@ -6,6 +6,7 @@ import { isStandaloneToolRoute } from '@/lib/isStandaloneToolRoute'
 
 const TABS = [
   { href: '/', label: 'Home', icon: '🏠' },
+  { href: '/sounds', label: 'Sounds', icon: '🎧' },
   { href: '/intelligence', label: 'Guidebook', icon: '📖' },
   { href: '/tools', label: 'Toolbox', icon: '🔧' },
   { href: '/dashboard', label: 'Account', icon: '👤' },
