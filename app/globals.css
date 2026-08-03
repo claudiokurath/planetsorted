@@ -18,6 +18,34 @@ body {
   font-family: "Inter", Arial, Helvetica, sans-serif;
 }
 
+::selection {
+  background: #ef4035;
+  color: #090909;
+}
+
+.sor7ed-hero-grid::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  content: "";
+  opacity: .14;
+  background-image: linear-gradient(rgba(255,255,255,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.18) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.sor7ed-marquee-track {
+  animation: sor7ed-marquee 24s linear infinite;
+}
+
+@keyframes sor7ed-marquee {
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sor7ed-marquee-track { animation: none; }
+}
+
 /* Primary Brand Button Overrides (Brand Red #C0392B) */
 .bg-green-500 {
   background-color: #C0392B !important;

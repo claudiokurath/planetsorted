@@ -9,18 +9,20 @@ interface ContentCardProps {
   coverImage?: string | null
   meta?: string
   category?: string | null
+  index?: number
+  featured?: boolean
+  light?: boolean
 }
 
-export function ContentCard({ href, title, summary, coverImage, meta, category }: ContentCardProps) {
+export function ContentCard({ href, title, summary, coverImage, meta, category, index, featured = false, light = false }: ContentCardProps) {
   const style = getCategoryStyle(category)
 
   return (
     <Link
       href={href}
-      className="group flex flex-col h-full w-full overflow-hidden rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-neutral-700"
-      style={{ backgroundColor: '#141414', border: '1px solid #262626' }}
+      className={`group flex h-full w-full flex-col overflow-hidden border transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${light ? 'border-black/20 bg-[#f8eedb]' : 'border-white/15 bg-[#131313]'}`}
     >
-      <div className="relative aspect-video w-full overflow-hidden bg-[#0D0D0D] flex-shrink-0">
+      <div className={`relative w-full flex-shrink-0 overflow-hidden bg-[#0D0D0D] ${featured ? 'aspect-[16/10]' : 'aspect-video'}`}>
         {coverImage ? (
           <Image
             src={coverImage}
@@ -38,8 +40,9 @@ export function ContentCard({ href, title, summary, coverImage, meta, category }
           </div>
         )}
       </div>
-      <div className="flex flex-1 flex-col justify-between gap-4 p-5">
+      <div className="flex flex-1 flex-col justify-between gap-5 p-5">
         <div className="flex flex-col flex-1">
+          {index && <span className={`mb-4 text-xs font-black tracking-[.2em] ${light ? 'text-black/35' : 'text-white/30'}`}>{String(index).padStart(2, '0')}</span>}
           {style && (
             <div>
               <span className={`mb-3 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${style.className}`}>
@@ -47,12 +50,12 @@ export function ContentCard({ href, title, summary, coverImage, meta, category }
               </span>
             </div>
           )}
-          <h3 className="text-xl sm:text-2xl font-black uppercase leading-snug text-white group-hover:text-[#C0392B] transition-colors line-clamp-2" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+          <h3 className={`font-black uppercase leading-[.95] transition-colors line-clamp-3 ${featured ? 'text-3xl sm:text-5xl' : 'text-xl sm:text-2xl'} ${light ? 'text-black group-hover:text-[#b52e27]' : 'text-white group-hover:text-[#ef4035]'}`} style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             {title}
           </h3>
-          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-neutral-400 flex-1">{summary}</p>
+          <p className={`mt-3 line-clamp-3 text-sm leading-relaxed flex-1 ${light ? 'text-black/60' : 'text-white/50'}`}>{summary}</p>
         </div>
-        {meta && <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 pt-2 border-t border-neutral-800/80">{meta}</p>}
+        {meta && <p className={`border-t pt-3 text-xs font-semibold uppercase tracking-widest ${light ? 'border-black/15 text-black/45' : 'border-white/10 text-white/35'}`}>{meta}</p>}
       </div>
     </Link>
   )
