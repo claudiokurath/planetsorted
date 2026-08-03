@@ -12,20 +12,14 @@ export const metadata: Metadata = {
 export default function SoundsPage() {
   return (
     <div className="min-h-screen overflow-hidden bg-[#080a0c] text-[#f4ead7]">
-      <section className="relative border-b border-[#f4ead7]/25 px-5 py-16 sm:px-8 sm:py-24 lg:px-12">
-        <div className="absolute inset-0 opacity-50 [background-image:radial-gradient(#ef3c2f_1px,transparent_1px)] [background-size:18px_18px]" />
-        <div className="relative mx-auto max-w-7xl">
-          <p className="mb-7 text-xs font-bold uppercase tracking-[0.28em] text-[#ef3c2f]">Planet Sorted presents</p>
-          <h1 className="max-w-5xl text-[18vw] font-black uppercase leading-[0.72] tracking-[-0.09em] sm:text-[13vw]" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-            Sounds<span className="text-[#ef3c2f]">.</span>
-          </h1>
-          <div className="mt-10 grid gap-6 border-t border-[#f4ead7]/25 pt-6 sm:grid-cols-[1.2fr_.8fr]">
-            <p className="max-w-2xl text-xl leading-relaxed text-[#f4ead7]/90 sm:text-2xl">
-              New artists. Big feeling. No background noise.
-            </p>
-            <p className="max-w-md text-sm leading-relaxed text-[#f4ead7]/60 sm:justify-self-end">
-              Sounds is the music wing of Planet Sorted: a home for independent projects with something real to say.
-            </p>
+      <section className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
+        <div className="relative flex min-h-[420px] w-full items-end overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl sm:min-h-[560px]">
+          <Image src="/images/banners/sounds-banner.png" alt="Abstract piano artwork for PLANET SOR7ED Sounds" fill priority className="object-cover object-center opacity-80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/65 to-transparent sm:bg-gradient-to-r sm:from-black sm:via-black/70 sm:to-transparent" />
+          <div className="relative z-10 max-w-3xl space-y-4 p-6 sm:p-12 lg:p-16">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ef3c2f]">Planet Sorted presents</p>
+            <h1 className="text-5xl font-black leading-tight tracking-[-0.035em] text-white sm:text-7xl">Sounds.</h1>
+            <p className="max-w-2xl text-lg leading-relaxed text-[#f4ead7]/85 sm:text-xl">New artists. Big feeling. No background noise.</p>
           </div>
         </div>
       </section>
@@ -53,7 +47,7 @@ export default function SoundsPage() {
           <div className="flex flex-col justify-between p-7 sm:p-10 lg:p-14">
             <div>
               <p className="mb-5 text-xs font-bold uppercase tracking-[0.24em] text-[#ef3c2f]">Independent AI music artist</p>
-              <h2 className="text-7xl font-black uppercase leading-[0.78] tracking-[-0.07em] sm:text-8xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+              <h2 className="text-5xl font-black leading-tight tracking-[-0.035em] sm:text-7xl">
                 KLOUDAI<span className="text-[#ef3c2f]">.</span>
               </h2>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#f4ead7]/80">
@@ -78,7 +72,7 @@ export default function SoundsPage() {
         <div className="mx-auto grid max-w-7xl gap-8 sm:grid-cols-[.7fr_1.3fr] sm:items-end">
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#f4ead7]/70">More signals soon</p>
           <div>
-            <p className="text-3xl font-medium leading-tight sm:text-5xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+            <p className="text-3xl font-bold leading-tight tracking-[-0.025em] sm:text-5xl">
               ONE NEW VOICE IS ONLY THE START.
             </p>
             <Link href="/contact" className="mt-6 inline-block border-b border-[#f4ead7] pb-1 text-sm font-bold uppercase tracking-[0.14em] hover:text-[#ef3c2f]">
