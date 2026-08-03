@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
+import { syncUserToCrm } from '@/lib/notion/syncUserToCrm'
 
 export async function GET(req: NextRequest) {
   const supabase = createServerClient()
@@ -46,6 +47,15 @@ export async function GET(req: NextRequest) {
       if (insertError) {
         console.error('[Default profile insert error]', insertError)
         return NextResponse.json({ error: 'Failed to initialize profile' }, { status: 500 })
+      }
+
+      // Best-effort — a Notion hiccup should never block dashboard access.
+      if (defaultProfile.email) {
+        try {
+          await syncUserToCrm({ firstName: defaultProfile.first_name, email: defaultProfile.email, source: 'Website' })
+        } catch (err) {
+          console.error('[Notion CRM sync error]', err)
+        }
       }
 
       return NextResponse.json(defaultProfile)
