@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -42,9 +43,15 @@ export function SmartNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-800 backdrop-blur-md bg-[#1A1A1A]/95 text-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 py-4">
-        {/* Wordmark logo with brand 7 */}
-        <Link href="/" className="text-2xl font-black uppercase tracking-wider text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-          Planet SOR7ED
+        <Link href="/" aria-label="PLANET SOR7ED home" className="shrink-0">
+          <Image
+            src="/images/sor7ed-logo.png"
+            alt="SOR7ED"
+            width={1600}
+            height={402}
+            priority
+            className="h-8 w-auto sm:h-9"
+          />
         </Link>
 
         {/* Desktop Nav links */}
