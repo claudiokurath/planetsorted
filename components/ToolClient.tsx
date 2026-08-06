@@ -1,11 +1,8 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import Image from 'next/image'
 import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
 import { calculateAdhdTax } from '@/lib/adhdTaxCalculator'
-
-const DEFAULT_TOOL_COVER = '/images/httpss.mj.run7_AYEVAwp0c_PLANET_SOR7ED_--chaos_5_--ar_43_--sr_8b2dae3e-1129-4d86-a866-519a44a2a2fc_2.png'
 
 interface ToolClientProps {
   slug: string
@@ -135,7 +132,6 @@ export function ToolClient({ slug, hasPaidPlan = false, toolData }: ToolClientPr
     title: toolData?.title || defaultMeta.title,
     promise: toolData?.summary || defaultMeta.promise,
     keyword: toolData?.keyword || defaultMeta.keyword,
-    cover: toolData?.cover_image || defaultMeta.cover || DEFAULT_TOOL_COVER,
   }
 
   // 1) ADHD Tax Calculator Form State
@@ -186,12 +182,9 @@ export function ToolClient({ slug, hasPaidPlan = false, toolData }: ToolClientPr
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Cinematic Hero Banner with Integrated Typography */}
+      {/* Text-led Hero Banner */}
       <section className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
-        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl min-h-[420px] sm:min-h-[560px] flex items-end">
-          <Image src={meta.cover} alt={meta.title} fill unoptimized priority className="object-cover object-center opacity-75 sm:opacity-85" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent sm:bg-gradient-to-r sm:from-black sm:via-black/75 sm:to-transparent" />
-
+        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-gradient-to-br from-neutral-950 to-black shadow-2xl min-h-[340px] sm:min-h-[420px] flex items-end">
           <div className="relative z-10 p-6 sm:p-12 lg:p-16 max-w-3xl space-y-4">
             <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-2" />
             <h1 className="text-5xl sm:text-7xl font-black uppercase leading-none tracking-tight text-white drop-shadow-lg" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
@@ -216,25 +209,13 @@ export function ToolClient({ slug, hasPaidPlan = false, toolData }: ToolClientPr
       </section>
 
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
-        {/* Banner Graphic Card */}
-        <div className="mb-10 relative aspect-[21/9] w-full overflow-hidden rounded-2xl border border-neutral-800 shadow-2xl">
-          <Image
-            src={meta.cover}
-            alt={`${meta.title} Banner`}
-            fill
-            unoptimized
-            priority
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-          <div className="absolute bottom-4 left-6 right-6 flex items-center justify-between">
+        <div className="mb-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-neutral-800 bg-[#141414] px-5 py-4 shadow-xl">
             <span className="text-xs font-bold uppercase tracking-widest text-neutral-300 bg-black/60 backdrop-blur px-3 py-1 rounded-full border border-neutral-700">
               Interactive Web App Tool
             </span>
             <span className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">
               KEYWORD: {meta.keyword}
             </span>
-          </div>
         </div>
 
         {!submitted ? (

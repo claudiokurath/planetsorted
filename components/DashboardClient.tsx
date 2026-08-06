@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
 import { createBrowserClient } from '@/lib/supabase/client'
 import type { SavedItem, User } from '@/lib/types/database'
 
@@ -235,21 +234,8 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-10">
-      {/* Cinematic Top Banner / Welcome Card */}
-      <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl mb-10 min-h-[220px] sm:min-h-[260px] flex items-center p-6 sm:p-10">
-        {/* Background Banner Image */}
-        <Image
-          src="/images/PLANET_SOR7ED_--chaos_5_--ar_43_--sref_httpss.mj.runemid8j-Qb_c1abf34d-6ca5-4774-8461-1602b00bcce2_3.png"
-          alt="Dashboard Banner"
-          fill
-          priority
-          unoptimized
-          className="object-cover object-center opacity-65 sm:opacity-80 transition-transform duration-700 hover:scale-105"
-        />
-        {/* Sophisticated Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/75 to-black/30 sm:bg-gradient-to-r sm:from-black sm:via-black/80 sm:to-transparent" />
-
-        {/* Integrated Welcome Content */}
+      {/* Welcome Card */}
+      <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-gradient-to-br from-neutral-950 to-black shadow-2xl mb-10 min-h-[220px] sm:min-h-[260px] flex items-center p-6 sm:p-10">
         <div className="relative z-10 w-full flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
           <div>
             <div className="flex items-center gap-3 mb-2">
