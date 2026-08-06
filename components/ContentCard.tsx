@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { getCategoryStyle } from '@/lib/categoryStyles'
 
@@ -11,7 +10,7 @@ interface ContentCardProps {
   category?: string | null
 }
 
-export function ContentCard({ href, title, summary, coverImage, meta, category }: ContentCardProps) {
+export function ContentCard({ href, title, summary, meta, category }: ContentCardProps) {
   const style = getCategoryStyle(category)
 
   return (
@@ -20,24 +19,6 @@ export function ContentCard({ href, title, summary, coverImage, meta, category }
       className="group flex flex-col h-full w-full overflow-hidden rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-neutral-700"
       style={{ backgroundColor: '#141414', border: '1px solid #262626' }}
     >
-      <div className="relative aspect-video w-full overflow-hidden bg-[#0D0D0D] flex-shrink-0">
-        {coverImage ? (
-          <Image
-            src={coverImage}
-            alt={title}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            unoptimized={coverImage.startsWith('/images/')}
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <div className="relative flex h-full w-full items-center justify-center bg-gradient-to-br from-neutral-900 to-black">
-            <span className="text-4xl font-black uppercase tracking-widest text-neutral-700 opacity-40 select-none" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-              {category || 'SORTED'}
-            </span>
-          </div>
-        )}
-      </div>
       <div className="flex flex-1 flex-col justify-between gap-4 p-5">
         <div className="flex flex-col flex-1">
           {style && (

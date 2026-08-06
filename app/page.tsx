@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { ContentCard } from '@/components/ContentCard'
@@ -60,22 +59,9 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Cinematic Hero Section */}
+      {/* Text-led Hero Section */}
       <section className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
-        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl min-h-[420px] sm:min-h-[560px] flex items-end">
-          {/* Background Banner Image */}
-          <Image
-            src={HERO_IMAGE}
-            alt="PLANET SOR7ED Hero Banner"
-            fill
-            priority
-            unoptimized
-            className="object-cover object-center opacity-75 sm:opacity-85 transition-transform duration-700 hover:scale-105"
-          />
-          {/* Sophisticated Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent sm:bg-gradient-to-r sm:from-black sm:via-black/75 sm:to-transparent" />
-
-          {/* Integrated Typography */}
+        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-gradient-to-br from-neutral-950 to-black shadow-2xl min-h-[360px] sm:min-h-[440px] flex items-end">
           <div className="relative z-10 p-6 sm:p-12 lg:p-16 max-w-3xl space-y-5">
             <div className="flex items-center gap-3">
               <span className="h-0.5 w-10 rounded-full bg-[#C0392B]" />

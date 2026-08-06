@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 
 const KLOUDAI_URL = 'https://kloudai-music.rare-pearl-4148.chatgpt.site'
@@ -13,9 +12,7 @@ export default function SoundsPage() {
   return (
     <div className="min-h-screen overflow-hidden bg-[#080a0c] text-[#f4ead7]">
       <section className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
-        <div className="relative flex min-h-[420px] w-full items-end overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl sm:min-h-[560px]">
-          <Image src="/images/banners/sounds-banner.png" alt="Abstract piano artwork for PLANET SOR7ED Sounds" fill priority className="object-cover object-center opacity-80" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/65 to-transparent sm:bg-gradient-to-r sm:from-black sm:via-black/70 sm:to-transparent" />
+        <div className="relative flex min-h-[320px] w-full items-end overflow-hidden rounded-3xl border border-neutral-800/80 bg-gradient-to-br from-neutral-950 to-black shadow-2xl sm:min-h-[400px]">
           <div className="relative z-10 max-w-3xl space-y-4 p-6 sm:p-12 lg:p-16">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ef3c2f]">Planet Sorted presents</p>
             <h1 className="text-5xl font-black leading-tight tracking-[-0.035em] text-white sm:text-7xl">Sounds.</h1>
@@ -30,23 +27,10 @@ export default function SoundsPage() {
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ef3c2f]">Live now</p>
         </div>
 
-        <article className="grid overflow-hidden border border-[#f4ead7]/40 bg-[#11171a] shadow-[10px_10px_0_#ef3c2f] lg:grid-cols-[.9fr_1.1fr]">
-          <div className="relative aspect-square min-h-[360px] lg:min-h-full">
-            <Image
-              src="/images/sounds/kloudai-wont-silence-me.png"
-              alt="You Won’t Silence Me cover art by KLOUDAI"
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 44vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
-            <span className="absolute bottom-5 left-5 border border-[#f4ead7]/70 bg-[#080a0c]/90 px-3 py-2 text-xs font-bold uppercase tracking-[0.18em]">Artist 001</span>
-          </div>
-
+        <article className="overflow-hidden border border-[#f4ead7]/40 bg-[#11171a] shadow-[10px_10px_0_#ef3c2f]">
           <div className="flex flex-col justify-between p-7 sm:p-10 lg:p-14">
             <div>
-              <p className="mb-5 text-xs font-bold uppercase tracking-[0.24em] text-[#ef3c2f]">Independent AI music artist</p>
+              <p className="mb-5 text-xs font-bold uppercase tracking-[0.24em] text-[#ef3c2f]">Artist 001 · Independent AI music artist</p>
               <h2 className="text-5xl font-black leading-tight tracking-[-0.035em] sm:text-7xl">
                 KLOUDAI<span className="text-[#ef3c2f]">.</span>
               </h2>
