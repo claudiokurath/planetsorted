@@ -9,6 +9,10 @@ type State = 'idle' | 'loading' | 'sent' | 'error'
 export function SignupForm() {
   const searchParams = useSearchParams()
   const linkExpired = searchParams.get('error') === 'link-expired'
+  const requestedNext = searchParams.get('next')
+  const nextPath = requestedNext?.startsWith('/') && !requestedNext.startsWith('//')
+    ? requestedNext
+    : '/dashboard'
 
   const [email, setEmail] = useState('')
   const [state, setState] = useState<State>('idle')
@@ -26,7 +30,7 @@ export function SignupForm() {
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim().toLowerCase(),
       options: {
-        emailRedirectTo: `${site}/auth/callback`,
+        emailRedirectTo: `${site}/auth/callback?next=${encodeURIComponent(nextPath)}`,
       },
     })
 

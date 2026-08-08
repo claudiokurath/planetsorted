@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { getCategoryStyle } from '@/lib/categoryStyles'
 
 interface ContentCardProps {
@@ -10,7 +11,7 @@ interface ContentCardProps {
   category?: string | null
 }
 
-export function ContentCard({ href, title, summary, meta, category }: ContentCardProps) {
+export function ContentCard({ href, title, summary, coverImage, meta, category }: ContentCardProps) {
   const style = getCategoryStyle(category)
 
   return (
@@ -19,6 +20,17 @@ export function ContentCard({ href, title, summary, meta, category }: ContentCar
       className="group flex flex-col h-full w-full overflow-hidden rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-neutral-700"
       style={{ backgroundColor: '#141414', border: '1px solid #262626' }}
     >
+      {coverImage && (
+        <div className="relative aspect-video w-full flex-shrink-0 overflow-hidden bg-black">
+          <Image
+            src={coverImage}
+            alt={title}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+      )}
       <div className="flex flex-1 flex-col justify-between gap-4 p-5">
         <div className="flex flex-col flex-1">
           {style && (

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
 import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
@@ -15,7 +16,6 @@ interface ArticleSection {
 }
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-const WA_NUMBER = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447360277713'
 
 function parseArticleSections(rawText: string, title?: string): ArticleSection[] {
   if (!rawText) return []
@@ -40,7 +40,15 @@ function parseArticleSections(rawText: string, title?: string): ArticleSection[]
     line = line.trim()
     if (!line) continue
 
-    if (line.startsWith('===HEADING===')) {
+    const markdownHeading = line.match(/^#{1,6}\s+(.+)$/)
+
+    if (markdownHeading) {
+      if (currentParagraphs.length > 0) {
+        sections.push({ heading: currentHeading || undefined, text: currentParagraphs.join('\n\n') })
+        currentParagraphs = []
+      }
+      currentHeading = markdownHeading[1].trim()
+    } else if (line.startsWith('===HEADING===')) {
       if (currentParagraphs.length > 0) {
         sections.push({ heading: currentHeading || undefined, text: currentParagraphs.join('\n\n') })
         currentParagraphs = []
@@ -114,7 +122,7 @@ export default async function ArticlePage({ params }: Props) {
 
   const { data: rawProtocol } = await supabase
     .from('protocols')
-    .select('title, summary, category, cover_image, problem, keyword, read_time, cta, excerpt, audio_url, slug')
+    .select('title, summary, category, cover_image, problem, read_time, cta, excerpt, audio_url, slug')
     .eq('slug', slug)
     .eq('status', 'Published')
     .single()
@@ -124,18 +132,28 @@ export default async function ArticlePage({ params }: Props) {
 
   const categoryStyle = getCategoryStyle(protocol.category)
   const audioUrl = protocol.audio_url?.trim() || undefined
-  const triggerKeyword = protocol.keyword || slug
-  const waAudioUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(triggerKeyword)}`
-
   // Parse Notion body text into structured section blocks
-  const rawBodyText = protocol.problem || protocol.excerpt || protocol.summary || ''
+  const rawBodyText = protocol.problem || ''
   const sections = parseArticleSections(rawBodyText, protocol.title)
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Text-led Hero Banner */}
       <section className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
         <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-gradient-to-br from-neutral-950 to-black shadow-2xl min-h-[320px] sm:min-h-[400px] flex items-end">
+          {protocol.cover_image && (
+            <>
+              <Image
+                src={protocol.cover_image}
+                alt={protocol.title}
+                fill
+                priority
+                sizes="(max-width: 1280px) 100vw, 1280px"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black via-black/75 to-black/20" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/10" />
+            </>
+          )}
           <div className="relative z-10 p-6 sm:p-12 lg:p-16 max-w-3xl space-y-4">
             {categoryStyle && (
               <div>
@@ -152,7 +170,7 @@ export default async function ArticlePage({ params }: Props) {
             <div className="flex flex-wrap items-center gap-3 text-sm sm:text-base font-medium text-neutral-300 pt-2">
               {categoryStyle?.tagline && <span className="text-white font-semibold">{categoryStyle.tagline}</span>}
               {categoryStyle?.tagline && protocol.read_time && <span className="text-neutral-500">•</span>}
-              {protocol.read_time && <span className="text-neutral-400">{protocol.read_time} read</span>}
+              {protocol.read_time && <span className="text-neutral-400">{protocol.read_time}</span>}
             </div>
           </div>
         </div>
@@ -165,9 +183,6 @@ export default async function ArticlePage({ params }: Props) {
           <div className="rounded-2xl border border-neutral-800 bg-[#141414] p-6 shadow-xl space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-widest text-[#3498DB]">🎧 Listen to the Deep Dive</h3>
             <audio controls className="w-full" src={audioUrl}>Your browser does not support the audio element.</audio>
-            <a href={waAudioUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-bold text-[#C0392B] underline hover:text-red-400 transition-colors pt-1">
-              Send audio to WhatsApp →
-            </a>
           </div>
         )}
 
@@ -197,16 +212,18 @@ export default async function ArticlePage({ params }: Props) {
           ))}
         </div>
 
-        {/* Ultra-Clean Single-Button WhatsApp Action Card */}
         <div className="mt-16 rounded-2xl border border-neutral-800 bg-[#141414] p-6 sm:p-10 text-white shadow-2xl space-y-4">
           <div className="space-y-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#3498DB]">Instant WhatsApp Protocol</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-[#3498DB]">The complete protocol</span>
             <div className="text-4xl sm:text-6xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-              TEXT &ldquo;{triggerKeyword}&rdquo;
+              Want the solution?
             </div>
+            <p className="max-w-2xl text-base leading-relaxed text-neutral-300">
+              Sign in and SOR7ED will send the rich link and the complete step-by-step protocol directly to your WhatsApp.
+            </p>
           </div>
           <div className="pt-2">
-            <SaveToPhoneButton slug={triggerKeyword} context="article" isLoggedIn={!!user} whatsappVerified={whatsappVerified} />
+            <SaveToPhoneButton slug={slug} context="article" isLoggedIn={!!user} whatsappVerified={whatsappVerified} />
           </div>
         </div>
       </article>

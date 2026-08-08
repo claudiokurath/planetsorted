@@ -3,7 +3,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import { ContentCard } from '@/components/ContentCard'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-const GUIDEBOOK_IMAGE = '/images/PLANS_AND_LISTS_--chaos_5_--ar_43_--sref_httpss.mj.runemid8j-_15773a1d-f306-491d-84af-29dcbd3df1a2_0.png'
+const LOGO_IMAGE = '/images/sor7ed-logo.png'
 
 export const metadata: Metadata = {
   title: 'Guidebook — PLANET SOR7ED',
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description: 'Plain-English protocols that turn chaos into a next step.',
     images: [
       {
-        url: `${SITE}${GUIDEBOOK_IMAGE}`,
+        url: `${SITE}${LOGO_IMAGE}`,
         type: 'image/png',
         alt: 'PLANET SOR7ED Guidebook',
       },
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Guidebook — PLANET SOR7ED',
     description: 'Plain-English protocols that turn chaos into a next step.',
-    images: [`${SITE}${GUIDEBOOK_IMAGE}`],
+    images: [`${SITE}${LOGO_IMAGE}`],
   },
 }
 
@@ -75,7 +75,7 @@ export default async function GuidebookListingPage() {
                 summary={article.summary || ''}
                 coverImage={article.cover_image}
                 category={article.category}
-                meta={article.read_time ? `${article.read_time} read` : undefined}
+                meta={article.read_time || undefined}
               />
             ))}
           </div>

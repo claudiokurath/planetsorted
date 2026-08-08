@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createBrowserClient } from '@/lib/supabase/client'
 import type { SavedItem, User } from '@/lib/types/database'
+import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
 
 interface ToolItem {
   slug: string
   title: string
   summary?: string | null
-  keyword?: string | null
   read_time?: string | null
 }
 
@@ -20,8 +20,6 @@ interface DashboardClientProps {
 
 type Tab = 'tools' | 'library' | 'settings'
 type VerifyState = 'unverified' | 'otp_sent' | 'verified'
-
-const WA_NUMBER = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447360277713'
 
 export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
   const router = useRouter()
@@ -339,22 +337,19 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-gray-800/80 flex items-center justify-between gap-2">
+                  <div className="mt-6 flex flex-col gap-3 border-t border-gray-800/80 pt-4">
                     <Link
                       href={`/tools/${tool.slug}`}
-                      className="glow-button rounded-xl px-3 py-1.5 text-xs font-bold text-gray-950 flex-1 text-center"
+                      className="glow-button rounded-xl px-3 py-2 text-center text-xs font-bold text-gray-950"
                     >
                       Run Tool
                     </Link>
-
-                    <Link
-                      href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(tool.keyword || '')}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded-xl border border-gray-800 bg-gray-900/90 px-3 py-1.5 text-[11px] font-semibold text-gray-300 hover:border-emerald-500/40 hover:text-emerald-400 transition-colors"
-                    >
-                      GET IT SOR7ED
-                    </Link>
+                    <SaveToPhoneButton
+                      slug={tool.slug}
+                      context="tool"
+                      isLoggedIn={Boolean(session)}
+                      whatsappVerified={Boolean(profile?.whatsapp_verified)}
+                    />
                   </div>
                 </div>
               ))}

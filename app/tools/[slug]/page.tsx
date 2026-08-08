@@ -2,18 +2,20 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ToolClient } from '@/components/ToolClient'
 import { createServerClient } from '@/lib/supabase/server'
-import type { Entitlement } from '@/lib/types/database'
+import type { Protocol } from '@/lib/types/database'
 
 interface Props {
   params: Promise<{ slug: string }>
 }
+
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const supabase = createServerClient()
   const { data: tool } = await supabase
     .from('protocols')
-    .select('title, summary')
+    .select('title, summary, cover_image')
     .eq('slug', slug)
     .eq('type', 'Tool')
     .eq('status', 'Published')
@@ -24,6 +26,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${tool.title} — PLANET SOR7ED`,
     description: tool.summary || '',
+    openGraph: {
+      title: `${tool.title} — PLANET SOR7ED`,
+      description: tool.summary || '',
+      url: `${SITE}/tools/${slug}`,
+      type: 'website',
+      images: tool.cover_image
+        ? [{ url: tool.cover_image, width: 1200, height: 630, alt: tool.title }]
+        : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${tool.title} — PLANET SOR7ED`,
+      description: tool.summary || '',
+      images: tool.cover_image ? [tool.cover_image] : [],
+    },
   }
 }
 
@@ -45,18 +62,24 @@ export default async function ToolPage({ params }: Props) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  let hasPaidPlan = false
+  let whatsappVerified = false
 
   if (user) {
-    const { data: entitlement } = await supabase
-      .from('entitlements')
-      .select('status')
+    const { data: profile } = await supabase
+      .from('users')
+      .select('whatsapp_verified')
       .eq('user_id', user.id)
       .single()
 
-    const row = entitlement as Entitlement | null
-    hasPaidPlan = row?.status === 'active'
+    whatsappVerified = (profile as { whatsapp_verified?: boolean } | null)?.whatsapp_verified ?? false
   }
 
-  return <ToolClient slug={slug} hasPaidPlan={hasPaidPlan} toolData={tool} />
+  return (
+    <ToolClient
+      slug={slug}
+      toolData={tool as Protocol}
+      isLoggedIn={Boolean(user)}
+      whatsappVerified={whatsappVerified}
+    />
+  )
 }
