@@ -6,19 +6,17 @@ interface Props {
   context: 'article' | 'tool'
   isLoggedIn: boolean
   whatsappVerified: boolean
-  keyword?: string
 }
 
-export function SaveToPhoneButton({ slug, context, isLoggedIn, whatsappVerified, keyword }: Props) {
+export function SaveToPhoneButton({ slug, context, isLoggedIn, whatsappVerified }: Props) {
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
-  const WA = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447591922247'
 
   if (!isLoggedIn) {
-    const waLink = `https://wa.me/${WA}?text=${encodeURIComponent(keyword ?? slug.toUpperCase())}`
+    const returnPath = context === 'tool' ? `/tools/${slug}` : `/intelligence/${slug}`
     return (
-      <a href={waLink} target="_blank" rel="noopener noreferrer"
+      <a href={`/signup?next=${encodeURIComponent(returnPath)}`}
         className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C0392B] px-8 py-4 text-base font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors">
-        GET IT SOR7ED ON WHATSAPP →
+        SIGN IN TO GET THE COMPLETE {context === 'tool' ? 'TOOL' : 'PROTOCOL'} →
       </a>
     )
   }
@@ -27,7 +25,7 @@ export function SaveToPhoneButton({ slug, context, isLoggedIn, whatsappVerified,
     return (
       <a href="/dashboard?tab=settings"
         className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-4 text-base font-bold text-white hover:border-white/40 transition-colors">
-        Verify WhatsApp to receive directly →
+        Connect WhatsApp to receive it →
       </a>
     )
   }
@@ -38,7 +36,7 @@ export function SaveToPhoneButton({ slug, context, isLoggedIn, whatsappVerified,
       const res = await fetch('/api/save-to-phone', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, context, includeLink: false }), // flip to true once /r/[slug]'s cards are fully fixed
+        body: JSON.stringify({ slug, context, includeLink: true }),
       })
       setState(res.ok ? 'sent' : 'error')
     } catch {

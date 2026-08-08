@@ -1,137 +1,44 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import Image from 'next/image'
 import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
 import { calculateAdhdTax } from '@/lib/adhdTaxCalculator'
+import type { Protocol } from '@/lib/types/database'
 
 interface ToolClientProps {
   slug: string
-  hasPaidPlan?: boolean
-  toolData?: any
+  toolData: Protocol
+  isLoggedIn: boolean
+  whatsappVerified: boolean
 }
 
-const TOOL_META: Record<string, { keyword: string; title: string; promise: string; cover: string; steps: string[]; freeFeatures: string[]; plusFeatures: string[] }> = {
-  'adhd-tax-calculator': {
-    keyword: 'TAX',
-    title: 'ADHD Tax Calculator',
-    promise: 'Calculate subscription leaks, late fees, and impulse buying overhead in 3 minutes.',
-    cover: '',
-    steps: [
-      'Enter your estimated monthly costs across key leak areas.',
-      'Get your instant yearly ADHD tax calculation & leak breakdown.',
-      'Receive a custom step-by-step action plan to plug the leaks.'
-    ],
-    freeFeatures: [
-      'Instant monthly and yearly tax calculation',
-      'Category leak breakdown',
-      'Save summary result to phone'
-    ],
-    plusFeatures: [
-      'Full 24-hour & 7-day recovery action plan',
-      'Impulse purchase cooling-off checklist',
-      'Export detailed PDF breakdown',
-      'Sync history & compare monthly progress'
-    ]
-  },
-  'financial-autopilot': {
-    keyword: 'AUTOPILOT',
-    title: 'Financial Autopilot',
-    promise: 'Build a friction-free bill and savings automation system in 5 minutes.',
-    cover: '',
-    steps: [
-      'Enter your take-home income, payday, and savings target.',
-      'Generate an automated money flow sequence tied to your payday.',
-      'Copy exact transfer rules to your banking app.'
-    ],
-    freeFeatures: [
-      'Fixed bill & guilt-free spending breakdown',
-      'Payday transfer sequence recommendation',
-      'Basic money allocation summary'
-    ],
-    plusFeatures: [
-      'Custom banking standing order instructions',
-      'Multi-account routing blueprint',
-      'Downloadable Autopilot cheatsheet',
-      'WhatsApp automated reminder triggers'
-    ]
-  },
-  'decision-paralysis-solver': {
-    keyword: 'CLARITY',
-    title: 'Decision Paralysis Solver',
-    promise: 'Break through overthinking with forced binary elimination in 2 minutes.',
-    cover: '',
-    steps: [
-      'Input the decision, option A, option B, and your primary fear.',
-      'Apply structured safety margins to isolate the risk.',
-      'Get a firm preference recommendation and cutoff deadline.'
-    ],
-    freeFeatures: [
-      'Binary option comparison',
-      'Fear-mitigation framing',
-      'Clear decision recommendation'
-    ],
-    plusFeatures: [
-      '72-hour decision guardrail protocol',
-      'Secondary fallback trigger system',
-      'Save decision brief to WhatsApp library',
-      'Historical decision log & audit trail'
-    ]
-  },
-  'dopamine-menu-generator': {
-    keyword: 'DOPAMINE',
-    title: 'Dopamine Menu Generator',
-    promise: 'Customized brain reset menu (starters, mains, sides, desserts).',
-    cover: '',
-    steps: ['Choose your current energy state and sensory needs.', 'Select healthy stimulating activities across 4 courses.', 'Save your instant Dopamine Menu directly to phone.'],
-    freeFeatures: ['Instant 4-course menu builder', 'Sensory-matched activities', 'Save menu to WhatsApp'],
-    plusFeatures: ['Unlimited custom menu items', 'Daily morning check-in prompt', 'Export printable fridge sheet']
-  },
-  'task-triage': {
-    keyword: 'TRIAGE',
-    title: 'Task Triage & Matrix',
-    promise: 'Convert chaotic task dumps into single next-step priorities.',
-    cover: '',
-    steps: ['Dump your overwhelming brain clutter into the triage hopper.', 'Apply forced 4-quadrant neurodivergent filtering.', 'Get your single non-negotiable next action.'],
-    freeFeatures: ['Instant task prioritization', 'Overwhelm elimination filter', 'Save priority action to WhatsApp'],
-    plusFeatures: ['Daily 3-item focus lock', 'Procrastination root-cause analysis', 'History tracking & completion log']
-  },
-  'rsd-response-scripts': {
-    keyword: 'RSD',
-    title: 'RSD Response Scripts',
-    promise: 'Instant boundary templates for sensitive situations.',
-    cover: '',
-    steps: ['Select the emotional trigger or communication conflict.', 'Choose your desired boundary firmness level.', 'Copy-paste neurodivergent-safe response scripts.'],
-    freeFeatures: ['Instant copy-paste templates', 'Tone-checked response framing', 'Save scripts to phone'],
-    plusFeatures: ['Custom scenario builder', 'De-escalation voice note guides', 'Emergency boundary toolkit']
-  },
-  'sensory-audit': {
-    keyword: 'SENSORY',
-    title: 'Sensory Audit & Reset',
-    promise: 'Identify environmental noise, light, and sensory drains.',
-    cover: '',
-    steps: ['Audit your immediate physical environment and lighting.', 'Identify hidden sensory drains triggering irritability.', 'Get instant nervous system reset protocol.'],
-    freeFeatures: ['Quick sensory overload checklist', 'Immediate environmental tweaks', 'Save reset protocol to WhatsApp'],
-    plusFeatures: ['Full 24-hour sensory diet plan', 'Workplace accommodation scripts', 'Sensory burnout prevention guide']
-  },
-  'burnout-assessment': {
-    keyword: 'BURNOUT',
-    title: 'Burnout Assessment & Recovery',
-    promise: 'Evaluate burnout stage & get non-shame restoration steps.',
-    cover: '',
-    steps: ['Answer 5 targeted questions about your current fatigue.', 'Identify your exact neurodivergent burnout stage.', 'Receive a zero-demand restoration prescription.'],
-    freeFeatures: ['Instant stage diagnosis', 'Zero-demand rest steps', 'Save recovery guide to phone'],
-    plusFeatures: ['30-day nervous system recovery roadmap', 'Capacity budgeting tracker', 'Partner & employer explanation scripts']
-  }
+function ToolBlogPost({ body }: { body: string }) {
+  const blocks = body.split(/\n{2,}/).map((block) => block.trim()).filter(Boolean)
+
+  return (
+    <div className="space-y-8">
+      {blocks.map((block, index) => {
+        const heading = block.match(/^#{1,6}\s+(.+)$/)
+        if (heading) {
+          return (
+            <h2 key={`${heading[1]}-${index}`} className="border-b border-neutral-800 pb-3 text-3xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+              {heading[1]}
+            </h2>
+          )
+        }
+
+        return <p key={index} className="whitespace-pre-line text-lg leading-relaxed text-neutral-200">{block}</p>
+      })}
+    </div>
+  )
 }
 
-export function ToolClient({ slug, hasPaidPlan = false, toolData }: ToolClientProps) {
+export function ToolClient({ slug, toolData, isLoggedIn, whatsappVerified }: ToolClientProps) {
   const [submitted, setSubmitted] = useState(false)
-  const defaultMeta = TOOL_META[slug] ?? TOOL_META['adhd-tax-calculator']
   const meta = {
-    ...defaultMeta,
-    title: toolData?.title || defaultMeta.title,
-    promise: toolData?.summary || defaultMeta.promise,
-    keyword: toolData?.keyword || defaultMeta.keyword,
+    title: toolData.title,
+    promise: toolData.summary,
   }
 
   // 1) ADHD Tax Calculator Form State
@@ -153,9 +60,6 @@ export function ToolClient({ slug, hasPaidPlan = false, toolData }: ToolClientPr
   const [optionA, setOptionA] = useState('')
   const [optionB, setOptionB] = useState('')
   const [fear, setFear] = useState('')
-
-  const WA_NUMBER = process.env.NEXT_PUBLIC_WA_NUMBER ?? '447360277713'
-  const waDirectUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(meta.keyword)}`
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -182,9 +86,22 @@ export function ToolClient({ slug, hasPaidPlan = false, toolData }: ToolClientPr
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Text-led Hero Banner */}
       <section className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
         <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-gradient-to-br from-neutral-950 to-black shadow-2xl min-h-[340px] sm:min-h-[420px] flex items-end">
+          {toolData.cover_image && (
+            <>
+              <Image
+                src={toolData.cover_image}
+                alt={toolData.title}
+                fill
+                priority
+                sizes="(max-width: 1280px) 100vw, 1280px"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black via-black/75 to-black/20" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/10" />
+            </>
+          )}
           <div className="relative z-10 p-6 sm:p-12 lg:p-16 max-w-3xl space-y-4">
             <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-2" />
             <h1 className="text-5xl sm:text-7xl font-black uppercase leading-none tracking-tight text-white drop-shadow-lg" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
@@ -195,28 +112,24 @@ export function ToolClient({ slug, hasPaidPlan = false, toolData }: ToolClientPr
             </p>
 
             <div className="pt-2 flex flex-wrap gap-4 items-center">
-              <a
-                href={waDirectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-[#C0392B] px-8 py-3.5 text-base font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg"
-              >
-                <span>RUN ON WHATSAPP ({meta.keyword}) →</span>
-              </a>
+              <SaveToPhoneButton slug={slug} context="tool" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} />
             </div>
           </div>
         </div>
       </section>
 
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="mb-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-neutral-800 bg-[#141414] px-5 py-4 shadow-xl">
+        <div className="mb-10 flex flex-wrap items-center gap-3 rounded-2xl border border-neutral-800 bg-[#141414] px-5 py-4 shadow-xl">
             <span className="text-xs font-bold uppercase tracking-widest text-neutral-300 bg-black/60 backdrop-blur px-3 py-1 rounded-full border border-neutral-700">
               Interactive Web App Tool
             </span>
-            <span className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">
-              KEYWORD: {meta.keyword}
-            </span>
         </div>
+
+        {toolData.problem && (
+          <article className="mb-16 rounded-2xl border border-neutral-800 bg-[#141414] p-6 shadow-2xl sm:p-10">
+            <ToolBlogPost body={toolData.problem} />
+          </article>
+        )}
 
         {!submitted ? (
           <div className="space-y-16">
@@ -472,14 +385,7 @@ export function ToolClient({ slug, hasPaidPlan = false, toolData }: ToolClientPr
                     <p className="text-sm text-neutral-300 max-w-md mx-auto mb-6">
                       {meta.promise}
                     </p>
-                    <a
-                      href={waDirectUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="glow-button inline-block px-8 py-4 rounded-xl font-bold text-sm text-gray-950 uppercase tracking-wider"
-                    >
-                      GET IT SOR7ED ON WHATSAPP ({meta.keyword})
-                    </a>
+                    <SaveToPhoneButton slug={slug} context="tool" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} />
                   </div>
                 </div>
               )}
@@ -595,15 +501,7 @@ export function ToolClient({ slug, hasPaidPlan = false, toolData }: ToolClientPr
               )}
 
               <div className="pt-4 flex flex-wrap gap-4 items-center">
-                <a
-                  href={waDirectUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#C0392B] px-8 py-3.5 text-base font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg"
-                >
-                  <span>SEND RESULT TO WHATSAPP ({meta.keyword}) →</span>
-                </a>
-                <SaveToPhoneButton slug={slug} context="tool" isLoggedIn={false} whatsappVerified={false} />
+                <SaveToPhoneButton slug={slug} context="tool" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} />
               </div>
             </div>
           </div>

@@ -41,8 +41,8 @@ export function SmartNav() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-800 backdrop-blur-md bg-[#1A1A1A]/95 text-white">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 py-4">
+    <header className="sticky top-0 z-50 border-b border-neutral-900 bg-black text-white">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
         <Link href="/" aria-label="PLANET SOR7ED home" className="shrink-0">
           <Image
             src="/images/sor7ed-logo.png"
@@ -50,7 +50,7 @@ export function SmartNav() {
             width={1600}
             height={402}
             priority
-            className="h-8 w-auto sm:h-9"
+            className="h-10 w-auto sm:h-12"
           />
         </Link>
 
@@ -120,7 +120,7 @@ export function SmartNav() {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-neutral-800 bg-[#1A1A1A] px-4 pt-3 pb-6 space-y-3">
+        <div className="md:hidden border-t border-neutral-900 bg-black px-4 pt-3 pb-6 space-y-3">
           {navLinks.map((link) => (
             <Link
               key={link.href}

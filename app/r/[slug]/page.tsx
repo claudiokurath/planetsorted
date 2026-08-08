@@ -1,68 +1,23 @@
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-const FALLBACK_IMAGE = `${SITE}/images/httpss.mj.run7_AYEVAwp0c_PLANET_SOR7ED_--chaos_5_--ar_43_--sr_8b2dae3e-1129-4d86-a866-519a44a2a2fc_2.png`
+const LOGO_IMAGE = `${SITE}/images/sor7ed-logo.png`
 
-const TOOL_SLUGS: Record<string, { title: string; description: string; image: string }> = {
-  'adhd-tax-calculator': {
-    title: 'ADHD Tax Calculator — Sorted Lab',
-    description: 'Calculate subscription leaks, late fees, and impulse buying overhead in 3 minutes.',
-    image: FALLBACK_IMAGE,
-  },
-  'financial-autopilot': {
-    title: 'Financial Autopilot — Sorted Lab',
-    description: 'Build a friction-free bill and savings automation system in 5 minutes.',
-    image: FALLBACK_IMAGE,
-  },
-  'decision-paralysis-solver': {
-    title: 'Decision Paralysis Solver — Sorted Lab',
-    description: 'Break through overthinking with forced binary elimination in 2 minutes.',
-    image: FALLBACK_IMAGE,
-  },
-  'dopamine-menu-generator': {
-    title: 'Dopamine Menu Generator — Sorted Lab',
-    description: 'Build your personalised brain-reset menu: starters, mains, sides, and desserts.',
-    image: FALLBACK_IMAGE,
-  },
-  'task-triage': {
-    title: 'Task Triage & Matrix — Sorted Lab',
-    description: 'Convert a chaotic task dump into a single clear next-step priority.',
-    image: FALLBACK_IMAGE,
-  },
-  'rsd-response-scripts': {
-    title: 'RSD Response Scripts — Sorted Lab',
-    description: 'Instant boundary templates for rejection-sensitive situations.',
-    image: FALLBACK_IMAGE,
-  },
-  'sensory-audit': {
-    title: 'Sensory Audit & Reset — Sorted Lab',
-    description: 'Identify environmental noise, light, and sensory drains — then fix them.',
-    image: FALLBACK_IMAGE,
-  },
-  'burnout-assessment': {
-    title: 'Burnout Assessment & Recovery — Sorted Lab',
-    description: 'Evaluate your burnout stage and get non-shame restoration steps.',
-    image: FALLBACK_IMAGE,
-  },
-}
-
-// System cards — checked first since these slugs will never collide with real content
-const SYSTEM_SLUGS: Record<string, { target: string; title: string; desc: string; image: string }> = {
+const SYSTEM_SLUGS: Record<string, { target: string; title: string; description: string }> = {
   start: {
     target: '/',
-    title: 'Planet Sorted — Text a Word, Get a Protocol',
-    desc: 'No app. No spam. Just what works.',
-    image: FALLBACK_IMAGE,
+    title: 'PLANET SOR7ED — Practical protocols that work',
+    description: 'Clear tools and protocols for neurodivergent adults.',
   },
   goodbye: {
     target: '/',
-    title: "You're Paused",
-    desc: 'Text START any time to come back.',
-    image: FALLBACK_IMAGE,
+    title: 'Your SOR7ED messages are paused',
+    description: 'You can reconnect with PLANET SOR7ED whenever you are ready.',
   },
 }
 
@@ -73,104 +28,56 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const lowerSlug = slug.toLowerCase()
+  const systemItem = SYSTEM_SLUGS[lowerSlug]
 
-  let title = 'Planet Sorted'
-  let description = 'No app. No spam. Just what works.'
-  let imageUrl = FALLBACK_IMAGE
+  if (systemItem) {
+    return buildMetadata(systemItem.title, systemItem.description, slug, LOGO_IMAGE)
+  }
 
-  if (SYSTEM_SLUGS[lowerSlug]) {
-    const sys = SYSTEM_SLUGS[lowerSlug]
-    title = sys.title
-    description = sys.desc
-    imageUrl = sys.image
-  } else if (TOOL_SLUGS[lowerSlug]) {
-    const tool = TOOL_SLUGS[lowerSlug]
-    title = tool.title
-    description = tool.description
-    const supabase = createServerClient()
-    const { data: protocol } = await supabase
-      .from('protocols')
-      .select('cover_image')
-      .eq('slug', lowerSlug)
-      .eq('type', 'Tool')
-      .single()
-    imageUrl = protocol?.cover_image || tool.image
-  } else {
-    const supabase = createServerClient()
+  const supabase = createServerClient()
+  const { data: content } = await supabase
+    .from('protocols')
+    .select('title, summary, meta_description, cover_image')
+    .eq('slug', lowerSlug)
+    .eq('status', 'Published')
+    .single()
 
-    // 1. Try rich_links table
-    const { data: richLink } = await supabase
-      .from('rich_links')
-      .select('title, description, image_url')
-      .eq('slug', slug)
-      .single()
-
-    if (richLink?.title || richLink?.image_url) {
-      title = richLink.title ?? title
-      description = richLink.description ?? description
-      if (richLink.image_url) imageUrl = richLink.image_url
-    } else {
-      // 2. Try protocols table
-      const { data: article } = await supabase
-        .from('protocols')
-        .select('title, summary, cover_image')
-        .eq('slug', slug)
-        .single()
-
-      if (article) {
-        title = article.title
-        description = article.summary ?? description
-        if (article.cover_image) imageUrl = article.cover_image
-      }
+  if (!content) {
+    return {
+      title: 'Content unavailable — PLANET SOR7ED',
+      robots: { index: false, follow: false },
     }
   }
 
-  // Route the image through our custom API proxy to force JPEG conversion.
-  // We do this via a single query parameter to avoid WhatsApp's &amp; parsing bug,
-  // which broke the direct wsrv.nl URL and forced it to serve massive 2.3MB PNGs.
-  const ogImageUrl = `${SITE}/api/image-proxy?url=${encodeURIComponent(imageUrl)}`
-
-  const ogImage = { url: ogImageUrl, width: 1200, height: 630, alt: title }
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      images: [ogImage],
-      url: `${SITE}/r/${slug}`,
-      siteName: 'Planet Sorted',
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [ogImageUrl],
-    },
-  }
+  return buildMetadata(
+    content.title,
+    content.meta_description || content.summary || '',
+    lowerSlug,
+    content.cover_image
+  )
 }
 
 export default async function RichLinkRedirect({ params }: Props) {
   const { slug } = await params
   const lowerSlug = slug.toLowerCase()
-  const supabase = createServerClient()
+  const systemItem = SYSTEM_SLUGS[lowerSlug]
 
-  let target = SITE // safe default — never dead-ends into a bare 404
-
-  if (SYSTEM_SLUGS[lowerSlug]) {
-    target = `${SITE}${SYSTEM_SLUGS[lowerSlug].target}`
-  } else if (TOOL_SLUGS[lowerSlug]) {
-    target = `${SITE}/tools/${lowerSlug}`
+  let target: string
+  if (systemItem) {
+    target = `${SITE}${systemItem.target}`
   } else {
-    const { data: item } = await supabase.from('protocols').select('slug, type').eq('slug', slug).single()
-    if (item) {
-      target = item.type === 'Tool' ? `${SITE}/tools/${slug}` : `${SITE}/intelligence/${slug}`
-    } else {
-      const { data: richLink } = await supabase.from('rich_links').select('target_url').eq('slug', slug).single()
-      if (richLink?.target_url) target = richLink.target_url
-    }
+    const supabase = createServerClient()
+    const { data: content } = await supabase
+      .from('protocols')
+      .select('slug, type')
+      .eq('slug', lowerSlug)
+      .eq('status', 'Published')
+      .single()
+
+    if (!content) notFound()
+    target = content.type === 'Tool'
+      ? `${SITE}/tools/${content.slug}`
+      : `${SITE}/intelligence/${content.slug}`
   }
 
   return (
@@ -179,8 +86,35 @@ export default async function RichLinkRedirect({ params }: Props) {
         <meta httpEquiv="refresh" content={`0;url=${target}`} />
       </head>
       <body style={{ background: '#000', color: '#fff', fontFamily: 'sans-serif', padding: '2rem', textAlign: 'center' }}>
-        Redirecting to Planet Sorted…
+        Opening PLANET SOR7ED…
       </body>
     </html>
   )
+}
+
+function buildMetadata(title: string, description: string, slug: string, imageUrl?: string | null): Metadata {
+  const proxiedImage = imageUrl
+    ? `${SITE}/api/image-proxy?url=${encodeURIComponent(imageUrl)}`
+    : null
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: proxiedImage
+        ? [{ url: proxiedImage, width: 1200, height: 630, alt: title }]
+        : [],
+      url: `${SITE}/r/${slug}`,
+      siteName: 'PLANET SOR7ED',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: proxiedImage ? [proxiedImage] : [],
+    },
+  }
 }

@@ -5,7 +5,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-const HERO_IMAGE = '/images/PLANET_SOR7ED_--chaos_5_--ar_43_--sref_httpss.mj.runemid8j-Qb_c1abf34d-6ca5-4774-8461-1602b00bcce2_2.png'
+const LOGO_IMAGE = '/images/sor7ed-logo.png'
 
 export const metadata: Metadata = {
   title: 'PLANET SOR7ED — Templates, Not Inspiration',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: 'Templates, not inspiration. Practical protocols and tools for neurodivergent adults.',
     images: [
       {
-        url: `${SITE}${HERO_IMAGE}`,
+        url: `${SITE}${LOGO_IMAGE}`,
         type: 'image/png',
         alt: 'PLANET SOR7ED — Templates, not inspiration.',
       },
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'PLANET SOR7ED — Templates, Not Inspiration',
     description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
-    images: [`${SITE}${HERO_IMAGE}`],
+    images: [`${SITE}${LOGO_IMAGE}`],
   },
 }
 
@@ -117,7 +117,7 @@ export default async function HomePage() {
                     summary={article.summary || ''}
                     coverImage={article.cover_image}
                     category={article.category}
-                    meta={article.read_time ? `${article.read_time} read` : undefined}
+                    meta={article.read_time || undefined}
                   />
                 </div>
               ))}
