@@ -62,7 +62,7 @@ export default async function HomePage() {
       {/* Text-led Hero Section */}
       <section className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
         <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-gradient-to-br from-neutral-950 to-black shadow-2xl min-h-[360px] sm:min-h-[440px] flex items-end">
-          <div className="relative z-10 p-6 sm:p-12 lg:p-16 max-w-3xl space-y-5">
+          <div className="relative z-10 max-w-4xl space-y-5 p-6 sm:p-12 lg:p-16">
             <div className="flex items-center gap-3">
               <span className="h-0.5 w-10 rounded-full bg-[#C0392B]" />
             </div>
@@ -72,6 +72,17 @@ export default async function HomePage() {
             <p className="text-lg sm:text-2xl leading-relaxed text-neutral-200 font-normal drop-shadow max-w-2xl">
               Practical protocols and tools for neurodivergent adults. No app. No spam. Just what works.
             </p>
+            <div id="about" className="max-w-3xl border-t border-neutral-800 pt-6">
+              <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#C0392B]">
+                About PLANET SOR7ED
+              </p>
+              <h2 className="mt-3 text-2xl font-extrabold leading-tight tracking-[-0.025em] text-white sm:text-3xl">
+                Practical help for brains that already have enough going on.
+              </h2>
+              <p className="mt-3 text-base leading-relaxed text-neutral-300 sm:text-lg">
+                PLANET SOR7ED creates shame-free tools, templates and plain-English protocols for neurodivergent adults. No productivity theatre—just a clear answer and one manageable next step.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -109,22 +120,6 @@ export default async function HomePage() {
         </section>
       )}
 
-      <section id="about" className="mx-auto max-w-7xl scroll-mt-24 px-4 pb-12 sm:px-6 lg:px-8">
-        <div className="grid gap-6 rounded-3xl border border-neutral-800 bg-[#141414] p-7 sm:p-10 md:grid-cols-[.7fr_1.3fr] md:items-start">
-          <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#C0392B]">About PLANET SOR7ED</p>
-          <div>
-            <h2 className="text-3xl font-extrabold leading-tight tracking-[-0.025em] text-white sm:text-4xl">Practical help for brains that already have enough going on.</h2>
-            <p className="mt-5 max-w-3xl text-base leading-relaxed text-neutral-300 sm:text-lg">
-              PLANET SOR7ED creates shame-free tools, templates and plain-English protocols for neurodivergent adults. No productivity theatre—just a clear answer and one manageable next step.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="h-px bg-[#262626] my-6" />
-      </div>
-
       {/* Guidebook Section */}
       {articles.length > 0 && (
         <>
@@ -141,18 +136,17 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {articles.map((article, index) => (
-                <div key={article.slug} className={index === 0 || index === 3 ? 'lg:col-span-2' : 'lg:col-span-1'}>
-                  <ContentCard
-                    href={`/intelligence/${article.slug}`}
-                    title={article.title}
-                    summary={article.summary || ''}
-                    coverImage={article.cover_image}
-                    category={article.category}
-                    meta={article.read_time || undefined}
-                  />
-                </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+              {articles.map((article) => (
+                <ContentCard
+                  key={article.slug}
+                  href={`/intelligence/${article.slug}`}
+                  title={article.title}
+                  summary={article.summary || ''}
+                  coverImage={article.cover_image}
+                  category={article.category}
+                  meta={article.read_time || undefined}
+                />
               ))}
             </div>
           </section>
