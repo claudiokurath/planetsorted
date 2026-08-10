@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
 import { ContentHero } from '@/components/ContentHero'
+import { Sor7edButton } from '@/components/buttons/Sor7edButton'
 import type { Protocol } from '@/lib/types/database'
 
 interface Props {
@@ -167,6 +168,17 @@ export default async function ArticlePage({ params }: Props) {
         </div>
 
       </article>
+
+      {/* End-of-article SOR7ED CTA */}
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="rounded-3xl border border-neutral-800 bg-neutral-950 p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Ready for the next step?</p>
+            <p className="mt-2 text-lg font-semibold text-white">Turn this into action with a tool built for it.</p>
+          </div>
+          <Sor7edButton href="/tools" label="OPEN THE TOOLBOX" context="article" />
+        </div>
+      </div>
     </div>
   )
 }

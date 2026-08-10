@@ -1,4 +1,6 @@
 import { ContentHero } from '@/components/ContentHero'
+import { Sor7edButton } from '@/components/buttons/Sor7edButton'
+import { getToolRoute } from '@/lib/standaloneRoutes'
 import type { Protocol } from '@/lib/types/database'
 
 interface ToolClientProps {
@@ -35,6 +37,7 @@ function splitToolSummary(summary?: string | null, fallbackDescription?: string 
 
 export function ToolClient({ toolData }: ToolClientProps) {
   const { description, explanation } = splitToolSummary(toolData.summary, toolData.meta_description)
+  const toolHref = getToolRoute(toolData.slug)
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -46,8 +49,8 @@ export function ToolClient({ toolData }: ToolClientProps) {
         meta={toolData.read_time}
       />
 
-      {explanation && (
-        <main className="mx-auto max-w-4xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-4xl px-4 pb-20 pt-6 sm:px-6 lg:px-8 space-y-10">
+        {explanation && (
           <section className="border-l-4 border-[#C0392B] py-2 pl-6 sm:pl-8">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C0392B]">
               About this tool
@@ -62,8 +65,11 @@ export function ToolClient({ toolData }: ToolClientProps) {
               {explanation}
             </p>
           </section>
-        </main>
-      )}
+        )}
+
+        <Sor7edButton href={toolHref} label="OPEN THE TOOL" context="page" />
+      </main>
     </div>
   )
 }
+
