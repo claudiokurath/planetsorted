@@ -108,7 +108,7 @@ Everything below this point in the document describes **Sorted Lab** specificall
 - **Headline:** "Practical tools for neurodivergent life admin."
 - **Body:** "PLANET SOR7ED helps you turn overwhelm into one clear, manageable next step — with templates, protocols, and plain-English tools built for brains that already have enough going on."
 - **Closing line:** "No app. No spam. Just what works."
-- **Visual direction:** Wide, dark-overlay mixed-media collage in the PLANET SOR7ED yellow, red, cyan and pitch-black palette; tactile paper and paint textures with a prominent WhatsApp motif; no embedded text.
+- **Visual direction:** Full-bleed, edge-to-edge hero using the wide mixed-media collage in the PLANET SOR7ED yellow, red, cyan and pitch-black palette. Preserve the artwork's natural 2:1 ratio on desktop so the full composition remains visible; use a responsive crop only on narrower screens. Text stays aligned to the shared page grid over a dark readability gradient.
 
 ### Homepage Section Headers
 - "HOW IT WORKS," "TOOLBOX," and "GUIDEBOOK" use the same uppercase Bebas Neue display treatment, responsive size, red rule and left alignment.
@@ -623,8 +623,9 @@ Run the reverse SQL in the Category Taxonomy section, rename the Notion "Branch"
 ---
 
 ## Version & History
-- **Current Version:** 0.4.5
+- **Current Version:** 0.4.6
 - **Consolidation Date:** 2026-08-10
+- **Notes (0.4.6):** Converted the homepage hero from a constrained rounded card into a full-bleed banner. The image now spans the viewport edge to edge and preserves its natural 2:1 composition on desktop, while the text remains aligned with the main content grid.
 - **Notes (0.4.5):** Standardised the homepage section headers so HOW IT WORKS, TOOLBOX and GUIDEBOOK share the same Bebas Neue typeface, size, red rule spacing and left alignment.
 - **Notes (0.4.4):** Replaced the generated homepage hero artwork with the supplied upscaled WhatsApp collage while retaining the approved hero copy, responsive crop and dark readability overlays. The previous generated image remains in the project as an unused alternative rather than being overwritten.
 - **Notes (0.4.3):** Rewrote the homepage hero around the clearer promise "Practical tools for neurodivergent life admin." and added an original wide mixed-media hero image derived from the supplied visual reference. The artwork uses a dark copy area and carries no embedded text so the accessible page copy remains the source of truth.
