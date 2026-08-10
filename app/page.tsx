@@ -3,6 +3,7 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 import { ContentCard } from '@/components/ContentCard'
 import { createServerClient } from '@/lib/supabase/server'
+import { getToolRoute } from '@/lib/standaloneRoutes'
 import type { Protocol } from '@/lib/types/database'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
@@ -17,13 +18,13 @@ const HOW_IT_WORKS = [
   },
   {
     number: '02',
-    title: 'Send',
-    description: 'Send the suggested text in WhatsApp when the prompt appears.',
+    title: 'Open',
+    description: 'Tap the SOR7ED button to open the tool instantly — no app, no sign-up required.',
   },
   {
     number: '03',
-    title: 'Receive',
-    description: 'Get the tool or complete protocol link back in your WhatsApp.',
+    title: 'Use',
+    description: 'Work through the tool and get your result, your plan, or your next step.',
   },
 ] as const
 
@@ -154,7 +155,7 @@ export default async function HomePage() {
               {tools.map((tool) => (
                 <ContentCard
                   key={tool.slug}
-                  href={`/tools/${tool.slug}`}
+                  href={getToolRoute(tool.slug)}
                   title={tool.title}
                   summary={tool.summary || ''}
                   coverImage={tool.cover_image}
