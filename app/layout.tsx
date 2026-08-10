@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Script from 'next/script'
 import './globals.css'
 import { SmartNav } from '@/components/SmartNav'
 import { SiteFooter } from '@/components/SiteFooter'
@@ -60,12 +59,6 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <MobileNav />
-        <Script
-          src="http://localhost:3000/widget.js"
-          data-api-key="409be6e33c5703fb013ae504aac137fe71c2f78af5772ad2"
-          data-label="Save to WhatsApp"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   )
