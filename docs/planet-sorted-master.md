@@ -209,23 +209,19 @@ WhatsApp is the remote control and permanent personal library for the user's sav
 - Bot responses use `planetsorted.com/r/[slug]` or `planetsorted.com/s/[id]` URLs — these serve full OG metadata (title, description, 1200×630 image) before redirecting to the target.
 - OG images: 1200×630px, public URL, under 300KB. Cache-bust stale previews by versioning image filenames/URLs.
 
-### Save-to-Phone (authenticated users)
-For logged-in users with a verified WhatsApp number, the "GET IT SORTED" button silently POSTs to `/api/save-to-phone`, which sends the page to their WhatsApp via the Meta API — no need to open WhatsApp manually.
+### Save-to-Phone (dashboard only)
+Inside `/dashboard`, logged-in users with a verified WhatsApp number get a separate "SEND TO MY WHATSAPP" button that silently POSTs to `/api/save-to-phone`, pushing content via the Meta API without opening WhatsApp manually. This is a dashboard convenience feature only — it is **not** the on-page GET IT SORTED button described below, which is identical for every visitor regardless of auth state.
 
 ---
 
 ## The GET IT SORTED Button
 
-The most important UI element on the site. Appears on **every** article, tool page, and result page without exception.
+The most important UI element on the site. Appears on **every** article and tool page, underneath the content, without exception — same behaviour for every visitor, logged in or not.
 
-| User state | Behaviour |
-|---|---|
-| Logged out | `wa.me` deep link (`SAVE [slug]` / `RUN [slug]`) |
-| Logged in, WhatsApp verified | Silent POST to `/api/save-to-phone` |
-| Logged in, WhatsApp not verified | Falls back to `wa.me` link with helper: "Verify your WhatsApp number in Settings to send directly" |
+Tapping it opens WhatsApp with the content's keyword pre-filled as a `wa.me` deep link (`GET IT SOR7ED` → `SAVE [slug]` / `RUN [slug]`). The user hits send once; the webhook parses the keyword and replies with the full protocol or tool. No sign-in, no WhatsApp verification, and no account required to receive content — removing that gate was a deliberate call, since the previous sign-in-gated version blocked most visitors from ever getting anything sent to them.
 
 **Context-specific copy:**
-- Article page: "Text this to get the full protocol on WhatsApp"
+- Article page: "Tap to open WhatsApp — keyword pre-filled. Hit send and the full protocol comes straight back."
 - Tool page: "Text this to run the tool and save your result"
 - Result page: "Save your result to WhatsApp to come back to it later"
 
@@ -234,9 +230,9 @@ The most important UI element on the site. Appears on **every** article, tool pa
 > Sign up first at planetsorted.com. No app. No spam. Just what works.
 
 **Key files:**
-- `components/buttons/GetSortedButton.tsx` — wa.me deep link builder
-- `components/SaveToPhoneButton.tsx` — smart button (wa.me for public, API for auth)
-- `app/api/save-to-phone/route.ts` — authenticated push to user's WhatsApp
+- `components/buttons/GetSortedButton.tsx` — the GET IT SORTED button itself (wa.me deep link). Rendered on `app/intelligence/[slug]/page.tsx` and `components/ToolClient.tsx` (all three CTA spots).
+- `components/SaveToPhoneButton.tsx` — separate, dashboard-only smart button (wa.me fallback / silent API push for verified users). No longer used on public post pages — see [Save-to-Phone (dashboard only)](#whatsapp-as-remote-control).
+- `app/api/save-to-phone/route.ts` — authenticated push to user's WhatsApp, used only by the dashboard button above.
 
 ---
 
@@ -341,8 +337,8 @@ app/
   signup/                 ← auth flow (magic link only, no passwords)
   privacy/, terms/, cookies/
 components/
-  SaveToPhoneButton.tsx        ← GET IT SORTED (wa.me for public, API for auth)
-  buttons/GetSortedButton.tsx  ← wa.me deep link builder
+  buttons/GetSortedButton.tsx  ← GET IT SORTED — wa.me deep link, on every article/tool page
+  SaveToPhoneButton.tsx        ← dashboard-only direct-push button (auth + WhatsApp-verified users)
   SmartNav.tsx                 ← authenticated nav with user dropdown
   SiteFooter.tsx                ← footer with legal links
   DashboardClient.tsx           ← dashboard with Overview + Settings tabs
@@ -616,6 +612,7 @@ Run the reverse SQL in the Category Taxonomy section, rename the Notion "Branch"
 ---
 
 ## Version & History
-- **Current Version:** 0.4.0
-- **Consolidation Date:** 2026-07-22
+- **Current Version:** 0.4.1
+- **Consolidation Date:** 2026-08-10
+- **Notes (0.4.1):** Consolidated the GET IT SORTED button to a single behaviour for every visitor: `components/buttons/GetSortedButton.tsx` (plain `wa.me` deep link, no sign-in required) now renders on every article (`app/intelligence/[slug]/page.tsx`) and every tool CTA (`components/ToolClient.tsx`), replacing the sign-in-gated `SaveToPhoneButton`, which had been silently blocking most visitors from receiving anything. `SaveToPhoneButton` + `/api/save-to-phone` are retained but scoped to `/dashboard` only, for already-verified users who want a silent direct push. Also removed a stray embed of the separate, unrelated "SOR7ED BUTTON" partner-widget product (`widget.js`, pointed at `localhost:3000`) that had been added to the root layout — that is a different product for third-party partner sites, not part of Sorted Lab.
 - **Notes (0.4.0):** Major pivot. Planet Sorted established as the mother brand and primary domain (`planetsorted.com`); `sor7ed.com` now redirects to it — a flip of the previous direction. Introduced open-ended divisional architecture: **Sorted Lab** (this build, tools + content) and **Sorted Concierge** (reinstated as a named future division), with room for further "Sorted ___" lines without a fixed cap. Retired the "7 Branches" concept entirely as product/database structure; reverted `protocols.branch` (renamed `category`) to the original one-word taxonomy (Mind, Wealth, Body, Tech, Connection, Impression, Growth) and reversed the prior backfill via explicit SQL. Added an optional, UI-only tagline lookup pairing old one-word categories with the retired descriptive names, non-mandatory and not stored in the database. Renamed the primary CTA to "GET IT SORTED" and updated all outbound URLs, SEO schema, and Company Details to planetsorted.com. Restored the Reference Map section. Legal entity retained as SOR7ED LIMITED, trading as Planet Sorted.
