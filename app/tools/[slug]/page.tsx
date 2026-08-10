@@ -62,7 +62,6 @@ export default async function ToolPage({ params }: Props) {
 
   return (
     <ToolClient
-      slug={slug}
       toolData={tool as Protocol}
     />
   )
