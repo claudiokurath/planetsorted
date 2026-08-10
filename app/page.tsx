@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Metadata } from 'next'
 import { ContentCard } from '@/components/ContentCard'
 import { createServerClient } from '@/lib/supabase/server'
@@ -6,6 +7,8 @@ import type { Protocol } from '@/lib/types/database'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 const LOGO_IMAGE = '/images/sor7ed-logo.png'
+const SECTION_HEADING_CLASS = 'text-6xl font-black uppercase leading-none tracking-[-0.025em] sm:text-7xl'
+const SECTION_HEADING_STYLE = { fontFamily: "'Bebas Neue', sans-serif" }
 const HOW_IT_WORKS = [
   {
     number: '01',
@@ -76,41 +79,39 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Text-led Hero Section */}
-      <section className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
-        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-gradient-to-br from-neutral-950 to-black shadow-2xl min-h-[360px] sm:min-h-[440px] flex items-end">
-          <div className="relative z-10 max-w-4xl space-y-5 p-6 sm:p-12 lg:p-16">
-            <div className="flex items-center gap-3">
-              <span className="h-0.5 w-10 rounded-full bg-[#C0392B]" />
-            </div>
-            <h1 className="text-6xl sm:text-8xl font-black uppercase leading-[0.92] tracking-[-0.035em] text-white drop-shadow-lg">
-              Templates,<br /><span style={{ color: '#C0392B' }}>not inspiration.</span>
+      {/* Image-led Hero Section */}
+      <section id="about" className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
+        <div className="relative flex min-h-[520px] w-full items-end overflow-hidden rounded-3xl border border-neutral-800/80 bg-black shadow-2xl sm:min-h-[600px] lg:min-h-[640px]">
+          <Image
+            src="/images/planet-sor7ed-hero-whatsapp.png"
+            alt=""
+            fill
+            preload
+            sizes="(max-width: 1280px) 100vw, 1280px"
+            className="object-cover object-[52%_center] sm:object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+
+          <div className="relative z-10 max-w-3xl space-y-6 p-6 sm:p-12 lg:p-16">
+            <div className="h-1 w-16 rounded-full bg-[#C0392B]" />
+            <h1 className="text-5xl font-black uppercase leading-[0.95] tracking-[-0.035em] text-white drop-shadow-lg sm:text-7xl lg:text-8xl">
+              Practical tools for neurodivergent life admin.
             </h1>
-            <p className="text-lg sm:text-2xl leading-relaxed text-neutral-200 font-normal drop-shadow max-w-2xl">
-              Practical protocols and tools for neurodivergent adults. No app. No spam. Just what works.
+            <p className="max-w-2xl text-base font-medium leading-relaxed text-neutral-100 drop-shadow sm:text-xl lg:text-2xl">
+              PLANET SOR7ED helps you turn overwhelm into one clear, manageable next step — with templates, protocols, and plain-English tools built for brains that already have enough going on.
             </p>
-            <div id="about" className="max-w-3xl border-t border-neutral-800 pt-6">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#C0392B]">
-                About PLANET SOR7ED
-              </p>
-              <h2 className="mt-3 text-2xl font-extrabold leading-tight tracking-[-0.025em] text-white sm:text-3xl">
-                Practical help for brains that already have enough going on.
-              </h2>
-              <p className="mt-3 text-base leading-relaxed text-neutral-300 sm:text-lg">
-                PLANET SOR7ED creates shame-free tools, templates and plain-English protocols for neurodivergent adults. No productivity theatre—just a clear answer and one manageable next step.
-              </p>
-            </div>
+            <p className="text-base font-bold text-white drop-shadow sm:text-lg">
+              No app. No spam. Just what works.
+            </p>
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8">
-        <div className="mb-8 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#C0392B]">Three simple steps</p>
-          <h2
-            className="mt-3 text-5xl font-black uppercase leading-none text-white sm:text-6xl"
-            style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-          >
+        <div className="mb-8">
+          <div className="mb-5 h-1 w-16 rounded-full bg-[#C0392B]" />
+          <h2 className={`${SECTION_HEADING_CLASS} text-white`} style={SECTION_HEADING_STYLE}>
             How it works
           </h2>
         </div>
@@ -140,7 +141,7 @@ export default async function HomePage() {
             <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
                 <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-5" />
-                <h2 className="text-5xl sm:text-6xl font-black uppercase tracking-[-0.025em] text-black">
+                <h2 className={`${SECTION_HEADING_CLASS} text-black`} style={SECTION_HEADING_STYLE}>
                   Toolbox
                 </h2>
               </div>
@@ -174,7 +175,7 @@ export default async function HomePage() {
             <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
                 <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-5" />
-                <h2 className="text-5xl sm:text-6xl font-black uppercase tracking-[-0.025em] text-white">
+                <h2 className={`${SECTION_HEADING_CLASS} text-white`} style={SECTION_HEADING_STYLE}>
                   Guidebook
                 </h2>
               </div>

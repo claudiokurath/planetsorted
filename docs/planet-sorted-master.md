@@ -104,6 +104,15 @@ Everything below this point in the document describes **Sorted Lab** specificall
 ### Brand Phrases
 - "Templates, not inspiration." "Worry less, live more." "Built for ADHD brains." "No app. No spam. Just what works." "One clear next step."
 
+### Homepage Hero
+- **Headline:** "Practical tools for neurodivergent life admin."
+- **Body:** "PLANET SOR7ED helps you turn overwhelm into one clear, manageable next step — with templates, protocols, and plain-English tools built for brains that already have enough going on."
+- **Closing line:** "No app. No spam. Just what works."
+- **Visual direction:** Wide, dark-overlay mixed-media collage in the PLANET SOR7ED yellow, red, cyan and pitch-black palette; tactile paper and paint textures with a prominent WhatsApp motif; no embedded text.
+
+### Homepage Section Headers
+- "HOW IT WORKS," "TOOLBOX," and "GUIDEBOOK" use the same uppercase Bebas Neue display treatment, responsive size, red rule and left alignment.
+
 ### Global Disclaimers
 Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant outputs:
 - Planet Sorted provides educational information, templates, and practical tools.
@@ -614,8 +623,11 @@ Run the reverse SQL in the Category Taxonomy section, rename the Notion "Branch"
 ---
 
 ## Version & History
-- **Current Version:** 0.4.2
+- **Current Version:** 0.4.5
 - **Consolidation Date:** 2026-08-10
+- **Notes (0.4.5):** Standardised the homepage section headers so HOW IT WORKS, TOOLBOX and GUIDEBOOK share the same Bebas Neue typeface, size, red rule spacing and left alignment.
+- **Notes (0.4.4):** Replaced the generated homepage hero artwork with the supplied upscaled WhatsApp collage while retaining the approved hero copy, responsive crop and dark readability overlays. The previous generated image remains in the project as an unused alternative rather than being overwritten.
+- **Notes (0.4.3):** Rewrote the homepage hero around the clearer promise "Practical tools for neurodivergent life admin." and added an original wide mixed-media hero image derived from the supplied visual reference. The artwork uses a dark copy area and carries no embedded text so the accessible page copy remains the source of truth.
 - **Notes (0.4.2):** Simplified public detail pages while the new SOR7ED send control is being designed. Tools now show a dark-overlay image banner with uppercase title and short description, followed only by a compact Summary explanation; the old interactive forms, results, and all public CTA placements were removed. Articles use the same shared banner and continue with the public `Blog Post` content, without the temporary "Want the solution?" CTA box. The homepage now shows up to six compact Tools and six compact Guidebook cards and adds a three-circle Choose → Send → Receive explanation. `GetSortedButton.tsx` remains unchanged for the future replacement.
 - **Notes (0.4.1):** Consolidated the GET IT SORTED button to a single behaviour for every visitor: `components/buttons/GetSortedButton.tsx` (plain `wa.me` deep link, no sign-in required) now renders on every article (`app/intelligence/[slug]/page.tsx`) and every tool CTA (`components/ToolClient.tsx`), replacing the sign-in-gated `SaveToPhoneButton`, which had been silently blocking most visitors from receiving anything. `SaveToPhoneButton` + `/api/save-to-phone` are retained but scoped to `/dashboard` only, for already-verified users who want a silent direct push. Also removed a stray embed of the separate, unrelated "SOR7ED BUTTON" partner-widget product (`widget.js`, pointed at `localhost:3000`) that had been added to the root layout — that is a different product for third-party partner sites, not part of Sorted Lab.
 - **Notes (0.4.0):** Major pivot. Planet Sorted established as the mother brand and primary domain (`planetsorted.com`); `sor7ed.com` now redirects to it — a flip of the previous direction. Introduced open-ended divisional architecture: **Sorted Lab** (this build, tools + content) and **Sorted Concierge** (reinstated as a named future division), with room for further "Sorted ___" lines without a fixed cap. Retired the "7 Branches" concept entirely as product/database structure; reverted `protocols.branch` (renamed `category`) to the original one-word taxonomy (Mind, Wealth, Body, Tech, Connection, Impression, Growth) and reversed the prior backfill via explicit SQL. Added an optional, UI-only tagline lookup pairing old one-word categories with the retired descriptive names, non-mandatory and not stored in the database. Renamed the primary CTA to "GET IT SORTED" and updated all outbound URLs, SEO schema, and Company Details to planetsorted.com. Restored the Reference Map section. Legal entity retained as SOR7ED LIMITED, trading as Planet Sorted.
