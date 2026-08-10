@@ -81,20 +81,20 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Image-led Hero Section */}
-      <section id="about" className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
-        <div className="relative flex min-h-[520px] w-full items-end overflow-hidden rounded-3xl border border-neutral-800/80 bg-black shadow-2xl sm:min-h-[600px] lg:min-h-[640px]">
-          <Image
-            src="/images/planet-sor7ed-hero-whatsapp.png"
-            alt=""
-            fill
-            preload
-            sizes="(max-width: 1280px) 100vw, 1280px"
-            className="object-cover object-[52%_center] sm:object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+      <section id="about" className="relative flex min-h-[620px] w-full items-end overflow-hidden bg-black xl:aspect-[2/1] xl:min-h-0">
+        <Image
+          src="/images/planet-sor7ed-hero-whatsapp.png"
+          alt=""
+          fill
+          preload
+          sizes="100vw"
+          className="object-cover object-[52%_center] xl:object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
-          <div className="relative z-10 max-w-3xl space-y-6 p-6 sm:p-12 lg:p-16">
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+          <div className="max-w-3xl space-y-6">
             <div className="h-1 w-16 rounded-full bg-[#C0392B]" />
             <h1 className="text-5xl font-black uppercase leading-[0.95] tracking-[-0.035em] text-white drop-shadow-lg sm:text-7xl lg:text-8xl">
               Practical tools for neurodivergent life admin.
@@ -109,7 +109,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="mb-8">
           <div className="mb-5 h-1 w-16 rounded-full bg-[#C0392B]" />
           <h2 className={`${SECTION_HEADING_CLASS} text-white`} style={SECTION_HEADING_STYLE}>

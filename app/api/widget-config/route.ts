@@ -19,6 +19,13 @@ const WIDGET_TOOLS = [
     url: 'https://planetsorted.com/weekly-wins-generator',
     category: 'Body',
   },
+  {
+    slug: 'biometric-state-tracker',
+    label: 'Biometric State Tracker',
+    description: 'Daily biometric check-in with personalized hydration target and AI-style recommendations.',
+    url: 'https://planetsorted.com/biometric-state-tracker',
+    category: 'Body',
+  },
 ]
 
 export async function GET() {
