@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
-import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
+import { GetSortedButton } from '@/components/buttons/GetSortedButton'
 import { getCategoryStyle } from '@/lib/categoryStyles'
 import type { Protocol } from '@/lib/types/database'
 
@@ -113,13 +113,6 @@ export default async function ArticlePage({ params }: Props) {
   const { slug } = await params
   const supabase = createServerClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
-  let whatsappVerified = false
-  if (user) {
-    const { data: profile } = await supabase.from('users').select('whatsapp_verified').eq('user_id', user.id).single()
-    whatsappVerified = (profile as { whatsapp_verified?: boolean } | null)?.whatsapp_verified ?? false
-  }
-
   const { data: rawProtocol } = await supabase
     .from('protocols')
     .select('title, summary, category, cover_image, problem, read_time, cta, excerpt, audio_url, slug')
@@ -219,11 +212,11 @@ export default async function ArticlePage({ params }: Props) {
               Want the solution?
             </div>
             <p className="max-w-2xl text-base leading-relaxed text-neutral-300">
-              Sign in and SOR7ED will send the rich link and the complete step-by-step protocol directly to your WhatsApp.
+              Tap below to open WhatsApp with the keyword pre-filled. Hit send and the complete step-by-step protocol comes straight back — no sign-in required.
             </p>
           </div>
           <div className="pt-2">
-            <SaveToPhoneButton slug={slug} context="article" isLoggedIn={!!user} whatsappVerified={whatsappVerified} />
+            <GetSortedButton slug={slug} context="article" />
           </div>
         </div>
       </article>
