@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
-import { GetSortedButton } from '@/components/buttons/GetSortedButton'
-import { getCategoryStyle } from '@/lib/categoryStyles'
+import { ContentHero } from '@/components/ContentHero'
 import type { Protocol } from '@/lib/types/database'
 
 interface Props {
@@ -115,7 +113,7 @@ export default async function ArticlePage({ params }: Props) {
 
   const { data: rawProtocol } = await supabase
     .from('protocols')
-    .select('title, summary, category, cover_image, problem, read_time, cta, excerpt, audio_url, slug')
+    .select('title, summary, category, cover_image, problem, read_time, excerpt, meta_description, audio_url, slug')
     .eq('slug', slug)
     .eq('status', 'Published')
     .single()
@@ -123,51 +121,21 @@ export default async function ArticlePage({ params }: Props) {
   const protocol = rawProtocol as Protocol | null
   if (!protocol) notFound()
 
-  const categoryStyle = getCategoryStyle(protocol.category)
   const audioUrl = protocol.audio_url?.trim() || undefined
+  const description = protocol.excerpt?.trim() || protocol.summary?.trim() || protocol.meta_description?.trim()
   // Parse Notion body text into structured section blocks
   const rawBodyText = protocol.problem || ''
   const sections = parseArticleSections(rawBodyText, protocol.title)
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <section className="mx-auto max-w-7xl px-4 pt-8 pb-12 sm:px-6 lg:px-8">
-        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-gradient-to-br from-neutral-950 to-black shadow-2xl min-h-[320px] sm:min-h-[400px] flex items-end">
-          {protocol.cover_image && (
-            <>
-              <Image
-                src={protocol.cover_image}
-                alt={protocol.title}
-                fill
-                priority
-                sizes="(max-width: 1280px) 100vw, 1280px"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black via-black/75 to-black/20" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/10" />
-            </>
-          )}
-          <div className="relative z-10 p-6 sm:p-12 lg:p-16 max-w-3xl space-y-4">
-            {categoryStyle && (
-              <div>
-                <span className={`inline-block rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider ${categoryStyle.className}`}>
-                  {categoryStyle.label}
-                </span>
-              </div>
-            )}
-
-            <h1 className="text-5xl sm:text-7xl font-black uppercase leading-none tracking-tight text-white drop-shadow-lg" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-              {protocol.title}
-            </h1>
-
-            <div className="flex flex-wrap items-center gap-3 text-sm sm:text-base font-medium text-neutral-300 pt-2">
-              {categoryStyle?.tagline && <span className="text-white font-semibold">{categoryStyle.tagline}</span>}
-              {categoryStyle?.tagline && protocol.read_time && <span className="text-neutral-500">•</span>}
-              {protocol.read_time && <span className="text-neutral-400">{protocol.read_time}</span>}
-            </div>
-          </div>
-        </div>
-      </section>
+      <ContentHero
+        title={protocol.title}
+        description={description}
+        coverImage={protocol.cover_image}
+        category={protocol.category}
+        meta={protocol.read_time}
+      />
 
       {/* Main Reading Container */}
       <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-12">
@@ -179,15 +147,8 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         )}
 
-        {/* Pull-Quote Excerpt */}
-        {protocol.excerpt && (
-          <div className="p-6 sm:p-8 bg-[#141414] border-l-4 border-[#C0392B] rounded-r-2xl shadow-xl">
-            <p className="text-xl sm:text-2xl leading-relaxed font-semibold text-white">{protocol.excerpt}</p>
-          </div>
-        )}
-
         {/* Structured Article Sections with Bold Headings & Generous Spacing */}
-        <div className="space-y-14 pt-4">
+        <div className="space-y-14">
           {sections.map((sec, idx) => (
             <div key={idx} className="space-y-4">
               {sec.heading && (
@@ -205,20 +166,6 @@ export default async function ArticlePage({ params }: Props) {
           ))}
         </div>
 
-        <div className="mt-16 rounded-2xl border border-neutral-800 bg-[#141414] p-6 sm:p-10 text-white shadow-2xl space-y-4">
-          <div className="space-y-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#3498DB]">The complete protocol</span>
-            <div className="text-4xl sm:text-6xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-              Want the solution?
-            </div>
-            <p className="max-w-2xl text-base leading-relaxed text-neutral-300">
-              Tap below to open WhatsApp with the keyword pre-filled. Hit send and the complete step-by-step protocol comes straight back — no sign-in required.
-            </p>
-          </div>
-          <div className="pt-2">
-            <GetSortedButton slug={slug} context="article" />
-          </div>
-        </div>
       </article>
     </div>
   )

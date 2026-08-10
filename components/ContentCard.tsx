@@ -9,10 +9,12 @@ interface ContentCardProps {
   coverImage?: string | null
   meta?: string
   category?: string | null
+  compact?: boolean
 }
 
-export function ContentCard({ href, title, summary, coverImage, meta, category }: ContentCardProps) {
+export function ContentCard({ href, title, summary, coverImage, meta, category, compact = false }: ContentCardProps) {
   const style = getCategoryStyle(category)
+  const cleanSummary = summary.replace(/^#{1,6}\s*/gm, '').replace(/\s+/g, ' ').trim()
 
   return (
     <Link
@@ -21,7 +23,7 @@ export function ContentCard({ href, title, summary, coverImage, meta, category }
       style={{ backgroundColor: '#141414', border: '1px solid #262626' }}
     >
       {coverImage && (
-        <div className="relative aspect-video w-full flex-shrink-0 overflow-hidden bg-black">
+        <div className={`relative w-full flex-shrink-0 overflow-hidden bg-black ${compact ? 'aspect-[2/1]' : 'aspect-video'}`}>
           <Image
             src={coverImage}
             alt={title}
@@ -31,21 +33,21 @@ export function ContentCard({ href, title, summary, coverImage, meta, category }
           />
         </div>
       )}
-      <div className="flex flex-1 flex-col justify-between gap-4 p-5">
+      <div className={`flex flex-1 flex-col justify-between ${compact ? 'gap-3 p-4' : 'gap-4 p-5'}`}>
         <div className="flex flex-col flex-1">
           {style && (
             <div>
-              <span className={`mb-3 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${style.className}`}>
+              <span className={`${compact ? 'mb-2' : 'mb-3'} inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${style.className}`}>
                 {style.label}
               </span>
             </div>
           )}
-          <h3 className="text-xl sm:text-2xl font-black uppercase leading-snug text-white group-hover:text-[#C0392B] transition-colors line-clamp-2" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+          <h3 className={`${compact ? 'text-2xl' : 'text-2xl sm:text-3xl'} font-black uppercase leading-none text-white group-hover:text-[#C0392B] transition-colors line-clamp-2`} style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             {title}
           </h3>
-          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-neutral-400 flex-1">{summary}</p>
+          <p className={`${compact ? 'mt-1.5 text-[13px]' : 'mt-2 text-sm'} line-clamp-2 leading-relaxed text-neutral-400 flex-1`}>{cleanSummary}</p>
         </div>
-        {meta && <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 pt-2 border-t border-neutral-800/80">{meta}</p>}
+        {meta && <p className={`${compact ? 'text-[11px]' : 'text-xs'} font-semibold uppercase tracking-widest text-neutral-500 pt-2 border-t border-neutral-800/80`}>{meta}</p>}
       </div>
     </Link>
   )

@@ -6,6 +6,23 @@ import type { Protocol } from '@/lib/types/database'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 const LOGO_IMAGE = '/images/sor7ed-logo.png'
+const HOW_IT_WORKS = [
+  {
+    number: '01',
+    title: 'Choose',
+    description: 'Pick a tool or open a Guidebook post that matches what you need.',
+  },
+  {
+    number: '02',
+    title: 'Send',
+    description: 'Send the suggested text in WhatsApp when the prompt appears.',
+  },
+  {
+    number: '03',
+    title: 'Receive',
+    description: 'Get the tool or complete protocol link back in your WhatsApp.',
+  },
+] as const
 
 export const metadata: Metadata = {
   title: 'PLANET SOR7ED — Templates, Not Inspiration',
@@ -37,24 +54,24 @@ export const revalidate = 60
 export default async function HomePage() {
   const supabase = createServerClient()
 
-  const { data: rawProtocols } = await supabase
-    .from('protocols')
-    .select('slug, title, summary, cover_image, category, read_time')
-    .or('type.eq.Article,type.is.null')
-    .eq('status', 'Published')
-    .order('updated_at', { ascending: false })
-    .limit(4)
+  const [{ data: rawProtocols }, { data: rawTools }] = await Promise.all([
+    supabase
+      .from('protocols')
+      .select('slug, title, summary, cover_image, category, read_time')
+      .or('type.eq.Article,type.is.null')
+      .eq('status', 'Published')
+      .order('updated_at', { ascending: false })
+      .limit(6),
+    supabase
+      .from('protocols')
+      .select('slug, title, summary, cover_image, category, read_time')
+      .eq('type', 'Tool')
+      .eq('status', 'Published')
+      .order('updated_at', { ascending: false })
+      .limit(6),
+  ])
 
   const articles = (rawProtocols as Protocol[]) || []
-
-  const { data: rawTools } = await supabase
-    .from('protocols')
-    .select('slug, title, summary, cover_image, category, read_time')
-    .eq('type', 'Tool')
-    .eq('status', 'Published')
-    .order('updated_at', { ascending: false })
-    .limit(3)
-
   const tools = (rawTools as Protocol[]) || []
 
   return (
@@ -66,7 +83,7 @@ export default async function HomePage() {
             <div className="flex items-center gap-3">
               <span className="h-0.5 w-10 rounded-full bg-[#C0392B]" />
             </div>
-            <h1 className="text-5xl sm:text-7xl font-black leading-[1.02] tracking-[-0.035em] text-white drop-shadow-lg">
+            <h1 className="text-6xl sm:text-8xl font-black uppercase leading-[0.92] tracking-[-0.035em] text-white drop-shadow-lg">
               Templates,<br /><span style={{ color: '#C0392B' }}>not inspiration.</span>
             </h1>
             <p className="text-lg sm:text-2xl leading-relaxed text-neutral-200 font-normal drop-shadow max-w-2xl">
@@ -87,14 +104,43 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8">
+        <div className="mb-8 text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#C0392B]">Three simple steps</p>
+          <h2
+            className="mt-3 text-5xl font-black uppercase leading-none text-white sm:text-6xl"
+            style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+          >
+            How it works
+          </h2>
+        </div>
+
+        <ol className="grid gap-6 md:grid-cols-3">
+          {HOW_IT_WORKS.map((step) => (
+            <li key={step.number} className="mx-auto flex aspect-square w-full max-w-[280px] flex-col items-center justify-center rounded-full border border-[#C0392B]/70 bg-[#141414] p-8 text-center shadow-xl">
+              <span className="text-sm font-bold tracking-[0.2em] text-[#C0392B]">{step.number}</span>
+              <h3
+                className="mt-3 text-4xl font-black uppercase leading-none text-white"
+                style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+              >
+                {step.title}
+              </h3>
+              <p className="mt-3 max-w-[200px] text-sm leading-relaxed text-neutral-300">
+                {step.description}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       {/* Toolbox Section */}
       {tools.length > 0 && (
         <section className="border-y border-neutral-300 bg-[#f0e4cd] text-black">
-          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-            <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+            <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
-                <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-                <h2 className="text-4xl sm:text-5xl font-extrabold tracking-[-0.025em] text-black">
+                <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-5" />
+                <h2 className="text-5xl sm:text-6xl font-black uppercase tracking-[-0.025em] text-black">
                   Toolbox
                 </h2>
               </div>
@@ -113,6 +159,7 @@ export default async function HomePage() {
                   coverImage={tool.cover_image}
                   category={tool.category}
                   meta={tool.read_time}
+                  compact
                 />
               ))}
             </div>
@@ -124,10 +171,10 @@ export default async function HomePage() {
       {articles.length > 0 && (
         <>
           <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
-                <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-                <h2 className="text-4xl sm:text-5xl font-extrabold tracking-[-0.025em] text-white">
+                <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-5" />
+                <h2 className="text-5xl sm:text-6xl font-black uppercase tracking-[-0.025em] text-white">
                   Guidebook
                 </h2>
               </div>
@@ -146,6 +193,7 @@ export default async function HomePage() {
                   coverImage={article.cover_image}
                   category={article.category}
                   meta={article.read_time || undefined}
+                  compact
                 />
               ))}
             </div>

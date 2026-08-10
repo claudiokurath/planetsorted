@@ -38,7 +38,7 @@
 ## Goals for this Build
 - `planetsorted.com` live as the fast, reliable mother site.
 - Sorted Lab shipped as the first division: Notion → Supabase sync powering articles and tools.
-- WhatsApp as the remote control: every page has a "GET IT SORTED" button that opens WhatsApp with a pre-filled command.
+- WhatsApp as the remote control: public tool and article pages prepare users for WhatsApp delivery; the replacement send control is currently being redesigned.
 - GDPR/PECR consent, crisis detection, STOP/START unsubscribes, opt-in weekly broadcasts.
 - Clear free → paid conversion path (free = insight, paid = deliverable + continuity).
 - SEO surfacing "sorted," "planet sorted," and neurodivergent search terms.
@@ -210,27 +210,28 @@ WhatsApp is the remote control and permanent personal library for the user's sav
 - OG images: 1200×630px, public URL, under 300KB. Cache-bust stale previews by versioning image filenames/URLs.
 
 ### Save-to-Phone (dashboard only)
-Inside `/dashboard`, logged-in users with a verified WhatsApp number get a separate "SEND TO MY WHATSAPP" button that silently POSTs to `/api/save-to-phone`, pushing content via the Meta API without opening WhatsApp manually. This is a dashboard convenience feature only — it is **not** the on-page GET IT SORTED button described below, which is identical for every visitor regardless of auth state.
+Inside `/dashboard`, logged-in users with a verified WhatsApp number get a separate "SEND TO MY WHATSAPP" button that silently POSTs to `/api/save-to-phone`, pushing content via the Meta API without opening WhatsApp manually. This remains a dashboard convenience feature while the replacement public-page send control is being redesigned.
 
 ---
 
 ## The GET IT SORTED Button
 
-The most important UI element on the site. Appears on **every** article and tool page, underneath the content, without exception — same behaviour for every visitor, logged in or not.
+**Temporary design state (10 August 2026):** the public-page GET IT SORTED CTA and its surrounding "Want the solution?" box are hidden on article and tool detail pages while the replacement SOR7ED send control is being designed. Do not restore the old box or its copy without an explicit instruction.
 
-Tapping it opens WhatsApp with the content's keyword pre-filled as a `wa.me` deep link (`GET IT SOR7ED` → `SAVE [slug]` / `RUN [slug]`). The user hits send once; the webhook parses the keyword and replies with the full protocol or tool. No sign-in, no WhatsApp verification, and no account required to receive content — removing that gate was a deliberate call, since the previous sign-in-gated version blocked most visitors from ever getting anything sent to them.
+The underlying `GetSortedButton` component and WhatsApp command behaviour remain available for the future replacement: a `wa.me` deep link with the content keyword pre-filled (`SAVE [slug]` / `RUN [slug]`), followed by a rich-link response from the webhook. The component itself is retained unchanged.
 
 **Context-specific copy:**
 - Article page: "Tap to open WhatsApp — keyword pre-filled. Hit send and the full protocol comes straight back."
 - Tool page: "Text this to run the tool and save your result"
 - Result page: "Save your result to WhatsApp to come back to it later"
 
-**Standard WhatsApp CTA block (end of every article):**
-> Text [KEYWORD] to +44 7360 277713 to get the full protocol on WhatsApp.
-> Sign up first at planetsorted.com. No app. No spam. Just what works.
+**Public detail-page layout during the temporary state:**
+- Tool: dark-overlay image banner with title + short description, followed by one compact Summary explanation. No form, result UI, CTA, or protocol box.
+- Article: dark-overlay image banner with title + description, followed by the public `Blog Post` content. No CTA or protocol box.
 
 **Key files:**
-- `components/buttons/GetSortedButton.tsx` — the GET IT SORTED button itself (wa.me deep link). Rendered on `app/intelligence/[slug]/page.tsx` and `components/ToolClient.tsx` (all three CTA spots).
+- `components/buttons/GetSortedButton.tsx` — retained, immutable `wa.me` deep-link component; temporarily not rendered on public article/tool detail pages.
+- `components/ContentHero.tsx` — shared dark-overlay banner for article and tool detail pages.
 - `components/SaveToPhoneButton.tsx` — separate, dashboard-only smart button (wa.me fallback / silent API push for verified users). No longer used on public post pages — see [Save-to-Phone (dashboard only)](#whatsapp-as-remote-control).
 - `app/api/save-to-phone/route.ts` — authenticated push to user's WhatsApp, used only by the dashboard button above.
 
@@ -337,7 +338,8 @@ app/
   signup/                 ← auth flow (magic link only, no passwords)
   privacy/, terms/, cookies/
 components/
-  buttons/GetSortedButton.tsx  ← GET IT SORTED — wa.me deep link, on every article/tool page
+  buttons/GetSortedButton.tsx  ← retained GET IT SORTED wa.me component; public rendering temporarily paused
+  ContentHero.tsx              ← shared article/tool image banner
   SaveToPhoneButton.tsx        ← dashboard-only direct-push button (auth + WhatsApp-verified users)
   SmartNav.tsx                 ← authenticated nav with user dropdown
   SiteFooter.tsx                ← footer with legal links
@@ -612,7 +614,8 @@ Run the reverse SQL in the Category Taxonomy section, rename the Notion "Branch"
 ---
 
 ## Version & History
-- **Current Version:** 0.4.1
+- **Current Version:** 0.4.2
 - **Consolidation Date:** 2026-08-10
+- **Notes (0.4.2):** Simplified public detail pages while the new SOR7ED send control is being designed. Tools now show a dark-overlay image banner with uppercase title and short description, followed only by a compact Summary explanation; the old interactive forms, results, and all public CTA placements were removed. Articles use the same shared banner and continue with the public `Blog Post` content, without the temporary "Want the solution?" CTA box. The homepage now shows up to six compact Tools and six compact Guidebook cards and adds a three-circle Choose → Send → Receive explanation. `GetSortedButton.tsx` remains unchanged for the future replacement.
 - **Notes (0.4.1):** Consolidated the GET IT SORTED button to a single behaviour for every visitor: `components/buttons/GetSortedButton.tsx` (plain `wa.me` deep link, no sign-in required) now renders on every article (`app/intelligence/[slug]/page.tsx`) and every tool CTA (`components/ToolClient.tsx`), replacing the sign-in-gated `SaveToPhoneButton`, which had been silently blocking most visitors from receiving anything. `SaveToPhoneButton` + `/api/save-to-phone` are retained but scoped to `/dashboard` only, for already-verified users who want a silent direct push. Also removed a stray embed of the separate, unrelated "SOR7ED BUTTON" partner-widget product (`widget.js`, pointed at `localhost:3000`) that had been added to the root layout — that is a different product for third-party partner sites, not part of Sorted Lab.
 - **Notes (0.4.0):** Major pivot. Planet Sorted established as the mother brand and primary domain (`planetsorted.com`); `sor7ed.com` now redirects to it — a flip of the previous direction. Introduced open-ended divisional architecture: **Sorted Lab** (this build, tools + content) and **Sorted Concierge** (reinstated as a named future division), with room for further "Sorted ___" lines without a fixed cap. Retired the "7 Branches" concept entirely as product/database structure; reverted `protocols.branch` (renamed `category`) to the original one-word taxonomy (Mind, Wealth, Body, Tech, Connection, Impression, Growth) and reversed the prior backfill via explicit SQL. Added an optional, UI-only tagline lookup pairing old one-word categories with the retired descriptive names, non-mandatory and not stored in the database. Renamed the primary CTA to "GET IT SORTED" and updated all outbound URLs, SEO schema, and Company Details to planetsorted.com. Restored the Reference Map section. Legal entity retained as SOR7ED LIMITED, trading as Planet Sorted.
