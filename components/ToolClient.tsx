@@ -2,15 +2,13 @@
 
 import { useMemo, useState } from 'react'
 import Image from 'next/image'
-import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
+import { GetSortedButton } from '@/components/buttons/GetSortedButton'
 import { calculateAdhdTax } from '@/lib/adhdTaxCalculator'
 import type { Protocol } from '@/lib/types/database'
 
 interface ToolClientProps {
   slug: string
   toolData: Protocol
-  isLoggedIn: boolean
-  whatsappVerified: boolean
 }
 
 function ToolBlogPost({ body }: { body: string }) {
@@ -34,7 +32,7 @@ function ToolBlogPost({ body }: { body: string }) {
   )
 }
 
-export function ToolClient({ slug, toolData, isLoggedIn, whatsappVerified }: ToolClientProps) {
+export function ToolClient({ slug, toolData }: ToolClientProps) {
   const [submitted, setSubmitted] = useState(false)
   const meta = {
     title: toolData.title,
@@ -112,7 +110,7 @@ export function ToolClient({ slug, toolData, isLoggedIn, whatsappVerified }: Too
             </p>
 
             <div className="pt-2 flex flex-wrap gap-4 items-center">
-              <SaveToPhoneButton slug={slug} context="tool" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} />
+              <GetSortedButton slug={slug} context="tool" />
             </div>
           </div>
         </div>
@@ -385,7 +383,7 @@ export function ToolClient({ slug, toolData, isLoggedIn, whatsappVerified }: Too
                     <p className="text-sm text-neutral-300 max-w-md mx-auto mb-6">
                       {meta.promise}
                     </p>
-                    <SaveToPhoneButton slug={slug} context="tool" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} />
+                    <GetSortedButton slug={slug} context="tool" />
                   </div>
                 </div>
               )}
@@ -501,7 +499,7 @@ export function ToolClient({ slug, toolData, isLoggedIn, whatsappVerified }: Too
               )}
 
               <div className="pt-4 flex flex-wrap gap-4 items-center">
-                <SaveToPhoneButton slug={slug} context="tool" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} />
+                <GetSortedButton slug={slug} context="tool" />
               </div>
             </div>
           </div>

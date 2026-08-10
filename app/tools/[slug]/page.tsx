@@ -60,26 +60,10 @@ export default async function ToolPage({ params }: Props) {
     notFound()
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
-
-  let whatsappVerified = false
-
-  if (user) {
-    const { data: profile } = await supabase
-      .from('users')
-      .select('whatsapp_verified')
-      .eq('user_id', user.id)
-      .single()
-
-    whatsappVerified = (profile as { whatsapp_verified?: boolean } | null)?.whatsapp_verified ?? false
-  }
-
   return (
     <ToolClient
       slug={slug}
       toolData={tool as Protocol}
-      isLoggedIn={Boolean(user)}
-      whatsappVerified={whatsappVerified}
     />
   )
 }
