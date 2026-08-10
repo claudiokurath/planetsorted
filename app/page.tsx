@@ -76,6 +76,39 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Toolbox Section */}
+      {tools.length > 0 && (
+        <section className="border-y border-neutral-300 bg-[#f0e4cd] text-black">
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+            <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+              <div>
+                <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
+                <h2 className="text-4xl sm:text-5xl font-extrabold tracking-[-0.025em] text-black">
+                  Toolbox
+                </h2>
+              </div>
+              <Link href="/tools" className="text-sm font-bold uppercase tracking-wider text-[#9f2f27] hover:text-black transition-colors underline underline-offset-4">
+                View all tools →
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+              {tools.map((tool) => (
+                <ContentCard
+                  key={tool.slug}
+                  href={`/tools/${tool.slug}`}
+                  title={tool.title}
+                  summary={tool.summary || ''}
+                  coverImage={tool.cover_image}
+                  category={tool.category}
+                  meta={tool.read_time}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <section id="about" className="mx-auto max-w-7xl scroll-mt-24 px-4 pb-12 sm:px-6 lg:px-8">
         <div className="grid gap-6 rounded-3xl border border-neutral-800 bg-[#141414] p-7 sm:p-10 md:grid-cols-[.7fr_1.3fr] md:items-start">
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#C0392B]">About PLANET SOR7ED</p>
@@ -130,38 +163,6 @@ export default async function HomePage() {
         </>
       )}
 
-      {/* Toolbox Section */}
-      {tools.length > 0 && (
-        <section className="border-y border-neutral-300 bg-[#f0e4cd] text-black">
-          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-6" />
-              <h2 className="text-4xl sm:text-5xl font-extrabold tracking-[-0.025em] text-black">
-                Toolbox
-              </h2>
-            </div>
-            <Link href="/tools" className="text-sm font-bold uppercase tracking-wider text-[#9f2f27] hover:text-black transition-colors underline underline-offset-4">
-              View all tools →
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-            {tools.map((tool) => (
-              <ContentCard
-                key={tool.slug}
-                href={`/tools/${tool.slug}`}
-                title={tool.title}
-                summary={tool.summary || ''}
-                coverImage={tool.cover_image}
-                category={tool.category}
-                meta={tool.read_time}
-              />
-            ))}
-          </div>
-          </div>
-        </section>
-      )}
     </div>
   )
 }
