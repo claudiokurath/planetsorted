@@ -67,7 +67,7 @@ export function ToolClient({ toolData }: ToolClientProps) {
           </section>
         )}
 
-        <Sor7edButton href={toolHref} label="OPEN THE TOOL" context="page" />
+        <Sor7edButton href={toolHref} context="page" />
       </main>
     </div>
   )

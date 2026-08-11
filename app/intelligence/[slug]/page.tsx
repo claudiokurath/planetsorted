@@ -176,7 +176,7 @@ export default async function ArticlePage({ params }: Props) {
             <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Ready for the next step?</p>
             <p className="mt-2 text-lg font-semibold text-white">Turn this into action with a tool built for it.</p>
           </div>
-          <Sor7edButton href="/tools" label="OPEN THE TOOLBOX" context="article" />
+          <Sor7edButton href="/tools" context="article" />
         </div>
       </div>
     </div>

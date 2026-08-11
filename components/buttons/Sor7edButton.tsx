@@ -9,7 +9,7 @@ interface Sor7edButtonProps {
   context?: 'page' | 'article'
 }
 
-export function Sor7edButton({ href, label = 'GET SOR7ED', context = 'page' }: Sor7edButtonProps) {
+export function Sor7edButton({ href, label = 'SOR7ED', context = 'page' }: Sor7edButtonProps) {
   const [pressed, setPressed] = useState(false)
 
   const handlePress = useCallback(() => {

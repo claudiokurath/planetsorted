@@ -22,7 +22,7 @@
   var scripts = document.querySelectorAll('script[data-tool], script[src*="widget.js"]')
   var scriptEl = scripts[scripts.length - 1]
   var toolSlug = (scriptEl && scriptEl.getAttribute('data-tool')) || 'adhd-tax-calculator'
-  var buttonLabel = (scriptEl && scriptEl.getAttribute('data-label')) || 'GET SOR7ED'
+  var buttonLabel = (scriptEl && scriptEl.getAttribute('data-label')) || 'SOR7ED'
   var position = (scriptEl && scriptEl.getAttribute('data-position')) || 'bottom-right'
 
   // Route map — mirrors lib/standaloneRoutes.ts on the server
