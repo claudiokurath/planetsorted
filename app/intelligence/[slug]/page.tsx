@@ -116,13 +116,13 @@ export default async function ArticlePage({ params, searchParams }: Props) {
 
   const { data: rawProtocol } = await supabase
     .from('protocols')
-    .select('title, summary, category, cover_image, problem, read_time, excerpt, meta_description, audio_url, slug')
+    .select('title, summary, category, cover_image, problem, read_time, excerpt, meta_description, audio_url, protocol, slug')
     .eq('slug', slug)
     .eq('status', 'Published')
     .single()
 
-  const protocol = rawProtocol as Protocol | null
-  if (!protocol) notFound()
+  const item = rawProtocol as Protocol | null
+  if (!item) notFound()
 
   // Check user session & subscription
   const { data: { session } } = await supabase.auth.getSession()
@@ -144,85 +144,89 @@ export default async function ArticlePage({ params, searchParams }: Props) {
 
   const isUnlocked = !!(session?.user || cookieToken === 'granted' || queryToken === 'granted')
 
-  const audioUrl = protocol.audio_url?.trim() || undefined
-  const description = protocol.excerpt?.trim() || protocol.summary?.trim() || protocol.meta_description?.trim()
-  const rawBodyText = protocol.problem || ''
-  const sections = parseArticleSections(rawBodyText, protocol.title)
+  const audioUrl = item.audio_url?.trim() || undefined
+  const description = item.excerpt?.trim() || item.summary?.trim() || item.meta_description?.trim()
+  const rawBodyText = item.problem || ''
+  const sections = parseArticleSections(rawBodyText, item.title)
+  const actionProtocolText = item.protocol?.trim() || ''
 
   return (
     <div className="min-h-screen bg-black text-white">
       <ContentHero
-        title={protocol.title}
+        title={item.title}
         description={description}
-        category={protocol.category}
-        meta={protocol.read_time}
+        category={item.category}
+        meta={item.read_time}
         articleMode
       />
 
-      <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-        {isUnlocked ? (
-          <>
-            {/* Audio controls — TTS always available, Deep Dive for subscribers or unlocked */}
-            <ArticleAudioControls
-              bodyText={rawBodyText}
-              deepDiveUrl={audioUrl}
-              isSubscriber={isSubscriber || isUnlocked}
-            />
+      <main className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-14">
+        {/* Audio Controls (Read Aloud TTS always available, Deep Dive for subscribers or unlocked) */}
+        <ArticleAudioControls
+          bodyText={rawBodyText}
+          deepDiveUrl={audioUrl}
+          isSubscriber={isSubscriber || isUnlocked}
+        />
 
-            {/* Full Article Content */}
-            <div className="space-y-14">
-              {sections.map((sec, idx) => (
-                <div key={idx} className="space-y-4">
-                  {sec.heading && (
-                    <h2
-                      className="text-2xl font-black uppercase tracking-tight text-white sm:text-3xl"
-                      style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-                    >
-                      {sec.heading}
-                    </h2>
-                  )}
-                  <div className="text-base sm:text-lg text-neutral-300 leading-relaxed whitespace-pre-line space-y-5">
-                    {sec.text}
-                  </div>
-                </div>
-              ))}
+        {/* Blog Post Body Text — ALWAYS VISIBLE to all readers */}
+        <article className="space-y-14">
+          {sections.map((sec, idx) => (
+            <div key={idx} className="space-y-4">
+              {sec.heading && (
+                <h2
+                  className="text-2xl font-black uppercase tracking-tight text-white sm:text-3xl"
+                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                >
+                  {sec.heading}
+                </h2>
+              )}
+              <div className="text-base sm:text-lg text-neutral-300 leading-relaxed whitespace-pre-line space-y-5">
+                {sec.text}
+              </div>
             </div>
-          </>
+          ))}
+        </article>
+
+        {/* Protocol / Solution Section */}
+        {isUnlocked ? (
+          /* Unlocked Protocol Display */
+          actionProtocolText && (
+            <section className="rounded-3xl border border-[#C0392B]/40 bg-[#C0392B]/5 p-8 sm:p-10 space-y-6">
+              <div className="space-y-2">
+                <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">
+                  Protocol &amp; Actionable Solution
+                </p>
+                <h2
+                  className="text-3xl sm:text-4xl font-black uppercase text-white"
+                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                >
+                  The Step-by-Step Protocol
+                </h2>
+              </div>
+              <div className="text-base sm:text-lg text-neutral-200 leading-relaxed whitespace-pre-line space-y-4 border-t border-neutral-800 pt-6">
+                {actionProtocolText}
+              </div>
+            </section>
+          )
         ) : (
-          /* Public Preview state for unauthenticated direct visitors */
-          <div className="rounded-3xl border border-neutral-800 bg-neutral-950/80 p-8 sm:p-12 space-y-8 text-center">
-            <div className="space-y-3 max-w-xl mx-auto">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">
-                Unlock Full Protocol &amp; Deep Dive
-              </span>
+          /* Single Non-Repetitive Protocol CTA Box */
+          <section className="border-t border-neutral-800 pt-12 pb-12 space-y-6">
+            <div className="space-y-3">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Protocol</p>
               <h2
-                className="text-3xl font-black uppercase text-white sm:text-4xl"
+                className="text-3xl sm:text-4xl font-black uppercase text-white"
                 style={{ fontFamily: "'Bebas Neue', sans-serif" }}
               >
-                Get the complete guide sent to your WhatsApp
+                Want the step-by-step protocol for this?
               </h2>
-              <p className="text-base text-neutral-300 leading-relaxed">
-                Tap the button below to share the link to your WhatsApp and unlock the full protocol, Deep Dive audio, and complete article experience.
+              <p className="text-base text-neutral-300 leading-relaxed max-w-2xl">
+                Get the complete actionable solution and step-by-step protocol sent directly to your WhatsApp.
               </p>
             </div>
-
-            <div className="flex justify-center pt-2">
-              <Sor7edButton href={`/intelligence/${slug}`} slug={slug} context="article" size="lg" />
-            </div>
-          </div>
+            <Sor7edButton href={`/intelligence/${slug}`} slug={slug} context="article" size="lg" />
+          </section>
         )}
-      </article>
-
-      {/* End-of-article SOR7ED CTA */}
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="border-t border-neutral-800 pt-12 space-y-5">
-          <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Protocol</p>
-          <p className="text-xl font-black uppercase text-white sm:text-2xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-            Ready to use this? Tap the button and get your protocol now.
-          </p>
-          <Sor7edButton href={`/intelligence/${slug}`} slug={slug} context="article" size="lg" />
-        </div>
-      </div>
+      </main>
     </div>
   )
 }
