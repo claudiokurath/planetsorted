@@ -8,6 +8,7 @@ export const STANDALONE_ROUTES: Record<string, string> = {
   'weekly-wins-generator': '/weekly-wins-generator',
   'biometric-state-tracker': '/biometric-state-tracker',
   'decision-paralysis-solver': '/decision-paralysis-solver',
+  'financial-autopilot': '/financial-autopilot',
 }
 
 export function getToolRoute(slug: string): string {
