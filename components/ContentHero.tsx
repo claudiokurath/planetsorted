@@ -27,7 +27,7 @@ export function ContentHero({ title, description, coverImage, category, meta, ar
           )}
 
           <h1
-            className="text-3xl font-black uppercase leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
+            className="text-4xl font-black uppercase leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl"
             style={{ fontFamily: "'Bebas Neue', sans-serif" }}
           >
             {title}

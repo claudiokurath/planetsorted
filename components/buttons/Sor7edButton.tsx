@@ -7,9 +7,11 @@ interface Sor7edButtonProps {
   label?: string
   /** 'page' = inline CTA on a page; 'article' = end-of-article CTA */
   context?: 'page' | 'article'
+  /** 'md' = default, 'lg' = larger for prominent CTAs */
+  size?: 'md' | 'lg'
 }
 
-export function Sor7edButton({ href, label = 'SOR7ED', context = 'page' }: Sor7edButtonProps) {
+export function Sor7edButton({ href, label = 'SOR7ED', context = 'page', size = 'md' }: Sor7edButtonProps) {
   const [pressed, setPressed] = useState(false)
 
   const handlePress = useCallback(() => {
@@ -34,12 +36,13 @@ export function Sor7edButton({ href, label = 'SOR7ED', context = 'page' }: Sor7e
 
         <button
           onClick={handlePress}
-          className="sor7ed-btn group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-[#C0392B] px-8 py-4 font-black text-white shadow-[0_0_32px_rgba(192,57,43,0.35)] transition-all duration-200 select-none"
+          className="sor7ed-btn group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-[#C0392B] font-black text-white shadow-[0_0_32px_rgba(192,57,43,0.35)] transition-all duration-200 select-none"
           style={{
             background: 'linear-gradient(135deg, #C0392B 0%, #96281B 100%)',
             fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: '1.1rem',
+            fontSize: size === 'lg' ? '1.35rem' : '1.1rem',
             letterSpacing: '0.18em',
+            padding: size === 'lg' ? '1rem 2.5rem' : '1rem 2rem',
             transform: pressed ? 'scale(0.96)' : 'scale(1)',
             boxShadow: pressed
               ? '0 0 12px rgba(192,57,43,0.3), inset 0 2px 4px rgba(0,0,0,0.4)'
