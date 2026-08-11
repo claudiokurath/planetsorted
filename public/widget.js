@@ -32,6 +32,7 @@
     'biometric-state-tracker': '/biometric-state-tracker',
     'decision-paralysis-solver': '/decision-paralysis-solver',
     'financial-autopilot': '/financial-autopilot',
+    'brain-dump-sorter': '/brain-dump-sorter',
   }
 
   function getToolPath(slug) {

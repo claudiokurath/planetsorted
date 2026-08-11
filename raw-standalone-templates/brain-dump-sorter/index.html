@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Brain Dump Sorter — Turn WhatsApp Thoughts into Organized Notion Notes</title>
+<meta name="description" content="NLP sorter: classify raw dumps into task/idea/emotion for Notion.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="antialiased">
+
+<!-- ============ HEADER ============ -->
+<header id="site-header" class="fixed top-0 inset-x-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="header-bar flex items-center justify-between py-4">
+      <a href="#top" class="flex items-center gap-2.5 group">
+        <span class="logo-mark"><i class="fa-solid fa-brain"></i></span>
+        <span class="font-display font-bold text-lg tracking-tight text-white">Brain Dump Sorter</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-white/80">
+        <a href="#how-it-works" class="hover:text-white transition">How it Works</a>
+        <a href="#categories" class="hover:text-white transition">Categories</a>
+        <a href="#trigger" class="hover:text-white transition">WhatsApp Trigger</a>
+        <a href="#faq" class="hover:text-white transition">FAQ</a>
+      </nav>
+      <a href="#get-started" class="btn-whatsapp-sm">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>Get via WhatsApp</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section id="hero" class="hero-section relative overflow-hidden">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10 pt-40 pb-24 lg:pt-48 lg:pb-32">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <span class="tag-pill">
+            <i class="fa-solid fa-arrow-trend-up"></i> Category: Keep Going
+          </span>
+          <h1 class="mt-6 font-display text-4xl sm:text-5xl lg:text-[3.4rem] leading-[1.08] font-bold text-white">
+            Dump your thoughts.<br>
+            Let AI <span class="text-gradient">sort the mess</span> into Notion.
+          </h1>
+          <p class="mt-6 text-lg text-slate-300 max-w-xl leading-relaxed">
+            Discover a smarter way to organize your ideas with <strong class="text-white">The Brain Dump Sorter</strong>.
+            This intuitive NLP‑powered tool instantly classifies your raw, unfiltered thoughts into clear
+            categories — <strong class="text-white">Tasks, Ideas, and Emotions</strong> — the moment you send them,
+            so nothing you think ever gets lost again.
+          </p>
+          <div class="mt-9 flex flex-wrap items-center gap-4">
+            <a href="#get-started" class="btn-whatsapp">
+              <i class="fa-brands fa-whatsapp text-xl"></i>
+              <span>Get via WhatsApp</span>
+            </a>
+            <a href="#how-it-works" class="btn-ghost">
+              <span>See how it works</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+          </div>
+          <div class="mt-10 flex items-center gap-6 text-slate-400 text-sm">
+            <div class="flex items-center gap-2"><i class="fa-solid fa-bolt text-amber-400"></i> Instant classification</div>
+            <div class="flex items-center gap-2"><i class="fa-solid fa-table-columns text-emerald-400"></i> Auto‑synced to Notion</div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="hero-image-frame">
+            <img src="images/hero-illustration.png" alt="Illustration showing a WhatsApp message flowing through an AI brain into a Notion board sorted into Task, Idea, and Emotion columns" class="rounded-2xl w-full">
+          </div>
+          <div class="floating-card floating-card-1">
+            <i class="fa-solid fa-list-check text-sky-400"></i>
+            <span>Task</span>
+          </div>
+          <div class="floating-card floating-card-2">
+            <i class="fa-solid fa-lightbulb text-amber-400"></i>
+            <span>Idea</span>
+          </div>
+          <div class="floating-card floating-card-3">
+            <i class="fa-solid fa-heart text-rose-400"></i>
+            <span>Emotion</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOGOS / STATUS STRIP ============ -->
+  <section class="border-y border-white/5 bg-slate-950/60">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm text-slate-400">
+      <div class="flex items-center gap-2"><i class="fa-brands fa-whatsapp text-emerald-400"></i> WhatsApp Trigger: <code class="trigger-code">BRAINDUMP</code></div>
+      <div class="flex items-center gap-2"><i class="fa-solid fa-diagram-project text-violet-400"></i> Prompt → Classify → Write to Notion</div>
+      <div class="flex items-center gap-2"><i class="fa-solid fa-tag text-sky-400"></i> Slug: /brain-dump-sorter</div>
+      <div class="flex items-center gap-2"><i class="fa-solid fa-circle-half-stroke text-amber-400"></i> Status: Draft</div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section id="how-it-works" class="section-padding">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="section-kicker">How it Works</span>
+        <h2 class="section-title">One message in. A perfectly sorted note out.</h2>
+        <p class="section-subtitle">The Brain Dump Sorter runs on a simple template: <em>Prompt → Classify → Write to Notion</em>. No apps to open, no folders to pick — just send your thought.</p>
+      </div>
+
+      <div class="mt-16 grid md:grid-cols-3 gap-8">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <div class="step-icon"><i class="fa-brands fa-whatsapp"></i></div>
+          <h3>Send it on WhatsApp</h3>
+          <p>Message the keyword <code class="trigger-code">BRAINDUMP</code> followed by whatever's on your mind — a task, a spark of an idea, or just how you're feeling.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <div class="step-icon"><i class="fa-solid fa-brain"></i></div>
+          <h3>AI classifies it instantly</h3>
+          <p>An NLP prompt reads your raw dump and sorts it into the right bucket — <strong>Task</strong>, <strong>Idea</strong>, or <strong>Emotion</strong> — in seconds.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <div class="step-icon"><i class="fa-solid fa-table-columns"></i></div>
+          <h3>It lands in Notion</h3>
+          <p>Your classified note is written straight into your Notion workspace, tidy and ready — no copy‑pasting, no manual filing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CATEGORIES ============ -->
+  <section id="categories" class="section-padding bg-slate-950/40">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="section-kicker">Categories</span>
+        <h2 class="section-title">Every brain dump lands somewhere useful</h2>
+        <p class="section-subtitle">Three clean categories keep your mental clutter from turning into digital clutter.</p>
+      </div>
+
+      <div class="mt-16 grid md:grid-cols-3 gap-8">
+        <div class="category-card category-task">
+          <div class="category-icon"><i class="fa-solid fa-list-check"></i></div>
+          <h3>Task</h3>
+          <p>"Call the dentist tomorrow" or "Finish the deck before Friday" — anything actionable gets flagged as a task, ready for your to‑do list.</p>
+        </div>
+        <div class="category-card category-idea">
+          <div class="category-icon"><i class="fa-solid fa-lightbulb"></i></div>
+          <h3>Idea</h3>
+          <p>That 2am spark of inspiration or a new project concept gets captured as an idea, so it's there when you're ready to build on it.</p>
+        </div>
+        <div class="category-card category-emotion">
+          <div class="category-icon"><i class="fa-solid fa-heart"></i></div>
+          <h3>Emotion</h3>
+          <p>Venting, reflecting, or just naming how you feel gets logged as an emotion — a lightweight journal you never have to format.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRIGGER / DEMO SECTION ============ -->
+  <section id="trigger" class="section-padding">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="trigger-panel grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="section-kicker">WhatsApp Trigger</span>
+          <h2 class="section-title !text-left">Just one keyword away</h2>
+          <p class="section-subtitle !text-left !mx-0">
+            No app to download, no dashboard to learn. Open the WhatsApp thread you already have open all day,
+            type your trigger word, and dump your brain.
+          </p>
+          <div class="mt-8 space-y-4">
+            <div class="flex items-start gap-4">
+              <div class="mini-icon"><i class="fa-solid fa-keyboard"></i></div>
+              <div>
+                <h4>Trigger keyword</h4>
+                <p class="text-slate-400 text-sm">Start any message with <code class="trigger-code">BRAINDUMP</code> to activate the sorter.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="mini-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+              <div>
+                <h4>Prompt‑based classification</h4>
+                <p class="text-slate-400 text-sm">A single template — Prompt → classify → write to Notion — does all the sorting work for you.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="mini-icon"><i class="fa-solid fa-table-columns"></i></div>
+              <div>
+                <h4>Straight into Notion</h4>
+                <p class="text-slate-400 text-sm">Every classified dump is written directly to your connected Notion database.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phone-mock">
+          <div class="phone-mock-notch"></div>
+          <div class="chat-bubble chat-bubble-user">
+            BRAINDUMP need to email the invoice, also — what if the onboarding flow used a checklist instead of a video? feeling kind of behind today tbh
+          </div>
+          <div class="chat-bubble chat-bubble-bot">
+            <i class="fa-solid fa-brain mr-1"></i> Sorted into 3 notes ✅
+          </div>
+          <div class="chat-result-row">
+            <span class="chat-result-tag tag-task"><i class="fa-solid fa-list-check"></i> Task</span>
+            <span class="chat-result-tag tag-idea"><i class="fa-solid fa-lightbulb"></i> Idea</span>
+            <span class="chat-result-tag tag-emotion"><i class="fa-solid fa-heart"></i> Emotion</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NOTION PREVIEW ============ -->
+  <section class="section-padding bg-slate-950/40">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="section-kicker">In Notion</span>
+        <h2 class="section-title">Lands in a board that's already organized</h2>
+        <p class="section-subtitle">No setup required on your end — your Notion database fills itself in as you dump.</p>
+      </div>
+
+      <div class="mt-14 notion-board grid md:grid-cols-3 gap-6">
+        <div class="notion-column">
+          <div class="notion-column-head tag-task"><i class="fa-solid fa-list-check"></i> Task</div>
+          <div class="notion-note">Email the invoice to accounting</div>
+          <div class="notion-note">Book flights for the offsite</div>
+        </div>
+        <div class="notion-column">
+          <div class="notion-column-head tag-idea"><i class="fa-solid fa-lightbulb"></i> Idea</div>
+          <div class="notion-note">Onboarding checklist instead of a video</div>
+          <div class="notion-note">Weekly recap newsletter for the team</div>
+        </div>
+        <div class="notion-column">
+          <div class="notion-column-head tag-emotion"><i class="fa-solid fa-heart"></i> Emotion</div>
+          <div class="notion-note">Feeling behind today, need a reset</div>
+          <div class="notion-note">Excited about the new project kickoff</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq" class="section-padding">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="section-kicker">FAQ</span>
+        <h2 class="section-title">Good to know</h2>
+      </div>
+
+      <div class="mt-12 max-w-3xl mx-auto space-y-4">
+        <details class="faq-item" open>
+          <summary>How do I start using the Brain Dump Sorter?</summary>
+          <p>Send a WhatsApp message starting with the trigger word <code class="trigger-code">BRAINDUMP</code>, followed by whatever you want to capture. That's it — classification and syncing to Notion happen automatically.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What categories does it sort into?</summary>
+          <p>Every dump is classified into one of three categories: <strong>Task</strong>, <strong>Idea</strong>, or <strong>Emotion</strong> — based on the intent behind what you wrote.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need to set anything up in Notion?</summary>
+          <p>Your classified notes are written directly to a connected Notion database using a simple Prompt → classify → write to Notion template, so there's minimal setup on your side.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is there a demo available?</summary>
+          <p>This page focuses on the WhatsApp flow itself — just send the trigger keyword and try it live, no separate demo needed.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section id="get-started" class="cta-section">
+    <div class="max-w-4xl mx-auto px-6 lg:px-10 text-center">
+      <span class="tag-pill tag-pill-light"><i class="fa-solid fa-arrow-trend-up"></i> Keep Going</span>
+      <h2 class="mt-6 font-display text-3xl sm:text-4xl font-bold text-white">Stop losing thoughts. Start sorting them.</h2>
+      <p class="mt-4 text-slate-300 max-w-xl mx-auto">Send <code class="trigger-code">BRAINDUMP</code> on WhatsApp and let the AI turn your mental clutter into a clean Notion board.</p>
+      <div class="mt-9">
+        <a href="https://wa.me/?text=BRAINDUMP%20" target="_blank" rel="noopener" class="btn-whatsapp btn-whatsapp-lg">
+          <i class="fa-brands fa-whatsapp text-2xl"></i>
+          <span>Get via WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-2.5">
+      <span class="logo-mark"><i class="fa-solid fa-brain"></i></span>
+      <span class="font-display font-semibold text-white">Brain Dump Sorter</span>
+    </div>
+    <p class="text-slate-500 text-sm">NLP sorter: classify raw dumps into task/idea/emotion for Notion.</p>
+    <p class="text-slate-500 text-sm">© 2026 Brain Dump Sorter. Draft page.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
