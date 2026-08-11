@@ -79,11 +79,11 @@ export default async function HomePage() {
   const tools = (rawTools as Protocol[]) || []
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div data-home-scroll-snap className="min-h-screen bg-black text-white">
       {/* Image-led Hero Section */}
-      <section id="about" className="relative flex min-h-[620px] w-full items-end overflow-hidden bg-black xl:aspect-[2/1] xl:min-h-0">
+      <section data-snap-section id="about" className="relative flex min-h-[620px] w-full items-center overflow-hidden bg-black xl:aspect-video xl:min-h-0">
         <Image
-          src="/images/planet-sor7ed-hero-whatsapp.png"
+          src="/images/planet-sor7ed-hero-whatsapp-16x9.png"
           alt=""
           fill
           preload
@@ -94,8 +94,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
         <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-          <div className="max-w-3xl space-y-6">
-            <div className="h-1 w-16 rounded-full bg-[#C0392B]" />
+          <div className="mx-auto max-w-4xl space-y-6">
             <h1 className="text-5xl font-black uppercase leading-[0.95] tracking-[-0.035em] text-white drop-shadow-lg sm:text-7xl lg:text-8xl">
               Practical tools for neurodivergent life admin.
             </h1>
@@ -109,69 +108,70 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <div className="mb-5 h-1 w-16 rounded-full bg-[#C0392B]" />
-          <h2 className={`${SECTION_HEADING_CLASS} text-white`} style={SECTION_HEADING_STYLE}>
-            How it works
-          </h2>
-        </div>
-
-        <ol className="grid gap-6 md:grid-cols-3">
-          {HOW_IT_WORKS.map((step) => (
-            <li key={step.number} className="mx-auto flex aspect-square w-full max-w-[280px] flex-col items-center justify-center rounded-full border border-[#C0392B]/70 bg-[#141414] p-8 text-center shadow-xl">
-              <span className="text-sm font-bold tracking-[0.2em] text-[#C0392B]">{step.number}</span>
-              <h3
-                className="mt-3 text-4xl font-black uppercase leading-none text-white"
-                style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-              >
-                {step.title}
-              </h3>
-              <p className="mt-3 max-w-[200px] text-sm leading-relaxed text-neutral-300">
-                {step.description}
-              </p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {/* Toolbox Section */}
-      {tools.length > 0 && (
-        <section className="border-y border-neutral-300 bg-[#f0e4cd] text-black">
-          <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div>
-                <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-5" />
-                <h2 className={`${SECTION_HEADING_CLASS} text-black`} style={SECTION_HEADING_STYLE}>
-                  Toolbox
-                </h2>
-              </div>
-              <Link href="/tools" className="text-sm font-bold uppercase tracking-wider text-[#9f2f27] hover:text-black transition-colors underline underline-offset-4">
-                View all tools →
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-              {tools.map((tool) => (
-                <ContentCard
-                  key={tool.slug}
-                  href={getToolRoute(tool.slug)}
-                  title={tool.title}
-                  summary={tool.summary || ''}
-                  coverImage={tool.cover_image}
-                  category={tool.category}
-                  meta={tool.read_time}
-                  compact
-                />
-              ))}
-            </div>
+      <div data-snap-section className="bg-[#f0e4cd] text-black">
+        <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <h2 className={`${SECTION_HEADING_CLASS} text-black`} style={SECTION_HEADING_STYLE}>
+              How it works
+            </h2>
           </div>
+
+          <ol className="grid gap-6 md:grid-cols-3">
+            {HOW_IT_WORKS.map((step) => (
+              <li key={step.number} className="mx-auto flex aspect-square w-full max-w-[280px] flex-col items-center justify-center rounded-full border border-[#C0392B]/70 bg-[#141414] p-8 text-center shadow-xl">
+                <span className="text-sm font-bold tracking-[0.2em] text-[#C0392B]">{step.number}</span>
+                <h3
+                  className="mt-3 text-4xl font-black uppercase leading-none text-white"
+                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                >
+                  {step.title}
+                </h3>
+                <p className="mt-3 max-w-[200px] text-sm leading-relaxed text-neutral-300">
+                  {step.description}
+                </p>
+              </li>
+            ))}
+          </ol>
         </section>
-      )}
+
+        {/* Toolbox Section */}
+        {tools.length > 0 && (
+          <section className="border-b border-neutral-300 bg-[#f0e4cd] text-black">
+            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+              <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div>
+                  <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-5" />
+                  <h2 className={`${SECTION_HEADING_CLASS} text-black`} style={SECTION_HEADING_STYLE}>
+                    Toolbox
+                  </h2>
+                </div>
+                <Link href="/tools" className="text-sm font-bold uppercase tracking-wider text-[#9f2f27] hover:text-black transition-colors underline underline-offset-4">
+                  View all tools →
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                {tools.map((tool) => (
+                  <ContentCard
+                    key={tool.slug}
+                    href={getToolRoute(tool.slug)}
+                    title={tool.title}
+                    summary={tool.summary || ''}
+                    coverImage={tool.cover_image}
+                    category={tool.category}
+                    meta={tool.read_time}
+                    compact
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+      </div>
 
       {/* Guidebook Section */}
       {articles.length > 0 && (
-        <>
+        <div data-snap-section>
           <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
@@ -204,7 +204,7 @@ export default async function HomePage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="h-px bg-[#262626] my-8" />
           </div>
-        </>
+        </div>
       )}
 
     </div>
