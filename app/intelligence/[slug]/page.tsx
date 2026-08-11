@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
 import { ContentHero } from '@/components/ContentHero'
 import { Sor7edButton } from '@/components/buttons/Sor7edButton'
+import { ArticleAudioControls } from '@/components/ArticleAudioControls'
 import type { Protocol } from '@/lib/types/database'
 
 interface Props {
@@ -140,13 +141,11 @@ export default async function ArticlePage({ params }: Props) {
 
       {/* Main Reading Container */}
       <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-        {/* Audio Deep Dive Player */}
-        {audioUrl && (
-          <div className="rounded-2xl border border-neutral-800 bg-[#141414] p-6 shadow-xl space-y-3">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-[#3498DB]">🎧 Listen to the Deep Dive</h3>
-            <audio controls className="w-full" src={audioUrl}>Your browser does not support the audio element.</audio>
-          </div>
-        )}
+        {/* Audio controls — TTS always available, Deep Dive when audio_url exists */}
+        <ArticleAudioControls
+          bodyText={rawBodyText}
+          deepDiveUrl={audioUrl}
+        />
 
         {/* Structured Article Sections with Bold Headings & Generous Spacing */}
         <div className="space-y-14">
@@ -171,11 +170,10 @@ export default async function ArticlePage({ params }: Props) {
 
       {/* End-of-article SOR7ED CTA */}
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="rounded-3xl border border-neutral-800 bg-neutral-950 p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Ready for the next step?</p>
-            <p className="mt-2 text-lg font-semibold text-white">Turn this into action with a tool built for it.</p>
-          </div>
+        <div className="flex items-center justify-between gap-6 border-l-4 border-[#C0392B] pl-6 py-3">
+          <p className="text-sm font-semibold text-neutral-300">
+            Get the full protocol for this.
+          </p>
           <Sor7edButton href="/tools" context="article" />
         </div>
       </div>
