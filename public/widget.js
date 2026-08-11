@@ -30,6 +30,7 @@
     'adhd-tax-calculator': '/adhd-tax-calculator',
     'weekly-wins-generator': '/weekly-wins-generator',
     'biometric-state-tracker': '/biometric-state-tracker',
+    'decision-paralysis-solver': '/decision-paralysis-solver',
   }
 
   function getToolPath(slug) {

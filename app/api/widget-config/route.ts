@@ -26,6 +26,13 @@ const WIDGET_TOOLS = [
     url: 'https://planetsorted.com/biometric-state-tracker',
     category: 'Body',
   },
+  {
+    slug: 'decision-paralysis-solver',
+    label: 'Decision Paralysis Solver',
+    description: 'Framework to clarify options, boost confidence, and break decision paralysis.',
+    url: 'https://planetsorted.com/decision-paralysis-solver',
+    category: 'Mind',
+  },
 ]
 
 export async function GET() {

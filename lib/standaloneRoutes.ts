@@ -7,6 +7,7 @@ export const STANDALONE_ROUTES: Record<string, string> = {
   'adhd-tax-calculator': '/adhd-tax-calculator',
   'weekly-wins-generator': '/weekly-wins-generator',
   'biometric-state-tracker': '/biometric-state-tracker',
+  'decision-paralysis-solver': '/decision-paralysis-solver',
 }
 
 export function getToolRoute(slug: string): string {
