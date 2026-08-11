@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { cookies } from 'next/headers'
 import { createServerClient } from '@/lib/supabase/server'
 import { ContentHero } from '@/components/ContentHero'
 import { Sor7edButton } from '@/components/buttons/Sor7edButton'
@@ -8,6 +9,7 @@ import type { Protocol } from '@/lib/types/database'
 
 interface Props {
   params: Promise<{ slug: string }>
+  searchParams?: Promise<{ access_token?: string }>
 }
 
 interface ArticleSection {
@@ -22,12 +24,10 @@ function parseArticleSections(rawText: string, title?: string): ArticleSection[]
 
   let s = rawText
 
-  // Strip duplicate title prefix if present at start of body text
   if (title && s.toUpperCase().startsWith(title.toUpperCase())) {
     s = s.slice(title.length).trim()
   }
 
-  // Insert explicit section separators before ALL-CAPS titles stuck to sentence endings
   s = s.replace(/([\.!\?])\s*([A-Z\s“”"'\:\-]{5,65})(?=\n|$)/g, '$1\n\n===HEADING===$2\n\n')
   s = s.replace(/([\.!\?])\s*([A-Z][A-Z\s“”"'\:\-]{5,65}\b)/g, '$1\n\n===HEADING===$2\n\n')
 
@@ -94,8 +94,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      images: row.cover_image 
-        ? [{ url: `${SITE}/api/og?image=${encodeURIComponent(row.cover_image)}`, width: 1200, height: 630, type: 'image/png', alt: row.title }] 
+      images: row.cover_image
+        ? [{ url: `${SITE}/api/og?image=${encodeURIComponent(row.cover_image)}`, width: 1200, height: 630, type: 'image/png', alt: row.title }]
         : [],
       url: `${SITE}/intelligence/${slug}`,
       type: 'article',
@@ -109,8 +109,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ArticlePage({ params }: Props) {
+export default async function ArticlePage({ params, searchParams }: Props) {
   const { slug } = await params
+  const resolvedSearchParams = searchParams ? await searchParams : {}
   const supabase = createServerClient()
 
   const { data: rawProtocol } = await supabase
@@ -123,7 +124,7 @@ export default async function ArticlePage({ params }: Props) {
   const protocol = rawProtocol as Protocol | null
   if (!protocol) notFound()
 
-  // Check subscription for Deep Dive gating
+  // Check user session & subscription
   const { data: { session } } = await supabase.auth.getSession()
   let isSubscriber = false
   if (session?.user?.id) {
@@ -136,9 +137,15 @@ export default async function ArticlePage({ params }: Props) {
     isSubscriber = !!entitlement
   }
 
+  // Check access token from WhatsApp link or cookie
+  const cookieStore = await cookies()
+  const cookieToken = cookieStore.get(`sor7ed_access_${slug}`)?.value
+  const queryToken = resolvedSearchParams.access_token
+
+  const isUnlocked = !!(session?.user || cookieToken === 'granted' || queryToken === 'granted')
+
   const audioUrl = protocol.audio_url?.trim() || undefined
   const description = protocol.excerpt?.trim() || protocol.summary?.trim() || protocol.meta_description?.trim()
-  // Parse Notion body text into structured section blocks
   const rawBodyText = protocol.problem || ''
   const sections = parseArticleSections(rawBodyText, protocol.title)
 
@@ -152,34 +159,58 @@ export default async function ArticlePage({ params }: Props) {
         articleMode
       />
 
-      {/* Main Reading Container */}
       <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-        {/* Audio controls — TTS always available, Deep Dive gated to subscribers */}
-        <ArticleAudioControls
-          bodyText={rawBodyText}
-          deepDiveUrl={audioUrl}
-          isSubscriber={isSubscriber}
-        />
+        {isUnlocked ? (
+          <>
+            {/* Audio controls — TTS always available, Deep Dive for subscribers or unlocked */}
+            <ArticleAudioControls
+              bodyText={rawBodyText}
+              deepDiveUrl={audioUrl}
+              isSubscriber={isSubscriber || isUnlocked}
+            />
 
-        {/* Structured Article Sections with Bold Headings & Generous Spacing */}
-        <div className="space-y-14">
-          {sections.map((sec, idx) => (
-            <div key={idx} className="space-y-4">
-              {sec.heading && (
-                <h2
-                  className="text-2xl font-black uppercase tracking-tight text-white sm:text-3xl"
-                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-                >
-                  {sec.heading}
-                </h2>
-              )}
-              <div className="text-base sm:text-lg text-neutral-300 leading-relaxed whitespace-pre-line space-y-5">
-                {sec.text}
-              </div>
+            {/* Full Article Content */}
+            <div className="space-y-14">
+              {sections.map((sec, idx) => (
+                <div key={idx} className="space-y-4">
+                  {sec.heading && (
+                    <h2
+                      className="text-2xl font-black uppercase tracking-tight text-white sm:text-3xl"
+                      style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                    >
+                      {sec.heading}
+                    </h2>
+                  )}
+                  <div className="text-base sm:text-lg text-neutral-300 leading-relaxed whitespace-pre-line space-y-5">
+                    {sec.text}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        ) : (
+          /* Public Preview state for unauthenticated direct visitors */
+          <div className="rounded-3xl border border-neutral-800 bg-neutral-950/80 p-8 sm:p-12 space-y-8 text-center">
+            <div className="space-y-3 max-w-xl mx-auto">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">
+                Unlock Full Protocol &amp; Deep Dive
+              </span>
+              <h2
+                className="text-3xl font-black uppercase text-white sm:text-4xl"
+                style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+              >
+                Get the complete guide sent to your WhatsApp
+              </h2>
+              <p className="text-base text-neutral-300 leading-relaxed">
+                Tap the button below to share the link to your WhatsApp and unlock the full protocol, Deep Dive audio, and complete article experience.
+              </p>
+            </div>
 
+            <div className="flex justify-center pt-2">
+              <Sor7edButton href={`/intelligence/${slug}`} slug={slug} context="article" size="lg" />
+            </div>
+          </div>
+        )}
       </article>
 
       {/* End-of-article SOR7ED CTA */}
@@ -189,7 +220,7 @@ export default async function ArticlePage({ params }: Props) {
           <p className="text-xl font-black uppercase text-white sm:text-2xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             Ready to use this? Tap the button and get your protocol now.
           </p>
-          <Sor7edButton href="/tools" context="article" size="lg" />
+          <Sor7edButton href={`/intelligence/${slug}`} slug={slug} context="article" size="lg" />
         </div>
       </div>
     </div>

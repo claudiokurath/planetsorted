@@ -46,8 +46,7 @@ const WIDGET_TOOLS = [
     description: 'NLP sorter: classify raw dumps into Task, Idea, and Emotion categories for Notion.',
     url: 'https://planetsorted.com/brain-dump-sorter',
     category: 'Mind',
-
- },
+  },
 ]
 
 export async function GET() {
