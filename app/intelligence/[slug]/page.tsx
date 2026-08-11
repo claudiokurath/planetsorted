@@ -123,6 +123,19 @@ export default async function ArticlePage({ params }: Props) {
   const protocol = rawProtocol as Protocol | null
   if (!protocol) notFound()
 
+  // Check subscription for Deep Dive gating
+  const { data: { session } } = await supabase.auth.getSession()
+  let isSubscriber = false
+  if (session?.user?.id) {
+    const { data: entitlement } = await supabase
+      .from('entitlements')
+      .select('status')
+      .eq('user_id', session.user.id)
+      .in('status', ['active', 'trialing'])
+      .maybeSingle()
+    isSubscriber = !!entitlement
+  }
+
   const audioUrl = protocol.audio_url?.trim() || undefined
   const description = protocol.excerpt?.trim() || protocol.summary?.trim() || protocol.meta_description?.trim()
   // Parse Notion body text into structured section blocks
@@ -134,17 +147,18 @@ export default async function ArticlePage({ params }: Props) {
       <ContentHero
         title={protocol.title}
         description={description}
-        coverImage={protocol.cover_image}
         category={protocol.category}
         meta={protocol.read_time}
+        articleMode
       />
 
       {/* Main Reading Container */}
       <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-        {/* Audio controls — TTS always available, Deep Dive when audio_url exists */}
+        {/* Audio controls — TTS always available, Deep Dive gated to subscribers */}
         <ArticleAudioControls
           bodyText={rawBodyText}
           deepDiveUrl={audioUrl}
+          isSubscriber={isSubscriber}
         />
 
         {/* Structured Article Sections with Bold Headings & Generous Spacing */}
@@ -169,12 +183,17 @@ export default async function ArticlePage({ params }: Props) {
       </article>
 
       {/* End-of-article SOR7ED CTA */}
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="flex items-center justify-between gap-6 border-l-4 border-[#C0392B] pl-6 py-3">
-          <p className="text-sm font-semibold text-neutral-300">
-            Get the full protocol for this.
-          </p>
-          <Sor7edButton href="/tools" context="article" />
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pb-24">
+        <div className="border-t border-neutral-800 pt-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
+          <div className="space-y-2">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Protocol</p>
+            <p className="text-xl font-black text-white sm:text-2xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+              Ready to use this? Tap the button and get your protocol now.
+            </p>
+          </div>
+          <div className="shrink-0">
+            <Sor7edButton href="/tools" context="article" />
+          </div>
         </div>
       </div>
     </div>

@@ -7,10 +7,47 @@ interface ContentHeroProps {
   coverImage?: string | null
   category?: string | null
   meta?: string | null
+  /** When true: no image, no card chrome — clean editorial header aligned with article body */
+  articleMode?: boolean
 }
 
-export function ContentHero({ title, description, coverImage, category, meta }: ContentHeroProps) {
+export function ContentHero({ title, description, coverImage, category, meta, articleMode = false }: ContentHeroProps) {
   const categoryStyle = getCategoryStyle(category)
+
+  if (articleMode) {
+    return (
+      <header className="mx-auto max-w-4xl px-4 pb-10 pt-12 sm:px-6 lg:px-8">
+        <div className="space-y-4">
+          {categoryStyle ? (
+            <span className={`inline-block rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider ${categoryStyle.className}`}>
+              {categoryStyle.label}
+            </span>
+          ) : (
+            <div className="h-1 w-12 rounded-full bg-[#C0392B]" />
+          )}
+
+          <h1
+            className="text-3xl font-black uppercase leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
+            style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+          >
+            {title}
+          </h1>
+
+          {description && (
+            <p className="max-w-2xl text-base font-medium leading-relaxed text-neutral-400 sm:text-lg">
+              {description}
+            </p>
+          )}
+
+          {meta && (
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">
+              {meta}
+            </p>
+          )}
+        </div>
+      </header>
+    )
+  }
 
   return (
     <section className="mx-auto max-w-7xl px-4 pb-10 pt-8 sm:px-6 lg:px-8">
