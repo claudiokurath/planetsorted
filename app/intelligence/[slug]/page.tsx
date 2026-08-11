@@ -166,14 +166,14 @@ export default async function ArticlePage({ params }: Props) {
           {sections.map((sec, idx) => (
             <div key={idx} className="space-y-4">
               {sec.heading && (
-                <h3
-                  className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white pb-3 border-b border-neutral-800"
+                <h2
+                  className="text-2xl font-black uppercase tracking-tight text-white sm:text-3xl"
                   style={{ fontFamily: "'Bebas Neue', sans-serif" }}
                 >
                   {sec.heading}
-                </h3>
+                </h2>
               )}
-              <div className="text-lg sm:text-xl text-neutral-200 leading-relaxed font-normal whitespace-pre-line space-y-6">
+              <div className="text-base sm:text-lg text-neutral-300 leading-relaxed whitespace-pre-line space-y-5">
                 {sec.text}
               </div>
             </div>
@@ -184,16 +184,12 @@ export default async function ArticlePage({ params }: Props) {
 
       {/* End-of-article SOR7ED CTA */}
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="border-t border-neutral-800 pt-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
-          <div className="space-y-2">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Protocol</p>
-            <p className="text-xl font-black text-white sm:text-2xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-              Ready to use this? Tap the button and get your protocol now.
-            </p>
-          </div>
-          <div className="shrink-0">
-            <Sor7edButton href="/tools" context="article" />
-          </div>
+        <div className="border-t border-neutral-800 pt-12 space-y-5">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Protocol</p>
+          <p className="text-xl font-black uppercase text-white sm:text-2xl" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+            Ready to use this? Tap the button and get your protocol now.
+          </p>
+          <Sor7edButton href="/tools" context="article" size="lg" />
         </div>
       </div>
     </div>
