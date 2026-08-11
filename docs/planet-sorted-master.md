@@ -118,6 +118,10 @@ Everything below this point in the document describes **Sorted Lab** specificall
 - The homepage uses three vertical snap points: Hero; HOW IT WORKS + TOOLBOX as one combined stop; GUIDEBOOK as the final stop.
 - The sticky navigation height is included in the snap offset. Scroll snapping and smooth scrolling are disabled when the visitor requests reduced motion.
 
+### Global Header
+- The sticky header uses a compact, centred SOR7ED logo on its own top row, with the navigation centred directly underneath.
+- Visible navigation is limited to ABOUT, GUIDEBOOK and TOOLBOX on every screen size. SOUNDS and ACCOUNT are not shown in the header, and the separate phone bottom-tab bar is disabled.
+
 ### Global Disclaimers
 Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant outputs:
 - Planet Sorted provides educational information, templates, and practical tools.
@@ -628,8 +632,9 @@ Run the reverse SQL in the Category Taxonomy section, rename the Notion "Branch"
 ---
 
 ## Version & History
-- **Current Version:** 0.4.13
+- **Current Version:** 0.4.14
 - **Consolidation Date:** 2026-08-11
+- **Notes (0.4.14):** Reduced and centred the header logo, moved navigation into a separate row underneath, limited visible links to ABOUT, GUIDEBOOK and TOOLBOX, and removed the phone bottom-tab bar together with the SOUNDS and ACCOUNT tabs.
 - **Notes (0.4.13):** Replaced the rejected split-screen hero with one simple contained 16:9 image banner at the shared page width, retaining the approved copy as an overlay.
 - **Notes (0.4.12):** Replaced the full-bleed image-overlay homepage hero with a page-width 50/50 split screen: copy on pitch black, artwork in its own panel, and headline typography matched to the other homepage section titles.
 - **Notes (0.4.11):** Moved HOW IT WORKS onto the same continuous beige background as TOOLBOX, removed its decorative red rule, and kept GUIDEBOOK on black.

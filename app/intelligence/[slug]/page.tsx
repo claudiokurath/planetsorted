@@ -126,7 +126,10 @@ export default async function ArticlePage({ params, searchParams }: Props) {
 
   // Check user session & subscription
   const { data: { session } } = await supabase.auth.getSession()
+  const isLoggedIn = !!session?.user
   let isSubscriber = false
+  let whatsappVerified = false
+
   if (session?.user?.id) {
     const { data: entitlement } = await supabase
       .from('entitlements')
@@ -135,6 +138,13 @@ export default async function ArticlePage({ params, searchParams }: Props) {
       .in('status', ['active', 'trialing'])
       .maybeSingle()
     isSubscriber = !!entitlement
+
+    const { data: profile } = await supabase
+      .from('users')
+      .select('whatsapp_verified')
+      .eq('user_id', session.user.id)
+      .single()
+    whatsappVerified = !!profile?.whatsapp_verified
   }
 
   // Check access token from WhatsApp link or cookie
@@ -220,10 +230,10 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                 Want the step-by-step protocol for this?
               </h2>
               <p className="text-base text-neutral-300 leading-relaxed max-w-2xl">
-                Get the complete actionable solution and step-by-step protocol sent directly to your WhatsApp.
+                Tap the button below and we'll send the complete protocol directly to your WhatsApp.
               </p>
             </div>
-            <Sor7edButton href={`/intelligence/${slug}`} slug={slug} context="article" size="lg" />
+            <Sor7edButton slug={slug} context="article" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} size="lg" />
           </section>
         )}
       </main>

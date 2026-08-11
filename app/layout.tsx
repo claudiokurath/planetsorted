@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { SmartNav } from '@/components/SmartNav'
 import { SiteFooter } from '@/components/SiteFooter'
-import { MobileNav } from '@/components/MobileNav'
 
 export const metadata: Metadata = {
   title: 'Planet Sorted',
@@ -54,11 +53,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col pb-16 sm:pb-0">
+      <body className="min-h-full flex flex-col">
         <SmartNav />
         <main className="flex-1">{children}</main>
         <SiteFooter />
-        <MobileNav />
       </body>
     </html>
   )
