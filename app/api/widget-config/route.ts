@@ -40,6 +40,14 @@ const WIDGET_TOOLS = [
     url: 'https://planetsorted.com/financial-autopilot',
     category: 'Wealth',
   },
+  {
+    slug: 'brain-dump-sorter',
+    label: 'Brain Dump Sorter',
+    description: 'NLP sorter: classify raw dumps into Task, Idea, and Emotion categories for Notion.',
+    url: 'https://planetsorted.com/brain-dump-sorter',
+    category: 'Mind',
+
+ },
 ]
 
 export async function GET() {

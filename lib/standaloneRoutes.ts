@@ -9,6 +9,7 @@ export const STANDALONE_ROUTES: Record<string, string> = {
   'biometric-state-tracker': '/biometric-state-tracker',
   'decision-paralysis-solver': '/decision-paralysis-solver',
   'financial-autopilot': '/financial-autopilot',
+  'brain-dump-sorter': '/brain-dump-sorter',
 }
 
 export function getToolRoute(slug: string): string {
