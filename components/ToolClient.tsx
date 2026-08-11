@@ -1,10 +1,11 @@
 import { ContentHero } from '@/components/ContentHero'
 import { Sor7edButton } from '@/components/buttons/Sor7edButton'
-import { getToolRoute } from '@/lib/standaloneRoutes'
 import type { Protocol } from '@/lib/types/database'
 
 interface ToolClientProps {
   toolData: Protocol
+  isLoggedIn: boolean
+  whatsappVerified: boolean
 }
 
 function cleanBlock(block: string) {
@@ -35,9 +36,8 @@ function splitToolSummary(summary?: string | null, fallbackDescription?: string 
   }
 }
 
-export function ToolClient({ toolData }: ToolClientProps) {
+export function ToolClient({ toolData, isLoggedIn, whatsappVerified }: ToolClientProps) {
   const { description, explanation } = splitToolSummary(toolData.summary, toolData.meta_description)
-  const toolHref = getToolRoute(toolData.slug)
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -106,7 +106,7 @@ export function ToolClient({ toolData }: ToolClientProps) {
             <p className="text-sm font-semibold text-neutral-200">
               Ready to use this tool? Tap the button below to share the link to your WhatsApp and open the full app experience.
             </p>
-            <Sor7edButton href={toolHref} slug={toolData.slug} context="page" size="lg" />
+            <Sor7edButton slug={toolData.slug} context="tool" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} size="lg" />
           </div>
         </section>
       </main>

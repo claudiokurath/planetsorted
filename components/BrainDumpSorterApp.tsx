@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { createBrowserClient } from '@/lib/supabase/client'
-import { Sor7edButton } from '@/components/buttons/Sor7edButton'
 
 interface SortedResult {
   tasks: string[]
@@ -173,7 +172,9 @@ export function BrainDumpSorterApp() {
               <a href="#how" className="hover:text-white transition">How it Works</a>
               <a href="#history" className="hover:text-white transition">History Log</a>
             </div>
-            <Sor7edButton href="#sorter" size="md" />
+            <a href="#sorter" className="inline-flex items-center rounded-full border border-sky-500/40 px-5 py-2 text-xs font-bold uppercase tracking-widest text-sky-400 hover:bg-sky-500/10 transition">
+              Use Classifier
+            </a>
           </div>
         </header>
 

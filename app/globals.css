@@ -20,7 +20,7 @@ body {
 
 html:has([data-home-scroll-snap]) {
   scroll-behavior: smooth;
-  scroll-padding-top: 4.5rem;
+  scroll-padding-top: 5rem;
   scroll-snap-type: y mandatory;
 }
 
