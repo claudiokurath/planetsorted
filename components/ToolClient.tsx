@@ -49,27 +49,67 @@ export function ToolClient({ toolData }: ToolClientProps) {
         meta={toolData.read_time}
       />
 
-      <main className="mx-auto max-w-4xl px-4 pb-20 pt-6 sm:px-6 lg:px-8 space-y-10">
+      <main className="mx-auto max-w-4xl px-4 pb-20 pt-6 sm:px-6 lg:px-8 space-y-12">
+        {/* Explanation */}
         {explanation && (
-          <section className="border-l-4 border-[#C0392B] py-2 pl-6 sm:pl-8">
+          <section className="border-l-4 border-[#C0392B] py-2 pl-6 sm:pl-8 space-y-3">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C0392B]">
               About this tool
             </p>
             <h2
-              className="mt-3 text-4xl font-black uppercase leading-none text-white sm:text-5xl"
+              className="text-3xl font-black uppercase leading-none text-white sm:text-4xl"
               style={{ fontFamily: "'Bebas Neue', sans-serif" }}
             >
               What it helps you do
             </h2>
-            <p className="mt-5 text-lg leading-relaxed text-neutral-200 sm:text-xl">
+            <p className="text-base sm:text-lg leading-relaxed text-neutral-300">
               {explanation}
             </p>
           </section>
         )}
 
-        <Sor7edButton href={toolHref} context="page" />
+        {/* Visual App Preview Box */}
+        <section className="rounded-3xl border border-neutral-800 bg-neutral-950/80 p-6 sm:p-8 space-y-6">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold uppercase tracking-widest text-sky-400">
+              ⚡ App Experience Preview
+            </span>
+            <span className="rounded-full bg-neutral-900 border border-neutral-800 px-3 py-1 text-xs text-neutral-400 font-mono">
+              {toolData.category || 'Tool'}
+            </span>
+          </div>
+
+          <div className="rounded-2xl border border-neutral-800 bg-black p-6 space-y-4">
+            <h3 className="text-xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+              {toolData.title} — Full Interactive App
+            </h3>
+            <p className="text-xs text-neutral-400 leading-relaxed">
+              {toolData.protocol || 'Interactive calculations, real-time analytics, instant recommendations, and historical progress logs.'}
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center text-xs pt-2">
+              <div className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-3">
+                <span className="block text-base mb-1">⚡</span>
+                <span className="font-semibold text-white">Instant Results</span>
+              </div>
+              <div className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-3">
+                <span className="block text-base mb-1">📊</span>
+                <span className="font-semibold text-white">Actionable Plan</span>
+              </div>
+              <div className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-3 col-span-2 sm:col-span-1">
+                <span className="block text-base mb-1">📲</span>
+                <span className="font-semibold text-white">Save via WhatsApp</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4 pt-2">
+            <p className="text-sm font-semibold text-neutral-200">
+              Ready to use this tool? Tap the button below to share the link to your WhatsApp and open the full app experience.
+            </p>
+            <Sor7edButton href={toolHref} slug={toolData.slug} context="page" size="lg" />
+          </div>
+        </section>
       </main>
     </div>
   )
 }
-

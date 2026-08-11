@@ -9,16 +9,31 @@ interface Sor7edButtonProps {
   context?: 'page' | 'article'
   /** 'md' = default, 'lg' = larger for prominent CTAs */
   size?: 'md' | 'lg'
+  /** Optional slug for automatic WhatsApp link sharing */
+  slug?: string
 }
 
-export function Sor7edButton({ href, label = 'SOR7ED', context = 'page', size = 'md' }: Sor7edButtonProps) {
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+
+export function Sor7edButton({ href, label = 'SOR7ED', context = 'page', size = 'md', slug }: Sor7edButtonProps) {
   const [pressed, setPressed] = useState(false)
 
   const handlePress = useCallback(() => {
     setPressed(true)
     setTimeout(() => setPressed(false), 200)
-    window.location.href = href
-  }, [href])
+
+    let targetLink = href.startsWith('http') ? href : `${SITE_URL}${href}`
+    if (slug) {
+      targetLink = `${SITE_URL}/r/${slug}`
+    }
+
+    // Automatically share link to WhatsApp without manual keywords
+    const waShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(targetLink)}`
+
+    if (typeof window !== 'undefined') {
+      window.open(waShareUrl, '_blank', 'noopener,noreferrer')
+    }
+  }, [href, slug])
 
   return (
     <div className={`flex flex-col items-start gap-3 ${context === 'article' ? 'mt-12' : ''}`}>
