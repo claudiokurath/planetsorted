@@ -1,5 +1,10 @@
 import { WeeklyWinsApp } from '@/components/WeeklyWinsApp'
 import { getStandaloneMetadata } from '@/lib/standaloneMetadata'
+import { verifyStandaloneAccess } from '@/lib/standaloneGuard'
+
+interface Props {
+  searchParams?: Promise<{ access_token?: string }>
+}
 
 export async function generateMetadata() {
   return getStandaloneMetadata(
@@ -9,6 +14,7 @@ export async function generateMetadata() {
   )
 }
 
-export default function WeeklyWinsGeneratorPage() {
+export default async function WeeklyWinsGeneratorPage({ searchParams }: Props) {
+  await verifyStandaloneAccess('weekly-wins-generator', searchParams)
   return <WeeklyWinsApp />
 }

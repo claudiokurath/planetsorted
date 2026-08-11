@@ -1,5 +1,10 @@
 import { DecisionParalysisApp } from '@/components/DecisionParalysisApp'
 import { getStandaloneMetadata } from '@/lib/standaloneMetadata'
+import { verifyStandaloneAccess } from '@/lib/standaloneGuard'
+
+interface Props {
+  searchParams?: Promise<{ access_token?: string }>
+}
 
 export async function generateMetadata() {
   return getStandaloneMetadata(
@@ -9,6 +14,7 @@ export async function generateMetadata() {
   )
 }
 
-export default function DecisionParalysisPage() {
+export default async function DecisionParalysisPage({ searchParams }: Props) {
+  await verifyStandaloneAccess('decision-paralysis-solver', searchParams)
   return <DecisionParalysisApp />
 }

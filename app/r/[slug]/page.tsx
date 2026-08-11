@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 import { createServerClient } from '@/lib/supabase/server'
+import { STANDALONE_ROUTES } from '@/lib/standaloneRoutes'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -62,33 +64,36 @@ export default async function RichLinkRedirect({ params }: Props) {
   const lowerSlug = slug.toLowerCase()
   const systemItem = SYSTEM_SLUGS[lowerSlug]
 
-  let target: string
   if (systemItem) {
-    target = `${SITE}${systemItem.target}`
-  } else {
-    const supabase = createServerClient()
-    const { data: content } = await supabase
-      .from('protocols')
-      .select('slug, type')
-      .eq('slug', lowerSlug)
-      .eq('status', 'Published')
-      .single()
-
-    if (!content) notFound()
-    target = content.type === 'Tool'
-      ? `${SITE}/tools/${content.slug}`
-      : `${SITE}/intelligence/${content.slug}`
+    redirect(`${SITE}${systemItem.target}`)
   }
 
-  return (
-    <html>
-      <head>
-        <meta httpEquiv="refresh" content={`0;url=${target}`} />
-      </head>
-      <body style={{ background: '#000', color: '#fff', fontFamily: 'sans-serif', padding: '2rem', textAlign: 'center' }}>
-        Opening PLANET SOR7ED…
-      </body>
-    </html>
+  const standalonePath = STANDALONE_ROUTES[lowerSlug]
+  if (standalonePath) {
+    const cookieStore = await cookies()
+    cookieStore.set(`sor7ed_access_${lowerSlug}`, 'granted', {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+    })
+    redirect(`${SITE}${standalonePath}?access_token=granted`)
+  }
+
+  const supabase = createServerClient()
+  const { data: content } = await supabase
+    .from('protocols')
+    .select('slug, type')
+    .eq('slug', lowerSlug)
+    .eq('status', 'Published')
+    .single()
+
+  if (!content) notFound()
+
+  redirect(
+    content.type === 'Tool'
+      ? `${SITE}/tools/${content.slug}`
+      : `${SITE}/intelligence/${content.slug}`
   )
 }
 
