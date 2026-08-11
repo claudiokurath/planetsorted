@@ -33,6 +33,13 @@ const WIDGET_TOOLS = [
     url: 'https://planetsorted.com/decision-paralysis-solver',
     category: 'Mind',
   },
+  {
+    slug: 'financial-autopilot',
+    label: 'Financial Autopilot',
+    description: 'Automate your financial future: savings, debt payoff, and retirement on autopilot.',
+    url: 'https://planetsorted.com/financial-autopilot',
+    category: 'Wealth',
+  },
 ]
 
 export async function GET() {

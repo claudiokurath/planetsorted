@@ -31,6 +31,7 @@
     'weekly-wins-generator': '/weekly-wins-generator',
     'biometric-state-tracker': '/biometric-state-tracker',
     'decision-paralysis-solver': '/decision-paralysis-solver',
+    'financial-autopilot': '/financial-autopilot',
   }
 
   function getToolPath(slug) {
