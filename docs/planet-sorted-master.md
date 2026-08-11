@@ -108,10 +108,15 @@ Everything below this point in the document describes **Sorted Lab** specificall
 - **Headline:** "Practical tools for neurodivergent life admin."
 - **Body:** "PLANET SOR7ED helps you turn overwhelm into one clear, manageable next step — with templates, protocols, and plain-English tools built for brains that already have enough going on."
 - **Closing line:** "No app. No spam. Just what works."
-- **Visual direction:** Full-bleed, edge-to-edge hero using the wide mixed-media collage in the PLANET SOR7ED yellow, red, cyan and pitch-black palette. Preserve the artwork's natural 2:1 ratio on desktop so the full composition remains visible; use a responsive crop only on narrower screens. Text stays aligned to the shared page grid over a dark readability gradient.
+- **Visual direction:** Full-bleed, edge-to-edge 16:9 hero using the wide mixed-media collage in the PLANET SOR7ED yellow, red, cyan and pitch-black palette. The artwork covers the frame with a responsive crop. The left-aligned copy block sits nearer the visual centre of the frame over a dark readability gradient, with no decorative red rule above the headline.
 
 ### Homepage Section Headers
-- "HOW IT WORKS," "TOOLBOX," and "GUIDEBOOK" use the same uppercase Bebas Neue display treatment, responsive size, red rule and left alignment.
+- "HOW IT WORKS," "TOOLBOX," and "GUIDEBOOK" use the same uppercase Bebas Neue display treatment, responsive size and left alignment.
+- HOW IT WORKS has no decorative red rule and shares the continuous beige section background with TOOLBOX; GUIDEBOOK remains on black. TOOLBOX and GUIDEBOOK retain their red rules.
+
+### Homepage Scroll Snap
+- The homepage uses three vertical snap points: Hero; HOW IT WORKS + TOOLBOX as one combined stop; GUIDEBOOK as the final stop.
+- The sticky navigation height is included in the snap offset. Scroll snapping and smooth scrolling are disabled when the visitor requests reduced motion.
 
 ### Global Disclaimers
 Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant outputs:
@@ -623,8 +628,13 @@ Run the reverse SQL in the Category Taxonomy section, rename the Notion "Branch"
 ---
 
 ## Version & History
-- **Current Version:** 0.4.6
+- **Current Version:** 0.4.11
 - **Consolidation Date:** 2026-08-10
+- **Notes (0.4.11):** Moved HOW IT WORKS onto the same continuous beige background as TOOLBOX, removed its decorative red rule, and kept GUIDEBOOK on black.
+- **Notes (0.4.10):** Added homepage-only vertical scroll snapping with three stops: Hero; HOW IT WORKS plus TOOLBOX; and GUIDEBOOK. Added sticky-nav offset handling and a reduced-motion fallback.
+- **Notes (0.4.9):** Moved the homepage hero copy block into the visual centre of the banner, kept its text left-aligned, and removed the red rule above the headline.
+- **Notes (0.4.8):** Replaced the homepage artwork with the supplied 1582×890 version, which natively matches the 16:9 hero frame and therefore requires almost no desktop cropping.
+- **Notes (0.4.7):** Changed the full-width homepage hero frame from 2:1 to 16:9 and kept the artwork in cover mode so it fills the complete banner area.
 - **Notes (0.4.6):** Converted the homepage hero from a constrained rounded card into a full-bleed banner. The image now spans the viewport edge to edge and preserves its natural 2:1 composition on desktop, while the text remains aligned with the main content grid.
 - **Notes (0.4.5):** Standardised the homepage section headers so HOW IT WORKS, TOOLBOX and GUIDEBOOK share the same Bebas Neue typeface, size, red rule spacing and left alignment.
 - **Notes (0.4.4):** Replaced the generated homepage hero artwork with the supplied upscaled WhatsApp collage while retaining the approved hero copy, responsive crop and dark readability overlays. The previous generated image remains in the project as an unused alternative rather than being overwritten.
