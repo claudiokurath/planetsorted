@@ -108,7 +108,7 @@ Everything below this point in the document describes **Sorted Lab** specificall
 - **Headline:** "Practical tools for neurodivergent life admin."
 - **Body:** "PLANET SOR7ED helps you turn overwhelm into one clear, manageable next step — with templates, protocols, and plain-English tools built for brains that already have enough going on."
 - **Closing line:** "No app. No spam. Just what works."
-- **Visual direction:** Full-bleed, edge-to-edge 16:9 hero using the wide mixed-media collage in the PLANET SOR7ED yellow, red, cyan and pitch-black palette. The artwork covers the frame with a responsive crop. The left-aligned copy block sits nearer the visual centre of the frame over a dark readability gradient, with no decorative red rule above the headline.
+- **Visual direction:** A clean 50/50 split-screen hero aligned to the same maximum page width as the sections below. The copy sits on a pitch-black panel and the supplied mixed-media collage fills the adjacent image panel. The headline uses the same uppercase Bebas Neue size and treatment as the homepage section titles. On narrow screens the two panels stack vertically.
 
 ### Homepage Section Headers
 - "HOW IT WORKS," "TOOLBOX," and "GUIDEBOOK" use the same uppercase Bebas Neue display treatment, responsive size and left alignment.
@@ -628,8 +628,9 @@ Run the reverse SQL in the Category Taxonomy section, rename the Notion "Branch"
 ---
 
 ## Version & History
-- **Current Version:** 0.4.11
-- **Consolidation Date:** 2026-08-10
+- **Current Version:** 0.4.12
+- **Consolidation Date:** 2026-08-11
+- **Notes (0.4.12):** Replaced the full-bleed image-overlay homepage hero with a page-width 50/50 split screen: copy on pitch black, artwork in its own panel, and headline typography matched to the other homepage section titles.
 - **Notes (0.4.11):** Moved HOW IT WORKS onto the same continuous beige background as TOOLBOX, removed its decorative red rule, and kept GUIDEBOOK on black.
 - **Notes (0.4.10):** Added homepage-only vertical scroll snapping with three stops: Hero; HOW IT WORKS plus TOOLBOX; and GUIDEBOOK. Added sticky-nav offset handling and a reduced-motion fallback.
 - **Notes (0.4.9):** Moved the homepage hero copy block into the visual centre of the banner, kept its text left-aligned, and removed the red rule above the headline.

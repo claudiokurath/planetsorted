@@ -80,30 +80,32 @@ export default async function HomePage() {
 
   return (
     <div data-home-scroll-snap className="min-h-screen bg-black text-white">
-      {/* Image-led Hero Section */}
-      <section data-snap-section id="about" className="relative flex min-h-[620px] w-full items-center overflow-hidden bg-black xl:aspect-video xl:min-h-0">
-        <Image
-          src="/images/planet-sor7ed-hero-whatsapp-16x9.png"
-          alt=""
-          fill
-          preload
-          sizes="100vw"
-          className="object-cover object-[52%_center] xl:object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
-
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-          <div className="mx-auto max-w-4xl space-y-6">
-            <h1 className="text-5xl font-black uppercase leading-[0.95] tracking-[-0.035em] text-white drop-shadow-lg sm:text-7xl lg:text-8xl">
+      {/* Split Hero Section */}
+      <section data-snap-section id="about" className="bg-black">
+        <div className="mx-auto grid w-full max-w-7xl overflow-hidden border-x border-neutral-900 lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-2">
+          <div className="flex items-center px-4 py-16 sm:px-8 lg:px-12 xl:px-16">
+            <div className="max-w-xl space-y-6">
+              <h1 className={`${SECTION_HEADING_CLASS} text-white`} style={SECTION_HEADING_STYLE}>
               Practical tools for neurodivergent life admin.
-            </h1>
-            <p className="max-w-2xl text-base font-medium leading-relaxed text-neutral-100 drop-shadow sm:text-xl lg:text-2xl">
-              PLANET SOR7ED helps you turn overwhelm into one clear, manageable next step — with templates, protocols, and plain-English tools built for brains that already have enough going on.
-            </p>
-            <p className="text-base font-bold text-white drop-shadow sm:text-lg">
-              No app. No spam. Just what works.
-            </p>
+              </h1>
+              <p className="text-base font-medium leading-relaxed text-neutral-300 sm:text-lg">
+                PLANET SOR7ED helps you turn overwhelm into one clear, manageable next step — with templates, protocols, and plain-English tools built for brains that already have enough going on.
+              </p>
+              <p className="text-base font-bold text-white sm:text-lg">
+                No app. No spam. Just what works.
+              </p>
+            </div>
+          </div>
+
+          <div className="relative min-h-[420px] border-t border-neutral-900 lg:min-h-full lg:border-l lg:border-t-0">
+            <Image
+              src="/images/planet-sor7ed-hero-whatsapp-16x9.png"
+              alt=""
+              fill
+              preload
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover object-[25%_center]"
+            />
           </div>
         </div>
       </section>

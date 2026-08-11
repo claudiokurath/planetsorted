@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decision Paralysis Solver — Clarify. Decide. Execute.</title>
+<meta name="description" content="Break free from decision paralysis. Clarify your options, boost your confidence, and execute — with a readiness assessment, option comparison matrix, quick-decide tools, and a decision journal.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧭</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="top">
+  <div class="header-inner">
+    <a href="#top" class="brand">
+      <span class="brand-icon"><i class="fa-solid fa-compass"></i></span>
+      <span class="brand-text">Decision Paralysis<span class="brand-accent">Solver</span></span>
+    </a>
+    <nav class="main-nav" id="main-nav">
+      <a href="#assessment-section"><i class="fa-solid fa-gauge-high"></i> Assess</a>
+      <a href="#compare-section"><i class="fa-solid fa-scale-balanced"></i> Compare</a>
+      <a href="#quick-decide-section"><i class="fa-solid fa-bolt"></i> Quick Decide</a>
+      <a href="#journal-section"><i class="fa-solid fa-book-open"></i> Journal</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero-section">
+  <div class="hero-bg-shapes" aria-hidden="true">
+    <span class="shape shape-1"></span>
+    <span class="shape shape-2"></span>
+    <span class="shape shape-3"></span>
+  </div>
+  <div class="hero-inner">
+    <p class="eyebrow"><i class="fa-solid fa-sparkles"></i> KEEP GOING</p>
+    <h1>Break free from <span class="highlight">decision paralysis.</span></h1>
+    <p class="hero-sub">Clarify your options, boost your confidence, and execute — with a framework built on real decision science, not gut-flipping alone.</p>
+    <div class="hero-cta">
+      <a href="#assessment-section" class="btn btn-primary"><i class="fa-solid fa-gauge-high"></i> Start the Readiness Check</a>
+      <a href="#quick-decide-section" class="btn btn-ghost"><i class="fa-solid fa-bolt"></i> I just need a quick decision</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">4</span>
+        <span class="stat-label">Signals scored</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">∞</span>
+        <span class="stat-label">Options compared</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">1</span>
+        <span class="stat-label">Confident choice</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+
+<!-- ============ ASSESSMENT SECTION ============ -->
+<section class="section" id="assessment-section">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-tag"><i class="fa-solid fa-gauge-high"></i> Step 1</span>
+      <h2>Decision Readiness Assessment</h2>
+      <p>Answer four quick signals about the decision in front of you. We'll turn them into a clear Decision Confidence Score and tell you exactly what to do next.</p>
+    </div>
+
+    <div class="assessment-grid">
+      <form class="assessment-form card" id="assessment-form">
+        <div class="field-group">
+          <label for="decision-title"><i class="fa-solid fa-pen"></i> What decision are you facing?</label>
+          <input type="text" id="decision-title" placeholder="e.g. Should I take the new job offer?" maxlength="120">
+        </div>
+
+        <div class="field-group">
+          <label for="decision-category"><i class="fa-solid fa-tags"></i> Category</label>
+          <select id="decision-category">
+            <option value="Career">Career</option>
+            <option value="Money & Purchases">Money &amp; Purchases</option>
+            <option value="Relationships">Relationships</option>
+            <option value="Health">Health</option>
+            <option value="Life Direction">Life Direction</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="field-group slider-group">
+          <label for="risk_tolerance">
+            <i class="fa-solid fa-fire"></i> Risk Tolerance
+            <span class="slider-hint">How comfortable are you taking risks in general?</span>
+          </label>
+          <div class="slider-row">
+            <span class="slider-min">Low</span>
+            <input type="range" id="risk_tolerance" min="1" max="10" value="5" step="1">
+            <span class="slider-max">High</span>
+            <span class="slider-value" id="risk_tolerance-value">5</span>
+          </div>
+        </div>
+
+        <div class="field-group slider-group">
+          <label for="impact_magnitude">
+            <i class="fa-solid fa-burst"></i> Potential Impact
+            <span class="slider-hint">How much will this decision change things?</span>
+          </label>
+          <div class="slider-row">
+            <span class="slider-min">Low</span>
+            <input type="range" id="impact_magnitude" min="1" max="10" value="5" step="1">
+            <span class="slider-max">High</span>
+            <span class="slider-value" id="impact_magnitude-value">5</span>
+          </div>
+        </div>
+
+        <div class="field-group slider-group">
+          <label for="information_sufficiency">
+            <i class="fa-solid fa-magnifying-glass-chart"></i> Information Sufficiency
+            <span class="slider-hint">Do you have enough information to decide well?</span>
+          </label>
+          <div class="slider-row">
+            <span class="slider-min">Lacking</span>
+            <input type="range" id="information_sufficiency" min="1" max="10" value="5" step="1">
+            <span class="slider-max">Abundant</span>
+            <span class="slider-value" id="information_sufficiency-value">5</span>
+          </div>
+        </div>
+
+        <div class="field-group toggle-group">
+          <label for="reversibility">
+            <i class="fa-solid fa-arrows-rotate"></i> Is this decision reversible?
+            <span class="slider-hint">Can you undo it or change course later without major cost?</span>
+          </label>
+          <div class="toggle-row">
+            <span id="reversibility-off-label" class="toggle-text">No — one-way door</span>
+            <label class="switch">
+              <input type="checkbox" id="reversibility" checked>
+              <span class="switch-slider"></span>
+            </label>
+            <span id="reversibility-on-label" class="toggle-text active">Yes — two-way door</span>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block" id="calc-btn">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Calculate My Decision Confidence
+        </button>
+      </form>
+
+      <div class="assessment-result card" id="assessment-result">
+        <div class="result-placeholder" id="result-placeholder">
+          <i class="fa-solid fa-compass fa-spin-pulse"></i>
+          <p>Your Decision Confidence Score and personalized guidance will appear here.</p>
+        </div>
+
+        <div class="result-content hidden" id="result-content">
+          <div class="score-ring-wrap">
+            <svg class="score-ring" viewBox="0 0 160 160">
+              <circle class="score-ring-bg" cx="80" cy="80" r="70"></circle>
+              <circle class="score-ring-fg" id="score-ring-fg" cx="80" cy="80" r="70"></circle>
+            </svg>
+            <div class="score-ring-text">
+              <span class="score-num" id="score-num">0</span>
+              <span class="score-max">/100</span>
+            </div>
+          </div>
+          <h3 id="verdict-title">—</h3>
+          <p class="verdict-desc" id="verdict-desc"></p>
+
+          <div class="door-badge" id="door-badge"></div>
+
+          <div class="advice-list" id="advice-list"></div>
+
+          <div class="result-actions">
+            <button class="btn btn-secondary" id="save-decision-btn"><i class="fa-solid fa-floppy-disk"></i> Save to Journal</button>
+            <button class="btn btn-ghost" id="recalc-btn"><i class="fa-solid fa-rotate-left"></i> Adjust Answers</button>
+          </div>
+          <p class="save-confirm hidden" id="save-confirm"><i class="fa-solid fa-circle-check"></i> Saved to your Decision Journal.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARE OPTIONS SECTION ============ -->
+<section class="section section-alt" id="compare-section">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-tag"><i class="fa-solid fa-scale-balanced"></i> Step 2</span>
+      <h2>Clarify Your Options</h2>
+      <p>Stuck between choices? List your options and what matters to you, weigh each criterion, and let the math surface the clear front-runner.</p>
+    </div>
+
+    <div class="card compare-card">
+      <div class="compare-controls">
+        <div class="compare-control-group">
+          <label>Options</label>
+          <div id="options-list" class="chip-list"></div>
+          <div class="chip-add">
+            <input type="text" id="new-option-input" placeholder="Add an option (e.g. Job A)" maxlength="40">
+            <button class="btn btn-small btn-primary" id="add-option-btn"><i class="fa-solid fa-plus"></i> Add</button>
+          </div>
+        </div>
+        <div class="compare-control-group">
+          <label>Criteria &amp; Weights <span class="slider-hint">(1 = barely matters, 5 = critical)</span></label>
+          <div id="criteria-list" class="criteria-list"></div>
+          <div class="chip-add">
+            <input type="text" id="new-criteria-input" placeholder="Add a criterion (e.g. Salary)" maxlength="40">
+            <button class="btn btn-small btn-primary" id="add-criteria-btn"><i class="fa-solid fa-plus"></i> Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="matrix-wrap" id="matrix-wrap">
+        <p class="matrix-empty" id="matrix-empty">Add at least 2 options and 1 criterion to build your comparison matrix.</p>
+      </div>
+
+      <div class="matrix-result hidden" id="matrix-result">
+        <h3><i class="fa-solid fa-trophy"></i> Front-runner</h3>
+        <div class="winner-card" id="winner-card"></div>
+        <div class="ranking-bars" id="ranking-bars"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUICK DECIDE SECTION ============ -->
+<section class="section" id="quick-decide-section">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-tag"><i class="fa-solid fa-bolt"></i> Step 3</span>
+      <h2>Quick Decide Toolkit</h2>
+      <p>For the low-stakes stuff that doesn't deserve a spreadsheet. Pick a tool and move on with your day.</p>
+    </div>
+
+    <div class="quick-grid">
+
+      <div class="card quick-card">
+        <h3><i class="fa-solid fa-coins"></i> Coin Flip</h3>
+        <p>Two options, equal weight. Let physics decide.</p>
+        <div class="coin-wrap">
+          <div class="coin" id="coin">
+            <div class="coin-face coin-heads">HEADS</div>
+            <div class="coin-face coin-tails">TAILS</div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block" id="flip-coin-btn"><i class="fa-solid fa-rotate"></i> Flip the Coin</button>
+        <p class="quick-result" id="coin-result"></p>
+      </div>
+
+      <div class="card quick-card">
+        <h3><i class="fa-solid fa-dharmachakra"></i> Random Picker</h3>
+        <p>Add your options and spin the wheel of fate.</p>
+        <div class="wheel-input">
+          <input type="text" id="wheel-option-input" placeholder="Type an option and press Enter" maxlength="40">
+        </div>
+        <ul class="wheel-list" id="wheel-list"></ul>
+        <button class="btn btn-primary btn-block" id="spin-wheel-btn"><i class="fa-solid fa-shuffle"></i> Pick For Me</button>
+        <p class="quick-result" id="wheel-result"></p>
+      </div>
+
+      <div class="card quick-card">
+        <h3><i class="fa-solid fa-stopwatch"></i> Gut-Check Timer</h3>
+        <p>Say your two options out loud, then answer instinctively before the timer runs out.</p>
+        <div class="gut-check-options">
+          <input type="text" id="gut-option-a" placeholder="Option A" maxlength="30">
+          <input type="text" id="gut-option-b" placeholder="Option B" maxlength="30">
+        </div>
+        <div class="gut-timer" id="gut-timer">5</div>
+        <button class="btn btn-primary btn-block" id="gut-check-btn"><i class="fa-solid fa-play"></i> Start 5-Second Gut Check</button>
+        <p class="quick-result" id="gut-result"></p>
+      </div>
+
+      <div class="card quick-card">
+        <h3><i class="fa-solid fa-clock-rotate-left"></i> 10-10-10 Rule</h3>
+        <p>Zoom out. Will this matter in 10 minutes, 10 months, or 10 years?</p>
+        <div class="ten-ten-ten" id="ten-ten-ten">
+          <div class="ttt-row">
+            <label><i class="fa-solid fa-hourglass-start"></i> In 10 minutes...</label>
+            <textarea rows="2" placeholder="How will you feel about this?"></textarea>
+          </div>
+          <div class="ttt-row">
+            <label><i class="fa-solid fa-calendar-days"></i> In 10 months...</label>
+            <textarea rows="2" placeholder="Will this still matter?"></textarea>
+          </div>
+          <div class="ttt-row">
+            <label><i class="fa-solid fa-seedling"></i> In 10 years...</label>
+            <textarea rows="2" placeholder="Will you even remember this?"></textarea>
+          </div>
+        </div>
+        <p class="quick-hint"><i class="fa-solid fa-lightbulb"></i> If the answer is "no" to all three, stop deliberating — it's a two-minute decision.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ JOURNAL SECTION ============ -->
+<section class="section section-alt" id="journal-section">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-tag"><i class="fa-solid fa-book-open"></i> Step 4</span>
+      <h2>Decision Journal</h2>
+      <p>Every decision you save becomes a data point. Review outcomes later to sharpen your judgment for next time.</p>
+    </div>
+
+    <div class="journal-toolbar">
+      <div class="journal-filter">
+        <button class="filter-chip active" data-filter="All">All</button>
+        <button class="filter-chip" data-filter="Open">Open</button>
+        <button class="filter-chip" data-filter="Decided">Decided</button>
+        <button class="filter-chip" data-filter="Reviewed">Reviewed</button>
+      </div>
+      <button class="btn btn-ghost btn-small" id="refresh-journal-btn"><i class="fa-solid fa-rotate"></i> Refresh</button>
+    </div>
+
+    <div class="journal-list" id="journal-list">
+      <p class="journal-empty" id="journal-empty">No decisions saved yet. Complete a Readiness Assessment above and save it here.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ DECISION DETAIL MODAL ============ -->
+<div class="modal-overlay hidden" id="decision-modal-overlay">
+  <div class="modal card" id="decision-modal">
+    <button class="modal-close" id="modal-close-btn" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-icon"><i class="fa-solid fa-compass"></i></span>
+      <span>Decision Paralysis <span class="brand-accent">Solver</span></span>
+    </div>
+    <p>Clarify options. Boost confidence. Execute. Built to help you decide — not decide for you.</p>
+    <p class="footer-note">This tool offers structured self-reflection prompts and is not a substitute for professional advice on medical, legal, or financial decisions.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

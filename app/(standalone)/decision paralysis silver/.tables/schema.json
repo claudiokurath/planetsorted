@@ -1,0 +1,85 @@
+[
+  {
+    "name": "decisions",
+    "fields": [
+      {
+        "name": "id",
+        "type": "text",
+        "description": "Unique record id"
+      },
+      {
+        "name": "title",
+        "type": "text",
+        "description": "Short name of the decision"
+      },
+      {
+        "name": "category",
+        "type": "text",
+        "description": "Category of decision",
+        "options": [
+          "Career",
+          "Money & Purchases",
+          "Relationships",
+          "Health",
+          "Life Direction",
+          "Other"
+        ]
+      },
+      {
+        "name": "risk_tolerance",
+        "type": "number",
+        "description": "Risk tolerance 1-10"
+      },
+      {
+        "name": "impact_magnitude",
+        "type": "number",
+        "description": "Potential impact 1-10"
+      },
+      {
+        "name": "information_sufficiency",
+        "type": "number",
+        "description": "Information sufficiency 1-10"
+      },
+      {
+        "name": "reversible",
+        "type": "bool",
+        "description": "Whether the decision is reversible"
+      },
+      {
+        "name": "confidence_score",
+        "type": "number",
+        "description": "Computed decision readiness score 0-100"
+      },
+      {
+        "name": "verdict",
+        "type": "text",
+        "description": "Verdict tier label"
+      },
+      {
+        "name": "chosen_option",
+        "type": "text",
+        "description": "The option ultimately chosen, if any"
+      },
+      {
+        "name": "notes",
+        "type": "rich_text",
+        "description": "Free-form notes / context about the decision"
+      },
+      {
+        "name": "status",
+        "type": "text",
+        "description": "Lifecycle status",
+        "options": [
+          "Open",
+          "Decided",
+          "Reviewed"
+        ]
+      },
+      {
+        "name": "outcome",
+        "type": "rich_text",
+        "description": "Outcome / reflection after deciding"
+      }
+    ]
+  }
+]
