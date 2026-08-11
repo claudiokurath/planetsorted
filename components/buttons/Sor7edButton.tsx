@@ -53,18 +53,6 @@ export function Sor7edButton({ href, label = 'SOR7ED', context = 'page' }: Sor7e
             aria-hidden="true"
           />
 
-          {/* Icon — bolt / lightning */}
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="shrink-0 drop-shadow"
-            aria-hidden="true"
-          >
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-          </svg>
-
           <span className="relative z-10 tracking-[0.18em]">{label}</span>
         </button>
       </div>
