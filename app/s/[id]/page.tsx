@@ -14,24 +14,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const { data } = await supabase
     .from('saved_items')
-    .select('title, description, og_image_url, target_url')
+    .select('title, category, url')
     .eq('id', id)
     .single()
 
-  const row = data as SavedItem | null
+  const row = data as Pick<SavedItem, 'title' | 'category' | 'url'> | null
   if (!row) return {}
 
   const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+  const title = row.title ?? 'Saved Item — PLANET SOR7ED'
+  // `saved_items` stores no per-item description or OG image, so fall back to the
+  // category blurb and let the site-level default OG image apply.
+  const description = row.category
+    ? `${row.category} — saved on PLANET SOR7ED.`
+    : 'View this saved protocol on PLANET SOR7ED.'
 
   return {
-    title: row.title ?? 'Saved Item — PLANET SOR7ED',
-    description: row.description ?? 'View this saved protocol on PLANET SOR7ED.',
+    title,
+    description,
     openGraph: {
-      title: row.title ?? 'Saved Item — PLANET SOR7ED',
-      description: row.description ?? 'View this saved protocol on PLANET SOR7ED.',
-      images: row.og_image_url
-        ? [{ url: row.og_image_url, alt: row.title ?? 'Saved Item' }]
-        : [],
+      title,
+      description,
       url: `${site}/s/${id}`,
       siteName: 'PLANET SOR7ED',
       type: 'website',
@@ -48,16 +51,16 @@ export default async function SaveCardPage({ params }: Props) {
   const supabase = createServerClient()
   const { data } = await supabase
     .from('saved_items')
-    .select('target_url')
+    .select('url')
     .eq('id', id)
     .single()
 
-  const row = data as SavedItem | null
+  const row = data as Pick<SavedItem, 'url'> | null
 
-  if (!row?.target_url) {
+  if (!row?.url) {
     // If not found, redirect to / with no error shown
     redirect('/')
   }
 
-  return <RichLinkRedirect targetUrl={row.target_url} />
+  return <RichLinkRedirect targetUrl={row.url} />
 }

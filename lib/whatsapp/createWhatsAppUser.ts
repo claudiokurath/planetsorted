@@ -20,8 +20,8 @@ export async function createWhatsAppUser(phone: string, firstName: string) {
     email: syntheticEmail,
     whatsapp_number: phone,
     whatsapp_verified: true,
-    whatsapp_onboarded: true,
-    whatsapp_onboarded_at: new Date().toISOString(),
+    weekly_opted_in: false,
+    whatsapp_opted_out: false,
   })
   if (userError) throw userError
 
