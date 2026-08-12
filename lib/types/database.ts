@@ -31,28 +31,39 @@ export type Protocol = {
   type?: string                // 'Article' | 'Tool'
 }
 
+// Mirrors the LIVE `public.users` table, not the schema table in the master doc —
+// the two have diverged. Verified against the production schema.
+// Note: `id` is the PK; `user_id` is a nullable, NON-UNIQUE FK to auth.users, so it
+// cannot be used as an upsert `onConflict` target.
 export type User = {
-  user_id: string                   // uuid FK → auth.users
+  id: string                        // uuid PK, default gen_random_uuid()
+  email: string | null              // unique
+  whatsapp_number: string           // NOT NULL, unique — E.164 format
+  created_at: string | null         // timestamptz, default now()
   first_name: string | null
-  email: string | null
-  whatsapp_number: string | null    // E.164 format
-  whatsapp_verified: boolean        // true only after OTP confirmation
-  weekly_opted_in: boolean          // weekly broadcast consent
-  whatsapp_opted_out: boolean       // STOP unsubscribe flag
-  created_at: string                // timestamptz
+  user_id: string | null            // uuid FK → auth.users (nullable, not unique)
+  whatsapp_onboarded: boolean | null       // default false
+  whatsapp_onboarded_at: string | null     // timestamptz
+  wa_verify_code: string | null
+  whatsapp_verified: boolean        // NOT NULL, default false
+  whatsapp_opted_out: boolean       // NOT NULL, default false — STOP unsubscribe flag
+  weekly_opted_in: boolean          // NOT NULL, default false
+  weekly_opted_in_at: string | null
+  last_weekly_sent_at: string | null
+  last_inbound_at: string | null
 }
 
+// Mirrors the LIVE `public.saved_items` table. The master doc describes a richer
+// shape (type/source_id/description/og_image_url/target_url) that does not exist
+// in the database — see the audit notes before relying on those fields.
 export type SavedItem = {
   id: string                        // uuid PK
-  user_id: string                   // uuid FK → auth.users
-  created_at: string                // timestamptz
-  type: 'tool' | 'blog' | 'external'
-  source_id: string | null          // link to protocols / tools
-  source_url: string | null
+  user_id: string | null            // uuid FK → auth.users
+  phone: string | null
+  url: string                       // NOT NULL — the saved target link
   title: string | null
-  description: string | null
-  og_image_url: string | null
-  target_url: string | null
+  category: string | null           // default 'General'
+  saved_at: string | null           // timestamptz, default now()
 }
 
 export type CreditsLedgerEntry = {
@@ -109,14 +120,16 @@ export type Database = {
         Relationships: []
       }
       users: {
+        // Every column except `whatsapp_number` is nullable or has a DB default.
         Row: User
-        Insert: Omit<User, 'created_at'> & { created_at?: string }
+        Insert: Partial<User> & { whatsapp_number: string }
         Update: Partial<User>
         Relationships: []
       }
       saved_items: {
+        // Every column except `url` is nullable or has a DB default.
         Row: SavedItem
-        Insert: Omit<SavedItem, 'id' | 'created_at'> & { id?: string; created_at?: string }
+        Insert: Partial<SavedItem> & { url: string }
         Update: Partial<SavedItem>
         Relationships: []
       }
