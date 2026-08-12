@@ -66,7 +66,11 @@ export async function POST(req: NextRequest) {
     }
 
     if (!updatedRows || updatedRows.length === 0) {
-      const { error: insertError } = await supabase.from('users').insert({
+      // No row for this account yet. Conflict is resolved on `whatsapp_number` (a real
+      // unique constraint) so that verifying a number already claimed by an earlier
+      // WhatsApp-first signup links it to this account instead of failing on the
+      // unique index. `user_id` is nullable and NOT unique, so it can't be the target.
+      const { error: insertError } = await supabase.from('users').upsert({
         user_id: authUser.id,
         first_name: authUser.user_metadata?.first_name || '',
         email: authUser.email || '',
@@ -74,7 +78,7 @@ export async function POST(req: NextRequest) {
         whatsapp_verified: true,
         weekly_opted_in: false,
         whatsapp_opted_out: false,
-      })
+      }, { onConflict: 'whatsapp_number' })
 
       if (insertError) {
         console.error('[OTP DB insert error]', insertError)

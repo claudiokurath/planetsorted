@@ -214,9 +214,9 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
     router.replace('/signup')
   }
 
-  const filteredLibrary = savedItems.filter(item => 
+  const filteredLibrary = savedItems.filter(item =>
     (item.title || '').toLowerCase().includes(libraryFilter.toLowerCase()) ||
-    (item.description || '').toLowerCase().includes(libraryFilter.toLowerCase())
+    (item.category || '').toLowerCase().includes(libraryFilter.toLowerCase())
   )
 
   if (loading) {
@@ -395,13 +395,13 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                     <h3 className="font-bold text-white text-sm hover:text-emerald-400 transition-colors mb-1">
                       {item.title || 'Saved Item'}
                     </h3>
-                    {item.description && (
-                      <p className="text-xs text-gray-400 leading-relaxed mb-4">{item.description}</p>
+                    {item.category && (
+                      <p className="text-xs text-gray-400 leading-relaxed mb-4">{item.category}</p>
                     )}
                   </div>
 
                   <a
-                    href={item.target_url || '#'}
+                    href={item.url || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:underline mt-2"

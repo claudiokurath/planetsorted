@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
       .from('saved_items')
       .select('*')
       .eq('user_id', authUser.id)
-      .order('created_at', { ascending: false })
+      .order('saved_at', { ascending: false })
 
     if (error) {
       console.error('[Saved items fetch error]', error)
