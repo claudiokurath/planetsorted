@@ -70,44 +70,56 @@ async function syncPublishedContent(source: SyncSource) {
     const slug = getText(props['Slug']).trim()
     if (!slug) continue
 
-    const coverProperty = source.type === 'Article' ? props['Cover Image'] : props['Cover Image 1']
-    const coverImage = await getCoverImage(slug, coverProperty)
+    try {
+      const coverProperty = source.type === 'Article' ? props['Cover Image'] : props['Cover Image 1']
+      // getCoverImage returns undefined when the Notion signed URL has expired —
+      // in that case we omit cover_image from the upsert so the existing value is preserved.
+      const coverImage = await getCoverImage(slug, coverProperty)
 
-    const sharedRow = {
-      slug,
-      type: source.type,
-      status: 'Published',
-      summary: getText(props['Summary']),
-      problem: getText(props['Blog Post']),
-      keyword: getText(props['WhatsApp Trigger']),
-      cover_image: coverImage,
-      meta_description: getText(props['Meta Description']),
-      updated_at: new Date().toISOString(),
+      const sharedRow: Record<string, unknown> = {
+        slug,
+        type: source.type,
+        status: 'Published',
+        summary: getText(props['Summary']),
+        problem: getText(props['Blog Post']),
+        keyword: getText(props['WhatsApp Trigger']),
+        meta_description: getText(props['Meta Description']),
+        updated_at: new Date().toISOString(),
+      }
+
+      // Only include cover_image in the upsert when we actually resolved one,
+      // so an expired Notion URL doesn't overwrite a valid Supabase-stored URL.
+      if (coverImage !== undefined) {
+        sharedRow.cover_image = coverImage
+      }
+
+      const row: any = source.type === 'Article'
+        ? {
+            ...sharedRow,
+            title: getText(props['Title']),
+            category: props['Category']?.select?.name ?? '',
+            excerpt: getText(props['Excerpt']),
+            cta: getText(props['CTA']),
+            protocol: getText(props['Protocol']),
+            audio_url: getUrl(props['Deep Dive']),
+            read_time: getText(props['Read Time']),
+            seo_title: getText(props['SEO Title']),
+          }
+        : {
+            ...sharedRow,
+            title: getText(props['Name']),
+            category: mapToolCategory(props['Category 1']?.select?.name),
+            cta: props['CTA Text']?.select?.name ?? '',
+          }
+
+      const { error } = await supabase.from('protocols').upsert(row, { onConflict: 'slug' })
+      if (error) throw error
+
+      publishedSlugs.push(slug)
+    } catch (err) {
+      // Log the failure but don't abort the rest of the batch
+      console.error(`[Notion sync] Failed to sync ${source.type} "${slug}":`, err)
     }
-
-    const row: any = source.type === 'Article'
-      ? {
-          ...sharedRow,
-          title: getText(props['Title']),
-          category: props['Category']?.select?.name ?? '',
-          excerpt: getText(props['Excerpt']),
-          cta: getText(props['CTA']),
-          protocol: getText(props['Protocol']),
-          audio_url: getUrl(props['Deep Dive']),
-          read_time: getText(props['Read Time']),
-          seo_title: getText(props['SEO Title']),
-        }
-      : {
-          ...sharedRow,
-          title: getText(props['Name']),
-          category: mapToolCategory(props['Category 1']?.select?.name),
-          cta: props['CTA Text']?.select?.name ?? '',
-        }
-
-    const { error } = await supabase.from('protocols').upsert(row, { onConflict: 'slug' })
-    if (error) throw error
-
-    publishedSlugs.push(slug)
   }
 
   await unpublishStaleRows(source.type, publishedSlugs)
@@ -157,12 +169,24 @@ async function unpublishStaleRows(type: SyncSource['type'], publishedSlugs: stri
   if (updateError) throw updateError
 }
 
-async function getCoverImage(slug: string, prop: any): Promise<string | null> {
+async function getCoverImage(slug: string, prop: any): Promise<string | null | undefined> {
   const firstFile = prop?.files?.[0]
+  // No file property set in Notion — store null
   if (!firstFile) return null
 
   if (firstFile.type === 'external') return firstFile.external.url
-  if (firstFile.type === 'file') return syncCoverImage(slug, firstFile.file.url)
+
+  if (firstFile.type === 'file') {
+    try {
+      return await syncCoverImage(slug, firstFile.file.url)
+    } catch (err) {
+      // Notion's signed S3 URLs expire quickly. Return undefined so the caller
+      // skips updating cover_image and preserves whatever is already in the DB.
+      console.warn(`[Notion sync] Cover image download failed for "${slug}" (URL may have expired):`, err)
+      return undefined
+    }
+  }
+
   return null
 }
 
