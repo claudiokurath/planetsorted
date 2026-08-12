@@ -1,8 +1,13 @@
-import { createClient } from '@supabase/supabase-js'
+import { createBrowserClient as createSSRBrowserClient } from '@supabase/ssr'
 import type { Database } from '@/lib/types/database'
 
+/**
+ * Browser-side Supabase client.
+ * Uses @supabase/ssr so session cookies are automatically written to the browser
+ * after magic link login — making the session readable by server components too.
+ */
 export function createBrowserClient() {
-  return createClient(
+  return createSSRBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )

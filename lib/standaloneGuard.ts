@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { createServerClient } from '@/lib/supabase/server'
+import { createSessionClient } from '@/lib/supabase/server'
 
 export async function verifyStandaloneAccess(
   slug: string,
@@ -9,10 +9,10 @@ export async function verifyStandaloneAccess(
   // Resolved search params if Promise
   const resolvedParams = searchParams instanceof Promise ? await searchParams : searchParams
 
-  // 1. Check logged-in user session
-  const supabase = createServerClient()
-  const { data: { session } } = await supabase.auth.getSession()
-  if (session?.user) {
+  // 1. Check logged-in user session (cookie-aware client)
+  const supabase = await createSessionClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (user) {
     return true
   }
 
@@ -28,3 +28,4 @@ export async function verifyStandaloneAccess(
   // 3. Unauthenticated direct visitor without WhatsApp token -> redirect to /tools/[slug]
   redirect(`/tools/${slug}`)
 }
+
