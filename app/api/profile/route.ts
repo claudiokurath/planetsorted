@@ -28,7 +28,10 @@ export async function GET(req: NextRequest) {
     }
 
     if (!profile) {
-      // Create a default profile row if it doesn't exist yet
+      // `users.whatsapp_number` is NOT NULL and unique, so a row cannot be created
+      // for a web-only signup — there is no number to store yet. The row is created
+      // when the user verifies a WhatsApp number (see /api/whatsapp/verify-otp).
+      // Until then serve an in-memory default so the dashboard still renders.
       const defaultProfile = {
         user_id: authUser.id,
         first_name: authUser.user_metadata?.first_name || '',
@@ -38,15 +41,6 @@ export async function GET(req: NextRequest) {
         weekly_opted_in: false,
         whatsapp_opted_out: false,
         created_at: new Date().toISOString()
-      }
-
-      const { error: insertError } = await supabase
-        .from('users')
-        .insert(defaultProfile)
-
-      if (insertError) {
-        console.error('[Default profile insert error]', insertError)
-        return NextResponse.json({ error: 'Failed to initialize profile' }, { status: 500 })
       }
 
       // Best-effort — a Notion hiccup should never block dashboard access.
@@ -91,11 +85,20 @@ export async function POST(req: NextRequest) {
       })
       .eq('user_id', authUser.id)
       .select()
-      .single()
+      .maybeSingle()
 
     if (error) {
       console.error('[Profile update error]', error)
       return NextResponse.json({ error: 'Failed to update settings.' }, { status: 500 })
+    }
+
+    if (!updatedProfile) {
+      // No profile row yet — see the GET handler above for why one cannot exist
+      // before a WhatsApp number is verified.
+      return NextResponse.json(
+        { error: 'Please verify your WhatsApp number before saving your settings.' },
+        { status: 409 }
+      )
     }
 
     return NextResponse.json(updatedProfile)
