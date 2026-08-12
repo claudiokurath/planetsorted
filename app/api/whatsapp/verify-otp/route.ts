@@ -45,21 +45,41 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // 1. Update/Upsert the user profile row in the `users` table
-    const { error: dbError } = await supabase
+    // 1. Update the user profile row in the `users` table.
+    //    `update` rather than `upsert`: an upsert of a partial row would reset
+    //    weekly_opted_in / first_name to defaults every time an existing user
+    //    re-verifies their number. `.select()` lets us detect the no-row case,
+    //    which a bare update would silently report as success.
+    const { data: updatedRows, error: dbError } = await supabase
       .from('users')
-      .upsert({
-        user_id: authUser.id,
-        email: authUser.email || '',
+      .update({
         whatsapp_number: pendingNumber,
         whatsapp_verified: true,
         whatsapp_opted_out: false,
-        created_at: new Date().toISOString()
-      }, { onConflict: 'user_id' })
+      })
+      .eq('user_id', authUser.id)
+      .select('user_id')
 
     if (dbError) {
       console.error('[OTP DB update error]', dbError)
       return NextResponse.json({ error: 'Failed to update user profile' }, { status: 500 })
+    }
+
+    if (!updatedRows || updatedRows.length === 0) {
+      const { error: insertError } = await supabase.from('users').insert({
+        user_id: authUser.id,
+        first_name: authUser.user_metadata?.first_name || '',
+        email: authUser.email || '',
+        whatsapp_number: pendingNumber,
+        whatsapp_verified: true,
+        weekly_opted_in: false,
+        whatsapp_opted_out: false,
+      })
+
+      if (insertError) {
+        console.error('[OTP DB insert error]', insertError)
+        return NextResponse.json({ error: 'Failed to update user profile' }, { status: 500 })
+      }
     }
 
     // 2. Clear OTP metadata from auth user
