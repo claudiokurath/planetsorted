@@ -272,7 +272,7 @@ export function FinancialAutopilotApp() {
             <div>
               <span className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wider"
                 style={{ borderColor: 'rgba(34,211,196,0.3)', background: 'rgba(34,211,196,0.05)', color: '#22d3c4' }}>
-                ✨ Spend Smart · Personal Finance System
+                ✨ Automated Finance Engine
               </span>
               <h1 className="mt-6 text-4xl font-black leading-tight sm:text-5xl" style={{ fontFamily: 'Inter, sans-serif' }}>
                 Put Your Money on{' '}
