@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { safeNext } from '@/lib/safeNext'
 
 // Supabase sends magic links in one of two formats:
 //   - PKCE flow:     /auth/callback?code=xxx         (server can see the code)
@@ -12,7 +13,8 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function GET(req: NextRequest) {
   const { searchParams, origin } = new URL(req.url)
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/dashboard'
+  // Only ever forward a same-site path — see lib/safeNext.ts
+  const next = safeNext(searchParams.get('next'))
 
   // Always go to the client-side confirm page — it handles both PKCE and implicit flow
   const confirmUrl = new URL(`${origin}/auth/confirm`)
