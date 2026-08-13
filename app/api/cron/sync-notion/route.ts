@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js'
 const notion = new Client({ auth: process.env.NOTION_SECRET })
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
 
-const LEGACY_TOOL_CATEGORIES: Record<string, string> = {
+const LEGACY_CATEGORIES: Record<string, string> = {
   'Keep Going': 'Mind',
   'Spend Smart': 'Wealth',
   'Feel Good': 'Body',
@@ -97,7 +97,7 @@ async function syncPublishedContent(source: SyncSource) {
         ? {
             ...sharedRow,
             title: getText(props['Title']),
-            category: props['Category']?.select?.name ?? '',
+            category: mapCategory(props['Category']?.select?.name),
             excerpt: getText(props['Excerpt']),
             cta: getText(props['CTA']),
             protocol: getText(props['Protocol']),
@@ -108,7 +108,7 @@ async function syncPublishedContent(source: SyncSource) {
         : {
             ...sharedRow,
             title: getText(props['Name']),
-            category: mapToolCategory(props['Category 1']?.select?.name),
+            category: mapCategory(props['Category 1']?.select?.name),
             cta: props['CTA Text']?.select?.name ?? '',
           }
 
@@ -205,9 +205,12 @@ async function syncCoverImage(slug: string, notionUrl: string): Promise<string> 
   return supabase.storage.from('public').getPublicUrl(path).data.publicUrl
 }
 
-function mapToolCategory(category?: string): string {
+// Applied to Articles and Tools alike: a retired descriptive name left on any
+// Notion row is normalised to the one-word taxonomy before it reaches the
+// `category` column, so retired names can never become database values.
+function mapCategory(category?: string): string {
   if (!category) return ''
-  return LEGACY_TOOL_CATEGORIES[category] ?? category
+  return LEGACY_CATEGORIES[category] ?? category
 }
 
 function getUrl(prop: any): string | null {
