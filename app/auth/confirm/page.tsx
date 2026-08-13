@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { safeNext } from '@/lib/safeNext'
 
 // This page handles BOTH Supabase auth flows:
 //
@@ -21,7 +22,9 @@ function AuthConfirm() {
 
   useEffect(() => {
     const code = searchParams.get('code')
-    const next = searchParams.get('next') ?? '/dashboard'
+    // Re-sanitise here too: this page can be opened directly, not just via
+    // /auth/callback, so it cannot rely on the caller having checked.
+    const next = safeNext(searchParams.get('next'))
     const supabase = createBrowserClient()
 
     async function handleAuth() {
