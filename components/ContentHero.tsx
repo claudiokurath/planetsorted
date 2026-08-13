@@ -21,6 +21,11 @@ export function ContentHero({ title, description, coverImage, category, meta, ar
           {categoryStyle ? (
             <span className={`inline-block rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider ${categoryStyle.className}`}>
               {categoryStyle.label}
+              {categoryStyle.tagline && (
+                <span className="ml-1 font-normal normal-case text-neutral-400">
+                  • {categoryStyle.tagline}
+                </span>
+              )}
             </span>
           ) : (
             <div className="h-1 w-12 rounded-full bg-[#C0392B]" />
@@ -71,6 +76,11 @@ export function ContentHero({ title, description, coverImage, category, meta, ar
           {categoryStyle ? (
             <span className={`inline-block rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider ${categoryStyle.className}`}>
               {categoryStyle.label}
+              {categoryStyle.tagline && (
+                <span className="ml-1 font-normal normal-case text-neutral-400">
+                  • {categoryStyle.tagline}
+                </span>
+              )}
             </span>
           ) : (
             <div className="h-1 w-16 rounded-full bg-[#C0392B]" />
