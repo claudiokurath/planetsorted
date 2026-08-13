@@ -39,6 +39,11 @@ export function ContentCard({ href, title, summary, coverImage, meta, category, 
             <div>
               <span className={`${compact ? 'mb-2' : 'mb-3'} inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${style.className}`}>
                 {style.label}
+                {style.tagline && (
+                  <span className="ml-1 font-normal normal-case text-neutral-400">
+                    • {style.tagline}
+                  </span>
+                )}
               </span>
             </div>
           )}
