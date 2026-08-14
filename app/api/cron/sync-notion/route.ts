@@ -1,9 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Client } from '@notionhq/client'
 import { createClient } from '@supabase/supabase-js'
+import type { Database } from '@/lib/types/database'
 
-const notion = new Client({ auth: process.env.NOTION_SECRET })
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+export const dynamic = 'force-dynamic'
+
+let _notion: Client | null = null
+function getNotion(): Client {
+  if (!_notion) _notion = new Client({ auth: process.env.NOTION_SECRET })
+  return _notion
+}
+
+let _supabase: ReturnType<typeof createClient<Database>> | null = null
+function getSupabase() {
+  if (!_supabase) _supabase = createClient<Database>(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+  return _supabase
+}
 
 const LEGACY_CATEGORIES: Record<string, string> = {
   'Keep Going': 'Mind',
@@ -112,7 +124,7 @@ async function syncPublishedContent(source: SyncSource) {
             cta: props['CTA Text']?.select?.name ?? '',
           }
 
-      const { error } = await supabase.from('protocols').upsert(row, { onConflict: 'slug' })
+      const { error } = await getSupabase().from('protocols').upsert(row, { onConflict: 'slug' })
       if (error) throw error
 
       publishedSlugs.push(slug)
@@ -131,7 +143,7 @@ async function queryAllPublishedPages(databaseId: string) {
   let startCursor: string | undefined
 
   do {
-    const response = await notion.databases.query({
+    const response = await getNotion().databases.query({
       database_id: databaseId,
       filter: { property: 'Status', status: { equals: 'Published' } },
       start_cursor: startCursor,
@@ -146,7 +158,7 @@ async function queryAllPublishedPages(databaseId: string) {
 }
 
 async function unpublishStaleRows(type: SyncSource['type'], publishedSlugs: string[]) {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from('protocols')
     .select('slug')
     .eq('type', type)
@@ -161,7 +173,7 @@ async function unpublishStaleRows(type: SyncSource['type'], publishedSlugs: stri
 
   if (staleSlugs.length === 0) return
 
-  const { error: updateError } = await supabase
+  const { error: updateError } = await getSupabase()
     .from('protocols')
     .update({ status: 'Draft', updated_at: new Date().toISOString() })
     .in('slug', staleSlugs)
@@ -197,12 +209,12 @@ async function syncCoverImage(slug: string, notionUrl: string): Promise<string> 
 
   const buffer = await response.arrayBuffer()
   const contentType = response.headers.get('content-type') ?? 'image/jpeg'
-  const { error } = await supabase.storage
+  const { error } = await getSupabase().storage
     .from('public')
     .upload(path, buffer, { contentType, upsert: true })
 
   if (error) throw error
-  return supabase.storage.from('public').getPublicUrl(path).data.publicUrl
+  return getSupabase().storage.from('public').getPublicUrl(path).data.publicUrl
 }
 
 // Applied to Articles and Tools alike: a retired descriptive name left on any

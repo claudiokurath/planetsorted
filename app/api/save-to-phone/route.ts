@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@/lib/supabase/server'
+import { createServerClient, createSessionClient } from '@/lib/supabase/server'
 import { sendWhatsAppMessage, sendWhatsAppAudio } from '@/lib/whatsapp/send'
 import { splitIntoChunks } from '@/lib/whatsapp/splitIntoChunks'
 
@@ -8,13 +8,18 @@ const SAFE_LIMIT = 3500
 
 export async function POST(req: NextRequest) {
   try {
-    const supabase = createServerClient()
-    const { data: { user } } = await supabase.auth.getUser()
+    // Identify the caller from their session cookies — a service-role client
+    // (createServerClient) carries no session, so getUser() on it always
+    // resolves to null. Same fix already applied in send-protocol-link/route.ts.
+    const session = await createSessionClient()
+    const { data: { user } } = await session.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
 
     const { slug, includeLink = false } = await req.json()
     if (!slug) return NextResponse.json({ error: 'Missing slug' }, { status: 400 })
 
+    // Service-role client for the reads below, now that we know who is asking.
+    const supabase = createServerClient()
     const { data: profile } = await supabase
       .from('users')
       .select('whatsapp_number, whatsapp_verified, whatsapp_opted_out')
