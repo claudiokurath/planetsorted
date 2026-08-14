@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import type { Session } from '@supabase/supabase-js'
@@ -24,7 +24,7 @@ type VerifyState = 'unverified' | 'otp_sent' | 'verified'
 
 export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
   const router = useRouter()
-  const supabase = createBrowserClient()
+  const supabase = useMemo(() => createBrowserClient(), [])
 
   const [activeTab, setActiveTab] = useState<Tab>('tools')
   const [loading, setLoading] = useState(true)
@@ -123,7 +123,12 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
     })
 
     return () => subscription.unsubscribe()
-  }, [fetchProfile, fetchSavedItems, router, supabase.auth])
+    // Intentionally runs once on mount only. fetchProfile/fetchSavedItems are
+    // recreated whenever `session` changes (which this effect itself sets),
+    // so depending on their identity here re-triggers this effect forever —
+    // that was the cause of the infinite /user request loop.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function handleProfileSave(e: React.FormEvent) {
     e.preventDefault()
@@ -234,7 +239,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       <div className="flex min-h-[60vh] items-center justify-center">
         <div className="flex items-center gap-3 rounded-2xl border border-gray-800 bg-gray-900/80 px-6 py-4 shadow-xl backdrop-blur-xl">
           <span className="h-3 w-3 rounded-full bg-emerald-400 animate-ping" />
-          <span className="text-sm font-medium text-gray-300">Loading your Sorted Lab...</span>
+          <span className="text-sm font-medium text-gray-300">Loading your account...</span>
         </div>
       </div>
     )

@@ -125,7 +125,7 @@ export default async function UpgradePage() {
   return (
     <div className="mx-auto max-w-md px-6 py-20 space-y-8 font-sans">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-extrabold text-gray-900">Sorted Lab Plus</h1>
+        <h1 className="text-3xl font-extrabold text-gray-900">PLANET SOR7ED Plus</h1>
         <p className="text-lg font-bold text-green-600">£5.99/month or £49/year</p>
       </div>
 

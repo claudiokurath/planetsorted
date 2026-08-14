@@ -51,7 +51,7 @@ export function SignupForm() {
         <h1 className="mb-2 text-2xl font-black text-white">Check your email</h1>
         <p className="text-sm text-gray-400 leading-relaxed">
           We&apos;ve sent a magic sign-in link to <strong className="text-emerald-400 font-mono">{email}</strong>.
-          Click it to access your Sorted Lab account — no password needed.
+          Click it to access your PLANET SOR7ED account — no password needed.
         </p>
         <p className="mt-6 text-xs text-gray-500">
           Didn&apos;t get it? Check your spam folder, or{' '}
