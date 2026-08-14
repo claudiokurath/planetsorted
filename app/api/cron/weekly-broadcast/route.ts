@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
 
     const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
     const linkUrl = `${site}/r/${protocol.slug}`
-    const messageBody = `*${protocol.title}*\n\n${protocol.summary || 'A new protocol from Sorted Lab.'}\n\nGet it sorted here 👇\n${linkUrl}`
+    const messageBody = `*${protocol.title}*\n\n${protocol.summary || 'A new protocol from PLANET SOR7ED.'}\n\nGet it sorted here 👇\n${linkUrl}`
 
     let successCount = 0
 
