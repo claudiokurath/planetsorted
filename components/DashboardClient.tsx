@@ -268,9 +268,20 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-10">
-      {/* Welcome Card */}
-      <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-gradient-to-br from-neutral-950 to-black shadow-2xl mb-10 min-h-[220px] sm:min-h-[260px] flex items-center p-6 sm:p-10">
-        <div className="relative z-10 w-full flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
+      {/* Account Banner */}
+      <div className="relative mb-10 flex min-h-[520px] w-full items-center overflow-hidden md:aspect-video md:min-h-0">
+        <Image
+          src="/images/account-background.png"
+          alt=""
+          fill
+          preload
+          sizes="(min-width: 1280px) 1280px, 100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/5" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/20" />
+
+        <div className="relative z-10 flex w-full flex-col justify-between gap-8 px-6 py-14 sm:px-10 md:flex-row md:items-center lg:px-16">
           <div>
             <div className="flex items-center gap-3 mb-2">
               <span className="h-0.5 w-8 rounded-full bg-[#C0392B]" />

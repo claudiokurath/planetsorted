@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import { DashboardClient } from '@/components/DashboardClient'
 import { createServerClient } from '@/lib/supabase/server'
 
@@ -23,20 +22,8 @@ export default async function DashboardPage() {
   const tools = rawTools || []
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black text-white">
-      <div className="fixed inset-0" aria-hidden="true">
-        <Image
-          src="/images/account-background.png"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-black/55" />
-      </div>
-
-      <div className="relative z-10 flex min-h-screen items-start justify-center px-4 pt-10 pb-20">
+    <main className="min-h-screen bg-black text-white">
+      <div className="flex min-h-screen items-start justify-center px-4 pt-10 pb-20">
         <div className="w-full max-w-7xl">
           <DashboardClient tools={tools} />
         </div>
