@@ -9,7 +9,7 @@
 - [Category Taxonomy](#category-taxonomy)
 - [The Two-Layer Model](#the-two-layer-model)
 - [WhatsApp as Remote Control](#whatsapp-as-remote-control)
-- [The GET IT SORTED Button](#the-get-it-sorted-button)
+- [The SOR7ED Button](#the-sor7ed-button)
 - [Sorted Lab — Standard Results Page (Tool OS)](#sorted-lab--standard-results-page-tool-os)
 - [Sorted Lab — Featured & Priority Tools](#sorted-lab--featured--priority-tools)
 - [Monetization & Paywall Rules](#monetization--paywall-rules)
@@ -194,7 +194,7 @@ WhatsApp is NOT the delivery channel. The website delivers the value. WhatsApp l
 
 What must always be true:
 - Every WhatsApp reply can deep-link to a specific web screen.
-- Every web screen has a "GET IT SORTED" button to continue in WhatsApp.
+- Every web screen has a SOR7ED send-to-WhatsApp button to continue in WhatsApp.
 - Users can always text: MENU / HELP / LOGIN / STOP / START / STOPWEEKLY / STARTWEEKLY.
 
 ---
@@ -232,26 +232,34 @@ Inside `/dashboard`, logged-in users with a verified WhatsApp number get a separ
 
 ---
 
-## The GET IT SORTED Button
+## The SOR7ED Button
 
-**Temporary design state (10 August 2026):** the public-page GET IT SORTED CTA and its surrounding "Want the solution?" box are hidden on article and tool detail pages while the replacement SOR7ED send control is being designed. Do not restore the old box or its copy without an explicit instruction.
+**Correction (14 August 2026):** this section previously described `GetSortedButton.tsx` as the live button, "temporarily not rendered." That was already stale — verified directly against the running code, not against this doc. `GetSortedButton.tsx` is **not rendered anywhere** and has not been for some time. It is dead code, confirmed by grep across every `.tsx` file in the app. Per explicit instruction, it is to be deleted (`git rm components/buttons/GetSortedButton.tsx`) — not yet done, since file deletion is deliberately left to a human `git rm`, not run automatically. **Do not treat `GetSortedButton.tsx` as the current button or restore it to any page.**
 
-The underlying `GetSortedButton` component and WhatsApp command behaviour remain available for the future replacement: a `wa.me` deep link with the content keyword pre-filled (`SAVE [slug]` / `RUN [slug]`), followed by a rich-link response from the webhook. The component itself is retained unchanged.
+**The actual live button is `Sor7edButton.tsx`**, rendered on every article page (`app/intelligence/[slug]/page.tsx`) and every tool page (`components/ToolClient.tsx`). It has three states:
+- Not signed in → "SOR7ED — SIGN IN FIRST" → `/signup?next=<returnPath>`.
+- Signed in, WhatsApp not verified → "CONNECT WHATSAPP →" → `/dashboard?tab=settings`. **Known bug:** `DashboardClient.tsx` does not read the `?tab=` query param, so this always opens on the Tools tab, not Settings — the user has to click Settings themselves. Not fixed yet.
+- Signed in + WhatsApp verified → "SOR7ED" button → `POST /api/save-to-phone` → sends the rich link + full protocol text (+ audio, if present) via the Meta API.
 
-**Context-specific copy:**
-- Article page: "Tap to open WhatsApp — keyword pre-filled. Hit send and the full protocol comes straight back."
-- Tool page: "Text this to run the tool and save your result"
-- Result page: "Save your result to WhatsApp to come back to it later"
+This is a **sign-in + verification gated** flow — the opposite of what the 0.4.1 changelog entry below describes fixing (`GetSortedButton` was meant to be the *ungated*, no-signup `wa.me` replacement). Whether `Sor7edButton`'s gated flow is the intended current design or unintentional drift back toward the pre-0.4.1 problem has not been resolved — flag before changing either way.
 
-**Public detail-page layout during the temporary state:**
-- Tool: dark-overlay image banner with title + short description, followed by one compact Summary explanation. No form, result UI, CTA, or protocol box.
-- Article: dark-overlay image banner with title + description, followed by the public `Blog Post` content. No CTA or protocol box.
+**A third, separate thing exists and must not be confused with the above:** `public/widget.js` + `app/api/widget-config/route.ts` is the "SOR7ED BUTTON" **partner widget** — a real, working, self-contained embeddable script (`<script src="https://planetsorted.com/widget.js" data-tool="...">`) meant for *third-party* sites, not Sorted Lab's own pages. Removed from this site's own root layout back in 0.4.1 for exactly that reason (see changelog). As it stands today, clicking it only opens the matching tool page on planetsorted.com in a new tab — **it does not collect a WhatsApp number, does not know about "partners," and stores nothing.** It is currently embedded nowhere, live nowhere.
+
+**The real vision for that widget, per the founder (14 August 2026):** a standalone, licensable product — other websites embed the button, it collects their visitors' WhatsApp numbers, and those numbers/leads belong to that partner site (something other businesses would pay to install). This does not exist yet in any form. Building it is a genuinely large, separate build (partner accounts, per-partner data model, WhatsApp Business template-message compliance, billing) — not a small addition to the current widget.
+
+**Also found this session, for context — do not conflate with the above:** a separate, complete, historical Next.js project exists locally at `~/Desktop/Private & Shared/sor7ed-app-fresh` (469 commits, last touched 18 April 2026, currently behind a "Coming Soon" redirect). It represents an earlier product direction — password auth, the retired 7-domains structure, a Twilio+n8n WhatsApp bot — superseded by this repo's current direction. Decision made: not revived as a competing live site; may be mined later for reusable pieces (5 additional standalone tools it contains that don't exist here: Dopamine Menu, Decision Clarity Tool, Sensory Audit, Spoon Theory Tracker, Time Blindness Calculator).
+
+**Public detail-page layout, still in the temporary minimal state first noted 10 August 2026:**
+- Tool: dark-overlay image banner with title + short description, followed by one compact Summary explanation, followed by the `Sor7edButton` described above.
+- Article: dark-overlay image banner with title + description, followed by the public `Blog Post` content, followed by the `Sor7edButton` described above.
 
 **Key files:**
-- `components/buttons/GetSortedButton.tsx` — retained, immutable `wa.me` deep-link component; temporarily not rendered on public article/tool detail pages.
+- `components/buttons/Sor7edButton.tsx` — the actual live button on public article/tool pages. See states above.
+- `components/buttons/GetSortedButton.tsx` — dead code, unused, pending deletion. Do not build on this file.
+- `public/widget.js` + `app/api/widget-config/route.ts` — the separate partner-widget product. Real, working, currently embedded nowhere. Not the same thing as `Sor7edButton`.
 - `components/ContentHero.tsx` — shared dark-overlay banner for article and tool detail pages.
 - `components/SaveToPhoneButton.tsx` — separate, dashboard-only smart button (wa.me fallback / silent API push for verified users). No longer used on public post pages — see [Save-to-Phone (dashboard only)](#whatsapp-as-remote-control).
-- `app/api/save-to-phone/route.ts` — authenticated push to user's WhatsApp, used only by the dashboard button above.
+- `app/api/save-to-phone/route.ts` — authenticated push to user's WhatsApp, used by both the dashboard button above and `Sor7edButton`'s verified-send state.
 
 ---
 
@@ -330,7 +338,8 @@ Notion (CMS)
 Supabase `protocols` table
    ↓  Next.js reads
 Planet Sorted website — Sorted Lab (articles + tools + result pages)
-   ↓  GET IT SORTED button
+   ↓  Sor7edButton (sign-in + WhatsApp-verified) → /api/save-to-phone → Meta API
+   ↓  (GetSortedButton.tsx is dead code, not in this loop — see "The SOR7ED Button")
 wa.me link → WhatsApp → user sends command
    ↓
 Meta WABA → /api/whatsapp/webhook → command parser → handler
@@ -356,12 +365,13 @@ app/
   signup/                 ← auth flow (magic link only, no passwords)
   privacy/, terms/, cookies/
 components/
-  buttons/GetSortedButton.tsx  ← retained GET IT SORTED wa.me component; public rendering temporarily paused
+  buttons/Sor7edButton.tsx     ← the actual live send-to-WhatsApp button on article/tool pages
+  buttons/GetSortedButton.tsx  ← dead code, unused, pending deletion — see "The SOR7ED Button"
   ContentHero.tsx              ← shared article/tool image banner
   SaveToPhoneButton.tsx        ← dashboard-only direct-push button (auth + WhatsApp-verified users)
-  SmartNav.tsx                 ← authenticated nav with user dropdown
+  SmartNav.tsx                 ← nav bar, strictly ABOUT/GUIDEBOOK/TOOLBOX, no auth-conditional links (per 0.4.14)
   SiteFooter.tsx                ← footer with legal links
-  DashboardClient.tsx           ← dashboard with Overview + Settings tabs
+  DashboardClient.tsx           ← dashboard with Tools/Library/Settings tabs
 ```
 
 ---
@@ -540,7 +550,7 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 2. Server sends a 6-digit OTP via the Meta API.
 3. User enters the code on the dashboard.
 4. Server sets `whatsapp_verified = true`.
-5. Until step 4, the GET IT SORTED button falls back to the `wa.me` deep link with the verification helper text.
+5. Until step 4, `Sor7edButton` shows "CONNECT WHATSAPP →" instead of the send button — see "The SOR7ED Button" for the known `?tab=settings` deep-link bug.
 
 ### Notion CRM Sync
 Every new signup (WhatsApp-first or email/dashboard) is mirrored, best-effort, into the Notion `CRM` database (properties: Name, Email, WhatsApp, Status, Source, Signed Up) via `lib/notion/syncUserToCrm.ts`. A Notion outage never blocks account creation — sync failures are logged, not surfaced to the user.
@@ -643,8 +653,24 @@ time someone is in the Notion UI.
 ---
 
 ## Version & History
-- **Current Version:** 0.4.15
+- **Current Version:** 0.4.16
 - **Consolidation Date:** 2026-08-14
+- **Notes (0.4.16):** Corrected "The GET IT SORTED Button" section (renamed
+  "The SOR7ED Button"), which had gone stale relative to the running code:
+  `GetSortedButton.tsx` was described as the live button but is actually
+  unused dead code (confirmed by repo-wide grep), pending deletion.
+  `Sor7edButton.tsx` — undocumented until now — is the actual live button
+  on article/tool pages, with a sign-in + WhatsApp-verification gate and a
+  known `?tab=settings` deep-link bug into the dashboard, not yet fixed.
+  Documented the separate partner-widget product (`public/widget.js` +
+  `app/api/widget-config/route.ts`) as distinct from `Sor7edButton` — real,
+  working, embedded nowhere, and not a WhatsApp-number collector as
+  currently built, versus the founder's stated vision for it as a
+  licensable per-partner lead-capture product (not yet built, large
+  separate scope). Also logged the discovery of a separate, complete,
+  historical project at `sor7ed-app-fresh` (469 commits, last touched
+  18 April 2026, superseded product direction) — decision made not to
+  revive it as a competing site.
 - **Notes (0.4.15):** Confirmed the taxonomy migration is complete —
   verified live against Supabase (154 protocols rows, all canonical
   one-word categories, zero retired names) — and updated the
