@@ -511,7 +511,7 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 | Meta Description | `meta_description` | SEO snippet |
 | SEO Title | `seo_title` | page title override |
 
-*Note: the Notion property was previously labelled "Branch" — rename it to "Category" in Notion to match the reverted taxonomy.*
+*Note: the Notion property was previously labelled "Branch." Live synced data shows every row already carrying a correct category (see "Taxonomy Migration — Complete" in the Engineering Roadmap), which is strong indirect evidence this has already been renamed to "Category" in Notion — not independently confirmed this session, so worth a quick visual check next time someone is in the Notion UI.*
 
 ---
 
@@ -618,8 +618,19 @@ Unchanged from prior versions — clear promise, manageable inputs, hero result,
 ### Sprint 2 (Phase 3) — Metering & paywalls
 `credits_ledger` + `entitlements` checks, Stripe checkout inside WhatsApp, webhook sync with correct `checkout.session.completed` → `stripe_customer_id` linkage.
 
-### New: Taxonomy Migration
-Run the reverse SQL in the Category Taxonomy section, rename the Notion "Branch" property to "Category," and update all UI copy referencing the retired branch names.
+### Taxonomy Migration — Complete
+The reverse SQL migration (branch → category) has been run and verified
+live against Supabase: all 154 `protocols` rows carry canonical
+one-word categories (Mind: 68, Body: 38, Connection: 12, Impression: 10,
+Wealth: 10, Growth: 9, Tech: 7) — zero empty values, zero retired names.
+`lib/types/database.ts` and `app/api/cron/sync-notion/route.ts` already
+use `category` throughout; the `LEGACY_CATEGORIES` map in the sync route
+is a defensive shim that normalises any stray retired names at sync
+time and is confirmed working, not a bug. The Notion property itself
+could not be checked directly this session, but clean data across
+every row is strong indirect evidence it has already been renamed
+from "Branch" to "Category" — worth a quick visual confirmation next
+time someone is in the Notion UI.
 
 ---
 
@@ -632,8 +643,17 @@ Run the reverse SQL in the Category Taxonomy section, rename the Notion "Branch"
 ---
 
 ## Version & History
-- **Current Version:** 0.4.14
-- **Consolidation Date:** 2026-08-11
+- **Current Version:** 0.4.15
+- **Consolidation Date:** 2026-08-14
+- **Notes (0.4.15):** Confirmed the taxonomy migration is complete —
+  verified live against Supabase (154 protocols rows, all canonical
+  one-word categories, zero retired names) — and updated the
+  Engineering Roadmap and Category Taxonomy footnote to reflect this
+  rather than listing it as pending. Removed the auth-conditional
+  Account/Sign In/Sign Out links from SmartNav header nav per the
+  0.4.14 spec (commit 1c1af10). Added category taglines to
+  ContentCard and ContentHero badges using the existing
+  lib/categoryStyles.ts field (commit a1d574d).
 - **Notes (0.4.14):** Reduced and centred the header logo, moved navigation into a separate row underneath, limited visible links to ABOUT, GUIDEBOOK and TOOLBOX, and removed the phone bottom-tab bar together with the SOUNDS and ACCOUNT tabs.
 - **Notes (0.4.13):** Replaced the rejected split-screen hero with one simple contained 16:9 image banner at the shared page width, retaining the approved copy as an overlay.
 - **Notes (0.4.12):** Replaced the full-bleed image-overlay homepage hero with a page-width 50/50 split screen: copy on pitch black, artwork in its own panel, and headline typography matched to the other homepage section titles.
