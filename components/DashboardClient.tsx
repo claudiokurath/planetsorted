@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Session } from '@supabase/supabase-js'
 import { createBrowserClient } from '@/lib/supabase/client'
 import type { SavedItem, User } from '@/lib/types/database'
@@ -44,6 +45,9 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
   const [whatsappError, setWhatsappError] = useState('')
   const [whatsappSuccess, setWhatsappSuccess] = useState('')
   const [whatsappLoading, setWhatsappLoading] = useState(false)
+  const [qrLink, setQrLink] = useState('')
+  const [qrLoading, setQrLoading] = useState(false)
+  const [qrError, setQrError] = useState('')
 
   // Saved Items State
   const [savedItems, setSavedItems] = useState<SavedItem[]>([])
@@ -149,6 +153,23 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       setProfileMessage('Failed to save settings. Please try again.')
     } finally {
       setProfileSaving(false)
+    }
+  }
+
+  async function handleGenerateQr() {
+    setQrLoading(true)
+    setQrError('')
+    try {
+      const headers = await getAuthHeader()
+      const res = await fetch('/api/whatsapp/connect-qr', { headers })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Failed to generate QR code')
+      setQrLink(data.waLink)
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Could not generate a QR code right now.'
+      setQrError(msg)
+    } finally {
+      setQrLoading(false)
     }
   }
 
@@ -517,7 +538,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                     type="tel"
                     value={whatsappNumber}
                     onChange={(e) => setWhatsappNumber(e.target.value.replace(/\D/g, ''))}
-                    placeholder="e.g. 447360277713"
+                    placeholder="e.g. 447591922247"
                     className="w-full rounded-xl border border-gray-800 bg-gray-950 px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-emerald-500 focus:outline-none font-mono"
                   />
                   <p className="mt-1 text-[11px] text-gray-500">
@@ -536,6 +557,49 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                   {whatsappLoading ? 'Sending…' : 'Send Verification Code'}
                 </button>
               </form>
+            )}
+
+            {verifyState === 'unverified' && (
+              <div className="mt-6 space-y-3 border-t border-gray-800 pt-6">
+                <p className="text-xs font-bold text-gray-300">Or scan to connect instantly</p>
+                <p className="text-[11px] text-gray-500">
+                  Skips typing a number entirely — scan with your phone, or tap the link
+                  on mobile, and send the pre-filled message. That message is the proof
+                  it&apos;s really your number.
+                </p>
+                {!qrLink && (
+                  <button
+                    type="button"
+                    onClick={handleGenerateQr}
+                    disabled={qrLoading}
+                    className="rounded-xl border border-gray-700 px-4 py-2 text-xs font-bold text-gray-300 hover:border-emerald-500 hover:text-emerald-400 transition-colors disabled:opacity-50"
+                  >
+                    {qrLoading ? 'Generating…' : 'Generate QR Code'}
+                  </button>
+                )}
+                {qrError && <p className="text-xs text-red-400">{qrError}</p>}
+                {qrLink && (
+                  <div className="flex flex-col items-start gap-3 rounded-xl border border-gray-800 bg-gray-950 p-4">
+                    <Image
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(qrLink)}`}
+                      alt="Scan to connect WhatsApp"
+                      width={180}
+                      height={180}
+                      unoptimized
+                      className="rounded-lg bg-white p-2"
+                    />
+                    <a
+                      href={qrLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-bold text-emerald-400 underline"
+                    >
+                      Or tap here to open WhatsApp directly →
+                    </a>
+                    <p className="text-[11px] text-gray-500">Expires in 10 minutes.</p>
+                  </div>
+                )}
+              </div>
             )}
 
             {verifyState === 'otp_sent' && (

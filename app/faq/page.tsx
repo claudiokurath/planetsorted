@@ -17,7 +17,7 @@ export default function FAQPage() {
     },
     {
       q: 'How does WhatsApp remote control work?',
-      a: 'Text one keyword (like TAX or CLARITY) to +44 7360 277713 on WhatsApp and get your result delivered straight to your chat. Sign up first at planetsorted.com — no app, no spam.'
+      a: 'Text one keyword (like TAX or CLARITY) to +44 7591 922247 on WhatsApp and get your result delivered straight to your chat. Sign up first at planetsorted.com — no app, no spam.'
     },
     {
       q: 'Is PLANET SOR7ED free?',
