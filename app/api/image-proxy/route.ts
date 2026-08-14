@@ -2,9 +2,24 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 
+function isTrustedImageHost(rawUrl: string): boolean {
+  let parsed: URL
+  try {
+    parsed = new URL(rawUrl)
+  } catch {
+    return false
+  }
+  if (parsed.protocol !== 'https:') return false
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseHost = supabaseUrl ? new URL(supabaseUrl).hostname : null
+  return parsed.hostname === supabaseHost
+}
+
 export async function GET(req: NextRequest) {
   const url = req.nextUrl.searchParams.get('url')
   if (!url) return new NextResponse('Missing url', { status: 400 })
+  if (!isTrustedImageHost(url)) return new NextResponse('Untrusted image host', { status: 400 })
 
   // Route through wsrv.nl to force JPEG conversion and guarantee size < 300KB
   // We do this server-side because placing multiple query parameters (using &) 
