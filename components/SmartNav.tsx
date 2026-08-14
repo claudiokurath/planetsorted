@@ -2,11 +2,39 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import type { User } from '@supabase/supabase-js'
+import { createBrowserClient } from '@/lib/supabase/client'
 import { isStandaloneToolRoute } from '@/lib/isStandaloneToolRoute'
 
 export function SmartNav() {
   const pathname = usePathname()
+  const router = useRouter()
+  const [user, setUser] = useState<User | null>(null)
+  const [authReady, setAuthReady] = useState(false)
+
+  useEffect(() => {
+    const supabase = createBrowserClient()
+
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user)
+      setAuthReady(true)
+    })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+      setAuthReady(true)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  async function handleSignOut() {
+    const supabase = createBrowserClient()
+    await supabase.auth.signOut()
+    router.refresh()
+  }
 
   if (isStandaloneToolRoute(pathname)) return null
 
@@ -47,6 +75,40 @@ export function SmartNav() {
               </Link>
             )
           })}
+
+          {authReady && (
+            user ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className={`pb-1 text-[11px] font-semibold uppercase tracking-wider transition-colors sm:text-xs ${
+                    pathname === '/dashboard'
+                      ? 'text-white border-b-2 border-[#C0392B]'
+                      : 'text-white/70 hover:text-white'
+                  }`}
+                >
+                  Account
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="pb-1 text-[11px] font-semibold uppercase tracking-wider text-white/50 hover:text-[#C0392B] transition-colors sm:text-xs"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/signup"
+                className={`pb-1 text-[11px] font-semibold uppercase tracking-wider transition-colors sm:text-xs ${
+                  pathname === '/signup'
+                    ? 'text-white border-b-2 border-[#C0392B]'
+                    : 'text-[#C0392B] hover:text-white'
+                }`}
+              >
+                Sign In
+              </Link>
+            )
+          )}
         </div>
       </nav>
     </header>
