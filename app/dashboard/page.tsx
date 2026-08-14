@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { DashboardClient } from '@/components/DashboardClient'
 import { createServerClient } from '@/lib/supabase/server'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Account — PLANET SOR7ED',
   description: 'Your saved items, history, and account settings.',
