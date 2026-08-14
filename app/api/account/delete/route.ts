@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true, message: 'Account and all associated data permanently deleted.' })
-  } catch (err: any) {
+  } catch (err) {
     console.error('[GDPR delete error]', err)
     return NextResponse.json({ error: 'An unexpected error occurred during account deletion.' }, { status: 500 })
   }

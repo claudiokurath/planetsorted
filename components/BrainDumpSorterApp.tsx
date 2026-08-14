@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
 import { createBrowserClient } from '@/lib/supabase/client'
 
 interface SortedResult {
@@ -52,7 +53,6 @@ function classifyText(rawText: string): SortedResult {
 export function BrainDumpSorterApp() {
   const supabase = useMemo(() => createBrowserClient(), [])
   const [userId, setUserId] = useState<string | null>(null)
-  const [authChecked, setAuthChecked] = useState(false)
 
   const [inputText, setInputText] = useState(
     'BRAINDUMP need to email the invoice to accounting, also what if the onboarding flow used a interactive checklist instead of a video? feeling kind of overwhelmed today tbh'
@@ -67,7 +67,6 @@ export function BrainDumpSorterApp() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       setUserId(data.session?.user?.id ?? null)
-      setAuthChecked(true)
     })
   }, [supabase])
 
@@ -85,8 +84,23 @@ export function BrainDumpSorterApp() {
   }, [supabase, userId])
 
   useEffect(() => {
-    if (userId) fetchHistory()
-  }, [userId, fetchHistory])
+    if (!userId) return
+    let ignore = false
+    supabase
+      .from('tool_runs')
+      .select('id, created_at, output_text')
+      .eq('tool_slug', 'brain-dump-sorter')
+      .order('created_at', { ascending: false })
+      .limit(30)
+      .then(({ data }) => {
+        if (!ignore) {
+          setHistory((data as JournalEntry[]) ?? [])
+        }
+      })
+    return () => {
+      ignore = true
+    }
+  }, [supabase, userId])
 
   const handleSort = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -393,7 +407,7 @@ export function BrainDumpSorterApp() {
           {/* Footer */}
           <footer className="border-t py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <p>© 2026 PLANET SOR7ED · Brain Dump Sorter</p>
-            <a href="/" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</a>
+            <Link href="/" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</Link>
           </footer>
         </div>
       </div>

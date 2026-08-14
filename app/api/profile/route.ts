@@ -56,7 +56,7 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json(profile)
-  } catch (err: any) {
+  } catch (err) {
     console.error('[Profile API error]', err)
     return NextResponse.json({ error: 'An unexpected error occurred.' }, { status: 500 })
   }
@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(updatedProfile)
-  } catch (err: any) {
+  } catch (err) {
     console.error('[Profile update API error]', err)
     return NextResponse.json({ error: 'An unexpected error occurred.' }, { status: 500 })
   }

@@ -1,7 +1,21 @@
 import type { Metadata } from 'next'
+import { Inter, Bebas_Neue } from 'next/font/google'
 import './globals.css'
 import { SmartNav } from '@/components/SmartNav'
 import { SiteFooter } from '@/components/SiteFooter'
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const bebasNeue = Bebas_Neue({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-bebas',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'Planet Sorted',
@@ -43,17 +57,14 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" className="h-full antialiased">
+    <html lang="en" className={`h-full antialiased ${inter.variable} ${bebasNeue.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col font-sans">
         <SmartNav />
         <main className="flex-1">{children}</main>
         <SiteFooter />
@@ -61,3 +72,4 @@ export default function RootLayout({
     </html>
   )
 }
+

@@ -76,7 +76,7 @@ export async function GET(req: Request) {
       (
         <div style={{ display: 'flex', width: '100%', height: '100%', backgroundColor: '#0D0D0D' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={imageUrl} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+          <img src={imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
       ),
       { width: 1200, height: 630 }

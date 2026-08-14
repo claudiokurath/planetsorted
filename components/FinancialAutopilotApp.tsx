@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
 import { createBrowserClient } from '@/lib/supabase/client'
 
 interface AutopilotInputs {
@@ -125,7 +126,6 @@ function computePlan(inputs: AutopilotInputs): PlanResult {
 export function FinancialAutopilotApp() {
   const supabase = useMemo(() => createBrowserClient(), [])
   const [userId, setUserId] = useState<string | null>(null)
-  const [authChecked, setAuthChecked] = useState(false)
 
   const [inputs, setInputs] = useState<AutopilotInputs>({
     monthly_income: 5000,
@@ -146,7 +146,6 @@ export function FinancialAutopilotApp() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       setUserId(data.session?.user?.id ?? null)
-      setAuthChecked(true)
     })
   }, [supabase])
 
@@ -164,8 +163,23 @@ export function FinancialAutopilotApp() {
   }, [supabase, userId])
 
   useEffect(() => {
-    if (userId) fetchHistory()
-  }, [userId, fetchHistory])
+    if (!userId) return
+    let ignore = false
+    supabase
+      .from('tool_runs')
+      .select('id, created_at, output_text')
+      .eq('tool_slug', 'financial-autopilot')
+      .order('created_at', { ascending: false })
+      .limit(30)
+      .then(({ data }) => {
+        if (!ignore) {
+          setHistory((data as JournalEntry[]) ?? [])
+        }
+      })
+    return () => {
+      ignore = true
+    }
+  }, [supabase, userId])
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -553,7 +567,7 @@ export function FinancialAutopilotApp() {
           {/* Footer */}
           <footer className="border-t py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <p>© 2026 PLANET SOR7ED · Financial Autopilot</p>
-            <a href="/" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</a>
+            <Link href="/" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</Link>
           </footer>
         </div>
       </div>

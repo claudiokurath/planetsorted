@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import Link from 'next/link'
 import { createBrowserClient } from '@/lib/supabase/client'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -252,7 +253,6 @@ export function BiometricStateApp() {
   const [saveError, setSaveError] = useState<string | null>(null)
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const [historyLoading, setHistoryLoading] = useState(false)
-  const [activeSection, setActiveSection] = useState<'form' | 'results'>('form')
   const resultsRef = useRef<HTMLDivElement>(null)
 
   const set = useCallback(<K extends keyof EntryInputs>(key: K, val: EntryInputs[K]) => {
@@ -279,7 +279,24 @@ export function BiometricStateApp() {
     setHistoryLoading(false)
   }, [supabase, userId])
 
-  useEffect(() => { if (userId) fetchHistory() }, [userId, fetchHistory])
+  useEffect(() => {
+    if (!userId) return
+    let ignore = false
+    supabase
+      .from('tool_runs')
+      .select('id, created_at, output_text')
+      .eq('tool_slug', 'biometric-state-tracker')
+      .order('created_at', { ascending: false })
+      .limit(30)
+      .then(({ data }) => {
+        if (!ignore) {
+          setHistory((data as HistoryEntry[]) ?? [])
+        }
+      })
+    return () => {
+      ignore = true
+    }
+  }, [supabase, userId])
 
   const handleAnalyze = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
@@ -287,7 +304,6 @@ export function BiometricStateApp() {
     const score = computeBiometricScore(inputs, hydrationTarget)
     const recs = generateRecommendations(inputs, hydrationTarget)
     setResult({ score, hydrationTarget, recs, mood: inputs.mood })
-    setActiveSection('results')
     setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
     setSaveError(null)
 
@@ -363,7 +379,7 @@ export function BiometricStateApp() {
               ))}
             </div>
             <button
-              onClick={() => setActiveSection('form')}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="hidden items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-slate-900 sm:inline-flex"
               style={{ background: 'linear-gradient(90deg,#22e5d0,#8b7bff)' }}
             >
@@ -657,7 +673,7 @@ export function BiometricStateApp() {
           <footer className="border-t py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600"
             style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <p>© 2026 PLANET SOR7ED · Biometric State Tracker · Not medical advice.</p>
-            <a href="/" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</a>
+            <Link href="/" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</Link>
           </footer>
 
         </div>

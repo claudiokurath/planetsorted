@@ -201,8 +201,23 @@ export function WeeklyWinsApp() {
   }, [supabase, userId])
 
   useEffect(() => {
-    if (userId) fetchHistory()
-  }, [userId, fetchHistory])
+    if (!userId) return
+    let ignore = false
+    supabase
+      .from('tool_runs')
+      .select('id, created_at, tool_slug, output_text, success')
+      .eq('tool_slug', 'weekly-wins-generator')
+      .order('created_at', { ascending: false })
+      .limit(20)
+      .then(({ data }) => {
+        if (!ignore) {
+          setHistory((data as HistoryRow[]) ?? [])
+        }
+      })
+    return () => {
+      ignore = true
+    }
+  }, [supabase, userId])
 
   // ── Live score ──────────────────────────────────────────────────────────────
   const winScore = useMemo(

@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
 import { createBrowserClient } from '@/lib/supabase/client'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -207,8 +208,23 @@ export function DecisionParalysisApp() {
   }, [supabase, userId])
 
   useEffect(() => {
-    if (userId) fetchJournal()
-  }, [userId, fetchJournal])
+    if (!userId) return
+    let ignore = false
+    supabase
+      .from('tool_runs')
+      .select('id, created_at, output_text')
+      .eq('tool_slug', 'decision-paralysis-solver')
+      .order('created_at', { ascending: false })
+      .limit(30)
+      .then(({ data }) => {
+        if (!ignore) {
+          setJournal((data as JournalEntry[]) ?? [])
+        }
+      })
+    return () => {
+      ignore = true
+    }
+  }, [supabase, userId])
 
   // ── Assessment Handler ──
   const handleCalculate = (e: React.FormEvent) => {
@@ -638,6 +654,44 @@ export function DecisionParalysisApp() {
                 </div>
               </div>
 
+              {/* Option Ratings per Criterion */}
+              <div className="pt-6 border-t border-white/10 overflow-x-auto">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Option Ratings per Criterion (1-5)</label>
+                <table className="w-full text-xs text-left">
+                  <thead>
+                    <tr className="border-b border-white/10 text-slate-400">
+                      <th className="py-2 pr-4 font-semibold">Option</th>
+                      {criteria.map((crit) => (
+                        <th key={crit.id} className="py-2 px-3 font-semibold">{crit.name} (w: {crit.weight})</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {options.map((opt) => (
+                      <tr key={opt.id} className="border-b border-white/5">
+                        <td className="py-2.5 pr-4 font-medium text-white">{opt.name}</td>
+                        {criteria.map((crit) => {
+                          const key = `${opt.id}_${crit.id}`
+                          const val = matrixScores[key] ?? 3
+                          return (
+                            <td key={crit.id} className="py-2.5 px-3">
+                              <input
+                                type="number" min={1} max={5} value={val}
+                                onChange={(e) => {
+                                  const score = Math.max(1, Math.min(5, parseInt(e.target.value) || 1))
+                                  setMatrixScores((prev) => ({ ...prev, [key]: score }))
+                                }}
+                                className="w-12 rounded border border-white/10 bg-slate-950 px-2 py-1 text-center text-xs text-cyan-400"
+                              />
+                            </td>
+                          )
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
               {/* Ranking display */}
               {matrixResults && (
                 <div className="pt-6 border-t border-white/10 space-y-4">
@@ -783,7 +837,7 @@ export function DecisionParalysisApp() {
           {/* Footer */}
           <footer className="border-t py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <p>© 2026 PLANET SOR7ED · Decision Paralysis Solver</p>
-            <a href="/" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</a>
+            <Link href="/" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</Link>
           </footer>
         </div>
       </div>

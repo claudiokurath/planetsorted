@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     await sendWhatsAppMessage(whatsappNumber, messageBody)
 
     return NextResponse.json({ success: true, message: 'OTP sent successfully' })
-  } catch (err: any) {
+  } catch (err) {
     console.error('[OTP send error]', err)
     return NextResponse.json({ error: 'Failed to send WhatsApp message. Please check the number and try again.' }, { status: 500 })
   }

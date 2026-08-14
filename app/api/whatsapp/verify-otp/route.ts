@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json({ success: true, message: 'WhatsApp number successfully verified!' })
-  } catch (err: any) {
+  } catch (err) {
     console.error('[OTP verify internal error]', err)
     return NextResponse.json({ error: 'An unexpected error occurred.' }, { status: 500 })
   }
