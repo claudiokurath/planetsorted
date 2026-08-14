@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json(items || [])
-  } catch (err: any) {
+  } catch (err) {
     console.error('[Saved items API error]', err)
     return NextResponse.json({ error: 'An unexpected error occurred.' }, { status: 500 })
   }

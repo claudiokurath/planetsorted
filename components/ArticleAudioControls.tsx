@@ -18,15 +18,17 @@ export function ArticleAudioControls({ bodyText, deepDiveUrl, isSubscriber = fal
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) {
-      setTtsState('unsupported')
-    }
     return () => {
       window.speechSynthesis?.cancel()
     }
   }, [])
 
   const handleTTS = useCallback(() => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      setTtsState('unsupported')
+      return
+    }
+
     if (ttsState === 'unsupported') return
 
     if (ttsState === 'playing') {

@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json({ sent: successCount, total: users.length })
-  } catch (err: any) {
+  } catch (err) {
     console.error('[Weekly Broadcast global error]', err)
     return NextResponse.json({ error: 'Internal server error occurred during broadcast.' }, { status: 500 })
   }

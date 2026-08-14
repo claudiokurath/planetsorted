@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import type { Session } from '@supabase/supabase-js'
 import { createBrowserClient } from '@/lib/supabase/client'
 import type { SavedItem, User } from '@/lib/types/database'
 import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
@@ -27,7 +28,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
 
   const [activeTab, setActiveTab] = useState<Tab>('tools')
   const [loading, setLoading] = useState(true)
-  const [session, setSession] = useState<any>(null)
+  const [session, setSession] = useState<Session | null>(null)
   const [profile, setProfile] = useState<User | null>(null)
   
   // Settings Form State
@@ -51,6 +52,44 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
 
   // GDPR Deletion State
   const [deletingAccount, setDeletingAccount] = useState(false)
+
+  const getAuthHeader = useCallback(async (activeSession = session) => {
+    return {
+      'Authorization': `Bearer ${activeSession?.access_token || ''}`,
+      'Content-Type': 'application/json'
+    }
+  }, [session])
+
+  const fetchProfile = useCallback(async (activeSession = session) => {
+    try {
+      const headers = await getAuthHeader(activeSession)
+      const res = await fetch('/api/profile', { headers })
+      if (!res.ok) throw new Error()
+      const data: User = await res.json()
+      setProfile(data)
+      setFirstName(data.first_name || '')
+      setWeeklyOptedIn(data.weekly_opted_in)
+      setWhatsappNumber(data.whatsapp_number || '')
+      setVerifyState(data.whatsapp_verified ? 'verified' : 'unverified')
+    } catch {
+      console.error('Failed to fetch profile')
+    }
+  }, [getAuthHeader, session])
+
+  const fetchSavedItems = useCallback(async (activeSession = session) => {
+    setItemsLoading(true)
+    try {
+      const headers = await getAuthHeader(activeSession)
+      const res = await fetch('/api/saved-items', { headers })
+      if (!res.ok) throw new Error()
+      const data: SavedItem[] = await res.json()
+      setSavedItems(data)
+    } catch {
+      console.error('Failed to fetch saved items')
+    } finally {
+      setItemsLoading(false)
+    }
+  }, [getAuthHeader, session])
 
   // Initialize and check session
   useEffect(() => {
@@ -77,45 +116,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
     })
 
     return () => subscription.unsubscribe()
-  }, [router, supabase.auth])
-
-  async function getAuthHeader(activeSession = session) {
-    return {
-      'Authorization': `Bearer ${activeSession?.access_token || ''}`,
-      'Content-Type': 'application/json'
-    }
-  }
-
-  async function fetchProfile(activeSession = session) {
-    try {
-      const headers = await getAuthHeader(activeSession)
-      const res = await fetch('/api/profile', { headers })
-      if (!res.ok) throw new Error()
-      const data: User = await res.json()
-      setProfile(data)
-      setFirstName(data.first_name || '')
-      setWeeklyOptedIn(data.weekly_opted_in)
-      setWhatsappNumber(data.whatsapp_number || '')
-      setVerifyState(data.whatsapp_verified ? 'verified' : 'unverified')
-    } catch {
-      console.error('Failed to fetch profile')
-    }
-  }
-
-  async function fetchSavedItems(activeSession = session) {
-    setItemsLoading(true)
-    try {
-      const headers = await getAuthHeader(activeSession)
-      const res = await fetch('/api/saved-items', { headers })
-      if (!res.ok) throw new Error()
-      const data = await res.json()
-      setSavedItems(data)
-    } catch {
-      console.error('Failed to fetch saved items')
-    } finally {
-      setItemsLoading(false)
-    }
-  }
+  }, [fetchProfile, fetchSavedItems, router, supabase.auth])
 
   async function handleProfileSave(e: React.FormEvent) {
     e.preventDefault()
@@ -155,8 +156,9 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       if (!res.ok) throw new Error(data.error || 'Failed to send OTP')
       setVerifyState('otp_sent')
       setWhatsappSuccess('Verification code sent to WhatsApp! Check your phone.')
-    } catch (err: any) {
-      setWhatsappError(err.message || 'An unexpected error occurred.')
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'An unexpected error occurred.'
+      setWhatsappError(msg)
     } finally {
       setWhatsappLoading(false)
     }
@@ -179,8 +181,9 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       setVerifyState('verified')
       setWhatsappSuccess('WhatsApp number successfully verified ✓')
       await fetchProfile()
-    } catch (err: any) {
-      setWhatsappError(err.message || 'Verification failed. Please check the code and try again.')
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Verification failed. Please check the code and try again.'
+      setWhatsappError(msg)
     } finally {
       setWhatsappLoading(false)
     }

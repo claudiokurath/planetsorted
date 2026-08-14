@@ -16,9 +16,10 @@ export async function POST(req: NextRequest) {
 
   try {
     event = stripe.webhooks.constructEvent(body, sig, webhookSecret)
-  } catch (err: any) {
-    console.error(`[Stripe Webhook Signature Verification Failed]`, err.message)
-    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 })
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Signature verification failed'
+    console.error(`[Stripe Webhook Signature Verification Failed]`, msg)
+    return NextResponse.json({ error: `Webhook Error: ${msg}` }, { status: 400 })
   }
 
   const supabase = createServerClient()
@@ -38,7 +39,10 @@ export async function POST(req: NextRequest) {
 
         // Fetch subscription details to get status and current period end date
         const sub = await stripe.subscriptions.retrieve(stripeSubscriptionId)
-        const currentPeriodEnd = new Date((sub as any).current_period_end * 1000).toISOString()
+        const periodEndTimestamp = 'current_period_end' in sub && typeof sub.current_period_end === 'number'
+          ? sub.current_period_end
+          : Math.floor(Date.now() / 1000)
+        const currentPeriodEnd = new Date(periodEndTimestamp * 1000).toISOString()
 
         const { error } = await supabase.from('entitlements').upsert(
           {
@@ -63,7 +67,10 @@ export async function POST(req: NextRequest) {
       case 'customer.subscription.updated': {
         const sub = event.data.object as Stripe.Subscription
         const stripeCustomerId = sub.customer as string
-        const currentPeriodEnd = new Date((sub as any).current_period_end * 1000).toISOString()
+        const periodEndTimestamp = 'current_period_end' in sub && typeof sub.current_period_end === 'number'
+          ? sub.current_period_end
+          : Math.floor(Date.now() / 1000)
+        const currentPeriodEnd = new Date(periodEndTimestamp * 1000).toISOString()
 
         const { error } = await supabase
           .from('entitlements')
@@ -107,7 +114,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ received: true })
-  } catch (err: any) {
+  } catch (err) {
     console.error('[Stripe Webhook Internal Error]', err)
     return NextResponse.json({ error: 'Internal server processing error' }, { status: 500 })
   }

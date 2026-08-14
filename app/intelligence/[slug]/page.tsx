@@ -230,7 +230,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                 Want the step-by-step protocol for this?
               </h2>
               <p className="text-base text-neutral-300 leading-relaxed max-w-2xl">
-                Tap the button below and we'll send the complete protocol directly to your WhatsApp.
+                Tap the button below and we&apos;ll send the complete protocol directly to your WhatsApp.
               </p>
             </div>
             <Sor7edButton slug={slug} context="article" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} size="lg" />
