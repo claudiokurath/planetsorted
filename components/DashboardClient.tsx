@@ -71,8 +71,10 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       setWeeklyOptedIn(data.weekly_opted_in)
       setWhatsappNumber(data.whatsapp_number || '')
       setVerifyState(data.whatsapp_verified ? 'verified' : 'unverified')
+      return data
     } catch {
       console.error('Failed to fetch profile')
+      return null
     }
   }, [getAuthHeader, session])
 
@@ -101,7 +103,12 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       }
       const { data: { session: activeSession } } = await supabase.auth.getSession()
       setSession(activeSession)
-      await Promise.all([fetchProfile(activeSession), fetchSavedItems(activeSession)])
+      const [profileData] = await Promise.all([fetchProfile(activeSession), fetchSavedItems(activeSession)])
+      // The whole point of signing up is connecting WhatsApp — take anyone
+      // who hasn't done that yet straight to Settings instead of Tools.
+      if (profileData && !profileData.whatsapp_verified) {
+        setActiveTab('settings')
+      }
       setLoading(false)
     }
     
