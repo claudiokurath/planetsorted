@@ -24,7 +24,7 @@ export default function ContactPage() {
               Email: <a href="mailto:hello@planetsorted.com" className="text-[#C0392B] underline font-semibold">hello@planetsorted.com</a>
             </p>
             <p className="text-base text-neutral-300">
-              WhatsApp: <a href="https://wa.me/447360277713" target="_blank" rel="noopener noreferrer" className="text-[#C0392B] underline font-semibold">+44 7360 277713</a>
+              WhatsApp: <a href="https://wa.me/447591922247" target="_blank" rel="noopener noreferrer" className="text-[#C0392B] underline font-semibold">+44 7591 922247</a>
             </p>
           </div>
         </div>
