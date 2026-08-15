@@ -54,7 +54,13 @@ export async function GET() {
     {
       tools: WIDGET_TOOLS,
       widget_src: 'https://planetsorted.com/widget.js',
-      usage: '<script src="https://planetsorted.com/widget.js" data-tool="adhd-tax-calculator" async></script>',
+      usage: '<script src="https://planetsorted.com/widget.js" data-tool="adhd-tax-calculator" data-partner="your-clinic" async></script>',
+      lead_capture: {
+        endpoint: 'https://planetsorted.com/api/leads',
+        required_attrs: ['data-partner'],
+        optional_attrs: ['data-tool', 'data-label', 'data-position', 'data-mode'],
+        notes: 'When data-partner is set the button opens a phone form, POSTs to /api/leads, then opens WhatsApp. Without data-partner it opens WhatsApp directly (legacy).',
+      },
     },
     {
       headers: {

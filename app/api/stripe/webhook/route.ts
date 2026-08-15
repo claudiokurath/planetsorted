@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { stripe } from '@/lib/stripe'
 import Stripe from 'stripe'
+import {
+  claimStripeEvent,
+  markStripeEventDone,
+  markStripeEventFailed,
+  releaseStripeEventClaim,
+} from '@/lib/billing/stripeEvents'
 
 /**
  * Extract current_period_end from a Stripe Subscription.
@@ -53,8 +59,15 @@ export async function POST(req: NextRequest) {
 
   const supabase = createServerClient()
 
-  // Idempotency is primarily via upsert-on-user_id / status overwrite.
-  // Logging event.id makes retries observable in ops.
+  // Durable idempotency: claim event.id before any side effects.
+  // On duplicate, acknowledge 200 so Stripe stops retrying.
+  const claim = await claimStripeEvent(supabase, event.id, event.type)
+  if (!claim.claimed && claim.reason === 'duplicate') {
+    console.log(`[Stripe Webhook] duplicate event=${event.id} type=${event.type}`)
+    return NextResponse.json({ received: true, duplicate: true, event_id: event.id })
+  }
+  // claim.reason === 'error' (e.g. table missing) falls through — still process.
+
   try {
     switch (event.type) {
       case 'checkout.session.completed': {
@@ -96,6 +109,7 @@ export async function POST(req: NextRequest) {
 
         if (error) {
           console.error('[Stripe Webhook] Error inserting entitlement:', error)
+          await releaseStripeEventClaim(supabase, event.id)
           return NextResponse.json({ error: 'Database upsert failed' }, { status: 500 })
         }
         console.log(
@@ -127,6 +141,7 @@ export async function POST(req: NextRequest) {
 
         if (error) {
           console.error('[Stripe Webhook] Error updating subscription:', error)
+          await releaseStripeEventClaim(supabase, event.id)
           return NextResponse.json({ error: 'Database update failed' }, { status: 500 })
         }
         console.log(
@@ -149,6 +164,7 @@ export async function POST(req: NextRequest) {
 
         if (error) {
           console.error('[Stripe Webhook] Error canceling subscription:', error)
+          await releaseStripeEventClaim(supabase, event.id)
           return NextResponse.json({ error: 'Database update failed' }, { status: 500 })
         }
         console.log(
@@ -171,9 +187,13 @@ export async function POST(req: NextRequest) {
         break
     }
 
+    await markStripeEventDone(supabase, event.id)
     return NextResponse.json({ received: true, event_id: event.id })
   } catch (err) {
     console.error('[Stripe Webhook Internal Error]', err)
+    const detail = err instanceof Error ? err.message : 'internal error'
+    await markStripeEventFailed(supabase, event.id, detail)
+    await releaseStripeEventClaim(supabase, event.id)
     return NextResponse.json({ error: 'Internal server processing error' }, { status: 500 })
   }
 }

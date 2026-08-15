@@ -243,7 +243,7 @@ Inside `/dashboard`, logged-in users with a verified WhatsApp number get a separ
 
 This is a **sign-in + verification gated** flow — the opposite of what the 0.4.1 changelog entry below describes fixing (`GetSortedButton` was meant to be the *ungated*, no-signup `wa.me` replacement). Whether `Sor7edButton`'s gated flow is the intended current design or unintentional drift back toward the pre-0.4.1 problem has not been resolved — flag before changing either way.
 
-**A third, separate thing exists and must not be confused with the above:** `public/widget.js` + `app/api/widget-config/route.ts` is the "SOR7ED BUTTON" **partner widget** — a real, working, self-contained embeddable script (`<script src="https://planetsorted.com/widget.js" data-tool="...">`) meant for *third-party* sites, not Sorted Lab's own pages. Removed from this site's own root layout back in 0.4.1 for exactly that reason (see changelog). As of 15 August 2026, clicking it opens `https://wa.me/447591922247?text=https://planetsorted.com/r/<tool-slug>` — the visitor's own WhatsApp, addressed directly to SOR7ED's number, with that tool's rich-link URL pre-filled (not a bare slug — a bare slug is just text and WhatsApp won't unfurl it into a card). It no longer navigates to planetsorted.com in the browser at all. The visitor taps Send and the rich card (image, title, description, pulled from `/r/[slug]`'s Open Graph tags) lands in their thread with the business. **It still does not collect a WhatsApp number on the partner's behalf, does not know about "partners," and stores nothing** — the visitor is messaging SOR7ED directly, not the partner site. A live test embed is at `/widget-test`.
+**A third, separate thing exists and must not be confused with the above:** `public/widget.js` + `app/api/widget-config/route.ts` is the "SOR7ED BUTTON" **partner widget** — a real, working, self-contained embeddable script (`<script src="https://planetsorted.com/widget.js" data-tool="...">`) meant for *third-party* sites, not Sorted Lab's own pages. Removed from this site's own root layout back in 0.4.1 for exactly that reason (see changelog). As of 15 August 2026, clicking it opens `https://wa.me/447591922247?text=https://planetsorted.com/r/<tool-slug>` — the visitor's own WhatsApp, addressed directly to SOR7ED's number, with that tool's rich-link URL pre-filled (not a bare slug — a bare slug is just text and WhatsApp won't unfurl it into a card). It no longer navigates to planetsorted.com in the browser at all. The visitor taps Send and the rich card (image, title, description, pulled from `/r/[slug]`'s Open Graph tags) lands in their thread with the business. **As of 0.4.18, lead capture is optional:** set `data-partner="your-slug"` on the script tag and the button opens a phone panel that POSTs to `/api/leads` (stored in `partner_leads` under that partner slug) before opening WhatsApp. Without `data-partner`, behaviour is unchanged (direct `wa.me`). Full partner accounts, dashboards, and billing are still a later product — v1 is capture + store only. A live test embed is at `/widget-test`.
 
 **The real vision for that widget, per the founder (14 August 2026):** a standalone, licensable product — other websites embed the button, it collects their visitors' WhatsApp numbers, and those numbers/leads belong to that partner site (something other businesses would pay to install). This does not exist yet in any form. Building it is a genuinely large, separate build (partner accounts, per-partner data model, WhatsApp Business template-message compliance, billing) — not a small addition to the current widget.
 
@@ -488,6 +488,34 @@ components/
 | clicked_at | timestamptz | |
 | user_agent | text | |
 
+### `stripe_events` table
+| Column | Type | Notes |
+|--------|------|-------|
+| event_id | text | PK — Stripe event id |
+| event_type | text | e.g. checkout.session.completed |
+| status | text | processing / done / failed |
+| error_detail | text | optional |
+| received_at | timestamptz | default now() |
+| processed_at | timestamptz | set on done/failed |
+
+Service-role only (RLS on, no public policies). Claimed at start of webhook; duplicates return 200.
+
+### `partner_leads` table
+| Column | Type | Notes |
+|--------|------|-------|
+| id | uuid | PK |
+| created_at | timestamptz | |
+| partner_slug | text | from widget `data-partner` |
+| phone | text | digits-only E.164-ish |
+| tool_slug | text | optional |
+| source_host / source_path | text | embed page context |
+| user_agent | text | |
+| ip_hash | text | salted hash, not raw IP |
+| status | text | new / contacted / converted / spam |
+
+Service-role only. Apply via `supabase/migrations/20260815_billing_leads.sql`.
+
+
 ### Security & RLS
 RLS enabled on all tables; service role for admin actions backend-only; client access restricted to the authenticated user.
 
@@ -529,7 +557,7 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 
 - **Inbound:** `POST /api/whatsapp/webhook` — parses payloads into `{ verb, arg }`.
 - **SAVE handler:** writes to `rich_links` and `saved_items`; responds with `planetsorted.com/r/[slug]` rich card.
-- **RUN handler:** checks entitlements/metering → delivers tool URL as rich card, or paywall link.
+- **RUN handler:** `lib/billing/credits.ts` — active entitlement → unlimited; else debit 1 from `credits_ledger` (5 free on signup). Paywall reply → `/r/upgrade`. Bare tool keywords (TAX, CLARITY, …) are metered the same as `RUN <tool>`.
 - **ARTICLE handler:** delivers article + protocol, paginated for long text, link back to the web page.
 - **LOGIN handler:** generates magic link → sends to WhatsApp thread.
 - **Crisis detection:** intercepts crisis keywords before any other handler.
@@ -635,7 +663,7 @@ Unchanged from prior versions — clear promise, manageable inputs, hero result,
 `saved_items` integration, `/s/[id]` redirects, idempotent `SAVE`, WhatsApp OTP verification flow.
 
 ### Sprint 2 (Phase 3) — Metering & paywalls
-`credits_ledger` + `entitlements` checks, Stripe checkout inside WhatsApp, webhook sync with correct `checkout.session.completed` → `stripe_customer_id` linkage.
+`credits_ledger` + `entitlements` checks **shipped (0.4.18)** for WhatsApp RUN. Stripe checkout inside WhatsApp still open. Webhook sync + `stripe_events` idempotency shipped.
 
 ### Taxonomy Migration — Complete
 The reverse SQL migration (branch → category) has been run and verified
@@ -662,7 +690,8 @@ time someone is in the Notion UI.
 ---
 
 ## Version & History
-- **Current Version:** 0.4.17
+- **Current Version:** 0.4.18
+- **Notes (0.4.18):** Deferred product pack shipped. (1) WhatsApp RUN metering — `lib/billing/credits.ts` gates TOOL/RUN keywords against active entitlements or `credits_ledger` balance (5 free signup credits via `ensureSignupCredits` + optional DB trigger); paywall reply links to `/r/upgrade`; dashboard shows live balance via `GET /api/billing/status`. (2) Stripe event idempotency — `stripe_events` table + claim/done/release in webhook. (3) Partner widget lead capture v1 — `data-partner` opens phone panel → `POST /api/leads` → `partner_leads` (service-role only); without partner, legacy direct WhatsApp. SQL: `supabase/migrations/20260815_billing_leads.sql` (apply in Supabase before prod use). Full partner accounts/billing still later.
 - **Consolidation Date:** 2026-08-15
 - **Notes (0.4.17):** Security + reliability pack. Meta webhook HMAC (`META_APP_SECRET`), CSPRNG OTP, signed CONNECT/standalone tokens, service-role no longer used to identify callers (`lib/auth/requireUser` + session client on upgrade). Stripe period_end no longer falls back to "now"; weekly broadcast uses real newlines + `last_weekly_sent_at` skip; image-proxy timeout/size caps; WhatsApp SAVE/LIBRARY commands; deleted dead `GetSortedButton.tsx`; Docker standalone + Node 22; env table + WA number corrected to +44 7591 922247; `?tab=settings` deep-link fixed.
 - **Notes (0.4.16):** Corrected "The GET IT SORTED Button" section (renamed

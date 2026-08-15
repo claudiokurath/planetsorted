@@ -106,6 +106,37 @@ export type ToolRun = {
   latency_ms: number | null
 }
 
+/** Durable Stripe webhook idempotency store. Service-role only. */
+export type StripeEvent = {
+  event_id: string
+  event_type: string
+  status: 'processing' | 'done' | 'failed'
+  error_detail: string | null
+  received_at: string
+  processed_at: string | null
+}
+
+/** Partner-widget lead capture (v1). Service-role only. */
+export type PartnerLead = {
+  id: string
+  created_at: string
+  partner_slug: string
+  phone: string
+  tool_slug: string | null
+  source_host: string | null
+  source_path: string | null
+  user_agent: string | null
+  ip_hash: string | null
+  status: 'new' | 'contacted' | 'converted' | 'spam'
+}
+
+/** Ephemeral WhatsApp-first signup state (phone → awaiting first name). */
+export type WhatsAppPendingSignup = {
+  id: string
+  phone: string
+  created_at?: string | null
+}
+
 // Supabase Database generic type — used to type createClient<Database>()
 // Every table needs a `Relationships` array and the schema needs `Views`/`Functions`
 // (even if empty) — @supabase/postgrest-js's GenericSchema constraint requires them,
@@ -155,6 +186,30 @@ export type Database = {
         Row: ToolRun
         Insert: Omit<ToolRun, 'id' | 'created_at'> & { id?: string; created_at?: string }
         Update: Partial<ToolRun>
+        Relationships: []
+      }
+      stripe_events: {
+        Row: StripeEvent
+        Insert: Pick<StripeEvent, 'event_id' | 'event_type'> &
+          Partial<Omit<StripeEvent, 'event_id' | 'event_type'>>
+        Update: Partial<StripeEvent>
+        Relationships: []
+      }
+      partner_leads: {
+        Row: PartnerLead
+        Insert: Pick<PartnerLead, 'partner_slug' | 'phone'> &
+          Partial<Omit<PartnerLead, 'partner_slug' | 'phone' | 'id' | 'created_at'>> & {
+            id?: string
+            created_at?: string
+          }
+        Update: Partial<PartnerLead>
+        Relationships: []
+      }
+      whatsapp_pending_signups: {
+        Row: WhatsAppPendingSignup
+        Insert: Pick<WhatsAppPendingSignup, 'phone'> &
+          Partial<Omit<WhatsAppPendingSignup, 'phone'>>
+        Update: Partial<WhatsAppPendingSignup>
         Relationships: []
       }
     }
