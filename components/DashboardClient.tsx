@@ -267,51 +267,60 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-10">
-      {/* Account Banner */}
-      <div className="relative mb-10 flex min-h-[520px] w-full items-center overflow-hidden md:aspect-video md:min-h-0">
-        <Image
-          src="/images/account-background.png"
-          alt=""
-          fill
-          preload
-          sizes="(min-width: 1280px) 1280px, 100vw"
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/5" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/20" />
+    <div className="w-full">
+      {/* Account Top Banner */}
+      <div className="relative mb-10 w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl">
+        <div className="relative min-h-[220px] sm:min-h-[250px] md:min-h-[270px] w-full flex items-center">
+          <Image
+            src="/images/account-background.png"
+            alt="Account Banner"
+            fill
+            priority
+            sizes="(min-width: 1280px) 1280px, 100vw"
+            className="object-cover object-center"
+          />
+          {/* Gradient overlays for high text contrast and depth */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/75 to-black/35" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/25" />
 
-        <div className="relative z-10 flex w-full flex-col justify-between gap-8 px-6 py-14 sm:px-10 md:flex-row md:items-center lg:px-16">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <span className="h-0.5 w-8 rounded-full bg-[#C0392B]" />
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-300">
-                PLANET SOR7ED COMMAND
-              </span>
+          {/* Banner Content */}
+          <div className="relative z-10 flex w-full flex-col justify-between gap-6 px-6 py-8 sm:px-10 sm:py-10 md:flex-row md:items-center lg:px-12">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2.5">
+                <span className="h-0.5 w-6 rounded-full bg-[#C0392B]" />
+                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#C0392B]">
+                  PLANET SOR7ED
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <h1
+                  className="text-4xl sm:text-5xl md:text-6xl font-black uppercase text-white tracking-tight drop-shadow-md leading-[0.95]"
+                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                >
+                  Welcome back{profile?.first_name ? `, ${profile.first_name}` : ''}
+                </h1>
+                <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-3 py-0.5 text-xs font-bold text-emerald-400 backdrop-blur-md">
+                  Member
+                </span>
+              </div>
+              <p className="text-xs text-neutral-300 font-mono tracking-wide drop-shadow">
+                {session?.user?.email}
+              </p>
             </div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-3xl font-black text-white sm:text-4xl tracking-tight drop-shadow-md" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-                Welcome back{profile?.first_name ? `, ${profile.first_name}` : ''}
-              </h1>
-              <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-3 py-0.5 text-xs font-bold text-emerald-400 backdrop-blur-md">
-                Member
-              </span>
-            </div>
-            <p className="mt-1 text-xs text-neutral-300 font-mono drop-shadow">{session?.user?.email}</p>
-          </div>
 
-          <div className="flex items-center gap-3">
-            <div className="rounded-2xl border border-neutral-800 bg-neutral-950/80 px-4 py-2 text-center backdrop-blur-md shadow-lg">
-              <span className="block text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Free Credits</span>
-              <span className="text-base font-black text-emerald-400">5 Runs Available</span>
-            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="rounded-2xl border border-neutral-700/60 bg-neutral-950/80 px-4 py-2.5 text-center backdrop-blur-md shadow-lg">
+                <span className="block text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Free Credits</span>
+                <span className="text-sm sm:text-base font-black text-emerald-400">5 Runs Available</span>
+              </div>
 
-            <button
-              onClick={handleSignOut}
-              className="rounded-full border border-neutral-800 bg-neutral-900/90 px-5 py-2.5 text-xs font-bold text-neutral-300 hover:border-neutral-600 hover:bg-neutral-800 hover:text-white transition-all shadow-lg backdrop-blur-md"
-            >
-              Sign Out
-            </button>
+              <button
+                onClick={handleSignOut}
+                className="rounded-full border border-neutral-700/60 bg-neutral-900/80 px-5 py-2.5 text-xs font-bold text-neutral-200 hover:border-neutral-500 hover:bg-neutral-800 hover:text-white transition-all shadow-lg backdrop-blur-md active:scale-95"
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
         </div>
       </div>

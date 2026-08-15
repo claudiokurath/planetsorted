@@ -72,7 +72,7 @@ export function SignupForm() {
       <div className="mb-8 text-center">
         <div className="mx-auto h-1 w-12 rounded-full bg-[#C0392B] mb-4" />
         <h1
-          className="text-4xl font-black text-white uppercase tracking-tight"
+          className="text-5xl sm:text-6xl font-black text-white uppercase tracking-tight leading-[0.95]"
           style={{ fontFamily: "'Bebas Neue', sans-serif" }}
         >
           Get Started

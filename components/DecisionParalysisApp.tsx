@@ -380,7 +380,7 @@ export function DecisionParalysisApp() {
                 style={{ borderColor: 'rgba(34,211,196,0.3)', background: 'rgba(34,211,196,0.05)', color: '#22d3c4' }}>
                 ✨ Decision Science Engine
               </span>
-              <h1 className="mt-6 text-4xl font-black leading-tight sm:text-5xl" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.98] tracking-tight" style={{ fontFamily: 'Inter, sans-serif' }}>
                 Break free from{' '}
                 <span style={{ background: 'linear-gradient(90deg,#22d3c4,#8b7bff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                   decision paralysis

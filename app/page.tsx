@@ -8,7 +8,7 @@ import type { Protocol } from '@/lib/types/database'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 const LOGO_IMAGE = '/images/sor7ed-logo.png'
-const SECTION_HEADING_CLASS = 'text-6xl font-black uppercase leading-none tracking-[-0.025em] sm:text-7xl'
+const SECTION_HEADING_CLASS = 'text-6xl font-black uppercase leading-none tracking-[-0.025em] sm:text-7xl lg:text-8xl'
 const SECTION_HEADING_STYLE = { fontFamily: "'Bebas Neue', sans-serif" }
 const HOW_IT_WORKS = [
   {

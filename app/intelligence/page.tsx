@@ -53,7 +53,7 @@ export default async function GuidebookListingPage() {
                 PLANET SOR7ED INTELLIGENCE
               </span>
             </div>
-            <h1 className="text-5xl sm:text-6xl font-black uppercase text-white tracking-tight drop-shadow-md" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black uppercase text-white tracking-tight drop-shadow-md leading-[0.95]" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
               Guidebook
             </h1>
             <p className="mt-3 text-base sm:text-lg text-neutral-200 font-normal leading-relaxed drop-shadow">
