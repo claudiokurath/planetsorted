@@ -15,7 +15,7 @@ export default function SoundsPage() {
         <div className="relative flex min-h-[320px] w-full items-end overflow-hidden rounded-3xl border border-neutral-800/80 bg-gradient-to-br from-neutral-950 to-black shadow-2xl sm:min-h-[400px]">
           <div className="relative z-10 max-w-3xl space-y-4 p-6 sm:p-12 lg:p-16">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ef3c2f]">Planet Sorted presents</p>
-            <h1 className="text-5xl font-black leading-tight tracking-[-0.035em] text-white sm:text-7xl">Sounds.</h1>
+            <h1 className="text-6xl font-black leading-[0.95] tracking-[-0.035em] text-white sm:text-8xl lg:text-9xl">Sounds.</h1>
             <p className="max-w-2xl text-lg leading-relaxed text-[#f4ead7]/85 sm:text-xl">New artists. Big feeling. No background noise.</p>
           </div>
         </div>

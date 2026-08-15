@@ -339,7 +339,7 @@ export function WeeklyWinsApp() {
               PLANET SOR7ED LAB — Body
             </p>
             <h1
-              className="mt-3 text-5xl font-black uppercase sm:text-6xl"
+              className="mt-3 text-6xl sm:text-7xl lg:text-8xl font-black uppercase leading-[0.95] tracking-tight"
               style={{ fontFamily: "'Bebas Neue', sans-serif" }}
             >
               Weekly Wins Generator

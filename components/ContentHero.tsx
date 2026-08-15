@@ -32,7 +32,7 @@ export function ContentHero({ title, description, coverImage, category, meta, ar
           )}
 
           <h1
-            className="text-4xl font-black uppercase leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl"
+            className="text-5xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl"
             style={{ fontFamily: "'Bebas Neue', sans-serif" }}
           >
             {title}
@@ -87,7 +87,7 @@ export function ContentHero({ title, description, coverImage, category, meta, ar
           )}
 
           <h1
-            className="text-6xl font-black uppercase leading-[0.98] tracking-tight text-white drop-shadow-lg sm:text-7xl lg:text-8xl"
+            className="text-6xl font-black uppercase leading-[0.95] tracking-tight text-white drop-shadow-lg sm:text-8xl lg:text-9xl"
             style={{ fontFamily: "'Bebas Neue', sans-serif" }}
           >
             {title}

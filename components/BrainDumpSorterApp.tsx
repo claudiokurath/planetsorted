@@ -200,7 +200,7 @@ export function BrainDumpSorterApp() {
                 style={{ borderColor: 'rgba(56,189,248,0.3)', background: 'rgba(56,189,248,0.05)', color: '#38bdf8' }}>
                 ✨ NLP Thought Classifier
               </span>
-              <h1 className="mt-6 text-4xl font-black leading-tight sm:text-5xl" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.98] tracking-tight" style={{ fontFamily: 'Inter, sans-serif' }}>
                 Dump your thoughts.{' '}
                 <span style={{ background: 'linear-gradient(90deg,#38bdf8,#8b7bff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                   Sort the mess.
