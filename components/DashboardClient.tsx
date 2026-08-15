@@ -285,9 +285,9 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
     <div className="w-full">
       {/* Account Top Banner */}
       <div className="relative mb-10 w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl">
-        <div className="relative min-h-[220px] sm:min-h-[250px] md:min-h-[270px] w-full flex items-center">
+        <div className="relative min-h-[180px] sm:min-h-[200px] w-full flex items-center">
           <Image
-            src="/images/account-background.png"
+            src="/images/banners/sounds-banner.png"
             alt="Account Banner"
             fill
             priority
