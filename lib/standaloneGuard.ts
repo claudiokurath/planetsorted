@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { createSessionClient } from '@/lib/supabase/server'
 
 export async function verifyStandaloneAccess(
   slug: string,
@@ -9,14 +8,10 @@ export async function verifyStandaloneAccess(
   // Resolved search params if Promise
   const resolvedParams = searchParams instanceof Promise ? await searchParams : searchParams
 
-  // 1. Check logged-in user session (cookie-aware client)
-  const supabase = await createSessionClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (user) {
-    return true
-  }
-
-  // 2. Check access token cookie granted by WhatsApp /r/[slug] link
+  // The tool is only reachable via a WhatsApp rich link — being logged in
+  // on the website is not a shortcut. That's the whole point: the explanation
+  // page always sends people through the SOR7ED button to WhatsApp, never
+  // straight into the app.
   const cookieStore = await cookies()
   const cookieToken = cookieStore.get(`sor7ed_access_${slug}`)?.value
   const queryToken = resolvedParams?.access_token
@@ -25,7 +20,6 @@ export async function verifyStandaloneAccess(
     return true
   }
 
-  // 3. Unauthenticated direct visitor without WhatsApp token -> redirect to /tools/[slug]
   redirect(`/tools/${slug}`)
 }
 
