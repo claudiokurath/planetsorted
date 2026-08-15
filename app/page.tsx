@@ -183,7 +183,7 @@ export default async function HomePage() {
                       </h2>
                     </div>
                     <Link href="/intelligence" className="text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:text-white transition-colors underline underline-offset-4">
-                      View full Guidebook →
+                      View all guidebooks →
                     </Link>
                   </div>
 
