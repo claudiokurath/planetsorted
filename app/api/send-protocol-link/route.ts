@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
     // Send directly from Business WhatsApp Meta API
     await sendWhatsAppMessage(cleanPhone, messageBody, richUrl)
 
-    return NextResponse.json({ success: true, phone: cleanPhone })
+    return NextResponse.json({ success: true })
   } catch (err) {
     console.error('[send-protocol-link error]', err)
     return NextResponse.json({ error: 'Failed to send WhatsApp message' }, { status: 500 })

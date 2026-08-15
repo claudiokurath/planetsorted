@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 
+const FETCH_TIMEOUT_MS = 8_000
+const MAX_BYTES = 1_500_000 // ~1.5 MB hard cap after wsrv conversion
+
 function isTrustedImageHost(rawUrl: string): boolean {
   let parsed: URL
   try {
@@ -22,24 +25,68 @@ export async function GET(req: NextRequest) {
   if (!isTrustedImageHost(url)) return new NextResponse('Untrusted image host', { status: 400 })
 
   // Route through wsrv.nl to force JPEG conversion and guarantee size < 300KB
-  // We do this server-side because placing multiple query parameters (using &) 
-  // directly in the og:image meta tag causes WhatsApp to parse them as &amp;,
-  // which breaks the wsrv.nl URL and results in massive uncompressed images.
-  const wsrvUrl = `https://wsrv.nl/?url=${encodeURIComponent(url.replace('https://', ''))}&w=1200&h=630&fit=cover&output=jpg&q=60`
-  
+  // for WhatsApp OG previews. Done server-side so & params aren't mangled into
+  // &amp; inside og:image meta tags.
+  const wsrvUrl = `https://wsrv.nl/?url=${encodeURIComponent(
+    url.replace('https://', '')
+  )}&w=1200&h=630&fit=cover&output=jpg&q=60`
+
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
+
   try {
-    const response = await fetch(wsrvUrl)
-    if (!response.ok) throw new Error('Failed to fetch from wsrv')
-    
-    const buffer = await response.arrayBuffer()
-    
+    const response = await fetch(wsrvUrl, {
+      signal: controller.signal,
+      redirect: 'follow',
+      headers: { Accept: 'image/jpeg,image/*;q=0.8,*/*;q=0.5' },
+    })
+    if (!response.ok) throw new Error(`wsrv status ${response.status}`)
+
+    const contentLength = response.headers.get('content-length')
+    if (contentLength && Number(contentLength) > MAX_BYTES) {
+      return new NextResponse('Image too large', { status: 413 })
+    }
+
+    // Stream with a hard byte cap so a misbehaving upstream can't OOM us.
+    const reader = response.body?.getReader()
+    if (!reader) throw new Error('No response body')
+
+    const chunks: Uint8Array[] = []
+    let total = 0
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      if (value) {
+        total += value.byteLength
+        if (total > MAX_BYTES) {
+          try {
+            await reader.cancel()
+          } catch {
+            /* ignore */
+          }
+          return new NextResponse('Image too large', { status: 413 })
+        }
+        chunks.push(value)
+      }
+    }
+
+    const buffer = Buffer.concat(chunks.map((c) => Buffer.from(c)))
+
     return new NextResponse(buffer, {
       headers: {
         'Content-Type': 'image/jpeg',
         'Cache-Control': 'public, max-age=31536000, immutable',
+        'X-Content-Type-Options': 'nosniff',
       },
     })
-  } catch {
-    return new NextResponse('Error proxying image', { status: 500 })
+  } catch (err) {
+    const aborted =
+      err instanceof Error && (err.name === 'AbortError' || /aborted/i.test(err.message))
+    console.error('[image-proxy]', aborted ? 'timeout' : err)
+    return new NextResponse(aborted ? 'Upstream timeout' : 'Error proxying image', {
+      status: aborted ? 504 : 500,
+    })
+  } finally {
+    clearTimeout(timer)
   }
 }

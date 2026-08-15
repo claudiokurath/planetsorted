@@ -234,11 +234,11 @@ Inside `/dashboard`, logged-in users with a verified WhatsApp number get a separ
 
 ## The SOR7ED Button
 
-**Correction (14 August 2026):** this section previously described `GetSortedButton.tsx` as the live button, "temporarily not rendered." That was already stale — verified directly against the running code, not against this doc. `GetSortedButton.tsx` is **not rendered anywhere** and has not been for some time. It is dead code, confirmed by grep across every `.tsx` file in the app. Per explicit instruction, it is to be deleted (`git rm components/buttons/GetSortedButton.tsx`) — not yet done, since file deletion is deliberately left to a human `git rm`, not run automatically. **Do not treat `GetSortedButton.tsx` as the current button or restore it to any page.**
+**Correction (14 August 2026):** this section previously described `GetSortedButton.tsx` as the live button, "temporarily not rendered." That was already stale — verified directly against the running code, not against this doc. `GetSortedButton.tsx` is **not rendered anywhere** and has not been for some time. It is dead code, confirmed by grep across every `.tsx` file in the app. **Deleted** via `git rm components/buttons/GetSortedButton.tsx` (2026-08-15). **Do not restore it.** Live button is `Sor7edButton.tsx`.
 
 **The actual live button is `Sor7edButton.tsx`**, rendered on every article page (`app/intelligence/[slug]/page.tsx`) and every tool page (`components/ToolClient.tsx`). It has three states:
 - Not signed in → "SOR7ED — SIGN IN FIRST" → `/signup?next=<returnPath>`.
-- Signed in, WhatsApp not verified → "CONNECT WHATSAPP →" → `/dashboard?tab=settings`. **Known bug:** `DashboardClient.tsx` does not read the `?tab=` query param, so this always opens on the Tools tab, not Settings — the user has to click Settings themselves. Not fixed yet.
+- Signed in, WhatsApp not verified → "CONNECT WHATSAPP →" → `/dashboard?tab=settings`. `DashboardClient` honours `?tab=` (tools | library | settings).
 - Signed in + WhatsApp verified → "SOR7ED" button → `POST /api/save-to-phone` → sends the rich link + full protocol text (+ audio, if present) via the Meta API.
 
 This is a **sign-in + verification gated** flow — the opposite of what the 0.4.1 changelog entry below describes fixing (`GetSortedButton` was meant to be the *ungated*, no-signup `wa.me` replacement). Whether `Sor7edButton`'s gated flow is the intended current design or unintentional drift back toward the pre-0.4.1 problem has not been resolved — flag before changing either way.
@@ -255,7 +255,7 @@ This is a **sign-in + verification gated** flow — the opposite of what the 0.4
 
 **Key files:**
 - `components/buttons/Sor7edButton.tsx` — the actual live button on public article/tool pages. See states above.
-- `components/buttons/GetSortedButton.tsx` — dead code, unused, pending deletion. Do not build on this file.
+- `components/buttons/GetSortedButton.tsx` — **deleted** (was dead code). Live button is `Sor7edButton.tsx`.
 - `public/widget.js` + `app/api/widget-config/route.ts` — the separate partner-widget product. Real, working, currently embedded nowhere. Not the same thing as `Sor7edButton`.
 - `components/ContentHero.tsx` — shared dark-overlay banner for article and tool detail pages.
 - `components/SaveToPhoneButton.tsx` — separate, dashboard-only smart button (wa.me fallback / silent API push for verified users). No longer used on public post pages — see [Save-to-Phone (dashboard only)](#whatsapp-as-remote-control).
@@ -366,7 +366,7 @@ app/
   privacy/, terms/, cookies/
 components/
   buttons/Sor7edButton.tsx     ← the actual live send-to-WhatsApp button on article/tool pages
-  buttons/GetSortedButton.tsx  ← dead code, unused, pending deletion — see "The SOR7ED Button"
+  buttons/GetSortedButton.tsx  ← deleted; live button is Sor7edButton.tsx
   ContentHero.tsx              ← shared article/tool image banner
   SaveToPhoneButton.tsx        ← dashboard-only direct-push button (auth + WhatsApp-verified users)
   SmartNav.tsx                 ← nav bar, strictly ABOUT/GUIDEBOOK/TOOLBOX, no auth-conditional links (per 0.4.14)
@@ -550,7 +550,7 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 2. Server sends a 6-digit OTP via the Meta API.
 3. User enters the code on the dashboard.
 4. Server sets `whatsapp_verified = true`.
-5. Until step 4, `Sor7edButton` shows "CONNECT WHATSAPP →" instead of the send button — see "The SOR7ED Button" for the known `?tab=settings` deep-link bug.
+5. Until step 4, `Sor7edButton` shows "CONNECT WHATSAPP →" instead of the send button — see "The SOR7ED Button" (the `?tab=settings` deep-link is fixed).
 
 ### Notion CRM Sync
 Every new signup (WhatsApp-first or email/dashboard) is mirrored, best-effort, into the Notion `CRM` database (properties: Name, Email, WhatsApp, Status, Source, Signed Up) via `lib/notion/syncUserToCrm.ts`. A Notion outage never blocks account creation — sync failures are logged, not surfaced to the user.
@@ -583,6 +583,12 @@ Wipes `saved_items`, `credits_ledger`, `entitlements`, `tool_requests` (cascadin
 
 ---
 
+## Cron schedule
+
+- **Notion → Supabase sync** is on a **once-daily** Vercel cron (`vercel.json` → `/api/cron/sync-notion` at 00:00 UTC). Vercel Hobby only allows one cron invocation per day — `*/5` schedules are rejected at deploy time.
+- For the master-spec **every-5-minutes** cadence: either upgrade to Vercel Pro and set the schedule to `*/5 * * * *`, or add an external pinger (GitHub Actions / cron-job.org) that `GET`s `/api/cron/sync-notion` with `Authorization: Bearer $CRON_SECRET`.
+- **Weekly broadcast** remains a Vercel cron: Tuesdays 10:00 UTC.
+
 ## Environment Variables
 
 | Variable | Used in |
@@ -598,15 +604,18 @@ Wipes `saved_items`, `credits_ledger`, `entitlements`, `tool_requests` (cascadin
 | `NEXT_PUBLIC_SITE_URL` | Now defaults to `planetsorted.com` |
 | `NEXT_PUBLIC_WA_NUMBER` | GET IT SORTED button (wa.me links) |
 | `META_PHONE_NUMBER_ID` / `META_WHATSAPP_TOKEN` | WhatsApp send API |
+| `META_APP_SECRET` | Meta webhook `X-Hub-Signature-256` verification (required in production) |
 | `WHATSAPP_VERIFY_TOKEN` | WhatsApp webhook verification |
+| `CONNECT_TOKEN_SECRET` (or `APP_SIGNING_SECRET`) | HMAC for CONNECT QR tokens + standalone access cookies (falls back to service-role key) |
 | `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` | Payments |
+| `STRIPE_PRICE_ID_PLUS_MONTHLY` | Stripe Price ID for Plus checkout |
 
 ---
 
 ## Company Details
 - **Registered Name:** SOR7ED LIMITED (trading as Planet Sorted)
 - **Company Number:** 16398701 (UK) · **Founded:** 2025 · **Location:** London, UK
-- **WhatsApp:** +44 7360 277713
+- **WhatsApp:** +44 7591 922247
 - **Email:** hello@planetsorted.com *(keep hello@sor7ed.com forwarding to it during transition)*
 - **Website:** planetsorted.com
 
@@ -653,15 +662,16 @@ time someone is in the Notion UI.
 ---
 
 ## Version & History
-- **Current Version:** 0.4.16
-- **Consolidation Date:** 2026-08-14
+- **Current Version:** 0.4.17
+- **Consolidation Date:** 2026-08-15
+- **Notes (0.4.17):** Security + reliability pack. Meta webhook HMAC (`META_APP_SECRET`), CSPRNG OTP, signed CONNECT/standalone tokens, service-role no longer used to identify callers (`lib/auth/requireUser` + session client on upgrade). Stripe period_end no longer falls back to "now"; weekly broadcast uses real newlines + `last_weekly_sent_at` skip; image-proxy timeout/size caps; WhatsApp SAVE/LIBRARY commands; deleted dead `GetSortedButton.tsx`; Docker standalone + Node 22; env table + WA number corrected to +44 7591 922247; `?tab=settings` deep-link fixed.
 - **Notes (0.4.16):** Corrected "The GET IT SORTED Button" section (renamed
   "The SOR7ED Button"), which had gone stale relative to the running code:
   `GetSortedButton.tsx` was described as the live button but is actually
   unused dead code (confirmed by repo-wide grep), pending deletion.
   `Sor7edButton.tsx` — undocumented until now — is the actual live button
   on article/tool pages, with a sign-in + WhatsApp-verification gate and a
-  known `?tab=settings` deep-link bug into the dashboard, not yet fixed.
+  `?tab=settings` deep-link into the dashboard (now fixed).
   Documented the separate partner-widget product (`public/widget.js` +
   `app/api/widget-config/route.ts`) as distinct from `Sor7edButton` — real,
   working, embedded nowhere, and not a WhatsApp-number collector as
