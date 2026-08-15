@@ -18,8 +18,8 @@ const HOW_IT_WORKS = [
   },
   {
     number: '02',
-    title: 'Open',
-    description: 'Tap the SOR7ED button to open the tool instantly — no app, no sign-up required.',
+    title: 'Tap',
+    description: 'Tap the SOR7ED button — it goes straight to your WhatsApp. Sign in once, then every tap after that is instant.',
   },
   {
     number: '03',

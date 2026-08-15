@@ -6,6 +6,29 @@ import { createBrowserClient } from '@/lib/supabase/client'
 
 type State = 'idle' | 'loading' | 'sent' | 'error'
 
+const EMAIL_PROVIDER_INBOX_URLS: Record<string, string> = {
+  'gmail.com': 'https://mail.google.com/mail/u/0/#inbox',
+  'googlemail.com': 'https://mail.google.com/mail/u/0/#inbox',
+  'outlook.com': 'https://outlook.live.com/mail/0/inbox',
+  'hotmail.com': 'https://outlook.live.com/mail/0/inbox',
+  'live.com': 'https://outlook.live.com/mail/0/inbox',
+  'msn.com': 'https://outlook.live.com/mail/0/inbox',
+  'yahoo.com': 'https://mail.yahoo.com/',
+  'yahoo.co.uk': 'https://mail.yahoo.com/',
+  'icloud.com': 'https://www.icloud.com/mail',
+  'me.com': 'https://www.icloud.com/mail',
+  'mac.com': 'https://www.icloud.com/mail',
+  'aol.com': 'https://mail.aol.com/',
+  'proton.me': 'https://mail.proton.me/',
+  'protonmail.com': 'https://mail.proton.me/',
+}
+
+function getEmailInboxUrl(email: string): string | null {
+  const domain = email.split('@')[1]?.toLowerCase().trim()
+  if (!domain) return null
+  return EMAIL_PROVIDER_INBOX_URLS[domain] ?? null
+}
+
 export function SignupForm() {
   const searchParams = useSearchParams()
   const linkExpired = searchParams.get('error') === 'link-expired'
@@ -45,6 +68,7 @@ export function SignupForm() {
   }
 
   if (state === 'sent') {
+    const inboxUrl = getEmailInboxUrl(email)
     return (
       <div className="w-full max-w-md rounded-3xl bg-[#0a0a0a] border border-white/10 p-8 sm:p-10 text-center shadow-2xl">
         <div className="mb-4 text-4xl">📬</div>
@@ -53,6 +77,18 @@ export function SignupForm() {
           We&apos;ve sent a magic sign-in link to <strong className="text-emerald-400 font-mono">{email}</strong>.
           Click it to access your PLANET SOR7ED account — no password needed.
         </p>
+
+        {inboxUrl && (
+          <a
+            href={inboxUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 block w-full rounded-2xl bg-[#C0392B] py-3.5 text-sm font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg"
+          >
+            Jump to Your Email →
+          </a>
+        )}
+
         <p className="mt-6 text-xs text-gray-500">
           Didn&apos;t get it? Check your spam folder, or{' '}
           <button

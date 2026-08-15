@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ToolClient } from '@/components/ToolClient'
-import { createServerClient } from '@/lib/supabase/server'
+import { createServerClient, createSessionClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
 
 interface Props {
@@ -60,7 +60,8 @@ export default async function ToolPage({ params }: Props) {
     notFound()
   }
 
-  const { data: { session } } = await supabase.auth.getSession()
+  const sessionSupabase = await createSessionClient()
+  const { data: { session } } = await sessionSupabase.auth.getSession()
   const isLoggedIn = !!session?.user
   let whatsappVerified = false
 
