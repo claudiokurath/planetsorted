@@ -8,12 +8,15 @@
  *   data-position — "bottom-right" | "bottom-left" (default: "bottom-right")
  *
  * The widget is fully self-contained: no external dependencies, no cookies, no iframes.
- * Clicking the button opens the relevant tool page on planetsorted.com in a new tab.
+ * Clicking the button does NOT navigate to planetsorted.com — it opens WhatsApp with a
+ * message to SOR7ED's number already typed in. The visitor taps Send, and the WhatsApp
+ * bot (app/api/whatsapp/webhook/route.ts) replies with that tool's rich link card,
+ * matching the message text against protocols.slug.
  */
 ;(function () {
   'use strict'
 
-  var BASE_URL = 'https://planetsorted.com'
+  var WA_BUSINESS_NUMBER = '447591922247'
   var FONT_URL = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'
   var BRAND_RED = '#C0392B'
   var BRAND_DARK = '#96281B'
@@ -25,18 +28,8 @@
   var buttonLabel = (scriptEl && scriptEl.getAttribute('data-label')) || 'SOR7ED'
   var position = (scriptEl && scriptEl.getAttribute('data-position')) || 'bottom-right'
 
-  // Route map — mirrors lib/standaloneRoutes.ts on the server
-  var standaloneRoutes = {
-    'adhd-tax-calculator': '/adhd-tax-calculator',
-    'weekly-wins-generator': '/weekly-wins-generator',
-    'biometric-state-tracker': '/biometric-state-tracker',
-    'decision-paralysis-solver': '/decision-paralysis-solver',
-    'financial-autopilot': '/financial-autopilot',
-    'brain-dump-sorter': '/brain-dump-sorter',
-  }
-
-  function getToolPath(slug) {
-    return standaloneRoutes[slug] || '/tools/' + slug
+  function getWhatsAppLink(slug) {
+    return 'https://wa.me/' + WA_BUSINESS_NUMBER + '?text=' + encodeURIComponent(slug)
   }
 
   function init() {
@@ -95,7 +88,7 @@
 
     // Build button
     var btn = document.createElement('a')
-    btn.href = BASE_URL + getToolPath(toolSlug)
+    btn.href = getWhatsAppLink(toolSlug)
     btn.target = '_blank'
     btn.rel = 'noopener noreferrer'
     btn.className = '__sor7ed_btn'

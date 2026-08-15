@@ -19,7 +19,8 @@ export default function WidgetTestPage() {
         <p className="mt-4 text-base sm:text-lg leading-relaxed text-neutral-300">
           This page embeds the real, live <code className="text-emerald-400">widget.js</code> script exactly the
           way a partner site would — nothing simulated. Look for the floating SOR7ED button in the bottom-right
-          corner of this page and tap it.
+          corner of this page and tap it. It won&apos;t open a website — it opens WhatsApp with a message to
+          SOR7ED already typed in. Tap Send in WhatsApp and the bot replies with this tool&apos;s link.
         </p>
 
         <div className="mt-8 rounded-2xl border border-neutral-800 bg-[#141414] p-6 space-y-3">
