@@ -109,9 +109,11 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       setSession(activeSession)
       const [profileData] = await Promise.all([fetchProfile(activeSession), fetchSavedItems(activeSession)])
       // The whole point of signing up is connecting WhatsApp — take anyone
-      // who hasn't done that yet straight to Settings instead of Tools.
+      // who hasn't done that yet straight to Settings instead of Tools,
+      // with the QR code already generated so there's no extra click.
       if (profileData && !profileData.whatsapp_verified) {
         setActiveTab('settings')
+        handleGenerateQr(activeSession)
       }
       setLoading(false)
     }
@@ -171,11 +173,11 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
     return () => clearInterval(interval)
   }, [qrLink, verifyState, fetchProfile])
 
-  async function handleGenerateQr() {
+  async function handleGenerateQr(activeSession = session) {
     setQrLoading(true)
     setQrError('')
     try {
-      const headers = await getAuthHeader()
+      const headers = await getAuthHeader(activeSession)
       const res = await fetch('/api/whatsapp/connect-qr', { headers })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Failed to generate QR code')
@@ -606,7 +608,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                 {!qrLink && (
                   <button
                     type="button"
-                    onClick={handleGenerateQr}
+                    onClick={() => handleGenerateQr()}
                     disabled={qrLoading}
                     className="rounded-xl border border-gray-700 px-4 py-2 text-xs font-bold text-gray-300 hover:border-emerald-500 hover:text-emerald-400 transition-colors disabled:opacity-50"
                   >

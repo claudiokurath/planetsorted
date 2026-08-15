@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { cookies } from 'next/headers'
-import { createServerClient } from '@/lib/supabase/server'
+import { createServerClient, createSessionClient } from '@/lib/supabase/server'
 import { ContentHero } from '@/components/ContentHero'
 import { Sor7edButton } from '@/components/buttons/Sor7edButton'
 import { ArticleAudioControls } from '@/components/ArticleAudioControls'
@@ -125,7 +125,8 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   if (!item) notFound()
 
   // Check user session & subscription
-  const { data: { session } } = await supabase.auth.getSession()
+  const sessionSupabase = await createSessionClient()
+  const { data: { session } } = await sessionSupabase.auth.getSession()
   const isLoggedIn = !!session?.user
   let isSubscriber = false
   let whatsappVerified = false
