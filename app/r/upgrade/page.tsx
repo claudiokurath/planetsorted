@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
-import { createServerClient } from '@/lib/supabase/server'
+import { createSessionClient } from '@/lib/supabase/server'
 import { stripe } from '@/lib/stripe'
 
 export const metadata = {
@@ -10,51 +9,20 @@ export const metadata = {
 }
 
 export default async function UpgradePage() {
-  const cookieStore = await cookies()
-  const allCookies = cookieStore.getAll()
-  const sbCookie = allCookies.find(c => c.name.includes('auth-token') || c.name.includes('access_token'))
-  
-  let token: string | undefined
-  if (sbCookie) {
-    try {
-      const parsed = JSON.parse(sbCookie.value)
-      token = parsed.access_token || parsed[0]
-    } catch {
-      token = sbCookie.value
-    }
-  }
-
-  let authUser = null
-  if (token) {
-    const supabase = createServerClient()
-    const { data } = await supabase.auth.getUser(token)
-    authUser = data?.user
-  }
+  const sessionClient = await createSessionClient()
+  const {
+    data: { user: authUser },
+  } = await sessionClient.auth.getUser()
 
   // Server Action to handle the subscription redirection
   async function handleSubscribe() {
     'use server'
-    
-    const cookieStoreInternal = await cookies()
-    const allCookiesInternal = cookieStoreInternal.getAll()
-    const sbCookieInternal = allCookiesInternal.find(c => c.name.includes('auth-token') || c.name.includes('access_token'))
-    
-    let tokenInternal: string | undefined
-    if (sbCookieInternal) {
-      try {
-        const parsed = JSON.parse(sbCookieInternal.value)
-        tokenInternal = parsed.access_token || parsed[0]
-      } catch {
-        tokenInternal = sbCookieInternal.value
-      }
-    }
 
-    if (!tokenInternal) {
-      redirect('/signup')
-    }
+    const session = await createSessionClient()
+    const {
+      data: { user: currentUser },
+    } = await session.auth.getUser()
 
-    const supabase = createServerClient()
-    const { data: { user: currentUser } } = await supabase.auth.getUser(tokenInternal)
     if (!currentUser) {
       redirect('/signup')
     }
@@ -68,7 +36,7 @@ export default async function UpgradePage() {
     }
 
     try {
-      const session = await stripe.checkout.sessions.create({
+      const checkoutSession = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [
           {
@@ -78,16 +46,27 @@ export default async function UpgradePage() {
         ],
         mode: 'subscription',
         client_reference_id: currentUser.id,
+        customer_email: currentUser.email || undefined,
         success_url: `${site}/dashboard?upgraded=true`,
         cancel_url: `${site}/r/upgrade-cancelled`,
       })
 
-      if (!session.url) {
+      if (!checkoutSession.url) {
         throw new Error('Failed to retrieve checkout session URL.')
       }
 
-      redirect(session.url)
+      redirect(checkoutSession.url)
     } catch (err) {
+      // Next.js redirect() throws a special error — rethrow it.
+      if (
+        err &&
+        typeof err === 'object' &&
+        'digest' in err &&
+        typeof (err as { digest?: unknown }).digest === 'string' &&
+        String((err as { digest: string }).digest).startsWith('NEXT_REDIRECT')
+      ) {
+        throw err
+      }
       console.error('[Stripe Upgrade Checkout Error]', err)
       redirect('/dashboard?error=checkout-failed')
     }
@@ -169,7 +148,8 @@ export default async function UpgradePage() {
           Scholarships and pay-what-you-can tiers are available, no proof needed. Contact us at{' '}
           <a href="mailto:hello@planetsorted.com" className="underline">
             hello@planetsorted.com
-          </a>.
+          </a>
+          .
         </p>
       </div>
 

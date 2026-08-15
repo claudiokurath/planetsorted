@@ -4,15 +4,22 @@ import { cookies } from 'next/headers'
 import type { Database } from '@/lib/types/database'
 
 /**
- * Server-side Supabase client using the service role key.
- * For use in Server Components, Route Handlers, and Server Actions only.
+ * Service-role Supabase client (bypasses RLS).
+ * Prefer the name createServiceClient — createServerClient is kept as an
+ * alias so existing call sites keep working. Never use this to identify the
+ * logged-in user; use createSessionClient() or lib/auth/requireUser instead.
  * Never expose SUPABASE_SERVICE_ROLE_KEY to the browser.
  */
-export function createServerClient() {
+export function createServiceClient() {
   return createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
     process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-service-role-key'
   )
+}
+
+/** @deprecated Prefer createServiceClient() — this is the service-role client, not a session client. */
+export function createServerClient() {
+  return createServiceClient()
 }
 
 /**

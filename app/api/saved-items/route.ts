@@ -1,17 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@/lib/supabase/server'
+import { requireUser } from '@/lib/auth/requireUser'
 
 export async function GET(req: NextRequest) {
-  const supabase = createServerClient()
-  
-  // Get authenticated user
-  const { data: { user: authUser } } = await supabase.auth.getUser(
-    req.headers.get('authorization')?.replace('Bearer ', '') ?? ''
-  )
-  
-  if (!authUser) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  const auth = await requireUser(req)
+  if (!auth.user) return auth.error
+  const { user: authUser, admin: supabase } = auth
 
   try {
     const { data: items, error } = await supabase

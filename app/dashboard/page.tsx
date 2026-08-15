@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { DashboardClient } from '@/components/DashboardClient'
 import { createServerClient } from '@/lib/supabase/server'
@@ -25,7 +26,13 @@ export default async function DashboardPage() {
     <main className="min-h-screen bg-black text-white">
       <div className="flex min-h-screen items-start justify-center px-4 pt-10 pb-20">
         <div className="w-full max-w-7xl">
-          <DashboardClient tools={tools} />
+          <Suspense
+            fallback={
+              <p className="text-center text-neutral-500 py-20">Loading your account…</p>
+            }
+          >
+            <DashboardClient tools={tools} />
+          </Suspense>
         </div>
       </div>
     </main>
