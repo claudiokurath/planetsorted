@@ -4,18 +4,20 @@
  *
  * Attributes:
  *   data-tool    — tool slug (default: "adhd-tax-calculator")
- *   data-label   — button label (default: "GET SOR7ED")
+ *   data-label   — button label (default: "SOR7ED")
  *   data-position — "bottom-right" | "bottom-left" (default: "bottom-right")
  *
  * The widget is fully self-contained: no external dependencies, no cookies, no iframes.
- * Clicking the button does NOT navigate to planetsorted.com — it opens WhatsApp with a
- * message to SOR7ED's number already typed in. The visitor taps Send, and the WhatsApp
- * bot (app/api/whatsapp/webhook/route.ts) replies with that tool's rich link card,
- * matching the message text against protocols.slug.
+ * Clicking the button does NOT navigate to planetsorted.com — it opens WhatsApp,
+ * addressed directly to SOR7ED's number, with a message already typed in: the tool's
+ * rich-link URL (planetsorted.com/r/<slug>), which WhatsApp unfurls into an actual
+ * card with an image. The visitor taps Send, and that card sits in their thread with
+ * the business from then on.
  */
 ;(function () {
   'use strict'
 
+  var BASE_URL = 'https://planetsorted.com'
   var WA_BUSINESS_NUMBER = '447591922247'
   var FONT_URL = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'
   var BRAND_RED = '#C0392B'
@@ -28,8 +30,12 @@
   var buttonLabel = (scriptEl && scriptEl.getAttribute('data-label')) || 'SOR7ED'
   var position = (scriptEl && scriptEl.getAttribute('data-position')) || 'bottom-right'
 
+  // The rich-link redirect page (app/r/[slug]/page.tsx) carries the Open Graph
+  // tags that make WhatsApp unfurl this into an actual card with an image —
+  // a bare keyword or slug is just text and renders with no preview at all.
   function getWhatsAppLink(slug) {
-    return 'https://wa.me/' + WA_BUSINESS_NUMBER + '?text=' + encodeURIComponent(slug)
+    var richUrl = BASE_URL + '/r/' + slug
+    return 'https://wa.me/' + WA_BUSINESS_NUMBER + '?text=' + encodeURIComponent(richUrl)
   }
 
   function init() {
