@@ -156,6 +156,21 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
     }
   }
 
+  // While a QR/connect link is showing and not yet verified, poll for the
+  // webhook having processed it — otherwise the UI just sits there looking
+  // broken even after the user correctly taps Send in WhatsApp.
+  useEffect(() => {
+    if (!qrLink || verifyState === 'verified') return
+    const interval = setInterval(async () => {
+      const data = await fetchProfile()
+      if (data?.whatsapp_verified) {
+        setQrLink('')
+        clearInterval(interval)
+      }
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [qrLink, verifyState, fetchProfile])
+
   async function handleGenerateQr() {
     setQrLoading(true)
     setQrError('')
@@ -583,9 +598,10 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
               <div className="mt-6 space-y-3 border-t border-gray-800 pt-6">
                 <p className="text-xs font-bold text-gray-300">Or scan to connect instantly</p>
                 <p className="text-[11px] text-gray-500">
-                  Skips typing a number entirely — scan with your phone, or tap the link
-                  on mobile, and send the pre-filled message. That message is the proof
-                  it&apos;s really your number.
+                  Skips typing a number entirely — scan with your phone (or tap the link
+                  on mobile). WhatsApp will open with a message already typed in, but{' '}
+                  <strong className="text-gray-300">you still have to tap Send inside WhatsApp</strong>{' '}
+                  — it doesn&apos;t send itself. That message is what proves it&apos;s really your number.
                 </p>
                 {!qrLink && (
                   <button
@@ -616,6 +632,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                     >
                       Or tap here to open WhatsApp directly →
                     </a>
+                    <p className="text-xs font-bold text-amber-400">↑ Remember to tap Send in WhatsApp — it won&apos;t connect until you do.</p>
                     <p className="text-[11px] text-gray-500">Expires in 10 minutes.</p>
                   </div>
                 )}
