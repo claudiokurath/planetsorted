@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
 import { createServerClient } from '@/lib/supabase/server'
 import { STANDALONE_ROUTES } from '@/lib/standaloneRoutes'
 import {
@@ -74,15 +73,12 @@ export default async function RichLinkRedirect({ params }: Props) {
 
   const standalonePath = STANDALONE_ROUTES[lowerSlug]
   if (standalonePath) {
+    // Can't set cookies here — this is a Server Component render (a plain
+    // GET), and Next.js only allows cookies().set() inside a Server Action
+    // or Route Handler; doing it here 500s on every request. The query-param
+    // token is sufficient on its own — the destination page's guard checks
+    // it directly (see lib/standaloneGuard.ts).
     const { token } = buildStandaloneAccessToken(lowerSlug, STANDALONE_ACCESS_TTL_SECONDS)
-    const cookieStore = await cookies()
-    cookieStore.set(`sor7ed_access_${lowerSlug}`, token, {
-      path: '/',
-      maxAge: STANDALONE_ACCESS_TTL_SECONDS,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      httpOnly: true,
-    })
     redirect(`${SITE}${standalonePath}?access_token=${encodeURIComponent(token)}`)
   }
 
