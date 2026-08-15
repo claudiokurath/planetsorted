@@ -65,14 +65,14 @@ export default async function HomePage() {
       .or('type.eq.Article,type.is.null')
       .eq('status', 'Published')
       .order('updated_at', { ascending: false })
-      .limit(6),
+      .limit(4),
     supabase
       .from('protocols')
       .select('slug, title, summary, cover_image, category, read_time')
       .eq('type', 'Tool')
       .eq('status', 'Published')
       .order('updated_at', { ascending: false })
-      .limit(6),
+      .limit(4),
   ])
 
   const articles = (rawProtocols as Protocol[]) || []
@@ -135,77 +135,76 @@ export default async function HomePage() {
             ))}
           </ol>
         </section>
-
-        {/* Toolbox Section */}
-        {tools.length > 0 && (
-          <section className="border-b border-neutral-300 bg-[#f0e4cd] text-black">
-            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-              <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                <div>
-                  <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-5" />
-                  <h2 className={`${SECTION_HEADING_CLASS} text-black`} style={SECTION_HEADING_STYLE}>
-                    Toolbox
-                  </h2>
-                </div>
-                <Link href="/tools" className="text-sm font-bold uppercase tracking-wider text-[#9f2f27] hover:text-black transition-colors underline underline-offset-4">
-                  View all tools →
-                </Link>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-                {tools.map((tool) => (
-                  <ContentCard
-                    key={tool.slug}
-                    href={getToolRoute(tool.slug)}
-                    title={tool.title}
-                    summary={tool.summary || ''}
-                    coverImage={tool.cover_image}
-                    category={tool.category}
-                    meta={tool.read_time}
-                    compact
-                  />
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
       </div>
 
-      {/* Guidebook Section */}
-      {articles.length > 0 && (
-        <div data-snap-section>
-          <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div>
-                <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-5" />
-                <h2 className={`${SECTION_HEADING_CLASS} text-white`} style={SECTION_HEADING_STYLE}>
-                  Guidebook
-                </h2>
-              </div>
-              <Link href="/intelligence" className="text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:text-white transition-colors underline underline-offset-4">
-                View full Guidebook →
-              </Link>
-            </div>
+      {/* Toolbox + Guidebook — side by side so both are visible together, not stacked on separate scroll pages */}
+      {(tools.length > 0 || articles.length > 0) && (
+        <div data-snap-section className="bg-black">
+          <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-8">
+              {tools.length > 0 && (
+                <div className="rounded-3xl bg-[#f0e4cd] p-6 text-black sm:p-8">
+                  <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                      <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-5" />
+                      <h2 className="text-4xl font-black uppercase leading-none tracking-[-0.025em] text-black sm:text-5xl" style={SECTION_HEADING_STYLE}>
+                        Toolbox
+                      </h2>
+                    </div>
+                    <Link href="/tools" className="text-sm font-bold uppercase tracking-wider text-[#9f2f27] hover:text-black transition-colors underline underline-offset-4">
+                      View all tools →
+                    </Link>
+                  </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-              {articles.map((article) => (
-                <ContentCard
-                  key={article.slug}
-                  href={`/intelligence/${article.slug}`}
-                  title={article.title}
-                  summary={article.summary || ''}
-                  coverImage={article.cover_image}
-                  category={article.category}
-                  meta={article.read_time || undefined}
-                  compact
-                />
-              ))}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-stretch">
+                    {tools.map((tool) => (
+                      <ContentCard
+                        key={tool.slug}
+                        href={getToolRoute(tool.slug)}
+                        title={tool.title}
+                        summary={tool.summary || ''}
+                        coverImage={tool.cover_image}
+                        category={tool.category}
+                        meta={tool.read_time}
+                        compact
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {articles.length > 0 && (
+                <div className="rounded-3xl border border-neutral-800 bg-neutral-950 p-6 sm:p-8">
+                  <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                      <div className="h-1 w-16 bg-[#C0392B] rounded-full mb-5" />
+                      <h2 className="text-4xl font-black uppercase leading-none tracking-[-0.025em] text-white sm:text-5xl" style={SECTION_HEADING_STYLE}>
+                        Guidebook
+                      </h2>
+                    </div>
+                    <Link href="/intelligence" className="text-sm font-bold uppercase tracking-wider text-[#C0392B] hover:text-white transition-colors underline underline-offset-4">
+                      View full Guidebook →
+                    </Link>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-stretch">
+                    {articles.map((article) => (
+                      <ContentCard
+                        key={article.slug}
+                        href={`/intelligence/${article.slug}`}
+                        title={article.title}
+                        summary={article.summary || ''}
+                        coverImage={article.cover_image}
+                        category={article.category}
+                        meta={article.read_time || undefined}
+                        compact
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </section>
-
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="h-px bg-[#262626] my-8" />
-          </div>
         </div>
       )}
 
