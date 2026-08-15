@@ -1,34 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
-import crypto from 'crypto'
-import { createServerClient } from '@/lib/supabase/server'
+import { requireUser } from '@/lib/auth/requireUser'
+import {
+  buildConnectToken,
+  CONNECT_TOKEN_TTL_SECONDS,
+} from '@/lib/crypto/tokens'
 
-const WA_BUSINESS_NUMBER = '447591922247'
-const TOKEN_TTL_SECONDS = 10 * 60 // 10 minutes, matching the existing OTP expiry
-
-function signToken(userId: string, expiry: number): string {
-  return crypto
-    .createHmac('sha256', process.env.SUPABASE_SERVICE_ROLE_KEY!)
-    .update(`${userId}.${expiry}`)
-    .digest('hex')
-    .slice(0, 12)
-}
+const WA_BUSINESS_NUMBER =
+  process.env.NEXT_PUBLIC_WA_NUMBER?.replace(/\D/g, '') || '447591922247'
 
 export async function GET(req: NextRequest) {
-  const supabase = createServerClient()
+  const auth = await requireUser(req)
+  if (!auth.user) return auth.error
+  const { user: authUser } = auth
 
-  const { data: { user: authUser } } = await supabase.auth.getUser(
-    req.headers.get('authorization')?.replace('Bearer ', '') ?? ''
+  const { token, expiresInSeconds } = buildConnectToken(
+    authUser.id,
+    CONNECT_TOKEN_TTL_SECONDS
   )
-
-  if (!authUser) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
-  const expiry = Math.floor(Date.now() / 1000) + TOKEN_TTL_SECONDS
-  const sig = signToken(authUser.id, expiry)
-  const token = `${authUser.id}.${expiry}.${sig}`
   const message = `CONNECT-${token}`
   const waLink = `https://wa.me/${WA_BUSINESS_NUMBER}?text=${encodeURIComponent(message)}`
 
-  return NextResponse.json({ waLink, expiresInSeconds: TOKEN_TTL_SECONDS })
+  return NextResponse.json({ waLink, expiresInSeconds })
 }

@@ -119,7 +119,7 @@ export async function GET(req: Request) {
             marginBottom: 32,
           }}
         >
-          PLANET SORTED
+          PLANET SOR7ED
         </div>
         <div
           style={{

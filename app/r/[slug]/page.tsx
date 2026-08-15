@@ -3,6 +3,10 @@ import { notFound, redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@/lib/supabase/server'
 import { STANDALONE_ROUTES } from '@/lib/standaloneRoutes'
+import {
+  buildStandaloneAccessToken,
+  STANDALONE_ACCESS_TTL_SECONDS,
+} from '@/lib/crypto/tokens'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -70,14 +74,16 @@ export default async function RichLinkRedirect({ params }: Props) {
 
   const standalonePath = STANDALONE_ROUTES[lowerSlug]
   if (standalonePath) {
+    const { token } = buildStandaloneAccessToken(lowerSlug, STANDALONE_ACCESS_TTL_SECONDS)
     const cookieStore = await cookies()
-    cookieStore.set(`sor7ed_access_${lowerSlug}`, 'granted', {
+    cookieStore.set(`sor7ed_access_${lowerSlug}`, token, {
       path: '/',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: STANDALONE_ACCESS_TTL_SECONDS,
       sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
     })
-    redirect(`${SITE}${standalonePath}?access_token=granted`)
+    redirect(`${SITE}${standalonePath}?access_token=${encodeURIComponent(token)}`)
   }
 
   const supabase = createServerClient()

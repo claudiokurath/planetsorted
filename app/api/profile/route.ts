@@ -1,37 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@/lib/supabase/server'
+import { requireUser } from '@/lib/auth/requireUser'
 import { syncUserToCrm } from '@/lib/notion/syncUserToCrm'
 
+const FIRST_NAME_MAX = 40
+const FIRST_NAME_RE = /^[\p{L}\p{N}\s'-]*$/u
+
+function sanitizeFirstName(raw: unknown): string | null {
+  if (typeof raw !== 'string') return null
+  const trimmed = raw.trim().slice(0, FIRST_NAME_MAX)
+  if (!FIRST_NAME_RE.test(trimmed)) return null
+  return trimmed
+}
+
 export async function GET(req: NextRequest) {
-  const supabase = createServerClient()
-  
-  // Get authenticated user
-  const { data: { user: authUser } } = await supabase.auth.getUser(
-    req.headers.get('authorization')?.replace('Bearer ', '') ?? ''
-  )
-  
-  if (!authUser) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  const auth = await requireUser(req)
+  if (!auth.user) return auth.error
+  const { user: authUser, admin: supabase } = auth
 
   try {
-    // Attempt to select from users table
     const { data: profile, error } = await supabase
       .from('users')
       .select('*')
       .eq('user_id', authUser.id)
       .single()
 
-    if (error && error.code !== 'PGRST116') { // PGRST116 is "no rows returned"
+    if (error && error.code !== 'PGRST116') {
+      // PGRST116 = no rows returned
       console.error('[Profile fetch error]', error)
       return NextResponse.json({ error: 'Failed to fetch profile' }, { status: 500 })
     }
 
     if (!profile) {
-      // `users.whatsapp_number` is NOT NULL and unique, so a row cannot be created
-      // for a web-only signup — there is no number to store yet. The row is created
-      // when the user verifies a WhatsApp number (see /api/whatsapp/verify-otp).
-      // Until then serve an in-memory default so the dashboard still renders.
+      // users.whatsapp_number is NOT NULL + unique, so a row cannot exist for a
+      // web-only signup until WhatsApp is verified. Serve an in-memory default.
       const defaultProfile = {
         user_id: authUser.id,
         first_name: authUser.user_metadata?.first_name || '',
@@ -40,13 +41,16 @@ export async function GET(req: NextRequest) {
         whatsapp_verified: false,
         weekly_opted_in: false,
         whatsapp_opted_out: false,
-        created_at: new Date().toISOString()
+        created_at: new Date().toISOString(),
       }
 
-      // Best-effort — a Notion hiccup should never block dashboard access.
       if (defaultProfile.email) {
         try {
-          await syncUserToCrm({ firstName: defaultProfile.first_name, email: defaultProfile.email, source: 'Website' })
+          await syncUserToCrm({
+            firstName: defaultProfile.first_name,
+            email: defaultProfile.email,
+            source: 'Website',
+          })
         } catch (err) {
           console.error('[Notion CRM sync error]', err)
         }
@@ -63,26 +67,57 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const supabase = createServerClient()
-  
-  // Get authenticated user
-  const { data: { user: authUser } } = await supabase.auth.getUser(
-    req.headers.get('authorization')?.replace('Bearer ', '') ?? ''
-  )
-  
-  if (!authUser) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const auth = await requireUser(req)
+  if (!auth.user) return auth.error
+  const { user: authUser, admin: supabase } = auth
+
+  let body: unknown
+  try {
+    body = await req.json()
+  } catch {
+    return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 })
   }
 
-  const { firstName, weeklyOptedIn } = await req.json()
+  const rawFirst =
+    typeof body === 'object' && body !== null && 'firstName' in body
+      ? (body as { firstName?: unknown }).firstName
+      : undefined
+  const rawWeekly =
+    typeof body === 'object' && body !== null && 'weeklyOptedIn' in body
+      ? (body as { weeklyOptedIn?: unknown }).weeklyOptedIn
+      : undefined
+
+  const firstName = sanitizeFirstName(rawFirst)
+  if (rawFirst !== undefined && firstName === null) {
+    return NextResponse.json(
+      { error: 'Please enter a valid first name (letters, numbers, spaces, hyphens, apostrophes).' },
+      { status: 400 }
+    )
+  }
+
+  if (rawWeekly !== undefined && typeof rawWeekly !== 'boolean') {
+    return NextResponse.json(
+      { error: 'weeklyOptedIn must be true or false.' },
+      { status: 400 }
+    )
+  }
+
+  const updates: { first_name?: string; weekly_opted_in?: boolean } = {}
+  if (firstName !== null && firstName !== undefined && rawFirst !== undefined) {
+    updates.first_name = firstName
+  }
+  if (typeof rawWeekly === 'boolean') {
+    updates.weekly_opted_in = rawWeekly
+  }
+
+  if (Object.keys(updates).length === 0) {
+    return NextResponse.json({ error: 'Nothing to update.' }, { status: 400 })
+  }
 
   try {
     const { data: updatedProfile, error } = await supabase
       .from('users')
-      .update({
-        first_name: firstName,
-        weekly_opted_in: !!weeklyOptedIn
-      })
+      .update(updates)
       .eq('user_id', authUser.id)
       .select()
       .maybeSingle()
@@ -93,8 +128,6 @@ export async function POST(req: NextRequest) {
     }
 
     if (!updatedProfile) {
-      // No profile row yet — see the GET handler above for why one cannot exist
-      // before a WhatsApp number is verified.
       return NextResponse.json(
         { error: 'Please verify your WhatsApp number before saving your settings.' },
         { status: 409 }

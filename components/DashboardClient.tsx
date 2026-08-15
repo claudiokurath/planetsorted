@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Session } from '@supabase/supabase-js'
@@ -25,9 +25,15 @@ type VerifyState = 'unverified' | 'otp_sent' | 'verified'
 
 export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const supabase = useMemo(() => createBrowserClient(), [])
 
-  const [activeTab, setActiveTab] = useState<Tab>('tools')
+  const initialTab = ((): Tab => {
+    const tab = searchParams.get('tab')
+    if (tab === 'tools' || tab === 'library' || tab === 'settings') return tab
+    return 'tools'
+  })()
+  const [activeTab, setActiveTab] = useState<Tab>(initialTab)
   const [loading, setLoading] = useState(true)
   const [session, setSession] = useState<Session | null>(null)
   const [profile, setProfile] = useState<User | null>(null)
@@ -108,11 +114,22 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       const { data: { session: activeSession } } = await supabase.auth.getSession()
       setSession(activeSession)
       const [profileData] = await Promise.all([fetchProfile(activeSession), fetchSavedItems(activeSession)])
-      // The whole point of signing up is connecting WhatsApp — take anyone
-      // who hasn't done that yet straight to Settings instead of Tools,
-      // with the QR code already generated so there's no extra click.
+      // Honour ?tab= from the URL (e.g. Sor7edButton "CONNECT WHATSAPP →"
+      // links to /dashboard?tab=settings). If the member still needs to
+      // connect WhatsApp and no tab was requested, land them on Settings
+      // with the QR already generated so there's no extra click.
+      const tabParam = new URLSearchParams(window.location.search).get('tab')
+      const requestedTab =
+        tabParam === 'tools' || tabParam === 'library' || tabParam === 'settings'
+          ? tabParam
+          : null
+      if (requestedTab) {
+        setActiveTab(requestedTab)
+      }
       if (profileData && !profileData.whatsapp_verified) {
-        setActiveTab('settings')
+        if (!requestedTab) setActiveTab('settings')
+        handleGenerateQr(activeSession)
+      } else if (requestedTab === 'settings') {
         handleGenerateQr(activeSession)
       }
       setLoading(false)
