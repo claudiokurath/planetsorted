@@ -166,9 +166,9 @@ export default async function ArticlePage({ params, searchParams }: Props) {
       <ContentHero
         title={item.title}
         description={description}
+        coverImage={item.cover_image}
         category={item.category}
         meta={item.read_time}
-        articleMode
       />
 
       <main className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-14">
