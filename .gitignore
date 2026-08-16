@@ -48,3 +48,8 @@ raw-standalone-templates/brain-dump-sorter/brain dumb sorter/
 raw-standalone-templates/decision-paralysis-solver/decision-paralysis-solver/
 raw-standalone-templates/financial-autopilot/financial autopilot/
 raw-standalone-templates/decision-paralysis-solver/THENEWSOR7ED/
+
+# Local imports of external products (may contain secrets) — never commit
+/_sor7ed_button_import/
+
+/_sor7ed_button_ship/
