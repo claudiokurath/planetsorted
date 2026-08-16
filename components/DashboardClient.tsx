@@ -63,6 +63,11 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
   // GDPR Deletion State
   const [deletingAccount, setDeletingAccount] = useState(false)
 
+  // Billing / RUN credits
+  const [billingPlan, setBillingPlan] = useState<string>('Free')
+  const [billingUnlimited, setBillingUnlimited] = useState(false)
+  const [creditBalance, setCreditBalance] = useState<number | null>(null)
+
   const getAuthHeader = useCallback(async (activeSession = session) => {
     return {
       'Authorization': `Bearer ${activeSession?.access_token || ''}`,
@@ -103,6 +108,24 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
     }
   }, [getAuthHeader, session])
 
+  const fetchBilling = useCallback(async (activeSession = session) => {
+    try {
+      const headers = await getAuthHeader(activeSession)
+      const res = await fetch('/api/billing/status', { headers })
+      if (!res.ok) throw new Error()
+      const data = await res.json() as {
+        plan?: string
+        unlimited?: boolean
+        balance?: number | null
+      }
+      setBillingPlan(data.plan || 'Free')
+      setBillingUnlimited(Boolean(data.unlimited))
+      setCreditBalance(typeof data.balance === 'number' ? data.balance : null)
+    } catch {
+      // Non-fatal — keep the static Free defaults
+    }
+  }, [getAuthHeader, session])
+
   // Initialize and check session
   useEffect(() => {
     async function initAuth() {
@@ -113,7 +136,11 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       }
       const { data: { session: activeSession } } = await supabase.auth.getSession()
       setSession(activeSession)
-      const [profileData] = await Promise.all([fetchProfile(activeSession), fetchSavedItems(activeSession)])
+      const [profileData] = await Promise.all([
+        fetchProfile(activeSession),
+        fetchSavedItems(activeSession),
+        fetchBilling(activeSession),
+      ])
       // Honour ?tab= from the URL (e.g. Sor7edButton "CONNECT WHATSAPP →"
       // links to /dashboard?tab=settings). If the member still needs to
       // connect WhatsApp and no tab was requested, land them on Settings
@@ -334,7 +361,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                   Welcome back{profile?.first_name ? `, ${profile.first_name}` : ''}
                 </h1>
                 <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-3 py-0.5 text-xs font-bold text-emerald-400 backdrop-blur-md">
-                  Member
+                  {billingUnlimited ? billingPlan : 'Member'}
                 </span>
               </div>
               <p className="text-xs text-neutral-300 font-mono tracking-wide drop-shadow">
@@ -344,8 +371,24 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
 
             <div className="flex flex-wrap items-center gap-3">
               <div className="rounded-2xl border border-neutral-700/60 bg-neutral-950/80 px-4 py-2.5 text-center backdrop-blur-md shadow-lg">
-                <span className="block text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Free Credits</span>
-                <span className="text-sm sm:text-base font-black text-emerald-400">5 Runs Available</span>
+                <span className="block text-[10px] uppercase font-bold text-neutral-400 tracking-wider">
+                  {billingUnlimited ? billingPlan : 'Free Credits'}
+                </span>
+                <span className="text-sm sm:text-base font-black text-emerald-400">
+                  {billingUnlimited
+                    ? 'Unlimited RUNs'
+                    : creditBalance === null
+                      ? '…'
+                      : `${creditBalance} Run${creditBalance === 1 ? '' : 's'} Available`}
+                </span>
+                {!billingUnlimited && (
+                  <Link
+                    href="/r/upgrade"
+                    className="mt-1 block text-[10px] font-bold text-emerald-400/80 underline hover:text-emerald-300"
+                  >
+                    Upgrade to Plus
+                  </Link>
+                )}
               </div>
 
               <button
