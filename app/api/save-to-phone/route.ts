@@ -15,7 +15,13 @@ export async function POST(req: NextRequest) {
     const { data: { user } } = await session.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
 
-    const { slug, includeLink = false } = await req.json()
+    const body = await req.json()
+    const slug = typeof body?.slug === 'string' ? body.slug : ''
+    // Default true: one rich-link card is the product. Callers that still
+    // want the full protocol dump can pass includeProtocol: true.
+    const includeLink = body?.includeLink !== false
+    const includeProtocol = body?.includeProtocol === true
+    const includeAudio = body?.includeAudio === true
     if (!slug) return NextResponse.json({ error: 'Missing slug' }, { status: 400 })
 
     // Service-role client for the reads below, now that we know who is asking.
@@ -43,17 +49,15 @@ export async function POST(req: NextRequest) {
 
     if (!content) return NextResponse.json({ error: 'Content not found' }, { status: 404 })
 
-    // Optional rich card — only if the caller explicitly asks for it.
-    // Depends on /r/[slug]'s OG pipeline being correct; the plain-text
-    // send below never depends on it at all.
+    // Default path: ONE rich-link card. Sending the URL body twice (card +
+    // protocol dump) was the "two messages" bug in WhatsApp.
     if (includeLink) {
       const richUrl = `${SITE}/r/${content.slug}`
       await sendWhatsAppMessage(profile.whatsapp_number, richUrl, richUrl)
     }
 
-    // The actual content — this is what genuinely can't fail to render,
-    // since no image or crawler is ever involved.
-    if (content.protocol) {
+    // Opt-in full protocol text (legacy / power-user). Off by default.
+    if (includeProtocol && content.protocol) {
       const text = `*${content.title}*\n\n${content.protocol}`
       if (text.length <= SAFE_LIMIT) {
         await sendWhatsAppMessage(profile.whatsapp_number, text)
@@ -64,7 +68,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    if (content.audio_url) {
+    if (includeAudio && content.audio_url) {
       await sendWhatsAppAudio(profile.whatsapp_number, content.audio_url)
     }
 

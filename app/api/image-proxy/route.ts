@@ -24,12 +24,13 @@ export async function GET(req: NextRequest) {
   if (!url) return new NextResponse('Missing url', { status: 400 })
   if (!isTrustedImageHost(url)) return new NextResponse('Untrusted image host', { status: 400 })
 
-  // Route through wsrv.nl to force JPEG conversion and guarantee size < 300KB
-  // for WhatsApp OG previews. Done server-side so & params aren't mangled into
-  // &amp; inside og:image meta tags.
+  // Route through wsrv.nl to force a sharp 1200×630 JPEG for WhatsApp OG.
+  // q=82 keeps files under ~250KB while looking crisp (q=60 was visibly soft).
+  // we=true enables wsrv's default sharpening on upscale from small Notion covers.
+  // Done server-side so & params aren't mangled into &amp; inside og:image tags.
   const wsrvUrl = `https://wsrv.nl/?url=${encodeURIComponent(
     url.replace('https://', '')
-  )}&w=1200&h=630&fit=cover&output=jpg&q=60`
+  )}&w=1200&h=630&fit=cover&output=jpg&q=82&we&sharp=1`
 
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)

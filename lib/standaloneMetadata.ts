@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
+import { ogImageForContent } from '@/lib/og/imageUrl'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
@@ -17,14 +18,9 @@ export async function getStandaloneMetadata(
 
   const title = data?.seo_title || data?.title || fallbackTitle
   const description = data?.meta_description || data?.excerpt || data?.summary || fallbackDesc
-  const rawCover = data?.cover_image?.trim()
-
-  let imageUrl: string
-  if (rawCover && rawCover.startsWith('http')) {
-    imageUrl = `${SITE}/api/og?image=${encodeURIComponent(rawCover)}`
-  } else {
-    imageUrl = `${SITE}/api/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`
-  }
+  // Use image-proxy (sharp 1200×630 JPEG), never /api/og?image= which
+  // just embeds the tiny source and looks blurred in WhatsApp.
+  const imageUrl = ogImageForContent(data?.cover_image, title, description)
 
   return {
     title: `${title} — PLANET SOR7ED`,
