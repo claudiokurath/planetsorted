@@ -4,6 +4,13 @@ import { detectCrisis, CRISIS_RESPONSE } from '@/lib/whatsapp/crisis'
 import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
 import { createWhatsAppUser } from '@/lib/whatsapp/createWhatsAppUser'
 import { verifyConnectToken, verifyMetaSignature } from '@/lib/crypto/tokens'
+import {
+  checkRunAllowed,
+  consumeRunCredit,
+  ensureSignupCredits,
+  paywallMessage,
+} from '@/lib/billing/credits'
+import type { Database } from '@/lib/types/database'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
@@ -73,7 +80,7 @@ export async function POST(req: NextRequest) {
     }
 
     const verb = text.toUpperCase()
-    const sb = createClient(
+    const sb = createClient<Database>(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
@@ -410,27 +417,61 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ status: 'saved' })
     }
 
-    // Strip legacy action prefixes (SAVE, RUN, ARTICLE, AUDIO) if present
+    // Strip legacy action prefixes (SAVE, RUN, ARTICLE, AUDIO) if present.
+    // RUN is the metered verb; bare tool keywords (TAX, CLARITY, …) count as RUN.
+    const isExplicitRun = /^RUN\b/i.test(text)
     const cleanText = text.replace(/^(SAVE|RUN|ARTICLE|AUDIO)\s+/i, '').trim()
     const cleanVerb = cleanText.toUpperCase()
 
-    // ── Known tool keyword → that tool's card
-    if (TOOL_KEYWORDS[cleanVerb]) {
-      const url = `${SITE}/r/${TOOL_KEYWORDS[cleanVerb]}?v=${cacheBust}`
-      await sendWhatsAppMessage(from, url, url)
-      return NextResponse.json({ status: 'ok' })
+    // Resolve member user_id once for metering (WhatsApp-first users always have one).
+    const { data: runProfile } = await sb
+      .from('users')
+      .select('user_id')
+      .eq('whatsapp_number', from)
+      .maybeSingle()
+    const memberUserId = runProfile?.user_id ?? null
+
+    // Best-effort signup grant for older accounts that never received credits.
+    if (memberUserId) {
+      await ensureSignupCredits(sb, memberUserId)
     }
 
-    // ── Known article keyword or slug → that article's card
+    // ── Known tool keyword / RUN <tool> → metered tool card
+    if (TOOL_KEYWORDS[cleanVerb]) {
+      const toolSlug = TOOL_KEYWORDS[cleanVerb]
+      const gate = await checkRunAllowed(sb, memberUserId)
+      if (!gate.allowed) {
+        const upgradeUrl = `${SITE}/r/upgrade?v=${cacheBust}`
+        await sendWhatsAppMessage(
+          from,
+          paywallMessage(upgradeUrl, gate.balance),
+          upgradeUrl
+        )
+        return NextResponse.json({ status: 'paywall' })
+      }
+
+      const url = `${SITE}/r/${toolSlug}?v=${cacheBust}`
+      await sendWhatsAppMessage(from, url, url)
+      // Deduct only after a successful send. Plus members are a no-op inside.
+      await consumeRunCredit(sb, memberUserId, cleanVerb)
+      return NextResponse.json({
+        status: 'ok',
+        metered: !gate.unlimited,
+        remaining: gate.unlimited ? null : gate.remainingAfter,
+        run: isExplicitRun,
+      })
+    }
+
+    // ── Known article keyword or slug → that article's card (NOT metered)
     //    Parameterised filters only — never interpolate user text into .or().
     if (isSafeLookupToken(cleanVerb) || isSafeLookupToken(cleanText.toLowerCase())) {
       const lookupSlug = cleanText.toLowerCase()
-      let article: { slug: string } | null = null
+      let article: { slug: string; type?: string | null } | null = null
 
       if (isSafeLookupToken(cleanVerb)) {
         const { data } = await sb
           .from('protocols')
-          .select('slug')
+          .select('slug, type')
           .eq('status', 'Published')
           .ilike('keyword', cleanVerb)
           .maybeSingle()
@@ -440,7 +481,7 @@ export async function POST(req: NextRequest) {
       if (!article && isSafeLookupToken(lookupSlug)) {
         const { data } = await sb
           .from('protocols')
-          .select('slug')
+          .select('slug, type')
           .eq('status', 'Published')
           .ilike('slug', lookupSlug)
           .maybeSingle()
@@ -448,6 +489,24 @@ export async function POST(req: NextRequest) {
       }
 
       if (article) {
+        // If the matched protocol is a Tool (not in TOOL_KEYWORDS map), still meter.
+        if (article.type === 'Tool') {
+          const gate = await checkRunAllowed(sb, memberUserId)
+          if (!gate.allowed) {
+            const upgradeUrl = `${SITE}/r/upgrade?v=${cacheBust}`
+            await sendWhatsAppMessage(
+              from,
+              paywallMessage(upgradeUrl, gate.balance),
+              upgradeUrl
+            )
+            return NextResponse.json({ status: 'paywall' })
+          }
+          const url = `${SITE}/r/${article.slug}?v=${cacheBust}`
+          await sendWhatsAppMessage(from, url, url)
+          await consumeRunCredit(sb, memberUserId, article.slug)
+          return NextResponse.json({ status: 'ok', metered: !gate.unlimited })
+        }
+
         const url = `${SITE}/r/${article.slug}?v=${cacheBust}`
         await sendWhatsAppMessage(from, url, url)
         return NextResponse.json({ status: 'ok' })
