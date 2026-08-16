@@ -23,23 +23,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!tool) return {}
 
+  const { ogImageForContent } = await import('@/lib/og/imageUrl')
+  const title = `${tool.title} — PLANET SOR7ED`
+  const description = tool.summary || ''
+  const imageUrl = ogImageForContent(tool.cover_image, tool.title, description)
+
   return {
-    title: `${tool.title} — PLANET SOR7ED`,
-    description: tool.summary || '',
+    title,
+    description,
     openGraph: {
-      title: `${tool.title} — PLANET SOR7ED`,
-      description: tool.summary || '',
+      title,
+      description,
       url: `${SITE}/tools/${slug}`,
       type: 'website',
-      images: tool.cover_image
-        ? [{ url: tool.cover_image, width: 1200, height: 630, alt: tool.title }]
-        : [],
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: tool.title }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${tool.title} — PLANET SOR7ED`,
-      description: tool.summary || '',
-      images: tool.cover_image ? [tool.cover_image] : [],
+      title,
+      description,
+      images: [imageUrl],
     },
   }
 }

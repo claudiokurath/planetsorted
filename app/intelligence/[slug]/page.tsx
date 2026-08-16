@@ -85,8 +85,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const row = data as Pick<Protocol, 'title' | 'seo_title' | 'meta_description' | 'cover_image' | 'slug'> | null
   if (!row) return {}
 
+  const { ogImageForContent } = await import('@/lib/og/imageUrl')
   const title = row.seo_title || row.title
   const description = row.meta_description || undefined
+  const imageUrl = ogImageForContent(row.cover_image, row.title, description)
 
   return {
     title,
@@ -94,9 +96,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      images: row.cover_image
-        ? [{ url: `${SITE}/api/og?image=${encodeURIComponent(row.cover_image)}`, width: 1200, height: 630, type: 'image/png', alt: row.title }]
-        : [],
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: row.title }],
       url: `${SITE}/intelligence/${slug}`,
       type: 'article',
     },
@@ -104,7 +104,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title,
       description,
-      images: row.cover_image ? [row.cover_image] : [],
+      images: [imageUrl],
     },
   }
 }
