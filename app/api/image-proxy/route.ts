@@ -26,11 +26,18 @@ export async function GET(req: NextRequest) {
 
   // Route through wsrv.nl to force a sharp 1200×630 JPEG for WhatsApp OG.
   // q=82 keeps files under ~250KB while looking crisp (q=60 was visibly soft).
-  // we=true enables wsrv's default sharpening on upscale from small Notion covers.
+  // wsrv's current API uses width=/height=, not the w=/h= short aliases —
+  // the short forms are silently ignored and wsrv falls back to returning
+  // the source image completely untouched (verified directly against
+  // wsrv.nl: w=/h= = passthrough at original size; width=/height= = correct
+  // resize). The `we` (sharpen-on-enlarge) flag has the same failure mode —
+  // its mere presence, bare or `we=1`, makes wsrv ignore width/height/fit
+  // entirely and pass the original through. sharp=1 alone sharpens fine
+  // without that side effect, so `we` is dropped rather than relied on.
   // Done server-side so & params aren't mangled into &amp; inside og:image tags.
   const wsrvUrl = `https://wsrv.nl/?url=${encodeURIComponent(
     url.replace('https://', '')
-  )}&w=1200&h=630&fit=cover&output=jpg&q=82&we&sharp=1`
+  )}&width=1200&height=630&fit=cover&output=jpg&q=82&sharp=1`
 
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
