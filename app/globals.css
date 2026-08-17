@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../components/ProtocolDeckPrint.css";
 
 :root {
   --background: #0A0A0A;
