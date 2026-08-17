@@ -19,24 +19,6 @@ body {
   font-family: var(--font-inter), "Inter", Arial, Helvetica, sans-serif;
 }
 
-html:has([data-home-scroll-snap]) {
-  scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
-  scroll-snap-type: y mandatory;
-}
-
-[data-home-scroll-snap] > [data-snap-section] {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html:has([data-home-scroll-snap]) {
-    scroll-behavior: auto;
-    scroll-snap-type: none;
-  }
-}
-
 /* Primary Brand Button Overrides (Brand Red #C0392B) */
 .bg-green-500 {
   background-color: #C0392B !important;
