@@ -113,6 +113,41 @@ export function verifyStandaloneAccessToken(
   return timingSafeEqualHex(sig, expected)
 }
 
+// ── Article / protocol unlock tokens (WhatsApp rich-link only) ──────────────
+// Public /intelligence/[slug] shows teaser only. Full body + protocol unlock
+// when the visitor arrives via /r/[slug] (the link sent to WhatsApp), which
+// mints this HMAC. Being signed-in on the website is NOT a shortcut.
+
+export const ARTICLE_ACCESS_TTL_SECONDS = 60 * 60 * 24 * 7 // 7 days
+
+export function signArticleAccess(slug: string, expiryUnixSeconds: number): string {
+  return hmacHex(`article:${slug}:${expiryUnixSeconds}`)
+}
+
+export function buildArticleAccessToken(
+  slug: string,
+  ttlSeconds = ARTICLE_ACCESS_TTL_SECONDS
+): { token: string; expiry: number } {
+  const expiry = Math.floor(Date.now() / 1000) + ttlSeconds
+  const sig = signArticleAccess(slug, expiry)
+  return { token: `${expiry}.${sig}`, expiry }
+}
+
+export function verifyArticleAccessToken(
+  slug: string,
+  token: string | undefined | null
+): boolean {
+  if (!token) return false
+  const parts = token.split('.')
+  if (parts.length !== 2) return false
+  const [expiryStr, sig] = parts
+  const expiry = Number(expiryStr)
+  if (!expiryStr || !sig || !Number.isFinite(expiry)) return false
+  if (Date.now() / 1000 > expiry) return false
+  const expected = signArticleAccess(slug, expiry)
+  return timingSafeEqualHex(sig, expected)
+}
+
 // ── Meta WhatsApp webhook signature (X-Hub-Signature-256) ──────────────────
 
 /**

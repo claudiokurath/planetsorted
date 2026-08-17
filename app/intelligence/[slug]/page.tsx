@@ -5,6 +5,7 @@ import { createServerClient, createSessionClient } from '@/lib/supabase/server'
 import { ContentHero } from '@/components/ContentHero'
 import { Sor7edButton } from '@/components/buttons/Sor7edButton'
 import { ArticleAudioControls } from '@/components/ArticleAudioControls'
+import { verifyArticleAccessToken } from '@/lib/crypto/tokens'
 import type { Protocol } from '@/lib/types/database'
 
 interface Props {
@@ -148,18 +149,27 @@ export default async function ArticlePage({ params, searchParams }: Props) {
     whatsappVerified = !!profile?.whatsapp_verified
   }
 
-  // Check access token from WhatsApp link or cookie
+  // Full body + protocol unlock ONLY via WhatsApp rich-link HMAC
+  // (/r/[slug] mints access_token). Being signed-in is not a shortcut —
+  // the product promise is: teaser on the web, full piece after SOR7ED → WA.
   const cookieStore = await cookies()
   const cookieToken = cookieStore.get(`sor7ed_access_${slug}`)?.value
   const queryToken = resolvedSearchParams.access_token
-
-  const isUnlocked = !!(session?.user || cookieToken === 'granted' || queryToken === 'granted')
+  const isUnlocked =
+    verifyArticleAccessToken(slug, queryToken) ||
+    verifyArticleAccessToken(slug, cookieToken)
 
   const audioUrl = item.audio_url?.trim() || undefined
   const description = item.excerpt?.trim() || item.summary?.trim() || item.meta_description?.trim()
   const rawBodyText = item.problem || ''
   const sections = parseArticleSections(rawBodyText, item.title)
   const actionProtocolText = item.protocol?.trim() || ''
+  // Locked visitors only see a short teaser — never the full problem body or protocol.
+  const teaserText =
+    item.excerpt?.trim() ||
+    item.summary?.trim() ||
+    item.meta_description?.trim() ||
+    (rawBodyText ? rawBodyText.slice(0, 280).trim() + (rawBodyText.length > 280 ? '…' : '') : '')
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -172,70 +182,89 @@ export default async function ArticlePage({ params, searchParams }: Props) {
       />
 
       <main className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-14">
-        {/* Audio Controls (Read Aloud TTS always available, Deep Dive for subscribers or unlocked) */}
-        <ArticleAudioControls
-          bodyText={rawBodyText}
-          deepDiveUrl={audioUrl}
-          isSubscriber={isSubscriber || isUnlocked}
-        />
-
-        {/* Blog Post Body Text — ALWAYS VISIBLE to all readers */}
-        <article className="space-y-14">
-          {sections.map((sec, idx) => (
-            <div key={idx} className="space-y-4">
-              {sec.heading && (
-                <h2
-                  className="text-2xl font-black uppercase tracking-tight text-white sm:text-3xl"
-                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-                >
-                  {sec.heading}
-                </h2>
-              )}
-              <div className="text-base sm:text-lg text-neutral-300 leading-relaxed whitespace-pre-line space-y-5">
-                {sec.text}
-              </div>
-            </div>
-          ))}
-        </article>
-
-        {/* Protocol / Solution Section */}
         {isUnlocked ? (
-          /* Unlocked Protocol Display */
-          actionProtocolText && (
-            <section className="rounded-3xl border border-[#C0392B]/40 bg-[#C0392B]/5 p-8 sm:p-10 space-y-6">
-              <div className="space-y-2">
+          <>
+            {/* Full article — only after WhatsApp rich-link unlock */}
+            <ArticleAudioControls
+              bodyText={rawBodyText}
+              deepDiveUrl={audioUrl}
+              isSubscriber={isSubscriber || isUnlocked}
+            />
+
+            <article className="space-y-14">
+              {sections.map((sec, idx) => (
+                <div key={idx} className="space-y-4">
+                  {sec.heading && (
+                    <h2
+                      className="text-2xl font-black uppercase tracking-tight text-white sm:text-3xl"
+                      style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                    >
+                      {sec.heading}
+                    </h2>
+                  )}
+                  <div className="text-base sm:text-lg text-neutral-300 leading-relaxed whitespace-pre-line space-y-5">
+                    {sec.text}
+                  </div>
+                </div>
+              ))}
+            </article>
+
+            {actionProtocolText && (
+              <section className="rounded-3xl border border-[#C0392B]/40 bg-[#C0392B]/5 p-8 sm:p-10 space-y-6">
+                <div className="space-y-2">
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">
+                    Protocol &amp; Actionable Solution
+                  </p>
+                  <h2
+                    className="text-3xl sm:text-4xl font-black uppercase text-white"
+                    style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                  >
+                    The Step-by-Step Protocol
+                  </h2>
+                </div>
+                <div className="text-base sm:text-lg text-neutral-200 leading-relaxed whitespace-pre-line space-y-4 border-t border-neutral-800 pt-6">
+                  {actionProtocolText}
+                </div>
+              </section>
+            )}
+          </>
+        ) : (
+          /* Teaser only — full piece is behind the WhatsApp rich link */
+          <>
+            {teaserText && (
+              <article className="space-y-4">
+                <p className="text-base sm:text-lg text-neutral-300 leading-relaxed whitespace-pre-line">
+                  {teaserText}
+                </p>
+              </article>
+            )}
+
+            <section className="border-t border-neutral-800 pt-12 pb-12 space-y-6">
+              <div className="space-y-3">
                 <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">
-                  Protocol &amp; Actionable Solution
+                  Full protocol
                 </p>
                 <h2
                   className="text-3xl sm:text-4xl font-black uppercase text-white"
                   style={{ fontFamily: "'Bebas Neue', sans-serif" }}
                 >
-                  The Step-by-Step Protocol
+                  Get the complete piece on WhatsApp
                 </h2>
+                <p className="text-base text-neutral-300 leading-relaxed max-w-2xl">
+                  The full guide and step-by-step protocol are not on this page.
+                  Tap below and we&apos;ll send a rich link to your WhatsApp —
+                  open it there to unlock everything.
+                </p>
               </div>
-              <div className="text-base sm:text-lg text-neutral-200 leading-relaxed whitespace-pre-line space-y-4 border-t border-neutral-800 pt-6">
-                {actionProtocolText}
-              </div>
+              <Sor7edButton
+                slug={slug}
+                context="article"
+                isLoggedIn={isLoggedIn}
+                whatsappVerified={whatsappVerified}
+                size="lg"
+              />
             </section>
-          )
-        ) : (
-          /* Single Non-Repetitive Protocol CTA Box */
-          <section className="border-t border-neutral-800 pt-12 pb-12 space-y-6">
-            <div className="space-y-3">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Protocol</p>
-              <h2
-                className="text-3xl sm:text-4xl font-black uppercase text-white"
-                style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-              >
-                Want the step-by-step protocol for this?
-              </h2>
-              <p className="text-base text-neutral-300 leading-relaxed max-w-2xl">
-                Tap the button below and we&apos;ll send the complete protocol directly to your WhatsApp.
-              </p>
-            </div>
-            <Sor7edButton slug={slug} context="article" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} size="lg" />
-          </section>
+          </>
         )}
       </main>
     </div>
