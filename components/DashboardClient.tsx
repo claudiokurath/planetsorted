@@ -12,7 +12,6 @@ import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
 interface ToolItem {
   slug: string
   title: string
-  summary?: string | null
   read_time?: string | null
 }
 
@@ -450,30 +449,32 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
           {!tools || tools.length === 0 ? (
             <p className="text-center text-neutral-500 py-12">No interactive tools active right now.</p>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {tools.map(tool => (
                 <div
                   key={tool.slug}
-                  className="glass-card glass-card-hover flex flex-col justify-between rounded-2xl p-6 relative group"
+                  className="glass-card glass-card-hover flex flex-col justify-between rounded-2xl p-6 sm:p-8 relative group min-h-[200px]"
                 >
-                  <div>
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="text-[10px] font-medium text-emerald-400 font-mono">{tool.read_time || ''}</span>
-                    </div>
+                  <div className="space-y-3">
+                    {tool.read_time ? (
+                      <span className="text-[10px] font-medium text-emerald-400 font-mono">
+                        {tool.read_time}
+                      </span>
+                    ) : null}
 
-                    <h3 className="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">
+                    {/* Title only — no summary wall of text. Sized ~2× former card title. */}
+                    <h3
+                      className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-white group-hover:text-emerald-400 transition-colors leading-[1.05]"
+                      style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                    >
                       {tool.title}
                     </h3>
-
-                    <p className="mt-2 text-xs text-gray-400 leading-relaxed">
-                      {tool.summary || ''}
-                    </p>
                   </div>
 
-                  <div className="mt-6 flex flex-col gap-3 border-t border-gray-800/80 pt-4">
+                  <div className="mt-8 flex flex-col gap-3 border-t border-gray-800/80 pt-5">
                     <Link
                       href={`/tools/${tool.slug}`}
-                      className="glow-button rounded-xl px-3 py-2 text-center text-xs font-bold text-gray-950"
+                      className="glow-button rounded-xl px-3 py-2.5 text-center text-xs font-bold text-gray-950"
                     >
                       Run Tool
                     </Link>
@@ -523,14 +524,19 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
               {filteredLibrary.map((item) => (
-                <div key={item.id} className="glass-card glass-card-hover rounded-2xl p-5 flex flex-col justify-between">
+                <div key={item.id} className="glass-card glass-card-hover rounded-2xl p-5 sm:p-6 flex flex-col justify-between min-h-[140px]">
                   <div>
-                    <h3 className="font-bold text-white text-sm hover:text-emerald-400 transition-colors mb-1">
+                    {item.category ? (
+                      <p className="text-[10px] font-semibold uppercase tracking-widest text-emerald-400/80 mb-2">
+                        {item.category}
+                      </p>
+                    ) : null}
+                    <h3
+                      className="text-2xl sm:text-3xl font-black uppercase leading-[1.05] text-white hover:text-emerald-400 transition-colors"
+                      style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                    >
                       {item.title || 'Saved Item'}
                     </h3>
-                    {item.category && (
-                      <p className="text-xs text-gray-400 leading-relaxed mb-4">{item.category}</p>
-                    )}
                   </div>
 
                   <a

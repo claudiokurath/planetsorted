@@ -5,16 +5,23 @@ import { getCategoryStyle } from '@/lib/categoryStyles'
 interface ContentCardProps {
   href: string
   title: string
-  summary: string
+  /** Kept optional for call-site compat; no longer rendered on cards. */
+  summary?: string
   coverImage?: string | null
   meta?: string
   category?: string | null
   compact?: boolean
 }
 
-export function ContentCard({ href, title, summary, coverImage, meta, category, compact = false }: ContentCardProps) {
+export function ContentCard({
+  href,
+  title,
+  coverImage,
+  meta,
+  category,
+  compact = false,
+}: ContentCardProps) {
   const style = getCategoryStyle(category)
-  const cleanSummary = summary.replace(/^#{1,6}\s*/gm, '').replace(/\s+/g, ' ').trim()
 
   return (
     <Link
@@ -33,7 +40,7 @@ export function ContentCard({ href, title, summary, coverImage, meta, category, 
           />
         </div>
       )}
-      <div className={`flex flex-1 flex-col justify-between ${compact ? 'gap-3 p-4' : 'gap-4 p-5'}`}>
+      <div className={`flex flex-1 flex-col justify-between ${compact ? 'gap-3 p-4' : 'gap-5 p-6'}`}>
         <div className="flex flex-col flex-1">
           {style && (
             <div>
@@ -47,12 +54,19 @@ export function ContentCard({ href, title, summary, coverImage, meta, category, 
               </span>
             </div>
           )}
-          <h3 className={`${compact ? 'text-2xl' : 'text-2xl sm:text-3xl'} font-black uppercase leading-none text-white group-hover:text-[#C0392B] transition-colors line-clamp-2`} style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+          {/* Title only — no summary blurb. Sized ~2× the previous card title. */}
+          <h3
+            className={`${compact ? 'text-3xl sm:text-4xl' : 'text-3xl sm:text-4xl lg:text-5xl'} font-black uppercase leading-[1.05] text-white group-hover:text-[#C0392B] transition-colors line-clamp-3`}
+            style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+          >
             {title}
           </h3>
-          <p className={`${compact ? 'mt-1.5 text-[13px]' : 'mt-2 text-sm'} line-clamp-2 leading-relaxed text-neutral-400 flex-1`}>{cleanSummary}</p>
         </div>
-        {meta && <p className={`${compact ? 'text-[11px]' : 'text-xs'} font-semibold uppercase tracking-widest text-neutral-500 pt-2 border-t border-neutral-800/80`}>{meta}</p>}
+        {meta && (
+          <p className={`${compact ? 'text-[11px]' : 'text-xs'} font-semibold uppercase tracking-widest text-neutral-500 pt-3 border-t border-neutral-800/80`}>
+            {meta}
+          </p>
+        )}
       </div>
     </Link>
   )

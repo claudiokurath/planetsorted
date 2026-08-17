@@ -15,7 +15,7 @@ export default async function DashboardPage() {
   const supabase = createServerClient()
   const { data: rawTools } = await supabase
     .from('protocols')
-    .select('slug, title, summary, read_time')
+    .select('slug, title, read_time')
     .eq('type', 'Tool')
     .eq('status', 'Published')
     .order('title')
