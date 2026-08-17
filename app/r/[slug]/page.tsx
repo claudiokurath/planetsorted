@@ -5,7 +5,9 @@ import { createServerClient } from '@/lib/supabase/server'
 import { STANDALONE_ROUTES } from '@/lib/standaloneRoutes'
 import {
   buildStandaloneAccessToken,
+  buildArticleAccessToken,
   STANDALONE_ACCESS_TTL_SECONDS,
+  ARTICLE_ACCESS_TTL_SECONDS,
 } from '@/lib/crypto/tokens'
 import { isOgCrawler } from '@/lib/og/crawlers'
 import { ogImageForContent, proxiedCoverImage } from '@/lib/og/imageUrl'
@@ -125,10 +127,15 @@ export default async function RichLinkRedirect({ params }: Props) {
     )
   }
 
+  // Humans from the WhatsApp rich link get a short-lived HMAC so the
+  // destination can unlock full body + protocol. Public pages stay teaser-only.
+  if (content.type === 'Tool') {
+    redirect(`${SITE}/tools/${content.slug}`)
+  }
+
+  const { token } = buildArticleAccessToken(content.slug, ARTICLE_ACCESS_TTL_SECONDS)
   redirect(
-    content.type === 'Tool'
-      ? `${SITE}/tools/${content.slug}`
-      : `${SITE}/intelligence/${content.slug}`
+    `${SITE}/intelligence/${content.slug}?access_token=${encodeURIComponent(token)}`
   )
 }
 
