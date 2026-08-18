@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { createServerClient, createSessionClient } from '@/lib/supabase/server'
-import { ContentHero } from '@/components/ContentHero'
 import { ProtocolDeck } from '@/components/ProtocolDeck'
 import { Sor7edButton } from '@/components/buttons/Sor7edButton'
 import { buildProtocolDeck } from '@/lib/protocolDeck'
@@ -92,9 +91,9 @@ export default async function ArticlePage({ params, searchParams }: Props) {
     whatsappVerified = !!profile?.whatsapp_verified
   }
 
-  // Full body + protocol unlock ONLY via WhatsApp rich-link HMAC
-  // (/r/[slug] mints access_token). Being signed-in is not a shortcut —
-  // the product promise is: teaser on the web, full piece after SOR7ED → WA.
+  // Do not paywall the basic answer: the problem/body is always free to read.
+  // Only the step-by-step protocol requires a WhatsApp rich-link HMAC
+  // (/r/[slug] mints access_token) to unlock — never a sign-in shortcut.
   const cookieStore = await cookies()
   const cookieToken = cookieStore.get(`sor7ed_access_${slug}`)?.value
   const queryToken = resolvedSearchParams.access_token
@@ -107,87 +106,57 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   const rawBodyText = item.problem || ''
   const actionProtocolText = item.protocol?.trim() || ''
 
-  // Locked visitors only see a short teaser — never the full problem body or protocol.
-  const teaserText =
-    item.excerpt?.trim() ||
-    item.summary?.trim() ||
-    item.meta_description?.trim() ||
-    (rawBodyText ? rawBodyText.slice(0, 280).trim() + (rawBodyText.length > 280 ? '…' : '') : '')
+  // Kit-style presentation deck (black + yellow info sheets) — body slides are
+  // always built; the protocol slide is only included once unlocked, so its
+  // text never even reaches the client bundle for locked visitors.
+  const deck = buildProtocolDeck({
+    title: item.title,
+    lede: description,
+    category: item.category,
+    readTime: item.read_time,
+    coverImage: item.cover_image,
+    body: rawBodyText,
+    protocol: isUnlocked ? actionProtocolText || null : null,
+  })
 
-  // Unlocked: kit-style presentation deck (black + yellow info sheets)
-  if (isUnlocked) {
-    const deck = buildProtocolDeck({
-      title: item.title,
-      lede: description,
-      category: item.category,
-      readTime: item.read_time,
-      coverImage: item.cover_image,
-      body: rawBodyText,
-      protocol: actionProtocolText || null,
-    })
-
-    return (
-      <div className="min-h-screen bg-black text-white">
-        <main className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
-          <ProtocolDeck
-            deck={deck}
-            bodyText={[rawBodyText, actionProtocolText].filter(Boolean).join('\n\n')}
-            audioUrl={audioUrl}
-            isSubscriber={isSubscriber || isUnlocked}
-          />
-        </main>
-      </div>
-    )
-  }
-
-  // Locked: compact hero + teaser + WhatsApp unlock CTA
   return (
     <div className="min-h-screen bg-black text-white">
-      <ContentHero
-        title={item.title}
-        description={description}
-        coverImage={item.cover_image}
-        category={item.category}
-        meta={item.read_time}
-      />
+      <main className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
+        <ProtocolDeck
+          deck={deck}
+          bodyText={[rawBodyText, isUnlocked ? actionProtocolText : ''].filter(Boolean).join('\n\n')}
+          audioUrl={audioUrl}
+          isSubscriber={isSubscriber || isUnlocked}
+        />
 
-      <main className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-        {teaserText ? (
-          <article className="rounded-3xl border border-neutral-800 bg-neutral-950/60 px-6 py-8 sm:px-8 sm:py-10">
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-500 mb-4">
-              Preview
-            </p>
-            <p className="text-base sm:text-lg text-neutral-200 leading-relaxed whitespace-pre-line">
-              {teaserText}
-            </p>
-          </article>
+        {!isUnlocked ? (
+          <section className="mx-auto mt-6 max-w-6xl space-y-6 rounded-3xl border border-[#C0392B]/40 bg-[#C0392B]/5 p-8 sm:mt-8 sm:p-10">
+            <div className="space-y-3">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">
+                Full protocol
+              </p>
+              <h2
+                className="text-3xl sm:text-4xl font-black uppercase text-white"
+                style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+              >
+                Get the step-by-step protocol on WhatsApp
+              </h2>
+              <p className="max-w-2xl text-base leading-relaxed text-neutral-300">
+                You just read the full piece — free, no strings attached. The
+                step-by-step protocol that turns it into action is
+                WhatsApp-only. Tap below and we&apos;ll send a rich link to
+                open it there.
+              </p>
+            </div>
+            <Sor7edButton
+              slug={slug}
+              context="article"
+              isLoggedIn={isLoggedIn}
+              whatsappVerified={whatsappVerified}
+              size="lg"
+            />
+          </section>
         ) : null}
-
-        <section className="rounded-3xl border border-[#C0392B]/40 bg-[#C0392B]/5 p-8 sm:p-10 space-y-6">
-          <div className="space-y-3">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">
-              Full protocol
-            </p>
-            <h2
-              className="text-3xl sm:text-4xl font-black uppercase text-white"
-              style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-            >
-              Get the complete piece on WhatsApp
-            </h2>
-            <p className="text-base text-neutral-300 leading-relaxed max-w-2xl">
-              The full guide and step-by-step protocol are not on this page.
-              Tap below and we&apos;ll send a rich link to your WhatsApp —
-              open it there to unlock everything as a visual kit.
-            </p>
-          </div>
-          <Sor7edButton
-            slug={slug}
-            context="article"
-            isLoggedIn={isLoggedIn}
-            whatsappVerified={whatsappVerified}
-            size="lg"
-          />
-        </section>
       </main>
     </div>
   )
