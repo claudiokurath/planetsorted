@@ -1,4 +1,5 @@
 import { ContentCard } from '@/components/ContentCard'
+import { PageHeader } from '@/components/PageHeader'
 import { createServerClient } from '@/lib/supabase/server'
 
 export const revalidate = 60
@@ -14,35 +15,22 @@ export default async function ToolboxListingPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="mx-auto max-w-7xl px-4 pt-12 pb-16 sm:px-6 lg:px-8">
-        <div className="relative w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-gradient-to-br from-neutral-950 to-black shadow-2xl mb-12 min-h-[320px] sm:min-h-[380px] flex items-end">
-          <div className="relative z-10 p-6 sm:p-10 lg:p-12 max-w-2xl">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="h-0.5 w-10 rounded-full bg-[#C0392B]" />
-              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-neutral-300">
-                PLANET SOR7ED LAB
-              </span>
-            </div>
-            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black uppercase text-white tracking-tight drop-shadow-md leading-[0.95]" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-              Toolbox
-            </h1>
-            <p className="mt-3 text-base sm:text-lg text-neutral-200 font-normal leading-relaxed drop-shadow">
-              Practical interactive tools designed to deliver instant clarity and turn overwhelm into a next action.
-            </p>
-          </div>
-        </div>
+      <div className="mx-auto max-w-7xl px-4 pt-8 pb-16 sm:px-6 sm:pt-10 lg:px-8">
+        <PageHeader
+          eyebrow="PLANET SOR7ED LAB"
+          title="Toolbox"
+          description="Practical interactive tools designed to deliver instant clarity and turn overwhelm into a next action."
+        />
 
-        {/* Tools Grid */}
         {!tools || tools.length === 0 ? (
-          <p className="text-center text-neutral-500 py-12">No tools published yet.</p>
+          <p className="py-12 text-center text-neutral-500">No tools published yet.</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+          <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {tools.map((tool) => (
               <ContentCard
                 key={tool.slug}
                 href={`/tools/${tool.slug}`}
                 title={tool.title}
-                summary={tool.summary || ''}
                 coverImage={tool.cover_image}
                 category={tool.category}
                 meta={tool.read_time}

@@ -1,0 +1,55 @@
+/* Print / Save-as-PDF styles for ProtocolDeck — landscape A4 kit sheets */
+
+@media print {
+  /* Hide chrome */
+  header,
+  footer,
+  nav,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  body {
+    background: #000 !important;
+    color: #fff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  .protocol-deck {
+    background: #000 !important;
+  }
+
+  .deck-slide {
+    break-after: page;
+    break-inside: avoid;
+    page-break-after: always;
+    page-break-inside: avoid;
+    min-height: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 12mm 14mm !important;
+    box-shadow: none !important;
+  }
+
+  .deck-slide:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  /* Force yellow cards to print with colour */
+  .protocol-deck * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+@page {
+  size: A4 landscape;
+  margin: 0;
+}

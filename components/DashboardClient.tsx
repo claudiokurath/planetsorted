@@ -12,7 +12,6 @@ import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
 interface ToolItem {
   slug: string
   title: string
-  summary?: string | null
   read_time?: string | null
 }
 
@@ -329,81 +328,66 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
 
   return (
     <div className="w-full">
-      {/* Account Top Banner */}
-      <div className="relative mb-10 w-full overflow-hidden rounded-3xl border border-neutral-800/80 bg-neutral-950 shadow-2xl">
-        <div className="relative min-h-[220px] sm:min-h-[250px] md:min-h-[270px] w-full flex items-center">
-          <Image
-            src="/images/account-background.png"
-            alt="Account Banner"
-            fill
-            priority
-            sizes="(min-width: 1280px) 1280px, 100vw"
-            className="object-cover object-center"
-          />
-          {/* Gradient overlays for high text contrast and depth */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/75 to-black/35" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/25" />
-
-          {/* Banner Content */}
-          <div className="relative z-10 flex w-full flex-col justify-between gap-6 px-6 py-8 sm:px-10 sm:py-10 md:flex-row md:items-center lg:px-12">
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2.5">
-                <span className="h-0.5 w-6 rounded-full bg-[#C0392B]" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#C0392B]">
-                  PLANET SOR7ED
-                </span>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <h1
-                  className="text-4xl sm:text-5xl md:text-6xl font-black uppercase text-white tracking-tight drop-shadow-md leading-[0.95]"
-                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-                >
-                  Welcome back{profile?.first_name ? `, ${profile.first_name}` : ''}
-                </h1>
-                <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-3 py-0.5 text-xs font-bold text-emerald-400 backdrop-blur-md">
-                  {billingUnlimited ? billingPlan : 'Member'}
-                </span>
-              </div>
-              <p className="text-xs text-neutral-300 font-mono tracking-wide drop-shadow">
-                {session?.user?.email}
-              </p>
+      {/* Compact account header — matches PageHeader language site-wide */}
+      <header className="mb-8 sm:mb-10">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div className="min-w-0 space-y-3">
+            <div className="flex items-center gap-2.5">
+              <span className="h-0.5 w-8 rounded-full bg-[#C0392B]" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-400">
+                PLANET SOR7ED
+              </span>
             </div>
-
             <div className="flex flex-wrap items-center gap-3">
-              <div className="rounded-2xl border border-neutral-700/60 bg-neutral-950/80 px-4 py-2.5 text-center backdrop-blur-md shadow-lg">
-                <span className="block text-[10px] uppercase font-bold text-neutral-400 tracking-wider">
-                  {billingUnlimited ? billingPlan : 'Free Credits'}
-                </span>
-                <span className="text-sm sm:text-base font-black text-emerald-400">
-                  {billingUnlimited
-                    ? 'Unlimited RUNs'
-                    : creditBalance === null
-                      ? '…'
-                      : `${creditBalance} Run${creditBalance === 1 ? '' : 's'} Available`}
-                </span>
-                {!billingUnlimited && (
-                  <Link
-                    href="/r/upgrade"
-                    className="mt-1 block text-[10px] font-bold text-emerald-400/80 underline hover:text-emerald-300"
-                  >
-                    Upgrade to Plus
-                  </Link>
-                )}
-              </div>
-
-              <button
-                onClick={handleSignOut}
-                className="rounded-full border border-neutral-700/60 bg-neutral-900/80 px-5 py-2.5 text-xs font-bold text-neutral-200 hover:border-neutral-500 hover:bg-neutral-800 hover:text-white transition-all shadow-lg backdrop-blur-md active:scale-95"
+              <h1
+                className="text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl"
+                style={{ fontFamily: "'Bebas Neue', sans-serif" }}
               >
-                Sign Out
-              </button>
+                Welcome back{profile?.first_name ? `, ${profile.first_name}` : ''}
+              </h1>
+              <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-0.5 text-xs font-bold text-emerald-400">
+                {billingUnlimited ? billingPlan : 'Member'}
+              </span>
             </div>
+            <p className="font-mono text-xs tracking-wide text-neutral-500">
+              {session?.user?.email}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="rounded-xl border border-neutral-800 bg-neutral-950/80 px-4 py-2.5 text-center">
+              <span className="block text-[10px] font-bold uppercase tracking-wider text-neutral-500">
+                {billingUnlimited ? billingPlan : 'Free Credits'}
+              </span>
+              <span className="text-sm font-black text-emerald-400 sm:text-base">
+                {billingUnlimited
+                  ? 'Unlimited RUNs'
+                  : creditBalance === null
+                    ? '…'
+                    : `${creditBalance} Run${creditBalance === 1 ? '' : 's'} Available`}
+              </span>
+              {!billingUnlimited && (
+                <Link
+                  href="/r/upgrade"
+                  className="mt-1 block text-[10px] font-bold text-emerald-400/80 underline hover:text-emerald-300"
+                >
+                  Upgrade to Plus
+                </Link>
+              )}
+            </div>
+
+            <button
+              onClick={handleSignOut}
+              className="rounded-full border border-neutral-700 bg-neutral-900 px-5 py-2.5 text-xs font-bold text-neutral-200 transition-all hover:border-neutral-500 hover:bg-neutral-800 hover:text-white active:scale-95"
+            >
+              Sign Out
+            </button>
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Main Dashboard Tabs */}
-      <div className="mb-8 flex border-b border-gray-800/80 gap-6">
+      <div className="mb-8 flex gap-6 overflow-x-auto border-b border-gray-800/80">
         <button
           onClick={() => setActiveTab('tools')}
           className={`pb-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
@@ -450,30 +434,32 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
           {!tools || tools.length === 0 ? (
             <p className="text-center text-neutral-500 py-12">No interactive tools active right now.</p>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {tools.map(tool => (
                 <div
                   key={tool.slug}
-                  className="glass-card glass-card-hover flex flex-col justify-between rounded-2xl p-6 relative group"
+                  className="glass-card glass-card-hover flex flex-col justify-between rounded-2xl p-6 sm:p-8 relative group min-h-[200px]"
                 >
-                  <div>
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="text-[10px] font-medium text-emerald-400 font-mono">{tool.read_time || ''}</span>
-                    </div>
+                  <div className="space-y-3">
+                    {tool.read_time ? (
+                      <span className="text-[10px] font-medium text-emerald-400 font-mono">
+                        {tool.read_time}
+                      </span>
+                    ) : null}
 
-                    <h3 className="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">
+                    {/* Title only — no summary wall of text. Sized ~2× former card title. */}
+                    <h3
+                      className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-white group-hover:text-emerald-400 transition-colors leading-[1.05]"
+                      style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                    >
                       {tool.title}
                     </h3>
-
-                    <p className="mt-2 text-xs text-gray-400 leading-relaxed">
-                      {tool.summary || ''}
-                    </p>
                   </div>
 
-                  <div className="mt-6 flex flex-col gap-3 border-t border-gray-800/80 pt-4">
+                  <div className="mt-8 flex flex-col gap-3 border-t border-gray-800/80 pt-5">
                     <Link
                       href={`/tools/${tool.slug}`}
-                      className="glow-button rounded-xl px-3 py-2 text-center text-xs font-bold text-gray-950"
+                      className="glow-button rounded-xl px-3 py-2.5 text-center text-xs font-bold text-gray-950"
                     >
                       Run Tool
                     </Link>
@@ -523,14 +509,19 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
               {filteredLibrary.map((item) => (
-                <div key={item.id} className="glass-card glass-card-hover rounded-2xl p-5 flex flex-col justify-between">
+                <div key={item.id} className="glass-card glass-card-hover rounded-2xl p-5 sm:p-6 flex flex-col justify-between min-h-[140px]">
                   <div>
-                    <h3 className="font-bold text-white text-sm hover:text-emerald-400 transition-colors mb-1">
+                    {item.category ? (
+                      <p className="text-[10px] font-semibold uppercase tracking-widest text-emerald-400/80 mb-2">
+                        {item.category}
+                      </p>
+                    ) : null}
+                    <h3
+                      className="text-2xl sm:text-3xl font-black uppercase leading-[1.05] text-white hover:text-emerald-400 transition-colors"
+                      style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                    >
                       {item.title || 'Saved Item'}
                     </h3>
-                    {item.category && (
-                      <p className="text-xs text-gray-400 leading-relaxed mb-4">{item.category}</p>
-                    )}
                   </div>
 
                   <a
