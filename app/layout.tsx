@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Bebas_Neue } from 'next/font/google'
 import './globals.css'
 import { SmartNav } from '@/components/SmartNav'
+import { MobileNav } from '@/components/MobileNav'
 import { SiteFooter } from '@/components/SiteFooter'
 
 const inter = Inter({
@@ -66,8 +67,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col font-sans">
         <SmartNav />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 pb-20 md:pb-0">{children}</main>
         <SiteFooter />
+        <MobileNav />
       </body>
     </html>
   )

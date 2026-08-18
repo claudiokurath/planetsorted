@@ -15,7 +15,7 @@ export default async function DashboardPage() {
   const supabase = createServerClient()
   const { data: rawTools } = await supabase
     .from('protocols')
-    .select('slug, title, summary, read_time')
+    .select('slug, title, read_time')
     .eq('type', 'Tool')
     .eq('status', 'Published')
     .order('title')
@@ -24,7 +24,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-black text-white">
-      <div className="flex min-h-screen items-start justify-center px-4 pt-10 pb-20">
+      <div className="flex min-h-screen items-start justify-center px-4 pt-8 pb-24 sm:pt-10 sm:pb-20">
         <div className="w-full max-w-7xl">
           <Suspense
             fallback={

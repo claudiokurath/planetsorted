@@ -54,57 +54,55 @@ export function ContentHero({ title, description, coverImage, category, meta, ar
     )
   }
 
+  // Compact tool/content header — same language as PageHeader, optional cover strip
   return (
-    <section className="mx-auto max-w-7xl px-4 pb-10 pt-8 sm:px-6 lg:px-8">
-      <div className="relative flex min-h-[380px] w-full items-end overflow-hidden rounded-3xl border border-neutral-800/80 bg-gradient-to-br from-neutral-950 to-black shadow-2xl sm:min-h-[480px]">
-        {coverImage && (
+    <section className="mx-auto max-w-7xl px-4 pb-8 pt-8 sm:px-6 sm:pt-10 lg:px-8">
+      {coverImage ? (
+        <div className="relative mb-6 aspect-[21/9] w-full overflow-hidden rounded-2xl border border-neutral-800/80 bg-neutral-950 sm:aspect-[3/1]">
           <Image
             src={coverImage}
             alt=""
             fill
-            preload
+            priority
             sizes="(max-width: 1280px) 100vw, 1280px"
             className="object-cover"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        </div>
+      ) : null}
+
+      <div className="space-y-3">
+        {categoryStyle ? (
+          <span className={`inline-block rounded-full px-3 py-0.5 text-xs font-bold uppercase tracking-wider ${categoryStyle.className}`}>
+            {categoryStyle.label}
+            {categoryStyle.tagline && (
+              <span className="ml-1 font-normal normal-case text-neutral-400">
+                • {categoryStyle.tagline}
+              </span>
+            )}
+          </span>
+        ) : (
+          <div className="h-1 w-12 rounded-full bg-[#C0392B]" />
         )}
 
-        <div className="absolute inset-0 bg-black/55" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/15 to-black/20" />
+        <h1
+          className="text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl"
+          style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+        >
+          {title}
+        </h1>
 
-        <div className="relative z-10 max-w-5xl space-y-5 p-6 sm:p-12 lg:p-16">
-          {categoryStyle ? (
-            <span className={`inline-block rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider ${categoryStyle.className}`}>
-              {categoryStyle.label}
-              {categoryStyle.tagline && (
-                <span className="ml-1 font-normal normal-case text-neutral-400">
-                  • {categoryStyle.tagline}
-                </span>
-              )}
-            </span>
-          ) : (
-            <div className="h-1 w-16 rounded-full bg-[#C0392B]" />
-          )}
+        {description && (
+          <p className="max-w-2xl text-sm font-medium leading-relaxed text-neutral-400 sm:text-base">
+            {description}
+          </p>
+        )}
 
-          <h1
-            className="text-6xl font-black uppercase leading-[0.95] tracking-tight text-white drop-shadow-lg sm:text-8xl lg:text-9xl"
-            style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-          >
-            {title}
-          </h1>
-
-          {description && (
-            <p className="max-w-3xl text-lg font-medium leading-relaxed text-neutral-100 drop-shadow sm:text-2xl">
-              {description}
-            </p>
-          )}
-
-          {meta && (
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-neutral-300 sm:text-sm">
-              {meta}
-            </p>
-          )}
-        </div>
+        {meta && (
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">
+            {meta}
+          </p>
+        )}
       </div>
     </section>
   )

@@ -3,8 +3,10 @@ import { notFound } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { createServerClient, createSessionClient } from '@/lib/supabase/server'
 import { ContentHero } from '@/components/ContentHero'
+import { ProtocolDeck } from '@/components/ProtocolDeck'
 import { Sor7edButton } from '@/components/buttons/Sor7edButton'
-import { ArticleAudioControls } from '@/components/ArticleAudioControls'
+import { buildProtocolDeck } from '@/lib/protocolDeck'
+import { verifyArticleAccessToken } from '@/lib/crypto/tokens'
 import type { Protocol } from '@/lib/types/database'
 
 interface Props {
@@ -12,65 +14,7 @@ interface Props {
   searchParams?: Promise<{ access_token?: string }>
 }
 
-interface ArticleSection {
-  heading?: string
-  text: string
-}
-
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-
-function parseArticleSections(rawText: string, title?: string): ArticleSection[] {
-  if (!rawText) return []
-
-  let s = rawText
-
-  if (title && s.toUpperCase().startsWith(title.toUpperCase())) {
-    s = s.slice(title.length).trim()
-  }
-
-  s = s.replace(/([\.!\?])\s*([A-Z\s“”"'\:\-]{5,65})(?=\n|$)/g, '$1\n\n===HEADING===$2\n\n')
-  s = s.replace(/([\.!\?])\s*([A-Z][A-Z\s“”"'\:\-]{5,65}\b)/g, '$1\n\n===HEADING===$2\n\n')
-
-  const rawBlocks = s.split('\n')
-  const sections: ArticleSection[] = []
-  let currentHeading = ''
-  let currentParagraphs: string[] = []
-
-  for (let line of rawBlocks) {
-    line = line.trim()
-    if (!line) continue
-
-    const markdownHeading = line.match(/^#{1,6}\s+(.+)$/)
-
-    if (markdownHeading) {
-      if (currentParagraphs.length > 0) {
-        sections.push({ heading: currentHeading || undefined, text: currentParagraphs.join('\n\n') })
-        currentParagraphs = []
-      }
-      currentHeading = markdownHeading[1].trim()
-    } else if (line.startsWith('===HEADING===')) {
-      if (currentParagraphs.length > 0) {
-        sections.push({ heading: currentHeading || undefined, text: currentParagraphs.join('\n\n') })
-        currentParagraphs = []
-      }
-      currentHeading = line.replace('===HEADING===', '').trim()
-    } else if (line.length > 4 && line.length < 65 && line === line.toUpperCase() && !line.startsWith('---') && !line.includes('.')) {
-      if (currentParagraphs.length > 0) {
-        sections.push({ heading: currentHeading || undefined, text: currentParagraphs.join('\n\n') })
-        currentParagraphs = []
-      }
-      currentHeading = line
-    } else {
-      currentParagraphs.push(line)
-    }
-  }
-
-  if (currentParagraphs.length > 0) {
-    sections.push({ heading: currentHeading || undefined, text: currentParagraphs.join('\n\n') })
-  }
-
-  return sections
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
@@ -148,19 +92,55 @@ export default async function ArticlePage({ params, searchParams }: Props) {
     whatsappVerified = !!profile?.whatsapp_verified
   }
 
-  // Check access token from WhatsApp link or cookie
+  // Full body + protocol unlock ONLY via WhatsApp rich-link HMAC
+  // (/r/[slug] mints access_token). Being signed-in is not a shortcut —
+  // the product promise is: teaser on the web, full piece after SOR7ED → WA.
   const cookieStore = await cookies()
   const cookieToken = cookieStore.get(`sor7ed_access_${slug}`)?.value
   const queryToken = resolvedSearchParams.access_token
-
-  const isUnlocked = !!(session?.user || cookieToken === 'granted' || queryToken === 'granted')
+  const isUnlocked =
+    verifyArticleAccessToken(slug, queryToken) ||
+    verifyArticleAccessToken(slug, cookieToken)
 
   const audioUrl = item.audio_url?.trim() || undefined
   const description = item.excerpt?.trim() || item.summary?.trim() || item.meta_description?.trim()
   const rawBodyText = item.problem || ''
-  const sections = parseArticleSections(rawBodyText, item.title)
   const actionProtocolText = item.protocol?.trim() || ''
 
+  // Locked visitors only see a short teaser — never the full problem body or protocol.
+  const teaserText =
+    item.excerpt?.trim() ||
+    item.summary?.trim() ||
+    item.meta_description?.trim() ||
+    (rawBodyText ? rawBodyText.slice(0, 280).trim() + (rawBodyText.length > 280 ? '…' : '') : '')
+
+  // Unlocked: kit-style presentation deck (black + yellow info sheets)
+  if (isUnlocked) {
+    const deck = buildProtocolDeck({
+      title: item.title,
+      lede: description,
+      category: item.category,
+      readTime: item.read_time,
+      coverImage: item.cover_image,
+      body: rawBodyText,
+      protocol: actionProtocolText || null,
+    })
+
+    return (
+      <div className="min-h-screen bg-black text-white">
+        <main className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
+          <ProtocolDeck
+            deck={deck}
+            bodyText={[rawBodyText, actionProtocolText].filter(Boolean).join('\n\n')}
+            audioUrl={audioUrl}
+            isSubscriber={isSubscriber || isUnlocked}
+          />
+        </main>
+      </div>
+    )
+  }
+
+  // Locked: compact hero + teaser + WhatsApp unlock CTA
   return (
     <div className="min-h-screen bg-black text-white">
       <ContentHero
@@ -171,72 +151,43 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         meta={item.read_time}
       />
 
-      <main className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-14">
-        {/* Audio Controls (Read Aloud TTS always available, Deep Dive for subscribers or unlocked) */}
-        <ArticleAudioControls
-          bodyText={rawBodyText}
-          deepDiveUrl={audioUrl}
-          isSubscriber={isSubscriber || isUnlocked}
-        />
+      <main className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+        {teaserText ? (
+          <article className="rounded-3xl border border-neutral-800 bg-neutral-950/60 px-6 py-8 sm:px-8 sm:py-10">
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-500 mb-4">
+              Preview
+            </p>
+            <p className="text-base sm:text-lg text-neutral-200 leading-relaxed whitespace-pre-line">
+              {teaserText}
+            </p>
+          </article>
+        ) : null}
 
-        {/* Blog Post Body Text — ALWAYS VISIBLE to all readers */}
-        <article className="space-y-14">
-          {sections.map((sec, idx) => (
-            <div key={idx} className="space-y-4">
-              {sec.heading && (
-                <h2
-                  className="text-2xl font-black uppercase tracking-tight text-white sm:text-3xl"
-                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-                >
-                  {sec.heading}
-                </h2>
-              )}
-              <div className="text-base sm:text-lg text-neutral-300 leading-relaxed whitespace-pre-line space-y-5">
-                {sec.text}
-              </div>
-            </div>
-          ))}
-        </article>
-
-        {/* Protocol / Solution Section */}
-        {isUnlocked ? (
-          /* Unlocked Protocol Display */
-          actionProtocolText && (
-            <section className="rounded-3xl border border-[#C0392B]/40 bg-[#C0392B]/5 p-8 sm:p-10 space-y-6">
-              <div className="space-y-2">
-                <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">
-                  Protocol &amp; Actionable Solution
-                </p>
-                <h2
-                  className="text-3xl sm:text-4xl font-black uppercase text-white"
-                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-                >
-                  The Step-by-Step Protocol
-                </h2>
-              </div>
-              <div className="text-base sm:text-lg text-neutral-200 leading-relaxed whitespace-pre-line space-y-4 border-t border-neutral-800 pt-6">
-                {actionProtocolText}
-              </div>
-            </section>
-          )
-        ) : (
-          /* Single Non-Repetitive Protocol CTA Box */
-          <section className="border-t border-neutral-800 pt-12 pb-12 space-y-6">
-            <div className="space-y-3">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Protocol</p>
-              <h2
-                className="text-3xl sm:text-4xl font-black uppercase text-white"
-                style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-              >
-                Want the step-by-step protocol for this?
-              </h2>
-              <p className="text-base text-neutral-300 leading-relaxed max-w-2xl">
-                Tap the button below and we&apos;ll send the complete protocol directly to your WhatsApp.
-              </p>
-            </div>
-            <Sor7edButton slug={slug} context="article" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} size="lg" />
-          </section>
-        )}
+        <section className="rounded-3xl border border-[#C0392B]/40 bg-[#C0392B]/5 p-8 sm:p-10 space-y-6">
+          <div className="space-y-3">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">
+              Full protocol
+            </p>
+            <h2
+              className="text-3xl sm:text-4xl font-black uppercase text-white"
+              style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+            >
+              Get the complete piece on WhatsApp
+            </h2>
+            <p className="text-base text-neutral-300 leading-relaxed max-w-2xl">
+              The full guide and step-by-step protocol are not on this page.
+              Tap below and we&apos;ll send a rich link to your WhatsApp —
+              open it there to unlock everything as a visual kit.
+            </p>
+          </div>
+          <Sor7edButton
+            slug={slug}
+            context="article"
+            isLoggedIn={isLoggedIn}
+            whatsappVerified={whatsappVerified}
+            size="lg"
+          />
+        </section>
       </main>
     </div>
   )
