@@ -87,7 +87,7 @@ function bodyToBlocks(body: string): DeckBlock[] {
   const cards: { title: string; body: string }[] = []
   let currentTitle = ''
   let currentBody: string[] = []
-  let looseParas: string[] = []
+  const looseParas: string[] = []
   let sawCard = false
 
   const flushCard = () => {
