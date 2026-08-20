@@ -1,8 +1,10 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import type { DeckBlock, DeckSlide, ProtocolDeckData } from '@/lib/protocolDeck'
 import { ArticleAudioControls } from '@/components/ArticleAudioControls'
+import { getCategoryStyle } from '@/lib/categoryStyles'
 
 interface ProtocolDeckProps {
   deck: ProtocolDeckData
@@ -95,15 +97,14 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                 <div key={j} className="text-center">
                   {stat.value ? (
                     <p
-                      className="text-5xl font-black leading-none text-white sm:text-6xl"
-                      style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                      className="font-bebas text-5xl font-black leading-none text-white sm:text-6xl"
                     >
                       {stat.value}
                     </p>
                   ) : null}
                   <p
-                    className="mt-2 text-sm font-black uppercase tracking-wide"
-                    style={{ color: ACCENT, fontFamily: "'Bebas Neue', sans-serif" }}
+                    className="font-bebas mt-2 text-sm font-black uppercase tracking-wide"
+                    style={{ color: ACCENT }}
                   >
                     {stat.label}
                   </p>
@@ -138,8 +139,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                   style={{ backgroundColor: ACCENT }}
                 >
                   <h3
-                    className="text-xl font-black uppercase leading-tight text-black sm:text-2xl"
-                    style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                    className="font-bebas text-xl font-black uppercase leading-tight text-black sm:text-2xl"
                   >
                     {card.title}
                   </h3>
@@ -184,8 +184,7 @@ function SlideCard({ slide, index }: { slide: DeckSlide; index: number }) {
       )}
 
       <h2
-        className="mt-4 max-w-4xl text-3xl font-black uppercase leading-[0.95] tracking-tight sm:text-5xl lg:text-6xl"
-        style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+        className="font-bebas mt-4 max-w-4xl text-3xl font-black uppercase leading-[0.95] tracking-tight sm:text-5xl lg:text-6xl"
       >
         <span style={{ color: ACCENT }}>{slide.title}</span>
         {slide.titleMuted ? (
@@ -204,8 +203,8 @@ export function ProtocolDeck({
   audioUrl,
   isSubscriber = false,
 }: ProtocolDeckProps) {
+  const categoryStyle = getCategoryStyle(deck.category)
   const chips = [
-    deck.category || null,
     deck.readTime || null,
     deck.protocolSlide ? 'Protocol included' : null,
   ].filter(Boolean) as string[]
@@ -250,8 +249,8 @@ export function ProtocolDeck({
               PLANET SOR7ED · Guidebook
             </p>
             <h1
-              className="text-4xl font-black uppercase leading-[0.95] tracking-tight sm:text-5xl lg:text-6xl"
-              style={{ fontFamily: "'Bebas Neue', sans-serif", color: ACCENT }}
+              className="font-bebas text-4xl font-black uppercase leading-[0.95] tracking-tight sm:text-5xl lg:text-6xl"
+              style={{ color: ACCENT }}
             >
               {deck.title}
             </h1>
@@ -261,8 +260,16 @@ export function ProtocolDeck({
               </p>
             ) : null}
 
-            {chips.length > 0 ? (
+            {categoryStyle || chips.length > 0 ? (
               <div className="flex flex-wrap gap-2 pt-1">
+                {categoryStyle ? (
+                  <Link
+                    href={`/category/${categoryStyle.slug}`}
+                    className="rounded-full border border-neutral-600 bg-neutral-900/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-neutral-200 transition-colors hover:border-neutral-400 hover:text-white"
+                  >
+                    {categoryStyle.label}
+                  </Link>
+                ) : null}
                 {chips.map((chip) => (
                   <span
                     key={chip}

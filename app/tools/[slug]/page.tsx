@@ -63,6 +63,15 @@ export default async function ToolPage({ params }: Props) {
     notFound()
   }
 
+  const { data: relatedArticles } = await supabase
+    .from('protocols')
+    .select('slug, title, cover_image, read_time, category')
+    .eq('category', tool.category)
+    .eq('status', 'Published')
+    .or('type.eq.Article,type.is.null')
+    .order('updated_at', { ascending: false })
+    .limit(3)
+
   const sessionSupabase = await createSessionClient()
   const { data: { session } } = await sessionSupabase.auth.getSession()
   const isLoggedIn = !!session?.user
@@ -82,6 +91,7 @@ export default async function ToolPage({ params }: Props) {
       toolData={tool as Protocol}
       isLoggedIn={isLoggedIn}
       whatsappVerified={whatsappVerified}
+      relatedArticles={relatedArticles ?? []}
     />
   )
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { createServerClient, createSessionClient } from '@/lib/supabase/server'
@@ -67,6 +68,17 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   const item = rawProtocol as Protocol | null
   if (!item) notFound()
 
+  const { data: relatedTools } = await supabase
+    .from('protocols')
+    .select('slug, title')
+    .eq('category', item.category)
+    .eq('type', 'Tool')
+    .eq('status', 'Published')
+    .order('updated_at', { ascending: false })
+    .limit(1)
+
+  const relatedTool = relatedTools?.[0] ?? null
+
   // Check user session & subscription
   const sessionSupabase = await createSessionClient()
   const { data: { session } } = await sessionSupabase.auth.getSession()
@@ -130,14 +142,13 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         />
 
         {!isUnlocked ? (
-          <section className="mx-auto mt-6 max-w-6xl space-y-6 rounded-3xl border border-[#C0392B]/40 bg-[#C0392B]/5 p-8 sm:mt-8 sm:p-10">
+          <section className="mx-auto mt-6 max-w-6xl space-y-6 rounded-3xl border border-[#F5C518]/40 bg-[#F5C518]/5 p-8 sm:mt-8 sm:p-10">
             <div className="space-y-3">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#F5C518]">
                 Full protocol
               </p>
               <h2
-                className="text-3xl sm:text-4xl font-black uppercase text-white"
-                style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                className="font-bebas text-3xl sm:text-4xl font-black uppercase text-white"
               >
                 Get the step-by-step protocol on WhatsApp
               </h2>
@@ -155,6 +166,17 @@ export default async function ArticlePage({ params, searchParams }: Props) {
               whatsappVerified={whatsappVerified}
               size="lg"
             />
+          </section>
+        ) : null}
+
+        {relatedTool ? (
+          <section className="mx-auto mt-6 max-w-6xl sm:mt-8">
+            <Link
+              href={`/tools/${relatedTool.slug}`}
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-neutral-900/60 px-4 py-2 text-xs font-bold uppercase tracking-wider text-neutral-200 transition-colors hover:border-[#F5C518] hover:text-[#F5C518]"
+            >
+              Try the {item.category} tool: {relatedTool.title} →
+            </Link>
           </section>
         ) : null}
       </main>

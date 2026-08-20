@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { getCategoryStyle } from '@/lib/categoryStyles'
 
 interface ContentHeroProps {
@@ -19,21 +20,23 @@ export function ContentHero({ title, description, coverImage, category, meta, ar
       <header className="mx-auto max-w-4xl px-4 pb-10 pt-12 sm:px-6 lg:px-8">
         <div className="space-y-4">
           {categoryStyle ? (
-            <span className={`inline-block rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider ${categoryStyle.className}`}>
+            <Link
+              href={`/category/${categoryStyle.slug}`}
+              className={`inline-block rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider transition-opacity hover:opacity-80 ${categoryStyle.className}`}
+            >
               {categoryStyle.label}
               {categoryStyle.tagline && (
                 <span className="ml-1 font-normal normal-case text-neutral-400">
                   • {categoryStyle.tagline}
                 </span>
               )}
-            </span>
+            </Link>
           ) : (
-            <div className="h-1 w-12 rounded-full bg-[#C0392B]" />
+            <div className="h-1 w-12 rounded-full bg-[#F5C518]" />
           )}
 
           <h1
-            className="text-5xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl"
-            style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+            className="font-bebas text-5xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl"
           >
             {title}
           </h1>
@@ -73,21 +76,23 @@ export function ContentHero({ title, description, coverImage, category, meta, ar
 
       <div className="space-y-3">
         {categoryStyle ? (
-          <span className={`inline-block rounded-full px-3 py-0.5 text-xs font-bold uppercase tracking-wider ${categoryStyle.className}`}>
+          <Link
+            href={`/category/${categoryStyle.slug}`}
+            className={`inline-block rounded-full px-3 py-0.5 text-xs font-bold uppercase tracking-wider transition-opacity hover:opacity-80 ${categoryStyle.className}`}
+          >
             {categoryStyle.label}
             {categoryStyle.tagline && (
               <span className="ml-1 font-normal normal-case text-neutral-400">
                 • {categoryStyle.tagline}
               </span>
             )}
-          </span>
+          </Link>
         ) : (
-          <div className="h-1 w-12 rounded-full bg-[#C0392B]" />
+          <div className="h-1 w-12 rounded-full bg-[#F5C518]" />
         )}
 
         <h1
-          className="text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl"
-          style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+          className="font-bebas text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl"
         >
           {title}
         </h1>

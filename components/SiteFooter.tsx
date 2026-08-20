@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { isStandaloneToolRoute } from '@/lib/isStandaloneToolRoute'
+import { CATEGORY_LIST } from '@/lib/categoryStyles'
 
 export function SiteFooter() {
   const pathname = usePathname()
@@ -12,10 +13,10 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-neutral-800 bg-[#0A0A0A] py-12 text-white pb-24 md:pb-12">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="grid gap-8 grid-cols-1 md:grid-cols-3 pb-8 border-b border-neutral-800">
+        <div className="grid gap-8 grid-cols-1 md:grid-cols-4 pb-8 border-b border-neutral-800">
           {/* Column 1: Brand */}
           <div className="space-y-3">
-            <h3 className="text-2xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+            <h3 className="font-bebas text-2xl font-black uppercase text-white">
               Planet SOR7ED
             </h3>
             <p className="text-xs text-neutral-400 max-w-xs leading-relaxed">
@@ -34,7 +35,20 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          {/* Column 3: Legal & Safety */}
+          {/* Column 3: Categories */}
+          <div className="space-y-2">
+            <ul className="space-y-1.5 text-sm text-neutral-300">
+              {CATEGORY_LIST.map((category) => (
+                <li key={category.slug}>
+                  <Link href={`/category/${category.slug}`} className="hover:text-white transition-colors">
+                    {category.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4: Legal & Safety */}
           <div className="space-y-2">
             <ul className="space-y-1.5 text-sm text-neutral-300">
               <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
