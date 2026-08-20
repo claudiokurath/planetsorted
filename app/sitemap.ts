@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
+import { CATEGORY_LIST } from '@/lib/categoryStyles'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
@@ -36,6 +37,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
+  // Category hub pages
+  const categoryRoutes = CATEGORY_LIST.map((category) => ({
+    url: `${siteUrl}/category/${category.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.7,
+  }))
+
   // Dynamic tool pages
   const toolRoutes = protocols
     .filter((p) => p.type === 'Tool')
@@ -56,6 +65,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     }))
 
-  return [...routes, ...toolRoutes, ...articleRoutes]
+  return [...routes, ...categoryRoutes, ...toolRoutes, ...articleRoutes]
 }
 
