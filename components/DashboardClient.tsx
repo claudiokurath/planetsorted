@@ -436,10 +436,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {tools.map(tool => (
-                <div
-                  key={tool.slug}
-                  className="glass-card glass-card-hover flex flex-col justify-between rounded-2xl p-6 sm:p-8 relative group min-h-[200px]"
-                >
+                <div key={tool.slug} className="group flex flex-col justify-between">
                   <div className="space-y-3">
                     {tool.read_time ? (
                       <span className="text-[10px] font-medium text-emerald-400 font-mono">
@@ -456,13 +453,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                     </h3>
                   </div>
 
-                  <div className="mt-8 flex flex-col gap-3 border-t border-gray-800/80 pt-5">
-                    <Link
-                      href={`/tools/${tool.slug}`}
-                      className="glow-button rounded-xl px-3 py-2.5 text-center text-xs font-bold text-gray-950"
-                    >
-                      Run Tool
-                    </Link>
+                  <div className="mt-6 border-t border-gray-800/80 pt-5">
                     <SaveToPhoneButton
                       slug={tool.slug}
                       context="tool"
