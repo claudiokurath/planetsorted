@@ -20,28 +20,28 @@ body {
   font-family: var(--font-inter), "Inter", Arial, Helvetica, sans-serif;
 }
 
-/* Primary Brand Button Overrides (Brand Red #C0392B) */
+/* Primary Brand Button Overrides (Brand Yellow #F5C518, "kit yellow") */
 .bg-green-500 {
-  background-color: #C0392B !important;
+  background-color: #F5C518 !important;
 }
 
 .hover\:bg-green-600:hover,
 .hover\:bg-green-500:hover {
-  background-color: #A93226 !important;
+  background-color: #D4AC0D !important;
 }
 
 .text-green-700,
 .text-green-600,
 .text-green-500 {
-  color: #E74C3C !important;
+  color: #F7D154 !important;
 }
 
 .border-green-500,
 .border-green-100 {
-  border-color: rgba(192, 57, 43, 0.4) !important;
+  border-color: rgba(245, 197, 24, 0.4) !important;
 }
 
 .bg-green-50,
 .bg-green-50\/50 {
-  background-color: rgba(192, 57, 43, 0.1) !important;
+  background-color: rgba(245, 197, 24, 0.1) !important;
 }
