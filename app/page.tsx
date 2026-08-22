@@ -147,16 +147,16 @@ export default async function HomePage() {
             {HOW_IT_WORKS.map((step) => (
               <li
                 key={step.number}
-                className="flex flex-col rounded-2xl border border-neutral-800 bg-black p-6 text-left shadow-lg"
+                className="flex flex-col rounded-2xl bg-[#f0e4cd] p-6 text-left shadow-lg"
               >
                 <span className="text-xs font-bold tracking-[0.2em] text-[#C0392B]">{step.number}</span>
                 <h3
-                  className="mt-2 text-3xl font-black uppercase leading-none text-white"
+                  className="mt-2 text-3xl font-black uppercase leading-none text-black"
                   style={{ fontFamily: "'Bebas Neue', sans-serif" }}
                 >
                   {step.title}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-neutral-300">
+                <p className="mt-3 text-sm leading-relaxed text-neutral-700">
                   {step.description}
                 </p>
               </li>
