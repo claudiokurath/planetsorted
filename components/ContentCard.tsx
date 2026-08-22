@@ -26,11 +26,11 @@ export function ContentCard({
   return (
     <Link
       href={href}
-      className="group flex flex-col h-full w-full overflow-hidden rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-neutral-700"
-      style={{ backgroundColor: '#141414', border: '1px solid #262626' }}
+      className="group flex flex-col h-full w-full overflow-hidden rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+      style={{ backgroundColor: '#f0e4cd' }}
     >
       {coverImage && (
-        <div className={`relative w-full flex-shrink-0 overflow-hidden bg-black ${compact ? 'aspect-[2/1]' : 'aspect-video'}`}>
+        <div className={`relative w-full flex-shrink-0 overflow-hidden bg-[#e4d7bd] ${compact ? 'aspect-[2/1]' : 'aspect-video'}`}>
           <Image
             src={coverImage}
             alt={title}
@@ -44,10 +44,10 @@ export function ContentCard({
         <div className="flex flex-col flex-1">
           {style && (
             <div>
-              <span className={`${compact ? 'mb-2' : 'mb-3'} inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${style.className}`}>
+              <span className={`${compact ? 'mb-2' : 'mb-3'} inline-block rounded-full border border-black/15 bg-black/5 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-neutral-800`}>
                 {style.label}
                 {style.tagline && (
-                  <span className="ml-1 font-normal normal-case text-neutral-400">
+                  <span className="ml-1 font-normal normal-case text-neutral-600">
                     • {style.tagline}
                   </span>
                 )}
@@ -56,14 +56,14 @@ export function ContentCard({
           )}
           {/* Title only — no summary blurb. Sized ~2× the previous card title. */}
           <h3
-            className={`${compact ? 'text-3xl sm:text-4xl' : 'text-3xl sm:text-4xl lg:text-5xl'} font-black uppercase leading-[1.05] text-white group-hover:text-[#C0392B] transition-colors line-clamp-3`}
+            className={`${compact ? 'text-3xl sm:text-4xl' : 'text-3xl sm:text-4xl lg:text-5xl'} font-black uppercase leading-[1.05] text-black group-hover:text-[#C0392B] transition-colors line-clamp-3`}
             style={{ fontFamily: "'Bebas Neue', sans-serif" }}
           >
             {title}
           </h3>
         </div>
         {meta && (
-          <p className={`${compact ? 'text-[11px]' : 'text-xs'} font-semibold uppercase tracking-widest text-neutral-500 pt-3 border-t border-neutral-800/80`}>
+          <p className={`${compact ? 'text-[11px]' : 'text-xs'} font-semibold uppercase tracking-widest text-neutral-600 pt-3 border-t border-black/10`}>
             {meta}
           </p>
         )}
