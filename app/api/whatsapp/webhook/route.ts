@@ -58,15 +58,58 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ status: 'ignored' })
     }
 
-    const message = (body as {
-      entry?: Array<{
-        changes?: Array<{
-          value?: { messages?: Array<{ type?: string; from?: string; text?: { body?: string } }> }
+    type WebhookChange = {
+      field?: string
+      value?: {
+        messages?: Array<{ type?: string; from?: string; text?: { body?: string } }>
+        statuses?: Array<{
+          status?: string
+          recipient_id?: string
+          errors?: Array<{ code?: number; title?: string; error_data?: { details?: string } }>
         }>
-      }>
-    })?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]
+      }
+    }
+
+    const change = (body as { entry?: Array<{ changes?: WebhookChange[] }> })?.entry?.[0]?.changes?.[0]
+    const value = change?.value
+    const message = value?.messages?.[0]
 
     if (!message || message.type !== 'text' || !message.from || !message.text?.body) {
+      // Diagnostics only — behaviour below is unchanged. This branch used to
+      // discard every non-text payload silently, which made "WhatsApp never
+      // replied" impossible to diagnose: delivery failures arrive here as
+      // `statuses` callbacks and were dropped without a trace.
+      // console.error (not log) so these land in the runtime-errors table,
+      // which retains for days rather than the 1h runtime-log window.
+      // Never logs message content; phone numbers are truncated to 4 digits.
+      const status = value?.statuses?.[0]
+      if (status) {
+        console.error(
+          '[Webhook diag] delivery status',
+          JSON.stringify({
+            status: status.status,
+            recipient: status.recipient_id ? `...${status.recipient_id.slice(-4)}` : null,
+            errors:
+              status.errors?.map((e) => ({
+                code: e.code,
+                title: e.title,
+                details: e.error_data?.details,
+              })) ?? null,
+          })
+        )
+      } else {
+        console.error(
+          '[Webhook diag] ignored payload',
+          JSON.stringify({
+            field: change?.field ?? null,
+            valueKeys: value ? Object.keys(value) : null,
+            messageCount: value?.messages?.length ?? 0,
+            messageType: message?.type ?? null,
+            hasFrom: Boolean(message?.from),
+            hasTextBody: Boolean(message?.text?.body),
+          })
+        )
+      }
       return NextResponse.json({ status: 'ignored' })
     }
 
