@@ -9,8 +9,7 @@ import type { Protocol } from '@/lib/types/database'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 const LOGO_IMAGE = '/images/sor7ed-logo.png'
-const SECTION_HEADING_CLASS = 'text-4xl font-black uppercase leading-none tracking-tight sm:text-5xl lg:text-6xl'
-const SECTION_HEADING_STYLE = { fontFamily: "'Bebas Neue', sans-serif" }
+const SECTION_HEADING_CLASS = 'font-bebas text-4xl font-black uppercase leading-none tracking-tight sm:text-5xl lg:text-6xl'
 const HOW_IT_WORKS = [
   {
     number: '01',
@@ -86,14 +85,13 @@ export default async function HomePage() {
         <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-8 lg:py-14">
           <div className="space-y-5">
             <div className="flex items-center gap-2.5">
-              <span className="h-0.5 w-8 rounded-full bg-[#C0392B]" />
+              <span className="h-0.5 w-8 rounded-full bg-[#F5C518]" />
               <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-400">
                 PLANET SOR7ED
               </span>
             </div>
             <h1
               className={`${SECTION_HEADING_CLASS} text-white`}
-              style={SECTION_HEADING_STYLE}
             >
               Practical tools for neurodivergent life admin.
             </h1>
@@ -106,7 +104,7 @@ export default async function HomePage() {
             <div className="flex flex-wrap gap-3 pt-1">
               <Link
                 href="/tools"
-                className="inline-flex items-center rounded-full bg-[#C0392B] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#A93226]"
+                className="inline-flex items-center rounded-full bg-[#F5C518] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-black transition-colors hover:bg-[#D4AC0D]"
               >
                 Open Toolbox
               </Link>
@@ -137,8 +135,8 @@ export default async function HomePage() {
       <section className="bg-[#f0e4cd] text-black">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
           <div className="mb-8">
-            <div className="h-1 w-12 rounded-full bg-[#C0392B] mb-4" />
-            <h2 className={`${SECTION_HEADING_CLASS} text-black`} style={SECTION_HEADING_STYLE}>
+            <div className="h-1 w-12 rounded-full bg-[#F5C518] mb-4" />
+            <h2 className={`${SECTION_HEADING_CLASS} text-black`}>
               How it works
             </h2>
           </div>
@@ -149,10 +147,9 @@ export default async function HomePage() {
                 key={step.number}
                 className="flex flex-col rounded-2xl border border-black/10 bg-[#141414] p-6 text-left shadow-lg"
               >
-                <span className="text-xs font-bold tracking-[0.2em] text-[#C0392B]">{step.number}</span>
+                <span className="text-xs font-bold tracking-[0.2em] text-[#F5C518]">{step.number}</span>
                 <h3
-                  className="mt-2 text-3xl font-black uppercase leading-none text-white"
-                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                  className="font-bebas mt-2 text-3xl font-black uppercase leading-none text-white"
                 >
                   {step.title}
                 </h3>
@@ -171,8 +168,8 @@ export default async function HomePage() {
           <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <div className="h-1 w-12 rounded-full bg-[#C0392B] mb-4" />
-                <h2 className={`${SECTION_HEADING_CLASS} text-black`} style={SECTION_HEADING_STYLE}>
+                <div className="h-1 w-12 rounded-full bg-[#F5C518] mb-4" />
+                <h2 className={`${SECTION_HEADING_CLASS} text-black`}>
                   Toolbox
                 </h2>
               </div>
@@ -210,7 +207,7 @@ export default async function HomePage() {
             action={
               <Link
                 href="/intelligence"
-                className="text-sm font-bold uppercase tracking-wider text-[#C0392B] underline underline-offset-4 transition-colors hover:text-white"
+                className="text-sm font-bold uppercase tracking-wider text-[#F5C518] underline underline-offset-4 transition-colors hover:text-white"
               >
                 View all guidebooks →
               </Link>

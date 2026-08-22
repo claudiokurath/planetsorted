@@ -83,7 +83,7 @@ export function SignupForm() {
             href={inboxUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 block w-full rounded-2xl bg-[#C0392B] py-3.5 text-sm font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg"
+            className="mt-6 block w-full rounded-2xl bg-[#F5C518] py-3.5 text-sm font-bold uppercase tracking-wider text-black hover:bg-[#D4AC0D] transition-colors shadow-lg"
           >
             Jump to Your Email →
           </a>
@@ -106,10 +106,9 @@ export function SignupForm() {
   return (
     <div className="w-full max-w-md rounded-3xl bg-[#0a0a0a] border border-white/10 p-8 sm:p-10 shadow-2xl">
       <div className="mb-8 text-center">
-        <div className="mx-auto h-1 w-12 rounded-full bg-[#C0392B] mb-4" />
+        <div className="mx-auto h-1 w-12 rounded-full bg-[#F5C518] mb-4" />
         <h1
-          className="text-5xl sm:text-6xl font-black text-white uppercase tracking-tight leading-[0.95]"
-          style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+          className="font-bebas text-5xl sm:text-6xl font-black text-white uppercase tracking-tight leading-[0.95]"
         >
           Get Started
         </h1>
@@ -136,7 +135,7 @@ export function SignupForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={state === 'loading'}
-            className="w-full rounded-2xl border border-neutral-800 bg-neutral-950 px-4 py-3.5 text-sm text-white placeholder-neutral-500 focus:border-[#C0392B] focus:outline-none focus:ring-2 focus:ring-[#C0392B]/20 disabled:opacity-50 font-mono"
+            className="w-full rounded-2xl border border-neutral-800 bg-neutral-950 px-4 py-3.5 text-sm text-white placeholder-neutral-500 focus:border-[#F5C518] focus:outline-none focus:ring-2 focus:ring-[#F5C518]/20 disabled:opacity-50 font-mono"
           />
         </div>
 
@@ -147,7 +146,7 @@ export function SignupForm() {
         <button
           type="submit"
           disabled={state === 'loading'}
-          className="w-full rounded-2xl bg-[#C0392B] py-3.5 text-sm font-bold uppercase tracking-wider text-white hover:bg-red-700 transition-colors shadow-lg disabled:opacity-50"
+          className="w-full rounded-2xl bg-[#F5C518] py-3.5 text-sm font-bold uppercase tracking-wider text-black hover:bg-[#D4AC0D] transition-colors shadow-lg disabled:opacity-50"
         >
           {state === 'loading' ? 'Sending magic link…' : 'Send Magic Link →'}
         </button>
