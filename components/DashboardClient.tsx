@@ -333,15 +333,14 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div className="min-w-0 space-y-3">
             <div className="flex items-center gap-2.5">
-              <span className="h-0.5 w-8 rounded-full bg-[#C0392B]" />
+              <span className="h-0.5 w-8 rounded-full bg-[#F5C518]" />
               <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-400">
                 PLANET SOR7ED
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <h1
-                className="text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl"
-                style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                className="font-bebas text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl"
               >
                 Welcome back{profile?.first_name ? `, ${profile.first_name}` : ''}
               </h1>
@@ -449,8 +448,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
 
                     {/* Title only — no summary wall of text. Sized ~2× former card title. */}
                     <h3
-                      className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-white group-hover:text-emerald-400 transition-colors leading-[1.05]"
-                      style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                      className="font-bebas text-3xl sm:text-4xl font-black uppercase tracking-tight text-white group-hover:text-emerald-400 transition-colors leading-[1.05]"
                     >
                       {tool.title}
                     </h3>
@@ -517,8 +515,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                       </p>
                     ) : null}
                     <h3
-                      className="text-2xl sm:text-3xl font-black uppercase leading-[1.05] text-white hover:text-emerald-400 transition-colors"
-                      style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                      className="font-bebas text-2xl sm:text-3xl font-black uppercase leading-[1.05] text-white hover:text-emerald-400 transition-colors"
                     >
                       {item.title || 'Saved Item'}
                     </h3>

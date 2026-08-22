@@ -28,18 +28,17 @@ export function PageHeader({
         <div className="min-w-0 space-y-3">
           {eyebrow ? (
             <div className="flex items-center gap-2.5">
-              <span className="h-0.5 w-8 rounded-full bg-[#C0392B]" />
+              <span className="h-0.5 w-8 rounded-full bg-[#F5C518]" />
               <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-400">
                 {eyebrow}
               </span>
             </div>
           ) : (
-            <div className="h-1 w-12 rounded-full bg-[#C0392B]" />
+            <div className="h-1 w-12 rounded-full bg-[#F5C518]" />
           )}
 
           <h1
-            className="text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl"
-            style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+            className="font-bebas text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl"
           >
             {title}
           </h1>
