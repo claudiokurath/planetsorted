@@ -22,10 +22,9 @@ export function Sor7edButton({ slug, context, isLoggedIn, whatsappVerified, size
       <div className="flex flex-col items-start gap-3">
         <a
           href={`/signup?next=${encodeURIComponent(returnPath)}`}
-          className="sor7ed-btn inline-flex items-center rounded-full border border-[#C0392B] text-white"
+          className="sor7ed-btn font-bebas inline-flex items-center rounded-full border border-[#F5C518] text-black"
           style={{
-            background: 'linear-gradient(135deg, #C0392B 0%, #96281B 100%)',
-            fontFamily: "'Bebas Neue', sans-serif",
+            background: 'linear-gradient(135deg, #F5C518 0%, #B8860B 100%)',
             fontSize: size === 'lg' ? '1.35rem' : '1.1rem',
             letterSpacing: '0.18em',
             padding: size === 'lg' ? '1rem 2.5rem' : '1rem 2rem',
@@ -44,9 +43,8 @@ export function Sor7edButton({ slug, context, isLoggedIn, whatsappVerified, size
       <div className="flex flex-col items-start gap-3">
         <a
           href="/dashboard?tab=settings"
-          className="inline-flex items-center rounded-full border border-white/20 text-white hover:border-white/40 transition-colors"
+          className="font-bebas inline-flex items-center rounded-full border border-white/20 text-white hover:border-white/40 transition-colors"
           style={{
-            fontFamily: "'Bebas Neue', sans-serif",
             fontSize: size === 'lg' ? '1.35rem' : '1.1rem',
             letterSpacing: '0.18em',
             padding: size === 'lg' ? '1rem 2.5rem' : '1rem 2rem',
@@ -79,19 +77,19 @@ export function Sor7edButton({ slug, context, isLoggedIn, whatsappVerified, size
       <button
         onClick={handleSend}
         disabled={state === 'sending' || state === 'sent'}
-        className="sor7ed-btn relative inline-flex items-center overflow-hidden rounded-full border font-black text-white transition-all duration-200 select-none disabled:opacity-60"
+        className="sor7ed-btn font-bebas relative inline-flex items-center overflow-hidden rounded-full border font-black transition-all duration-200 select-none disabled:opacity-60"
         style={{
           background: state === 'sent'
             ? 'linear-gradient(135deg, #10B981 0%, #047857 100%)'
-            : 'linear-gradient(135deg, #C0392B 0%, #96281B 100%)',
-          borderColor: state === 'sent' ? '#10B981' : '#C0392B',
-          fontFamily: "'Bebas Neue', sans-serif",
+            : 'linear-gradient(135deg, #F5C518 0%, #B8860B 100%)',
+          borderColor: state === 'sent' ? '#10B981' : '#F5C518',
+          color: state === 'sent' ? '#ffffff' : '#000000',
           fontSize: size === 'lg' ? '1.35rem' : '1.1rem',
           letterSpacing: '0.18em',
           padding: size === 'lg' ? '1rem 2.5rem' : '1rem 2rem',
           boxShadow: state === 'sent'
             ? '0 0 32px rgba(16,185,129,0.35)'
-            : '0 0 32px rgba(192,57,43,0.35), 0 4px 16px rgba(0,0,0,0.5)',
+            : '0 0 32px rgba(245,197,24,0.35), 0 4px 16px rgba(0,0,0,0.5)',
         }}
       >
         {state === 'idle' && 'SOR7ED'}

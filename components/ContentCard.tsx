@@ -56,8 +56,7 @@ export function ContentCard({
           )}
           {/* Title only — no summary blurb. Sized ~2× the previous card title. */}
           <h3
-            className={`${compact ? 'text-3xl sm:text-4xl' : 'text-3xl sm:text-4xl lg:text-5xl'} font-black uppercase leading-[1.05] text-white group-hover:text-[#C0392B] transition-colors line-clamp-3`}
-            style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+            className={`font-bebas ${compact ? 'text-3xl sm:text-4xl' : 'text-3xl sm:text-4xl lg:text-5xl'} font-black uppercase leading-[1.05] text-white group-hover:text-[#F5C518] transition-colors line-clamp-3`}
           >
             {title}
           </h3>
