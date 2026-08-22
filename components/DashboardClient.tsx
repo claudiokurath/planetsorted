@@ -318,7 +318,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="flex items-center gap-3 rounded-2xl border border-gray-800 bg-gray-900/80 px-6 py-4 shadow-xl backdrop-blur-xl">
+        <div className="flex items-center gap-3 rounded-2xl border border-gray-800 bg-black px-6 py-4 shadow-xl backdrop-blur-xl">
           <span className="h-3 w-3 rounded-full bg-emerald-400 animate-ping" />
           <span className="text-sm font-medium text-gray-300">Loading your account...</span>
         </div>
@@ -355,7 +355,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="rounded-xl border border-neutral-800 bg-neutral-950/80 px-4 py-2.5 text-center">
+            <div className="rounded-xl border border-neutral-800 bg-black px-4 py-2.5 text-center">
               <span className="block text-[10px] font-bold uppercase tracking-wider text-neutral-500">
                 {billingUnlimited ? billingPlan : 'Free Credits'}
               </span>
@@ -378,7 +378,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
 
             <button
               onClick={handleSignOut}
-              className="rounded-full border border-neutral-700 bg-neutral-900 px-5 py-2.5 text-xs font-bold text-neutral-200 transition-all hover:border-neutral-500 hover:bg-neutral-800 hover:text-white active:scale-95"
+              className="rounded-full border border-neutral-700 bg-black px-5 py-2.5 text-xs font-bold text-neutral-200 transition-all hover:border-neutral-500 hover:bg-neutral-800 hover:text-white active:scale-95"
             >
               Sign Out
             </button>
@@ -411,7 +411,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
           }`}
         >
           <span>📚 Saved Library</span>
-          <span className="rounded-full bg-gray-800 px-2 py-0.5 text-[10px] text-gray-300">
+          <span className="rounded-full bg-black px-2 py-0.5 text-[10px] text-gray-300">
             {savedItems.length}
           </span>
         </button>
@@ -482,7 +482,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
               placeholder="Search library items..."
               value={libraryFilter}
               onChange={(e) => setLibraryFilter(e.target.value)}
-              className="w-full sm:w-64 rounded-xl border border-gray-800 bg-gray-900/90 px-4 py-2 text-xs text-white placeholder-gray-500 focus:border-emerald-500 focus:outline-none"
+              className="w-full sm:w-64 rounded-xl border border-gray-800 bg-black px-4 py-2 text-xs text-white placeholder-gray-500 focus:border-emerald-500 focus:outline-none"
             />
           </div>
 
@@ -494,7 +494,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
             <div className="glass-card rounded-2xl p-12 text-center text-gray-400">
               <p className="text-base font-semibold text-gray-300 mb-2">Your library is currently empty</p>
               <p className="text-xs text-gray-500 max-w-md mx-auto leading-relaxed">
-                Save articles and tool results right here on the web, or text <code className="bg-gray-950 px-1.5 py-0.5 rounded text-emerald-400 font-mono">SAVE [slug]</code> on WhatsApp to store items for later.
+                Save articles and tool results right here on the web, or text <code className="bg-black px-1.5 py-0.5 rounded text-emerald-400 font-mono">SAVE [slug]</code> on WhatsApp to store items for later.
               </p>
             </div>
           ) : (
@@ -549,7 +549,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   placeholder="e.g. Claudio"
-                  className="w-full rounded-xl border border-gray-800 bg-gray-950 px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-emerald-500 focus:outline-none"
+                  className="w-full rounded-xl border border-gray-800 bg-black px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-emerald-500 focus:outline-none"
                 />
               </div>
 
@@ -559,7 +559,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                     type="checkbox"
                     checked={weeklyOptedIn}
                     onChange={(e) => setWeeklyOptedIn(e.target.checked)}
-                    className="mt-1 h-4 w-4 rounded border-gray-800 bg-gray-950 text-emerald-500 focus:ring-emerald-500"
+                    className="mt-1 h-4 w-4 rounded border-gray-800 bg-black text-emerald-500 focus:ring-emerald-500"
                   />
                   <div>
                     <span className="block text-xs font-bold text-gray-200">Weekly Broadcast</span>
@@ -618,7 +618,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                     value={whatsappNumber}
                     onChange={(e) => setWhatsappNumber(e.target.value.replace(/\D/g, ''))}
                     placeholder="e.g. 447591922247"
-                    className="w-full rounded-xl border border-gray-800 bg-gray-950 px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-emerald-500 focus:outline-none font-mono"
+                    className="w-full rounded-xl border border-gray-800 bg-black px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-emerald-500 focus:outline-none font-mono"
                   />
                   <p className="mt-1 text-[11px] text-gray-500">
                     Format: Country code + phone number (e.g. 44 for UK, 1 for US). No plus signs or spaces.
@@ -659,7 +659,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                 )}
                 {qrError && <p className="text-xs text-red-400">{qrError}</p>}
                 {qrLink && (
-                  <div className="flex flex-col items-start gap-3 rounded-xl border border-gray-800 bg-gray-950 p-4">
+                  <div className="flex flex-col items-start gap-3 rounded-xl border border-gray-800 bg-black p-4">
                     <Image
                       src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(qrLink)}`}
                       alt="Scan to connect WhatsApp"
@@ -696,7 +696,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                     value={otp}
                     onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
                     placeholder="6-digit code"
-                    className="w-full rounded-xl border border-gray-800 bg-gray-950 px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-emerald-500 focus:outline-none font-mono"
+                    className="w-full rounded-xl border border-gray-800 bg-black px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-emerald-500 focus:outline-none font-mono"
                   />
                 </div>
 
