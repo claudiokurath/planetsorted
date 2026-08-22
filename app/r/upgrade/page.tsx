@@ -80,8 +80,8 @@ export default async function UpgradePage() {
       <div className="mx-auto max-w-md px-6 py-24 text-center space-y-8 font-sans">
         <div className="space-y-3">
           <div className="text-4xl">🔒</div>
-          <h1 className="text-2xl font-bold text-gray-900">Sign in to Upgrade</h1>
-          <p className="text-sm text-gray-600">
+          <h1 className="text-2xl font-bold text-white">Sign in to Upgrade</h1>
+          <p className="text-sm text-neutral-300">
             To upgrade to Plus, you need to be signed in first.
           </p>
         </div>
@@ -93,7 +93,7 @@ export default async function UpgradePage() {
           Sign in or create your free account — no password needed.
         </Link>
 
-        <p className="text-xs text-gray-400 leading-normal text-left border-t border-gray-100 pt-6">
+        <p className="text-xs text-neutral-500 leading-normal text-left border-t border-neutral-800 pt-6">
           {disclaimer}
         </p>
       </div>
@@ -104,13 +104,13 @@ export default async function UpgradePage() {
   return (
     <div className="mx-auto max-w-md px-6 py-20 space-y-8 font-sans">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-extrabold text-gray-900">PLANET SOR7ED Plus</h1>
+        <h1 className="text-3xl font-extrabold text-white">PLANET SOR7ED Plus</h1>
         <p className="text-lg font-bold text-green-600">£5.99/month or £49/year</p>
       </div>
 
-      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm space-y-4">
-        <h2 className="font-bold text-gray-900">Included in Plus:</h2>
-        <ul className="space-y-3 text-sm text-gray-600">
+      <div className="rounded-2xl border border-neutral-800 bg-black p-6 space-y-4">
+        <h2 className="font-bold text-white">Included in Plus:</h2>
+        <ul className="space-y-3 text-sm text-neutral-300">
           <li className="flex items-start gap-2">
             <span className="text-green-500 font-bold">✓</span>
             <span>Saved run history (timestamped)</span>
@@ -144,7 +144,7 @@ export default async function UpgradePage() {
           </button>
         </form>
 
-        <p className="text-xs text-center text-gray-400">
+        <p className="text-xs text-center text-neutral-500">
           Scholarships and pay-what-you-can tiers are available, no proof needed. Contact us at{' '}
           <a href="mailto:hello@planetsorted.com" className="underline">
             hello@planetsorted.com
@@ -153,7 +153,7 @@ export default async function UpgradePage() {
         </p>
       </div>
 
-      <p className="text-xs text-gray-400 leading-normal border-t border-gray-100 pt-6">
+      <p className="text-xs text-neutral-500 leading-normal border-t border-neutral-800 pt-6">
         {disclaimer}
       </p>
     </div>

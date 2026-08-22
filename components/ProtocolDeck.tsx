@@ -51,7 +51,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
           return (
             <div
               key={i}
-              className="flex gap-3 rounded-2xl border border-neutral-700/80 bg-neutral-900/80 px-5 py-4 text-sm leading-relaxed text-neutral-200 sm:text-base"
+              className="flex gap-3 rounded-2xl border border-neutral-700/80 bg-black px-5 py-4 text-sm leading-relaxed text-neutral-200 sm:text-base"
             >
               <span
                 className="mt-1.5 h-2 w-2 shrink-0 rounded-full"
@@ -174,11 +174,11 @@ function SlideCard({ slide, index }: { slide: DeckSlide; index: number }) {
       </div>
 
       {slide.badge ? (
-        <span className="inline-flex rounded-md bg-neutral-800 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-300">
+        <span className="inline-flex rounded-md bg-black px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-300">
           {slide.badge}
         </span>
       ) : (
-        <span className="inline-flex rounded-md bg-neutral-800 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-300">
+        <span className="inline-flex rounded-md bg-black px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-300">
           {String(index + 1).padStart(2, '0')}
         </span>
       )}
@@ -222,7 +222,7 @@ export function ProtocolDeck({
       >
         <div className="grid lg:grid-cols-2">
           {/* Visual half */}
-          <div className="relative min-h-[220px] bg-neutral-950 sm:min-h-[320px] lg:min-h-[420px]">
+          <div className="relative min-h-[220px] bg-black sm:min-h-[320px] lg:min-h-[420px]">
             {deck.coverImage ? (
               <Image
                 src={deck.coverImage}
@@ -236,7 +236,7 @@ export function ProtocolDeck({
               <div
                 className="absolute inset-0"
                 style={{
-                  background: `radial-gradient(circle at 30% 40%, ${ACCENT_SOFT}, transparent 55%), linear-gradient(160deg, #111 0%, #000 70%)`,
+                  background: `radial-gradient(circle at 30% 40%, ${ACCENT_SOFT}, transparent 55%), linear-gradient(160deg, #000 0%, #000 70%)`,
                 }}
               />
             )}
@@ -265,7 +265,7 @@ export function ProtocolDeck({
                 {categoryStyle ? (
                   <Link
                     href={`/category/${categoryStyle.slug}`}
-                    className="rounded-full border border-neutral-600 bg-neutral-900/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-neutral-200 transition-colors hover:border-neutral-400 hover:text-white"
+                    className="rounded-full border border-neutral-600 bg-black px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-neutral-200 transition-colors hover:border-neutral-400 hover:text-white"
                   >
                     {categoryStyle.label}
                   </Link>
@@ -273,7 +273,7 @@ export function ProtocolDeck({
                 {chips.map((chip) => (
                   <span
                     key={chip}
-                    className="rounded-full border border-neutral-600 bg-neutral-900/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-neutral-200"
+                    className="rounded-full border border-neutral-600 bg-black px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-neutral-200"
                   >
                     {chip}
                   </span>

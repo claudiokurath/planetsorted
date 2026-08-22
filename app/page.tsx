@@ -119,7 +119,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950 shadow-xl sm:aspect-[16/9]">
+          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-neutral-800 bg-black shadow-xl sm:aspect-[16/9]">
             <Image
               src="/images/planet-sor7ed-hero-whatsapp-16x9.png"
               alt=""
@@ -134,11 +134,11 @@ export default async function HomePage() {
       </section>
 
       {/* How it works */}
-      <section className="bg-[#f0e4cd] text-black">
+      <section className="bg-black text-white">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
           <div className="mb-8">
             <div className="h-1 w-12 rounded-full bg-[#C0392B] mb-4" />
-            <h2 className={`${SECTION_HEADING_CLASS} text-black`} style={SECTION_HEADING_STYLE}>
+            <h2 className={`${SECTION_HEADING_CLASS} text-white`} style={SECTION_HEADING_STYLE}>
               How it works
             </h2>
           </div>
@@ -147,7 +147,7 @@ export default async function HomePage() {
             {HOW_IT_WORKS.map((step) => (
               <li
                 key={step.number}
-                className="flex flex-col rounded-2xl border border-black/10 bg-[#141414] p-6 text-left shadow-lg"
+                className="flex flex-col rounded-2xl border border-neutral-800 bg-black p-6 text-left shadow-lg"
               >
                 <span className="text-xs font-bold tracking-[0.2em] text-[#C0392B]">{step.number}</span>
                 <h3
@@ -167,18 +167,18 @@ export default async function HomePage() {
 
       {/* Toolbox Section */}
       {tools.length > 0 && (
-        <section className="border-b border-neutral-300 bg-[#f0e4cd] text-black">
+        <section className="border-b border-neutral-800 bg-black text-white">
           <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
             <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <div className="h-1 w-12 rounded-full bg-[#C0392B] mb-4" />
-                <h2 className={`${SECTION_HEADING_CLASS} text-black`} style={SECTION_HEADING_STYLE}>
+                <h2 className={`${SECTION_HEADING_CLASS} text-white`} style={SECTION_HEADING_STYLE}>
                   Toolbox
                 </h2>
               </div>
               <Link
                 href="/tools"
-                className="text-sm font-bold uppercase tracking-wider text-[#9f2f27] underline underline-offset-4 transition-colors hover:text-black"
+                className="text-sm font-bold uppercase tracking-wider text-[#C0392B] underline underline-offset-4 transition-colors hover:text-white"
               >
                 View all tools →
               </Link>

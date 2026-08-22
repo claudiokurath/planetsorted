@@ -77,7 +77,7 @@ export function ArticleAudioControls({ bodyText, deepDiveUrl, isSubscriber = fal
     )
 
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 rounded-2xl border border-neutral-800 bg-[#0d0d0d] px-5 py-4">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 rounded-2xl border border-neutral-800 bg-black px-5 py-4">
 
       {/* TTS controls — always available */}
       <div className="flex items-center gap-3 shrink-0">
@@ -86,7 +86,7 @@ export function ArticleAudioControls({ bodyText, deepDiveUrl, isSubscriber = fal
           onClick={handleTTS}
           disabled={ttsState === 'unsupported'}
           aria-label={ttsLabel}
-          className="flex items-center gap-2 rounded-full border border-neutral-700 bg-neutral-900 px-4 py-1.5 text-xs font-semibold text-white transition hover:border-neutral-500 hover:bg-neutral-800 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-1.5 text-xs font-semibold text-white transition hover:border-neutral-500 hover:bg-neutral-800 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           {ttsIcon}
           {ttsLabel}
@@ -95,7 +95,7 @@ export function ArticleAudioControls({ bodyText, deepDiveUrl, isSubscriber = fal
           <button
             onClick={handleStop}
             aria-label="Stop reading"
-            className="rounded-full border border-neutral-700 bg-neutral-900 px-3 py-1.5 text-xs font-semibold text-neutral-400 transition hover:border-neutral-500 hover:text-white active:scale-95"
+            className="rounded-full border border-neutral-700 bg-black px-3 py-1.5 text-xs font-semibold text-neutral-400 transition hover:border-neutral-500 hover:text-white active:scale-95"
           >
             Stop
           </button>
@@ -110,7 +110,7 @@ export function ArticleAudioControls({ bodyText, deepDiveUrl, isSubscriber = fal
 
       {/* Divider — only when Deep Dive exists */}
       {deepDiveUrl && (
-        <div className="hidden sm:block h-5 w-px bg-neutral-800 shrink-0" aria-hidden="true" />
+        <div className="hidden sm:block h-5 w-px bg-black shrink-0" aria-hidden="true" />
       )}
 
       {/* Deep Dive — gated to subscribers */}
