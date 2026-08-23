@@ -118,9 +118,10 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   const rawBodyText = item.problem || ''
   const actionProtocolText = item.protocol?.trim() || ''
 
-  // Kit-style presentation deck (black + yellow info sheets) — body slides are
-  // always built; the protocol slide is only included once unlocked, so its
-  // text never even reaches the client bundle for locked visitors.
+  // Kit-style presentation deck (black + red info sheets, matching the
+  // SOR7ED PDF system) — body slides are always built; the protocol slide
+  // is only included once unlocked, so its text never even reaches the
+  // client bundle for locked visitors.
   const deck = buildProtocolDeck({
     title: item.title,
     lede: description,
@@ -142,9 +143,9 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         />
 
         {!isUnlocked ? (
-          <section className="mx-auto mt-6 max-w-6xl space-y-6 rounded-3xl border border-[#F5C518]/40 bg-[#F5C518]/5 p-8 sm:mt-8 sm:p-10">
+          <section className="mx-auto mt-6 max-w-6xl space-y-6 rounded-3xl border border-[#E53935]/35 bg-[#E53935]/10 p-8 sm:mt-8 sm:p-10">
             <div className="space-y-3">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#F5C518]">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#E53935]">
                 Full protocol
               </p>
               <h2
@@ -173,7 +174,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
           <section className="mx-auto mt-6 max-w-6xl sm:mt-8">
             <Link
               href={`/tools/${relatedTool.slug}`}
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-2 text-xs font-bold uppercase tracking-wider text-neutral-200 transition-colors hover:border-[#F5C518] hover:text-[#F5C518]"
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-2 text-xs font-bold uppercase tracking-wider text-neutral-200 transition-colors hover:border-[#E53935] hover:text-[#E53935]"
             >
               Try the {item.category} tool: {relatedTool.title} →
             </Link>
