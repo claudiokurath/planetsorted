@@ -1,4 +1,5 @@
-/* Print / Save-as-PDF styles for ProtocolDeck — landscape A4 kit sheets */
+/* Print / Save-as-PDF styles for ProtocolDeck — landscape A4 kit sheets
+   (black field + red accents; force colour printing). */
 
 @media print {
   /* Hide chrome */
@@ -42,7 +43,7 @@
     page-break-after: auto;
   }
 
-  /* Force yellow cards to print with colour */
+  /* Force red accents / charcoal cards to print with colour */
   .protocol-deck * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;

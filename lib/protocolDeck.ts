@@ -173,7 +173,7 @@ export function parseArticleSections(rawText: string, title?: string): RawSectio
 
   // Only auto-promote sentence-trailing ALL-CAPS that look like real section
   // titles (STEP / PROTOCOL / BOTTOM LINE). Short labels like "VILLAIN DOOR"
-  // must stay in the body so bodyToBlocks can render them as yellow kit cards.
+  // must stay in the body so bodyToBlocks can render them as kit cards.
   s = s.replace(/([\.!\?])\s*((?:STEP\s*\d+|THE\s+BOTTOM\s+LINE|BOTTOM\s+LINE|(?:THE\s+)?(?:STEP[- ]BY[- ]STEP\s+)?PROTOCOL)[^\n]{0,60})(?=\n|$)/gi, '$1\n\n===HEADING===$2\n\n')
 
   const rawBlocks = s.split('\n')
@@ -203,7 +203,7 @@ export function parseArticleSections(rawText: string, title?: string): RawSectio
     } else if (
       // Only promote ALL-CAPS lines that look like STEP / PROTOCOL / BOTTOM LINE
       // section titles — short labels like "VILLAIN DOOR" stay in the body so
-      // bodyToBlocks can turn them into yellow kit cards inside the slide.
+      // bodyToBlocks can turn them into kit cards inside the slide.
       line.length > 4 &&
       line.length < 80 &&
       isAllCapsHeading(line) &&
