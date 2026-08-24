@@ -70,7 +70,7 @@ export function SignupForm() {
   if (state === 'sent') {
     const inboxUrl = getEmailInboxUrl(email)
     return (
-      <div className="w-full max-w-md rounded-3xl bg-[#0a0a0a] border border-white/10 p-8 sm:p-10 text-center shadow-2xl">
+      <div className="w-full max-w-md rounded-3xl bg-black border border-white/10 p-8 sm:p-10 text-center shadow-2xl">
         <div className="mb-4 text-4xl">📬</div>
         <h1 className="mb-2 text-2xl font-black text-white">Check your email</h1>
         <p className="text-sm text-gray-400 leading-relaxed">
@@ -104,7 +104,7 @@ export function SignupForm() {
   }
 
   return (
-    <div className="w-full max-w-md rounded-3xl bg-[#0a0a0a] border border-white/10 p-8 sm:p-10 shadow-2xl">
+    <div className="w-full max-w-md rounded-3xl bg-black border border-white/10 p-8 sm:p-10 shadow-2xl">
       <div className="mb-8 text-center">
         <div className="mx-auto h-1 w-12 rounded-full bg-[#C0392B] mb-4" />
         <h1
@@ -136,7 +136,7 @@ export function SignupForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={state === 'loading'}
-            className="w-full rounded-2xl border border-neutral-800 bg-neutral-950 px-4 py-3.5 text-sm text-white placeholder-neutral-500 focus:border-[#C0392B] focus:outline-none focus:ring-2 focus:ring-[#C0392B]/20 disabled:opacity-50 font-mono"
+            className="w-full rounded-2xl border border-neutral-800 bg-black px-4 py-3.5 text-sm text-white placeholder-neutral-500 focus:border-[#C0392B] focus:outline-none focus:ring-2 focus:ring-[#C0392B]/20 disabled:opacity-50 font-mono"
           />
         </div>
 

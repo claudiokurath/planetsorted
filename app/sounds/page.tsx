@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function SoundsPage() {
   return (
-    <div className="min-h-screen overflow-hidden bg-[#080a0c] text-[#f4ead7]">
+    <div className="min-h-screen overflow-hidden bg-black text-[#f4ead7]">
       <section className="mx-auto max-w-7xl px-4 pt-8 pb-4 sm:px-6 sm:pt-10 lg:px-8">
         <PageHeader
           eyebrow="PLANET SOR7ED PRESENTS"
@@ -26,7 +26,7 @@ export default function SoundsPage() {
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ef3c2f]">Live now</p>
         </div>
 
-        <article className="overflow-hidden border border-[#f4ead7]/40 bg-[#11171a] shadow-[10px_10px_0_#ef3c2f]">
+        <article className="overflow-hidden border border-[#f4ead7]/40 bg-black shadow-[10px_10px_0_#ef3c2f]">
           <div className="flex flex-col justify-between p-7 sm:p-10 lg:p-14">
             <div>
               <p className="mb-5 text-xs font-bold uppercase tracking-[0.24em] text-[#ef3c2f]">Artist 001 · Independent AI music artist</p>
@@ -51,7 +51,7 @@ export default function SoundsPage() {
         </article>
       </section>
 
-      <section className="border-t border-[#f4ead7]/25 bg-[#073f48] px-5 py-14 sm:px-8 sm:py-20 lg:px-12">
+      <section className="border-t border-[#f4ead7]/25 bg-black px-5 py-14 sm:px-8 sm:py-20 lg:px-12">
         <div className="mx-auto grid max-w-7xl gap-8 sm:grid-cols-[.7fr_1.3fr] sm:items-end">
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#f4ead7]/70">More signals soon</p>
           <div>

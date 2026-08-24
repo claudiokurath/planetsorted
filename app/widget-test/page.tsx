@@ -24,7 +24,7 @@ export default function WidgetTestPage() {
           WhatsApp directly.
         </p>
 
-        <div className="mt-8 rounded-2xl border border-neutral-800 bg-[#141414] p-6 space-y-3">
+        <div className="mt-8 rounded-2xl border border-neutral-800 bg-black p-6 space-y-3">
           <h2 className="text-2xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             The exact install snippet
           </h2>

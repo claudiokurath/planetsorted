@@ -336,17 +336,17 @@ export function DecisionParalysisApp() {
           width: 18px; height: 18px; border-radius: 50%;
           background: #22d3c4; border: none; cursor: pointer;
         }
-        .glass { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
+        .glass { background: #000000; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
         @keyframes dps-fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
         .dps-fade { animation: dps-fade .35s ease both; }
       `}</style>
 
       <div
         className="min-h-screen text-white"
-        style={{ background: 'radial-gradient(ellipse 120% 60% at 50% 0%, #061626 0%, #030912 60%, #020509 100%)' }}
+        style={{ background: '#000000' }}
       >
         {/* Header */}
-        <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: 'rgba(6,22,38,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: 'rgba(0,0,0,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
             <div className="flex items-center gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#22d3c4,#8b7bff)' }}>
@@ -435,7 +435,7 @@ export function DecisionParalysisApp() {
                     placeholder="e.g. Should I take the new job offer?"
                     value={assessment.title}
                     onChange={(e) => setAssessment({ ...assessment, title: e.target.value })}
-                    className="w-full rounded-xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-cyan-400 transition"
+                    className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-cyan-400 transition"
                   />
                 </div>
 
@@ -444,7 +444,7 @@ export function DecisionParalysisApp() {
                   <select
                     value={assessment.category}
                     onChange={(e) => setAssessment({ ...assessment, category: e.target.value })}
-                    className="w-full rounded-xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400 transition"
+                    className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none focus:border-cyan-400 transition"
                   >
                     {CATEGORIES.map((cat) => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -495,7 +495,7 @@ export function DecisionParalysisApp() {
                 </div>
 
                 {/* Reversibility */}
-                <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 p-4">
+                <div className="flex items-center justify-between rounded-xl border border-white/10 bg-black p-4">
                   <div>
                     <p className="text-sm font-semibold text-white">Is this decision reversible?</p>
                     <p className="text-xs text-slate-400">Can you undo it later without major cost?</p>
@@ -533,7 +533,7 @@ export function DecisionParalysisApp() {
                     <div className="space-y-3">
                       <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Action Plan</p>
                       {assessmentResult.advice.map((adv, idx) => (
-                        <div key={idx} className="flex items-start gap-3 rounded-xl border border-white/10 bg-slate-900/50 p-3 text-sm text-slate-200">
+                        <div key={idx} className="flex items-start gap-3 rounded-xl border border-white/10 bg-black p-3 text-sm text-slate-200">
                           <span className="text-base">{adv.icon}</span>
                           <span>{adv.text}</span>
                         </div>
@@ -574,7 +574,7 @@ export function DecisionParalysisApp() {
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Options</label>
                   <div className="flex flex-wrap gap-2 mb-3">
                     {options.map((opt) => (
-                      <span key={opt.id} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/80 px-3.5 py-1 text-xs font-medium text-white">
+                      <span key={opt.id} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black px-3.5 py-1 text-xs font-medium text-white">
                         {opt.name}
                         {options.length > 2 && (
                           <button
@@ -593,7 +593,7 @@ export function DecisionParalysisApp() {
                       placeholder="Add an option…"
                       value={newOptName}
                       onChange={(e) => setNewOptName(e.target.value)}
-                      className="flex-1 rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-cyan-400"
+                      className="flex-1 rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-cyan-400"
                     />
                     <button
                       onClick={() => {
@@ -612,7 +612,7 @@ export function DecisionParalysisApp() {
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Criteria &amp; Weights (1-5)</label>
                   <div className="space-y-2 mb-3">
                     {criteria.map((crit) => (
-                      <div key={crit.id} className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/80 px-3 py-1.5 text-xs text-white">
+                      <div key={crit.id} className="flex items-center justify-between rounded-xl border border-white/10 bg-black px-3 py-1.5 text-xs text-white">
                         <span>{crit.name}</span>
                         <div className="flex items-center gap-3">
                           <input
@@ -621,7 +621,7 @@ export function DecisionParalysisApp() {
                               const val = Math.max(1, Math.min(5, parseInt(e.target.value) || 1))
                               setCriteria(criteria.map((c) => (c.id === crit.id ? { ...c, weight: val } : c)))
                             }}
-                            className="w-12 rounded border border-white/10 bg-slate-950 px-2 py-1 text-center text-xs text-cyan-400"
+                            className="w-12 rounded border border-white/10 bg-black px-2 py-1 text-center text-xs text-cyan-400"
                           />
                           {criteria.length > 1 && (
                             <button onClick={() => setCriteria(criteria.filter((c) => c.id !== crit.id))} className="text-slate-500 hover:text-red-400">
@@ -638,7 +638,7 @@ export function DecisionParalysisApp() {
                       placeholder="Add a criterion…"
                       value={newCritName}
                       onChange={(e) => setNewCritName(e.target.value)}
-                      className="flex-1 rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-cyan-400"
+                      className="flex-1 rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-cyan-400"
                     />
                     <button
                       onClick={() => {
@@ -681,7 +681,7 @@ export function DecisionParalysisApp() {
                                   const score = Math.max(1, Math.min(5, parseInt(e.target.value) || 1))
                                   setMatrixScores((prev) => ({ ...prev, [key]: score }))
                                 }}
-                                className="w-12 rounded border border-white/10 bg-slate-950 px-2 py-1 text-center text-xs text-cyan-400"
+                                className="w-12 rounded border border-white/10 bg-black px-2 py-1 text-center text-xs text-cyan-400"
                               />
                             </td>
                           )
@@ -698,9 +698,9 @@ export function DecisionParalysisApp() {
                   <p className="text-xs uppercase tracking-widest text-slate-400 font-semibold">Front-Runner Ranking</p>
                   <div className="space-y-3">
                     {matrixResults.ranking.map((res, idx) => (
-                      <div key={res.option.id} className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-slate-900/60 p-4">
+                      <div key={res.option.id} className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-black p-4">
                         <div className="flex items-center gap-3 min-w-0">
-                          <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${idx === 0 ? 'bg-amber-400 text-slate-900' : 'bg-slate-800 text-slate-300'}`}>
+                          <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${idx === 0 ? 'bg-amber-400 text-slate-900' : 'bg-black text-slate-300'}`}>
                             #{idx + 1}
                           </span>
                           <span className="font-bold text-white truncate">{res.option.name}</span>
@@ -733,12 +733,12 @@ export function DecisionParalysisApp() {
                   <input
                     type="text" placeholder="Option 1" value={coinOpt1}
                     onChange={(e) => setCoinOpt1(e.target.value)}
-                    className="rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-xs text-white outline-none focus:border-cyan-400"
+                    className="rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white outline-none focus:border-cyan-400"
                   />
                   <input
                     type="text" placeholder="Option 2" value={coinOpt2}
                     onChange={(e) => setCoinOpt2(e.target.value)}
-                    className="rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-xs text-white outline-none focus:border-cyan-400"
+                    className="rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white outline-none focus:border-cyan-400"
                   />
                 </div>
                 <button
@@ -762,23 +762,23 @@ export function DecisionParalysisApp() {
                 <input
                   type="text" placeholder="Decision topic…" value={t10_10_10_decision}
                   onChange={(e) => setT10_10_10_decision(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-xs text-white outline-none focus:border-cyan-400"
+                  className="w-full rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white outline-none focus:border-cyan-400"
                 />
                 <div className="space-y-2">
                   <input
                     type="text" placeholder="In 10 Minutes?" value={t10m}
                     onChange={(e) => setT10m(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-2 text-xs text-slate-200 outline-none"
+                    className="w-full rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-slate-200 outline-none"
                   />
                   <input
                     type="text" placeholder="In 10 Months?" value={t10mo}
                     onChange={(e) => setT10mo(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-2 text-xs text-slate-200 outline-none"
+                    className="w-full rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-slate-200 outline-none"
                   />
                   <input
                     type="text" placeholder="In 10 Years?" value={t10y}
                     onChange={(e) => setT10y(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-2 text-xs text-slate-200 outline-none"
+                    className="w-full rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-slate-200 outline-none"
                   />
                 </div>
               </div>
