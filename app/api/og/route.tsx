@@ -44,7 +44,7 @@ export async function GET(req: Request) {
       (
         <div
           style={{
-            background: '#060C14',
+            background: '#000000',
             width: '100%',
             height: '100%',
             display: 'flex',
@@ -74,7 +74,7 @@ export async function GET(req: Request) {
   if (imageUrl) {
     return new ImageResponse(
       (
-        <div style={{ display: 'flex', width: '100%', height: '100%', backgroundColor: '#0D0D0D' }}>
+        <div style={{ display: 'flex', width: '100%', height: '100%', backgroundColor: '#000000' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
@@ -96,7 +96,7 @@ export async function GET(req: Request) {
     (
       <div
         style={{
-          background: '#FAF7F2',
+          background: '#000000',
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -104,7 +104,7 @@ export async function GET(req: Request) {
           alignItems: 'center',
           justifyContent: 'center',
           padding: '60px',
-          border: '18px solid #1A1A1A',
+          border: '18px solid #C0392B',
           boxSizing: 'border-box',
           fontFamily: fontData ? 'Inter' : 'sans-serif',
         }}
@@ -123,7 +123,7 @@ export async function GET(req: Request) {
         </div>
         <div
           style={{
-            color: '#1A1A1A',
+            color: '#FFFFFF',
             fontSize: 80,
             fontWeight: 900,
             textTransform: 'uppercase',
@@ -136,7 +136,7 @@ export async function GET(req: Request) {
         </div>
         <div
           style={{
-            color: '#4A4A4A',
+            color: '#94A3B8',
             fontSize: 32,
             marginTop: 32,
             textAlign: 'center',

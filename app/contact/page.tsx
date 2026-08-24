@@ -16,7 +16,7 @@ export default function ContactPage() {
           <p>
             Have a question, feedback, or need help with your account? Reach out to us directly — no chatbot, no bureaucracy.
           </p>
-          <div className="rounded-2xl border border-neutral-800 bg-[#141414] p-6 space-y-3">
+          <div className="rounded-2xl border border-neutral-800 bg-black p-6 space-y-3">
             <h2 className="text-2xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
               Get in Touch
             </h2>

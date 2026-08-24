@@ -245,17 +245,17 @@ export function FinancialAutopilotApp() {
           width: 18px; height: 18px; border-radius: 50%;
           background: #22d3c4; border: none; cursor: pointer;
         }
-        .glass { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
+        .glass { background: #000000; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
         @keyframes fa-fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
         .fa-fade { animation: fa-fade .35s ease both; }
       `}</style>
 
       <div
         className="min-h-screen text-white"
-        style={{ background: 'radial-gradient(ellipse 120% 60% at 50% 0%, #061826 0%, #030a14 60%, #02060a 100%)' }}
+        style={{ background: '#000000' }}
       >
         {/* Header */}
-        <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: 'rgba(6,24,38,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: 'rgba(0,0,0,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
             <div className="flex items-center gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#22d3c4,#8b7bff)' }}>
@@ -340,7 +340,7 @@ export function FinancialAutopilotApp() {
                     type="number" min={0} step={100}
                     value={inputs.monthly_income || ''}
                     onChange={(e) => setInputs({ ...inputs, monthly_income: parseFloat(e.target.value) || 0 })}
-                    className="w-full rounded-xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400"
+                    className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none focus:border-cyan-400"
                     placeholder="e.g. 5000" required
                   />
                 </div>
@@ -351,7 +351,7 @@ export function FinancialAutopilotApp() {
                     type="number" min={0} step={100}
                     value={inputs.monthly_expenses || ''}
                     onChange={(e) => setInputs({ ...inputs, monthly_expenses: parseFloat(e.target.value) || 0 })}
-                    className="w-full rounded-xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400"
+                    className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none focus:border-cyan-400"
                     placeholder="e.g. 3200" required
                   />
                 </div>
@@ -362,7 +362,7 @@ export function FinancialAutopilotApp() {
                     type="number" min={0} step={500}
                     value={inputs.current_savings || ''}
                     onChange={(e) => setInputs({ ...inputs, current_savings: parseFloat(e.target.value) || 0 })}
-                    className="w-full rounded-xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400"
+                    className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none focus:border-cyan-400"
                     placeholder="e.g. 10000" required
                   />
                 </div>
@@ -373,7 +373,7 @@ export function FinancialAutopilotApp() {
                     type="number" min={0} step={500}
                     value={inputs.debt_amount || ''}
                     onChange={(e) => setInputs({ ...inputs, debt_amount: parseFloat(e.target.value) || 0 })}
-                    className="w-full rounded-xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400"
+                    className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none focus:border-cyan-400"
                     placeholder="e.g. 4000" required
                   />
                 </div>
@@ -384,7 +384,7 @@ export function FinancialAutopilotApp() {
                     type="number" min={1} max={60} step={1}
                     value={inputs.years_to_retirement || ''}
                     onChange={(e) => setInputs({ ...inputs, years_to_retirement: parseInt(e.target.value) || 1 })}
-                    className="w-full rounded-xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400"
+                    className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none focus:border-cyan-400"
                     placeholder="e.g. 25" required
                   />
                 </div>
@@ -406,7 +406,7 @@ export function FinancialAutopilotApp() {
                     />
                   </div>
 
-                  <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-900/60 p-4">
+                  <div className="flex items-center justify-between rounded-xl border border-white/10 bg-black p-4">
                     <div>
                       <p className="text-sm font-semibold text-white">Automate Investments</p>
                       <p className="text-xs text-slate-400">Auto-route surplus into investments monthly.</p>
@@ -414,7 +414,7 @@ export function FinancialAutopilotApp() {
                     <button
                       type="button"
                       onClick={() => setInputs({ ...inputs, automate_investments: !inputs.automate_investments })}
-                      className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${inputs.automate_investments ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'bg-slate-800 text-slate-500 border border-slate-700'}`}
+                      className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${inputs.automate_investments ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'bg-black text-slate-500 border border-slate-700'}`}
                     >
                       {inputs.automate_investments ? '✓ Enabled' : 'Disabled'}
                     </button>
@@ -498,7 +498,7 @@ export function FinancialAutopilotApp() {
                         <span className="text-slate-300">Emergency Fund Target ({fmtUSD(plan.emergency_target)})</span>
                         <span className="text-emerald-400 font-bold">{Math.round(plan.emergency_progress * 100)}%</span>
                       </div>
-                      <div className="w-full bg-slate-900 rounded-full h-2 overflow-hidden">
+                      <div className="w-full bg-black rounded-full h-2 overflow-hidden">
                         <div className="bg-emerald-400 h-full transition-all duration-500" style={{ width: `${plan.emergency_progress * 100}%` }}></div>
                       </div>
                     </div>

@@ -33,7 +33,7 @@ export default function FAQPage() {
         </h1>
         <div className="mt-8 space-y-6">
           {faqs.map((faq, idx) => (
-            <div key={idx} className="rounded-2xl border border-neutral-800 bg-[#141414] p-6 space-y-2">
+            <div key={idx} className="rounded-2xl border border-neutral-800 bg-black p-6 space-y-2">
               <h2 className="text-2xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
                 {faq.q}
               </h2>
