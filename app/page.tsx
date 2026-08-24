@@ -147,7 +147,7 @@ export default async function HomePage() {
             {HOW_IT_WORKS.map((step) => (
               <li
                 key={step.number}
-                className="flex flex-col rounded-2xl bg-[#1a1a1a] p-6 text-left shadow-lg"
+                className="flex flex-col rounded-2xl bg-[#0f0f0f] p-6 text-left shadow-lg"
               >
                 <span className="text-xs font-bold tracking-[0.2em] text-[#C0392B]">{step.number}</span>
                 <h3
