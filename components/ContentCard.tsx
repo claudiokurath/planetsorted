@@ -27,7 +27,7 @@ export function ContentCard({
     <Link
       href={href}
       className="group flex flex-col h-full w-full overflow-hidden rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-      style={{ backgroundColor: '#1a1a1a' }}
+      style={{ backgroundColor: '#0f0f0f' }}
     >
       {coverImage && (
         <div className={`relative w-full flex-shrink-0 overflow-hidden bg-[#222222] ${compact ? 'aspect-[2/1]' : 'aspect-video'}`}>
