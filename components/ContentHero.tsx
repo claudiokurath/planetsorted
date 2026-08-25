@@ -61,7 +61,7 @@ export function ContentHero({ title, description, coverImage, category, meta, ar
   return (
     <section className="mx-auto max-w-7xl px-4 pb-8 pt-8 sm:px-6 sm:pt-10 lg:px-8">
       {coverImage ? (
-        <div className="relative mb-6 aspect-[21/9] w-full overflow-hidden rounded-2xl border border-neutral-800/80 bg-neutral-950 sm:aspect-[3/1]">
+        <div className="relative mb-6 aspect-[21/9] w-full overflow-hidden rounded-2xl border border-neutral-800/80 bg-black sm:aspect-[3/1]">
           <Image
             src={coverImage}
             alt=""

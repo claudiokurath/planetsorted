@@ -45,7 +45,7 @@ export function SmartNav() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-900 bg-black/95 text-white backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-neutral-900 bg-black text-white backdrop-blur-md">
       {/* Mobile: logo-only bar — primary nav lives in the bottom tab bar */}
       <nav aria-label="Primary navigation" className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 md:hidden">
         <Link href="/" aria-label="PLANET SOR7ED home" className="flex items-center">

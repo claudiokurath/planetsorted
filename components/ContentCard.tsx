@@ -26,11 +26,11 @@ export function ContentCard({
   return (
     <Link
       href={href}
-      className="group flex flex-col h-full w-full overflow-hidden rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-neutral-700"
-      style={{ backgroundColor: '#141414', border: '1px solid #262626' }}
+      className="group flex flex-col h-full w-full overflow-hidden rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+      style={{ backgroundColor: '#0f0f0f' }}
     >
       {coverImage && (
-        <div className={`relative w-full flex-shrink-0 overflow-hidden bg-black ${compact ? 'aspect-[2/1]' : 'aspect-video'}`}>
+        <div className={`relative w-full flex-shrink-0 overflow-hidden bg-[#222222] ${compact ? 'aspect-[2/1]' : 'aspect-video'}`}>
           <Image
             src={coverImage}
             alt={title}
@@ -44,7 +44,7 @@ export function ContentCard({
         <div className="flex flex-col flex-1">
           {style && (
             <div>
-              <span className={`${compact ? 'mb-2' : 'mb-3'} inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${style.className}`}>
+              <span className={`${compact ? 'mb-2' : 'mb-3'} inline-block rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-neutral-300`}>
                 {style.label}
                 {style.tagline && (
                   <span className="ml-1 font-normal normal-case text-neutral-400">
@@ -62,7 +62,7 @@ export function ContentCard({
           </h3>
         </div>
         {meta && (
-          <p className={`${compact ? 'text-[11px]' : 'text-xs'} font-semibold uppercase tracking-widest text-neutral-500 pt-3 border-t border-neutral-800/80`}>
+          <p className={`${compact ? 'text-[11px]' : 'text-xs'} font-semibold uppercase tracking-widest text-neutral-400 pt-3 border-t border-white/10`}>
             {meta}
           </p>
         )}

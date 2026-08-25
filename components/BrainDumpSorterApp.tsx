@@ -161,17 +161,17 @@ export function BrainDumpSorterApp() {
   return (
     <>
       <style>{`
-        .glass { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
+        .glass { background: #000000; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
         @keyframes bds-fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
         .bds-fade { animation: bds-fade .35s ease both; }
       `}</style>
 
       <div
         className="min-h-screen text-white"
-        style={{ background: 'radial-gradient(ellipse 120% 60% at 50% 0%, #0c1829 0%, #050b14 60%, #02050a 100%)' }}
+        style={{ background: '#000000' }}
       >
         {/* Header */}
-        <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: 'rgba(12,24,41,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: 'rgba(0,0,0,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
             <div className="flex items-center gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#38bdf8,#8b7bff)' }}>
@@ -210,7 +210,7 @@ export function BrainDumpSorterApp() {
                 Instantly classify raw, unfiltered brain dumps into 3 organized buckets — <strong className="text-white">Tasks, Ideas, and Emotions</strong> — so nothing you think ever gets lost.
               </p>
               <div className="mt-8 flex items-center gap-4 text-xs font-mono text-slate-400">
-                <span className="rounded-full bg-slate-900 border border-white/10 px-3 py-1 text-sky-400">WhatsApp Keyword: BRAINDUMP</span>
+                <span className="rounded-full bg-black border border-white/10 px-3 py-1 text-sky-400">WhatsApp Keyword: BRAINDUMP</span>
                 <span>Auto-sorts into Notion</span>
               </div>
             </div>
@@ -250,7 +250,7 @@ export function BrainDumpSorterApp() {
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder="e.g. BRAINDUMP need to email invoice, what if we made an interactive widget, feeling stressed today..."
-                  className="w-full resize-none rounded-2xl border border-white/10 bg-slate-900/80 p-4 text-sm text-white placeholder-slate-500 outline-none focus:border-sky-400 transition"
+                  className="w-full resize-none rounded-2xl border border-white/10 bg-black p-4 text-sm text-white placeholder-slate-500 outline-none focus:border-sky-400 transition"
                   required
                 />
               </div>
@@ -281,7 +281,7 @@ export function BrainDumpSorterApp() {
                   ) : (
                     <ul className="space-y-2">
                       {sorted.tasks.map((item, idx) => (
-                        <li key={idx} className="rounded-xl border border-white/10 bg-slate-900/60 p-3 text-xs text-slate-200 leading-relaxed">
+                        <li key={idx} className="rounded-xl border border-white/10 bg-black p-3 text-xs text-slate-200 leading-relaxed">
                           {item}
                         </li>
                       ))}
@@ -299,7 +299,7 @@ export function BrainDumpSorterApp() {
                   ) : (
                     <ul className="space-y-2">
                       {sorted.ideas.map((item, idx) => (
-                        <li key={idx} className="rounded-xl border border-white/10 bg-slate-900/60 p-3 text-xs text-slate-200 leading-relaxed">
+                        <li key={idx} className="rounded-xl border border-white/10 bg-black p-3 text-xs text-slate-200 leading-relaxed">
                           {item}
                         </li>
                       ))}
@@ -317,7 +317,7 @@ export function BrainDumpSorterApp() {
                   ) : (
                     <ul className="space-y-2">
                       {sorted.emotions.map((item, idx) => (
-                        <li key={idx} className="rounded-xl border border-white/10 bg-slate-900/60 p-3 text-xs text-slate-200 leading-relaxed">
+                        <li key={idx} className="rounded-xl border border-white/10 bg-black p-3 text-xs text-slate-200 leading-relaxed">
                           {item}
                         </li>
                       ))}

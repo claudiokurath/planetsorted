@@ -162,7 +162,7 @@ function FieldInput({ ...props }: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className="w-full rounded-xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 transition"
+      className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 transition"
     />
   )
 }
@@ -353,17 +353,17 @@ export function BiometricStateApp() {
           background: #22e5d0; border: none; cursor: pointer;
         }
         .bst-slider:focus::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(34,229,208,0.35); }
-        .glass { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
+        .glass { background: #000000; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
         @keyframes bst-fade-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
         .bst-fade { animation: bst-fade-in .4s ease both; }
       `}</style>
 
       <div
         className="min-h-screen text-white"
-        style={{ background: 'radial-gradient(ellipse 120% 60% at 50% 0%, #051824 0%, #030a12 60%, #020608 100%)' }}
+        style={{ background: '#000000' }}
       >
         {/* ── Sticky nav ── */}
-        <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: 'rgba(5,11,20,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: 'rgba(0,0,0,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
             <div className="flex items-center gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#22e5d0,#8b7bff)' }}>
@@ -430,11 +430,11 @@ export function BiometricStateApp() {
               </div>
               {result && (
                 <div className="mt-6 grid grid-cols-2 gap-4 text-center bst-fade">
-                  <div className="rounded-2xl py-4 px-2" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                  <div className="rounded-2xl py-4 px-2" style={{ background: '#000000' }}>
                     <p className="text-lg font-bold text-cyan-400">{result.hydrationTarget.toLocaleString()}ml</p>
                     <p className="text-xs text-slate-400 mt-1">Hydration Target</p>
                   </div>
-                  <div className="rounded-2xl py-4 px-2" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                  <div className="rounded-2xl py-4 px-2" style={{ background: '#000000' }}>
                     <p className="text-lg font-bold text-violet-400">{MOOD_EMOJI[result.mood]} {result.mood}</p>
                     <p className="text-xs text-slate-400 mt-1">Mood</p>
                   </div>
@@ -522,7 +522,7 @@ export function BiometricStateApp() {
                 <select
                   value={inputs.mood}
                   onChange={(e) => set('mood', e.target.value as Mood)}
-                  className="w-full rounded-xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm text-white outline-none focus:border-cyan-400 transition"
+                  className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none focus:border-cyan-400 transition"
                 >
                   {(['Energized', 'Balanced', 'Tired', 'Foggy', 'Anxious', 'Low'] as Mood[]).map((m) => (
                     <option key={m} value={m}>{MOOD_EMOJI[m]} {m}</option>
@@ -538,7 +538,7 @@ export function BiometricStateApp() {
                   value={inputs.notes}
                   onChange={(e) => set('notes', e.target.value)}
                   placeholder="Anything else worth noting today?"
-                  className="w-full resize-none rounded-xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-cyan-400 transition"
+                  className="w-full resize-none rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-cyan-400 transition"
                 />
               </div>
 
