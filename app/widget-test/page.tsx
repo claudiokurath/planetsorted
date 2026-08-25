@@ -11,7 +11,8 @@ export default function WidgetTestPage() {
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-3xl px-6 py-16">
         <h1
-          className="font-bebas text-5xl sm:text-6xl font-black uppercase text-white tracking-tight leading-[0.95]"
+          className="text-5xl sm:text-6xl font-black uppercase text-white tracking-tight leading-[0.95]"
+          style={{ fontFamily: "'Bebas Neue', sans-serif" }}
         >
           Widget Install Test
         </h1>
@@ -23,8 +24,8 @@ export default function WidgetTestPage() {
           WhatsApp directly.
         </p>
 
-        <div className="mt-8 rounded-2xl border border-neutral-800 bg-[#141414] p-6 space-y-3">
-          <h2 className="font-bebas text-2xl font-black uppercase text-white">
+        <div className="mt-8 rounded-2xl border border-neutral-800 bg-black p-6 space-y-3">
+          <h2 className="text-2xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
             The exact install snippet
           </h2>
           <pre className="overflow-x-auto rounded-xl bg-black p-4 text-xs sm:text-sm text-neutral-300">

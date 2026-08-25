@@ -71,46 +71,12 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, relatedArti
           </section>
         )}
 
-        {/* Visual App Preview Box */}
-        <section className="rounded-3xl border border-neutral-800 bg-neutral-950/80 p-6 sm:p-8 space-y-6">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-widest text-sky-400">
-              ⚡ App Experience Preview
-            </span>
-            <span className="rounded-full bg-neutral-900 border border-neutral-800 px-3 py-1 text-xs text-neutral-400 font-mono">
-              {toolData.category || 'Tool'}
-            </span>
-          </div>
-
-          <div className="rounded-2xl border border-neutral-800 bg-black p-6 space-y-4">
-            <h3 className="font-bebas text-xl font-black uppercase text-white">
-              {toolData.title} — Full Interactive App
-            </h3>
-            <p className="text-xs text-neutral-400 leading-relaxed">
-              {toolData.protocol || 'Interactive calculations, real-time analytics, instant recommendations, and historical progress logs.'}
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center text-xs pt-2">
-              <div className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-3">
-                <span className="block text-base mb-1">⚡</span>
-                <span className="font-semibold text-white">Instant Results</span>
-              </div>
-              <div className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-3">
-                <span className="block text-base mb-1">📊</span>
-                <span className="font-semibold text-white">Actionable Plan</span>
-              </div>
-              <div className="rounded-xl border border-neutral-800 bg-neutral-900/60 p-3 col-span-2 sm:col-span-1">
-                <span className="block text-base mb-1">📲</span>
-                <span className="font-semibold text-white">Save via WhatsApp</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-4 pt-2">
-            <p className="text-sm font-semibold text-neutral-200">
-              Ready to use this tool? Tap the button below to share the link to your WhatsApp and open the full app experience.
-            </p>
-            <Sor7edButton slug={toolData.slug} context="tool" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} size="lg" />
-          </div>
+        {/* Get Sorted CTA */}
+        <section className="space-y-4">
+          <p className="text-sm font-semibold text-neutral-200">
+            Ready to use this tool? Tap the button below to share the link to your WhatsApp and open the full app experience.
+          </p>
+          <Sor7edButton slug={toolData.slug} context="tool" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} size="lg" />
         </section>
 
         {relatedArticles.length > 0 && (

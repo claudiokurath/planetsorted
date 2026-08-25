@@ -11,7 +11,7 @@ export function SiteFooter() {
   if (isStandaloneToolRoute(pathname)) return null
 
   return (
-    <footer className="border-t border-neutral-800 bg-[#0A0A0A] py-12 text-white pb-24 md:pb-12">
+    <footer className="border-t border-neutral-800 bg-black py-12 text-white pb-24 md:pb-12">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-8 grid-cols-1 md:grid-cols-4 pb-8 border-b border-neutral-800">
           {/* Column 1: Brand */}
