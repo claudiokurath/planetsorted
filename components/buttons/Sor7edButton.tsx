@@ -18,17 +18,16 @@ type SendState = 'idle' | 'sending' | 'sent' | 'error'
 
 interface MarkShellProps {
   action: ReactNode
-  lead: string
+  message: string
   progress: number
   size: 'md' | 'lg'
   state: SendState
-  trail: string
 }
 
 const TICK_AT = 0.28
 const IN_DURATION = 620
 
-function MarkShell({ action, lead, progress, size, state, trail }: MarkShellProps) {
+function MarkShell({ action, message, progress, size, state }: MarkShellProps) {
   const tickProgress = Math.max(0, Math.min(1, (progress - TICK_AT) / (1 - TICK_AT)))
 
   return (
@@ -41,9 +40,8 @@ function MarkShell({ action, lead, progress, size, state, trail }: MarkShellProp
         '--sb-td': tickProgress.toFixed(3),
       } as CSSProperties}
     >
-      <span className={`${styles.label} ${styles.lead}`}>{lead}</span>
       {action}
-      <span className={styles.label}>{trail}</span>
+      <span className={styles.message}>{message}</span>
     </div>
   )
 }
@@ -127,11 +125,10 @@ export function Sor7edButton({
             <Mark />
           </Link>
         )}
-        lead={`Save this ${itemName}`}
+        message="click the button — sign in to add to thread"
         progress={0}
         size={size}
         state="idle"
-        trail="sign in first"
       />
     )
   }
@@ -148,11 +145,10 @@ export function Sor7edButton({
             <Mark />
           </Link>
         )}
-        lead="Connect WhatsApp"
+        message="click the button — connect WhatsApp"
         progress={0}
         size={size}
         state="idle"
-        trail="tap the mark"
       />
     )
   }
@@ -197,10 +193,10 @@ export function Sor7edButton({
   }
 
   const copy = {
-    idle: { lead: `Save this ${itemName}`, trail: 'tap the mark' },
-    sending: { lead: 'Sending to your chat', trail: 'one moment' },
-    sent: { lead: 'Saved to your chat', trail: 'sorted.' },
-    error: { lead: 'Could not save', trail: 'try again' },
+    idle: 'click the button — add to thread',
+    sending: 'adding to your thread…',
+    sent: 'added to your thread — sorted.',
+    error: 'could not add — try again',
   }[state]
 
   const accessibleLabel = {
@@ -225,11 +221,10 @@ export function Sor7edButton({
             <Mark />
           </button>
         )}
-        lead={copy.lead}
+        message={copy}
         progress={progress}
         size={size}
         state={state}
-        trail={copy.trail}
       />
       <p className="sr-only" role="status" aria-live="polite">
         {state === 'sent'
