@@ -1,0 +1,146 @@
+.wrapper {
+  width: 100%;
+}
+
+.root {
+  --sb-ink: #221e18;
+  --sb-accent: #2f6b50;
+  --sb-muted: #897f6e;
+  --sb-line: #e1d8c6;
+  --sb-surface: #faf8f3;
+  --sb-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --sb-mark: 84px;
+  --sb-t: 0;
+  --sb-td: 0;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  padding: 28px clamp(16px, 4vw, 40px);
+  border-top: 1px solid var(--sb-line);
+  border-bottom: 1px solid var(--sb-line);
+  background: var(--sb-surface);
+  color: var(--sb-ink);
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+.root[data-size='md'] {
+  --sb-mark: 76px;
+}
+
+.label {
+  min-width: 0;
+  color: var(--sb-muted);
+  color: color-mix(in oklab, var(--sb-muted), var(--sb-accent) calc(var(--sb-td) * 100%));
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  line-height: 1.45;
+  text-transform: uppercase;
+  transition: color 320ms var(--sb-ease);
+}
+
+.lead {
+  text-align: right;
+}
+
+.button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--sb-mark) + 20px);
+  height: calc(var(--sb-mark) + 20px);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 200ms var(--sb-ease);
+}
+
+.button:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.button:focus-visible {
+  outline: 1px solid var(--sb-accent);
+  outline-offset: 3px;
+}
+
+.button:disabled {
+  cursor: default;
+}
+
+.mark {
+  position: relative;
+  display: block;
+  width: var(--sb-mark);
+  height: var(--sb-mark);
+  transition: transform 600ms var(--sb-ease);
+}
+
+.button:hover:not(:disabled) .mark {
+  transform: rotate(-3deg) scale(1.03);
+}
+
+.tangle {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform-origin: 52% 54%;
+  opacity: calc(1 - var(--sb-t));
+  transform: scale(calc(1 - 0.15 * var(--sb-t))) rotate(calc(var(--sb-t) * -90deg));
+  user-select: none;
+}
+
+.tick {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  opacity: var(--sb-td);
+}
+
+.tick path {
+  fill: none;
+  stroke: var(--sb-accent);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 46;
+  stroke-dashoffset: calc(46px * (1 - var(--sb-td)));
+}
+
+@media (max-width: 520px) {
+  .root {
+    --sb-mark: 68px;
+    gap: 8px;
+    padding: 20px 8px;
+  }
+
+  .root[data-size='md'] {
+    --sb-mark: 64px;
+  }
+
+  .label {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .label,
+  .button,
+  .mark {
+    transition: none;
+  }
+}

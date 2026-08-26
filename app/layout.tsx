@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Bebas_Neue } from 'next/font/google'
+import { Inter, Bebas_Neue, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { SmartNav } from '@/components/SmartNav'
 import { MobileNav } from '@/components/MobileNav'
@@ -15,6 +15,12 @@ const bebasNeue = Bebas_Neue({
   weight: '400',
   subsets: ['latin'],
   variable: '--font-bebas',
+  display: 'swap',
+})
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
   display: 'swap',
 })
 
@@ -58,7 +64,7 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" className={`h-full antialiased ${inter.variable} ${bebasNeue.variable}`}>
+    <html lang="en" className={`h-full antialiased ${inter.variable} ${bebasNeue.variable} ${jetBrainsMono.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -74,4 +80,3 @@ export default function RootLayout({
     </html>
   )
 }
-

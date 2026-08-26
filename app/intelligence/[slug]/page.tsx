@@ -85,22 +85,34 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   const isLoggedIn = !!session?.user
   let isSubscriber = false
   let whatsappVerified = false
+  let isSaved = false
 
   if (session?.user?.id) {
-    const { data: entitlement } = await supabase
-      .from('entitlements')
-      .select('status')
-      .eq('user_id', session.user.id)
-      .in('status', ['active', 'trialing'])
-      .maybeSingle()
-    isSubscriber = !!entitlement
+    const [entitlementResult, profileResult, savedItemResult] = await Promise.all([
+      supabase
+        .from('entitlements')
+        .select('status')
+        .eq('user_id', session.user.id)
+        .in('status', ['active', 'trialing'])
+        .maybeSingle(),
+      supabase
+        .from('users')
+        .select('whatsapp_verified')
+        .eq('user_id', session.user.id)
+        .single(),
+      supabase
+        .from('saved_items')
+        .select('id')
+        .eq('user_id', session.user.id)
+        .like('url', `%/r/${slug}`)
+        .limit(1)
+        .maybeSingle(),
+    ])
 
-    const { data: profile } = await supabase
-      .from('users')
-      .select('whatsapp_verified')
-      .eq('user_id', session.user.id)
-      .single()
-    whatsappVerified = !!profile?.whatsapp_verified
+    const entitlement = entitlementResult.data
+    isSubscriber = !!entitlement
+    whatsappVerified = !!profileResult.data?.whatsapp_verified
+    isSaved = !!savedItemResult.data
   }
 
   // Do not paywall the basic answer: the problem/body is always free to read.
@@ -165,6 +177,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
               context="article"
               isLoggedIn={isLoggedIn}
               whatsappVerified={whatsappVerified}
+              initiallySaved={isSaved}
               size="lg"
             />
           </section>

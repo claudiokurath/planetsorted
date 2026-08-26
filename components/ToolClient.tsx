@@ -9,6 +9,7 @@ interface ToolClientProps {
   toolData: Protocol
   isLoggedIn: boolean
   whatsappVerified: boolean
+  initiallySaved?: boolean
   relatedArticles?: RelatedArticle[]
 }
 
@@ -40,7 +41,7 @@ function splitToolSummary(summary?: string | null, fallbackDescription?: string 
   }
 }
 
-export function ToolClient({ toolData, isLoggedIn, whatsappVerified, relatedArticles = [] }: ToolClientProps) {
+export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySaved = false, relatedArticles = [] }: ToolClientProps) {
   const { description, explanation } = splitToolSummary(toolData.summary, toolData.meta_description)
 
   return (
@@ -76,7 +77,14 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, relatedArti
           <p className="text-sm font-semibold text-neutral-200">
             Ready to use this tool? Tap the button below to share the link to your WhatsApp and open the full app experience.
           </p>
-          <Sor7edButton slug={toolData.slug} context="tool" isLoggedIn={isLoggedIn} whatsappVerified={whatsappVerified} size="lg" />
+          <Sor7edButton
+            slug={toolData.slug}
+            context="tool"
+            isLoggedIn={isLoggedIn}
+            whatsappVerified={whatsappVerified}
+            initiallySaved={initiallySaved}
+            size="lg"
+          />
         </section>
 
         {relatedArticles.length > 0 && (

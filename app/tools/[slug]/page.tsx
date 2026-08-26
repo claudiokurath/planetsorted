@@ -76,14 +76,26 @@ export default async function ToolPage({ params }: Props) {
   const { data: { session } } = await sessionSupabase.auth.getSession()
   const isLoggedIn = !!session?.user
   let whatsappVerified = false
+  let isSaved = false
 
   if (session?.user?.id) {
-    const { data: profile } = await supabase
-      .from('users')
-      .select('whatsapp_verified')
-      .eq('user_id', session.user.id)
-      .single()
-    whatsappVerified = !!profile?.whatsapp_verified
+    const [profileResult, savedItemResult] = await Promise.all([
+      supabase
+        .from('users')
+        .select('whatsapp_verified')
+        .eq('user_id', session.user.id)
+        .single(),
+      supabase
+        .from('saved_items')
+        .select('id')
+        .eq('user_id', session.user.id)
+        .like('url', `%/r/${slug}`)
+        .limit(1)
+        .maybeSingle(),
+    ])
+
+    whatsappVerified = !!profileResult.data?.whatsapp_verified
+    isSaved = !!savedItemResult.data
   }
 
   return (
@@ -91,6 +103,7 @@ export default async function ToolPage({ params }: Props) {
       toolData={tool as Protocol}
       isLoggedIn={isLoggedIn}
       whatsappVerified={whatsappVerified}
+      initiallySaved={isSaved}
       relatedArticles={relatedArticles ?? []}
     />
   )

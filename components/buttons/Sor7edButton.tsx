@@ -1,111 +1,245 @@
-
 'use client'
 
-import { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import styles from './Sor7edButton.module.css'
 
 interface Sor7edButtonProps {
   slug: string
   context: 'article' | 'tool'
   isLoggedIn: boolean
   whatsappVerified: boolean
+  initiallySaved?: boolean
   size?: 'md' | 'lg'
 }
 
-export function Sor7edButton({ slug, context, isLoggedIn, whatsappVerified, size = 'md' }: Sor7edButtonProps) {
-  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+type SendState = 'idle' | 'sending' | 'sent' | 'error'
+
+interface MarkShellProps {
+  action: ReactNode
+  lead: string
+  progress: number
+  size: 'md' | 'lg'
+  state: SendState
+  trail: string
+}
+
+const TICK_AT = 0.28
+const IN_DURATION = 620
+
+function MarkShell({ action, lead, progress, size, state, trail }: MarkShellProps) {
+  const tickProgress = Math.max(0, Math.min(1, (progress - TICK_AT) / (1 - TICK_AT)))
+
+  return (
+    <div
+      className={styles.root}
+      data-size={size}
+      data-state={state}
+      style={{
+        '--sb-t': progress.toFixed(3),
+        '--sb-td': tickProgress.toFixed(3),
+      } as CSSProperties}
+    >
+      <span className={`${styles.label} ${styles.lead}`}>{lead}</span>
+      {action}
+      <span className={styles.label}>{trail}</span>
+    </div>
+  )
+}
+
+function Mark() {
+  return (
+    <span className={styles.mark} aria-hidden="true">
+      <Image
+        className={styles.tangle}
+        src="/images/sorted-button/tangle.png"
+        alt=""
+        width={1024}
+        height={1024}
+        sizes="84px"
+        draggable={false}
+      />
+      <svg className={styles.tick} viewBox="-24 -24 48 48">
+        <path d="M -13 1 L -3 11 L 15 -11" />
+      </svg>
+    </span>
+  )
+}
+
+export function Sor7edButton({
+  slug,
+  context,
+  isLoggedIn,
+  whatsappVerified,
+  initiallySaved = false,
+  size = 'md',
+}: Sor7edButtonProps) {
+  const [state, setState] = useState<SendState>(initiallySaved ? 'sent' : 'idle')
+  const [progress, setProgress] = useState(initiallySaved ? 1 : 0)
+  const animationFrame = useRef<number | null>(null)
+  const progressRef = useRef(initiallySaved ? 1 : 0)
+  const sentToWhatsApp = useRef(false)
 
   const returnPath = context === 'tool' ? `/tools/${slug}` : `/intelligence/${slug}`
+  const itemName = context === 'tool' ? 'tool' : 'piece'
 
-  // Not logged in — send to sign in, return here after
+  const paint = useCallback((value: number) => {
+    progressRef.current = value
+    setProgress(value)
+  }, [])
+
+  const animateToSaved = useCallback(() => {
+    if (animationFrame.current !== null) cancelAnimationFrame(animationFrame.current)
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      paint(1)
+      return
+    }
+
+    const from = progressRef.current
+    const start = performance.now()
+
+    const step = (now: number) => {
+      const elapsed = Math.min(1, (now - start) / IN_DURATION)
+      const eased = 1 - Math.pow(1 - elapsed, 3.2)
+      paint(from + (1 - from) * eased)
+
+      if (elapsed < 1) animationFrame.current = requestAnimationFrame(step)
+    }
+
+    animationFrame.current = requestAnimationFrame(step)
+  }, [paint])
+
+  useEffect(() => () => {
+    if (animationFrame.current !== null) cancelAnimationFrame(animationFrame.current)
+  }, [])
+
   if (!isLoggedIn) {
     return (
-      <div className="flex flex-col items-start gap-3">
-        <a
-          href={`/signup?next=${encodeURIComponent(returnPath)}`}
-          className="sor7ed-btn font-bebas inline-flex items-center rounded-full border border-[#F5C518] text-black"
-          style={{
-            background: 'linear-gradient(135deg, #F5C518 0%, #B8860B 100%)',
-            fontSize: size === 'lg' ? '1.35rem' : '1.1rem',
-            letterSpacing: '0.18em',
-            padding: size === 'lg' ? '1rem 2.5rem' : '1rem 2rem',
-          }}
-        >
-          SOR7ED — SIGN IN FIRST
-        </a>
-        <p className="text-xs text-neutral-500">Sign in to receive the {context === 'tool' ? 'tool link' : 'protocol'} on your WhatsApp.</p>
-      </div>
+      <MarkShell
+        action={(
+          <Link
+            href={`/signup?next=${encodeURIComponent(returnPath)}`}
+            className={styles.button}
+            aria-label={`Sign in to save this ${itemName} — SOR7ED`}
+          >
+            <Mark />
+          </Link>
+        )}
+        lead={`Save this ${itemName}`}
+        progress={0}
+        size={size}
+        state="idle"
+        trail="sign in first"
+      />
     )
   }
 
-  // Logged in but WhatsApp not connected — send to dashboard settings
   if (!whatsappVerified) {
     return (
-      <div className="flex flex-col items-start gap-3">
-        <a
-          href="/dashboard?tab=settings"
-          className="font-bebas inline-flex items-center rounded-full border border-white/20 text-white hover:border-white/40 transition-colors"
-          style={{
-            fontSize: size === 'lg' ? '1.35rem' : '1.1rem',
-            letterSpacing: '0.18em',
-            padding: size === 'lg' ? '1rem 2.5rem' : '1rem 2rem',
-          }}
-        >
-          CONNECT WHATSAPP →
-        </a>
-        <p className="text-xs text-neutral-500">Connect your WhatsApp in dashboard settings to receive this.</p>
-      </div>
+      <MarkShell
+        action={(
+          <Link
+            href="/dashboard?tab=settings"
+            className={styles.button}
+            aria-label="Connect WhatsApp to save — SOR7ED"
+          >
+            <Mark />
+          </Link>
+        )}
+        lead="Connect WhatsApp"
+        progress={0}
+        size={size}
+        state="idle"
+        trail="tap the mark"
+      />
     )
   }
 
-  // Logged in + WhatsApp verified — send directly from Business WhatsApp
   async function handleSend() {
+    if (state === 'sending' || state === 'sent') return
+
     setState('sending')
+
     try {
-      const res = await fetch('/api/save-to-phone', {
+      if (!sentToWhatsApp.current) {
+        const sendResponse = await fetch('/api/save-to-phone', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug, context, includeLink: true }),
+        })
+
+        if (!sendResponse.ok) {
+          setState('error')
+          return
+        }
+
+        sentToWhatsApp.current = true
+      }
+
+      const libraryResponse = await fetch('/api/saved-items', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, context, includeLink: true }),
+        body: JSON.stringify({ slug, context }),
       })
-      setState(res.ok ? 'sent' : 'error')
+
+      if (!libraryResponse.ok) {
+        setState('error')
+        return
+      }
+
+      setState('sent')
+      animateToSaved()
     } catch {
       setState('error')
     }
   }
 
-  return (
-    <div className="flex flex-col items-start gap-3">
-      <button
-        onClick={handleSend}
-        disabled={state === 'sending' || state === 'sent'}
-        className="sor7ed-btn font-bebas relative inline-flex items-center overflow-hidden rounded-full border font-black transition-all duration-200 select-none disabled:opacity-60"
-        style={{
-          background: state === 'sent'
-            ? 'linear-gradient(135deg, #10B981 0%, #047857 100%)'
-            : 'linear-gradient(135deg, #F5C518 0%, #B8860B 100%)',
-          borderColor: state === 'sent' ? '#10B981' : '#F5C518',
-          color: state === 'sent' ? '#ffffff' : '#000000',
-          fontSize: size === 'lg' ? '1.35rem' : '1.1rem',
-          letterSpacing: '0.18em',
-          padding: size === 'lg' ? '1rem 2.5rem' : '1rem 2rem',
-          boxShadow: state === 'sent'
-            ? '0 0 32px rgba(16,185,129,0.35)'
-            : '0 0 32px rgba(245,197,24,0.35), 0 4px 16px rgba(0,0,0,0.5)',
-        }}
-      >
-        {state === 'idle' && 'SOR7ED'}
-        {state === 'sending' && 'SENDING…'}
-        {state === 'sent' && '✓ SENT TO YOUR WHATSAPP'}
-        {state === 'error' && 'COULD NOT SEND — TRY AGAIN'}
-      </button>
+  const copy = {
+    idle: { lead: `Save this ${itemName}`, trail: 'tap the mark' },
+    sending: { lead: 'Sending to your chat', trail: 'one moment' },
+    sent: { lead: 'Saved to your chat', trail: 'sorted.' },
+    error: { lead: 'Could not save', trail: 'try again' },
+  }[state]
 
-      {state === 'sent' && (
-        <p className="text-xs font-semibold text-emerald-400">
-          Check your WhatsApp — the link was sent directly from us.
-        </p>
-      )}
-      {state === 'error' && (
-        <p className="text-xs text-red-400">Something went wrong. Please try again.</p>
-      )}
+  const accessibleLabel = {
+    idle: `Save this ${itemName} — SOR7ED`,
+    sending: `Sending this ${itemName} to your WhatsApp`,
+    sent: `This ${itemName} is saved in your SOR7ED library`,
+    error: `Try saving this ${itemName} again — SOR7ED`,
+  }[state]
+
+  return (
+    <div className={styles.wrapper}>
+      <MarkShell
+        action={(
+          <button
+            type="button"
+            className={styles.button}
+            onClick={handleSend}
+            disabled={state === 'sending' || state === 'sent'}
+            aria-label={accessibleLabel}
+            aria-pressed={state === 'sent'}
+          >
+            <Mark />
+          </button>
+        )}
+        lead={copy.lead}
+        progress={progress}
+        size={size}
+        state={state}
+        trail={copy.trail}
+      />
+      <p className="sr-only" role="status" aria-live="polite">
+        {state === 'sent'
+          ? `Saved to your WhatsApp and member library. This ${itemName} will remain ticked.`
+          : state === 'error'
+            ? 'We could not finish saving this yet. Please try again.'
+            : state === 'sending'
+              ? 'Saving to your WhatsApp and member library.'
+              : ''}
+      </p>
     </div>
   )
 }
