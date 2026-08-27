@@ -113,6 +113,7 @@ async function syncPublishedContent(source: SyncSource) {
             excerpt: getText(props['Excerpt']),
             cta: getText(props['CTA']),
             protocol: getText(props['Protocol']),
+            gamma_url: getUrl(props['Gamma']),
             audio_url: getUrl(props['Deep Dive']),
             read_time: getText(props['Read Time']),
             seo_title: getText(props['SEO Title']),

@@ -545,7 +545,7 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 | Blog Post | `problem` | markdown page content |
 | CTA | `cta` | page footer action |
 | Cover Image | `cover_image` | downloaded to Supabase Storage |
-| Gamma | `gamma_url` | customer-facing Sorted-button destination; database field required before delivery wiring |
+| Gamma | `gamma_url` | customer-facing Sorted-button destination; falls back to `/r/{slug}` when empty |
 | Protocol | `protocol` | WhatsApp text delivery |
 | WhatsApp Trigger | `keyword` | trigger keyword |
 | Cover Image 1 | `cover_image` | |

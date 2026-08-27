@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient, createSessionClient } from '@/lib/supabase/server'
 import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
 import type { User, Protocol } from '@/lib/types/database'
+import { getContentDeliveryUrl } from '@/lib/content/deliveryUrl'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
@@ -64,16 +65,20 @@ export async function POST(req: NextRequest) {
 
     const { data: rawContent } = await supabase
       .from('protocols')
-      .select('title, slug')
+      .select('title, slug, type, gamma_url')
       .eq('slug', slug)
       .eq('status', 'Published')
       .single()
 
-    const content = rawContent as Pick<Protocol, 'title' | 'slug'> | null
+    const content = rawContent as Pick<Protocol, 'title' | 'slug' | 'type' | 'gamma_url'> | null
 
     const title = content?.title || slug.toUpperCase().replace(/-/g, ' ')
-    const richUrl = `${SITE}/r/${slug}`
-    const messageBody = `Here is your link for *${title}* from PLANET SOR7ED:\n\n${richUrl}`
+    const richUrl = getContentDeliveryUrl(SITE, {
+      slug,
+      type: content?.type,
+      gammaUrl: content?.gamma_url,
+    })
+    const messageBody = `Here is your link for *${title}* from SOR7ED:\n\n${richUrl}`
 
     // Send directly from Business WhatsApp Meta API
     await sendWhatsAppMessage(cleanPhone, messageBody, richUrl)

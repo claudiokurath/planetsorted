@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient, createSessionClient } from '@/lib/supabase/server'
 import { sendWhatsAppMessage, sendWhatsAppAudio } from '@/lib/whatsapp/send'
 import { splitIntoChunks } from '@/lib/whatsapp/splitIntoChunks'
+import { getContentDeliveryUrl } from '@/lib/content/deliveryUrl'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 const SAFE_LIMIT = 3500
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest) {
 
     const { data: content } = await supabase
       .from('protocols')
-      .select('title, protocol, audio_url, slug')
+      .select('title, protocol, audio_url, slug, type, gamma_url')
       .eq('slug', slug)
       .eq('status', 'Published')
       .single()
@@ -52,7 +53,11 @@ export async function POST(req: NextRequest) {
     // Default path: ONE rich-link card. Sending the URL body twice (card +
     // protocol dump) was the "two messages" bug in WhatsApp.
     if (includeLink) {
-      const richUrl = `${SITE}/r/${content.slug}`
+      const richUrl = getContentDeliveryUrl(SITE, {
+        slug: content.slug,
+        type: content.type,
+        gammaUrl: content.gamma_url,
+      })
       await sendWhatsAppMessage(profile.whatsapp_number, richUrl, richUrl)
     }
 

@@ -22,6 +22,7 @@ export type Protocol = {
   protocol: string             // actual protocol (WhatsApp delivery)
   keyword: string              // WhatsApp trigger keyword
   cover_image: string | null   // URL — Storage or external
+  gamma_url?: string | null    // Published Gamma presentation URL for Sorted-button delivery
   audio_url?: string | null    // NotebookLM Audio Deep Dive URL
   audio?: string | null        // Alternate audio URL key
   read_time: string            // e.g. '3 min'
