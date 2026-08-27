@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { cookies } from 'next/headers'
@@ -7,6 +8,7 @@ import { ProtocolDeck } from '@/components/ProtocolDeck'
 import { Sor7edButton } from '@/components/buttons/Sor7edButton'
 import { buildProtocolDeck } from '@/lib/protocolDeck'
 import { verifyArticleAccessToken } from '@/lib/crypto/tokens'
+import { extractArticlePreview } from '@/lib/content/articlePreview'
 import type { Protocol } from '@/lib/types/database'
 
 interface Props {
@@ -15,6 +17,83 @@ interface Props {
 }
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+
+function ArticlePreview({
+  title,
+  slug,
+  category,
+  coverImage,
+  preview,
+  showAction,
+  isLoggedIn,
+  whatsappVerified,
+  isSaved,
+}: {
+  title: string
+  slug: string
+  category: string
+  coverImage: string | null
+  preview: string
+  showAction: boolean
+  isLoggedIn: boolean
+  whatsappVerified: boolean
+  isSaved: boolean
+}) {
+  return (
+    <div className="min-h-screen bg-black text-white">
+      <main className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
+        <article className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-neutral-900 bg-[#090b0f]">
+          {coverImage ? (
+            <div className="relative aspect-[16/8] w-full overflow-hidden sm:aspect-[16/7]">
+              <Image
+                src={coverImage}
+                alt=""
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#090b0f] via-black/20 to-transparent" />
+            </div>
+          ) : null}
+
+          <div className="px-6 pb-10 pt-8 sm:px-10 sm:pb-14 lg:px-14">
+            <div className="relative h-8 w-36">
+              <Image
+                src="/images/sor7ed-logo-white.png"
+                alt="SOR7ED"
+                fill
+                className="object-contain object-left"
+              />
+            </div>
+            <p className="mt-8 text-xs font-bold uppercase tracking-[0.14em] text-[#1FD7CF]">
+              {category}
+            </p>
+            <h1 className="font-bebas mt-4 max-w-4xl text-4xl font-black uppercase leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
+              {title}
+            </h1>
+            <div className="mt-8 max-w-3xl whitespace-pre-line text-base leading-8 text-neutral-300 sm:text-lg">
+              {preview}
+            </div>
+
+            {showAction ? (
+              <div className="mt-10 border-t border-neutral-800 pt-8">
+                <Sor7edButton
+                  slug={slug}
+                  context="article"
+                  isLoggedIn={isLoggedIn}
+                  whatsappVerified={whatsappVerified}
+                  initiallySaved={isSaved}
+                  size="lg"
+                />
+              </div>
+            ) : null}
+          </div>
+        </article>
+      </main>
+    </div>
+  )
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
@@ -68,42 +147,31 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   const item = rawProtocol as Protocol | null
   if (!item) notFound()
 
-  const { data: relatedTools } = await supabase
-    .from('protocols')
-    .select('slug, title')
-    .eq('category', item.category)
-    .eq('type', 'Tool')
-    .eq('status', 'Published')
-    .order('updated_at', { ascending: false })
-    .limit(1)
-
-  const relatedTool = relatedTools?.[0] ?? null
-
   // Check user session & subscription
   const sessionSupabase = await createSessionClient()
-  const { data: { session } } = await sessionSupabase.auth.getSession()
-  const isLoggedIn = !!session?.user
+  const { data: { user } } = await sessionSupabase.auth.getUser()
+  const isLoggedIn = !!user
   let isSubscriber = false
   let whatsappVerified = false
   let isSaved = false
 
-  if (session?.user?.id) {
+  if (user?.id) {
     const [entitlementResult, profileResult, savedItemResult] = await Promise.all([
       supabase
         .from('entitlements')
         .select('status')
-        .eq('user_id', session.user.id)
+        .eq('user_id', user.id)
         .in('status', ['active', 'trialing'])
         .maybeSingle(),
       supabase
         .from('users')
         .select('whatsapp_verified')
-        .eq('user_id', session.user.id)
+        .eq('user_id', user.id)
         .single(),
       supabase
         .from('saved_items')
         .select('id')
-        .eq('user_id', session.user.id)
+        .eq('user_id', user.id)
         .like('url', `%/r/${slug}`)
         .limit(1)
         .maybeSingle(),
@@ -115,9 +183,8 @@ export default async function ArticlePage({ params, searchParams }: Props) {
     isSaved = !!savedItemResult.data
   }
 
-  // Do not paywall the basic answer: the problem/body is always free to read.
-  // Only the step-by-step protocol requires a WhatsApp rich-link HMAC
-  // (/r/[slug] mints access_token) to unlock — never a sign-in shortcut.
+  // The public page is a short preview. The rich link delivered through the
+  // Sorted flow mints the HMAC that unlocks the full article and protocol.
   const cookieStore = await cookies()
   const cookieToken = cookieStore.get(`sor7ed_access_${slug}`)?.value
   const queryToken = resolvedSearchParams.access_token
@@ -129,6 +196,37 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   const description = item.excerpt?.trim() || item.summary?.trim() || item.meta_description?.trim()
   const rawBodyText = item.problem || ''
   const actionProtocolText = item.protocol?.trim() || ''
+  const preview = extractArticlePreview(rawBodyText, description)
+
+  // Public visitors only see the clean TLDR text. Once signed in, the Sorted
+  // action appears; the presentation deck and audio only arrive through the
+  // verified link delivered by that action.
+  if (!isUnlocked) {
+    return (
+      <ArticlePreview
+        title={item.title}
+        slug={item.slug}
+        category={item.category}
+        coverImage={item.cover_image}
+        preview={preview}
+        showAction={isLoggedIn}
+        isLoggedIn={isLoggedIn}
+        whatsappVerified={whatsappVerified}
+        isSaved={isSaved}
+      />
+    )
+  }
+
+  const { data: relatedTools } = await supabase
+    .from('protocols')
+    .select('slug, title')
+    .eq('category', item.category)
+    .eq('type', 'Tool')
+    .eq('status', 'Published')
+    .order('updated_at', { ascending: false })
+    .limit(1)
+
+  const relatedTool = relatedTools?.[0] ?? null
 
   // Kit-style presentation deck (black + red info sheets, matching the
   // SOR7ED PDF system) — body slides are always built; the protocol slide
@@ -153,35 +251,6 @@ export default async function ArticlePage({ params, searchParams }: Props) {
           audioUrl={audioUrl}
           isSubscriber={isSubscriber || isUnlocked}
         />
-
-        {!isUnlocked ? (
-          <section className="mx-auto mt-6 max-w-6xl space-y-6 rounded-3xl border border-[#1FD7CF]/35 bg-[#1FD7CF]/10 p-8 sm:mt-8 sm:p-10">
-            <div className="space-y-3">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#1FD7CF]">
-                Full protocol
-              </p>
-              <h2
-                className="font-bebas text-3xl sm:text-4xl font-black uppercase text-white"
-              >
-                Get the step-by-step protocol on WhatsApp
-              </h2>
-              <p className="max-w-2xl text-base leading-relaxed text-neutral-300">
-                You just read the full piece — free, no strings attached. The
-                step-by-step protocol that turns it into action is
-                WhatsApp-only. Tap below and we&apos;ll send a rich link to
-                open it there.
-              </p>
-            </div>
-            <Sor7edButton
-              slug={slug}
-              context="article"
-              isLoggedIn={isLoggedIn}
-              whatsappVerified={whatsappVerified}
-              initiallySaved={isSaved}
-              size="lg"
-            />
-          </section>
-        ) : null}
 
         {relatedTool ? (
           <section className="mx-auto mt-6 max-w-6xl sm:mt-8">

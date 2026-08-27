@@ -148,35 +148,6 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className={styles.systemPanel}>
-            <div className={styles.panelHeader}>
-              <span>SOR7ED system</span>
-              <span className={styles.liveStatus}><i /> Live</span>
-            </div>
-            <div className={styles.markStage}>
-              <div className={styles.markHalo} aria-hidden="true" />
-              <Image
-                src="/images/sorted-button/tangle.png"
-                alt=""
-                width={1024}
-                height={1024}
-                priority
-                className={styles.tangle}
-              />
-              <p>Thread it. Sorted.</p>
-            </div>
-            <div className={styles.signalList}>
-              <div><span>01</span><p><strong>Find it</strong><small>Tools and protocols for the thing in front of you.</small></p></div>
-              <div><span>02</span><p><strong>Thread it</strong><small>Keep what matters in your WhatsApp thread.</small></p></div>
-              <div><span>03</span><p><strong>Use it</strong><small>Return without remembering another app.</small></p></div>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.promiseBar}>
-          <div><strong>No new app</strong><span>WhatsApp is the remote</span></div>
-          <div><strong>No inspiration theatre</strong><span>Practical outputs only</span></div>
-          <div><strong>No productivity shame</strong><span>Built for real brains</span></div>
         </div>
       </section>
 
