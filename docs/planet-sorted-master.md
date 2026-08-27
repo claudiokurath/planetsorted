@@ -527,7 +527,7 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 1. Author creates a row in the **Notion Blog database** (`3b30d6014acc80c9bee6d95709efd209`) or **Tools database** (`08ac767d313845ca91886ce45c379b99`).
 2. Set `Status` = `Published` in Notion.
 3. Cron runs every 5 min (or trigger manually via `scratch/sync-and-check.js`) → upserts row in Supabase `protocols` by `slug`.
-4. **Cover images:** auto-downloaded to Supabase Storage (`notion-files/covers/{slug}.jpg`); skipped on subsequent syncs if the file exists.
+4. **Cover images:** auto-downloaded to a content-versioned Supabase Storage path (`notion-files/covers/{slug}/{hash}.{ext}`). Replacing a Notion image creates a new public URL, so CDN and browser caches refresh reliably.
 5. Articles appear on `/intelligence/{slug}` and Tools appear on `/tools` and `/dashboard` within 5 minutes.
 6. WhatsApp keywords dynamically match `protocols.keyword` (e.g. sending `TAX`, `CLARITY`, `DOPAMINE`) and return rich link cards via `/r/{slug}`. For detailed step-by-step procedures, see [Content & Tools Workflow Runbook](docs/content-workflow-runbook.md).
 7. Every published blog post must include a `Gamma` URL. The Sorted-button delivery path shares that Gamma link with the customer.

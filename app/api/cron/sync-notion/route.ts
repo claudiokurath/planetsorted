@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Client } from '@notionhq/client'
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from '@/lib/types/database'
+import { buildVersionedCoverPath } from '@/lib/content/coverStorage'
 
 export const dynamic = 'force-dynamic'
 
@@ -204,15 +205,22 @@ async function getCoverImage(slug: string, prop: any): Promise<string | null | u
 }
 
 async function syncCoverImage(slug: string, notionUrl: string): Promise<string> {
-  const path = `notion-files/covers/${slug}.jpg`
   const response = await fetch(notionUrl)
   if (!response.ok) throw new Error(`Could not download the Notion cover for ${slug}.`)
 
-  const buffer = await response.arrayBuffer()
+  const bytes = new Uint8Array(await response.arrayBuffer())
   const contentType = response.headers.get('content-type') ?? 'image/jpeg'
+  // The path includes a hash of the actual image bytes. Replacing a Notion
+  // cover therefore produces a new URL, which prevents Supabase, Next Image,
+  // and the member's browser from continuing to serve the old cached artwork.
+  const path = buildVersionedCoverPath(slug, bytes, contentType)
   const { error } = await getSupabase().storage
     .from('public')
-    .upload(path, buffer, { contentType, upsert: true })
+    .upload(path, bytes, {
+      contentType,
+      cacheControl: '31536000',
+      upsert: true,
+    })
 
   if (error) throw error
   return getSupabase().storage.from('public').getPublicUrl(path).data.publicUrl

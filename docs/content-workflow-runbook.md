@@ -109,7 +109,7 @@ Content sorting on the frontend uses timestamps (`order('updated_at', { ascendin
   This tests the exact query used by `app/api/whatsapp/webhook/route.ts` and prints `[PASS]` or `[FAIL]` for each keyword.
 
 ### Issue C: Cover image fails to display
-- When syncing, the cron route (`app/api/cron/sync-notion/route.ts`) downloads Notion images to Supabase Storage bucket `notion-files/covers/{slug}.jpg`.
+- When syncing, the cron route (`app/api/cron/sync-notion/route.ts`) downloads Notion images to a content-versioned Supabase Storage path: `notion-files/covers/{slug}/{hash}.{ext}`. A replaced image gets a new URL so caches cannot keep showing the previous cover.
 - If an image appears broken, force-refresh cover downloads by running:
   ```bash
   node --env-file=.env.local scratch/force-refresh-covers.js
