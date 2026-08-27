@@ -68,25 +68,12 @@ function HomeContentCard({
 
   return (
     <Link href={href} className={styles.contentCard}>
-      <div className={styles.cardVisual}>
-        {item.cover_image ? (
-          <Image
-            src={item.cover_image}
-            alt=""
-            fill
-            sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 33vw"
-            className={styles.cardImage}
-          />
-        ) : (
-          <div className={styles.cardPlaceholder} />
-        )}
-        <div className={styles.cardShade} />
-        <span className={styles.kindBadge}>{kind}</span>
-      </div>
-
       <div className={styles.cardBody}>
         <div className={styles.cardMetaRow}>
-          {category ? <span className={styles.categoryBadge}>{category.label}</span> : <span />}
+          <div className={styles.cardLabelGroup}>
+            <span className={styles.kindBadge}>{kind}</span>
+            {category ? <span className={styles.categoryBadge}>{category.label}</span> : null}
+          </div>
           {item.read_time ? <span className={styles.readTime}>{item.read_time}</span> : null}
         </div>
         <h3>{item.title}</h3>
@@ -105,14 +92,14 @@ export default async function HomePage() {
   const [{ data: rawProtocols }, { data: rawTools }] = await Promise.all([
     supabase
       .from('protocols')
-      .select('slug, title, summary, cover_image, category, read_time')
+      .select('slug, title, summary, category, read_time')
       .or('type.eq.Article,type.is.null')
       .eq('status', 'Published')
       .order('updated_at', { ascending: false })
       .limit(6),
     supabase
       .from('protocols')
-      .select('slug, title, summary, cover_image, category, read_time')
+      .select('slug, title, summary, category, read_time')
       .eq('type', 'Tool')
       .eq('status', 'Published')
       .order('updated_at', { ascending: false })
