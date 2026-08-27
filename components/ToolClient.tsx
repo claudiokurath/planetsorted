@@ -49,7 +49,6 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySa
       <ContentHero
         title={toolData.title}
         description={description}
-        coverImage={toolData.cover_image}
         category={toolData.category}
         meta={toolData.read_time}
       />
@@ -57,8 +56,8 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySa
       <main className="mx-auto max-w-4xl px-4 pb-20 pt-6 sm:px-6 lg:px-8 space-y-12">
         {/* Explanation */}
         {explanation && (
-          <section className="border-l-4 border-[#F5C518] py-2 pl-6 sm:pl-8 space-y-3">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#F5C518]">
+          <section className="space-y-3 border-l-4 border-[#1FD7CF] py-2 pl-6 sm:pl-8">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#1FD7CF]">
               About this tool
             </p>
             <h2

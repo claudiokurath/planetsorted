@@ -45,12 +45,12 @@ export function SmartNav() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-900 bg-black text-white backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-white/[0.08] bg-black/90 text-white backdrop-blur-xl">
       {/* Mobile: logo-only bar — primary nav lives in the bottom tab bar */}
       <nav aria-label="Primary navigation" className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 md:hidden">
         <Link href="/" aria-label="PLANET SOR7ED home" className="flex items-center">
           <Image
-            src="/images/sor7ed-logo.png"
+            src="/images/sor7ed-logo-white.png"
             alt="SOR7ED"
             width={1600}
             height={402}
@@ -61,7 +61,7 @@ export function SmartNav() {
         {authReady && !user && (
           <Link
             href="/signup"
-            className="text-[11px] font-bold uppercase tracking-wider text-[#F5C518]"
+            className="text-[11px] font-bold uppercase tracking-wider text-[#1FD7CF]"
           >
             Sign In
           </Link>
@@ -72,7 +72,7 @@ export function SmartNav() {
       <nav aria-label="Primary navigation" className="mx-auto hidden max-w-7xl items-center justify-between gap-8 px-6 py-3 md:flex lg:px-8">
         <Link href="/" aria-label="PLANET SOR7ED home" className="flex shrink-0 items-center">
           <Image
-            src="/images/sor7ed-logo.png"
+            src="/images/sor7ed-logo-white.png"
             alt="SOR7ED"
             width={1600}
             height={402}
@@ -90,7 +90,7 @@ export function SmartNav() {
                 href={link.href}
                 className={`pb-0.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
                   isActive
-                    ? 'border-b-2 border-[#F5C518] text-white'
+                    ? 'border-b-2 border-[#1FD7CF] text-white'
                     : 'text-white/70 hover:text-white'
                 }`}
               >
@@ -106,7 +106,7 @@ export function SmartNav() {
                   href="/dashboard"
                   className={`pb-0.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
                     pathname === '/dashboard'
-                      ? 'border-b-2 border-[#F5C518] text-white'
+                      ? 'border-b-2 border-[#1FD7CF] text-white'
                       : 'text-white/70 hover:text-white'
                   }`}
                 >
@@ -114,7 +114,7 @@ export function SmartNav() {
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="pb-0.5 text-xs font-semibold uppercase tracking-wider text-white/50 transition-colors hover:text-[#F5C518]"
+                  className="pb-0.5 text-xs font-semibold uppercase tracking-wider text-white/50 transition-colors hover:text-[#1FD7CF]"
                 >
                   Sign Out
                 </button>
@@ -124,8 +124,8 @@ export function SmartNav() {
                 href="/signup"
                 className={`pb-0.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
                   pathname === '/signup'
-                    ? 'border-b-2 border-[#F5C518] text-white'
-                    : 'text-[#F5C518] hover:text-white'
+                    ? 'border-b-2 border-[#1FD7CF] text-white'
+                    : 'text-[#1FD7CF] hover:text-white'
                 }`}
               >
                 Sign In

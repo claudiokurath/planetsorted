@@ -40,7 +40,7 @@
 | **Host** | Vercel (Production from `main`) |
 | **Runtime** | Node **22**, Next.js App Router |
 | **Visible brand** | SOR7ED / PLANET SOR7ED |
-| **Legal entity** | SOR7ED LIMITED (trading as Planet Sorted) |
+| **Legal entity** | SOR7ED LIMITED (trading as SOR7ED) |
 | **Messaging** | Meta WhatsApp Cloud API (`+44 7591 922247`) |
 | **Product master (separate)** | `docs/planet-sorted-master.md` in the same repo |
 
@@ -302,7 +302,7 @@ Grouped by area. **Required in Production** unless marked optional.
 | `NOTION_SECRET` | Integration token (sync) |
 | `NOTION_ARTICLES_DB_ID` | Articles DB |
 | `NOTION_TOOLS_DB_ID` | Tools DB (if used by sync) |
-| `NOTION_BLOG_DB_ID` | Blog DB (if used) |
+| `NOTION_BLOG_DB_ID` | Blog DB (`3b30d6014acc80c9bee6d95709efd209`) |
 | `NOTION_CRM_SECRET` | CRM integration (may equal or differ from `NOTION_SECRET`) |
 | `NOTION_CRM_DB_ID` | CRM database (optional default exists in code/docs) |
 

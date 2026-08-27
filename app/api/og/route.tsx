@@ -53,10 +53,10 @@ export async function GET(req: Request) {
             padding: '72px',
             boxSizing: 'border-box',
             fontFamily: fontData ? 'Inter' : 'sans-serif',
-            borderLeft: '14px solid #F5C518',
+            borderLeft: '14px solid #1FD7CF',
           }}
         >
-          <div style={{ color: '#F5C518', fontSize: 22, fontWeight: 900, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 24 }}>PLANET SOR7ED</div>
+          <div style={{ color: '#1FD7CF', fontSize: 22, fontWeight: 900, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 24 }}>SOR7ED</div>
           <div style={{ color: '#FFFFFF', fontSize: 72, fontWeight: 900, textTransform: 'uppercase', lineHeight: 1.05, marginBottom: 28 }}>{title}</div>
           {description && (
             <div style={{ color: '#94A3B8', fontSize: 30, fontWeight: 500, lineHeight: 1.4, maxWidth: 900 }}>{description}</div>
@@ -104,14 +104,14 @@ export async function GET(req: Request) {
           alignItems: 'center',
           justifyContent: 'center',
           padding: '60px',
-          border: '18px solid #C0392B',
+          border: '18px solid #856CFF',
           boxSizing: 'border-box',
           fontFamily: fontData ? 'Inter' : 'sans-serif',
         }}
       >
         <div
           style={{
-            color: '#F5C518',
+            color: '#1FD7CF',
             fontSize: 28,
             fontWeight: 900,
             letterSpacing: '0.25em',

@@ -17,14 +17,14 @@ interface ProtocolDeckProps {
 /**
  * Design tokens matched to the SOR7ED presentation PDF system
  * (e.g. BURNOUT DOESN'T WANT YOU DEAD kit): pure black field,
- * white display titles, red accents, charcoal cards.
+ * white display titles, cyan accents, charcoal cards.
  */
-const RED = '#E53935'
-const RED_DARK = '#7A1F1F'
-const RED_SOFT = 'rgba(229, 57, 53, 0.14)'
-const CARD = '#141414'
-const CARD_BORDER = '#2A2A2A'
-const MUTED = '#A3A3A3'
+const ACCENT = '#1FD7CF'
+const ACCENT_DARK = '#123C46'
+const ACCENT_SOFT = 'rgba(31, 215, 207, 0.14)'
+const CARD = '#090B0F'
+const CARD_BORDER = '#202733'
+const MUTED = '#8B98AD'
 
 function renderInline(text: string) {
   // **bold** → white semibold
@@ -130,7 +130,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
               <blockquote
                 key={i}
                 className="border-l-[3px] pl-5 py-1 text-base leading-relaxed text-neutral-200 sm:text-lg"
-                style={{ borderColor: RED }}
+                style={{ borderColor: ACCENT }}
               >
                 {renderInline(block.text)}
               </blockquote>
@@ -140,11 +140,11 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
             <div
               key={i}
               className="flex gap-3 rounded-lg px-5 py-4 text-sm leading-relaxed text-white sm:text-base"
-              style={{ backgroundColor: RED_DARK }}
+              style={{ backgroundColor: ACCENT_DARK }}
             >
               <span
                 className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-black"
-                style={{ backgroundColor: RED }}
+                style={{ backgroundColor: ACCENT }}
                 aria-hidden
               >
                 !
@@ -173,12 +173,12 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                 >
                   <div
                     className="absolute inset-x-0 top-0 h-[3px] rounded-t-xl"
-                    style={{ backgroundColor: RED }}
+                    style={{ backgroundColor: ACCENT }}
                     aria-hidden
                   />
                   <span
                     className="absolute left-1/2 top-0 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-sm font-black text-white shadow-md"
-                    style={{ backgroundColor: RED }}
+                    style={{ backgroundColor: ACCENT }}
                   >
                     {j + 1}
                   </span>
@@ -203,7 +203,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                   ) : null}
                   <p
                     className="font-bebas mt-2 text-sm font-black uppercase tracking-wide sm:text-base"
-                    style={{ color: RED }}
+                    style={{ color: ACCENT }}
                   >
                     {stat.label}
                   </p>
@@ -259,7 +259,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                       </div>
                       <span
                         className="absolute left-1/2 top-1.5 h-3 w-3 -translate-x-1/2 rounded-full max-sm:left-3 max-sm:translate-x-0"
-                        style={{ backgroundColor: RED, boxShadow: `0 0 0 4px ${RED_SOFT}` }}
+                        style={{ backgroundColor: ACCENT, boxShadow: `0 0 0 4px ${ACCENT_SOFT}` }}
                         aria-hidden
                       />
                     </li>
@@ -289,7 +289,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                     className={`mb-4 flex h-10 w-10 items-center justify-center rounded-full text-white ${
                       useIcons ? 'mx-auto' : ''
                     }`}
-                    style={{ backgroundColor: RED }}
+                    style={{ backgroundColor: ACCENT }}
                     aria-hidden
                   >
                     {useIcons ? (
@@ -325,7 +325,7 @@ function StepBadge({ label }: { label: string }) {
   return (
     <span
       className="inline-flex rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white"
-      style={{ backgroundColor: RED_DARK }}
+      style={{ backgroundColor: ACCENT_DARK }}
     >
       {text}
     </span>
@@ -377,35 +377,37 @@ export function ProtocolDeck({
         data-deck-slide
         className="deck-slide relative mx-auto mb-6 flex min-h-[min(78vh,640px)] max-w-6xl flex-col items-center justify-center overflow-hidden rounded-2xl border border-neutral-900 bg-black px-6 py-16 text-center sm:mb-8 sm:px-12 sm:py-20"
       >
-        {/* Gold SOR7ED wordmark */}
-        <div className="mb-10 sm:mb-14" aria-hidden>
+        {deck.coverImage ? (
+          <div className="pointer-events-none absolute inset-0" aria-hidden>
+            <Image src={deck.coverImage} alt="" fill priority className="object-cover opacity-45" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/72 to-black" />
+          </div>
+        ) : null}
+        {/* SOR7ED wordmark */}
+        <div className="relative z-10 mb-10 sm:mb-14" aria-hidden>
           <div className="relative mx-auto h-8 w-36 sm:h-10 sm:w-44">
             <Image
-              src="/images/sor7ed-logo.png"
+              src="/images/sor7ed-logo-white.png"
               alt="SOR7ED"
               fill
               priority
-              className="object-contain opacity-90"
-              style={{
-                filter:
-                  'brightness(0) saturate(100%) invert(72%) sepia(61%) saturate(500%) hue-rotate(8deg) brightness(92%)',
-              }}
+              className="object-contain opacity-95"
             />
           </div>
         </div>
 
-        <h1 className="font-bebas max-w-5xl text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
+        <h1 className="font-bebas relative z-10 max-w-5xl text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
           {deck.title}
         </h1>
 
         {deck.lede ? (
-          <p className="mt-8 max-w-2xl text-sm leading-relaxed text-neutral-300 sm:mt-10 sm:text-base">
+          <p className="relative z-10 mt-8 max-w-2xl text-sm leading-relaxed text-neutral-300 sm:mt-10 sm:text-base">
             {deck.lede}
           </p>
         ) : null}
 
         {categoryStyle || chips.length > 0 ? (
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+          <div className="relative z-10 mt-8 flex flex-wrap items-center justify-center gap-2">
             {categoryStyle ? (
               <Link
                 href={`/category/${categoryStyle.slug}`}
@@ -425,12 +427,12 @@ export function ProtocolDeck({
           </div>
         ) : null}
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3 print:hidden">
+        <div className="relative z-10 mt-10 flex flex-wrap items-center justify-center gap-3 print:hidden">
           <button
             type="button"
             onClick={handlePrint}
             className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-opacity hover:opacity-90"
-            style={{ backgroundColor: RED }}
+            style={{ backgroundColor: ACCENT }}
           >
             <svg
               viewBox="0 0 24 24"
@@ -450,13 +452,6 @@ export function ProtocolDeck({
           </span>
         </div>
 
-        {/* Soft cover image bleed (optional, low opacity) */}
-        {deck.coverImage ? (
-          <div className="pointer-events-none absolute inset-0 opacity-[0.08]" aria-hidden>
-            <Image src={deck.coverImage} alt="" fill className="object-cover" sizes="100vw" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
-          </div>
-        ) : null}
       </section>
 
       {/* Audio — screen only */}

@@ -333,7 +333,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div className="min-w-0 space-y-3">
             <div className="flex items-center gap-2.5">
-              <span className="h-0.5 w-8 rounded-full bg-[#F5C518]" />
+              <span className="h-0.5 w-8 rounded-full bg-[#1FD7CF]" />
               <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-400">
                 PLANET SOR7ED
               </span>

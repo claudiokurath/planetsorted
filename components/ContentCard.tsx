@@ -5,7 +5,7 @@ import { getCategoryStyle } from '@/lib/categoryStyles'
 interface ContentCardProps {
   href: string
   title: string
-  /** Kept optional for call-site compat; no longer rendered on cards. */
+  /** Kept optional for call-site compatibility; cards remain title-led. */
   summary?: string
   coverImage?: string | null
   meta?: string
@@ -26,21 +26,30 @@ export function ContentCard({
   return (
     <Link
       href={href}
-      className="group flex flex-col h-full w-full overflow-hidden rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-      style={{ backgroundColor: '#0f0f0f' }}
+      className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/[0.09] bg-[#090b0f] transition-all duration-300 hover:-translate-y-1 hover:border-[#1FD7CF]/35 hover:shadow-[0_22px_70px_rgba(31,215,207,0.08)]"
+      style={{
+        backgroundImage:
+          'radial-gradient(circle at 100% 0%, rgba(80,149,255,0.08), transparent 42%), radial-gradient(circle at 0% 100%, rgba(133,108,255,0.05), transparent 45%)',
+      }}
     >
-      {coverImage && (
-        <div className={`relative w-full flex-shrink-0 overflow-hidden bg-[#222222] ${compact ? 'aspect-[2/1]' : 'aspect-video'}`}>
+      <span
+        className="absolute inset-x-0 top-0 h-[2px] opacity-80"
+        style={{ background: 'linear-gradient(90deg, #1FD7CF, #5095FF 55%, #856CFF)' }}
+        aria-hidden
+      />
+      {coverImage ? (
+        <div className={`relative w-full flex-shrink-0 overflow-hidden bg-[#0d1118] ${compact ? 'aspect-[2/1]' : 'aspect-video'}`}>
           <Image
             src={coverImage}
-            alt={title}
+            alt=""
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.035]"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#090b0f]/75 via-transparent to-transparent" />
         </div>
-      )}
-      <div className={`flex flex-1 flex-col justify-between ${compact ? 'gap-3 p-4' : 'gap-5 p-6'}`}>
+      ) : null}
+      <div className={`flex flex-1 flex-col justify-between ${compact ? 'min-h-52 gap-3 p-5' : `${coverImage ? 'min-h-64' : 'min-h-72'} gap-5 p-7`}`}>
         <div className="flex flex-col flex-1">
           {style && (
             <div>
@@ -56,7 +65,7 @@ export function ContentCard({
           )}
           {/* Title only — no summary blurb. Sized ~2× the previous card title. */}
           <h3
-            className={`font-bebas ${compact ? 'text-3xl sm:text-4xl' : 'text-3xl sm:text-4xl lg:text-5xl'} font-black uppercase leading-[1.05] text-white group-hover:text-[#F5C518] transition-colors line-clamp-3`}
+            className={`font-bebas ${compact ? 'text-3xl sm:text-4xl' : 'text-3xl sm:text-4xl lg:text-5xl'} mt-8 line-clamp-3 font-black uppercase leading-[1.05] text-white transition-colors group-hover:text-[#1FD7CF]`}
           >
             {title}
           </h3>

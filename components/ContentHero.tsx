@@ -1,18 +1,16 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { getCategoryStyle } from '@/lib/categoryStyles'
 
 interface ContentHeroProps {
   title: string
   description?: string | null
-  coverImage?: string | null
   category?: string | null
   meta?: string | null
   /** When true: no image, no card chrome — clean editorial header aligned with article body */
   articleMode?: boolean
 }
 
-export function ContentHero({ title, description, coverImage, category, meta, articleMode = false }: ContentHeroProps) {
+export function ContentHero({ title, description, category, meta, articleMode = false }: ContentHeroProps) {
   const categoryStyle = getCategoryStyle(category)
 
   if (articleMode) {
@@ -32,7 +30,7 @@ export function ContentHero({ title, description, coverImage, category, meta, ar
               )}
             </Link>
           ) : (
-            <div className="h-1 w-12 rounded-full bg-[#F5C518]" />
+            <div className="h-1 w-12 rounded-full bg-[#1FD7CF]" />
           )}
 
           <h1
@@ -57,24 +55,22 @@ export function ContentHero({ title, description, coverImage, category, meta, ar
     )
   }
 
-  // Compact tool/content header — same language as PageHeader, optional cover strip
+  // Compact text-led tool/content header — deliberately image-free.
   return (
     <section className="mx-auto max-w-7xl px-4 pb-8 pt-8 sm:px-6 sm:pt-10 lg:px-8">
-      {coverImage ? (
-        <div className="relative mb-6 aspect-[21/9] w-full overflow-hidden rounded-2xl border border-neutral-800/80 bg-black sm:aspect-[3/1]">
-          <Image
-            src={coverImage}
-            alt=""
-            fill
-            priority
-            sizes="(max-width: 1280px) 100vw, 1280px"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-        </div>
-      ) : null}
-
-      <div className="space-y-3">
+      <div
+        className="relative overflow-hidden rounded-3xl border border-white/[0.09] bg-[#090b0f] p-7 sm:p-10"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle at 88% 12%, rgba(80,149,255,0.14), transparent 34%), radial-gradient(circle at 72% 90%, rgba(133,108,255,0.09), transparent 38%)',
+        }}
+      >
+        <span
+          className="absolute inset-x-0 top-0 h-[2px]"
+          style={{ background: 'linear-gradient(90deg, #1FD7CF, #5095FF 55%, #856CFF)' }}
+          aria-hidden
+        />
+        <div className="relative space-y-3">
         {categoryStyle ? (
           <Link
             href={`/category/${categoryStyle.slug}`}
@@ -88,7 +84,7 @@ export function ContentHero({ title, description, coverImage, category, meta, ar
             )}
           </Link>
         ) : (
-          <div className="h-1 w-12 rounded-full bg-[#F5C518]" />
+          <div className="h-1 w-12 rounded-full bg-[#1FD7CF]" />
         )}
 
         <h1
@@ -108,6 +104,7 @@ export function ContentHero({ title, description, coverImage, category, meta, ar
             {meta}
           </p>
         )}
+        </div>
       </div>
     </section>
   )

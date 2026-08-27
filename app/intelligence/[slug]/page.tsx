@@ -155,9 +155,9 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         />
 
         {!isUnlocked ? (
-          <section className="mx-auto mt-6 max-w-6xl space-y-6 rounded-3xl border border-[#E53935]/35 bg-[#E53935]/10 p-8 sm:mt-8 sm:p-10">
+          <section className="mx-auto mt-6 max-w-6xl space-y-6 rounded-3xl border border-[#1FD7CF]/35 bg-[#1FD7CF]/10 p-8 sm:mt-8 sm:p-10">
             <div className="space-y-3">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#E53935]">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#1FD7CF]">
                 Full protocol
               </p>
               <h2
@@ -187,7 +187,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
           <section className="mx-auto mt-6 max-w-6xl sm:mt-8">
             <Link
               href={`/tools/${relatedTool.slug}`}
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-2 text-xs font-bold uppercase tracking-wider text-neutral-200 transition-colors hover:border-[#E53935] hover:text-[#E53935]"
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-2 text-xs font-bold uppercase tracking-wider text-neutral-200 transition-colors hover:border-[#1FD7CF] hover:text-[#1FD7CF]"
             >
               Try the {item.category} tool: {relatedTool.title} →
             </Link>

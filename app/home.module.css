@@ -438,6 +438,30 @@
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
 }
 
+.cardVisual {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #0d1118;
+}
+
+.cardImage {
+  object-fit: cover;
+  filter: saturate(0.84) contrast(1.03);
+  transition: transform 500ms ease, filter 500ms ease;
+}
+
+.contentCard:hover .cardImage {
+  transform: scale(1.035);
+  filter: saturate(1) contrast(1.04);
+}
+
+.cardShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(9, 11, 15, 0.72), transparent 58%);
+}
+
 .kindBadge {
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
@@ -456,6 +480,10 @@
   flex: 1;
   flex-direction: column;
   padding: 26px;
+}
+
+.cardBodyWithVisual {
+  min-height: 260px;
 }
 
 .cardMetaRow {

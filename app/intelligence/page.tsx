@@ -4,7 +4,7 @@ import { ContentCard } from '@/components/ContentCard'
 import { PageHeader } from '@/components/PageHeader'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-const LOGO_IMAGE = '/images/sor7ed-logo.png'
+const LOGO_IMAGE = '/images/sor7ed-logo-white.png'
 
 export const metadata: Metadata = {
   title: 'Guidebook — PLANET SOR7ED',

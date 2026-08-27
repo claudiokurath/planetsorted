@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { PageHeader } from '@/components/PageHeader'
 
 export const metadata: Metadata = {
   title: 'FAQ — PLANET SOR7ED',
@@ -28,12 +29,10 @@ export default function FAQPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-3xl px-6 py-16">
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-black uppercase text-white tracking-tight leading-[0.95]" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-          Frequently Asked Questions
-        </h1>
+        <PageHeader eyebrow="SOR7ED" title="Frequently asked questions" description="The useful answers, without the small print." />
         <div className="mt-8 space-y-6">
           {faqs.map((faq, idx) => (
-            <div key={idx} className="rounded-2xl border border-neutral-800 bg-black p-6 space-y-2">
+            <div key={idx} className="space-y-2 rounded-2xl border border-white/[0.09] bg-[#090B0F] p-6">
               <h2 className="text-2xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
                 {faq.q}
               </h2>

@@ -2,8 +2,13 @@
 @import "../components/ProtocolDeckPrint.css";
 
 :root {
-  --background: #000000;
-  --foreground: #F5F5F7;
+  --background: #050608;
+  --foreground: #F7F9FC;
+  --sor7ed-panel: #090B0F;
+  --sor7ed-muted: #8B98AD;
+  --sor7ed-cyan: #1FD7CF;
+  --sor7ed-blue: #5095FF;
+  --sor7ed-violet: #856CFF;
 }
 
 @theme inline {
@@ -15,33 +20,43 @@
 }
 
 body {
-  background: var(--background);
+  min-height: 100vh;
+  background-color: var(--background);
+  background-image:
+    radial-gradient(circle at 88% 8%, rgba(80, 149, 255, 0.07), transparent 28rem),
+    radial-gradient(circle at 12% 86%, rgba(133, 108, 255, 0.05), transparent 32rem);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-inter), "Inter", Arial, Helvetica, sans-serif;
 }
 
-/* Primary Brand Button Overrides (Brand Yellow #F5C518, "kit yellow") */
+::selection {
+  background: rgba(31, 215, 207, 0.3);
+  color: #fff;
+}
+
+/* Legacy utility aliases now resolve to the current SOR7ED cyan accent. */
 .bg-green-500 {
-  background-color: #F5C518 !important;
+  background-color: #1FD7CF !important;
 }
 
 .hover\:bg-green-600:hover,
 .hover\:bg-green-500:hover {
-  background-color: #D4AC0D !important;
+  background-color: #18BDB7 !important;
 }
 
 .text-green-700,
 .text-green-600,
 .text-green-500 {
-  color: #F7D154 !important;
+  color: #1FD7CF !important;
 }
 
 .border-green-500,
 .border-green-100 {
-  border-color: rgba(245, 197, 24, 0.4) !important;
+  border-color: rgba(31, 215, 207, 0.4) !important;
 }
 
 .bg-green-50,
 .bg-green-50\/50 {
-  background-color: rgba(245, 197, 24, 0.1) !important;
+  background-color: rgba(31, 215, 207, 0.1) !important;
 }

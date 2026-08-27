@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { isStandaloneToolRoute } from '@/lib/isStandaloneToolRoute'
 import { CATEGORY_LIST } from '@/lib/categoryStyles'
@@ -16,9 +17,13 @@ export function SiteFooter() {
         <div className="grid gap-8 grid-cols-1 md:grid-cols-4 pb-8 border-b border-neutral-800">
           {/* Column 1: Brand */}
           <div className="space-y-3">
-            <h3 className="font-bebas text-2xl font-black uppercase text-white">
-              Planet SOR7ED
-            </h3>
+            <Image
+              src="/images/sor7ed-logo-white.png"
+              alt="SOR7ED"
+              width={1832}
+              height={430}
+              className="h-7 w-auto"
+            />
             <p className="text-xs text-neutral-400 max-w-xs leading-relaxed">
               Practical tools and protocols for neurodivergent adults. No app. No spam. Just what works.
             </p>
@@ -61,10 +66,10 @@ export function SiteFooter() {
         {/* Bottom Legal Disclaimer */}
         <div className="pt-6 text-center space-y-2">
           <p className="text-xs text-gray-500">
-            © {new Date().getFullYear()} Planet Sorted Limited (trading as Planet SOR7ED). All rights reserved.
+            © {new Date().getFullYear()} SOR7ED LIMITED (trading as SOR7ED). All rights reserved.
           </p>
           <p className="text-xs text-gray-500 max-w-xl mx-auto">
-            Planet SOR7ED provides educational tools and protocols. Not medical, clinical, legal, or financial advice. Not a crisis service. In immediate danger: call 999. To talk now: text SHOUT to 85258.
+            SOR7ED provides educational tools and protocols. Not medical, clinical, legal, or financial advice. Not a crisis service. In immediate danger: call 999. To talk now: text SHOUT to 85258.
           </p>
         </div>
       </div>

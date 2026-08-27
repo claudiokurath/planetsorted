@@ -524,12 +524,13 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 
 ## Notion CMS & Content Workflow
 
-1. Author creates row in the **Notion Content database** (`db668e4687ed455498357b8d11d2c714`).
-2. Set `Type` = `Article` or `Tool`, and `Status` = `Published` in Notion.
+1. Author creates a row in the **Notion Blog database** (`3b30d6014acc80c9bee6d95709efd209`) or **Tools database** (`08ac767d313845ca91886ce45c379b99`).
+2. Set `Status` = `Published` in Notion.
 3. Cron runs every 5 min (or trigger manually via `scratch/sync-and-check.js`) → upserts row in Supabase `protocols` by `slug`.
 4. **Cover images:** auto-downloaded to Supabase Storage (`notion-files/covers/{slug}.jpg`); skipped on subsequent syncs if the file exists.
 5. Articles appear on `/intelligence/{slug}` and Tools appear on `/tools` and `/dashboard` within 5 minutes.
 6. WhatsApp keywords dynamically match `protocols.keyword` (e.g. sending `TAX`, `CLARITY`, `DOPAMINE`) and return rich link cards via `/r/{slug}`. For detailed step-by-step procedures, see [Content & Tools Workflow Runbook](docs/content-workflow-runbook.md).
+7. Every published blog post must include a `Gamma` URL. The Sorted-button delivery path shares that Gamma link with the customer.
 
 ### Notion DB Property Mappings
 | Notion Property | Maps to | Notes |
@@ -543,6 +544,8 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 | Excerpt | `excerpt` | intro text block |
 | Blog Post | `problem` | markdown page content |
 | CTA | `cta` | page footer action |
+| Cover Image | `cover_image` | downloaded to Supabase Storage |
+| Gamma | `gamma_url` | customer-facing Sorted-button destination; database field required before delivery wiring |
 | Protocol | `protocol` | WhatsApp text delivery |
 | WhatsApp Trigger | `keyword` | trigger keyword |
 | Cover Image 1 | `cover_image` | |
@@ -626,7 +629,7 @@ Wipes `saved_items`, `credits_ledger`, `entitlements`, `tool_requests` (cascadin
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Client |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server (admin operations) |
 | `NOTION_SECRET` | Notion sync cron |
-| `NOTION_ARTICLES_DB_ID` | Notion articles DB (`db668e4687ed455498357b8d11d2c714`) |
+| `NOTION_BLOG_DB_ID` | Notion blog DB (`3b30d6014acc80c9bee6d95709efd209`) |
 | `NOTION_CRM_SECRET` | Notion CRM sync (new signups → CRM database) |
 | `NOTION_CRM_DB_ID` | Notion CRM database (`35e0d6014acc80ff8761c320c06835ee`) — optional, defaults to this ID |
 | `CRON_SECRET` | Cron route auth |
@@ -642,7 +645,7 @@ Wipes `saved_items`, `credits_ledger`, `entitlements`, `tool_requests` (cascadin
 ---
 
 ## Company Details
-- **Registered Name:** SOR7ED LIMITED (trading as Planet Sorted)
+- **Registered Name:** SOR7ED LIMITED (trading as SOR7ED)
 - **Company Number:** 16398701 (UK) · **Founded:** 2025 · **Location:** London, UK
 - **WhatsApp:** +44 7591 922247
 - **Email:** hello@planetsorted.com *(keep hello@sor7ed.com forwarding to it during transition)*

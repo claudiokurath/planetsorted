@@ -142,7 +142,7 @@ function SliderField({
         onChange={(e) => onChange(Number(e.target.value))}
         className="weekly-wins-slider w-full h-1.5 rounded-full appearance-none cursor-pointer"
         style={{
-          background: `linear-gradient(to right, #C0392B ${(value / max) * 100}%, #374151 ${(value / max) * 100}%)`,
+          background: `linear-gradient(to right, #1FD7CF ${(value / max) * 100}%, #374151 ${(value / max) * 100}%)`,
         }}
       />
       <p className="text-xs text-neutral-500">{sublabel}</p>
@@ -312,7 +312,7 @@ export function WeeklyWinsApp() {
           width: 20px;
           height: 20px;
           border-radius: 50%;
-          background: #C0392B;
+          background: #1FD7CF;
           cursor: pointer;
           box-shadow: 0 0 0 3px rgba(192,57,43,0.25);
           transition: box-shadow 0.15s;
@@ -321,7 +321,7 @@ export function WeeklyWinsApp() {
           width: 20px;
           height: 20px;
           border-radius: 50%;
-          background: #C0392B;
+          background: #1FD7CF;
           border: none;
           cursor: pointer;
         }
@@ -335,7 +335,7 @@ export function WeeklyWinsApp() {
 
           {/* Header */}
           <header className="rounded-3xl border border-white/10 bg-black p-8 shadow-2xl backdrop-blur">
-            <p className="text-xs font-bold uppercase tracking-[0.35em] text-[#C0392B]">
+            <p className="text-xs font-bold uppercase tracking-[0.35em] text-[#1FD7CF]">
               PLANET SOR7ED LAB — Body
             </p>
             <h1
@@ -383,7 +383,7 @@ export function WeeklyWinsApp() {
                   type="text"
                   value={weekLabel}
                   onChange={(e) => setWeekLabel(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-black px-4 py-2.5 text-sm text-white placeholder-neutral-500 outline-none focus:border-[#C0392B]"
+                  className="w-full rounded-xl border border-white/10 bg-black px-4 py-2.5 text-sm text-white placeholder-neutral-500 outline-none focus:border-[#1FD7CF]"
                 />
               </div>
 
@@ -429,7 +429,7 @@ export function WeeklyWinsApp() {
                   onChange={(e) => setHardThing(e.target.value.slice(0, 280))}
                   rows={3}
                   placeholder="e.g. Made a phone call I'd been avoiding for three weeks."
-                  className="w-full resize-none rounded-xl border border-white/10 bg-black px-4 py-2.5 text-sm text-white placeholder-neutral-500 outline-none focus:border-[#C0392B]"
+                  className="w-full resize-none rounded-xl border border-white/10 bg-black px-4 py-2.5 text-sm text-white placeholder-neutral-500 outline-none focus:border-[#1FD7CF]"
                 />
                 <p className="text-right text-xs text-neutral-500">{hardThing.length}/280</p>
               </div>
@@ -452,13 +452,13 @@ export function WeeklyWinsApp() {
                       onClick={() => setTone(t.value)}
                       className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all ${
                         tone === t.value
-                          ? 'border-[#C0392B] bg-[#C0392B]/20 text-white'
+                          ? 'border-[#1FD7CF] bg-[#1FD7CF]/20 text-white'
                           : 'border-white/10 bg-black text-neutral-300 hover:border-white/20 hover:bg-white/10'
                       }`}
                     >
                       <span
                         className={`h-4 w-4 shrink-0 rounded-full border-2 transition-all ${
-                          tone === t.value ? 'border-[#C0392B] bg-[#C0392B]' : 'border-neutral-500'
+                          tone === t.value ? 'border-[#1FD7CF] bg-[#1FD7CF]' : 'border-neutral-500'
                         }`}
                       />
                       <span>
@@ -496,7 +496,7 @@ export function WeeklyWinsApp() {
                 id="generate-wins"
                 onClick={handleGenerate}
                 disabled={saving}
-                className="w-full rounded-2xl bg-[#C0392B] px-8 py-4 text-sm font-bold uppercase tracking-widest text-white shadow-lg transition-all hover:bg-[#a93226] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full rounded-2xl bg-[#1FD7CF] px-8 py-4 text-sm font-bold uppercase tracking-widest text-[#050608] shadow-lg transition-all hover:bg-[#18BDB7] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {saving ? 'Saving…' : 'Generate my wins →'}
               </button>
@@ -508,7 +508,7 @@ export function WeeklyWinsApp() {
               {authChecked && !userId && (
                 <p className="rounded-xl border border-white/10 bg-black px-4 py-3 text-xs text-neutral-400">
                   Your summary will generate but won&apos;t be saved.{' '}
-                  <a href="/signup" className="text-[#C0392B] underline hover:text-[#e74c3c]">
+                  <a href="/signup" className="text-[#1FD7CF] underline hover:text-[#5095FF]">
                     Log in
                   </a>{' '}
                   to keep a wins history.
@@ -519,10 +519,10 @@ export function WeeklyWinsApp() {
 
           {/* Draft card */}
           {draft && (
-            <section className="rounded-3xl border border-[#C0392B]/40 bg-[#C0392B]/10 p-6 shadow-2xl backdrop-blur space-y-4">
+            <section className="rounded-3xl border border-[#1FD7CF]/40 bg-[#1FD7CF]/10 p-6 shadow-2xl backdrop-blur space-y-4">
               <div className="flex items-start justify-between gap-4 flex-wrap">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-[#C0392B]">Generated draft</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-[#1FD7CF]">Generated draft</p>
                   <h2
                     className="mt-2 text-3xl font-black uppercase sm:text-4xl"
                     style={{ fontFamily: "'Bebas Neue', sans-serif" }}

@@ -8,7 +8,7 @@ import type { Protocol } from '@/lib/types/database'
 import styles from './home.module.css'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-const LOGO_IMAGE = '/images/sor7ed-logo.png'
+const LOGO_IMAGE = '/images/sor7ed-logo-white.png'
 
 const HOW_IT_WORKS = [
   {
@@ -68,7 +68,19 @@ function HomeContentCard({
 
   return (
     <Link href={href} className={styles.contentCard}>
-      <div className={styles.cardBody}>
+      {kind === 'Guidebook' && item.cover_image ? (
+        <div className={styles.cardVisual}>
+          <Image
+            src={item.cover_image}
+            alt=""
+            fill
+            sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 33vw"
+            className={styles.cardImage}
+          />
+          <div className={styles.cardShade} />
+        </div>
+      ) : null}
+      <div className={`${styles.cardBody} ${kind === 'Guidebook' ? styles.cardBodyWithVisual : ''}`}>
         <div className={styles.cardMetaRow}>
           <div className={styles.cardLabelGroup}>
             <span className={styles.kindBadge}>{kind}</span>
@@ -92,7 +104,7 @@ export default async function HomePage() {
   const [{ data: rawProtocols }, { data: rawTools }] = await Promise.all([
     supabase
       .from('protocols')
-      .select('slug, title, summary, category, read_time')
+      .select('slug, title, summary, cover_image, category, read_time')
       .or('type.eq.Article,type.is.null')
       .eq('status', 'Published')
       .order('updated_at', { ascending: false })

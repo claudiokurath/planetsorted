@@ -13,7 +13,7 @@ interface PageHeaderProps {
 /**
  * Compact, uniform page header used across Home sections, Toolbox,
  * Guidebook, Account, Sounds, etc. Replaces the old fat rounded banners
- * so every screen opens the same way: red rule + title + short line.
+ * so every screen opens the same way: spectrum rule + title + short line.
  */
 export function PageHeader({
   eyebrow,
@@ -28,13 +28,13 @@ export function PageHeader({
         <div className="min-w-0 space-y-3">
           {eyebrow ? (
             <div className="flex items-center gap-2.5">
-              <span className="h-0.5 w-8 rounded-full bg-[#F5C518]" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-400">
+              <span className="h-0.5 w-8 rounded-full bg-[#1FD7CF]" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#1FD7CF]">
                 {eyebrow}
               </span>
             </div>
           ) : (
-            <div className="h-1 w-12 rounded-full bg-[#F5C518]" />
+            <div className="h-1 w-12 rounded-full bg-[#1FD7CF]" />
           )}
 
           <h1

@@ -34,7 +34,7 @@ Planet Sorted uses a unified content model where **Notion is the authoring CMS**
 
 To launch a new interactive tool or template:
 
-1. **Open Notion Content Database:** Navigate to database ID `db668e4687ed455498357b8d11d2c714`.
+1. **Open the Notion Tools Database:** Navigate to database ID `08ac767d313845ca91886ce45c379b99`.
 2. **Create a New Row** with the following required properties:
    - **Title:** e.g., `Sleep Routine Reset`
    - **Slug:** kebab-case identifier, e.g., `sleep-routine-reset` (used in `/tools/sleep-routine-reset` and `/r/sleep-routine-reset`)
@@ -61,9 +61,11 @@ To launch a new interactive tool or template:
 ## 3. Step-by-Step: Adding a New Article
 
 1. **Create Row in Notion** with the same properties as above, but set:
-   - **Type:** `Article`
+   - Use the **Blog Database** (`3b30d6014acc80c9bee6d95709efd209`).
    - **Blog Post:** Markdown content of the article body.
    - **Protocol:** The actionable step-by-step text sent via WhatsApp when users request the protocol.
+   - **Cover Image:** Upload the website card and article cover artwork.
+   - **Gamma:** Add the published Gamma URL. This is the customer-facing destination used by the Sorted button delivery flow.
 2. **Sync & Verify:**
    - Once synced, articles automatically populate `https://planetsorted.com/intelligence`, the homepage guide grid, and sitemaps.
 
