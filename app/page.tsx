@@ -1,31 +1,30 @@
-import Link from 'next/link'
 import Image from 'next/image'
+import Link from 'next/link'
 import type { Metadata } from 'next'
-import { ContentCard } from '@/components/ContentCard'
-import { PageHeader } from '@/components/PageHeader'
 import { createServerClient } from '@/lib/supabase/server'
+import { getCategoryStyle } from '@/lib/categoryStyles'
 import { getToolRoute } from '@/lib/standaloneRoutes'
 import type { Protocol } from '@/lib/types/database'
+import styles from './home.module.css'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 const LOGO_IMAGE = '/images/sor7ed-logo.png'
-const SECTION_HEADING_CLASS = 'text-4xl font-black uppercase leading-none tracking-tight sm:text-5xl lg:text-6xl'
-const SECTION_HEADING_STYLE = { fontFamily: "'Bebas Neue', sans-serif" }
+
 const HOW_IT_WORKS = [
   {
     number: '01',
     title: 'Choose',
-    description: 'Pick a tool or open a Guidebook post that matches what you need.',
+    description: 'Find the tool or Guidebook protocol that matches the thing in front of you.',
   },
   {
     number: '02',
-    title: 'Tap',
-    description: 'Tap the SOR7ED button — it goes straight to your WhatsApp. Sign in once, then every tap after that is instant.',
+    title: 'Thread it',
+    description: 'Tap the SOR7ED mark to keep it in your personal WhatsApp thread.',
   },
   {
     number: '03',
-    title: 'Use',
-    description: 'Work through the tool and get your result, your plan, or your next step.',
+    title: 'Use it',
+    description: 'Come back when you need it and take one clear, manageable next step.',
   },
 ] as const
 
@@ -56,6 +55,50 @@ export const metadata: Metadata = {
 
 export const revalidate = 60
 
+function HomeContentCard({
+  item,
+  href,
+  kind,
+}: {
+  item: Protocol
+  href: string
+  kind: 'Tool' | 'Guidebook'
+}) {
+  const category = getCategoryStyle(item.category)
+
+  return (
+    <Link href={href} className={styles.contentCard}>
+      <div className={styles.cardVisual}>
+        {item.cover_image ? (
+          <Image
+            src={item.cover_image}
+            alt=""
+            fill
+            sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 33vw"
+            className={styles.cardImage}
+          />
+        ) : (
+          <div className={styles.cardPlaceholder} />
+        )}
+        <div className={styles.cardShade} />
+        <span className={styles.kindBadge}>{kind}</span>
+      </div>
+
+      <div className={styles.cardBody}>
+        <div className={styles.cardMetaRow}>
+          {category ? <span className={styles.categoryBadge}>{category.label}</span> : <span />}
+          {item.read_time ? <span className={styles.readTime}>{item.read_time}</span> : null}
+        </div>
+        <h3>{item.title}</h3>
+        <p>{item.summary || 'A practical way to turn this into one clear next step.'}</p>
+        <span className={styles.cardAction}>
+          Open {kind.toLowerCase()} <span aria-hidden="true">↗</span>
+        </span>
+      </div>
+    </Link>
+  )
+}
+
 export default async function HomePage() {
   const supabase = createServerClient()
 
@@ -80,158 +123,141 @@ export default async function HomePage() {
   const tools = (rawTools as Protocol[]) || []
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Slim hero — same compact language as every other page header */}
-      <section id="about" className="border-b border-neutral-900">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-8 lg:py-14">
-          <div className="space-y-5">
-            <div className="flex items-center gap-2.5">
-              <span className="h-0.5 w-8 rounded-full bg-[#C0392B]" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-400">
-                PLANET SOR7ED
-              </span>
-            </div>
-            <h1
-              className={`${SECTION_HEADING_CLASS} text-white`}
-              style={SECTION_HEADING_STYLE}
-            >
-              Practical tools for neurodivergent life admin.
+    <div className={styles.page}>
+      <section className={styles.hero}>
+        <div className={styles.heroGlow} aria-hidden="true" />
+        <div className={styles.heroGrid}>
+          <div className={styles.heroCopy}>
+            <span className={styles.eyebrow}>✦ Practical systems for neurodivergent life</span>
+            <h1>
+              Life admin.
+              <br />
+              One clear
+              <br />
+              <span>next step.</span>
             </h1>
-            <p className="max-w-xl text-sm font-medium leading-relaxed text-neutral-300 sm:text-base">
-              Turn overwhelm into one clear next step — templates, protocols, and plain-English tools built for brains that already have enough going on.
+            <p>
+              Templates, protocols, and plain-English tools built for brains that already have enough going on.
             </p>
-            <p className="text-sm font-bold text-white sm:text-base">
-              No app. No spam. Just what works.
-            </p>
-            <div className="flex flex-wrap gap-3 pt-1">
-              <Link
-                href="/tools"
-                className="inline-flex items-center rounded-full bg-[#C0392B] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#A93226]"
-              >
-                Open Toolbox
+            <div className={styles.heroActions}>
+              <Link href="/tools" className={styles.primaryAction}>
+                Open Toolbox <span aria-hidden="true">→</span>
               </Link>
-              <Link
-                href="/intelligence"
-                className="inline-flex items-center rounded-full border border-neutral-700 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-neutral-200 transition-colors hover:border-neutral-500 hover:text-white"
-              >
+              <Link href="/intelligence" className={styles.secondaryAction}>
                 Browse Guidebook
               </Link>
             </div>
           </div>
 
-          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-neutral-800 bg-black shadow-xl sm:aspect-[16/9]">
-            <Image
-              src="/images/planet-sor7ed-hero-whatsapp-16x9.png"
-              alt=""
-              fill
-              priority
-              sizes="(min-width: 1024px) 560px, 100vw"
-              className="object-cover object-center"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
+          <div className={styles.systemPanel}>
+            <div className={styles.panelHeader}>
+              <span>SOR7ED system</span>
+              <span className={styles.liveStatus}><i /> Live</span>
+            </div>
+            <div className={styles.markStage}>
+              <div className={styles.markHalo} aria-hidden="true" />
+              <Image
+                src="/images/sorted-button/tangle.png"
+                alt=""
+                width={1024}
+                height={1024}
+                priority
+                className={styles.tangle}
+              />
+              <p>Thread it. Sorted.</p>
+            </div>
+            <div className={styles.signalList}>
+              <div><span>01</span><p><strong>Find it</strong><small>Tools and protocols for the thing in front of you.</small></p></div>
+              <div><span>02</span><p><strong>Thread it</strong><small>Keep what matters in your WhatsApp thread.</small></p></div>
+              <div><span>03</span><p><strong>Use it</strong><small>Return without remembering another app.</small></p></div>
+            </div>
           </div>
+        </div>
+
+        <div className={styles.promiseBar}>
+          <div><strong>No new app</strong><span>WhatsApp is the remote</span></div>
+          <div><strong>No inspiration theatre</strong><span>Practical outputs only</span></div>
+          <div><strong>No productivity shame</strong><span>Built for real brains</span></div>
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="bg-black text-white">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
-          <div className="mb-8">
-            <div className="h-1 w-12 rounded-full bg-[#C0392B] mb-4" />
-            <h2 className={`${SECTION_HEADING_CLASS} text-white`} style={SECTION_HEADING_STYLE}>
-              How it works
-            </h2>
-          </div>
-
-          <ol className="grid gap-4 sm:grid-cols-3 sm:gap-6">
-            {HOW_IT_WORKS.map((step) => (
-              <li
-                key={step.number}
-                className="flex flex-col rounded-2xl bg-[#0f0f0f] p-6 text-left shadow-lg"
-              >
-                <span className="text-xs font-bold tracking-[0.2em] text-[#C0392B]">{step.number}</span>
-                <h3
-                  className="mt-2 text-3xl font-black uppercase leading-none text-white"
-                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-                >
-                  {step.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-neutral-300">
-                  {step.description}
-                </p>
-              </li>
-            ))}
-          </ol>
+      <section className={styles.workflowSection}>
+        <div className={styles.centeredHeading}>
+          <span>How it works</span>
+          <h2>From chaos to a next step.</h2>
+          <p>One small system. Three simple moves.</p>
         </div>
+        <ol className={styles.workflowGrid}>
+          {HOW_IT_WORKS.map((step) => (
+            <li key={step.number}>
+              <span className={styles.stepNumber}>{step.number}</span>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </li>
+          ))}
+        </ol>
       </section>
 
-      {/* Toolbox Section */}
-      {tools.length > 0 && (
-        <section className="border-b border-neutral-800 bg-black text-white">
-          <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <div className="h-1 w-12 rounded-full bg-[#C0392B] mb-4" />
-                <h2 className={`${SECTION_HEADING_CLASS} text-white`} style={SECTION_HEADING_STYLE}>
-                  Toolbox
-                </h2>
-              </div>
-              <Link
-                href="/tools"
-                className="text-sm font-bold uppercase tracking-wider text-[#C0392B] underline underline-offset-4 transition-colors hover:text-white"
-              >
-                View all tools →
-              </Link>
+      {tools.length > 0 ? (
+        <section className={styles.contentSection}>
+          <div className={styles.sectionHeading}>
+            <div>
+              <span>Sorted Lab · Toolbox</span>
+              <h2>Tools that do something.</h2>
+              <p>Run the numbers, make the decision, or build the plan.</p>
             </div>
-
-            <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {tools.map((tool) => (
-                <ContentCard
-                  key={tool.slug}
-                  href={getToolRoute(tool.slug)}
-                  title={tool.title}
-                  coverImage={tool.cover_image}
-                  category={tool.category}
-                  meta={tool.read_time}
-                  compact
-                />
-              ))}
-            </div>
+            <Link href="/tools">View all tools <span aria-hidden="true">→</span></Link>
           </div>
-        </section>
-      )}
-
-      {/* Guidebook Section */}
-      {articles.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <PageHeader
-            title="Guidebook"
-            description="Plain-English protocols that turn chaos into a next step."
-            action={
-              <Link
-                href="/intelligence"
-                className="text-sm font-bold uppercase tracking-wider text-[#C0392B] underline underline-offset-4 transition-colors hover:text-white"
-              >
-                View all guidebooks →
-              </Link>
-            }
-          />
-
-          <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {articles.map((article) => (
-              <ContentCard
-                key={article.slug}
-                href={`/intelligence/${article.slug}`}
-                title={article.title}
-                coverImage={article.cover_image}
-                category={article.category}
-                meta={article.read_time || undefined}
-                compact
+          <div className={styles.contentGrid}>
+            {tools.map((tool) => (
+              <HomeContentCard
+                key={tool.slug}
+                item={tool}
+                href={getToolRoute(tool.slug)}
+                kind="Tool"
               />
             ))}
           </div>
         </section>
-      )}
+      ) : null}
+
+      {articles.length > 0 ? (
+        <section className={`${styles.contentSection} ${styles.guidebookSection}`}>
+          <div className={styles.sectionHeading}>
+            <div>
+              <span>Sorted Lab · Guidebook</span>
+              <h2>Protocols for real life.</h2>
+              <p>Plain English. No judgement. One useful next step.</p>
+            </div>
+            <Link href="/intelligence">View all guidebooks <span aria-hidden="true">→</span></Link>
+          </div>
+          <div className={styles.contentGrid}>
+            {articles.map((article) => (
+              <HomeContentCard
+                key={article.slug}
+                item={article}
+                href={`/intelligence/${article.slug}`}
+                kind="Guidebook"
+              />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      <section className={styles.closingSection}>
+        <div>
+          <Image
+            src="/images/sorted-button/tangle.png"
+            alt=""
+            width={1024}
+            height={1024}
+            className={styles.closingTangle}
+          />
+          <p>Templates, not inspiration.</p>
+          <h2>Ready when your brain is.</h2>
+        </div>
+        <Link href="/tools" className={styles.primaryAction}>Find a tool <span aria-hidden="true">→</span></Link>
+      </section>
     </div>
   )
 }
