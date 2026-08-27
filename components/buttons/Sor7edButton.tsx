@@ -125,7 +125,7 @@ export function Sor7edButton({
             <Mark />
           </Link>
         )}
-        message="click the button — sign in to add to thread"
+        message="sign in to thread it."
         progress={0}
         size={size}
         state="idle"
@@ -145,7 +145,7 @@ export function Sor7edButton({
             <Mark />
           </Link>
         )}
-        message="click the button — connect WhatsApp"
+        message="connect WhatsApp. thread it."
         progress={0}
         size={size}
         state="idle"
@@ -193,10 +193,10 @@ export function Sor7edButton({
   }
 
   const copy = {
-    idle: 'click the button — add to thread',
-    sending: 'adding to your thread…',
-    sent: 'added to your thread — sorted.',
-    error: 'could not add — try again',
+    idle: 'thread it. sorted.',
+    sending: 'threading…',
+    sent: 'threaded. sorted.',
+    error: 'not threaded. try again.',
   }[state]
 
   const accessibleLabel = {

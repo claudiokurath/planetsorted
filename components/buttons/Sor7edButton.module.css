@@ -7,40 +7,39 @@
   --sb-accent: #65e99b;
   --sb-paper: #f7f7f4;
   --sb-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --sb-card: 216px;
-  --sb-mark: 160px;
+  --sb-hit: 160px;
+  --sb-mark: 148px;
   --sb-t: 0;
   --sb-td: 0;
 
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  gap: clamp(28px, 6vw, 64px);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 3vw, 32px);
   width: 100%;
-  min-height: 304px;
-  padding: 44px clamp(22px, 7vw, 72px);
+  min-height: 248px;
+  padding: 48px 24px;
   overflow: hidden;
   background: #000;
   color: var(--sb-paper);
 }
 
 .root[data-size='md'] {
-  --sb-card: 184px;
-  --sb-mark: 136px;
-  min-height: 264px;
+  --sb-hit: 140px;
+  --sb-mark: 130px;
+  min-height: 216px;
 }
 
 .message {
-  max-width: 540px;
-  padding-bottom: 4px;
+  max-width: 440px;
   color: var(--sb-paper);
   color: color-mix(in oklab, var(--sb-paper), var(--sb-accent) calc(var(--sb-td) * 100%));
-  font-family: var(--font-bebas), Impact, sans-serif;
-  font-size: clamp(30px, 4.25vw, 52px);
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  line-height: 0.92;
-  text-wrap: balance;
+  font-family: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(26px, 3.2vw, 38px);
+  font-weight: 300;
+  letter-spacing: -0.055em;
+  line-height: 1;
+  white-space: nowrap;
   transition: color 320ms var(--sb-ease);
 }
 
@@ -50,28 +49,24 @@
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  width: var(--sb-card);
-  height: var(--sb-card);
+  width: var(--sb-hit);
+  height: var(--sb-hit);
   padding: 0;
   border: 0;
-  border-radius: clamp(22px, 3vw, 28px);
-  background: var(--sb-paper);
-  color: var(--sb-ink);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--sb-paper);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-  transition:
-    transform 240ms var(--sb-ease),
-    box-shadow 240ms var(--sb-ease);
+  transition: transform 240ms var(--sb-ease);
 }
 
 .button:hover:not(:disabled) {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 40px rgba(255, 255, 255, 0.12);
+  transform: scale(1.04);
 }
 
 .button:active:not(:disabled) {
-  transform: translateY(0) scale(0.975);
+  transform: scale(0.96);
 }
 
 .button:focus-visible {
@@ -104,6 +99,7 @@
   transform-origin: 52% 54%;
   opacity: calc(1 - var(--sb-t));
   transform: scale(calc(1 - 0.15 * var(--sb-t))) rotate(calc(var(--sb-t) * -90deg));
+  filter: invert(1);
   user-select: none;
 }
 
@@ -128,24 +124,22 @@
 
 @media (max-width: 520px) {
   .root {
-    --sb-card: 132px;
-    --sb-mark: 98px;
-    gap: 20px;
-    min-height: 196px;
-    padding: 32px 20px;
+    --sb-hit: 116px;
+    --sb-mark: 108px;
+    gap: 14px;
+    min-height: 176px;
+    padding: 34px 16px;
   }
 
   .root[data-size='md'] {
-    --sb-card: 124px;
-    --sb-mark: 92px;
-    min-height: 188px;
+    --sb-hit: 104px;
+    --sb-mark: 96px;
+    min-height: 164px;
   }
 
   .message {
-    max-width: 190px;
-    padding-bottom: 2px;
-    font-size: clamp(25px, 7.4vw, 32px);
-    line-height: 0.94;
+    max-width: 220px;
+    font-size: clamp(22px, 6.6vw, 29px);
   }
 }
 
