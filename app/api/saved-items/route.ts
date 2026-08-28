@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
     if (saveError || !savedItem) {
       console.error('[Saved item create error]', saveError)
       return NextResponse.json(
-        { error: 'We sent this to WhatsApp but could not update your saved library yet.' },
+        { error: 'We could not update your saved library yet.' },
         { status: 500 }
       )
     }

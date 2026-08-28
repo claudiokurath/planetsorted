@@ -36,7 +36,7 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
           )}
 
           <h1
-            className="font-bebas text-5xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl"
+            className="font-bebas text-7xl font-black uppercase leading-[0.86] tracking-tight text-white sm:text-8xl lg:text-9xl"
           >
             {title}
           </h1>
@@ -64,7 +64,7 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
         className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/[0.12] bg-black"
       >
         {coverImage ? (
-          <div className="relative aspect-[16/8] w-full overflow-hidden sm:aspect-[16/7]">
+          <div className="relative aspect-[16/6] w-full overflow-hidden sm:aspect-[16/7]">
             <Image
               src={coverImage}
               alt=""
@@ -101,7 +101,7 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
           </div>
 
           <h1
-            className="font-bebas mt-4 max-w-4xl bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-4xl font-black uppercase leading-[0.95] tracking-tight text-transparent sm:text-6xl lg:text-7xl"
+            className="font-bebas mt-4 max-w-4xl bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-7xl font-black uppercase leading-[0.84] tracking-tight text-transparent sm:text-8xl lg:text-9xl"
           >
             {title}
           </h1>

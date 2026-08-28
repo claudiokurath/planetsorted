@@ -31,6 +31,7 @@ export default async function ToolboxListingPage() {
                 key={tool.slug}
                 href={`/tools/${tool.slug}`}
                 title={tool.title}
+                summary={tool.summary}
                 coverImage={tool.cover_image}
                 category={tool.category}
                 meta={tool.read_time}

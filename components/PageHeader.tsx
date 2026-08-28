@@ -23,7 +23,7 @@ export function PageHeader({
   className = '',
 }: PageHeaderProps) {
   return (
-    <header className={`mb-8 sm:mb-10 ${className}`}>
+    <header className={`mb-10 sm:mb-14 ${className}`}>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0 space-y-3">
           {eyebrow ? (
@@ -38,7 +38,7 @@ export function PageHeader({
           )}
 
           <h1
-            className="font-bebas bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-4xl font-black uppercase leading-[0.95] tracking-tight text-transparent sm:text-5xl lg:text-6xl"
+            className="font-bebas bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-7xl font-black uppercase leading-[0.82] tracking-tight text-transparent sm:text-8xl lg:text-9xl"
           >
             {title}
           </h1>

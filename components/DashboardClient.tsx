@@ -141,10 +141,9 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
         fetchSavedItems(activeSession),
         fetchBilling(activeSession),
       ])
-      // Honour ?tab= from the URL (e.g. Sor7edButton "CONNECT WHATSAPP →"
-      // links to /dashboard?tab=settings). If the member still needs to
-      // connect WhatsApp and no tab was requested, land them on Settings
-      // with the QR already generated so there's no extra click.
+      // Honour an explicitly requested tab. WhatsApp is optional, so a new
+      // member should land in the usable product instead of being diverted
+      // into a second onboarding flow.
       const tabParam = new URLSearchParams(window.location.search).get('tab')
       const requestedTab =
         tabParam === 'tools' || tabParam === 'library' || tabParam === 'settings'
@@ -153,10 +152,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       if (requestedTab) {
         setActiveTab(requestedTab)
       }
-      if (profileData && !profileData.whatsapp_verified) {
-        if (!requestedTab) setActiveTab('settings')
-        handleGenerateQr(activeSession)
-      } else if (requestedTab === 'settings') {
+      if (requestedTab === 'settings' && profileData && !profileData.whatsapp_verified) {
         handleGenerateQr(activeSession)
       }
       setLoading(false)

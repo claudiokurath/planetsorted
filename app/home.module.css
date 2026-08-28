@@ -152,7 +152,7 @@
 .closingSection h2 {
   margin-top: 18px;
   font-family: var(--font-bebas), Impact, sans-serif;
-  font-size: clamp(48px, 5.5vw, 74px);
+  font-size: clamp(76px, 9vw, 132px);
   font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 0.95;
@@ -370,7 +370,7 @@
 .cardBody h3 {
   margin-top: 40px;
   font-family: var(--font-bebas), Impact, sans-serif;
-  font-size: clamp(28px, 2.7vw, 38px);
+  font-size: clamp(38px, 4vw, 58px);
   font-weight: 400;
   line-height: 0.98;
   text-transform: uppercase;
@@ -465,6 +465,65 @@
   .workflowGrid,
   .contentGrid {
     grid-template-columns: 1fr;
+  }
+
+  .contentGrid {
+    gap: 14px;
+  }
+
+  .contentCard {
+    display: grid;
+    min-height: 170px;
+    grid-template-columns: minmax(118px, 38%) minmax(0, 1fr);
+  }
+
+  .contentCardNoVisual {
+    grid-template-columns: 1fr;
+  }
+
+  .cardVisual {
+    min-height: 170px;
+    aspect-ratio: auto;
+  }
+
+  .cardBody,
+  .cardBodyWithVisual {
+    min-height: 0;
+    padding: 16px;
+  }
+
+  .cardMetaRow {
+    min-height: 20px;
+    align-items: flex-start;
+  }
+
+  .kindBadge,
+  .categoryBadge {
+    padding: 4px 6px;
+    font-size: 8px;
+  }
+
+  .readTime {
+    display: none;
+  }
+
+  .cardBody h3 {
+    margin-top: 18px;
+    font-size: clamp(32px, 9vw, 42px);
+    line-height: 0.9;
+  }
+
+  .cardBody > p {
+    display: -webkit-box;
+    margin-top: 8px;
+    font-size: 10px;
+    line-height: 1.45;
+    -webkit-line-clamp: 2;
+  }
+
+  .cardAction {
+    padding-top: 14px;
+    font-size: 9px;
   }
 
   .workflowGrid li {

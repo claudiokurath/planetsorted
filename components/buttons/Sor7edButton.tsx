@@ -134,18 +134,20 @@ export function Sor7edButton({
   }
 
   if (!whatsappVerified) {
+    const connectHref = `/connect?next=${encodeURIComponent(returnPath)}&slug=${encodeURIComponent(slug)}&context=${context}`
+
     return (
       <MarkShell
         action={(
           <Link
-            href="/dashboard?tab=settings"
+            href={connectHref}
             className={styles.button}
-            aria-label="Connect WhatsApp to save — SOR7ED"
+            aria-label={`Connect WhatsApp once to receive this ${itemName} — SOR7ED`}
           >
             <Mark />
           </Link>
         )}
-        message="connect WhatsApp. thread it."
+        message="connect once. get the link."
         progress={0}
         size={size}
         state="idle"

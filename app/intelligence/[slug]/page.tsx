@@ -42,7 +42,7 @@ function ArticlePreview({
       <main className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
         <article className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/[0.12] bg-black">
           {coverImage ? (
-            <div className="relative aspect-[16/8] w-full overflow-hidden sm:aspect-[16/7]">
+            <div className="relative aspect-[16/6] w-full overflow-hidden sm:aspect-[16/7]">
               <Image
                 src={coverImage}
                 alt=""
@@ -67,7 +67,7 @@ function ArticlePreview({
             <p className="mt-8 text-xs font-bold uppercase tracking-[0.14em] text-[#1FD7CF]">
               {category}
             </p>
-            <h1 className="font-bebas mt-4 max-w-4xl bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-4xl font-black uppercase leading-[0.95] tracking-tight text-transparent sm:text-6xl lg:text-7xl">
+            <h1 className="font-bebas mt-4 max-w-4xl bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-7xl font-black uppercase leading-[0.84] tracking-tight text-transparent sm:text-8xl lg:text-9xl">
               {title}
             </h1>
             <div className="mt-8 max-w-3xl whitespace-pre-line text-base leading-8 text-neutral-300 sm:text-lg">

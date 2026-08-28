@@ -78,7 +78,7 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySa
             Step 02 — Use the tool
           </p>
           <p className="mb-5 mt-5 max-w-2xl text-sm font-semibold leading-relaxed text-neutral-200 sm:text-base">
-            Ready to use this tool? Tap the button below to share the link to your WhatsApp and open the full app experience.
+            Browse freely. When you want the full tool, sign in and request its private link below.
           </p>
           <Sor7edButton
             slug={toolData.slug}

@@ -67,7 +67,10 @@ function HomeContentCard({
   const category = getCategoryStyle(item.category)
 
   return (
-    <Link href={href} className={styles.contentCard}>
+    <Link
+      href={href}
+      className={`${styles.contentCard} ${item.cover_image ? '' : styles.contentCardNoVisual}`}
+    >
       {item.cover_image ? (
         <div className={styles.cardVisual}>
           <Image

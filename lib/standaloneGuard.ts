@@ -9,12 +9,8 @@ export async function verifyStandaloneAccess(
   // Resolved search params if Promise
   const resolvedParams = searchParams instanceof Promise ? await searchParams : searchParams
 
-  // The tool is only reachable via a WhatsApp rich link — being logged in
-  // on the website is not a shortcut. That's the whole point: the explanation
-  // page always sends people through the SOR7ED button to WhatsApp, never
-  // straight into the app.
-  //
-  // Access is a short-lived HMAC token (not the guessable "granted" sentinel).
+  // Products remain link-only: the short-lived HMAC is minted when a member
+  // requests delivery, rather than exposing a catalogue of unlocked tools.
   const cookieStore = await cookies()
   const cookieToken = cookieStore.get(`sor7ed_access_${slug}`)?.value
   const queryToken = resolvedParams?.access_token

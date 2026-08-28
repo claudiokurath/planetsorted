@@ -61,6 +61,7 @@ export default async function GuidebookListingPage() {
                 key={article.slug}
                 href={`/intelligence/${article.slug}`}
                 title={article.title}
+                summary={article.summary}
                 coverImage={article.cover_image}
                 category={article.category}
                 meta={article.read_time || undefined}
