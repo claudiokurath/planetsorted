@@ -43,10 +43,7 @@ jobs:
       - name: Test
         run: npm test
 
-      # Non-blocking for now: there are ~55 pre-existing eslint errors
-      # (mostly no-explicit-any, plus react-hooks/set-state-in-effect in the
-      # tool components). Surfacing them without blocking every PR. Once that
-      # backlog is cleared, drop continue-on-error to make lint gate merges.
+      # Blocking. The old error backlog (no-explicit-any etc.) has been cleared;
+      # `eslint` is clean, so lint now gates merges like the other checks.
       - name: Lint
         run: npm run lint
-        continue-on-error: true

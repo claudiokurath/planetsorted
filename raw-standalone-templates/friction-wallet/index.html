@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Friction Wallet — Biometric Spend-Lock for Mindful Spending</title>
+<meta name="description" content="Biometric spend-lock: pause payments when stress markers are high. Heart-rate gate before authorizing NFC/digital transactions.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          navy: {
+            950: '#050b14',
+            900: '#0a1420',
+            800: '#0f1e2e',
+            700: '#152a3d',
+          },
+          teal: {
+            400: '#2dd4bf',
+            500: '#14b8a6',
+            300: '#5eead4',
+          },
+          coral: {
+            500: '#ff5c5c',
+            400: '#ff7a7a',
+          }
+        },
+        fontFamily: {
+          display: ['Space Grotesk', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-navy-950 text-slate-100 font-body antialiased">
+
+<!-- ================= NAV ================= -->
+<header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between py-4">
+    <a href="#top" class="flex items-center gap-2 group">
+      <span class="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-teal-400 to-navy-700 shadow-lg shadow-teal-500/20">
+        <i class="fa-solid fa-wallet text-navy-950 text-sm"></i>
+        <span class="pulse-dot absolute -top-1 -right-1 h-3 w-3 rounded-full bg-coral-500"></span>
+      </span>
+      <span class="font-display font-semibold text-lg tracking-tight text-white">Friction<span class="text-teal-400">Wallet</span></span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+      <a href="#how-it-works" class="hover:text-teal-400 transition-colors">How it Works</a>
+      <a href="#results" class="hover:text-teal-400 transition-colors">Results</a>
+      <a href="#audience" class="hover:text-teal-400 transition-colors">Who it's for</a>
+      <a href="#usage" class="hover:text-teal-400 transition-colors">Get Started</a>
+      <a href="#tech" class="hover:text-teal-400 transition-colors">Tech</a>
+      <a href="#faq" class="hover:text-teal-400 transition-colors">FAQ</a>
+    </nav>
+
+    <a href="#cta" id="nav-cta" class="hidden sm:inline-flex items-center gap-2 rounded-full bg-teal-400 text-navy-950 font-semibold text-sm px-5 py-2.5 hover:bg-teal-300 transition-colors shadow-lg shadow-teal-500/20">
+      <i class="fa-brands fa-whatsapp"></i> Get via WhatsApp
+    </a>
+
+    <button id="menu-toggle" class="md:hidden text-slate-200 text-2xl" aria-label="Toggle menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- mobile menu -->
+  <div id="mobile-menu" class="md:hidden hidden bg-navy-900/98 backdrop-blur border-t border-white/5">
+    <nav class="flex flex-col px-6 py-4 gap-4 text-slate-300 text-sm font-medium">
+      <a href="#how-it-works" class="mobile-link">How it Works</a>
+      <a href="#results" class="mobile-link">Results</a>
+      <a href="#audience" class="mobile-link">Who it's for</a>
+      <a href="#usage" class="mobile-link">Get Started</a>
+      <a href="#tech" class="mobile-link">Tech</a>
+      <a href="#faq" class="mobile-link">FAQ</a>
+      <a href="#cta" class="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-teal-400 text-navy-950 font-semibold px-5 py-2.5">
+        <i class="fa-brands fa-whatsapp"></i> Get via WhatsApp
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section id="top" class="relative overflow-hidden pt-36 pb-24 lg:pt-44 lg:pb-32">
+  <div class="hero-bg absolute inset-0 -z-10"></div>
+  <div class="absolute inset-0 -z-10 heartline-overlay"></div>
+
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-16 items-center">
+    <div data-reveal>
+      <span class="inline-flex items-center gap-2 rounded-full border border-teal-400/30 bg-teal-400/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-teal-300">
+        <i class="fa-solid fa-heart-pulse"></i> Spend Smart · In Progress
+      </span>
+      <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05] mt-6 text-white">
+        Pause the payment.<br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-teal-500">Breathe.</span>
+        Then spend on purpose.
+      </h1>
+      <p class="mt-6 text-lg text-slate-300 max-w-xl leading-relaxed">
+        The Friction Wallet is a biometric spend-lock that reads your heart rate the moment you tap to pay.
+        When stress markers spike, it pauses the transaction and guides you through a one‑minute breathing
+        reset — so every purchase is a choice, not a reaction.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center gap-4">
+        <a href="#cta" class="inline-flex items-center gap-2 rounded-full bg-teal-400 text-navy-950 font-semibold px-7 py-3.5 hover:bg-teal-300 transition-all shadow-xl shadow-teal-500/25 hover:scale-105">
+          <i class="fa-brands fa-whatsapp text-lg"></i> Get via WhatsApp
+        </a>
+        <a href="#how-it-works" class="inline-flex items-center gap-2 rounded-full border border-white/15 text-slate-200 font-semibold px-7 py-3.5 hover:bg-white/5 transition-colors">
+          See how it works <i class="fa-solid fa-arrow-down text-sm"></i>
+        </a>
+      </div>
+
+      <div class="mt-12 grid grid-cols-3 gap-6 max-w-md">
+        <div>
+          <p class="font-display text-2xl sm:text-3xl font-bold text-white">110<span class="text-teal-400 text-lg">bpm</span></p>
+          <p class="text-xs text-slate-400 mt-1">default stress threshold</p>
+        </div>
+        <div>
+          <p class="font-display text-2xl sm:text-3xl font-bold text-white">60<span class="text-teal-400 text-lg">s</span></p>
+          <p class="text-xs text-slate-400 mt-1">breathing cooldown</p>
+        </div>
+        <div>
+          <p class="font-display text-2xl sm:text-3xl font-bold text-white">7–10<span class="text-teal-400 text-lg">d</span></p>
+          <p class="text-xs text-slate-400 mt-1">to your first report</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative flex justify-center lg:justify-end" data-reveal>
+      <div class="absolute -inset-10 rounded-full bg-teal-400/10 blur-3xl -z-10"></div>
+      <img src="images/hero-mockup.png" alt="Friction Wallet app mockup showing a heart-rate gated payment screen" class="w-full max-w-sm rounded-3xl shadow-2xl shadow-black/50 float-anim">
+      <!-- floating status card -->
+      <div class="absolute -bottom-6 -left-4 sm:left-0 bg-navy-900/90 backdrop-blur border border-white/10 rounded-2xl px-5 py-4 shadow-xl flex items-center gap-3 float-anim-slow">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-coral-500/15 text-coral-400">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </span>
+        <div>
+          <p class="text-sm font-semibold text-white">Transaction Paused</p>
+          <p class="text-xs text-slate-400">HR 128 bpm · breathing 0:42</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LOGOS / COMPAT ================= -->
+<section class="border-y border-white/5 bg-navy-900/50 py-8">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 flex flex-wrap items-center justify-center gap-x-14 gap-y-4 text-slate-400">
+    <div class="flex items-center gap-2"><i class="fa-brands fa-apple text-xl"></i><span class="text-sm font-medium">iOS + HealthKit</span></div>
+    <div class="flex items-center gap-2"><i class="fa-brands fa-android text-xl"></i><span class="text-sm font-medium">Android + Google Fit</span></div>
+    <div class="flex items-center gap-2"><i class="fa-solid fa-wave-square text-xl"></i><span class="text-sm font-medium">NFC / Digital Payments</span></div>
+    <div class="flex items-center gap-2"><i class="fa-solid fa-shield-heart text-xl"></i><span class="text-sm font-medium">No Extra Hardware</span></div>
+  </div>
+</section>
+
+<!-- ================= WORKING PROCESS ================= -->
+<section id="how-it-works" class="py-24 lg:py-32">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="max-w-2xl mx-auto text-center" data-reveal>
+      <span class="text-teal-400 font-semibold text-sm uppercase tracking-wider">Working Process</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-3">From heartbeat to healthier habit</h2>
+      <p class="text-slate-400 mt-4">A lightweight middleware layer sits between your wallet and your wearable, checking your stress state before every transaction.</p>
+    </div>
+
+    <div class="mt-16 grid md:grid-cols-2 gap-10 items-center">
+      <div class="space-y-6">
+        <div class="step-card" data-reveal>
+          <span class="step-num">01</span>
+          <div>
+            <h3 class="font-display font-semibold text-lg text-white">Connect your wearable</h3>
+            <p class="text-slate-400 text-sm mt-1.5 leading-relaxed">A brief onboarding grants access to your wearable's heart‑rate data via HealthKit or Google Fit — no extra hardware needed.</p>
+          </div>
+        </div>
+        <div class="step-card" data-reveal>
+          <span class="step-num">02</span>
+          <div>
+            <h3 class="font-display font-semibold text-lg text-white">Continuous stress monitoring</h3>
+            <p class="text-slate-400 text-sm mt-1.5 leading-relaxed">The system watches physiological stress markers in the background, especially in the moments around a payment attempt.</p>
+          </div>
+        </div>
+        <div class="step-card" data-reveal>
+          <span class="step-num">03</span>
+          <div>
+            <h3 class="font-display font-semibold text-lg text-white">The middleware checks in</h3>
+            <p class="text-slate-400 text-sm mt-1.5 leading-relaxed">When a transaction is initiated, the middleware reads the latest heart‑rate value against your personal threshold (default 110 bpm).</p>
+          </div>
+        </div>
+        <div class="step-card" data-reveal>
+          <span class="step-num">04</span>
+          <div>
+            <h3 class="font-display font-semibold text-lg text-white">Pause &amp; breathe</h3>
+            <p class="text-slate-400 text-sm mt-1.5 leading-relaxed">If stress is high, the payment is auto‑paused and a one‑minute breathing exercise kicks in before you can re‑authorize.</p>
+          </div>
+        </div>
+        <div class="step-card" data-reveal>
+          <span class="step-num">05</span>
+          <div>
+            <h3 class="font-display font-semibold text-lg text-white">Confirm, mindfully</h3>
+            <p class="text-slate-400 text-sm mt-1.5 leading-relaxed">After the cooldown, you decide whether to complete the purchase — turning impulse into intention.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative" data-reveal>
+        <img src="images/how-it-works.png" alt="Illustration of a smartwatch heart-rate signal connecting to a phone wallet lock" class="rounded-3xl shadow-2xl shadow-black/40 w-full">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HEART RATE DEMO ================= -->
+<section class="py-24 lg:py-32 bg-navy-900/60 border-y border-white/5">
+  <div class="max-w-5xl mx-auto px-6 lg:px-10 text-center" data-reveal>
+    <span class="text-teal-400 font-semibold text-sm uppercase tracking-wider">See it in Action</span>
+    <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-3">Try the stress-lock simulation</h2>
+    <p class="text-slate-400 mt-4 max-w-xl mx-auto">Drag the slider to simulate your heart rate during a payment attempt and watch the Friction Wallet respond in real time.</p>
+  </div>
+
+  <div class="max-w-3xl mx-auto mt-14 px-6 lg:px-10" data-reveal>
+    <div class="demo-card">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-400/10 text-teal-300"><i class="fa-solid fa-wave-square"></i></span>
+          <div>
+            <p class="text-sm text-slate-400">NFC Payment</p>
+            <p class="font-display font-semibold text-white">$48.00 · Coffee &amp; Co.</p>
+          </div>
+        </div>
+        <span id="demo-status-badge" class="status-badge status-ok">Authorized</span>
+      </div>
+
+      <div class="flex items-center justify-between text-sm text-slate-400 mb-2">
+        <span>Heart Rate</span>
+        <span id="hr-value" class="font-display font-semibold text-white text-base">78 bpm</span>
+      </div>
+      <input id="hr-slider" type="range" min="60" max="180" value="78" class="w-full accent-teal-400">
+      <div class="flex items-center justify-between text-xs text-slate-500 mt-1">
+        <span>60 bpm (calm)</span>
+        <span>Threshold: 110 bpm</span>
+        <span>180 bpm (stressed)</span>
+      </div>
+
+      <div id="demo-result" class="mt-8 rounded-2xl border border-white/10 bg-navy-950/60 p-6 flex items-start gap-4 transition-all">
+        <span id="demo-icon" class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-teal-400/15 text-teal-300 text-xl">
+          <i class="fa-solid fa-circle-check"></i>
+        </span>
+        <div>
+          <p id="demo-title" class="font-display font-semibold text-white">Transaction Authorized</p>
+          <p id="demo-desc" class="text-sm text-slate-400 mt-1">Your heart rate is within range — spend with confidence.</p>
+          <div id="breathing-wrap" class="hidden mt-4">
+            <div class="flex items-center gap-3">
+              <div class="breathing-circle"></div>
+              <p class="text-sm text-coral-300">Follow the circle: breathe in, breathe out…</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPECTED RESULTS ================= -->
+<section id="results" class="py-24 lg:py-32">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="max-w-2xl" data-reveal>
+      <span class="text-teal-400 font-semibold text-sm uppercase tracking-wider">Expected Results</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-3">Insight that turns into better habits</h2>
+      <p class="text-slate-400 mt-4 leading-relaxed">After completing the assessment, you receive a personalized report highlighting exactly how stress shapes your spending — and what to do about it.</p>
+    </div>
+
+    <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="result-card" data-reveal>
+        <i class="fa-solid fa-chart-line text-teal-400 text-2xl"></i>
+        <h3 class="font-display font-semibold text-white mt-4">Real-time feedback</h3>
+        <p class="text-sm text-slate-400 mt-2">See exactly how stress influences your spending habits as it happens.</p>
+      </div>
+      <div class="result-card" data-reveal>
+        <i class="fa-solid fa-shield-halved text-teal-400 text-2xl"></i>
+        <h3 class="font-display font-semibold text-white mt-4">Intercepted purchases</h3>
+        <p class="text-sm text-slate-400 mt-2">A report highlighting moments when stress‑induced purchases were paused.</p>
+      </div>
+      <div class="result-card" data-reveal>
+        <i class="fa-solid fa-sliders text-teal-400 text-2xl"></i>
+        <h3 class="font-display font-semibold text-white mt-4">Personalized thresholds</h3>
+        <p class="text-sm text-slate-400 mt-2">Recommendations tuned to your own stress-response patterns.</p>
+      </div>
+      <div class="result-card" data-reveal>
+        <i class="fa-solid fa-lightbulb text-teal-400 text-2xl"></i>
+        <h3 class="font-display font-semibold text-white mt-4">Actionable tips</h3>
+        <p class="text-sm text-slate-400 mt-2">Practical guidance for managing impulsive buying going forward.</p>
+      </div>
+    </div>
+
+    <div class="mt-10 rounded-2xl border border-teal-400/20 bg-teal-400/5 p-6 flex items-center gap-4" data-reveal>
+      <i class="fa-solid fa-clock text-teal-300 text-xl"></i>
+      <p class="text-sm text-slate-300"><strong class="text-white">Timeframe:</strong> the assessment runs continuously as you pay — a full cycle takes 7–10 days of regular usage, with your final report delivered within 24 hours after.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AUDIENCE ================= -->
+<section id="audience" class="py-24 lg:py-32 bg-navy-900/60 border-y border-white/5">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="max-w-2xl mx-auto text-center" data-reveal>
+      <span class="text-teal-400 font-semibold text-sm uppercase tracking-wider">Target Audience</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-3">Built for people who want money and mind in sync</h2>
+    </div>
+
+    <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="audience-card" data-reveal>
+        <i class="fa-solid fa-bag-shopping"></i>
+        <h3>Impulse spenders</h3>
+        <p>Individuals prone to impulse buying who want to curb stress‑driven spending.</p>
+      </div>
+      <div class="audience-card" data-reveal>
+        <i class="fa-solid fa-piggy-bank"></i>
+        <h3>Financial wellness seekers</h3>
+        <p>Looking for tech‑enabled tools to improve budgeting and money habits.</p>
+      </div>
+      <div class="audience-card" data-reveal>
+        <i class="fa-solid fa-heart-pulse"></i>
+        <h3>Health-conscious users</h3>
+        <p>Already track heart‑rate data and want to link it to financial decisions.</p>
+      </div>
+      <div class="audience-card" data-reveal>
+        <i class="fa-solid fa-building-user"></i>
+        <h3>Employers &amp; wellness programs</h3>
+        <p>Offering employees holistic, tech‑enabled stress‑management solutions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= USAGE INSTRUCTIONS ================= -->
+<section id="usage" class="py-24 lg:py-32">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-16">
+    <div data-reveal>
+      <span class="text-teal-400 font-semibold text-sm uppercase tracking-wider">Usage Instructions</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-3">Get started in six simple steps</h2>
+      <p class="text-slate-400 mt-4 leading-relaxed max-w-lg">No new hardware, no complicated setup — just connect the health data you already track.</p>
+
+      <ol class="mt-10 space-y-5">
+        <li class="usage-item"><span>1</span>Install the Friction Wallet app on your iOS or Android device.</li>
+        <li class="usage-item"><span>2</span>Connect the app to your HealthKit (iOS) or Google Fit (Android) account.</li>
+        <li class="usage-item"><span>3</span>Set your personal stress threshold (default is 110 bpm).</li>
+        <li class="usage-item"><span>4</span>Make a payment as usual; the app automatically checks your heart‑rate.</li>
+        <li class="usage-item"><span>5</span>If a stress spike is detected, follow the one‑minute breathing prompt, then re‑authorize.</li>
+        <li class="usage-item"><span>6</span>Review weekly summaries in the app to track progress and adjust thresholds.</li>
+      </ol>
+    </div>
+
+    <div data-reveal>
+      <span class="text-teal-400 font-semibold text-sm uppercase tracking-wider">Customer Benefits</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-3">Why it's worth the pause</h2>
+
+      <div class="mt-10 space-y-4">
+        <div class="benefit-row"><i class="fa-solid fa-check"></i>Reduced impulsive purchases through real‑time stress detection.</div>
+        <div class="benefit-row"><i class="fa-solid fa-check"></i>Improved financial health by preventing unnecessary spending.</div>
+        <div class="benefit-row"><i class="fa-solid fa-check"></i>Enhanced self‑awareness of the link between emotions and buying behavior.</div>
+        <div class="benefit-row"><i class="fa-solid fa-check"></i>Convenient integration with existing health platforms — no extra hardware.</div>
+        <div class="benefit-row"><i class="fa-solid fa-check"></i>Personalized guidance that adapts as your stress patterns evolve.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TECH / LOGIC BLUEPRINT ================= -->
+<section id="tech" class="py-24 lg:py-32 bg-navy-900/60 border-y border-white/5">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-16 items-center">
+    <div data-reveal>
+      <span class="text-teal-400 font-semibold text-sm uppercase tracking-wider">Under the Hood</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-3">A simple middleware, a powerful pause</h2>
+      <p class="text-slate-400 mt-4 leading-relaxed">A middleware layer checks physiological stress markers before authorizing NFC/digital payments — built natively for both major mobile ecosystems.</p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <span class="tech-pill"><i class="fa-brands fa-swift"></i> Swift (iOS)</span>
+        <span class="tech-pill"><i class="fa-brands fa-android"></i> Kotlin (Android)</span>
+        <span class="tech-pill"><i class="fa-solid fa-heart-circle-check"></i> HealthKit API</span>
+        <span class="tech-pill"><i class="fa-solid fa-shoe-prints"></i> Google Fit API</span>
+      </div>
+    </div>
+
+    <div data-reveal>
+      <div class="code-window">
+        <div class="code-window-bar">
+          <span class="dot bg-coral-500"></span><span class="dot bg-yellow-400"></span><span class="dot bg-teal-400"></span>
+          <span class="ml-3 text-xs text-slate-400 font-body">logic_blueprint.py</span>
+        </div>
+        <pre><code><span class="tok-kw">def</span> <span class="tok-fn">authorize_transaction</span>(request):
+    current_hr = health_api.get_latest_heart_rate()
+    <span class="tok-kw">if</span> current_hr &gt; <span class="tok-num">110</span>:  <span class="tok-cmt"># Threshold for 'Stress/Impulse' state</span>
+        trigger_cooldown_lock(duration=<span class="tok-num">60</span>)
+        <span class="tok-kw">return</span> <span class="tok-str">"Transaction Paused: Complete 1-minute breathing to unlock."</span>
+    <span class="tok-kw">return</span> <span class="tok-str">"Authorized"</span></code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" class="py-24 lg:py-32">
+  <div class="max-w-3xl mx-auto px-6 lg:px-10">
+    <div class="text-center" data-reveal>
+      <span class="text-teal-400 font-semibold text-sm uppercase tracking-wider">FAQ</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-3">Common questions</h2>
+    </div>
+
+    <div class="mt-12 space-y-4">
+      <div class="faq-item" data-reveal>
+        <button class="faq-question">
+          <span>Do I need extra hardware to use the Friction Wallet?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer"><p>No. It connects to health data you likely already track through Apple HealthKit or Google Fit on your existing smartwatch or phone.</p></div>
+      </div>
+      <div class="faq-item" data-reveal>
+        <button class="faq-question">
+          <span>Can I change my stress threshold?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer"><p>Yes. The default is 110 bpm, but you can personalize it in the app, and the assessment will even recommend an optimal threshold based on your own data.</p></div>
+      </div>
+      <div class="faq-item" data-reveal>
+        <button class="faq-question">
+          <span>What happens after a transaction is paused?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer"><p>You'll be guided through a one‑minute breathing exercise. Once the cooldown ends, you can calmly decide whether to re‑authorize the payment.</p></div>
+      </div>
+      <div class="faq-item" data-reveal>
+        <button class="faq-question">
+          <span>How long until I see results?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer"><p>A full data cycle typically takes 7–10 days of regular usage. Your personalized report and recommendations are delivered within 24 hours after that.</p></div>
+      </div>
+      <div class="faq-item" data-reveal>
+        <button class="faq-question">
+          <span>Is this project available now?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer"><p>The Friction Wallet is currently <strong>in progress</strong>. Message us on WhatsApp with the trigger word <strong>WALLET</strong> to get updates and early access.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section id="cta" class="py-24 lg:py-32">
+  <div class="max-w-5xl mx-auto px-6 lg:px-10">
+    <div class="cta-panel" data-reveal>
+      <div class="relative z-10 text-center max-w-2xl mx-auto">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-teal-200">
+          <i class="fa-brands fa-whatsapp"></i> Trigger word: WALLET
+        </span>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-6">Stress‑aware spending, one heartbeat at a time.</h2>
+        <p class="text-slate-200/80 mt-4 leading-relaxed">
+          Discover a smarter way to protect your finances with the Friction Wallet. By integrating real‑time stress
+          detection into every payment, it automatically pauses transactions when your heart rate spikes, giving you
+          a moment to breathe and think before you spend. Try it today and experience stress‑aware spending that
+          puts you in control.
+        </p>
+        <a href="https://wa.me/?text=WALLET" target="_blank" rel="noopener" class="mt-8 inline-flex items-center gap-2 rounded-full bg-white text-navy-950 font-semibold px-8 py-4 hover:bg-teal-100 transition-all shadow-xl hover:scale-105">
+          <i class="fa-brands fa-whatsapp text-lg text-teal-600"></i> Get via WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="border-t border-white/5 py-10">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-2">
+      <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-teal-400 to-navy-700">
+        <i class="fa-solid fa-wallet text-navy-950 text-xs"></i>
+      </span>
+      <span class="font-display font-semibold text-white">Friction<span class="text-teal-400">Wallet</span></span>
+    </div>
+    <p class="text-sm text-slate-500">© 2026 The Friction Wallet · Part of the Spend Smart collection</p>
+    <div class="flex items-center gap-4 text-slate-500">
+      <a href="#top" class="hover:text-teal-400 transition-colors"><i class="fa-solid fa-arrow-up"></i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

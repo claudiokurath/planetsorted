@@ -7,3 +7,16 @@ Dockerfile
 npm-debug.log
 dist
 coverage
+
+# Not needed in the image / build context — keeps the context small and fast.
+.github
+.vercel
+tmp
+outputs
+scratch
+raw-standalone-templates
+supabase
+docs
+*.md
+.DS_Store
+*.tsbuildinfo

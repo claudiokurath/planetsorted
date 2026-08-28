@@ -37,6 +37,11 @@ yarn-error.log*
 # using service-role credentials. Never commit them: this repo is public.
 /scratch/
 
+# local working / output scratch trees — generated report artifacts, one-off
+# scripts. May contain customer data. Never commit: this repo is public.
+/tmp/
+/outputs/
+
 # vercel
 .vercel
 
@@ -48,6 +53,7 @@ raw-standalone-templates/brain-dump-sorter/brain dumb sorter/
 raw-standalone-templates/decision-paralysis-solver/decision-paralysis-solver/
 raw-standalone-templates/financial-autopilot/financial autopilot/
 raw-standalone-templates/decision-paralysis-solver/THENEWSOR7ED/
+raw-standalone-templates/decision-paralysis-solver/sor7ed-button/
 
 # Local imports of external products (may contain secrets) — never commit
 /_sor7ed_button_import/
