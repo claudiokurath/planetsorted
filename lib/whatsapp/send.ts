@@ -11,7 +11,10 @@ export class WhatsAppSendError extends Error {
 }
 
 const DEFAULT_GRAPH_VERSION = 'v23.0'
-const DEFAULT_CARD_TEMPLATE = 'sor7ed_protocol_card'
+// Already approved and active in the SOR7ED WhatsApp Business account.
+// Body: "Saved from {{1}} ✓ — {{2}}. Tap below to revisit it."
+// Button: https://sor7ed.com/{{1}}
+const DEFAULT_CARD_TEMPLATE = 'sor7ed_saved_card'
 
 type WhatsAppPayload = Record<string, unknown>
 
@@ -91,13 +94,16 @@ export function buildWhatsAppTemplateCardPayload(
         },
         {
           type: 'body',
-          parameters: [{ type: 'text', text: card.title.slice(0, 250) }],
+          parameters: [
+            { type: 'text', text: 'SOR7ED' },
+            { type: 'text', text: card.title.slice(0, 250) },
+          ],
         },
         {
           type: 'button',
           sub_type: 'url',
           index: '0',
-          parameters: [{ type: 'text', text: card.slug }],
+          parameters: [{ type: 'text', text: `go/${card.slug}` }],
         },
       ],
     },
