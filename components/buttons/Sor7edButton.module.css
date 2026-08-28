@@ -7,27 +7,27 @@
   --sb-accent: #1fd7cf;
   --sb-paper: #f7f7f4;
   --sb-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --sb-hit: 160px;
-  --sb-mark: 148px;
+  --sb-hit: 84px;
+  --sb-mark: 78px;
   --sb-t: 0;
   --sb-td: 0;
 
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(20px, 3vw, 32px);
+  gap: clamp(10px, 1.5vw, 16px);
   width: 100%;
-  min-height: 248px;
-  padding: 48px 24px;
+  min-height: 112px;
+  padding: 16px 8px;
   overflow: hidden;
-  background: #000;
+  background: transparent;
   color: var(--sb-paper);
 }
 
 .root[data-size='md'] {
-  --sb-hit: 140px;
-  --sb-mark: 130px;
-  min-height: 216px;
+  --sb-hit: 72px;
+  --sb-mark: 66px;
+  min-height: 96px;
 }
 
 .message {
@@ -35,7 +35,7 @@
   color: var(--sb-paper);
   color: color-mix(in oklab, var(--sb-paper), var(--sb-accent) calc(var(--sb-td) * 100%));
   font-family: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(26px, 3.2vw, 38px);
+  font-size: clamp(18px, 2vw, 22px);
   font-weight: 300;
   letter-spacing: -0.055em;
   line-height: 1;
@@ -124,22 +124,22 @@
 
 @media (max-width: 520px) {
   .root {
-    --sb-hit: 116px;
-    --sb-mark: 108px;
-    gap: 14px;
-    min-height: 176px;
-    padding: 34px 16px;
+    --sb-hit: 66px;
+    --sb-mark: 60px;
+    gap: 8px;
+    min-height: 88px;
+    padding: 12px 6px;
   }
 
   .root[data-size='md'] {
-    --sb-hit: 104px;
-    --sb-mark: 96px;
-    min-height: 164px;
+    --sb-hit: 58px;
+    --sb-mark: 52px;
+    min-height: 78px;
   }
 
   .message {
     max-width: 220px;
-    font-size: clamp(22px, 6.6vw, 29px);
+    font-size: clamp(16px, 4.2vw, 19px);
   }
 }
 
