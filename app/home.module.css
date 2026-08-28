@@ -2,8 +2,8 @@
   --home-cyan: #1fd7cf;
   --home-blue: #5095ff;
   --home-violet: #856cff;
-  --home-ink: #050608;
-  --home-panel: #090b0f;
+  --home-ink: #000000;
+  --home-panel: #000000;
   --home-line: rgba(148, 163, 184, 0.16);
   --home-muted: #8b98ad;
   min-height: 100vh;
@@ -20,14 +20,7 @@
 }
 
 .heroGlow {
-  position: absolute;
-  top: -240px;
-  left: 6%;
-  width: 720px;
-  height: 620px;
-  pointer-events: none;
-  background: radial-gradient(circle, rgba(45, 212, 191, 0.11), transparent 67%);
-  filter: blur(22px);
+  display: none;
 }
 
 .heroGrid {
@@ -272,9 +265,7 @@
   overflow: hidden;
   border: 1px solid var(--home-line);
   border-radius: 18px;
-  background:
-    radial-gradient(circle at 100% 0%, rgba(80, 149, 255, 0.07), transparent 34%),
-    var(--home-panel);
+  background: var(--home-panel);
   transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
 
@@ -299,7 +290,7 @@
   position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: #0d1118;
+  background: #000000;
 }
 
 .cardImage {
@@ -316,7 +307,7 @@
 .cardShade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(9, 11, 15, 0.72), transparent 58%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent 58%);
 }
 
 .kindBadge {

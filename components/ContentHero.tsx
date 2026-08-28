@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { getCategoryStyle } from '@/lib/categoryStyles'
 
 interface ContentHeroProps {
@@ -6,11 +7,12 @@ interface ContentHeroProps {
   description?: string | null
   category?: string | null
   meta?: string | null
+  coverImage?: string | null
   /** When true: no image, no card chrome — clean editorial header aligned with article body */
   articleMode?: boolean
 }
 
-export function ContentHero({ title, description, category, meta, articleMode = false }: ContentHeroProps) {
+export function ContentHero({ title, description, category, meta, coverImage, articleMode = false }: ContentHeroProps) {
   const categoryStyle = getCategoryStyle(category)
 
   if (articleMode) {
@@ -55,55 +57,66 @@ export function ContentHero({ title, description, category, meta, articleMode = 
     )
   }
 
-  // Compact text-led tool/content header — deliberately image-free.
+  // Gamma-style tool header: the same pure-black framed system used by articles.
   return (
-    <section className="mx-auto max-w-7xl px-4 pb-8 pt-8 sm:px-6 sm:pt-10 lg:px-8">
+    <section className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
       <div
-        className="relative overflow-hidden rounded-3xl border border-white/[0.09] bg-[#090b0f] p-7 sm:p-10"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle at 88% 12%, rgba(80,149,255,0.14), transparent 34%), radial-gradient(circle at 72% 90%, rgba(133,108,255,0.09), transparent 38%)',
-        }}
+        className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/[0.12] bg-black"
       >
-        <span
-          className="absolute inset-x-0 top-0 h-[2px]"
-          style={{ background: 'linear-gradient(90deg, #1FD7CF, #5095FF 55%, #856CFF)' }}
-          aria-hidden
-        />
-        <div className="relative space-y-3">
-        {categoryStyle ? (
-          <Link
-            href={`/category/${categoryStyle.slug}`}
-            className={`inline-block rounded-full px-3 py-0.5 text-xs font-bold uppercase tracking-wider transition-opacity hover:opacity-80 ${categoryStyle.className}`}
-          >
-            {categoryStyle.label}
-            {categoryStyle.tagline && (
-              <span className="ml-1 font-normal normal-case text-neutral-400">
-                • {categoryStyle.tagline}
-              </span>
+        {coverImage ? (
+          <div className="relative aspect-[16/8] w-full overflow-hidden sm:aspect-[16/7]">
+            <Image
+              src={coverImage}
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+          </div>
+        ) : null}
+
+        <div className="px-6 pb-10 pt-8 sm:px-10 sm:pb-14 lg:px-14">
+          <div className="relative h-8 w-36">
+            <Image
+              src="/images/sor7ed-logo-white.png"
+              alt="SOR7ED"
+              fill
+              className="object-contain object-left"
+            />
+          </div>
+
+          <div className="mt-8">
+            {categoryStyle ? (
+              <Link
+                href={`/category/${categoryStyle.slug}`}
+                className="text-xs font-bold uppercase tracking-[0.14em] text-[#1FD7CF] transition-opacity hover:opacity-80"
+              >
+                {categoryStyle.label}
+              </Link>
+            ) : (
+              <div className="h-1 w-12 rounded-full bg-[#1FD7CF]" />
             )}
-          </Link>
-        ) : (
-          <div className="h-1 w-12 rounded-full bg-[#1FD7CF]" />
-        )}
+          </div>
 
-        <h1
-          className="font-bebas text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl"
-        >
-          {title}
-        </h1>
+          <h1
+            className="font-bebas mt-4 max-w-4xl bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-4xl font-black uppercase leading-[0.95] tracking-tight text-transparent sm:text-6xl lg:text-7xl"
+          >
+            {title}
+          </h1>
 
-        {description && (
-          <p className="max-w-2xl text-sm font-medium leading-relaxed text-neutral-400 sm:text-base">
-            {description}
-          </p>
-        )}
+          {description && (
+            <p className="mt-8 max-w-3xl text-base leading-8 text-neutral-300 sm:text-lg">
+              {description}
+            </p>
+          )}
 
-        {meta && (
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">
-            {meta}
-          </p>
-        )}
+          {meta && (
+            <p className="mt-5 text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">
+              {meta}
+            </p>
+          )}
         </div>
       </div>
     </section>

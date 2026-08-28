@@ -23,7 +23,7 @@ export function StandaloneAdhdTaxApp() {
   }), [lateFees, weeklyImpulsePurchases, forgottenSubscriptions, lostItemReplacement, productivityLossPercent, monthlyIncome, missedOpportunities])
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#1f2937,_#030712)] text-white">
+    <div className="min-h-screen bg-black text-white">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
         <header className="rounded-3xl border border-white/10 bg-black p-8 shadow-2xl backdrop-blur">
           <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-300">Independent app</p>

@@ -38,7 +38,7 @@ export function PageHeader({
           )}
 
           <h1
-            className="font-bebas text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl"
+            className="font-bebas bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-4xl font-black uppercase leading-[0.95] tracking-tight text-transparent sm:text-5xl lg:text-6xl"
           >
             {title}
           </h1>

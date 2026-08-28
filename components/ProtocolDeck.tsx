@@ -20,9 +20,9 @@ interface ProtocolDeckProps {
  * white display titles, cyan accents, charcoal cards.
  */
 const ACCENT = '#1FD7CF'
-const ACCENT_DARK = '#123C46'
+const ACCENT_DARK = '#000000'
 const ACCENT_SOFT = 'rgba(31, 215, 207, 0.14)'
-const CARD = '#090B0F'
+const CARD = '#000000'
 const CARD_BORDER = '#202733'
 const MUTED = '#8B98AD'
 
@@ -140,7 +140,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
             <div
               key={i}
               className="flex gap-3 rounded-lg px-5 py-4 text-sm leading-relaxed text-white sm:text-base"
-              style={{ backgroundColor: ACCENT_DARK }}
+              style={{ backgroundColor: ACCENT_DARK, border: '1px solid rgba(31, 215, 207, 0.34)' }}
             >
               <span
                 className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-black"
@@ -325,7 +325,7 @@ function StepBadge({ label }: { label: string }) {
   return (
     <span
       className="inline-flex rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white"
-      style={{ backgroundColor: ACCENT_DARK }}
+      style={{ backgroundColor: ACCENT_DARK, border: `1px solid ${ACCENT}` }}
     >
       {text}
     </span>
@@ -337,12 +337,12 @@ function SlideCard({ slide, index }: { slide: DeckSlide; index: number }) {
   return (
     <section
       data-deck-slide
-      className="deck-slide relative overflow-hidden rounded-2xl border border-neutral-900 bg-black px-5 py-10 sm:px-10 sm:py-14 lg:px-14 lg:py-16"
+      className="deck-slide relative overflow-hidden rounded-2xl border border-white/[0.12] bg-black px-5 py-10 sm:px-10 sm:py-14 lg:px-14 lg:py-16"
       style={{ minHeight: 'min(62vh, 560px)' }}
     >
       <StepBadge label={badge} />
 
-      <h2 className="font-bebas mt-5 max-w-5xl text-3xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl">
+      <h2 className="font-bebas mt-5 max-w-5xl bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-3xl font-black uppercase leading-[0.95] tracking-tight text-transparent sm:text-5xl lg:text-6xl">
         {slide.title}
         {slide.titleMuted ? (
           <span className="text-neutral-500"> {slide.titleMuted}</span>
@@ -375,7 +375,7 @@ export function ProtocolDeck({
       {/* ── Cover slide (PDF page 1) ─────────────────────────────── */}
       <section
         data-deck-slide
-        className="deck-slide relative mx-auto mb-6 flex min-h-[min(78vh,640px)] max-w-6xl flex-col items-center justify-center overflow-hidden rounded-2xl border border-neutral-900 bg-black px-6 py-16 text-center sm:mb-8 sm:px-12 sm:py-20"
+        className="deck-slide relative mx-auto mb-6 flex min-h-[min(78vh,640px)] max-w-6xl flex-col items-center justify-center overflow-hidden rounded-2xl border border-white/[0.12] bg-black px-6 py-16 text-center sm:mb-8 sm:px-12 sm:py-20"
       >
         {deck.coverImage ? (
           <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -411,7 +411,7 @@ export function ProtocolDeck({
             {categoryStyle ? (
               <Link
                 href={`/category/${categoryStyle.slug}`}
-                className="rounded-full border border-neutral-700 bg-neutral-950 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-neutral-300 transition-colors hover:border-neutral-500 hover:text-white"
+                className="rounded-full border border-neutral-700 bg-black px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-neutral-300 transition-colors hover:border-neutral-500 hover:text-white"
               >
                 {categoryStyle.label}
               </Link>
@@ -419,7 +419,7 @@ export function ProtocolDeck({
             {chips.map((chip) => (
               <span
                 key={chip}
-                className="rounded-full border border-neutral-700 bg-neutral-950 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-neutral-300"
+                className="rounded-full border border-neutral-700 bg-black px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-neutral-300"
               >
                 {chip}
               </span>

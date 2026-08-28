@@ -436,9 +436,9 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {tools.map(tool => (
-                <div key={tool.slug} className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.09] bg-[#090b0f]">
+                <div key={tool.slug} className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.12] bg-black">
                   {tool.cover_image ? (
-                    <div className="relative aspect-video w-full overflow-hidden bg-[#0d1118]">
+                    <div className="relative aspect-video w-full overflow-hidden bg-black">
                       <Image
                         src={tool.cover_image}
                         alt=""
@@ -446,7 +446,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.035]"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#090b0f]/75 via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
                     </div>
                   ) : null}
                   <div className="flex flex-1 flex-col justify-between p-6">

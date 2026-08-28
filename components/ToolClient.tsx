@@ -51,29 +51,33 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySa
         description={description}
         category={toolData.category}
         meta={toolData.read_time}
+        coverImage={toolData.cover_image}
       />
 
-      <main className="mx-auto max-w-4xl px-4 pb-20 pt-6 sm:px-6 lg:px-8 space-y-12">
+      <main className="mx-auto max-w-5xl space-y-6 px-4 pb-20 pt-1 sm:px-6 lg:px-8">
         {/* Explanation */}
         {explanation && (
-          <section className="space-y-3 border-l-4 border-[#1FD7CF] py-2 pl-6 sm:pl-8">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#1FD7CF]">
-              About this tool
+          <section className="rounded-2xl border border-white/[0.12] bg-black px-6 py-10 sm:px-10 sm:py-12">
+            <p className="inline-flex rounded border border-[#5095FF]/60 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#5095FF]">
+              Step 01 — About this tool
             </p>
             <h2
-              className="font-bebas text-3xl font-black uppercase leading-none text-white sm:text-4xl"
+              className="font-bebas mt-5 bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-3xl font-black uppercase leading-none text-transparent sm:text-5xl"
             >
               What it helps you do
             </h2>
-            <p className="text-base sm:text-lg leading-relaxed text-neutral-300">
+            <p className="mt-5 max-w-3xl text-base leading-relaxed text-neutral-300 sm:text-lg">
               {explanation}
             </p>
           </section>
         )}
 
         {/* Get Sorted CTA */}
-        <section className="space-y-4">
-          <p className="text-sm font-semibold text-neutral-200">
+        <section className="rounded-2xl border border-white/[0.12] bg-black px-6 py-10 sm:px-10 sm:py-12">
+          <p className="inline-flex rounded border border-[#5095FF]/60 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#5095FF]">
+            Step 02 — Use the tool
+          </p>
+          <p className="mb-5 mt-5 max-w-2xl text-sm font-semibold leading-relaxed text-neutral-200 sm:text-base">
             Ready to use this tool? Tap the button below to share the link to your WhatsApp and open the full app experience.
           </p>
           <Sor7edButton
@@ -87,8 +91,8 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySa
         </section>
 
         {relatedArticles.length > 0 && (
-          <section className="space-y-4">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">
+          <section className="border-t border-white/[0.12] pt-10">
+            <p className="mb-5 text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">
               Read related intelligence
             </p>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">

@@ -26,11 +26,7 @@ export function ContentCard({
   return (
     <Link
       href={href}
-      className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/[0.09] bg-[#090b0f] transition-all duration-300 hover:-translate-y-1 hover:border-[#1FD7CF]/35 hover:shadow-[0_22px_70px_rgba(31,215,207,0.08)]"
-      style={{
-        backgroundImage:
-          'radial-gradient(circle at 100% 0%, rgba(80,149,255,0.08), transparent 42%), radial-gradient(circle at 0% 100%, rgba(133,108,255,0.05), transparent 45%)',
-      }}
+      className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/[0.12] bg-black transition-all duration-300 hover:-translate-y-1 hover:border-[#1FD7CF]/35 hover:shadow-[0_22px_70px_rgba(31,215,207,0.08)]"
     >
       <span
         className="absolute inset-x-0 top-0 h-[2px] opacity-80"
@@ -38,7 +34,7 @@ export function ContentCard({
         aria-hidden
       />
       {coverImage ? (
-        <div className={`relative w-full flex-shrink-0 overflow-hidden bg-[#0d1118] ${compact ? 'aspect-[2/1]' : 'aspect-video'}`}>
+        <div className={`relative w-full flex-shrink-0 overflow-hidden bg-black ${compact ? 'aspect-[2/1]' : 'aspect-video'}`}>
           <Image
             src={coverImage}
             alt=""
@@ -46,7 +42,7 @@ export function ContentCard({
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.035]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#090b0f]/75 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
         </div>
       ) : null}
       <div className={`flex flex-1 flex-col justify-between ${compact ? 'min-h-52 gap-3 p-5' : `${coverImage ? 'min-h-64' : 'min-h-72'} gap-5 p-7`}`}>

@@ -330,7 +330,7 @@ export function WeeklyWinsApp() {
         }
       `}</style>
 
-      <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#1f2937,_#030712)] text-white">
+      <div className="min-h-screen bg-black text-white">
         <div className="mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
 
           {/* Header */}
