@@ -9,6 +9,18 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 export function proxiedCoverImage(rawCover: string | null | undefined): string | null {
   const url = rawCover?.trim()
   if (!url || !url.startsWith('http')) return null
+
+  // First-party public assets are already sharp, stable and crawlable. Sending
+  // them through image-proxy made /r/start fail because that route deliberately
+  // only accepts the Supabase image host.
+  try {
+    const candidate = new URL(url)
+    const site = new URL(SITE)
+    if (candidate.origin === site.origin) return url
+  } catch {
+    return null
+  }
+
   return `${SITE}/api/image-proxy?url=${encodeURIComponent(url)}`
 }
 

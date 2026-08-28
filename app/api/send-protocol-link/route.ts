@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient, createSessionClient } from '@/lib/supabase/server'
-import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
+import { sendWhatsAppContentCard } from '@/lib/whatsapp/send'
 import type { User, Protocol } from '@/lib/types/database'
-import { getContentDeliveryUrl } from '@/lib/content/deliveryUrl'
+import { ogImageForContent } from '@/lib/og/imageUrl'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 
@@ -65,23 +65,29 @@ export async function POST(req: NextRequest) {
 
     const { data: rawContent } = await supabase
       .from('protocols')
-      .select('title, slug, type, gamma_url')
+      .select('title, summary, excerpt, cover_image, slug, type, gamma_url')
       .eq('slug', slug)
       .eq('status', 'Published')
       .single()
 
-    const content = rawContent as Pick<Protocol, 'title' | 'slug' | 'type' | 'gamma_url'> | null
+    const content = rawContent as Pick<
+      Protocol,
+      'title' | 'summary' | 'excerpt' | 'cover_image' | 'slug' | 'type' | 'gamma_url'
+    > | null
 
     const title = content?.title || slug.toUpperCase().replace(/-/g, ' ')
-    const richUrl = getContentDeliveryUrl(SITE, {
+    await sendWhatsAppContentCard({
+      to: cleanPhone,
       slug,
-      type: content?.type,
-      gammaUrl: content?.gamma_url,
+      title,
+      summary: content?.summary || content?.excerpt,
+      imageUrl: ogImageForContent(
+        content?.cover_image,
+        title,
+        content?.summary || content?.excerpt
+      ),
+      url: `${SITE}/go/${slug}`,
     })
-    const messageBody = `Here is your link for *${title}* from SOR7ED:\n\n${richUrl}`
-
-    // Send directly from Business WhatsApp Meta API
-    await sendWhatsAppMessage(cleanPhone, messageBody, richUrl)
 
     return NextResponse.json({ success: true })
   } catch (err) {
