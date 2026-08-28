@@ -5,66 +5,43 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
 import { safeNext } from '@/lib/safeNext'
 
-// This page handles BOTH Supabase auth flows:
+// Fallback for the implicit flow only: the magic link came back with the
+// session tokens in the URL hash (#access_token=…&refresh_token=…), which the
+// server-side /auth/callback route cannot read. The Supabase browser client
+// picks those up automatically on init (detectSessionInUrl); we just wait a
+// beat and confirm a session exists.
 //
-// 1. PKCE flow  — URL contains ?code=xxx (set by route.ts redirect)
-//    → Call exchangeCodeForSession(code) to exchange the PKCE code for a session.
-//    → The code_verifier stored in localStorage during signInWithOtp is used automatically.
-//
-// 2. Implicit flow — URL contains #access_token=xxx&refresh_token=xxx
-//    → The Supabase browser client auto-detects these on initialization via detectSessionInUrl().
-//    → We just need to wait and then call getSession().
+// The PKCE / ?code= path is handled entirely server-side in /auth/callback now,
+// so it never reaches this page.
 
 function AuthConfirm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [expired, setExpired] = useState(false)
 
   useEffect(() => {
-    const code = searchParams.get('code')
-    // Re-sanitise here too: this page can be opened directly, not just via
-    // /auth/callback, so it cannot rely on the caller having checked.
     const next = safeNext(searchParams.get('next'))
     const supabase = createBrowserClient()
 
-    async function handleAuth() {
-      // PKCE path: exchange the code for a session
-      if (code) {
-        const { error } = await supabase.auth.exchangeCodeForSession(code)
-        if (error) {
-          console.error('[auth/confirm] PKCE exchange failed:', error.message)
-          setErrorMsg('Your sign-in link has expired. Please request a new one.')
-          setTimeout(() => router.replace('/signup?error=link-expired'), 2500)
-          return
-        }
-        router.replace(next)
-        return
-      }
-
-      // Implicit path: session tokens came in as URL hash fragments.
-      // The Supabase client detects them automatically on initialization.
-      // Give it a moment to finish, then check the session.
-      await new Promise(resolve => setTimeout(resolve, 500))
+    const timer = setTimeout(async () => {
       const { data: { session } } = await supabase.auth.getSession()
       if (session) {
         router.replace(next)
-      } else {
-        setErrorMsg('Your sign-in link has expired. Please request a new one.')
-        setTimeout(() => router.replace('/signup?error=link-expired'), 2500)
+        return
       }
-    }
+      setExpired(true)
+      setTimeout(() => router.replace('/signup?error=link-expired'), 2000)
+    }, 600)
 
-    handleAuth()
+    return () => clearTimeout(timer)
   }, [router, searchParams])
 
-  if (errorMsg) {
-    return (
-      <p style={{ color: '#b45309', textAlign: 'center', padding: '2rem' }}>{errorMsg}</p>
-    )
-  }
-
   return (
-    <p style={{ color: '#6b7280', textAlign: 'center', padding: '2rem' }}>Signing you in…</p>
+    <p style={{ color: expired ? '#b45309' : '#6b7280', textAlign: 'center', padding: '2rem' }}>
+      {expired
+        ? 'That sign-in link has expired — taking you back to request a new one.'
+        : 'Signing you in…'}
+    </p>
   )
 }
 
