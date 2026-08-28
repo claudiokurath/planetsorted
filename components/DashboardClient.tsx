@@ -12,6 +12,7 @@ import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
 interface ToolItem {
   slug: string
   title: string
+  cover_image?: string | null
   read_time?: string | null
 }
 
@@ -435,29 +436,43 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {tools.map(tool => (
-                <div key={tool.slug} className="group flex flex-col justify-between">
-                  <div className="space-y-3">
-                    {tool.read_time ? (
-                      <span className="text-[10px] font-medium text-emerald-400 font-mono">
-                        {tool.read_time}
-                      </span>
-                    ) : null}
+                <div key={tool.slug} className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.09] bg-[#090b0f]">
+                  {tool.cover_image ? (
+                    <div className="relative aspect-video w-full overflow-hidden bg-[#0d1118]">
+                      <Image
+                        src={tool.cover_image}
+                        alt=""
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.035]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#090b0f]/75 via-transparent to-transparent" />
+                    </div>
+                  ) : null}
+                  <div className="flex flex-1 flex-col justify-between p-6">
+                    <div className="space-y-3">
+                      {tool.read_time ? (
+                        <span className="text-[10px] font-medium text-emerald-400 font-mono">
+                          {tool.read_time}
+                        </span>
+                      ) : null}
 
-                    {/* Title only — no summary wall of text. Sized ~2× former card title. */}
-                    <h3
-                      className="font-bebas text-3xl sm:text-4xl font-black uppercase tracking-tight text-white group-hover:text-emerald-400 transition-colors leading-[1.05]"
-                    >
-                      {tool.title}
-                    </h3>
-                  </div>
+                      {/* Title only — no summary wall of text. Sized ~2× former card title. */}
+                      <h3
+                        className="font-bebas text-3xl sm:text-4xl font-black uppercase tracking-tight text-white group-hover:text-emerald-400 transition-colors leading-[1.05]"
+                      >
+                        {tool.title}
+                      </h3>
+                    </div>
 
-                  <div className="mt-6 border-t border-gray-800/80 pt-5">
-                    <SaveToPhoneButton
-                      slug={tool.slug}
-                      context="tool"
-                      isLoggedIn={Boolean(session)}
-                      whatsappVerified={Boolean(profile?.whatsapp_verified)}
-                    />
+                    <div className="mt-6 border-t border-gray-800/80 pt-5">
+                      <SaveToPhoneButton
+                        slug={tool.slug}
+                        context="tool"
+                        isLoggedIn={Boolean(session)}
+                        whatsappVerified={Boolean(profile?.whatsapp_verified)}
+                      />
+                    </div>
                   </div>
                 </div>
               ))}

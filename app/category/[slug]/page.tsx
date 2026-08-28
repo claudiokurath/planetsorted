@@ -89,6 +89,7 @@ export default async function CategoryPage({ params }: Props) {
                       key={tool.slug}
                       href={`/tools/${tool.slug}`}
                       title={tool.title}
+                      coverImage={tool.cover_image}
                       category={tool.category}
                       meta={tool.read_time || undefined}
                     />

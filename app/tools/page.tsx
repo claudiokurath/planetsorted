@@ -8,7 +8,7 @@ export default async function ToolboxListingPage() {
   const supabase = createServerClient()
   const { data: tools } = await supabase
     .from('protocols')
-    .select('slug, title, summary, read_time, category')
+    .select('slug, title, summary, cover_image, read_time, category')
     .eq('type', 'Tool')
     .eq('status', 'Published')
     .order('updated_at', { ascending: false })
@@ -31,6 +31,7 @@ export default async function ToolboxListingPage() {
                 key={tool.slug}
                 href={`/tools/${tool.slug}`}
                 title={tool.title}
+                coverImage={tool.cover_image}
                 category={tool.category}
                 meta={tool.read_time}
               />

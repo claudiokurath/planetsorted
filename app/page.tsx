@@ -68,7 +68,7 @@ function HomeContentCard({
 
   return (
     <Link href={href} className={styles.contentCard}>
-      {kind === 'Guidebook' && item.cover_image ? (
+      {item.cover_image ? (
         <div className={styles.cardVisual}>
           <Image
             src={item.cover_image}
@@ -80,7 +80,7 @@ function HomeContentCard({
           <div className={styles.cardShade} />
         </div>
       ) : null}
-      <div className={`${styles.cardBody} ${kind === 'Guidebook' ? styles.cardBodyWithVisual : ''}`}>
+      <div className={`${styles.cardBody} ${item.cover_image ? styles.cardBodyWithVisual : ''}`}>
         <div className={styles.cardMetaRow}>
           <div className={styles.cardLabelGroup}>
             <span className={styles.kindBadge}>{kind}</span>
@@ -111,7 +111,7 @@ export default async function HomePage() {
       .limit(6),
     supabase
       .from('protocols')
-      .select('slug, title, summary, category, read_time')
+      .select('slug, title, summary, cover_image, category, read_time')
       .eq('type', 'Tool')
       .eq('status', 'Published')
       .order('updated_at', { ascending: false })
