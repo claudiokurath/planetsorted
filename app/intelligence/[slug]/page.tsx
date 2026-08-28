@@ -24,7 +24,6 @@ function ArticlePreview({
   category,
   coverImage,
   preview,
-  showAction,
   isLoggedIn,
   whatsappVerified,
   isSaved,
@@ -34,7 +33,6 @@ function ArticlePreview({
   category: string
   coverImage: string | null
   preview: string
-  showAction: boolean
   isLoggedIn: boolean
   whatsappVerified: boolean
   isSaved: boolean
@@ -76,18 +74,16 @@ function ArticlePreview({
               {preview}
             </div>
 
-            {showAction ? (
-              <div className="mt-10 border-t border-neutral-800 pt-8">
-                <Sor7edButton
-                  slug={slug}
-                  context="article"
-                  isLoggedIn={isLoggedIn}
-                  whatsappVerified={whatsappVerified}
-                  initiallySaved={isSaved}
-                  size="lg"
-                />
-              </div>
-            ) : null}
+            <div className="mt-10 border-t border-neutral-800 pt-8">
+              <Sor7edButton
+                slug={slug}
+                context="article"
+                isLoggedIn={isLoggedIn}
+                whatsappVerified={whatsappVerified}
+                initiallySaved={isSaved}
+                size="lg"
+              />
+            </div>
           </div>
         </article>
       </main>
@@ -209,7 +205,6 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         category={item.category}
         coverImage={item.cover_image}
         preview={preview}
-        showAction={isLoggedIn}
         isLoggedIn={isLoggedIn}
         whatsappVerified={whatsappVerified}
         isSaved={isSaved}
@@ -251,6 +246,17 @@ export default async function ArticlePage({ params, searchParams }: Props) {
           audioUrl={audioUrl}
           isSubscriber={isSubscriber || isUnlocked}
         />
+
+        <section className="mx-auto mt-6 max-w-6xl border-t border-neutral-900 pt-8 sm:mt-8">
+          <Sor7edButton
+            slug={item.slug}
+            context="article"
+            isLoggedIn={isLoggedIn}
+            whatsappVerified={whatsappVerified}
+            initiallySaved={isSaved}
+            size="lg"
+          />
+        </section>
 
         {relatedTool ? (
           <section className="mx-auto mt-6 max-w-6xl sm:mt-8">
