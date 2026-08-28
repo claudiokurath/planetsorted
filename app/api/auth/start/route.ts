@@ -62,9 +62,20 @@ export async function POST(req: NextRequest) {
     })
 
     if (generateError || !generated.user?.id) {
+      // Distinguish a genuine "this email is already registered" from a backend
+      // failure (bad config, Supabase outage) — the old code reported both as a
+      // conflict, which sent people chasing an account problem that wasn't real.
+      const alreadyRegistered =
+        (generateError as { status?: number } | null)?.status === 422 ||
+        /already|exist|registered/i.test(generateError?.message ?? '')
+
       return NextResponse.json(
-        { error: 'That email may already belong to another account. Try email-only sign in below.' },
-        { status: 409 }
+        {
+          error: alreadyRegistered
+            ? 'That email is already linked to an account. Use "Returning email-only member? Sign in here" below.'
+            : 'We could not start sign-up just now. Please try again in a moment.',
+        },
+        { status: alreadyRegistered ? 409 : 502 }
       )
     }
     userId = generated.user.id

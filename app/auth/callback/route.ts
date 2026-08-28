@@ -1,25 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server'
+import type { EmailOtpType } from '@supabase/supabase-js'
+import { createSessionClient } from '@/lib/supabase/server'
 import { safeNext } from '@/lib/safeNext'
 
-// Supabase sends magic links in one of two formats:
-//   - PKCE flow:     /auth/callback?code=xxx         (server can see the code)
-//   - Implicit flow: /auth/callback#access_token=xxx (server CANNOT see the hash)
+// Supabase can hand a magic link back to us in three shapes:
 //
-// We always redirect to /auth/confirm so the browser client can handle BOTH cases.
-// Modern browsers preserve the URL hash fragment when following a 302 redirect,
-// so #access_token=xxx will arrive intact at /auth/confirm even though this
-// server-side handler cannot read it directly.
+//   1. ?token_hash=…&type=magiclink   — verify server-side with verifyOtp()
+//   2. ?code=…                        — exchange server-side with exchangeCodeForSession()
+//   3. #access_token=…&refresh_token= — hash fragment, invisible to the server
+//
+// Cases 1 and 2 are completed here, on the server, so the session cookies are
+// written straight onto the redirect response — no client round-trip, no PKCE
+// verifier that a server-generated link never had. Case 3 is the only one that
+// still needs the browser, so it is forwarded to /auth/confirm.
 
 export async function GET(req: NextRequest) {
   const { searchParams, origin } = new URL(req.url)
   const code = searchParams.get('code')
+  const tokenHash = searchParams.get('token_hash')
+  const type = searchParams.get('type') as EmailOtpType | null
   // Only ever forward a same-site path — see lib/safeNext.ts
   const next = safeNext(searchParams.get('next'))
 
-  // Always go to the client-side confirm page — it handles both PKCE and implicit flow
-  const confirmUrl = new URL(`${origin}/auth/confirm`)
-  if (code) confirmUrl.searchParams.set('code', code)
-  confirmUrl.searchParams.set('next', next)
+  const supabase = await createSessionClient()
 
-  return NextResponse.redirect(confirmUrl.toString())
+  if (tokenHash && type) {
+    const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash })
+    if (!error) return NextResponse.redirect(`${origin}${next}`)
+    console.error('[auth/callback] verifyOtp failed:', error.message)
+  } else if (code) {
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    if (!error) return NextResponse.redirect(`${origin}${next}`)
+    console.error('[auth/callback] code exchange failed:', error.message)
+  } else {
+    // Implicit flow: tokens sit in the URL hash. Modern browsers preserve the
+    // hash across a 302, so #access_token=… arrives intact at /auth/confirm,
+    // where the browser client can read it.
+    const confirmUrl = new URL(`${origin}/auth/confirm`)
+    confirmUrl.searchParams.set('next', next)
+    return NextResponse.redirect(confirmUrl.toString())
+  }
+
+  return NextResponse.redirect(`${origin}/signup?error=link-expired`)
 }
