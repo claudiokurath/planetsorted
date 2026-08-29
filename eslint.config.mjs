@@ -21,6 +21,11 @@ const eslintConfig = defineConfig([
     "raw-standalone-templates/**",
     "tmp/**",
     "outputs/**",
+    // Raw design-handoff dumps dropped into the tree (Claude Design .jsx
+    // exports with unresolved Tweak*/CopyButton helpers). Not app code —
+    // the app is .tsx. Wired-up tools live in components/*App.tsx.
+    "**/*.jsx",
+    "**/design_handoff_*/**",
   ]),
 ]);
 

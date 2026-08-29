@@ -55,6 +55,12 @@ raw-standalone-templates/financial-autopilot/financial autopilot/
 raw-standalone-templates/decision-paralysis-solver/THENEWSOR7ED/
 raw-standalone-templates/decision-paralysis-solver/sor7ed-button/
 
+# Raw design-handoff dumps (Claude Design .jsx exports) dropped into
+# app/(standalone)/. Not wired as routes; un-ignore when building one.
+app/(standalone)/admin-writer/
+app/(standalone)/hyperfocus-timer/
+app/(standalone)/money-reset/
+
 # Local imports of external products (may contain secrets) — never commit
 /_sor7ed_button_import/
 

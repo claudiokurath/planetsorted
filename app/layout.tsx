@@ -1,20 +1,17 @@
 import type { Metadata } from 'next'
-import { Inter, Bebas_Neue, JetBrains_Mono } from 'next/font/google'
+import { Jost, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { SmartNav } from '@/components/SmartNav'
 import { MobileNav } from '@/components/MobileNav'
 import { SiteFooter } from '@/components/SiteFooter'
 
-const inter = Inter({
+// Thin geometric (Futura family) — display + UI. See docs/planet-sorted-master.md
+// "Visual Identity". The legacy --font-inter / --font-bebas CSS vars are aliased
+// to Jost in globals.css so existing class/module references keep resolving.
+const jost = Jost({
   subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
-const bebasNeue = Bebas_Neue({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-bebas',
+  weight: ['200', '300', '400', '500'],
+  variable: '--font-jost',
   display: 'swap',
 })
 
@@ -64,7 +61,7 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" className={`h-full antialiased ${inter.variable} ${bebasNeue.variable} ${jetBrainsMono.variable}`}>
+    <html lang="en" className={`h-full antialiased ${jost.variable} ${jetBrainsMono.variable}`}>
       <head>
         <script
           type="application/ld+json"

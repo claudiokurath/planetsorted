@@ -80,7 +80,7 @@ export default async function CategoryPage({ params }: Props) {
           <>
             {tools.length > 0 && (
               <section className="mb-12">
-                <h2 className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-neutral-400">
+                <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.22em] text-neutral-400">
                   Tools
                 </h2>
                 <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -100,7 +100,7 @@ export default async function CategoryPage({ params }: Props) {
 
             {articles.length > 0 && (
               <section>
-                <h2 className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-neutral-400">
+                <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.22em] text-neutral-400">
                   Intelligence
                 </h2>
                 <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">

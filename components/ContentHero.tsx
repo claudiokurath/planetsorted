@@ -18,11 +18,25 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
   if (articleMode) {
     return (
       <header className="mx-auto max-w-4xl px-4 pb-10 pt-12 sm:px-6 lg:px-8">
+        {coverImage ? (
+          <div className="relative mb-8 aspect-[16/7] w-full overflow-hidden border border-white/10">
+            <Image
+              src={coverImage}
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 896px"
+              className="object-cover grayscale contrast-125 brightness-[0.82]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-black/20" />
+            <div className="absolute inset-0 mix-blend-overlay opacity-[0.12] [background-image:repeating-linear-gradient(0deg,#fff_0,#fff_1px,transparent_1px,transparent_3px)]" />
+          </div>
+        ) : null}
         <div className="space-y-4">
           {categoryStyle ? (
             <Link
               href={`/category/${categoryStyle.slug}`}
-              className={`inline-block rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider transition-opacity hover:opacity-80 ${categoryStyle.className}`}
+              className={`inline-block rounded-full px-3.5 py-1 text-xs font-medium uppercase tracking-wider transition-opacity hover:opacity-80 ${categoryStyle.className}`}
             >
               {categoryStyle.label}
               {categoryStyle.tagline && (
@@ -32,11 +46,11 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
               )}
             </Link>
           ) : (
-            <div className="h-1 w-12 rounded-full bg-[#1FD7CF]" />
+            <div className="h-1 w-12 rounded-full bg-[#C6A052]" />
           )}
 
           <h1
-            className="font-bebas text-7xl font-black uppercase leading-[0.86] tracking-tight text-white sm:text-8xl lg:text-9xl"
+            className="font-bebas text-7xl font-extralight uppercase leading-[0.86] tracking-normal text-white sm:text-8xl lg:text-9xl"
           >
             {title}
           </h1>
@@ -48,7 +62,7 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
           )}
 
           {meta && (
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
               {meta}
             </p>
           )}
@@ -61,7 +75,7 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
   return (
     <section className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
       <div
-        className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/[0.12] bg-black"
+        className="relative mx-auto max-w-5xl overflow-hidden rounded-none border border-white/[0.12] bg-black"
       >
         {coverImage ? (
           <div className="relative aspect-[16/6] w-full overflow-hidden sm:aspect-[16/7]">
@@ -71,9 +85,10 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 1024px"
-              className="object-cover"
+              className="object-cover grayscale contrast-125 brightness-[0.82]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/25" />
+            <div className="absolute inset-0 mix-blend-overlay opacity-[0.12] [background-image:repeating-linear-gradient(0deg,#fff_0,#fff_1px,transparent_1px,transparent_3px)]" />
           </div>
         ) : null}
 
@@ -91,17 +106,17 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
             {categoryStyle ? (
               <Link
                 href={`/category/${categoryStyle.slug}`}
-                className="text-xs font-bold uppercase tracking-[0.14em] text-[#1FD7CF] transition-opacity hover:opacity-80"
+                className="text-xs font-medium uppercase tracking-[0.14em] text-[#C6A052] transition-opacity hover:opacity-80"
               >
                 {categoryStyle.label}
               </Link>
             ) : (
-              <div className="h-1 w-12 rounded-full bg-[#1FD7CF]" />
+              <div className="h-1 w-12 rounded-full bg-[#C6A052]" />
             )}
           </div>
 
           <h1
-            className="font-bebas mt-4 max-w-4xl bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-7xl font-black uppercase leading-[0.84] tracking-tight text-transparent sm:text-8xl lg:text-9xl"
+            className="font-bebas mt-4 max-w-4xl text-7xl font-extralight uppercase leading-[0.84] tracking-normal text-[#F2F2F2] sm:text-8xl lg:text-9xl"
           >
             {title}
           </h1>
@@ -113,7 +128,7 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
           )}
 
           {meta && (
-            <p className="mt-5 text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">
+            <p className="mt-5 text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
               {meta}
             </p>
           )}

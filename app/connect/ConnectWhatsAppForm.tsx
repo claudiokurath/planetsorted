@@ -84,11 +84,11 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
   }
 
   return (
-    <div className="w-full max-w-lg rounded-3xl border border-white/10 bg-black p-6 shadow-2xl sm:p-10">
-      <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#1FD7CF]">
+    <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-6 shadow-2xl sm:p-10">
+      <p className="text-[10px] font-extralight uppercase tracking-[0.22em] text-[#C6A052]">
         One-time connection
       </p>
-      <h1 className="font-bebas mt-4 text-7xl font-black uppercase leading-[0.84] text-white sm:text-8xl">
+      <h1 className="font-bebas mt-4 text-7xl font-extralight uppercase leading-[0.84] text-white sm:text-8xl">
         Get the link.
       </h1>
       <p className="mt-5 max-w-md text-sm leading-6 text-neutral-400 sm:text-base">
@@ -98,7 +98,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
       {phase === 'phone' ? (
         <form onSubmit={sendCode} className="mt-8 space-y-4">
           <div>
-            <label htmlFor="whatsapp-number" className="mb-2 block text-xs font-bold uppercase tracking-wider text-neutral-300">
+            <label htmlFor="whatsapp-number" className="mb-2 block text-xs font-medium uppercase tracking-wider text-neutral-300">
               WhatsApp number
             </label>
             <div className="grid grid-cols-[132px_minmax(0,1fr)] gap-2">
@@ -107,7 +107,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
                 id="connect-country-code"
                 value={countryCode}
                 onChange={(event) => setCountryCode(event.target.value)}
-                className="min-h-14 rounded-2xl border border-neutral-800 bg-black px-3 text-sm text-white outline-none focus:border-[#1FD7CF]"
+                className="min-h-14 rounded-none border border-white/10 bg-black px-3 text-sm text-white outline-none focus:border-[#C6A052]"
               >
                 <option value="44">UK (+44)</option>
                 <option value="1">US / Canada (+1)</option>
@@ -129,7 +129,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
                 value={phone}
                 onChange={(event) => setPhone(event.target.value.replace(/\D/g, ''))}
                 placeholder="7591 922247"
-                className="min-h-14 min-w-0 rounded-2xl border border-neutral-800 bg-black px-4 font-mono text-base text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-[#1FD7CF]"
+                className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-[#C6A052]"
               />
             </div>
             <p className="mt-2 text-xs text-neutral-500">Choose the code, then enter the number without its first zero.</p>
@@ -138,7 +138,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
           <button
             type="submit"
             disabled={loading}
-            className="min-h-14 w-full rounded-full bg-gradient-to-r from-[#1FD7CF] via-[#5095FF] to-[#856CFF] px-6 text-sm font-black uppercase tracking-wider text-black disabled:opacity-50"
+            className="min-h-14 w-full rounded-full bg-[#C6A052] px-6 text-sm font-extralight uppercase tracking-wider text-black disabled:opacity-50"
           >
             {loading ? 'Sending…' : 'Send my code →'}
           </button>
@@ -148,7 +148,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
       {phase === 'code' ? (
         <form onSubmit={verifyCode} className="mt-8 space-y-4">
           <div>
-            <label htmlFor="whatsapp-code" className="mb-2 block text-xs font-bold uppercase tracking-wider text-neutral-300">
+            <label htmlFor="whatsapp-code" className="mb-2 block text-xs font-medium uppercase tracking-wider text-neutral-300">
               Six-digit code
             </label>
             <input
@@ -161,21 +161,21 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
               value={code}
               onChange={(event) => setCode(event.target.value.replace(/\D/g, ''))}
               placeholder="000000"
-              className="min-h-14 w-full rounded-2xl border border-neutral-800 bg-black px-4 text-center font-mono text-2xl tracking-[0.35em] text-white outline-none transition-colors placeholder:text-neutral-700 focus:border-[#1FD7CF]"
+              className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-center font-mono text-2xl tracking-[0.35em] text-white outline-none transition-colors placeholder:text-neutral-700 focus:border-[#C6A052]"
             />
           </div>
           {error ? <p className="text-sm text-red-400" role="alert">{error}</p> : null}
           <button
             type="submit"
             disabled={loading || code.length !== 6}
-            className="min-h-14 w-full rounded-full bg-gradient-to-r from-[#1FD7CF] via-[#5095FF] to-[#856CFF] px-6 text-sm font-black uppercase tracking-wider text-black disabled:opacity-50"
+            className="min-h-14 w-full rounded-full bg-[#C6A052] px-6 text-sm font-extralight uppercase tracking-wider text-black disabled:opacity-50"
           >
             {loading ? 'Checking…' : 'Connect and send my link →'}
           </button>
           <button
             type="button"
             onClick={() => { setPhase('phone'); setCode(''); setError('') }}
-            className="w-full py-2 text-xs font-bold text-neutral-500 underline underline-offset-4 hover:text-white"
+            className="w-full py-2 text-xs font-medium text-neutral-500 underline underline-offset-4 hover:text-white"
           >
             Change number
           </button>
@@ -183,7 +183,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
       ) : null}
 
       {phase === 'finishing' ? (
-        <div className="mt-8 rounded-2xl border border-[#1FD7CF]/25 bg-[#1FD7CF]/5 p-5 text-sm font-semibold text-[#1FD7CF]" role="status">
+        <div className="mt-8 rounded-none border border-[#C6A052]/25 bg-[#C6A052]/5 p-5 text-sm font-medium text-[#C6A052]" role="status">
           Connected. Sending your private link…
         </div>
       ) : null}

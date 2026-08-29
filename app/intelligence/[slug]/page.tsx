@@ -40,7 +40,7 @@ function ArticlePreview({
   return (
     <div className="min-h-screen bg-black text-white">
       <main className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
-        <article className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/[0.12] bg-black">
+        <article className="relative mx-auto max-w-5xl overflow-hidden rounded-none border border-white/[0.12] bg-black">
           {coverImage ? (
             <div className="relative aspect-[16/6] w-full overflow-hidden sm:aspect-[16/7]">
               <Image
@@ -64,17 +64,17 @@ function ArticlePreview({
                 className="object-contain object-left"
               />
             </div>
-            <p className="mt-8 text-xs font-bold uppercase tracking-[0.14em] text-[#1FD7CF]">
+            <p className="mt-8 text-xs font-medium uppercase tracking-[0.14em] text-[#C6A052]">
               {category}
             </p>
-            <h1 className="font-bebas mt-4 max-w-4xl bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-7xl font-black uppercase leading-[0.84] tracking-tight text-transparent sm:text-8xl lg:text-9xl">
+            <h1 className="font-bebas mt-4 max-w-4xl text-7xl font-extralight uppercase leading-[0.84] tracking-normal text-[#F2F2F2] sm:text-8xl lg:text-9xl">
               {title}
             </h1>
             <div className="mt-8 max-w-3xl whitespace-pre-line text-base leading-8 text-neutral-300 sm:text-lg">
               {preview}
             </div>
 
-            <div className="mt-10 border-t border-neutral-800 pt-8">
+            <div className="mt-10 border-t border-white/10 pt-8">
               <Sor7edButton
                 slug={slug}
                 context="article"
@@ -262,7 +262,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
           <section className="mx-auto mt-6 max-w-6xl sm:mt-8">
             <Link
               href={`/tools/${relatedTool.slug}`}
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-2 text-xs font-bold uppercase tracking-wider text-neutral-200 transition-colors hover:border-[#1FD7CF] hover:text-[#1FD7CF]"
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-2 text-xs font-medium uppercase tracking-wider text-neutral-200 transition-colors hover:border-[#C6A052] hover:text-[#C6A052]"
             >
               Try the {item.category} tool: {relatedTool.title} →
             </Link>

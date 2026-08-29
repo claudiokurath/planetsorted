@@ -20,12 +20,12 @@ export default function UpgradeCancelledPage() {
 
       <Link
         href="/dashboard"
-        className="inline-block w-full rounded-full border border-neutral-700 py-3 font-semibold text-neutral-200 hover:bg-neutral-900 transition-colors"
+        className="inline-block w-full rounded-full border border-neutral-700 py-3 font-medium text-neutral-200 hover:bg-neutral-900 transition-colors"
       >
         Return to My Dashboard
       </Link>
 
-      <p className="text-xs text-neutral-500 leading-normal text-left border-t border-neutral-800 pt-6">
+      <p className="text-xs text-neutral-500 leading-normal text-left border-t border-white/10 pt-6">
         {disclaimer}
       </p>
     </div>

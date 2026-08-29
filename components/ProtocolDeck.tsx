@@ -19,12 +19,12 @@ interface ProtocolDeckProps {
  * (e.g. BURNOUT DOESN'T WANT YOU DEAD kit): pure black field,
  * white display titles, cyan accents, charcoal cards.
  */
-const ACCENT = '#1FD7CF'
+const ACCENT = '#C6A052'
 const ACCENT_DARK = '#000000'
-const ACCENT_SOFT = 'rgba(31, 215, 207, 0.14)'
+const ACCENT_SOFT = 'rgba(198, 160, 82, 0.14)'
 const CARD = '#000000'
-const CARD_BORDER = '#202733'
-const MUTED = '#8B98AD'
+const CARD_BORDER = "rgba(255,255,255,0.12)"
+const MUTED = "#8A8A8A"
 
 function renderInline(text: string) {
   // **bold** → white semibold
@@ -32,7 +32,7 @@ function renderInline(text: string) {
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return (
-        <strong key={i} className="font-semibold text-white">
+        <strong key={i} className="font-medium text-white">
           {part.slice(2, -2)}
         </strong>
       )
@@ -140,10 +140,10 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
             <div
               key={i}
               className="flex gap-3 rounded-lg px-5 py-4 text-sm leading-relaxed text-white sm:text-base"
-              style={{ backgroundColor: ACCENT_DARK, border: '1px solid rgba(31, 215, 207, 0.34)' }}
+              style={{ backgroundColor: ACCENT_DARK, border: '1px solid rgba(198, 160, 82, 0.34)' }}
             >
               <span
-                className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-black"
+                className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-extralight"
                 style={{ backgroundColor: ACCENT }}
                 aria-hidden
               >
@@ -177,12 +177,12 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                     aria-hidden
                   />
                   <span
-                    className="absolute left-1/2 top-0 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-sm font-black text-white shadow-md"
+                    className="absolute left-1/2 top-0 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-sm font-extralight text-white shadow-md"
                     style={{ backgroundColor: ACCENT }}
                   >
                     {j + 1}
                   </span>
-                  <p className="text-sm font-semibold leading-snug text-white sm:text-[15px]">
+                  <p className="text-sm font-medium leading-snug text-white sm:text-[15px]">
                     {item}
                   </p>
                 </li>
@@ -197,12 +197,12 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
               {block.items.map((stat, j) => (
                 <div key={j} className="text-center">
                   {stat.value ? (
-                    <p className="font-bebas text-5xl font-black leading-none text-white sm:text-6xl">
+                    <p className="font-bebas text-5xl font-extralight leading-none text-white sm:text-6xl">
                       {stat.value}
                     </p>
                   ) : null}
                   <p
-                    className="font-bebas mt-2 text-sm font-black uppercase tracking-wide sm:text-base"
+                    className="font-bebas mt-2 text-sm font-extralight uppercase tracking-wide sm:text-base"
                     style={{ color: ACCENT }}
                   >
                     {stat.label}
@@ -248,7 +248,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                           left ? 'sm:pr-10 sm:text-right' : 'sm:col-start-2 sm:pl-10'
                         }`}
                       >
-                        <h3 className="text-base font-bold text-white sm:text-lg">
+                        <h3 className="text-base font-medium text-white sm:text-lg">
                           {card.title}
                         </h3>
                         {card.body ? (
@@ -299,7 +299,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                     )}
                   </div>
                   <h3
-                    className={`font-bebas text-xl font-black uppercase leading-tight tracking-wide text-white sm:text-2xl ${
+                    className={`font-bebas text-xl font-extralight uppercase leading-tight tracking-wide text-white sm:text-2xl ${
                       useIcons ? '' : ''
                     }`}
                   >
@@ -324,7 +324,7 @@ function StepBadge({ label }: { label: string }) {
   const text = label.toUpperCase()
   return (
     <span
-      className="inline-flex rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white"
+      className="inline-flex rounded px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-white"
       style={{ backgroundColor: ACCENT_DARK, border: `1px solid ${ACCENT}` }}
     >
       {text}
@@ -337,12 +337,12 @@ function SlideCard({ slide, index }: { slide: DeckSlide; index: number }) {
   return (
     <section
       data-deck-slide
-      className="deck-slide relative overflow-hidden rounded-2xl border border-white/[0.12] bg-black px-5 py-10 sm:px-10 sm:py-14 lg:px-14 lg:py-16"
+      className="deck-slide relative overflow-hidden rounded-none border border-white/[0.12] bg-black px-5 py-10 sm:px-10 sm:py-14 lg:px-14 lg:py-16"
       style={{ minHeight: 'min(62vh, 560px)' }}
     >
       <StepBadge label={badge} />
 
-      <h2 className="font-bebas mt-5 max-w-5xl bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-3xl font-black uppercase leading-[0.95] tracking-tight text-transparent sm:text-5xl lg:text-6xl">
+      <h2 className="font-bebas mt-5 max-w-5xl text-3xl font-extralight uppercase leading-[0.95] tracking-normal text-[#F2F2F2] sm:text-5xl lg:text-6xl">
         {slide.title}
         {slide.titleMuted ? (
           <span className="text-neutral-500"> {slide.titleMuted}</span>
@@ -375,7 +375,7 @@ export function ProtocolDeck({
       {/* ── Cover slide (PDF page 1) ─────────────────────────────── */}
       <section
         data-deck-slide
-        className="deck-slide relative mx-auto mb-6 flex min-h-[min(78vh,640px)] max-w-6xl flex-col items-center justify-center overflow-hidden rounded-2xl border border-white/[0.12] bg-black px-6 py-16 text-center sm:mb-8 sm:px-12 sm:py-20"
+        className="deck-slide relative mx-auto mb-6 flex min-h-[min(78vh,640px)] max-w-6xl flex-col items-center justify-center overflow-hidden rounded-none border border-white/[0.12] bg-black px-6 py-16 text-center sm:mb-8 sm:px-12 sm:py-20"
       >
         {deck.coverImage ? (
           <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -396,7 +396,7 @@ export function ProtocolDeck({
           </div>
         </div>
 
-        <h1 className="font-bebas relative z-10 max-w-5xl text-4xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
+        <h1 className="font-bebas relative z-10 max-w-5xl text-4xl font-extralight uppercase leading-[0.95] tracking-normal text-white sm:text-6xl lg:text-7xl">
           {deck.title}
         </h1>
 
@@ -411,7 +411,7 @@ export function ProtocolDeck({
             {categoryStyle ? (
               <Link
                 href={`/category/${categoryStyle.slug}`}
-                className="rounded-full border border-neutral-700 bg-black px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-neutral-300 transition-colors hover:border-neutral-500 hover:text-white"
+                className="rounded-full border border-neutral-700 bg-black px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-neutral-300 transition-colors hover:border-neutral-500 hover:text-white"
               >
                 {categoryStyle.label}
               </Link>
@@ -419,7 +419,7 @@ export function ProtocolDeck({
             {chips.map((chip) => (
               <span
                 key={chip}
-                className="rounded-full border border-neutral-700 bg-black px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-neutral-300"
+                className="rounded-full border border-neutral-700 bg-black px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-neutral-300"
               >
                 {chip}
               </span>
@@ -431,7 +431,7 @@ export function ProtocolDeck({
           <button
             type="button"
             onClick={handlePrint}
-            className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-opacity hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-medium uppercase tracking-wider text-white transition-opacity hover:opacity-90"
             style={{ backgroundColor: ACCENT }}
           >
             <svg

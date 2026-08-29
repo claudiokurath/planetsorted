@@ -12,9 +12,9 @@ export function SiteFooter() {
   if (isStandaloneToolRoute(pathname)) return null
 
   return (
-    <footer className="border-t border-neutral-800 bg-black py-12 text-white pb-24 md:pb-12">
+    <footer className="border-t border-white/10 bg-black py-12 text-white pb-24 md:pb-12">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="grid gap-8 grid-cols-1 md:grid-cols-4 pb-8 border-b border-neutral-800">
+        <div className="grid gap-8 grid-cols-1 md:grid-cols-4 pb-8 border-b border-white/10">
           {/* Column 1: Brand */}
           <div className="space-y-3">
             <Image
@@ -22,10 +22,13 @@ export function SiteFooter() {
               alt="SOR7ED"
               width={1832}
               height={430}
-              className="h-7 w-auto"
+              className="h-6 w-auto"
             />
-            <p className="text-xs text-neutral-400 max-w-xs leading-relaxed">
-              Practical tools and protocols for neurodivergent adults. No app. No spam. Just what works.
+            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#C6A052]">
+              worry less, live more.
+            </p>
+            <p className="text-xs text-neutral-500 max-w-xs leading-relaxed">
+              Practical tools and protocols for neurodivergent adults. No app. No spam. One next step.
             </p>
           </div>
 

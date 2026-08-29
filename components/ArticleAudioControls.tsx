@@ -77,16 +77,16 @@ export function ArticleAudioControls({ bodyText, deepDiveUrl, isSubscriber = fal
     )
 
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 rounded-2xl border border-neutral-800 bg-black px-5 py-4">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 rounded-none border border-white/10 bg-black px-5 py-4">
 
       {/* TTS controls — always available */}
       <div className="flex items-center gap-3 shrink-0">
-        <span className="text-xs font-bold uppercase tracking-widest text-neutral-500">Read aloud</span>
+        <span className="text-xs font-medium uppercase tracking-widest text-neutral-500">Read aloud</span>
         <button
           onClick={handleTTS}
           disabled={ttsState === 'unsupported'}
           aria-label={ttsLabel}
-          className="flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-1.5 text-xs font-semibold text-white transition hover:border-neutral-500 hover:bg-neutral-800 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-1.5 text-xs font-medium text-white transition hover:border-neutral-500 hover:bg-neutral-800 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
         >
           {ttsIcon}
           {ttsLabel}
@@ -95,14 +95,14 @@ export function ArticleAudioControls({ bodyText, deepDiveUrl, isSubscriber = fal
           <button
             onClick={handleStop}
             aria-label="Stop reading"
-            className="rounded-full border border-neutral-700 bg-black px-3 py-1.5 text-xs font-semibold text-neutral-400 transition hover:border-neutral-500 hover:text-white active:scale-95"
+            className="rounded-full border border-neutral-700 bg-black px-3 py-1.5 text-xs font-medium text-neutral-400 transition hover:border-neutral-500 hover:text-white active:scale-95"
           >
             Stop
           </button>
         )}
         {ttsState === 'playing' && (
-          <span className="flex items-center gap-1 text-xs text-[#1FD7CF]">
-            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-[#1FD7CF]" />
+          <span className="flex items-center gap-1 text-xs text-[#C6A052]">
+            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-[#C6A052]" />
             Reading
           </span>
         )}
@@ -116,7 +116,7 @@ export function ArticleAudioControls({ bodyText, deepDiveUrl, isSubscriber = fal
       {/* Deep Dive — gated to subscribers */}
       {deepDiveUrl && (
         <div className="flex items-center gap-3 min-w-0 flex-1">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#3498DB] shrink-0">
+          <span className="text-xs font-medium uppercase tracking-widest text-[#3498DB] shrink-0">
             Deep Dive
           </span>
           {isSubscriber ? (

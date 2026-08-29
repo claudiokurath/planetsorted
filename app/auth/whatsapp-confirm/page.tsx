@@ -94,11 +94,11 @@ export default async function WhatsAppConfirmPage({ searchParams }: Props) {
 function VerificationMessage({ title, body, href, label }: { title: string; body: string; href: string; label: string }) {
   return (
     <main className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-black p-6 text-white">
-      <div className="w-full max-w-lg rounded-3xl border border-white/10 bg-black p-8 sm:p-10">
-        <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#1FD7CF]">SOR7ED verification</p>
-        <h1 className="font-bebas mt-4 text-7xl font-black uppercase leading-[0.84] sm:text-8xl">{title}</h1>
+      <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-8 sm:p-10">
+        <p className="text-[10px] font-extralight uppercase tracking-[0.22em] text-[#C6A052]">SOR7ED verification</p>
+        <h1 className="font-bebas mt-4 text-7xl font-extralight uppercase leading-[0.84] sm:text-8xl">{title}</h1>
         <p className="mt-5 text-sm leading-6 text-neutral-400 sm:text-base">{body}</p>
-        <Link href={href} className="mt-8 inline-flex min-h-14 w-full items-center justify-center rounded-full bg-gradient-to-r from-[#1FD7CF] via-[#5095FF] to-[#856CFF] px-6 text-sm font-black uppercase tracking-wider text-black">
+        <Link href={href} className="mt-8 inline-flex min-h-14 w-full items-center justify-center rounded-full bg-[#C6A052] px-6 text-sm font-extralight uppercase tracking-wider text-black">
           {label} →
         </Link>
       </div>

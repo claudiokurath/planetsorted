@@ -1,58 +1,76 @@
 @import "tailwindcss";
 @import "../components/ProtocolDeckPrint.css";
 
+/*
+ * SOR7ED visual identity — monochrome + gold.
+ * See docs/planet-sorted-master.md "Visual Identity".
+ * Black ground · hairline white · one gold accent · thin geometric type (Jost).
+ */
+
 :root {
   --background: #000000;
-  --foreground: #F7F9FC;
+  --foreground: #F2F2F2;
+
   --sor7ed-panel: #000000;
-  --sor7ed-muted: #8B98AD;
-  --sor7ed-cyan: #1FD7CF;
-  --sor7ed-blue: #5095FF;
-  --sor7ed-violet: #856CFF;
+  --sor7ed-muted: #8A8A8A;
+  --sor7ed-dim: #6A6A6A;
+  --sor7ed-hairline: rgba(255, 255, 255, 0.12);
+
+  /* The single accent. One primary action, one active state, the mark. */
+  --sor7ed-gold: #C6A052;
+  --sor7ed-gold-dim: #9C7E3F;
+
+  /* Legacy font-var aliases — existing `font-bebas` classes and CSS modules
+     that reference these keep working, now resolving to Jost. */
+  --font-inter: var(--font-jost);
+  --font-bebas: var(--font-jost);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter), "Inter", Arial, Helvetica, sans-serif;
-  --font-bebas: var(--font-bebas), "Bebas Neue", sans-serif;
-  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --color-gold: var(--sor7ed-gold);
+
+  --font-sans: var(--font-jost), "Jost", system-ui, -apple-system, sans-serif;
+  --font-bebas: var(--font-jost), "Jost", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
 body {
   min-height: 100vh;
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), "Inter", Arial, Helvetica, sans-serif;
+  font-family: var(--font-jost), "Jost", system-ui, -apple-system, sans-serif;
+  font-weight: 300;
 }
 
 ::selection {
-  background: rgba(31, 215, 207, 0.3);
+  background: rgba(198, 160, 82, 0.30);
   color: #fff;
 }
 
-/* Legacy utility aliases now resolve to the current SOR7ED cyan accent. */
+/* Legacy utility aliases (older markup) now resolve to the gold accent. */
 .bg-green-500 {
-  background-color: #1FD7CF !important;
+  background-color: var(--sor7ed-gold) !important;
 }
 
 .hover\:bg-green-600:hover,
 .hover\:bg-green-500:hover {
-  background-color: #18BDB7 !important;
+  background-color: var(--sor7ed-gold-dim) !important;
 }
 
 .text-green-700,
 .text-green-600,
 .text-green-500 {
-  color: #1FD7CF !important;
+  color: var(--sor7ed-gold) !important;
 }
 
 .border-green-500,
 .border-green-100 {
-  border-color: rgba(31, 215, 207, 0.4) !important;
+  border-color: rgba(198, 160, 82, 0.4) !important;
 }
 
 .bg-green-50,
 .bg-green-50\/50 {
-  background-color: rgba(31, 215, 207, 0.1) !important;
+  background-color: rgba(198, 160, 82, 0.1) !important;
 }
