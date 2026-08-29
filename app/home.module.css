@@ -7,7 +7,7 @@
   --home-line: rgba(255, 255, 255, 0.12);
   --home-muted: #8A8A8A;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
   background: var(--home-ink);
   color: #F2F2F2;
 }
@@ -32,6 +32,7 @@
 }
 
 .heroCopy {
+  min-width: 0;
   max-width: 600px;
 }
 
@@ -88,7 +89,9 @@
 }
 
 .heroCopy > p {
+  min-width: 0;
   max-width: 540px;
+  overflow-wrap: break-word;
   margin-top: 26px;
   color: #9A9A9A;
   font-size: clamp(16px, 1.5vw, 19px);
@@ -443,7 +446,7 @@
 
 @media (max-width: 960px) {
   .heroGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .heroMark {
@@ -469,12 +472,19 @@
   }
 
   .heroCopy h1 {
-    font-size: clamp(62px, 20vw, 82px);
+    font-size: clamp(42px, 12vw, 64px);
+    line-height: 1.02;
+  }
+
+  .centeredHeading h2,
+  .sectionHeading h2,
+  .closingSection h2 {
+    font-size: clamp(36px, 9.5vw, 54px);
   }
 
   .workflowGrid,
   .contentGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .contentGrid {
@@ -488,7 +498,7 @@
   }
 
   .contentCardNoVisual {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .cardVisual {
@@ -563,6 +573,25 @@
 
   .sectionHeading > a {
     margin-top: 8px;
+  }
+
+  .heroActions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .heroActions a {
+    justify-content: flex-start;
+  }
+
+  .centeredHeading h2,
+  .sectionHeading h2,
+  .closingSection h2,
+  .workflowGrid h3,
+  .heroCopy h1 {
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 
   .closingSection > div {
