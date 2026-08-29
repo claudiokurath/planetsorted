@@ -30,25 +30,15 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
             />
           </div>
         ) : null}
-        <div className="space-y-4">
+        <div className="flex flex-col items-center gap-5 text-center">
           {categoryStyle ? (
-            <Link
-              href={`/category/${categoryStyle.slug}`}
-              className={`inline-block rounded-full px-3.5 py-1 text-xs font-medium uppercase tracking-wider transition-opacity hover:opacity-80 ${categoryStyle.className}`}
-            >
+            <Link href={`/category/${categoryStyle.slug}`} className="sor7ed-pill transition-opacity hover:opacity-80">
               {categoryStyle.label}
-              {categoryStyle.tagline && (
-                <span className="ml-1 font-normal normal-case text-neutral-400">
-                  • {categoryStyle.tagline}
-                </span>
-              )}
             </Link>
-          ) : (
-            <div className="h-1 w-12 rounded-full bg-[#C6A052]" />
-          )}
+          ) : null}
 
           <h1
-            className="font-bebas text-7xl font-extralight uppercase leading-[0.86] tracking-normal text-white sm:text-8xl lg:text-9xl"
+            className="font-bebas text-5xl uppercase leading-[0.92] tracking-tight text-white sm:text-6xl lg:text-7xl"
           >
             {title}
           </h1>
@@ -88,43 +78,36 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
           </div>
         ) : null}
 
-        <div className="px-6 pb-10 pt-8 sm:px-10 sm:pb-14 lg:px-14">
-          <div className="relative h-8 w-36">
+        <div className="flex flex-col items-center gap-5 px-6 pb-12 pt-10 text-center sm:px-10 sm:pb-16 lg:px-14">
+          <div className="relative h-7 w-32">
             <Image
               src="/images/sor7ed-logo-white.png"
               alt="SOR7ED"
               fill
-              className="object-contain object-left"
+              className="object-contain"
             />
           </div>
 
-          <div className="mt-8">
-            {categoryStyle ? (
-              <Link
-                href={`/category/${categoryStyle.slug}`}
-                className="text-xs font-medium uppercase tracking-[0.14em] text-[#C6A052] transition-opacity hover:opacity-80"
-              >
-                {categoryStyle.label}
-              </Link>
-            ) : (
-              <div className="h-1 w-12 rounded-full bg-[#C6A052]" />
-            )}
-          </div>
+          {categoryStyle ? (
+            <Link href={`/category/${categoryStyle.slug}`} className="sor7ed-pill transition-opacity hover:opacity-80">
+              {categoryStyle.label}
+            </Link>
+          ) : null}
 
           <h1
-            className="font-bebas mt-4 max-w-4xl text-7xl font-extralight uppercase leading-[0.84] tracking-normal text-[#F2F2F2] sm:text-8xl lg:text-9xl"
+            className="font-bebas max-w-4xl text-5xl uppercase leading-[0.92] tracking-tight text-white sm:text-6xl lg:text-7xl"
           >
             {title}
           </h1>
 
           {description && (
-            <p className="mt-8 max-w-3xl text-base leading-8 text-neutral-300 sm:text-lg">
+            <p className="max-w-3xl text-base leading-8 text-neutral-300 sm:text-lg">
               {description}
             </p>
           )}
 
           {meta && (
-            <p className="mt-5 text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
               {meta}
             </p>
           )}

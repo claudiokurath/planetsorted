@@ -261,7 +261,7 @@ export function FinancialAutopilotApp() {
               <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#C6A052,#C6A052)' }}>
                 <span>🛤️</span>
               </span>
-              <span className="font-medium tracking-normal text-white" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <span className="font-medium tracking-normal text-white" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Financial <span style={{ color: '#C6A052' }}>Autopilot</span>
               </span>
             </div>
@@ -288,7 +288,7 @@ export function FinancialAutopilotApp() {
                 style={{ borderColor: 'rgba(34,211,196,0.3)', background: 'rgba(34,211,196,0.05)', color: '#C6A052' }}>
                 ✨ Automated Finance Engine
               </span>
-              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-extralight leading-[0.98] tracking-normal" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-normal leading-[0.98] tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Put Your Money on{' '}
                 <span style={{ background: 'linear-gradient(90deg,#C6A052,#C6A052)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                   Autopilot
@@ -308,7 +308,7 @@ export function FinancialAutopilotApp() {
               <p className="text-xs uppercase tracking-widest text-slate-400 font-medium mb-4">Autopilot Snapshot</p>
               {plan ? (
                 <div className="fa-fade space-y-4">
-                  <p className="text-5xl font-extralight text-[#C6A052]">
+                  <p className="text-5xl font-normal text-[#C6A052]">
                     {fmtPct(plan.savings_rate)}
                   </p>
                   <p className="text-sm font-medium text-slate-300">
@@ -327,7 +327,7 @@ export function FinancialAutopilotApp() {
           <section id="inputs" className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
               <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#C6A052' }}>Step 1</p>
-              <h2 className="text-3xl font-extralight sm:text-4xl">Tell Us About Your Money</h2>
+              <h2 className="text-3xl font-normal sm:text-4xl">Tell Us About Your Money</h2>
               <p className="mt-2 text-slate-400">Enter your figures — calculated instantly and saved to your account.</p>
             </div>
 
@@ -441,29 +441,29 @@ export function FinancialAutopilotApp() {
             <section id="results" className="py-14 border-t fa-fade" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
               <div className="text-center mb-10">
                 <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#C6A052' }}>Step 2</p>
-                <h2 className="text-3xl font-extralight sm:text-4xl">Your Automated System</h2>
+                <h2 className="text-3xl font-normal sm:text-4xl">Your Automated System</h2>
               </div>
 
               {/* Stat grid */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 <div className="glass rounded-none p-5 text-center">
                   <p className="text-xs font-medium uppercase text-slate-400 mb-1">Savings Rate</p>
-                  <p className="text-3xl font-extralight text-[#C6A052]">{fmtPct(plan.savings_rate)}</p>
+                  <p className="text-3xl font-normal text-[#C6A052]">{fmtPct(plan.savings_rate)}</p>
                   <p className="text-xs text-slate-400 mt-1">of monthly income</p>
                 </div>
                 <div className="glass rounded-none p-5 text-center">
                   <p className="text-xs font-medium uppercase text-slate-400 mb-1">Monthly Surplus</p>
-                  <p className="text-3xl font-extralight text-[#C6A052]">{fmtUSD(plan.surplus)}</p>
+                  <p className="text-3xl font-normal text-[#C6A052]">{fmtUSD(plan.surplus)}</p>
                   <p className="text-xs text-slate-400 mt-1">available to automate</p>
                 </div>
                 <div className="glass rounded-none p-5 text-center">
                   <p className="text-xs font-medium uppercase text-slate-400 mb-1">Debt-to-Income</p>
-                  <p className="text-3xl font-extralight text-[#C6A052]">{fmtPct(plan.dti)}</p>
+                  <p className="text-3xl font-normal text-[#C6A052]">{fmtPct(plan.dti)}</p>
                   <p className="text-xs text-slate-400 mt-1">annual ratio</p>
                 </div>
                 <div className="glass rounded-none p-5 text-center">
                   <p className="text-xs font-medium uppercase text-slate-400 mb-1">Retirement Target</p>
-                  <p className="text-3xl font-extralight text-[#C6A052]">{fmtUSD(plan.retirement_contribution)}</p>
+                  <p className="text-3xl font-normal text-[#C6A052]">{fmtUSD(plan.retirement_contribution)}</p>
                   <p className="text-xs text-slate-400 mt-1">per month</p>
                 </div>
               </div>
@@ -521,7 +521,7 @@ export function FinancialAutopilotApp() {
               <div className="flex items-center justify-between mb-8">
                 <div>
                   <p className="text-xs font-medium uppercase tracking-widest mb-1" style={{ color: '#C6A052' }}>Saved Systems</p>
-                  <h2 className="text-3xl font-extralight">History Log</h2>
+                  <h2 className="text-3xl font-normal">History Log</h2>
                 </div>
                 <button onClick={fetchHistory} className="text-xs text-slate-500 hover:text-white transition">↻ Refresh</button>
               </div>

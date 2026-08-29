@@ -352,7 +352,7 @@ export function DecisionParalysisApp() {
               <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#C6A052,#C6A052)' }}>
                 <span>🧭</span>
               </span>
-              <span className="font-medium tracking-normal text-white" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <span className="font-medium tracking-normal text-white" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Decision Paralysis <span style={{ color: '#C6A052' }}>Solver</span>
               </span>
             </div>
@@ -380,7 +380,7 @@ export function DecisionParalysisApp() {
                 style={{ borderColor: 'rgba(34,211,196,0.3)', background: 'rgba(34,211,196,0.05)', color: '#C6A052' }}>
                 ✨ Decision Science Engine
               </span>
-              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-extralight leading-[0.98] tracking-normal" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-normal leading-[0.98] tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Break free from{' '}
                 <span style={{ background: 'linear-gradient(90deg,#C6A052,#C6A052)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                   decision paralysis
@@ -403,7 +403,7 @@ export function DecisionParalysisApp() {
               <p className="text-xs uppercase tracking-widest text-slate-400 font-medium mb-4">Decision Readiness Score</p>
               {assessmentResult ? (
                 <div className="dps-fade space-y-4">
-                  <p className="text-6xl font-extralight" style={{ color: assessmentResult.verdict.color }}>
+                  <p className="text-6xl font-normal" style={{ color: assessmentResult.verdict.color }}>
                     {assessmentResult.confidence}
                   </p>
                   <p className="text-lg font-medium" style={{ color: assessmentResult.verdict.color }}>
@@ -422,7 +422,7 @@ export function DecisionParalysisApp() {
           <section id="assessment" className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
               <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#C6A052' }}>Step 1</p>
-              <h2 className="text-3xl font-extralight sm:text-4xl">Decision Readiness Assessment</h2>
+              <h2 className="text-3xl font-normal sm:text-4xl">Decision Readiness Assessment</h2>
               <p className="mt-2 text-slate-400">Answer 4 quick signals to calculate your Decision Confidence Score.</p>
             </div>
 
@@ -524,7 +524,7 @@ export function DecisionParalysisApp() {
                   <div className="space-y-6 dps-fade">
                     <div>
                       <p className="text-xs uppercase tracking-widest text-slate-400 font-medium mb-1">Score Result</p>
-                      <h3 className="text-3xl font-extralight" style={{ color: assessmentResult.verdict.color }}>
+                      <h3 className="text-3xl font-normal" style={{ color: assessmentResult.verdict.color }}>
                         {assessmentResult.verdict.tier}
                       </h3>
                       <p className="mt-2 text-sm text-slate-300">{assessmentResult.verdict.desc}</p>
@@ -563,7 +563,7 @@ export function DecisionParalysisApp() {
           <section id="compare" className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
               <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#C6A052' }}>Step 2</p>
-              <h2 className="text-3xl font-extralight sm:text-4xl">Option Comparison Matrix</h2>
+              <h2 className="text-3xl font-normal sm:text-4xl">Option Comparison Matrix</h2>
               <p className="mt-2 text-slate-400">Stuck between choices? Weigh your criteria and let the math rank your options.</p>
             </div>
 
@@ -720,7 +720,7 @@ export function DecisionParalysisApp() {
           <section id="quick" className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
               <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#C6A052' }}>Step 3</p>
-              <h2 className="text-3xl font-extralight sm:text-4xl">Quick Decide Toolkit</h2>
+              <h2 className="text-3xl font-normal sm:text-4xl">Quick Decide Toolkit</h2>
               <p className="mt-2 text-slate-400">For lower stakes or quick mental unblocking.</p>
             </div>
 
@@ -791,7 +791,7 @@ export function DecisionParalysisApp() {
               <div className="flex items-center justify-between mb-8">
                 <div>
                   <p className="text-xs font-medium uppercase tracking-widest mb-1" style={{ color: '#C6A052' }}>History</p>
-                  <h2 className="text-3xl font-extralight">Decision Journal</h2>
+                  <h2 className="text-3xl font-normal">Decision Journal</h2>
                 </div>
                 <button onClick={fetchJournal} className="text-xs text-slate-500 hover:text-white transition">↻ Refresh</button>
               </div>

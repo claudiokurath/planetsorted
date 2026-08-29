@@ -116,7 +116,7 @@ Everything below this point in the document describes **Sorted Lab** specificall
 - **Visual direction:** No photographic banner. The hero is type-led: the headline against black, one gold call to action, and the tangle-mark "chaos → clarity" motif set beside it (a loose grey scribble resolving into the gold tangle). Aligned to the same max page width as the sections below. No split-screen panels, no collage, no readability gradient over a photo.
 
 ### Homepage Section Headers
-- "HOW IT WORKS," "TOOLBOX," and "GUIDEBOOK" use the display face (thin geometric, wide uppercase tracking), responsive size, left aligned.
+- "HOW IT WORKS," "TOOLBOX," and "GUIDEBOOK" use the display face (Anton, heavy condensed caps), responsive size.
 - All three sit on black, separated by 1px hairline rules only. No beige section background, no red rules. The old "beige + red rule" treatment is retired.
 
 ### Homepage Scroll Snap
@@ -149,12 +149,13 @@ Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant o
 | Gold | `#C6A052` | The single accent. **One** primary action per view, one active/selected state, and the mark where it carries emphasis. Never as a fill behind body text, never decorative. |
 | Muted | `#8A8A8A` / `#6A6A6A` | Secondary and label text. |
 
-Hairlines are `1px solid rgba(255,255,255,0.12)`. No shadows, no gradients, no rounded-corner cards with left-border accents.
+Hairlines are `1px solid rgba(255,255,255,0.12)`. No shadows, no gradients, no left-border accent cards. Cards are square; the one rounded shape is the **pill badge** — a thin gold hairline label (`.sor7ed-pill`) used for section/step labels ("MENTAL HEALTH RESOURCE", "PROTOCOL — STEP 1"), matching the customer-facing protocol deck.
 
 ### Type
-- **Display + UI:** a thin geometric sans (Futura family). `Jost` (Google Fonts, weights 200–400) is the working stand-in; a licensed or bespoke face is the eventual goal. Set wide-tracked (`letter-spacing` 0.18–0.34em) and mostly uppercase for labels; thin weight (200–300) and large for headlines, lower-case.
-- **Mono:** a monospace for step numbers and system strings only (`01`, `/50`, keywords).
-- Bebas Neue is removed.
+- **Display:** `Anton` (Google Fonts) — heavy condensed grotesque, all-caps, tight tracking (`letter-spacing` ≈ -0.015em). This is the deck's headline face; the site uses it for every `h1`/`h2` so the site → open-the-link → deck reads as one system. Fallback stack `"Oswald", "Arial Narrow"`.
+- **Body + UI:** `Jost` (Google Fonts, 300–500) — clean humanist sans for paragraphs, controls, nav, and small labels.
+- **Mono:** `JetBrains Mono` for step numbers and system strings (`01`, `/50`, keywords).
+- The `font-bebas` utility and `--font-bebas` var are retained as the display alias — they now resolve to Anton. Bebas Neue itself is removed.
 
 ### Logo
 - **Wordmark:** `SOR7ED` — the **O** is the tangle mark, the **7** is the cut where the **T** was. Real asset: `public/images/sor7ed-logo-white.png` (white) / `sor7ed-logo.png` (dark).

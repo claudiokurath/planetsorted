@@ -369,7 +369,7 @@ export function BiometricStateApp() {
               <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#C6A052,#C6A052)' }}>
                 <span className="text-base">💧</span>
               </span>
-              <span className="font-medium tracking-normal" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <span className="font-medium tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Biometric<span style={{ color: '#C6A052' }}>State</span>
               </span>
             </div>
@@ -397,7 +397,7 @@ export function BiometricStateApp() {
                 style={{ borderColor: 'rgba(34,229,208,0.3)', background: 'rgba(34,229,208,0.05)', color: '#C6A052' }}>
                 ✨ AI-Powered Insights
               </span>
-              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-extralight leading-[0.98] tracking-normal" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-normal leading-[0.98] tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Optimize your{' '}
                 <span style={{ background: 'linear-gradient(90deg,#C6A052,#C6A052)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                   cognitive & physical
@@ -447,7 +447,7 @@ export function BiometricStateApp() {
           <section className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
               <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#C6A052' }}>Daily Check-In</p>
-              <h2 className="text-3xl font-extralight sm:text-4xl">Log Today&apos;s Biometric State</h2>
+              <h2 className="text-3xl font-normal sm:text-4xl">Log Today&apos;s Biometric State</h2>
               <p className="mt-3 text-slate-400 max-w-lg mx-auto">Fill in what you know — the engine calculates your personalized hydration target and biometric score instantly.</p>
             </div>
 
@@ -567,24 +567,24 @@ export function BiometricStateApp() {
             <section ref={resultsRef} className="py-14 border-t bst-fade" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
               <div className="text-center mb-10">
                 <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#C6A052' }}>Your Insights</p>
-                <h2 className="text-3xl font-extralight sm:text-4xl">AI-Powered Recommendations</h2>
+                <h2 className="text-3xl font-normal sm:text-4xl">AI-Powered Recommendations</h2>
               </div>
 
               {/* Score cards */}
               <div className="grid md:grid-cols-3 gap-6 mb-8">
                 <div className="glass rounded-none p-6 text-center">
                   <p className="text-xs uppercase tracking-widest text-slate-400 font-medium mb-4">Biometric State Score</p>
-                  <p className={`text-5xl font-extralight ${scoreBand(result.score)}`}>{result.score}</p>
+                  <p className={`text-5xl font-normal ${scoreBand(result.score)}`}>{result.score}</p>
                   <p className="mt-2 text-sm font-medium text-slate-300">{scoreLabel(result.score)}</p>
                 </div>
                 <div className="glass rounded-none p-6 text-center">
                   <p className="text-xs uppercase tracking-widest text-slate-400 font-medium mb-4">Personalized Hydration</p>
-                  <p className="text-5xl font-extralight text-[#C6A052]">{result.hydrationTarget.toLocaleString()}</p>
+                  <p className="text-5xl font-normal text-[#C6A052]">{result.hydrationTarget.toLocaleString()}</p>
                   <p className="mt-2 text-sm font-medium text-slate-300">ml / day</p>
                 </div>
                 <div className="glass rounded-none p-6 text-center">
                   <p className="text-xs uppercase tracking-widest text-slate-400 font-medium mb-4">Hydration Progress</p>
-                  <p className="text-5xl font-extralight text-[#C6A052]">{hydrationPct}%</p>
+                  <p className="text-5xl font-normal text-[#C6A052]">{hydrationPct}%</p>
                   <p className="mt-2 text-sm font-medium text-slate-300">of daily target reached</p>
                 </div>
               </div>
@@ -610,7 +610,7 @@ export function BiometricStateApp() {
               <div className="flex items-center justify-between mb-8">
                 <div>
                   <p className="text-xs font-medium uppercase tracking-widest mb-1" style={{ color: '#C6A052' }}>Track Progress</p>
-                  <h2 className="text-3xl font-extralight">Check-In History</h2>
+                  <h2 className="text-3xl font-normal">Check-In History</h2>
                 </div>
                 <button onClick={fetchHistory} className="text-xs text-slate-500 hover:text-white transition">↻ Refresh</button>
               </div>

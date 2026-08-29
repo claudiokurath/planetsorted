@@ -30,7 +30,7 @@ export default function SoundsPage() {
           <div className="flex flex-col justify-between p-7 sm:p-10 lg:p-14">
             <div>
               <p className="mb-5 text-xs font-medium uppercase tracking-[0.24em] text-[#C6A052]">Artist 001 · Independent AI music artist</p>
-              <h2 className="text-5xl font-extralight leading-tight tracking-[-0.035em] sm:text-7xl">
+              <h2 className="text-5xl font-normal leading-tight tracking-[-0.035em] sm:text-7xl">
                 KLOUDAI<span className="text-[#C6A052]">.</span>
               </h2>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#F2F2F2]/80">

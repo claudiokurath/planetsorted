@@ -143,7 +143,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
               style={{ backgroundColor: ACCENT_DARK, border: '1px solid rgba(198, 160, 82, 0.34)' }}
             >
               <span
-                className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-extralight"
+                className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-normal"
                 style={{ backgroundColor: ACCENT }}
                 aria-hidden
               >
@@ -177,7 +177,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                     aria-hidden
                   />
                   <span
-                    className="absolute left-1/2 top-0 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-sm font-extralight text-white shadow-md"
+                    className="absolute left-1/2 top-0 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-sm font-normal text-white shadow-md"
                     style={{ backgroundColor: ACCENT }}
                   >
                     {j + 1}
@@ -197,12 +197,12 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
               {block.items.map((stat, j) => (
                 <div key={j} className="text-center">
                   {stat.value ? (
-                    <p className="font-bebas text-5xl font-extralight leading-none text-white sm:text-6xl">
+                    <p className="font-bebas text-5xl leading-none text-white sm:text-6xl">
                       {stat.value}
                     </p>
                   ) : null}
                   <p
-                    className="font-bebas mt-2 text-sm font-extralight uppercase tracking-wide sm:text-base"
+                    className="font-bebas mt-2 text-sm uppercase tracking-wide sm:text-base"
                     style={{ color: ACCENT }}
                   >
                     {stat.label}
@@ -299,7 +299,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                     )}
                   </div>
                   <h3
-                    className={`font-bebas text-xl font-extralight uppercase leading-tight tracking-wide text-white sm:text-2xl ${
+                    className={`font-bebas text-xl uppercase leading-tight tracking-wide text-white sm:text-2xl ${
                       useIcons ? '' : ''
                     }`}
                   >
@@ -324,8 +324,7 @@ function StepBadge({ label }: { label: string }) {
   const text = label.toUpperCase()
   return (
     <span
-      className="inline-flex rounded px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-white"
-      style={{ backgroundColor: ACCENT_DARK, border: `1px solid ${ACCENT}` }}
+      className="sor7ed-pill"
     >
       {text}
     </span>
@@ -342,7 +341,7 @@ function SlideCard({ slide, index }: { slide: DeckSlide; index: number }) {
     >
       <StepBadge label={badge} />
 
-      <h2 className="font-bebas mt-5 max-w-5xl text-3xl font-extralight uppercase leading-[0.95] tracking-normal text-[#F2F2F2] sm:text-5xl lg:text-6xl">
+      <h2 className="font-bebas mt-5 max-w-5xl text-3xl uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl">
         {slide.title}
         {slide.titleMuted ? (
           <span className="text-neutral-500"> {slide.titleMuted}</span>
@@ -396,7 +395,7 @@ export function ProtocolDeck({
           </div>
         </div>
 
-        <h1 className="font-bebas relative z-10 max-w-5xl text-4xl font-extralight uppercase leading-[0.95] tracking-normal text-white sm:text-6xl lg:text-7xl">
+        <h1 className="font-bebas relative z-10 max-w-5xl text-4xl uppercase leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
           {deck.title}
         </h1>
 

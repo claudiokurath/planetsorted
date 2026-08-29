@@ -177,7 +177,7 @@ export function BrainDumpSorterApp() {
               <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#C6A052,#C6A052)' }}>
                 <span>🧠</span>
               </span>
-              <span className="font-medium tracking-normal text-white" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <span className="font-medium tracking-normal text-white" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Brain Dump <span style={{ color: '#C6A052' }}>Sorter</span>
               </span>
             </div>
@@ -200,7 +200,7 @@ export function BrainDumpSorterApp() {
                 style={{ borderColor: 'rgba(56,189,248,0.3)', background: 'rgba(56,189,248,0.05)', color: '#C6A052' }}>
                 ✨ NLP Thought Classifier
               </span>
-              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-extralight leading-[0.98] tracking-normal" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-normal leading-[0.98] tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Dump your thoughts.{' '}
                 <span style={{ background: 'linear-gradient(90deg,#C6A052,#C6A052)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                   Sort the mess.
@@ -238,7 +238,7 @@ export function BrainDumpSorterApp() {
           <section id="sorter" className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
               <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#C6A052' }}>Interactive Tool</p>
-              <h2 className="text-3xl font-extralight sm:text-4xl">Sort Your Brain Dump</h2>
+              <h2 className="text-3xl font-normal sm:text-4xl">Sort Your Brain Dump</h2>
               <p className="mt-2 text-slate-400 max-w-lg mx-auto">Type or paste your raw stream-of-consciousness thoughts below.</p>
             </div>
 
@@ -332,7 +332,7 @@ export function BrainDumpSorterApp() {
           <section id="how" className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
               <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#C6A052' }}>3-Step System</p>
-              <h2 className="text-3xl font-extralight sm:text-4xl">How It Works</h2>
+              <h2 className="text-3xl font-normal sm:text-4xl">How It Works</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
               <div className="glass rounded-none p-6 text-center space-y-3">
@@ -359,7 +359,7 @@ export function BrainDumpSorterApp() {
               <div className="flex items-center justify-between mb-8">
                 <div>
                   <p className="text-xs font-medium uppercase tracking-widest mb-1" style={{ color: '#C6A052' }}>Saved Dumps</p>
-                  <h2 className="text-3xl font-extralight">History Log</h2>
+                  <h2 className="text-3xl font-normal">History Log</h2>
                 </div>
                 <button onClick={fetchHistory} className="text-xs text-slate-500 hover:text-white transition">↻ Refresh</button>
               </div>

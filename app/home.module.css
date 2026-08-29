@@ -62,22 +62,25 @@
   display: inline-flex;
   align-items: center;
   width: fit-content;
+  border: 1px solid rgba(198, 160, 82, 0.55);
+  border-radius: 999px;
+  padding: 6px 14px;
   color: var(--home-cyan);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 400;
-  letter-spacing: 0.34em;
+  letter-spacing: 0.18em;
   line-height: 1;
   text-transform: uppercase;
 }
 
 .heroCopy h1 {
-  margin-top: 28px;
-  font-family: var(--font-bebas), "Jost", system-ui, sans-serif;
-  font-size: clamp(66px, 7.6vw, 116px);
-  font-weight: 200;
-  letter-spacing: 0.005em;
-  line-height: 0.98;
-  text-transform: none;
+  margin-top: 26px;
+  font-family: var(--font-bebas), "Oswald", "Arial Narrow", sans-serif;
+  font-size: clamp(58px, 7vw, 104px);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 0.92;
+  text-transform: uppercase;
 }
 
 .heroCopy h1 span,
@@ -171,9 +174,9 @@
 .sectionHeading h2,
 .closingSection h2 {
   margin-top: 18px;
-  font-family: var(--font-bebas), "Jost", system-ui, sans-serif;
-  font-size: clamp(58px, 6.4vw, 96px);
-  font-weight: 200;
+  font-family: var(--font-bebas), "Oswald", "Arial Narrow", sans-serif;
+  font-size: clamp(44px, 5.4vw, 78px);
+  font-weight: 400;
   letter-spacing: 0.02em;
   line-height: 1;
   text-transform: uppercase;
@@ -227,7 +230,7 @@
 .workflowGrid h3 {
   margin-top: 44px;
   color: white;
-  font-family: var(--font-bebas), "Jost", system-ui, sans-serif;
+  font-family: var(--font-bebas), "Oswald", "Arial Narrow", sans-serif;
   font-size: 38px;
   font-weight: 400;
   line-height: 1;
@@ -376,7 +379,7 @@
 
 .cardBody h3 {
   margin-top: 20px;
-  font-family: var(--font-bebas), "Jost", system-ui, sans-serif;
+  font-family: var(--font-bebas), "Oswald", "Arial Narrow", sans-serif;
   font-size: clamp(26px, 2.7vw, 38px);
   font-weight: 400;
   line-height: 0.98;
@@ -470,14 +473,14 @@
   }
 
   .heroCopy h1 {
-    font-size: clamp(42px, 12vw, 64px);
+    font-size: clamp(40px, 12vw, 60px);
     line-height: 1.02;
   }
 
   .centeredHeading h2,
   .sectionHeading h2,
   .closingSection h2 {
-    font-size: clamp(36px, 9.5vw, 54px);
+    font-size: clamp(34px, 9vw, 50px);
   }
 
   .workflowGrid,

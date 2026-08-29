@@ -11,8 +11,8 @@ export default function WidgetTestPage() {
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-3xl px-6 py-16">
         <h1
-          className="text-5xl sm:text-6xl font-extralight uppercase text-white tracking-normal leading-[0.95]"
-          style={{ fontFamily: "var(--font-jost), system-ui, sans-serif" }}
+          className="text-5xl sm:text-6xl font-normal uppercase text-white tracking-normal leading-[0.95]"
+          style={{ fontFamily: "var(--font-anton), Oswald, sans-serif" }}
         >
           Widget Install Test
         </h1>
@@ -25,7 +25,7 @@ export default function WidgetTestPage() {
         </p>
 
         <div className="mt-8 rounded-2xl border border-neutral-800 bg-black p-6 space-y-3">
-          <h2 className="text-2xl font-extralight uppercase text-white" style={{ fontFamily: "var(--font-jost), system-ui, sans-serif" }}>
+          <h2 className="text-2xl font-normal uppercase text-white" style={{ fontFamily: "var(--font-anton), Oswald, sans-serif" }}>
             The exact install snippet
           </h2>
           <pre className="overflow-x-auto rounded-xl bg-black p-4 text-xs sm:text-sm text-neutral-300">
