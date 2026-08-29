@@ -304,13 +304,11 @@
 
 .cardImage {
   object-fit: cover;
-  filter: grayscale(1) contrast(1.06) brightness(0.95);
-  transition: transform 500ms ease, filter 500ms ease;
+  transition: transform 500ms ease;
 }
 
 .contentCard:hover .cardImage {
   transform: scale(1.035);
-  filter: grayscale(1) contrast(1.08) brightness(1);
 }
 
 .cardShade {

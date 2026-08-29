@@ -4,7 +4,7 @@ import { ContentCard } from '@/components/ContentCard'
 import { PageHeader } from '@/components/PageHeader'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-const LOGO_IMAGE = '/images/sor7ed-logo-white.png'
+const OG_CARD = '/api/og?card=welcome'
 
 export const metadata: Metadata = {
   title: 'Guidebook — PLANET SOR7ED',
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     description: 'Plain-English protocols that turn chaos into a next step.',
     images: [
       {
-        url: `${SITE}${LOGO_IMAGE}`,
+        url: `${SITE}${OG_CARD}`,
         type: 'image/png',
         alt: 'PLANET SOR7ED Guidebook',
       },
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Guidebook — PLANET SOR7ED',
     description: 'Plain-English protocols that turn chaos into a next step.',
-    images: [`${SITE}${LOGO_IMAGE}`],
+    images: [`${SITE}${OG_CARD}`],
   },
 }
 
