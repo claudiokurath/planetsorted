@@ -104,15 +104,20 @@ Everything below this point in the document describes **Sorted Lab** specificall
 ### Brand Phrases
 - "Templates, not inspiration." "Worry less, live more." "Built for ADHD brains." "No app. No spam. Just what works." "One clear next step."
 
+### Brand Phrases (voice)
+- **Tagline (primary): "worry less, live more."**
+- Supporting: "clarity from clutter." · "sort the noise." · "tools that do something" · "practical protocols"
+- Utility: "No app. No spam. One next step." · "Built for ADHD brains." · "Templates, not inspiration."
+
 ### Homepage Hero
-- **Headline:** "Practical tools for neurodivergent life admin."
-- **Body:** "PLANET SOR7ED helps you turn overwhelm into one clear, manageable next step — with templates, protocols, and plain-English tools built for brains that already have enough going on."
-- **Closing line:** "No app. No spam. Just what works."
-- **Visual direction:** One simple contained 16:9 image banner aligned to the same maximum page width as the sections below. The supplied mixed-media collage fills the banner, with the existing hero copy over a dark readability gradient. The headline uses the same uppercase Bebas Neue size and treatment as the homepage section titles. No split-screen panels or additional hero elements.
+- **Headline:** "clarity from clutter." (set very large, thin, lower-case, on black)
+- **Body:** "PLANET SOR7ED turns overwhelm into one clear, manageable next step — templates, protocols, and plain-English tools built for brains that already have enough going on."
+- **Closing line:** "No app. No spam. One next step."
+- **Visual direction:** No photographic banner. The hero is type-led: the headline against black, one gold call to action, and the tangle-mark "chaos → clarity" motif set beside it (a loose grey scribble resolving into the gold tangle). Aligned to the same max page width as the sections below. No split-screen panels, no collage, no readability gradient over a photo.
 
 ### Homepage Section Headers
-- "HOW IT WORKS," "TOOLBOX," and "GUIDEBOOK" use the same uppercase Bebas Neue display treatment, responsive size and left alignment.
-- HOW IT WORKS has no decorative red rule and shares the continuous beige section background with TOOLBOX; GUIDEBOOK remains on black. TOOLBOX and GUIDEBOOK retain their red rules.
+- "HOW IT WORKS," "TOOLBOX," and "GUIDEBOOK" use the display face (thin geometric, wide uppercase tracking), responsive size, left aligned.
+- All three sit on black, separated by 1px hairline rules only. No beige section background, no red rules. The old "beige + red rule" treatment is retired.
 
 ### Homepage Scroll Snap
 - The homepage uses three vertical snap points: Hero; HOW IT WORKS + TOOLBOX as one combined stop; GUIDEBOOK as the final stop.
@@ -129,6 +134,36 @@ Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant o
 - It is not a crisis service.
 - If someone is in immediate danger in the UK, call 999. If at risk of harming themselves, text SHOUT to 85258.
 - GDPR: no selling/sharing user data; deletion on request.
+
+---
+
+## Visual Identity
+
+**Direction: monochrome, typographic, editorial restraint.** The logo carries the concept; the interface stays out of the way. Adopted v0.5.0, replacing the pitch-black + yellow "Gamma" styling (Bebas Neue, `#F5C518`, beige panels, red rules) — those are retired.
+
+### Colour
+| Token | Value | Use |
+|---|---|---|
+| Ink | `#000000` | Ground. Every surface. |
+| Paper | `#F2F2F2` | Text, hairlines, the wordmark. |
+| Gold | `#C6A052` | The single accent. **One** primary action per view, one active/selected state, and the mark where it carries emphasis. Never as a fill behind body text, never decorative. |
+| Muted | `#8A8A8A` / `#6A6A6A` | Secondary and label text. |
+
+Hairlines are `1px solid rgba(255,255,255,0.12)`. No shadows, no gradients, no rounded-corner cards with left-border accents.
+
+### Type
+- **Display + UI:** a thin geometric sans (Futura family). `Jost` (Google Fonts, weights 200–400) is the working stand-in; a licensed or bespoke face is the eventual goal. Set wide-tracked (`letter-spacing` 0.18–0.34em) and mostly uppercase for labels; thin weight (200–300) and large for headlines, lower-case.
+- **Mono:** a monospace for step numbers and system strings only (`01`, `/50`, keywords).
+- Bebas Neue is removed.
+
+### Logo
+- **Wordmark:** `SOR7ED` — the **O** is the tangle mark, the **7** is the cut where the **T** was. Real asset: `public/images/sor7ed-logo-white.png` (white) / `sor7ed-logo.png` (dark).
+- **Mark:** the tangle — overlapping hand-drawn thin rings forming a knot/rose. Real asset: `public/images/sorted-button/tangle.png` (used as favicon, `app/icon.png`). White for structural use; gold only when it carries the accent (never both in one lockup).
+- **Motif:** a loose grey scribble resolving into the clean tangle = "chaos → clarity." Use sparingly — hero, section breaks, the article gate.
+- Clear space around any lockup ≥ the cap height of the wordmark.
+
+### Imagery
+Photography is not the default. When an image is needed, it is **black-and-white, high-contrast, grainy, editorial** — single-subject, lots of negative space, shot or treated so it reads as texture rather than illustration. No stock, no collage, no colour photos, no 3D renders, no gradient meshes. Gold may appear only as a single small object or line within the frame, never a colour grade. Preferred alternatives to photos, in order: (1) the tangle motif and generative line-work, (2) set type as the image, (3) a duotone black/gold treatment of a real photo. See `docs/` design canvas for the reference board.
 
 ---
 
@@ -242,7 +277,7 @@ Inside `/dashboard`, logged-in users with a verified WhatsApp number get a separ
 - Signed in, WhatsApp not verified → "CONNECT WHATSAPP →" → `/dashboard?tab=settings`. `DashboardClient` honours `?tab=` (tools | library | settings).
 - Signed in + WhatsApp verified → "SOR7ED" button → `POST /api/save-to-phone` → sends the rich link + full protocol text (+ audio, if present) via the Meta API.
 
-This is a **sign-in + verification gated** flow — the opposite of what the 0.4.1 changelog entry below describes fixing (`GetSortedButton` was meant to be the *ungated*, no-signup `wa.me` replacement). Whether `Sor7edButton`'s gated flow is the intended current design or unintentional drift back toward the pre-0.4.1 problem has not been resolved — flag before changing either way.
+This **sign-in + verification gate is intended** (confirmed by the founder, v0.5.0). The point of the SOR7ED button is the *automatic* send: for a verified user one tap delivers the protocol straight to their WhatsApp thread via the Meta API — no `wa.me` hop, no "open WhatsApp and type SORTED". The ungated `wa.me` pattern (`GetSortedButton`, and the partner widget) is for *third-party* sites only; on Sorted Lab's own pages a "text SORTED" style prompt is wrong and should not be built. The pre-verification states are the on-ramp to that one-tap send, not a regression.
 
 **A third, separate thing exists and must not be confused with the above:** `public/widget.js` + `app/api/widget-config/route.ts` is the "SOR7ED BUTTON" **partner widget** — a real, working, self-contained embeddable script (`<script src="https://planetsorted.com/widget.js" data-tool="...">`) meant for *third-party* sites, not Sorted Lab's own pages. Removed from this site's own root layout back in 0.4.1 for exactly that reason (see changelog). As of 15 August 2026, clicking it opens `https://wa.me/447591922247?text=https://planetsorted.com/r/<tool-slug>` — the visitor's own WhatsApp, addressed directly to SOR7ED's number, with that tool's rich-link URL pre-filled (not a bare slug — a bare slug is just text and WhatsApp won't unfurl it into a card). It no longer navigates to planetsorted.com in the browser at all. The visitor taps Send and the rich card (image, title, description, pulled from `/r/[slug]`'s Open Graph tags) lands in their thread with the business. **As of 0.4.18, lead capture is optional:** set `data-partner="your-slug"` on the script tag and the button opens a phone panel that POSTs to `/api/leads` (stored in `partner_leads` under that partner slug) before opening WhatsApp. Without `data-partner`, behaviour is unchanged (direct `wa.me`). Full partner accounts, dashboards, and billing are still a later product — v1 is capture + store only. A live test embed is at `/widget-test`.
 
@@ -250,9 +285,11 @@ This is a **sign-in + verification gated** flow — the opposite of what the 0.4
 
 **Also found this session, for context — do not conflate with the above:** a separate, complete, historical Next.js project exists locally at `~/Desktop/Private & Shared/sor7ed-app-fresh` (469 commits, last touched 18 April 2026, currently behind a "Coming Soon" redirect). It represents an earlier product direction — password auth, the retired 7-domains structure, a Twilio+n8n WhatsApp bot — superseded by this repo's current direction. Decision made: not revived as a competing live site; may be mined later for reusable pieces (5 additional standalone tools it contains that don't exist here: Dopamine Menu, Decision Clarity Tool, Sensory Audit, Spoon Theory Tracker, Time Blindness Calculator).
 
-**Public detail-page layout, still in the temporary minimal state first noted 10 August 2026:**
-- Tool: dark-overlay image banner with title + short description, followed by one compact Summary explanation, followed by the `Sor7edButton` described above.
-- Article: dark-overlay image banner with title + description, followed by the public `Blog Post` content, followed by the `Sor7edButton` described above.
+**Public detail-page layout (v0.5.0 monochrome direction — see Visual Identity):**
+- Type-led, no photographic banner. Category tag + thin large title + hairline rule.
+- Tool: title, one compact Summary, then the interactive tool (or its teaser), then the `Sor7edButton`.
+- Article: title, the public teaser (excerpt/summary), then the `Sor7edButton`. Full body + protocol unlock via the WhatsApp rich-link `access_token` (0.4.20).
+- `components/ContentHero.tsx` (dark-overlay image banner) is superseded by this and can be retired.
 
 **Key files:**
 - `components/buttons/Sor7edButton.tsx` — the actual live button on public article/tool pages. See states above.
@@ -694,7 +731,8 @@ time someone is in the Notion UI.
 ---
 
 ## Version & History
-- **Current Version:** 0.4.21
+- **Current Version:** 0.5.0
+- **Notes (0.5.0):** Visual redesign — monochrome + gold typographic identity (new **Visual Identity** section). Retires the pitch-black + yellow "Gamma" styling: Bebas Neue → thin geometric sans (Jost stand-in), `#F5C518` yellow → `#C6A052` gold as the single accent, beige panels + red rules → black with 1px hairlines, photographic hero → type-led hero with the tangle "chaos → clarity" motif. Wordmark (tangle-O, 7-for-T) and tangle mark are the real assets (`sor7ed-logo-white.png`, `sorted-button/tangle.png`), recoloured gold where they carry emphasis. Primary tagline reinstated: **"worry less, live more."** Standalone tool pages to be brought onto the same system. Direction reference + homepage/tool/article/standalone mockups: design canvas (Claude Design). No code shipped yet — spec + mockups only. Resolved the open SOR7ED-button question: the sign-in + WhatsApp-verification gate is intended; the one-tap auto-send *is* the product, and a "text SORTED" prompt on Sorted Lab's own pages is explicitly wrong.
 - **Notes (0.4.21):** Guidebook ProtocolDeck. Unlocked `/intelligence/[slug]` no longer renders a grey wall of prose — body + protocol are parsed into kit-style black/yellow presentation slides (cover split, STEP badges, yellow card grids, numbered rails, callouts, stats) matching the Relationship Harm-Reduction Kit visual language. Print/Save-as-PDF uses A4 landscape (`ProtocolDeckPrint.css`). Locked visitors still see teaser + SOR7ED WhatsApp CTA only. Parser: `lib/protocolDeck.ts`; UI: `components/ProtocolDeck.tsx`.
 - **Notes (0.4.20):** Article teaser gate. Public `/intelligence/[slug]` shows only excerpt/summary teaser + SOR7ED CTA — full `problem` body and `protocol` unlock only when the visitor arrives via the WhatsApp rich link (`/r/[slug]` mints a 7-day HMAC `access_token`, same pattern as standalone tools). Signed-in website session is no longer a shortcut. Guessable `access_token=granted` removed.
 - **Notes (0.4.19):** WhatsApp rich-link quality fix. (1) `/r/[slug]` no longer 307-redirects OG crawlers (WhatsApp/Facebook/etc.) — they stay on the page and scrape sharp `image-proxy` 1200×630 JPEGs; humans still redirect. Root cause of blur: destination standalone pages used `/api/og?image=` which embedded tiny Notion covers (~624×352). (2) All OG surfaces (standalone, tools, intelligence, `/r/`) route covers through `/api/image-proxy` (`q=82` + sharpen). (3) `POST /api/save-to-phone` defaults to **one** rich-link message only — protocol text dump and audio are opt-in (`includeProtocol` / `includeAudio`), fixing the dual-bubble send.
