@@ -40,10 +40,10 @@ function calcWinScore(inputs: Pick<WinInputs, 'tasksCompleted' | 'bodyDoublingSe
 }
 
 function scoreBand(score: number): { label: string; colour: string } {
-  if (score >= 80) return { label: 'On fire 🔥', colour: '#f59e0b' }
-  if (score >= 50) return { label: 'Solid week ✓', colour: '#22c55e' }
-  if (score >= 20) return { label: 'You showed up', colour: '#38bdf8' }
-  return { label: 'Still counts', colour: '#a78bfa' }
+  if (score >= 80) return { label: 'On fire 🔥', colour: '#C6A052' }
+  if (score >= 50) return { label: 'Solid week ✓', colour: '#C6A052' }
+  if (score >= 20) return { label: 'You showed up', colour: '#C6A052' }
+  return { label: 'Still counts', colour: '#C6A052' }
 }
 
 function generateTitle(tone: Tone, weekLabel: string, score: number): string {
@@ -453,7 +453,7 @@ export function WeeklyWinsApp() {
                       className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all ${
                         tone === t.value
                           ? 'border-[#C6A052] bg-[#C6A052]/20 text-white'
-                          : 'border-white/10 bg-black text-neutral-300 hover:border-white/20 hover:bg-white/10'
+                          : 'border-white/10 bg-black text-neutral-300 hover:border-white/20 hover:bg-[#0A0A0A]/10'
                       }`}
                     >
                       <span
@@ -496,13 +496,13 @@ export function WeeklyWinsApp() {
                 id="generate-wins"
                 onClick={handleGenerate}
                 disabled={saving}
-                className="w-full rounded-none bg-[#C6A052] px-8 py-4 text-sm font-medium uppercase tracking-widest text-[#050608] shadow-lg transition-all hover:bg-[#9C7E3F] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full rounded-none bg-[#C6A052] px-8 py-4 text-sm font-medium uppercase tracking-widest text-[#000000] shadow-lg transition-all hover:bg-[#9C7E3F] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {saving ? 'Saving…' : 'Generate my wins →'}
               </button>
 
               {saveError && (
-                <p className="text-sm text-red-400">{saveError}</p>
+                <p className="text-sm text-[#C6A052]">{saveError}</p>
               )}
 
               {authChecked && !userId && (
@@ -546,7 +546,7 @@ export function WeeklyWinsApp() {
                 <button
                   id="copy-draft"
                   onClick={handleCopy}
-                  className="rounded-xl border border-white/20 bg-black px-5 py-2.5 text-sm font-medium text-white transition hover:bg-white/20 active:scale-95"
+                  className="rounded-xl border border-white/20 bg-black px-5 py-2.5 text-sm font-medium text-white transition hover:bg-[#0A0A0A]/20 active:scale-95"
                 >
                   {copied ? 'Copied ✓' : 'Copy draft'}
                 </button>
@@ -601,7 +601,7 @@ export function WeeklyWinsApp() {
                         <button
                           onClick={() => handleDelete(row.id)}
                           aria-label="Delete this entry"
-                          className="shrink-0 rounded-lg px-3 py-1.5 text-xs text-neutral-500 transition hover:bg-red-500/10 hover:text-red-400"
+                          className="shrink-0 rounded-lg px-3 py-1.5 text-xs text-neutral-500 transition hover:bg-[#C6A052]/10 hover:text-[#C6A052]"
                         >
                           Delete
                         </button>

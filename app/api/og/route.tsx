@@ -52,21 +52,21 @@ export async function GET(req: Request) {
             justifyContent: 'flex-end',
             padding: '72px',
             boxSizing: 'border-box',
-            fontFamily: fontData ? 'Inter' : 'sans-serif',
-            borderLeft: '14px solid #1FD7CF',
+            fontFamily: fontData ? 'Jost' : 'sans-serif',
+            border: '1px solid rgba(255,255,255,0.14)',
           }}
         >
-          <div style={{ color: '#1FD7CF', fontSize: 22, fontWeight: 900, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 24 }}>SOR7ED</div>
-          <div style={{ color: '#FFFFFF', fontSize: 72, fontWeight: 900, textTransform: 'uppercase', lineHeight: 1.05, marginBottom: 28 }}>{title}</div>
+          <div style={{ color: '#C6A052', fontSize: 22, fontWeight: 300, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 24 }}>SOR7ED</div>
+          <div style={{ color: '#FFFFFF', fontSize: 72, fontWeight: 300, textTransform: 'uppercase', lineHeight: 1.05, marginBottom: 28 }}>{title}</div>
           {description && (
-            <div style={{ color: '#94A3B8', fontSize: 30, fontWeight: 500, lineHeight: 1.4, maxWidth: 900 }}>{description}</div>
+            <div style={{ color: '#8A8A8A', fontSize: 30, fontWeight: 400, lineHeight: 1.4, maxWidth: 900 }}>{description}</div>
           )}
         </div>
       ),
       {
         width: 1200,
         height: 630,
-        ...(fontData ? { fonts: [{ name: 'Inter', data: fontData, style: 'normal', weight: 900 }] } : {}),
+        ...(fontData ? { fonts: [{ name: 'Jost', data: fontData, style: 'normal', weight: 300 }] } : {}),
       }
     )
   }
@@ -104,16 +104,16 @@ export async function GET(req: Request) {
           alignItems: 'center',
           justifyContent: 'center',
           padding: '60px',
-          border: '18px solid #856CFF',
+          border: '1px solid rgba(255,255,255,0.14)',
           boxSizing: 'border-box',
-          fontFamily: fontData ? 'Inter' : 'sans-serif',
+          fontFamily: fontData ? 'Jost' : 'sans-serif',
         }}
       >
         <div
           style={{
-            color: '#1FD7CF',
+            color: '#C6A052',
             fontSize: 28,
-            fontWeight: 900,
+            fontWeight: 300,
             letterSpacing: '0.25em',
             textTransform: 'uppercase',
             marginBottom: 32,
@@ -125,7 +125,7 @@ export async function GET(req: Request) {
           style={{
             color: '#FFFFFF',
             fontSize: 80,
-            fontWeight: 900,
+            fontWeight: 300,
             textTransform: 'uppercase',
             textAlign: 'center',
             whiteSpace: 'pre-line',
@@ -136,11 +136,11 @@ export async function GET(req: Request) {
         </div>
         <div
           style={{
-            color: '#94A3B8',
+            color: '#8A8A8A',
             fontSize: 32,
             marginTop: 32,
             textAlign: 'center',
-            fontWeight: 600,
+            fontWeight: 400,
           }}
         >
           {card.sub}
@@ -154,10 +154,10 @@ export async function GET(req: Request) {
         ? {
             fonts: [
               {
-                name: 'Inter',
+                name: 'Jost',
                 data: fontData,
                 style: 'normal',
-                weight: 900,
+                weight: 300,
               },
             ],
           }

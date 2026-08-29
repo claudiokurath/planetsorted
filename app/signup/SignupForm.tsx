@@ -120,7 +120,7 @@ export function SignupForm() {
         <p className="mt-5 max-w-md text-sm leading-6 text-neutral-400 sm:text-base">WhatsApp is your product key. Add email if you want a backup sign-in and recovery route.</p>
       </div>
 
-      {linkExpired ? <div className="mb-6 rounded-none border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-xs leading-relaxed text-amber-300">That sign-in link expired. Send yourself a fresh one below.</div> : null}
+      {linkExpired ? <div className="mb-6 rounded-none border border-[#C6A052]/30 bg-[#C6A052]/10 px-4 py-3 text-xs leading-relaxed text-[#C6A052]">That sign-in link expired. Send yourself a fresh one below.</div> : null}
 
       {!emailOnly ? (
         <form onSubmit={handleUnifiedSubmit} className="space-y-4">
