@@ -36,7 +36,7 @@ export function ContentCard({
             alt=""
             fill
             sizes="(max-width: 640px) 38vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover grayscale contrast-125 brightness-90 transition-transform duration-500 group-hover:scale-[1.035]"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.035]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
         </div>

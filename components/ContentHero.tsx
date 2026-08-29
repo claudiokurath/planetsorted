@@ -26,10 +26,8 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 896px"
-              className="object-cover grayscale contrast-125 brightness-[0.82]"
+              className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-black/20" />
-            <div className="absolute inset-0 mix-blend-overlay opacity-[0.12] [background-image:repeating-linear-gradient(0deg,#fff_0,#fff_1px,transparent_1px,transparent_3px)]" />
           </div>
         ) : null}
         <div className="space-y-4">
@@ -85,10 +83,8 @@ export function ContentHero({ title, description, category, meta, coverImage, ar
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 1024px"
-              className="object-cover grayscale contrast-125 brightness-[0.82]"
+              className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/25" />
-            <div className="absolute inset-0 mix-blend-overlay opacity-[0.12] [background-image:repeating-linear-gradient(0deg,#fff_0,#fff_1px,transparent_1px,transparent_3px)]" />
           </div>
         ) : null}
 
