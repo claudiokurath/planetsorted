@@ -177,7 +177,7 @@ export function BrainDumpSorterApp() {
               <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#38bdf8,#8b7bff)' }}>
                 <span>🧠</span>
               </span>
-              <span className="font-bold tracking-tight text-white" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <span className="font-medium tracking-normal text-white" style={{ fontFamily: 'Inter, sans-serif' }}>
                 Brain Dump <span style={{ color: '#38bdf8' }}>Sorter</span>
               </span>
             </div>
@@ -186,7 +186,7 @@ export function BrainDumpSorterApp() {
               <a href="#how" className="hover:text-white transition">How it Works</a>
               <a href="#history" className="hover:text-white transition">History Log</a>
             </div>
-            <a href="#sorter" className="inline-flex items-center rounded-full border border-sky-500/40 px-5 py-2 text-xs font-bold uppercase tracking-widest text-sky-400 hover:bg-sky-500/10 transition">
+            <a href="#sorter" className="inline-flex items-center rounded-full border border-sky-500/40 px-5 py-2 text-xs font-medium uppercase tracking-widest text-sky-400 hover:bg-sky-500/10 transition">
               Use Classifier
             </a>
           </div>
@@ -196,11 +196,11 @@ export function BrainDumpSorterApp() {
           {/* Hero */}
           <section className="py-16 md:py-24 grid gap-12 md:grid-cols-2 items-center">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wider"
+              <span className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium uppercase tracking-wider"
                 style={{ borderColor: 'rgba(56,189,248,0.3)', background: 'rgba(56,189,248,0.05)', color: '#38bdf8' }}>
                 ✨ NLP Thought Classifier
               </span>
-              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.98] tracking-tight" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-extralight leading-[0.98] tracking-normal" style={{ fontFamily: 'Inter, sans-serif' }}>
                 Dump your thoughts.{' '}
                 <span style={{ background: 'linear-gradient(90deg,#38bdf8,#8b7bff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                   Sort the mess.
@@ -215,9 +215,9 @@ export function BrainDumpSorterApp() {
               </div>
             </div>
 
-            <div className="glass rounded-3xl p-8 space-y-4">
-              <p className="text-xs uppercase tracking-widest text-slate-400 font-semibold mb-2">Classifier Preview</p>
-              <div className="grid grid-cols-3 gap-3 text-center text-xs font-bold">
+            <div className="glass rounded-none p-8 space-y-4">
+              <p className="text-xs uppercase tracking-widest text-slate-400 font-medium mb-2">Classifier Preview</p>
+              <div className="grid grid-cols-3 gap-3 text-center text-xs font-medium">
                 <div className="rounded-xl border border-sky-500/30 bg-sky-500/10 py-3 text-sky-300">
                   <span className="block text-lg">📋</span> Task
                 </div>
@@ -237,20 +237,20 @@ export function BrainDumpSorterApp() {
           {/* Sorter Interactive Tool */}
           <section id="sorter" className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
-              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#38bdf8' }}>Interactive Tool</p>
-              <h2 className="text-3xl font-black sm:text-4xl">Sort Your Brain Dump</h2>
+              <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#38bdf8' }}>Interactive Tool</p>
+              <h2 className="text-3xl font-extralight sm:text-4xl">Sort Your Brain Dump</h2>
               <p className="mt-2 text-slate-400 max-w-lg mx-auto">Type or paste your raw stream-of-consciousness thoughts below.</p>
             </div>
 
-            <form onSubmit={handleSort} className="glass rounded-3xl p-6 md:p-10 space-y-6">
+            <form onSubmit={handleSort} className="glass rounded-none p-6 md:p-10 space-y-6">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-2">Raw Brain Dump Input</label>
+                <label className="block text-xs font-medium text-slate-300 mb-2">Raw Brain Dump Input</label>
                 <textarea
                   rows={4}
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   placeholder="e.g. BRAINDUMP need to email invoice, what if we made an interactive widget, feeling stressed today..."
-                  className="w-full resize-none rounded-2xl border border-white/10 bg-black p-4 text-sm text-white placeholder-slate-500 outline-none focus:border-sky-400 transition"
+                  className="w-full resize-none rounded-none border border-white/10 bg-black p-4 text-sm text-white placeholder-slate-500 outline-none focus:border-sky-400 transition"
                   required
                 />
               </div>
@@ -259,12 +259,12 @@ export function BrainDumpSorterApp() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="w-full sm:w-auto rounded-full px-8 py-3.5 font-bold text-slate-900 shadow-lg transition hover:opacity-90 active:scale-95 disabled:opacity-50"
+                  className="w-full sm:w-auto rounded-full px-8 py-3.5 font-medium text-slate-900 shadow-lg transition hover:opacity-90 active:scale-95 disabled:opacity-50"
                   style={{ background: 'linear-gradient(90deg,#38bdf8,#8b7bff)' }}
                 >
                   {saving ? 'Sorting…' : '⚡ Sort My Brain Dump'}
                 </button>
-                {savedSuccess && <p className="text-xs text-emerald-400 font-semibold">✓ Sorted and saved to history log</p>}
+                {savedSuccess && <p className="text-xs text-[#C6A052] font-medium">✓ Sorted and saved to history log</p>}
               </div>
             </form>
 
@@ -272,8 +272,8 @@ export function BrainDumpSorterApp() {
             {sorted && (
               <div className="mt-10 grid md:grid-cols-3 gap-6 bds-fade">
                 {/* Tasks */}
-                <div className="glass rounded-3xl p-6 space-y-4 border-t-4 border-t-sky-400">
-                  <h3 className="text-lg font-bold text-sky-400 flex items-center gap-2">
+                <div className="glass rounded-none p-6 space-y-4 border-t-4 border-t-sky-400">
+                  <h3 className="text-lg font-medium text-sky-400 flex items-center gap-2">
                     📋 Tasks ({sorted.tasks.length})
                   </h3>
                   {sorted.tasks.length === 0 ? (
@@ -290,8 +290,8 @@ export function BrainDumpSorterApp() {
                 </div>
 
                 {/* Ideas */}
-                <div className="glass rounded-3xl p-6 space-y-4 border-t-4 border-t-amber-400">
-                  <h3 className="text-lg font-bold text-amber-400 flex items-center gap-2">
+                <div className="glass rounded-none p-6 space-y-4 border-t-4 border-t-amber-400">
+                  <h3 className="text-lg font-medium text-amber-400 flex items-center gap-2">
                     💡 Ideas ({sorted.ideas.length})
                   </h3>
                   {sorted.ideas.length === 0 ? (
@@ -308,8 +308,8 @@ export function BrainDumpSorterApp() {
                 </div>
 
                 {/* Emotions */}
-                <div className="glass rounded-3xl p-6 space-y-4 border-t-4 border-t-rose-400">
-                  <h3 className="text-lg font-bold text-rose-400 flex items-center gap-2">
+                <div className="glass rounded-none p-6 space-y-4 border-t-4 border-t-rose-400">
+                  <h3 className="text-lg font-medium text-rose-400 flex items-center gap-2">
                     ❤️ Emotions ({sorted.emotions.length})
                   </h3>
                   {sorted.emotions.length === 0 ? (
@@ -331,23 +331,23 @@ export function BrainDumpSorterApp() {
           {/* How it works */}
           <section id="how" className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
-              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#8b7bff' }}>3-Step System</p>
-              <h2 className="text-3xl font-black sm:text-4xl">How It Works</h2>
+              <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#8b7bff' }}>3-Step System</p>
+              <h2 className="text-3xl font-extralight sm:text-4xl">How It Works</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
-              <div className="glass rounded-3xl p-6 text-center space-y-3">
+              <div className="glass rounded-none p-6 text-center space-y-3">
                 <span className="text-3xl">📱</span>
-                <h3 className="text-base font-bold text-white">1. Send on WhatsApp</h3>
+                <h3 className="text-base font-medium text-white">1. Send on WhatsApp</h3>
                 <p className="text-xs text-slate-400">Message keyword <code className="text-sky-400 font-mono">BRAINDUMP</code> followed by whatever is on your mind.</p>
               </div>
-              <div className="glass rounded-3xl p-6 text-center space-y-3">
+              <div className="glass rounded-none p-6 text-center space-y-3">
                 <span className="text-3xl">⚡</span>
-                <h3 className="text-base font-bold text-white">2. AI Classifies</h3>
+                <h3 className="text-base font-medium text-white">2. AI Classifies</h3>
                 <p className="text-xs text-slate-400">NLP prompt parses raw text into Task, Idea, or Emotion categories instantly.</p>
               </div>
-              <div className="glass rounded-3xl p-6 text-center space-y-3">
+              <div className="glass rounded-none p-6 text-center space-y-3">
                 <span className="text-3xl">📊</span>
-                <h3 className="text-base font-bold text-white">3. Auto-Sync to Notion</h3>
+                <h3 className="text-base font-medium text-white">3. Auto-Sync to Notion</h3>
                 <p className="text-xs text-slate-400">Classified notes land directly into your Notion board or account history.</p>
               </div>
             </div>
@@ -358,8 +358,8 @@ export function BrainDumpSorterApp() {
             <section id="history" className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#38bdf8' }}>Saved Dumps</p>
-                  <h2 className="text-3xl font-black">History Log</h2>
+                  <p className="text-xs font-medium uppercase tracking-widest mb-1" style={{ color: '#38bdf8' }}>Saved Dumps</p>
+                  <h2 className="text-3xl font-extralight">History Log</h2>
                 </div>
                 <button onClick={fetchHistory} className="text-xs text-slate-500 hover:text-white transition">↻ Refresh</button>
               </div>
@@ -367,7 +367,7 @@ export function BrainDumpSorterApp() {
               {historyLoading ? (
                 <p className="text-sm text-slate-500">Loading…</p>
               ) : history.length === 0 ? (
-                <p className="glass rounded-2xl p-6 text-sm text-slate-500">No brain dumps saved yet — sort a dump above.</p>
+                <p className="glass rounded-none p-6 text-sm text-slate-500">No brain dumps saved yet — sort a dump above.</p>
               ) : (
                 <div className="space-y-3">
                   {history.map((item) => {
@@ -380,15 +380,15 @@ export function BrainDumpSorterApp() {
                       emotionsCount = p.emotionsCount || 0
                     } catch {}
                     return (
-                      <div key={item.id} className="glass flex items-center justify-between gap-4 rounded-2xl px-5 py-4">
+                      <div key={item.id} className="glass flex items-center justify-between gap-4 rounded-none px-5 py-4">
                         <div className="flex items-center gap-6 min-w-0 text-sm">
                           <span className="text-slate-500 shrink-0">
                             {new Date(item.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
                           </span>
-                          <span className="font-bold text-white truncate max-w-xs">{input}</span>
-                          <span className="text-sky-400 text-xs font-semibold shrink-0">📋 {tasksCount} tasks</span>
-                          <span className="text-amber-400 text-xs font-semibold shrink-0">💡 {ideasCount} ideas</span>
-                          <span className="text-rose-400 text-xs font-semibold shrink-0">❤️ {emotionsCount} emotions</span>
+                          <span className="font-medium text-white truncate max-w-xs">{input}</span>
+                          <span className="text-sky-400 text-xs font-medium shrink-0">📋 {tasksCount} tasks</span>
+                          <span className="text-amber-400 text-xs font-medium shrink-0">💡 {ideasCount} ideas</span>
+                          <span className="text-rose-400 text-xs font-medium shrink-0">❤️ {emotionsCount} emotions</span>
                         </div>
                         <button
                           onClick={() => handleDeleteHistory(item.id)}

@@ -80,7 +80,7 @@ export default async function UpgradePage() {
       <div className="mx-auto max-w-md px-6 py-24 text-center space-y-8 font-sans">
         <div className="space-y-3">
           <div className="text-4xl">🔒</div>
-          <h1 className="text-2xl font-bold text-white">Sign in to Upgrade</h1>
+          <h1 className="text-2xl font-medium text-white">Sign in to Upgrade</h1>
           <p className="text-sm text-neutral-300">
             To upgrade to Plus, you need to be signed in first.
           </p>
@@ -88,12 +88,12 @@ export default async function UpgradePage() {
 
         <Link
           href="/signup"
-          className="inline-block w-full rounded-full bg-green-500 py-3 font-bold text-white hover:bg-green-600 transition-colors"
+          className="inline-block w-full rounded-full bg-green-500 py-3 font-medium text-white hover:bg-green-600 transition-colors"
         >
           Sign in or create your free account — no password needed.
         </Link>
 
-        <p className="text-xs text-neutral-500 leading-normal text-left border-t border-neutral-800 pt-6">
+        <p className="text-xs text-neutral-500 leading-normal text-left border-t border-white/10 pt-6">
           {disclaimer}
         </p>
       </div>
@@ -105,30 +105,30 @@ export default async function UpgradePage() {
     <div className="mx-auto max-w-md px-6 py-20 space-y-8 font-sans">
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-extrabold text-white">PLANET SOR7ED Plus</h1>
-        <p className="text-lg font-bold text-green-600">£5.99/month or £49/year</p>
+        <p className="text-lg font-medium text-green-600">£5.99/month or £49/year</p>
       </div>
 
-      <div className="rounded-2xl border border-neutral-800 bg-black p-6 space-y-4">
-        <h2 className="font-bold text-white">Included in Plus:</h2>
+      <div className="rounded-none border border-white/10 bg-black p-6 space-y-4">
+        <h2 className="font-medium text-white">Included in Plus:</h2>
         <ul className="space-y-3 text-sm text-neutral-300">
           <li className="flex items-start gap-2">
-            <span className="text-green-500 font-bold">✓</span>
+            <span className="text-green-500 font-medium">✓</span>
             <span>Saved run history (timestamped)</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-green-500 font-bold">✓</span>
+            <span className="text-green-500 font-medium">✓</span>
             <span>Compare mode for your tool runs</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-green-500 font-bold">✓</span>
+            <span className="text-green-500 font-medium">✓</span>
             <span>PDF exports for plans and briefs</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-green-500 font-bold">✓</span>
+            <span className="text-green-500 font-medium">✓</span>
             <span>Full 7-day and 30-day action plans</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-green-500 font-bold">✓</span>
+            <span className="text-green-500 font-medium">✓</span>
             <span>Unlimited WhatsApp RUN commands</span>
           </li>
         </ul>
@@ -138,7 +138,7 @@ export default async function UpgradePage() {
         <form action={handleSubscribe}>
           <button
             type="submit"
-            className="w-full rounded-full bg-green-500 py-3 font-bold text-white hover:bg-green-600 transition-colors"
+            className="w-full rounded-full bg-green-500 py-3 font-medium text-white hover:bg-green-600 transition-colors"
           >
             Subscribe Now
           </button>
@@ -153,7 +153,7 @@ export default async function UpgradePage() {
         </p>
       </div>
 
-      <p className="text-xs text-neutral-500 leading-normal border-t border-neutral-800 pt-6">
+      <p className="text-xs text-neutral-500 leading-normal border-t border-white/10 pt-6">
         {disclaimer}
       </p>
     </div>

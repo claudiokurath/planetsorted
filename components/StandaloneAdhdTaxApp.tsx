@@ -25,17 +25,17 @@ export function StandaloneAdhdTaxApp() {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
-        <header className="rounded-3xl border border-white/10 bg-black p-8 shadow-2xl backdrop-blur">
-          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-300">Independent app</p>
-          <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[0.95]">ADHD Tax Calculator</h1>
+        <header className="rounded-none border border-white/10 bg-black p-8 shadow-2xl backdrop-blur">
+          <p className="text-sm font-medium uppercase tracking-[0.35em] text-cyan-300">Independent app</p>
+          <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl font-extralight tracking-normal leading-[0.95]">ADHD Tax Calculator</h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-200">
             See the hidden monthly and yearly cost of late fees, impulse purchases, forgotten subscriptions, and productivity leaks.
           </p>
         </header>
 
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <section className="rounded-3xl border border-white/10 bg-black p-6 shadow-2xl">
-            <h2 className="text-2xl font-semibold">Your inputs</h2>
+          <section className="rounded-none border border-white/10 bg-black p-6 shadow-2xl">
+            <h2 className="text-2xl font-medium">Your inputs</h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {[
                 { label: 'Late fees (£ / mo)', value: lateFees, setValue: setLateFees, placeholder: '0' },
@@ -53,29 +53,29 @@ export function StandaloneAdhdTaxApp() {
                     value={field.value}
                     onChange={(e) => field.setValue(e.target.value)}
                     placeholder={field.placeholder}
-                    className="w-full rounded-2xl border border-white/10 bg-black px-4 py-3 text-white outline-none ring-0 focus:border-cyan-400"
+                    className="w-full rounded-none border border-white/10 bg-black px-4 py-3 text-white outline-none ring-0 focus:border-cyan-400"
                   />
                 </label>
               ))}
             </div>
           </section>
 
-          <section className="rounded-3xl border border-cyan-400/30 bg-cyan-500/10 p-6 shadow-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">Estimated annual leak</p>
-            <div className="mt-3 text-5xl font-black sm:text-6xl">£{result.yearlyTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
+          <section className="rounded-none border border-cyan-400/30 bg-cyan-500/10 p-6 shadow-2xl">
+            <p className="text-sm font-medium uppercase tracking-[0.3em] text-cyan-300">Estimated annual leak</p>
+            <div className="mt-3 text-5xl font-extralight sm:text-6xl">£{result.yearlyTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
             <p className="mt-2 text-slate-200">That’s about £{result.monthlyTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })} per month.</p>
 
             <div className="mt-6 space-y-3">
               {Object.entries(result.breakdown).map(([key, value]) => (
-                <div key={key} className="flex items-center justify-between rounded-2xl border border-white/10 bg-black px-4 py-3 text-sm">
+                <div key={key} className="flex items-center justify-between rounded-none border border-white/10 bg-black px-4 py-3 text-sm">
                   <span className="capitalize text-slate-300">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                  <span className="font-semibold text-white">£{value.toFixed(2)}</span>
+                  <span className="font-medium text-white">£{value.toFixed(2)}</span>
                 </div>
               ))}
             </div>
 
-            <div className="mt-6 rounded-2xl border border-white/10 bg-black p-4">
-              <h3 className="text-lg font-semibold">Quick reset plan</h3>
+            <div className="mt-6 rounded-none border border-white/10 bg-black p-4">
+              <h3 className="text-lg font-medium">Quick reset plan</h3>
               <ul className="mt-3 space-y-2 text-sm text-slate-300">
                 {result.actionPlan.map((step) => (
                   <li key={step} className="flex gap-2">

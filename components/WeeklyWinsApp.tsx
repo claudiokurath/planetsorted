@@ -129,7 +129,7 @@ function SliderField({
         <label htmlFor={id} className="text-sm font-medium text-neutral-200">
           {label}
         </label>
-        <span className="text-2xl font-black text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+        <span className="text-2xl font-extralight text-white" style={{ fontFamily: "var(--font-jost), system-ui, sans-serif" }}>
           {value}
         </span>
       </div>
@@ -142,7 +142,7 @@ function SliderField({
         onChange={(e) => onChange(Number(e.target.value))}
         className="weekly-wins-slider w-full h-1.5 rounded-full appearance-none cursor-pointer"
         style={{
-          background: `linear-gradient(to right, #1FD7CF ${(value / max) * 100}%, #374151 ${(value / max) * 100}%)`,
+          background: `linear-gradient(to right, #C6A052 ${(value / max) * 100}%, #374151 ${(value / max) * 100}%)`,
         }}
       />
       <p className="text-xs text-neutral-500">{sublabel}</p>
@@ -312,7 +312,7 @@ export function WeeklyWinsApp() {
           width: 20px;
           height: 20px;
           border-radius: 50%;
-          background: #1FD7CF;
+          background: #C6A052;
           cursor: pointer;
           box-shadow: 0 0 0 3px rgba(192,57,43,0.25);
           transition: box-shadow 0.15s;
@@ -321,7 +321,7 @@ export function WeeklyWinsApp() {
           width: 20px;
           height: 20px;
           border-radius: 50%;
-          background: #1FD7CF;
+          background: #C6A052;
           border: none;
           cursor: pointer;
         }
@@ -334,13 +334,13 @@ export function WeeklyWinsApp() {
         <div className="mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
 
           {/* Header */}
-          <header className="rounded-3xl border border-white/10 bg-black p-8 shadow-2xl backdrop-blur">
-            <p className="text-xs font-bold uppercase tracking-[0.35em] text-[#1FD7CF]">
+          <header className="rounded-none border border-white/10 bg-black p-8 shadow-2xl backdrop-blur">
+            <p className="text-xs font-medium uppercase tracking-[0.35em] text-[#C6A052]">
               PLANET SOR7ED LAB — Body
             </p>
             <h1
-              className="mt-3 text-6xl sm:text-7xl lg:text-8xl font-black uppercase leading-[0.95] tracking-tight"
-              style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+              className="mt-3 text-6xl sm:text-7xl lg:text-8xl font-extralight uppercase leading-[0.95] tracking-normal"
+              style={{ fontFamily: "var(--font-jost), system-ui, sans-serif" }}
             >
               Weekly Wins Generator
             </h1>
@@ -349,12 +349,12 @@ export function WeeklyWinsApp() {
             </p>
 
             {/* Live score preview */}
-            <div className="mt-6 inline-flex items-center gap-4 rounded-2xl border border-white/10 bg-black px-6 py-4">
+            <div className="mt-6 inline-flex items-center gap-4 rounded-none border border-white/10 bg-black px-6 py-4">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-neutral-400">Live win score</p>
+                <p className="text-xs font-medium uppercase tracking-widest text-neutral-400">Live win score</p>
                 <p
-                  className="mt-1 text-5xl font-black leading-none"
-                  style={{ fontFamily: "'Bebas Neue', sans-serif", color: band.colour }}
+                  className="mt-1 text-5xl font-extralight leading-none"
+                  style={{ fontFamily: "var(--font-jost), system-ui, sans-serif", color: band.colour }}
                 >
                   {winScore}
                 </p>
@@ -370,8 +370,8 @@ export function WeeklyWinsApp() {
           <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
 
             {/* Inputs panel */}
-            <section className="rounded-3xl border border-white/10 bg-black p-6 shadow-xl backdrop-blur space-y-8">
-              <h2 className="text-lg font-semibold text-white">Your week</h2>
+            <section className="rounded-none border border-white/10 bg-black p-6 shadow-xl backdrop-blur space-y-8">
+              <h2 className="text-lg font-medium text-white">Your week</h2>
 
               {/* Week label */}
               <div className="space-y-1">
@@ -383,7 +383,7 @@ export function WeeklyWinsApp() {
                   type="text"
                   value={weekLabel}
                   onChange={(e) => setWeekLabel(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-black px-4 py-2.5 text-sm text-white placeholder-neutral-500 outline-none focus:border-[#1FD7CF]"
+                  className="w-full rounded-xl border border-white/10 bg-black px-4 py-2.5 text-sm text-white placeholder-neutral-500 outline-none focus:border-[#C6A052]"
                 />
               </div>
 
@@ -429,7 +429,7 @@ export function WeeklyWinsApp() {
                   onChange={(e) => setHardThing(e.target.value.slice(0, 280))}
                   rows={3}
                   placeholder="e.g. Made a phone call I'd been avoiding for three weeks."
-                  className="w-full resize-none rounded-xl border border-white/10 bg-black px-4 py-2.5 text-sm text-white placeholder-neutral-500 outline-none focus:border-[#1FD7CF]"
+                  className="w-full resize-none rounded-xl border border-white/10 bg-black px-4 py-2.5 text-sm text-white placeholder-neutral-500 outline-none focus:border-[#C6A052]"
                 />
                 <p className="text-right text-xs text-neutral-500">{hardThing.length}/280</p>
               </div>
@@ -437,8 +437,8 @@ export function WeeklyWinsApp() {
 
             {/* Tone + generate panel */}
             <section className="flex flex-col gap-6">
-              <div className="rounded-3xl border border-white/10 bg-black p-6 shadow-xl backdrop-blur">
-                <h2 className="text-lg font-semibold text-white">Tone</h2>
+              <div className="rounded-none border border-white/10 bg-black p-6 shadow-xl backdrop-blur">
+                <h2 className="text-lg font-medium text-white">Tone</h2>
                 <p className="mt-1 text-sm text-neutral-400">How do you want to frame this week?</p>
                 <div className="mt-4 flex flex-col gap-3">
                   {([
@@ -452,17 +452,17 @@ export function WeeklyWinsApp() {
                       onClick={() => setTone(t.value)}
                       className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all ${
                         tone === t.value
-                          ? 'border-[#1FD7CF] bg-[#1FD7CF]/20 text-white'
+                          ? 'border-[#C6A052] bg-[#C6A052]/20 text-white'
                           : 'border-white/10 bg-black text-neutral-300 hover:border-white/20 hover:bg-white/10'
                       }`}
                     >
                       <span
                         className={`h-4 w-4 shrink-0 rounded-full border-2 transition-all ${
-                          tone === t.value ? 'border-[#1FD7CF] bg-[#1FD7CF]' : 'border-neutral-500'
+                          tone === t.value ? 'border-[#C6A052] bg-[#C6A052]' : 'border-neutral-500'
                         }`}
                       />
                       <span>
-                        <span className="font-semibold">{t.label}</span>
+                        <span className="font-medium">{t.label}</span>
                         <span className="ml-2 text-xs text-neutral-400">{t.desc}</span>
                       </span>
                     </button>
@@ -471,8 +471,8 @@ export function WeeklyWinsApp() {
               </div>
 
               {/* Score breakdown */}
-              <div className="rounded-3xl border border-white/10 bg-black p-6 shadow-xl backdrop-blur">
-                <p className="text-xs font-bold uppercase tracking-widest text-neutral-400">Score breakdown</p>
+              <div className="rounded-none border border-white/10 bg-black p-6 shadow-xl backdrop-blur">
+                <p className="text-xs font-medium uppercase tracking-widest text-neutral-400">Score breakdown</p>
                 <div className="mt-4 space-y-2 text-sm">
                   {[
                     { label: 'Tasks', value: tasksCompleted },
@@ -481,10 +481,10 @@ export function WeeklyWinsApp() {
                   ].map((row) => (
                     <div key={row.label} className="flex items-center justify-between">
                       <span className="text-neutral-400">{row.label}</span>
-                      <span className="font-semibold text-white">+{row.value}</span>
+                      <span className="font-medium text-white">+{row.value}</span>
                     </div>
                   ))}
-                  <div className="mt-3 border-t border-white/10 pt-3 flex items-center justify-between font-bold">
+                  <div className="mt-3 border-t border-white/10 pt-3 flex items-center justify-between font-medium">
                     <span>Total</span>
                     <span style={{ color: band.colour }}>{winScore}</span>
                   </div>
@@ -496,7 +496,7 @@ export function WeeklyWinsApp() {
                 id="generate-wins"
                 onClick={handleGenerate}
                 disabled={saving}
-                className="w-full rounded-2xl bg-[#1FD7CF] px-8 py-4 text-sm font-bold uppercase tracking-widest text-[#050608] shadow-lg transition-all hover:bg-[#18BDB7] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full rounded-none bg-[#C6A052] px-8 py-4 text-sm font-medium uppercase tracking-widest text-[#050608] shadow-lg transition-all hover:bg-[#9C7E3F] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {saving ? 'Saving…' : 'Generate my wins →'}
               </button>
@@ -508,7 +508,7 @@ export function WeeklyWinsApp() {
               {authChecked && !userId && (
                 <p className="rounded-xl border border-white/10 bg-black px-4 py-3 text-xs text-neutral-400">
                   Your summary will generate but won&apos;t be saved.{' '}
-                  <a href="/signup" className="text-[#1FD7CF] underline hover:text-[#5095FF]">
+                  <a href="/signup" className="text-[#C6A052] underline hover:text-[#C6A052]">
                     Log in
                   </a>{' '}
                   to keep a wins history.
@@ -519,19 +519,19 @@ export function WeeklyWinsApp() {
 
           {/* Draft card */}
           {draft && (
-            <section className="rounded-3xl border border-[#1FD7CF]/40 bg-[#1FD7CF]/10 p-6 shadow-2xl backdrop-blur space-y-4">
+            <section className="rounded-none border border-[#C6A052]/40 bg-[#C6A052]/10 p-6 shadow-2xl backdrop-blur space-y-4">
               <div className="flex items-start justify-between gap-4 flex-wrap">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-[#1FD7CF]">Generated draft</p>
+                  <p className="text-xs font-medium uppercase tracking-widest text-[#C6A052]">Generated draft</p>
                   <h2
-                    className="mt-2 text-3xl font-black uppercase sm:text-4xl"
-                    style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                    className="mt-2 text-3xl font-extralight uppercase sm:text-4xl"
+                    style={{ fontFamily: "var(--font-jost), system-ui, sans-serif" }}
                   >
                     {draft.title}
                   </h2>
                 </div>
                 <span
-                  className="shrink-0 rounded-xl px-4 py-2 text-sm font-bold"
+                  className="shrink-0 rounded-xl px-4 py-2 text-sm font-medium"
                   style={{ background: `${band.colour}22`, color: band.colour, border: `1px solid ${band.colour}44` }}
                 >
                   Score: {draft.score}
@@ -546,14 +546,14 @@ export function WeeklyWinsApp() {
                 <button
                   id="copy-draft"
                   onClick={handleCopy}
-                  className="rounded-xl border border-white/20 bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20 active:scale-95"
+                  className="rounded-xl border border-white/20 bg-black px-5 py-2.5 text-sm font-medium text-white transition hover:bg-white/20 active:scale-95"
                 >
                   {copied ? 'Copied ✓' : 'Copy draft'}
                 </button>
                 <button
                   id="share-whatsapp"
                   onClick={handleWhatsApp}
-                  className="rounded-xl border border-green-500/40 bg-green-500/10 px-5 py-2.5 text-sm font-semibold text-green-400 transition hover:bg-green-500/20 active:scale-95"
+                  className="rounded-xl border border-green-500/40 bg-green-500/10 px-5 py-2.5 text-sm font-medium text-green-400 transition hover:bg-green-500/20 active:scale-95"
                 >
                   Share on WhatsApp
                 </button>
@@ -566,8 +566,8 @@ export function WeeklyWinsApp() {
             <section className="space-y-4">
               <div className="flex items-center justify-between">
                 <h2
-                  className="text-2xl font-black uppercase"
-                  style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                  className="text-2xl font-extralight uppercase"
+                  style={{ fontFamily: "var(--font-jost), system-ui, sans-serif" }}
                 >
                   Your wins history
                 </h2>
@@ -582,7 +582,7 @@ export function WeeklyWinsApp() {
               {historyLoading ? (
                 <p className="text-sm text-neutral-500">Loading…</p>
               ) : history.length === 0 ? (
-                <p className="rounded-2xl border border-white/10 bg-black p-6 text-sm text-neutral-500">
+                <p className="rounded-none border border-white/10 bg-black p-6 text-sm text-neutral-500">
                   No wins saved yet — generate your first one above.
                 </p>
               ) : (
@@ -592,7 +592,7 @@ export function WeeklyWinsApp() {
                     return (
                       <div
                         key={row.id}
-                        className="flex items-start justify-between gap-4 rounded-2xl border border-white/10 bg-black px-5 py-4 backdrop-blur"
+                        className="flex items-start justify-between gap-4 rounded-none border border-white/10 bg-black px-5 py-4 backdrop-blur"
                       >
                         <div className="min-w-0">
                           <p className="text-xs text-neutral-500">{formatDate(row.created_at)}</p>

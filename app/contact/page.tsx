@@ -15,15 +15,15 @@ export default function ContactPage() {
           <p>
             Have a question, feedback, or need help with your account? Reach out to us directly — no chatbot, no bureaucracy.
           </p>
-          <div className="space-y-3 rounded-2xl border border-white/[0.12] bg-black p-6">
-            <h2 className="text-2xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+          <div className="space-y-3 rounded-none border border-white/[0.12] bg-black p-6">
+            <h2 className="text-2xl font-extralight uppercase text-white" style={{ fontFamily: "var(--font-jost), system-ui, sans-serif" }}>
               Get in Touch
             </h2>
             <p className="text-base text-neutral-300">
-              Email: <a href="mailto:hello@planetsorted.com" className="font-semibold text-[#1FD7CF] underline">hello@planetsorted.com</a>
+              Email: <a href="mailto:hello@planetsorted.com" className="font-medium text-[#C6A052] underline">hello@planetsorted.com</a>
             </p>
             <p className="text-base text-neutral-300">
-              WhatsApp: <a href="https://wa.me/447591922247" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#1FD7CF] underline">+44 7591 922247</a>
+              WhatsApp: <a href="https://wa.me/447591922247" target="_blank" rel="noopener noreferrer" className="font-medium text-[#C6A052] underline">+44 7591 922247</a>
             </p>
           </div>
         </div>

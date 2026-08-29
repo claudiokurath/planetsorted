@@ -57,12 +57,12 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySa
       <main className="mx-auto max-w-5xl space-y-6 px-4 pb-20 pt-1 sm:px-6 lg:px-8">
         {/* Explanation */}
         {explanation && (
-          <section className="rounded-2xl border border-white/[0.12] bg-black px-6 py-10 sm:px-10 sm:py-12">
-            <p className="inline-flex rounded border border-[#5095FF]/60 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#5095FF]">
+          <section className="rounded-none border border-white/[0.12] bg-black px-6 py-10 sm:px-10 sm:py-12">
+            <p className="inline-flex rounded border border-[#C6A052]/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[#C6A052]">
               Step 01 — About this tool
             </p>
             <h2
-              className="font-bebas mt-5 bg-gradient-to-r from-[#856CFF] via-[#5095FF] to-[#1FD7CF] bg-clip-text text-3xl font-black uppercase leading-none text-transparent sm:text-5xl"
+              className="font-bebas mt-5 text-3xl font-extralight uppercase leading-none text-[#F2F2F2] sm:text-5xl"
             >
               What it helps you do
             </h2>
@@ -73,11 +73,11 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySa
         )}
 
         {/* Get Sorted CTA */}
-        <section className="rounded-2xl border border-white/[0.12] bg-black px-6 py-10 sm:px-10 sm:py-12">
-          <p className="inline-flex rounded border border-[#5095FF]/60 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#5095FF]">
+        <section className="rounded-none border border-white/[0.12] bg-black px-6 py-10 sm:px-10 sm:py-12">
+          <p className="inline-flex rounded border border-[#C6A052]/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[#C6A052]">
             Step 02 — Use the tool
           </p>
-          <p className="mb-5 mt-5 max-w-2xl text-sm font-semibold leading-relaxed text-neutral-200 sm:text-base">
+          <p className="mb-5 mt-5 max-w-2xl text-sm font-medium leading-relaxed text-neutral-200 sm:text-base">
             Browse freely. When you want the full tool, sign in and request its private link below.
           </p>
           <Sor7edButton
@@ -92,7 +92,7 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySa
 
         {relatedArticles.length > 0 && (
           <section className="border-t border-white/[0.12] pt-10">
-            <p className="mb-5 text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">
+            <p className="mb-5 text-xs font-medium uppercase tracking-[0.2em] text-neutral-500">
               Read related intelligence
             </p>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">

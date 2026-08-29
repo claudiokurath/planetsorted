@@ -130,20 +130,18 @@ export default async function HomePage() {
         <div className={styles.heroGlow} aria-hidden="true" />
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
-            <span className={styles.eyebrow}>✦ Practical systems for neurodivergent life</span>
+            <span className={styles.eyebrow}>worry less, live more.</span>
             <h1>
-              Life admin.
+              clarity
               <br />
-              One clear
-              <br />
-              <span>next step.</span>
+              <span>from clutter.</span>
             </h1>
             <p>
-              Templates, protocols, and plain-English tools built for brains that already have enough going on.
+              PLANET SOR7ED turns overwhelm into one clear, manageable next step — templates, protocols, and plain-English tools built for brains that already have enough going on.
             </p>
             <div className={styles.heroActions}>
               <Link href="/tools" className={styles.primaryAction}>
-                Open Toolbox <span aria-hidden="true">→</span>
+                Find a tool <span aria-hidden="true">→</span>
               </Link>
               <Link href="/intelligence" className={styles.secondaryAction}>
                 Browse Guidebook
@@ -151,6 +149,12 @@ export default async function HomePage() {
             </div>
           </div>
 
+          <div className={styles.heroMark} aria-hidden="true">
+            <svg viewBox="0 0 340 300" fill="none" stroke="#5A5A5A" strokeWidth="1" strokeLinecap="round">
+              <path d="M14,150 C56,40 78,250 118,120 C150,20 116,270 168,150 C214,60 182,262 232,140 C270,60 292,220 320,140 C304,84 330,204 296,214 C250,232 268,110 224,168 C176,230 202,74 152,160 C104,240 96,86 56,180 C26,240 40,86 14,150 Z" />
+            </svg>
+            <Image src="/images/tangle-gold.png" alt="" width={200} height={200} className={styles.heroTangle} />
+          </div>
         </div>
       </section>
 

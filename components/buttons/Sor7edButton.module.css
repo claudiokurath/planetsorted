@@ -4,8 +4,8 @@
 
 .root {
   --sb-ink: #050505;
-  --sb-accent: #1fd7cf;
-  --sb-paper: #f7f7f4;
+  --sb-accent: #C6A052;
+  --sb-paper: #F2F2F2;
   --sb-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --sb-hit: 84px;
   --sb-mark: 78px;
@@ -34,10 +34,10 @@
   max-width: 440px;
   color: var(--sb-paper);
   color: color-mix(in oklab, var(--sb-paper), var(--sb-accent) calc(var(--sb-td) * 100%));
-  font-family: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-jost), "Jost", system-ui, sans-serif;
   font-size: clamp(18px, 2vw, 22px);
   font-weight: 300;
-  letter-spacing: -0.055em;
+  letter-spacing: 0.02em;
   line-height: 1;
   white-space: nowrap;
   transition: color 320ms var(--sb-ease);

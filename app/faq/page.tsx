@@ -32,8 +32,8 @@ export default function FAQPage() {
         <PageHeader eyebrow="SOR7ED" title="Frequently asked questions" description="The useful answers, without the small print." />
         <div className="mt-8 space-y-6">
           {faqs.map((faq, idx) => (
-            <div key={idx} className="space-y-2 rounded-2xl border border-white/[0.12] bg-black p-6">
-              <h2 className="text-2xl font-black uppercase text-white" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
+            <div key={idx} className="space-y-2 rounded-none border border-white/[0.12] bg-black p-6">
+              <h2 className="text-2xl font-extralight uppercase text-white" style={{ fontFamily: "var(--font-jost), system-ui, sans-serif" }}>
                 {faq.q}
               </h2>
               <p className="text-base sm:text-lg leading-relaxed text-neutral-300">

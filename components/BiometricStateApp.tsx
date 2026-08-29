@@ -90,7 +90,7 @@ function scoreLabel(s: number) {
 }
 
 function scoreBand(s: number): string {
-  if (s >= 85) return 'text-emerald-400'
+  if (s >= 85) return 'text-[#C6A052]'
   if (s >= 70) return 'text-cyan-400'
   if (s >= 55) return 'text-sky-400'
   if (s >= 40) return 'text-amber-400'
@@ -155,7 +155,7 @@ function generateRecommendations(d: EntryInputs, hydrationTarget: number): Recom
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
-  return <label className="block text-sm font-semibold text-slate-300 mb-2">{children}</label>
+  return <label className="block text-sm font-medium text-slate-300 mb-2">{children}</label>
 }
 
 function FieldInput({ ...props }: React.InputHTMLAttributes<HTMLInputElement>) {
@@ -186,7 +186,7 @@ function SliderRow({
         className="bst-slider w-full h-1.5 rounded-full appearance-none cursor-pointer"
         style={{ background: `linear-gradient(to right, #22e5d0 ${((value - min) / (max - min)) * 100}%, rgba(255,255,255,0.1) ${((value - min) / (max - min)) * 100}%)` }}
       />
-      <p className="mt-1 text-center text-xs font-semibold text-cyan-400">{display}</p>
+      <p className="mt-1 text-center text-xs font-medium text-cyan-400">{display}</p>
     </div>
   )
 }
@@ -215,7 +215,7 @@ function StatRing({ score }: { score: number }) {
 }
 
 const REC_STYLES: Record<RecType, string> = {
-  good: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
+  good: 'border-[#C6A052]/30 bg-[#C6A052]/10 text-[#C6A052]',
   warn: 'border-amber-500/30 bg-amber-500/10 text-amber-200',
   bad:  'border-red-500/30 bg-red-500/10 text-red-300',
 }
@@ -369,7 +369,7 @@ export function BiometricStateApp() {
               <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#22e5d0,#8b7bff)' }}>
                 <span className="text-base">💧</span>
               </span>
-              <span className="font-bold tracking-tight" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <span className="font-medium tracking-normal" style={{ fontFamily: 'Inter, sans-serif' }}>
                 Biometric<span style={{ color: '#22e5d0' }}>State</span>
               </span>
             </div>
@@ -380,7 +380,7 @@ export function BiometricStateApp() {
             </div>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="hidden items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-slate-900 sm:inline-flex"
+              className="hidden items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-slate-900 sm:inline-flex"
               style={{ background: 'linear-gradient(90deg,#22e5d0,#8b7bff)' }}
             >
               ⚡ New Check-In
@@ -393,11 +393,11 @@ export function BiometricStateApp() {
           {/* ── Hero ── */}
           <section className="py-16 md:py-24 grid gap-12 md:grid-cols-2 items-center">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wider"
+              <span className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium uppercase tracking-wider"
                 style={{ borderColor: 'rgba(34,229,208,0.3)', background: 'rgba(34,229,208,0.05)', color: '#22e5d0' }}>
                 ✨ AI-Powered Insights
               </span>
-              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.98] tracking-tight" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-extralight leading-[0.98] tracking-normal" style={{ fontFamily: 'Inter, sans-serif' }}>
                 Optimize your{' '}
                 <span style={{ background: 'linear-gradient(90deg,#22e5d0,#8b7bff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                   cognitive & physical
@@ -409,18 +409,18 @@ export function BiometricStateApp() {
               </p>
 
               <div className="mt-10 flex items-center gap-10 text-sm text-slate-500">
-                <div><span className="block text-2xl font-bold text-slate-100">{history.length || '—'}</span>Entries Logged</div>
+                <div><span className="block text-2xl font-medium text-slate-100">{history.length || '—'}</span>Entries Logged</div>
                 {history.length > 0 && (() => {
                   const scores = history.map(h => { try { return JSON.parse(h.output_text)?.score || 0 } catch { return 0 } })
                   const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
-                  return <div><span className="block text-2xl font-bold text-slate-100">{avg}</span>Avg. Score</div>
+                  return <div><span className="block text-2xl font-medium text-slate-100">{avg}</span>Avg. Score</div>
                 })()}
               </div>
             </div>
 
             {/* Snapshot card */}
-            <div className="glass rounded-3xl p-8 shadow-2xl">
-              <p className="text-xs uppercase tracking-widest text-slate-400 font-semibold">Today&apos;s Snapshot</p>
+            <div className="glass rounded-none p-8 shadow-2xl">
+              <p className="text-xs uppercase tracking-widest text-slate-400 font-medium">Today&apos;s Snapshot</p>
               <div className="mt-6 flex justify-center">
                 {result ? <StatRing score={result.score} /> : (
                   <div className="flex h-32 items-center justify-center text-slate-600 text-sm">
@@ -430,12 +430,12 @@ export function BiometricStateApp() {
               </div>
               {result && (
                 <div className="mt-6 grid grid-cols-2 gap-4 text-center bst-fade">
-                  <div className="rounded-2xl py-4 px-2" style={{ background: '#000000' }}>
-                    <p className="text-lg font-bold text-cyan-400">{result.hydrationTarget.toLocaleString()}ml</p>
+                  <div className="rounded-none py-4 px-2" style={{ background: '#000000' }}>
+                    <p className="text-lg font-medium text-cyan-400">{result.hydrationTarget.toLocaleString()}ml</p>
                     <p className="text-xs text-slate-400 mt-1">Hydration Target</p>
                   </div>
-                  <div className="rounded-2xl py-4 px-2" style={{ background: '#000000' }}>
-                    <p className="text-lg font-bold text-violet-400">{MOOD_EMOJI[result.mood]} {result.mood}</p>
+                  <div className="rounded-none py-4 px-2" style={{ background: '#000000' }}>
+                    <p className="text-lg font-medium text-violet-400">{MOOD_EMOJI[result.mood]} {result.mood}</p>
                     <p className="text-xs text-slate-400 mt-1">Mood</p>
                   </div>
                 </div>
@@ -446,12 +446,12 @@ export function BiometricStateApp() {
           {/* ── Check-In Form ── */}
           <section className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
-              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#22e5d0' }}>Daily Check-In</p>
-              <h2 className="text-3xl font-black sm:text-4xl">Log Today&apos;s Biometric State</h2>
+              <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#22e5d0' }}>Daily Check-In</p>
+              <h2 className="text-3xl font-extralight sm:text-4xl">Log Today&apos;s Biometric State</h2>
               <p className="mt-3 text-slate-400 max-w-lg mx-auto">Fill in what you know — the engine calculates your personalized hydration target and biometric score instantly.</p>
             </div>
 
-            <form onSubmit={handleAnalyze} className="glass rounded-3xl p-6 md:p-10 grid md:grid-cols-2 gap-7">
+            <form onSubmit={handleAnalyze} className="glass rounded-none p-6 md:p-10 grid md:grid-cols-2 gap-7">
 
               {/* Weight */}
               <div>
@@ -546,7 +546,7 @@ export function BiometricStateApp() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 font-bold text-slate-900 shadow-lg transition hover:opacity-90 active:scale-95 disabled:opacity-60"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 font-medium text-slate-900 shadow-lg transition hover:opacity-90 active:scale-95 disabled:opacity-60"
                   style={{ background: 'linear-gradient(90deg,#22e5d0,#8b7bff)' }}
                 >
                   {saving ? '⏳ Saving…' : '✨ Analyze & Save Check-In'}
@@ -566,35 +566,35 @@ export function BiometricStateApp() {
           {result && (
             <section ref={resultsRef} className="py-14 border-t bst-fade" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
               <div className="text-center mb-10">
-                <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: '#8b7bff' }}>Your Insights</p>
-                <h2 className="text-3xl font-black sm:text-4xl">AI-Powered Recommendations</h2>
+                <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#8b7bff' }}>Your Insights</p>
+                <h2 className="text-3xl font-extralight sm:text-4xl">AI-Powered Recommendations</h2>
               </div>
 
               {/* Score cards */}
               <div className="grid md:grid-cols-3 gap-6 mb-8">
-                <div className="glass rounded-3xl p-6 text-center">
-                  <p className="text-xs uppercase tracking-widest text-slate-400 font-semibold mb-4">Biometric State Score</p>
-                  <p className={`text-5xl font-black ${scoreBand(result.score)}`}>{result.score}</p>
-                  <p className="mt-2 text-sm font-semibold text-slate-300">{scoreLabel(result.score)}</p>
+                <div className="glass rounded-none p-6 text-center">
+                  <p className="text-xs uppercase tracking-widest text-slate-400 font-medium mb-4">Biometric State Score</p>
+                  <p className={`text-5xl font-extralight ${scoreBand(result.score)}`}>{result.score}</p>
+                  <p className="mt-2 text-sm font-medium text-slate-300">{scoreLabel(result.score)}</p>
                 </div>
-                <div className="glass rounded-3xl p-6 text-center">
-                  <p className="text-xs uppercase tracking-widest text-slate-400 font-semibold mb-4">Personalized Hydration</p>
-                  <p className="text-5xl font-black text-violet-400">{result.hydrationTarget.toLocaleString()}</p>
-                  <p className="mt-2 text-sm font-semibold text-slate-300">ml / day</p>
+                <div className="glass rounded-none p-6 text-center">
+                  <p className="text-xs uppercase tracking-widest text-slate-400 font-medium mb-4">Personalized Hydration</p>
+                  <p className="text-5xl font-extralight text-violet-400">{result.hydrationTarget.toLocaleString()}</p>
+                  <p className="mt-2 text-sm font-medium text-slate-300">ml / day</p>
                 </div>
-                <div className="glass rounded-3xl p-6 text-center">
-                  <p className="text-xs uppercase tracking-widest text-slate-400 font-semibold mb-4">Hydration Progress</p>
-                  <p className="text-5xl font-black text-cyan-400">{hydrationPct}%</p>
-                  <p className="mt-2 text-sm font-semibold text-slate-300">of daily target reached</p>
+                <div className="glass rounded-none p-6 text-center">
+                  <p className="text-xs uppercase tracking-widest text-slate-400 font-medium mb-4">Hydration Progress</p>
+                  <p className="text-5xl font-extralight text-cyan-400">{hydrationPct}%</p>
+                  <p className="mt-2 text-sm font-medium text-slate-300">of daily target reached</p>
                 </div>
               </div>
 
               {/* Recommendations */}
-              <div className="glass rounded-3xl p-6 md:p-10">
-                <h3 className="text-xl font-bold mb-6 flex items-center gap-2">💡 Recommendations for you</h3>
+              <div className="glass rounded-none p-6 md:p-10">
+                <h3 className="text-xl font-medium mb-6 flex items-center gap-2">💡 Recommendations for you</h3>
                 <ul className="space-y-4">
                   {result.recs.map((r, i) => (
-                    <li key={i} className={`flex items-start gap-4 rounded-2xl border px-5 py-4 text-sm ${REC_STYLES[r.type]}`}>
+                    <li key={i} className={`flex items-start gap-4 rounded-none border px-5 py-4 text-sm ${REC_STYLES[r.type]}`}>
                       <span className="shrink-0 text-lg">{r.icon}</span>
                       <span className="leading-relaxed">{r.text}</span>
                     </li>
@@ -609,8 +609,8 @@ export function BiometricStateApp() {
             <section className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#22e5d0' }}>Track Progress</p>
-                  <h2 className="text-3xl font-black">Check-In History</h2>
+                  <p className="text-xs font-medium uppercase tracking-widest mb-1" style={{ color: '#22e5d0' }}>Track Progress</p>
+                  <h2 className="text-3xl font-extralight">Check-In History</h2>
                 </div>
                 <button onClick={fetchHistory} className="text-xs text-slate-500 hover:text-white transition">↻ Refresh</button>
               </div>
@@ -618,7 +618,7 @@ export function BiometricStateApp() {
               {historyLoading ? (
                 <p className="text-sm text-slate-500">Loading…</p>
               ) : history.length === 0 ? (
-                <p className="glass rounded-2xl p-6 text-sm text-slate-500">No check-ins yet — log your first one above.</p>
+                <p className="glass rounded-none p-6 text-sm text-slate-500">No check-ins yet — log your first one above.</p>
               ) : (
                 <div className="space-y-3">
                   {history.map((row) => {
@@ -630,12 +630,12 @@ export function BiometricStateApp() {
                       mood = parsed.mood ?? '—'
                     } catch {}
                     return (
-                      <div key={row.id} className="glass flex items-center justify-between gap-4 rounded-2xl px-5 py-4">
+                      <div key={row.id} className="glass flex items-center justify-between gap-4 rounded-none px-5 py-4">
                         <div className="flex items-center gap-6 min-w-0 text-sm">
                           <span className="text-slate-500 shrink-0">
                             {new Date(row.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                           </span>
-                          <span className="font-bold text-cyan-400">Score: {score}</span>
+                          <span className="font-medium text-cyan-400">Score: {score}</span>
                           <span className="text-slate-400 hidden sm:block">Hydration: {hydration}</span>
                           <span className="text-slate-400 hidden md:block">Mood: {mood}</span>
                         </div>
@@ -661,9 +661,9 @@ export function BiometricStateApp() {
               { icon: '🧠', title: 'AI-Style Insights', body: 'A rule-based recommendation engine flags what\'s helping — and hurting — your state.' },
               { icon: '📈', title: 'Trend Tracking', body: 'Log daily and watch your score, hydration, sleep, and vitals evolve over time.' },
             ].map(({ icon, title, body }) => (
-              <div key={title} className="glass rounded-3xl p-8">
+              <div key={title} className="glass rounded-none p-8">
                 <span className="text-3xl">{icon}</span>
-                <h3 className="mt-4 mb-2 text-lg font-bold">{title}</h3>
+                <h3 className="mt-4 mb-2 text-lg font-medium">{title}</h3>
                 <p className="text-sm text-slate-400">{body}</p>
               </div>
             ))}

@@ -1,15 +1,15 @@
 .page {
-  --home-cyan: #1fd7cf;
-  --home-blue: #5095ff;
-  --home-violet: #856cff;
+  --home-cyan: #C6A052;
+  --home-blue: #C6A052;
+  --home-violet: #C6A052;
   --home-ink: #000000;
   --home-panel: #000000;
-  --home-line: rgba(148, 163, 184, 0.16);
-  --home-muted: #8b98ad;
+  --home-line: rgba(255, 255, 255, 0.12);
+  --home-muted: #8A8A8A;
   min-height: 100vh;
   overflow: hidden;
   background: var(--home-ink);
-  color: #f7f9fc;
+  color: #F2F2F2;
 }
 
 .hero {
@@ -26,12 +26,33 @@
 .heroGrid {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 720px);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 40px;
   align-items: center;
 }
 
 .heroCopy {
   max-width: 600px;
+}
+
+.heroMark {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroMark svg {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+}
+
+.heroTangle {
+  position: absolute;
+  right: 8%;
+  width: clamp(140px, 16vw, 200px);
+  height: auto;
 }
 
 .eyebrow,
@@ -40,32 +61,28 @@
   display: inline-flex;
   align-items: center;
   width: fit-content;
-  border: 1px solid rgba(31, 215, 207, 0.28);
-  border-radius: 999px;
-  background: rgba(31, 215, 207, 0.06);
   color: var(--home-cyan);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.13em;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.34em;
   line-height: 1;
   text-transform: uppercase;
-  padding: 8px 12px;
 }
 
 .heroCopy h1 {
-  margin-top: 24px;
-  font-family: var(--font-bebas), Impact, sans-serif;
-  font-size: clamp(68px, 7.4vw, 108px);
-  font-weight: 400;
-  letter-spacing: -0.025em;
-  line-height: 0.79;
-  text-transform: uppercase;
+  margin-top: 28px;
+  font-family: var(--font-bebas), "Jost", system-ui, sans-serif;
+  font-size: clamp(66px, 7.6vw, 116px);
+  font-weight: 200;
+  letter-spacing: 0.005em;
+  line-height: 0.98;
+  text-transform: none;
 }
 
 .heroCopy h1 span,
 .closingSection h2 span {
-  color: transparent;
-  background: linear-gradient(110deg, var(--home-cyan) 5%, var(--home-blue) 54%, var(--home-violet) 98%);
+  color: #F2F2F2;
+  background: none;
   background-clip: text;
   -webkit-background-clip: text;
 }
@@ -73,9 +90,9 @@
 .heroCopy > p {
   max-width: 540px;
   margin-top: 26px;
-  color: #9aa7bc;
+  color: #9A9A9A;
   font-size: clamp(16px, 1.5vw, 19px);
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 .heroActions {
@@ -91,19 +108,19 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 48px;
-  border-radius: 999px;
-  padding: 0 22px;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  transition: transform 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+  min-height: 52px;
+  border-radius: 0;
+  padding: 0 30px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition: transform 180ms ease, border-color 180ms ease, color 180ms ease, background 180ms ease;
 }
 
 .primaryAction {
-  background: linear-gradient(110deg, var(--home-cyan), var(--home-blue) 58%, var(--home-violet));
-  color: #041014;
-  box-shadow: 0 12px 32px rgba(31, 215, 207, 0.13);
+  background: var(--home-cyan);
+  color: #000;
 }
 
 .secondaryAction {
@@ -118,7 +135,7 @@
 }
 
 .secondaryAction:hover {
-  border-color: rgba(31, 215, 207, 0.5);
+  border-color: rgba(198, 160, 82, 0.5);
   color: white;
 }
 
@@ -151,11 +168,11 @@
 .sectionHeading h2,
 .closingSection h2 {
   margin-top: 18px;
-  font-family: var(--font-bebas), Impact, sans-serif;
-  font-size: clamp(76px, 9vw, 132px);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 0.95;
+  font-family: var(--font-bebas), "Jost", system-ui, sans-serif;
+  font-size: clamp(58px, 6.4vw, 96px);
+  font-weight: 200;
+  letter-spacing: 0.02em;
+  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -172,7 +189,7 @@
   margin-top: 46px;
   overflow: hidden;
   border: 1px solid var(--home-line);
-  border-radius: 20px;
+  border-radius: 0;
   background: var(--home-panel);
 }
 
@@ -188,7 +205,7 @@
 }
 
 .workflowGrid li:hover {
-  background: rgba(31, 215, 207, 0.035);
+  background: rgba(198, 160, 82, 0.035);
 }
 
 .stepNumber {
@@ -197,7 +214,7 @@
   justify-content: center;
   width: 38px;
   height: 25px;
-  border: 1px solid rgba(31, 215, 207, 0.3);
+  border: 1px solid rgba(198, 160, 82, 0.3);
   border-radius: 999px;
   color: var(--home-cyan);
   font-family: var(--font-jetbrains-mono), monospace;
@@ -207,7 +224,7 @@
 .workflowGrid h3 {
   margin-top: 44px;
   color: white;
-  font-family: var(--font-bebas), Impact, sans-serif;
+  font-family: var(--font-bebas), "Jost", system-ui, sans-serif;
   font-size: 38px;
   font-weight: 400;
   line-height: 1;
@@ -242,7 +259,7 @@
   flex: 0 0 auto;
   color: var(--home-cyan);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 500;
   transition: color 180ms ease;
 }
 
@@ -264,25 +281,14 @@
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--home-line);
-  border-radius: 14px;
+  border-radius: 0;
   background: var(--home-panel);
   transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
 
-.contentCard::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 2px;
-  content: '';
-  background: linear-gradient(90deg, var(--home-cyan), var(--home-blue), var(--home-violet));
-  opacity: 0.5;
-}
-
 .contentCard:hover {
   transform: translateY(-4px);
-  border-color: rgba(31, 215, 207, 0.34);
+  border-color: rgba(198, 160, 82, 0.34);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
 }
 
@@ -295,13 +301,13 @@
 
 .cardImage {
   object-fit: cover;
-  filter: saturate(0.84) contrast(1.03);
+  filter: grayscale(1) contrast(1.06) brightness(0.95);
   transition: transform 500ms ease, filter 500ms ease;
 }
 
 .contentCard:hover .cardImage {
   transform: scale(1.035);
-  filter: saturate(1) contrast(1.04);
+  filter: grayscale(1) contrast(1.08) brightness(1);
 }
 
 .cardShade {
@@ -316,7 +322,7 @@
   background: rgba(255, 255, 255, 0.025);
   color: #dce4ef;
   font-size: 9px;
-  font-weight: 800;
+  font-weight: 500;
   letter-spacing: 0.12em;
   padding: 6px 9px;
   text-transform: uppercase;
@@ -350,11 +356,11 @@
 }
 
 .categoryBadge {
-  border: 1px solid rgba(31, 215, 207, 0.25);
+  border: 1px solid rgba(198, 160, 82, 0.25);
   border-radius: 999px;
   color: var(--home-cyan);
   font-size: 9px;
-  font-weight: 800;
+  font-weight: 500;
   letter-spacing: 0.11em;
   padding: 5px 8px;
   text-transform: uppercase;
@@ -369,7 +375,7 @@
 
 .cardBody h3 {
   margin-top: 20px;
-  font-family: var(--font-bebas), Impact, sans-serif;
+  font-family: var(--font-bebas), "Jost", system-ui, sans-serif;
   font-size: clamp(26px, 2.7vw, 38px);
   font-weight: 400;
   line-height: 0.98;
@@ -395,7 +401,7 @@
   padding-top: 16px;
   color: #dce5f1;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 500;
 }
 
 .cardAction span {
@@ -425,7 +431,7 @@
 .closingSection p {
   color: var(--home-cyan);
   font-size: 10px;
-  font-weight: 800;
+  font-weight: 500;
   letter-spacing: 0.13em;
   text-transform: uppercase;
 }
@@ -438,6 +444,10 @@
 @media (max-width: 960px) {
   .heroGrid {
     grid-template-columns: 1fr;
+  }
+
+  .heroMark {
+    display: none;
   }
 
   .heroCopy {

@@ -61,7 +61,7 @@ export function SmartNav() {
         {authReady && !user && (
           <Link
             href="/signup"
-            className="text-[11px] font-bold uppercase tracking-wider text-[#1FD7CF]"
+            className="text-[11px] font-medium uppercase tracking-[0.24em] text-[#C6A052]"
           >
             Sign In
           </Link>
@@ -88,9 +88,9 @@ export function SmartNav() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`pb-0.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
                   isActive
-                    ? 'border-b-2 border-[#1FD7CF] text-white'
+                    ? 'border-b-2 border-[#C6A052] text-white'
                     : 'text-white/70 hover:text-white'
                 }`}
               >
@@ -104,9 +104,9 @@ export function SmartNav() {
               <>
                 <Link
                   href="/dashboard"
-                  className={`pb-0.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                  className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
                     pathname === '/dashboard'
-                      ? 'border-b-2 border-[#1FD7CF] text-white'
+                      ? 'border-b-2 border-[#C6A052] text-white'
                       : 'text-white/70 hover:text-white'
                   }`}
                 >
@@ -114,7 +114,7 @@ export function SmartNav() {
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="pb-0.5 text-xs font-semibold uppercase tracking-wider text-white/50 transition-colors hover:text-[#1FD7CF]"
+                  className="pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] text-white/50 transition-colors hover:text-[#C6A052]"
                 >
                   Sign Out
                 </button>
@@ -122,10 +122,10 @@ export function SmartNav() {
             ) : (
               <Link
                 href="/signup"
-                className={`pb-0.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
                   pathname === '/signup'
-                    ? 'border-b-2 border-[#1FD7CF] text-white'
-                    : 'text-[#1FD7CF] hover:text-white'
+                    ? 'border-b-2 border-[#C6A052] text-white'
+                    : 'text-[#C6A052] hover:text-white'
                 }`}
               >
                 Sign In
