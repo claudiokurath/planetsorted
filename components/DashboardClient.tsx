@@ -337,7 +337,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <h1
-                className="font-bebas text-4xl font-extralight uppercase leading-[0.95] tracking-normal text-white sm:text-5xl lg:text-6xl"
+                className="font-bebas text-4xl uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl"
               >
                 Welcome back{profile?.first_name ? `, ${profile.first_name}` : ''}
               </h1>
@@ -355,7 +355,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
               <span className="block text-[10px] font-medium uppercase tracking-wider text-neutral-500">
                 {billingUnlimited ? billingPlan : 'Free Credits'}
               </span>
-              <span className="text-sm font-extralight text-[#C6A052] sm:text-base">
+              <span className="text-sm font-normal text-[#C6A052] sm:text-base">
                 {billingUnlimited
                   ? 'Unlimited RUNs'
                   : creditBalance === null
@@ -455,7 +455,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
 
                       {/* Title only — no summary wall of text. Sized ~2× former card title. */}
                       <h3
-                        className="font-bebas text-3xl sm:text-4xl font-extralight uppercase tracking-normal text-white group-hover:text-[#C6A052] transition-colors leading-[1.05]"
+                        className="font-bebas text-3xl sm:text-4xl uppercase tracking-tight text-white group-hover:text-[#C6A052] transition-colors leading-[1.05]"
                       >
                         {tool.title}
                       </h3>
@@ -517,7 +517,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                       </p>
                     ) : null}
                     <h3
-                      className="font-bebas text-2xl sm:text-3xl font-extralight uppercase leading-[1.05] text-white hover:text-[#C6A052] transition-colors"
+                      className="font-bebas text-2xl sm:text-3xl uppercase leading-[1.05] text-white hover:text-[#C6A052] transition-colors"
                     >
                       {item.title || 'Saved Item'}
                     </h3>

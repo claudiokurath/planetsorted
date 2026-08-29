@@ -85,10 +85,10 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
 
   return (
     <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-6 shadow-2xl sm:p-10">
-      <p className="text-[10px] font-extralight uppercase tracking-[0.22em] text-[#C6A052]">
+      <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#C6A052]">
         One-time connection
       </p>
-      <h1 className="font-bebas mt-4 text-7xl font-extralight uppercase leading-[0.84] text-white sm:text-8xl">
+      <h1 className="font-bebas mt-4 text-7xl uppercase leading-[0.84] text-white sm:text-8xl">
         Get the link.
       </h1>
       <p className="mt-5 max-w-md text-sm leading-6 text-neutral-400 sm:text-base">
@@ -138,7 +138,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
           <button
             type="submit"
             disabled={loading}
-            className="min-h-14 w-full rounded-full bg-[#C6A052] px-6 text-sm font-extralight uppercase tracking-wider text-black disabled:opacity-50"
+            className="min-h-14 w-full rounded-full bg-[#C6A052] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50"
           >
             {loading ? 'Sending…' : 'Send my code →'}
           </button>
@@ -168,7 +168,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
           <button
             type="submit"
             disabled={loading || code.length !== 6}
-            className="min-h-14 w-full rounded-full bg-[#C6A052] px-6 text-sm font-extralight uppercase tracking-wider text-black disabled:opacity-50"
+            className="min-h-14 w-full rounded-full bg-[#C6A052] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50"
           >
             {loading ? 'Checking…' : 'Connect and send my link →'}
           </button>

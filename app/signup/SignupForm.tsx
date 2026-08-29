@@ -91,8 +91,8 @@ export function SignupForm() {
     const inboxUrl = email ? INBOXES[email.split('@')[1]?.toLowerCase()] : null
     return (
       <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-7 text-center shadow-2xl sm:p-10">
-        <p className="text-[10px] font-extralight uppercase tracking-[0.22em] text-[#C6A052]">Links sent</p>
-        <h1 className="font-bebas mt-4 text-7xl font-extralight uppercase leading-[0.84] text-white sm:text-8xl">Check your phone.</h1>
+        <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#C6A052]">Links sent</p>
+        <h1 className="font-bebas mt-4 text-7xl uppercase leading-[0.84] text-white sm:text-8xl">Check your phone.</h1>
         <p className="mx-auto mt-5 max-w-sm text-sm leading-6 text-neutral-400 sm:text-base">
           {emailOnly
             ? 'Your secure sign-in link is waiting in your email.'
@@ -115,8 +115,8 @@ export function SignupForm() {
   return (
     <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-6 shadow-2xl sm:p-10">
       <div className="mb-8">
-        <p className="text-[10px] font-extralight uppercase tracking-[0.22em] text-[#C6A052]">One form. One go.</p>
-        <h1 className="font-bebas mt-4 text-7xl font-extralight uppercase leading-[0.84] text-white sm:text-8xl">Get SOR7ED.</h1>
+        <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#C6A052]">One form. One go.</p>
+        <h1 className="font-bebas mt-4 text-7xl uppercase leading-[0.84] text-white sm:text-8xl">Get SOR7ED.</h1>
         <p className="mt-5 max-w-md text-sm leading-6 text-neutral-400 sm:text-base">WhatsApp is your product key. Add email if you want a backup sign-in and recovery route.</p>
       </div>
 
@@ -141,7 +141,7 @@ export function SignupForm() {
           <p className="text-xs text-neutral-600">Choose the code, then enter the number without its first zero.</p>
 
           {errorMessage ? <p className="text-sm text-red-400" role="alert">{errorMessage}</p> : null}
-          <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full bg-[#C6A052] px-6 text-sm font-extralight uppercase tracking-wider text-black disabled:opacity-50">
+          <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full bg-[#C6A052] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50">
             {state === 'loading' ? 'Sending…' : email ? 'Send both links →' : 'Send WhatsApp link →'}
           </button>
         </form>
@@ -150,7 +150,7 @@ export function SignupForm() {
           <FieldLabel htmlFor="email-only">Email address</FieldLabel>
           <input id="email-only" type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#C6A052]" />
           {errorMessage ? <p className="text-sm text-red-400" role="alert">{errorMessage}</p> : null}
-          <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full border border-white/15 px-6 text-sm font-extralight uppercase tracking-wider text-white hover:border-[#C6A052] disabled:opacity-50">{state === 'loading' ? 'Sending…' : 'Send email sign-in link →'}</button>
+          <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full border border-white/15 px-6 text-sm font-normal uppercase tracking-wider text-white hover:border-[#C6A052] disabled:opacity-50">{state === 'loading' ? 'Sending…' : 'Send email sign-in link →'}</button>
         </form>
       )}
 

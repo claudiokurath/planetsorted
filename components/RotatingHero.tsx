@@ -11,7 +11,7 @@ export function RotatingHero() {
         className="h-24 w-24 opacity-90 lg:h-32 lg:w-32"
       />
       <p className="text-[11px] font-medium uppercase tracking-[0.34em] text-[#C6A052]">worry less, live more.</p>
-      <h2 className="text-2xl font-extralight uppercase tracking-[0.04em] text-white lg:text-4xl">
+      <h2 className="text-2xl font-normal uppercase tracking-[0.04em] text-white lg:text-4xl">
         Templates, not inspiration.
       </h2>
     </div>

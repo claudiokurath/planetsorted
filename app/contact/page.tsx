@@ -16,7 +16,7 @@ export default function ContactPage() {
             Have a question, feedback, or need help with your account? Reach out to us directly — no chatbot, no bureaucracy.
           </p>
           <div className="space-y-3 rounded-none border border-white/[0.12] bg-black p-6">
-            <h2 className="text-2xl font-extralight uppercase text-white" style={{ fontFamily: "var(--font-jost), system-ui, sans-serif" }}>
+            <h2 className="text-2xl font-normal uppercase text-white" style={{ fontFamily: "var(--font-anton), Oswald, sans-serif" }}>
               Get in Touch
             </h2>
             <p className="text-base text-neutral-300">

@@ -27,18 +27,11 @@ export function PageHeader({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0 space-y-3">
           {eyebrow ? (
-            <div className="flex items-center gap-2.5">
-              <span className="h-0.5 w-8 rounded-full bg-[#C6A052]" />
-              <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-[#C6A052]">
-                {eyebrow}
-              </span>
-            </div>
-          ) : (
-            <div className="h-1 w-12 rounded-full bg-[#C6A052]" />
-          )}
+            <span className="sor7ed-pill">{eyebrow}</span>
+          ) : null}
 
           <h1
-            className="font-bebas text-7xl font-extralight uppercase leading-[0.82] tracking-normal text-[#F2F2F2] sm:text-8xl lg:text-9xl"
+            className="font-bebas text-6xl uppercase leading-[0.9] tracking-tight text-white sm:text-7xl lg:text-8xl"
           >
             {title}
           </h1>

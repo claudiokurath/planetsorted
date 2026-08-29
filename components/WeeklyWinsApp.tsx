@@ -129,7 +129,7 @@ function SliderField({
         <label htmlFor={id} className="text-sm font-medium text-neutral-200">
           {label}
         </label>
-        <span className="text-2xl font-extralight text-white" style={{ fontFamily: "var(--font-jost), system-ui, sans-serif" }}>
+        <span className="text-2xl font-normal text-white" style={{ fontFamily: "var(--font-anton), Oswald, sans-serif" }}>
           {value}
         </span>
       </div>
@@ -339,8 +339,8 @@ export function WeeklyWinsApp() {
               PLANET SOR7ED LAB — Body
             </p>
             <h1
-              className="mt-3 text-6xl sm:text-7xl lg:text-8xl font-extralight uppercase leading-[0.95] tracking-normal"
-              style={{ fontFamily: "var(--font-jost), system-ui, sans-serif" }}
+              className="mt-3 text-6xl sm:text-7xl lg:text-8xl font-normal uppercase leading-[0.95] tracking-normal"
+              style={{ fontFamily: "var(--font-anton), Oswald, sans-serif" }}
             >
               Weekly Wins Generator
             </h1>
@@ -353,8 +353,8 @@ export function WeeklyWinsApp() {
               <div>
                 <p className="text-xs font-medium uppercase tracking-widest text-neutral-400">Live win score</p>
                 <p
-                  className="mt-1 text-5xl font-extralight leading-none"
-                  style={{ fontFamily: "var(--font-jost), system-ui, sans-serif", color: band.colour }}
+                  className="mt-1 text-5xl font-normal leading-none"
+                  style={{ fontFamily: "var(--font-anton), Oswald, sans-serif", color: band.colour }}
                 >
                   {winScore}
                 </p>
@@ -524,8 +524,8 @@ export function WeeklyWinsApp() {
                 <div>
                   <p className="text-xs font-medium uppercase tracking-widest text-[#C6A052]">Generated draft</p>
                   <h2
-                    className="mt-2 text-3xl font-extralight uppercase sm:text-4xl"
-                    style={{ fontFamily: "var(--font-jost), system-ui, sans-serif" }}
+                    className="mt-2 text-3xl font-normal uppercase sm:text-4xl"
+                    style={{ fontFamily: "var(--font-anton), Oswald, sans-serif" }}
                   >
                     {draft.title}
                   </h2>
@@ -566,8 +566,8 @@ export function WeeklyWinsApp() {
             <section className="space-y-4">
               <div className="flex items-center justify-between">
                 <h2
-                  className="text-2xl font-extralight uppercase"
-                  style={{ fontFamily: "var(--font-jost), system-ui, sans-serif" }}
+                  className="text-2xl font-normal uppercase"
+                  style={{ fontFamily: "var(--font-anton), Oswald, sans-serif" }}
                 >
                   Your wins history
                 </h2>

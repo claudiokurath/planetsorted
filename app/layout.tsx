@@ -1,16 +1,25 @@
 import type { Metadata } from 'next'
-import { Jost, JetBrains_Mono } from 'next/font/google'
+import { Anton, Jost, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { SmartNav } from '@/components/SmartNav'
 import { MobileNav } from '@/components/MobileNav'
 import { SiteFooter } from '@/components/SiteFooter'
 
-// Thin geometric (Futura family) — display + UI. See docs/planet-sorted-master.md
-// "Visual Identity". The legacy --font-inter / --font-bebas CSS vars are aliased
-// to Jost in globals.css so existing class/module references keep resolving.
+// Display face — heavy condensed grotesque, matches the customer-facing
+// protocol deck. See docs/planet-sorted-master.md "Visual Identity".
+// The legacy --font-bebas CSS var is aliased to Anton in globals.css so
+// every existing `font-bebas` heading picks it up.
+const anton = Anton({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-anton',
+  display: 'swap',
+})
+
+// Body + UI text.
 const jost = Jost({
   subsets: ['latin'],
-  weight: ['200', '300', '400', '500'],
+  weight: ['300', '400', '500'],
   variable: '--font-jost',
   display: 'swap',
 })
@@ -61,7 +70,7 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" className={`h-full antialiased ${jost.variable} ${jetBrainsMono.variable}`}>
+    <html lang="en" className={`h-full antialiased ${anton.variable} ${jost.variable} ${jetBrainsMono.variable}`}>
       <head>
         <script
           type="application/ld+json"
