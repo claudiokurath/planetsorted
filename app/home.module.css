@@ -235,7 +235,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 30px;
-  margin-bottom: 42px;
+  margin-bottom: 28px;
 }
 
 .sectionHeading > a {
@@ -253,7 +253,7 @@
 .contentGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 12px;
 }
 
 .contentCard {
@@ -264,7 +264,7 @@
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--home-line);
-  border-radius: 18px;
+  border-radius: 14px;
   background: var(--home-panel);
   transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
@@ -324,14 +324,14 @@
 
 .cardBody {
   display: flex;
-  min-height: 292px;
+  min-height: 208px;
   flex: 1;
   flex-direction: column;
-  padding: 26px;
+  padding: 18px;
 }
 
 .cardBodyWithVisual {
-  min-height: 260px;
+  min-height: 188px;
 }
 
 .cardMetaRow {
@@ -368,9 +368,9 @@
 }
 
 .cardBody h3 {
-  margin-top: 40px;
+  margin-top: 20px;
   font-family: var(--font-bebas), Impact, sans-serif;
-  font-size: clamp(38px, 4vw, 58px);
+  font-size: clamp(26px, 2.7vw, 38px);
   font-weight: 400;
   line-height: 0.98;
   text-transform: uppercase;
@@ -378,7 +378,7 @@
 
 .cardBody > p {
   display: -webkit-box;
-  margin-top: 13px;
+  margin-top: 10px;
   overflow: hidden;
   color: var(--home-muted);
   font-size: 12px;
@@ -392,7 +392,7 @@
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
-  padding-top: 24px;
+  padding-top: 16px;
   color: #dce5f1;
   font-size: 11px;
   font-weight: 800;
@@ -468,13 +468,13 @@
   }
 
   .contentGrid {
-    gap: 14px;
+    gap: 10px;
   }
 
   .contentCard {
     display: grid;
-    min-height: 170px;
-    grid-template-columns: minmax(118px, 38%) minmax(0, 1fr);
+    min-height: 150px;
+    grid-template-columns: minmax(112px, 36%) minmax(0, 1fr);
   }
 
   .contentCardNoVisual {
@@ -482,14 +482,14 @@
   }
 
   .cardVisual {
-    min-height: 170px;
+    min-height: 150px;
     aspect-ratio: auto;
   }
 
   .cardBody,
   .cardBodyWithVisual {
     min-height: 0;
-    padding: 16px;
+    padding: 13px;
   }
 
   .cardMetaRow {
@@ -508,8 +508,8 @@
   }
 
   .cardBody h3 {
-    margin-top: 18px;
-    font-size: clamp(32px, 9vw, 42px);
+    margin-top: 12px;
+    font-size: clamp(24px, 7vw, 32px);
     line-height: 0.9;
   }
 
