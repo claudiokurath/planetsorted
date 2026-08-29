@@ -8,7 +8,7 @@ import type { Protocol } from '@/lib/types/database'
 import styles from './home.module.css'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-const LOGO_IMAGE = '/images/sor7ed-logo-white.png'
+const OG_CARD = '/api/og?card=welcome'
 
 const HOW_IT_WORKS = [
   {
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     description: 'Templates, not inspiration. Practical protocols and tools for neurodivergent adults.',
     images: [
       {
-        url: `${SITE}${LOGO_IMAGE}`,
+        url: `${SITE}${OG_CARD}`,
         type: 'image/png',
         alt: 'PLANET SOR7ED — Templates, not inspiration.',
       },
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'PLANET SOR7ED — Templates, Not Inspiration',
     description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
-    images: [`${SITE}${LOGO_IMAGE}`],
+    images: [`${SITE}${OG_CARD}`],
   },
 }
 
