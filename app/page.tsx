@@ -67,23 +67,8 @@ function HomeContentCard({
   const category = getCategoryStyle(item.category)
 
   return (
-    <Link
-      href={href}
-      className={`${styles.contentCard} ${item.cover_image ? '' : styles.contentCardNoVisual}`}
-    >
-      {item.cover_image ? (
-        <div className={styles.cardVisual}>
-          <Image
-            src={item.cover_image}
-            alt=""
-            fill
-            sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 33vw"
-            className={styles.cardImage}
-          />
-          <div className={styles.cardShade} />
-        </div>
-      ) : null}
-      <div className={`${styles.cardBody} ${item.cover_image ? styles.cardBodyWithVisual : ''}`}>
+    <Link href={href} className={`${styles.contentCard} ${styles.contentCardNoVisual}`}>
+      <div className={styles.cardBody}>
         <div className={styles.cardMetaRow}>
           <div className={styles.cardLabelGroup}>
             <span className={styles.kindBadge}>{kind}</span>

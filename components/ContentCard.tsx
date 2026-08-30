@@ -1,11 +1,10 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { getCategoryStyle } from '@/lib/categoryStyles'
 
 interface ContentCardProps {
   href: string
   title: string
-  /** Kept optional for call-site compatibility; cards remain title-led. */
+  /** Kept optional for call-site compatibility; cards are title-led — no cover images. */
   summary?: string
   coverImage?: string | null
   meta?: string
@@ -17,7 +16,6 @@ export function ContentCard({
   href,
   title,
   summary,
-  coverImage,
   meta,
   category,
   compact = false,
@@ -27,21 +25,9 @@ export function ContentCard({
   return (
     <Link
       href={href}
-      className="group relative flex min-h-[168px] h-full w-full flex-row overflow-hidden rounded-none border border-white/[0.12] bg-black transition-all duration-300 hover:-translate-y-1 hover:border-[#C6A052]/35 hover:shadow-none sm:min-h-0 sm:flex-col"
+      className="group relative flex min-h-[168px] h-full w-full flex-col overflow-hidden rounded-none border border-white/[0.12] bg-black transition-all duration-300 hover:-translate-y-1 hover:border-[#C6A052]/35 hover:shadow-none"
     >
-      {coverImage ? (
-        <div className={`relative min-h-[168px] w-[38%] flex-shrink-0 overflow-hidden bg-black sm:min-h-0 sm:w-full ${compact ? 'sm:aspect-[2/1]' : 'sm:aspect-video'}`}>
-          <Image
-            src={coverImage}
-            alt=""
-            fill
-            sizes="(max-width: 640px) 38vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.035]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
-        </div>
-      ) : null}
-      <div className={`flex min-w-0 flex-1 flex-col justify-between gap-3 p-4 sm:p-6 ${compact ? 'sm:min-h-52' : `${coverImage ? 'sm:min-h-64' : 'sm:min-h-72'} sm:gap-5 lg:p-7`}`}>
+      <div className={`flex min-w-0 flex-1 flex-col justify-between gap-3 p-4 sm:p-6 ${compact ? 'sm:min-h-52' : 'sm:min-h-72 sm:gap-5 lg:p-7'}`}>
         <div className="flex flex-col flex-1">
           {style && (
             <div>
