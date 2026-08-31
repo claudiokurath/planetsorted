@@ -17,9 +17,9 @@ export default function WidgetTestPage() {
           Widget Install Test
         </h1>
         <p className="mt-4 text-base sm:text-lg leading-relaxed text-neutral-300">
-          This page embeds the real, live <code className="text-[#C6A052]">widget.js</code> script exactly the
+          This page embeds the real, live <code className="text-[#F5C518]">widget.js</code> script exactly the
           way a partner site would — nothing simulated. Look for the floating SOR7ED button in the bottom-right
-          corner. With <code className="text-[#C6A052]">data-partner</code> set it opens a lead-capture
+          corner. With <code className="text-[#F5C518]">data-partner</code> set it opens a lead-capture
           panel (phone number → stored for the partner, then WhatsApp). Without a partner slug it opens
           WhatsApp directly.
         </p>

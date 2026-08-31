@@ -64,7 +64,7 @@ function ArticlePreview({
                 className="object-contain object-left"
               />
             </div>
-            <p className="mt-8 text-xs font-medium uppercase tracking-[0.14em] text-[#C6A052]">
+            <p className="mt-8 text-xs font-medium uppercase tracking-[0.14em] text-[#F5C518]">
               {category}
             </p>
             <h1 className="font-bebas mt-4 max-w-4xl text-7xl uppercase leading-[0.84] tracking-tight text-white sm:text-8xl lg:text-9xl">
@@ -262,7 +262,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
           <section className="mx-auto mt-6 max-w-6xl sm:mt-8">
             <Link
               href={`/tools/${relatedTool.slug}`}
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-2 text-xs font-medium uppercase tracking-wider text-neutral-200 transition-colors hover:border-[#C6A052] hover:text-[#C6A052]"
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-2 text-xs font-medium uppercase tracking-wider text-neutral-200 transition-colors hover:border-[#F5C518] hover:text-[#F5C518]"
             >
               Try the {item.category} tool: {relatedTool.title} →
             </Link>

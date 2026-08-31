@@ -19,9 +19,9 @@ interface ProtocolDeckProps {
  * (e.g. BURNOUT DOESN'T WANT YOU DEAD kit): pure black field,
  * white display titles, cyan accents, charcoal cards.
  */
-const ACCENT = '#C6A052'
+const ACCENT = '#F5C518'
 const ACCENT_DARK = '#000000'
-const ACCENT_SOFT = 'rgba(198, 160, 82, 0.14)'
+const ACCENT_SOFT = 'rgba(245, 197, 24, 0.14)'
 const CARD = '#000000'
 const CARD_BORDER = "rgba(255,255,255,0.12)"
 const MUTED = "#8A8A8A"
@@ -140,7 +140,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
             <div
               key={i}
               className="flex gap-3 rounded-lg px-5 py-4 text-sm leading-relaxed text-white sm:text-base"
-              style={{ backgroundColor: ACCENT_DARK, border: '1px solid rgba(198, 160, 82, 0.34)' }}
+              style={{ backgroundColor: ACCENT_DARK, border: '1px solid rgba(245, 197, 24, 0.34)' }}
             >
               <span
                 className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-normal"

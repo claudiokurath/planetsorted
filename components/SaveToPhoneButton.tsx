@@ -15,7 +15,7 @@ export function SaveToPhoneButton({ slug, context, isLoggedIn, whatsappVerified 
     const returnPath = context === 'tool' ? `/tools/${slug}` : `/intelligence/${slug}`
     return (
       <a href={`/signup?next=${encodeURIComponent(returnPath)}`}
-        className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C6A052] px-8 py-4 text-base font-medium uppercase tracking-wider text-[#050608] transition-opacity hover:opacity-90">
+        className="inline-flex items-center justify-center gap-2 rounded-full bg-[#F5C518] px-8 py-4 text-base font-medium uppercase tracking-wider text-[#050608] transition-opacity hover:opacity-90">
         SIGN IN TO GET THE COMPLETE {context === 'tool' ? 'TOOL' : 'PROTOCOL'} →
       </a>
     )
@@ -46,7 +46,7 @@ export function SaveToPhoneButton({ slug, context, isLoggedIn, whatsappVerified 
 
   return (
     <button onClick={handleSend} disabled={state === 'sending' || state === 'sent'}
-      className="inline-flex items-center justify-center gap-2 rounded-full bg-[#C6A052] px-8 py-4 text-base font-medium uppercase tracking-wider text-[#050608] transition-opacity hover:opacity-90 disabled:opacity-60">
+      className="inline-flex items-center justify-center gap-2 rounded-full bg-[#F5C518] px-8 py-4 text-base font-medium uppercase tracking-wider text-[#050608] transition-opacity hover:opacity-90 disabled:opacity-60">
       {state === 'idle' && 'SEND TO MY WHATSAPP →'}
       {state === 'sending' && 'Sending…'}
       {state === 'sent' && '✓ Sent to your WhatsApp'}

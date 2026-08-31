@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ContentCard } from '@/components/ContentCard'
-import { PageHeader } from '@/components/PageHeader'
 import { createServerClient } from '@/lib/supabase/server'
 import { CATEGORY_LIST, getCategoryBySlug } from '@/lib/categoryStyles'
 import { brandedOgImage } from '@/lib/og/imageUrl'
@@ -35,16 +35,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       images: [{ url: imageUrl, width: 1200, height: 630, alt: category.label }],
     },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [imageUrl],
-    },
+    twitter: { card: 'summary_large_image', title, description, images: [imageUrl] },
   }
 }
 
 export const revalidate = 60
+
+const SectionLabel = ({ children }: { children: string }) => (
+  <h2 className="mb-6 text-xs font-medium uppercase tracking-[0.24em] text-neutral-500">{children}</h2>
+)
 
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params
@@ -57,7 +56,7 @@ export default async function CategoryPage({ params }: Props) {
   const supabase = createServerClient()
   const { data: items } = await supabase
     .from('protocols')
-    .select('slug, title, cover_image, read_time, category, type')
+    .select('slug, title, read_time, category, type')
     .eq('category', category.label)
     .eq('status', 'Published')
     .order('updated_at', { ascending: false })
@@ -66,30 +65,37 @@ export default async function CategoryPage({ params }: Props) {
   const articles = (items ?? []).filter((item) => item.type !== 'Tool')
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <div className="mx-auto max-w-7xl px-4 pt-8 pb-16 sm:px-6 sm:pt-10 lg:px-8">
-        <PageHeader
-          eyebrow="PLANET SOR7ED CATEGORY"
-          title={category.label}
-          description={category.tagline}
-        />
+    <main className="min-h-screen bg-black text-white">
+      {/* Pillar header */}
+      <header className="mx-auto flex max-w-5xl flex-col items-center gap-5 px-5 py-24 text-center sm:py-28">
+        <span className="sor7ed-pill">Pillar</span>
+        <h1 className="font-bebas text-5xl uppercase leading-[0.92] tracking-tight text-white sm:text-6xl lg:text-7xl">
+          {category.label}
+        </h1>
+        {category.tagline ? (
+          <p className="max-w-xl text-base leading-relaxed text-neutral-400 sm:text-lg">{category.tagline}</p>
+        ) : null}
+        <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-500">
+          <Link href="/tools" className="transition-colors hover:text-white">All tools</Link>
+          <span className="text-neutral-700">·</span>
+          <Link href="/intelligence" className="transition-colors hover:text-white">All guidebook</Link>
+        </div>
+      </header>
 
+      <div className="mx-auto max-w-6xl px-5 pb-24">
         {tools.length === 0 && articles.length === 0 ? (
           <p className="py-12 text-center text-neutral-500">Nothing published in {category.label} yet.</p>
         ) : (
-          <>
+          <div className="flex flex-col gap-16">
             {tools.length > 0 && (
-              <section className="mb-12">
-                <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.22em] text-neutral-400">
-                  Tools
-                </h2>
-                <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <section>
+                <SectionLabel>Tools</SectionLabel>
+                <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {tools.map((tool) => (
                     <ContentCard
                       key={tool.slug}
                       href={`/tools/${tool.slug}`}
                       title={tool.title}
-                      coverImage={tool.cover_image}
                       category={tool.category}
                       meta={tool.read_time || undefined}
                     />
@@ -100,16 +106,13 @@ export default async function CategoryPage({ params }: Props) {
 
             {articles.length > 0 && (
               <section>
-                <h2 className="mb-4 text-xs font-medium uppercase tracking-[0.22em] text-neutral-400">
-                  Intelligence
-                </h2>
-                <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <SectionLabel>Guidebook</SectionLabel>
+                <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {articles.map((article) => (
                     <ContentCard
                       key={article.slug}
                       href={`/intelligence/${article.slug}`}
                       title={article.title}
-                      coverImage={article.cover_image}
                       category={article.category}
                       meta={article.read_time || undefined}
                     />
@@ -117,9 +120,9 @@ export default async function CategoryPage({ params }: Props) {
                 </div>
               </section>
             )}
-          </>
+          </div>
         )}
       </div>
-    </div>
+    </main>
   )
 }

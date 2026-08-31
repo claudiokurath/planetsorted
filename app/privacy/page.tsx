@@ -49,7 +49,7 @@ export default function PrivacyPage() {
       </p>
 
       <p className="mt-10 text-sm text-neutral-500">
-        If you have any questions about this policy, drop us an email at <a href="mailto:hello@planetsorted.com" className="text-[#C6A052] underline">hello@planetsorted.com</a>.
+        If you have any questions about this policy, drop us an email at <a href="mailto:hello@planetsorted.com" className="text-[#F5C518] underline">hello@planetsorted.com</a>.
       </p>
     </article>
   )

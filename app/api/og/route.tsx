@@ -56,7 +56,7 @@ export async function GET(req: Request) {
             border: '1px solid rgba(255,255,255,0.14)',
           }}
         >
-          <div style={{ color: '#C6A052', fontSize: 22, fontWeight: 300, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 24 }}>SOR7ED</div>
+          <div style={{ color: '#F5C518', fontSize: 22, fontWeight: 300, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: 24 }}>SOR7ED</div>
           <div style={{ color: '#FFFFFF', fontSize: 72, fontWeight: 300, textTransform: 'uppercase', lineHeight: 1.05, marginBottom: 28 }}>{title}</div>
           {description && (
             <div style={{ color: '#8A8A8A', fontSize: 30, fontWeight: 400, lineHeight: 1.4, maxWidth: 900 }}>{description}</div>
@@ -111,7 +111,7 @@ export async function GET(req: Request) {
       >
         <div
           style={{
-            color: '#C6A052',
+            color: '#F5C518',
             fontSize: 28,
             fontWeight: 300,
             letterSpacing: '0.25em',

@@ -17,8 +17,8 @@
   --sor7ed-hairline: rgba(255, 255, 255, 0.12);
 
   /* The single accent. One primary action, one active state, the mark. */
-  --sor7ed-gold: #C6A052;
-  --sor7ed-gold-dim: #9C7E3F;
+  --sor7ed-gold: #F5C518;
+  --sor7ed-gold-dim: #C79A0E;
 
   /* Font-var aliases. `font-bebas` (every heading) now resolves to Anton —
      the heavy condensed display face that matches the protocol deck.
@@ -41,7 +41,7 @@
 .sor7ed-pill {
   display: inline-flex;
   align-items: center;
-  border: 1px solid rgba(198, 160, 82, 0.55);
+  border: 1px solid rgba(245, 197, 24, 0.55);
   border-radius: 999px;
   padding: 5px 13px;
   color: var(--sor7ed-gold);
@@ -62,7 +62,7 @@ body {
 }
 
 ::selection {
-  background: rgba(198, 160, 82, 0.30);
+  background: rgba(245, 197, 24, 0.30);
   color: #fff;
 }
 
@@ -84,10 +84,10 @@ body {
 
 .border-green-500,
 .border-green-100 {
-  border-color: rgba(198, 160, 82, 0.4) !important;
+  border-color: rgba(245, 197, 24, 0.4) !important;
 }
 
 .bg-green-50,
 .bg-green-50\/50 {
-  background-color: rgba(198, 160, 82, 0.1) !important;
+  background-color: rgba(245, 197, 24, 0.1) !important;
 }

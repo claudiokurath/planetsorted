@@ -85,7 +85,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
 
   return (
     <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-6 shadow-2xl sm:p-10">
-      <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#C6A052]">
+      <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#F5C518]">
         One-time connection
       </p>
       <h1 className="font-bebas mt-4 text-7xl uppercase leading-[0.84] text-white sm:text-8xl">
@@ -107,7 +107,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
                 id="connect-country-code"
                 value={countryCode}
                 onChange={(event) => setCountryCode(event.target.value)}
-                className="min-h-14 rounded-none border border-white/10 bg-black px-3 text-sm text-white outline-none focus:border-[#C6A052]"
+                className="min-h-14 rounded-none border border-white/10 bg-black px-3 text-sm text-white outline-none focus:border-[#F5C518]"
               >
                 <option value="44">UK (+44)</option>
                 <option value="1">US / Canada (+1)</option>
@@ -129,7 +129,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
                 value={phone}
                 onChange={(event) => setPhone(event.target.value.replace(/\D/g, ''))}
                 placeholder="7591 922247"
-                className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-[#C6A052]"
+                className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-[#F5C518]"
               />
             </div>
             <p className="mt-2 text-xs text-neutral-500">Choose the code, then enter the number without its first zero.</p>
@@ -138,7 +138,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
           <button
             type="submit"
             disabled={loading}
-            className="min-h-14 w-full rounded-full bg-[#C6A052] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50"
+            className="min-h-14 w-full rounded-full bg-[#F5C518] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50"
           >
             {loading ? 'Sending…' : 'Send my code →'}
           </button>
@@ -161,14 +161,14 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
               value={code}
               onChange={(event) => setCode(event.target.value.replace(/\D/g, ''))}
               placeholder="000000"
-              className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-center font-mono text-2xl tracking-[0.35em] text-white outline-none transition-colors placeholder:text-neutral-700 focus:border-[#C6A052]"
+              className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-center font-mono text-2xl tracking-[0.35em] text-white outline-none transition-colors placeholder:text-neutral-700 focus:border-[#F5C518]"
             />
           </div>
           {error ? <p className="text-sm text-red-400" role="alert">{error}</p> : null}
           <button
             type="submit"
             disabled={loading || code.length !== 6}
-            className="min-h-14 w-full rounded-full bg-[#C6A052] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50"
+            className="min-h-14 w-full rounded-full bg-[#F5C518] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50"
           >
             {loading ? 'Checking…' : 'Connect and send my link →'}
           </button>
@@ -183,7 +183,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
       ) : null}
 
       {phase === 'finishing' ? (
-        <div className="mt-8 rounded-none border border-[#C6A052]/25 bg-[#C6A052]/5 p-5 text-sm font-medium text-[#C6A052]" role="status">
+        <div className="mt-8 rounded-none border border-[#F5C518]/25 bg-[#F5C518]/5 p-5 text-sm font-medium text-[#F5C518]" role="status">
           Connected. Sending your private link…
         </div>
       ) : null}
