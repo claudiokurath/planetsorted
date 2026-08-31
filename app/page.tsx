@@ -5,50 +5,30 @@ import { createServerClient } from '@/lib/supabase/server'
 import { getCategoryStyle } from '@/lib/categoryStyles'
 import { getToolRoute } from '@/lib/standaloneRoutes'
 import type { Protocol } from '@/lib/types/database'
+import { AboutIntro } from '@/components/AboutIntro'
 import styles from './home.module.css'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
 const OG_CARD = '/api/og?card=welcome'
 
-const HOW_IT_WORKS = [
-  {
-    number: '01',
-    title: 'Choose',
-    description: 'Find the tool or Guidebook protocol that matches the thing in front of you.',
-  },
-  {
-    number: '02',
-    title: 'Thread it',
-    description: 'Tap the SOR7ED mark to keep it in your personal WhatsApp thread.',
-  },
-  {
-    number: '03',
-    title: 'Use it',
-    description: 'Come back when you need it and take one clear, manageable next step.',
-  },
-] as const
+const DESC =
+  'SOR7ED is a practical support platform for ADHD, autistic, AuDHD, dyslexic, bipolar and other neurodivergent adults — honest editorial content paired with interactive tools that end in a real next step.'
 
 export const metadata: Metadata = {
-  title: 'PLANET SOR7ED — Templates, Not Inspiration',
-  description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
+  title: 'PLANET SOR7ED — Tools built for brains that work differently',
+  description: DESC,
   openGraph: {
     title: 'PLANET SOR7ED',
-    description: 'Templates, not inspiration. Practical protocols and tools for neurodivergent adults.',
-    images: [
-      {
-        url: `${SITE}${OG_CARD}`,
-        type: 'image/png',
-        alt: 'PLANET SOR7ED — Templates, not inspiration.',
-      },
-    ],
+    description: DESC,
+    images: [{ url: `${SITE}${OG_CARD}`, type: 'image/png', alt: 'PLANET SOR7ED' }],
     url: SITE,
     siteName: 'PLANET SOR7ED',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PLANET SOR7ED — Templates, Not Inspiration',
-    description: 'Practical protocols, tools, and templates for neurodivergent adults. No app. No spam. Just what works.',
+    title: 'PLANET SOR7ED — Tools built for brains that work differently',
+    description: DESC,
     images: [`${SITE}${OG_CARD}`],
   },
 }
@@ -111,54 +91,7 @@ export default async function HomePage() {
 
   return (
     <div className={styles.page}>
-      <section className={styles.hero}>
-        <div className={styles.heroGlow} aria-hidden="true" />
-        <div className={styles.heroGrid}>
-          <div className={styles.heroCopy}>
-            <span className={styles.eyebrow}>worry less, live more.</span>
-            <h1>
-              clarity
-              <br />
-              <span>from clutter.</span>
-            </h1>
-            <p>
-              PLANET SOR7ED turns overwhelm into one clear, manageable next step — templates, protocols, and plain-English tools built for brains that already have enough going on.
-            </p>
-            <div className={styles.heroActions}>
-              <Link href="/tools" className={styles.primaryAction}>
-                Find a tool <span aria-hidden="true">→</span>
-              </Link>
-              <Link href="/intelligence" className={styles.secondaryAction}>
-                Browse Guidebook
-              </Link>
-            </div>
-          </div>
-
-          <div className={styles.heroMark} aria-hidden="true">
-            <svg viewBox="0 0 340 300" fill="none" stroke="#5A5A5A" strokeWidth="1" strokeLinecap="round">
-              <path d="M14,150 C56,40 78,250 118,120 C150,20 116,270 168,150 C214,60 182,262 232,140 C270,60 292,220 320,140 C304,84 330,204 296,214 C250,232 268,110 224,168 C176,230 202,74 152,160 C104,240 96,86 56,180 C26,240 40,86 14,150 Z" />
-            </svg>
-            <Image src="/images/tangle-gold.png" alt="" width={200} height={200} className={styles.heroTangle} />
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.workflowSection}>
-        <div className={styles.centeredHeading}>
-          <span>How it works</span>
-          <h2>From chaos to a next step.</h2>
-          <p>One small system. Three simple moves.</p>
-        </div>
-        <ol className={styles.workflowGrid}>
-          {HOW_IT_WORKS.map((step) => (
-            <li key={step.number}>
-              <span className={styles.stepNumber}>{step.number}</span>
-              <h3>{step.title}</h3>
-              <p>{step.description}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <AboutIntro />
 
       {tools.length > 0 ? (
         <section className={styles.contentSection}>
