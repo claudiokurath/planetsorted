@@ -92,7 +92,7 @@ export function SignupForm() {
     return (
       <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-7 text-center shadow-2xl sm:p-10">
         <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#F5C518]">Links sent</p>
-        <h1 className="font-bebas mt-4 text-7xl uppercase leading-[0.84] text-white sm:text-8xl">Check your phone.</h1>
+        <h1 className="font-bebas mt-4 text-4xl uppercase leading-[1.15] text-white sm:text-5xl">Check your phone.</h1>
         <p className="mx-auto mt-5 max-w-sm text-sm leading-6 text-neutral-400 sm:text-base">
           {emailOnly
             ? 'Your secure sign-in link is waiting in your email.'
@@ -116,7 +116,7 @@ export function SignupForm() {
     <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-6 shadow-2xl sm:p-10">
       <div className="mb-8">
         <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#F5C518]">One form. One go.</p>
-        <h1 className="font-bebas mt-4 text-7xl uppercase leading-[0.84] text-white sm:text-8xl">Get SOR7ED.</h1>
+        <h1 className="font-bebas mt-4 text-4xl uppercase leading-[1.15] text-white sm:text-5xl">Get SOR7ED.</h1>
         <p className="mt-5 max-w-md text-sm leading-6 text-neutral-400 sm:text-base">WhatsApp is your product key. Add email if you want a backup sign-in and recovery route.</p>
       </div>
 

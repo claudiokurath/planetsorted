@@ -88,7 +88,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
       <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#F5C518]">
         One-time connection
       </p>
-      <h1 className="font-bebas mt-4 text-7xl uppercase leading-[0.84] text-white sm:text-8xl">
+      <h1 className="font-bebas mt-4 text-4xl uppercase leading-[1.15] text-white sm:text-5xl">
         Get the link.
       </h1>
       <p className="mt-5 max-w-md text-sm leading-6 text-neutral-400 sm:text-base">

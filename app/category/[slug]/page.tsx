@@ -69,7 +69,7 @@ export default async function CategoryPage({ params }: Props) {
       {/* Pillar header */}
       <header className="mx-auto flex max-w-5xl flex-col items-center gap-5 px-5 py-24 text-center sm:py-28">
         <span className="sor7ed-pill">Pillar</span>
-        <h1 className="font-bebas text-5xl uppercase leading-[0.92] tracking-tight text-white sm:text-6xl lg:text-7xl">
+        <h1 className="font-bebas text-4xl uppercase leading-[1.15] tracking-normal text-white sm:text-5xl lg:text-6xl">
           {category.label}
         </h1>
         {category.tagline ? (

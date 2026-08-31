@@ -339,7 +339,7 @@ export function WeeklyWinsApp() {
               PLANET SOR7ED LAB — Body
             </p>
             <h1
-              className="mt-3 text-6xl sm:text-7xl lg:text-8xl font-normal uppercase leading-[0.95] tracking-normal"
+              className="mt-3 text-6xl sm:text-5xl lg:text-6xl font-normal uppercase leading-[1.1] tracking-normal"
               style={{ fontFamily: "var(--font-anton), Oswald, sans-serif" }}
             >
               Weekly Wins Generator
@@ -353,7 +353,7 @@ export function WeeklyWinsApp() {
               <div>
                 <p className="text-xs font-medium uppercase tracking-widest text-neutral-400">Live win score</p>
                 <p
-                  className="mt-1 text-5xl font-normal leading-none"
+                  className="mt-1 text-5xl font-normal leading-[1.12]"
                   style={{ fontFamily: "var(--font-anton), Oswald, sans-serif", color: band.colour }}
                 >
                   {winScore}

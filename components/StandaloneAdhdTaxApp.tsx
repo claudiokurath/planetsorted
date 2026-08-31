@@ -27,7 +27,7 @@ export function StandaloneAdhdTaxApp() {
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
         <header className="rounded-none border border-white/10 bg-black p-8 shadow-2xl backdrop-blur">
           <p className="text-sm font-medium uppercase tracking-[0.35em] text-[#F5C518]">Independent app</p>
-          <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl font-normal tracking-normal leading-[0.95]">ADHD Tax Calculator</h1>
+          <h1 className="mt-3 text-5xl sm:text-6xl md:text-6xl font-normal tracking-normal leading-[1.1]">ADHD Tax Calculator</h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-200">
             See the hidden monthly and yearly cost of late fees, impulse purchases, forgotten subscriptions, and productivity leaks.
           </p>

@@ -30,7 +30,7 @@ export default function SoundsPage() {
           <div className="flex flex-col justify-between p-7 sm:p-10 lg:p-14">
             <div>
               <p className="mb-5 text-xs font-medium uppercase tracking-[0.24em] text-[#F5C518]">Artist 001 · Independent AI music artist</p>
-              <h2 className="text-5xl font-normal leading-tight tracking-[-0.035em] sm:text-7xl">
+              <h2 className="text-5xl font-normal leading-[1.15] tracking-normal sm:text-5xl">
                 KLOUDAI<span className="text-[#F5C518]">.</span>
               </h2>
               <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#F2F2F2]/80">
@@ -55,7 +55,7 @@ export default function SoundsPage() {
         <div className="mx-auto grid max-w-7xl gap-8 sm:grid-cols-[.7fr_1.3fr] sm:items-end">
           <p className="text-xs font-medium uppercase tracking-[0.22em] text-[#F2F2F2]/70">More signals soon</p>
           <div>
-            <p className="text-3xl font-medium leading-tight tracking-[-0.025em] sm:text-5xl">
+            <p className="text-3xl font-medium leading-[1.15] tracking-normal sm:text-5xl">
               ONE NEW VOICE IS ONLY THE START.
             </p>
             <Link href="/contact" className="mt-6 inline-block border-b border-[#F2F2F2] pb-1 text-sm font-medium uppercase tracking-[0.14em] hover:text-[#F5C518]">
