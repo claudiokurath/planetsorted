@@ -45,16 +45,15 @@ export function AboutIntro() {
     <>
       {/* Top Feature Media */}
       <section className="mx-auto flex max-w-6xl flex-col items-center px-5 pt-12 pb-4 sm:pt-16">
-        <div className="relative w-full max-w-md sm:max-w-lg aspect-square overflow-hidden rounded-2xl border border-white/12 bg-black shadow-2xl">
+        <div className="relative w-full max-w-md sm:max-w-lg aspect-square">
           <video
             autoPlay
             loop
             muted
             playsInline
-            poster="/media/hero-poster.png"
             className="h-full w-full object-cover"
           >
-            <source src="/media/hero-video.mp4" type="video/mp4" />
+            <source src="/media/sequence01_1.mp4" type="video/mp4" />
           </video>
         </div>
       </section>
