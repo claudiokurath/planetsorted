@@ -397,7 +397,7 @@ export function BiometricStateApp() {
                 style={{ borderColor: 'rgba(34,229,208,0.3)', background: 'rgba(34,229,208,0.05)', color: '#F5C518' }}>
                 ✨ AI-Powered Insights
               </span>
-              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-normal leading-[0.98] tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
+              <h1 className="mt-6 text-5xl sm:text-6xl lg:text-6xl font-normal leading-[1.1] tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Optimize your{' '}
                 <span style={{ background: 'linear-gradient(90deg,#F5C518,#F5C518)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                   cognitive & physical

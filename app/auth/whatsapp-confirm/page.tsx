@@ -96,7 +96,7 @@ function VerificationMessage({ title, body, href, label }: { title: string; body
     <main className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-black p-6 text-white">
       <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-8 sm:p-10">
         <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#F5C518]">SOR7ED verification</p>
-        <h1 className="font-bebas mt-4 text-7xl uppercase leading-[0.84] sm:text-8xl">{title}</h1>
+        <h1 className="font-bebas mt-4 text-4xl uppercase leading-[1.15] sm:text-5xl">{title}</h1>
         <p className="mt-5 text-sm leading-6 text-neutral-400 sm:text-base">{body}</p>
         <Link href={href} className="mt-8 inline-flex min-h-14 w-full items-center justify-center rounded-full bg-[#F5C518] px-6 text-sm font-normal uppercase tracking-wider text-black">
           {label} →

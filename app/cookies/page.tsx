@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default function CookiesPage() {
   return (
     <article className="mx-auto max-w-2xl px-6 py-12 text-neutral-300">
-      <h1 className="mb-6 font-bebas text-5xl uppercase tracking-tight text-white sm:text-6xl">Cookie Policy</h1>
+      <h1 className="mb-6 font-bebas text-4xl uppercase leading-[1.15] tracking-normal text-white sm:text-5xl lg:text-6xl">Cookie Policy</h1>
       <p className="mb-8 text-sm text-neutral-500">Last updated: August 2026</p>
 
       <p className="mb-6 text-lg leading-relaxed text-neutral-300">

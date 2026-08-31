@@ -31,7 +31,7 @@ export function PageHeader({
           ) : null}
 
           <h1
-            className="font-bebas text-6xl uppercase leading-[0.9] tracking-tight text-white sm:text-7xl lg:text-8xl"
+            className="font-bebas text-4xl uppercase leading-[1.15] tracking-normal text-white sm:text-5xl lg:text-6xl"
           >
             {title}
           </h1>

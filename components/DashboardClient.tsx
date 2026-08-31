@@ -337,7 +337,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <h1
-                className="font-bebas text-4xl uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl"
+                className="font-bebas text-4xl uppercase leading-[1.1] tracking-normal text-white sm:text-5xl lg:text-6xl"
               >
                 Welcome back{profile?.first_name ? `, ${profile.first_name}` : ''}
               </h1>
@@ -455,7 +455,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
 
                       {/* Title only — no summary wall of text. Sized ~2× former card title. */}
                       <h3
-                        className="font-bebas text-3xl sm:text-4xl uppercase tracking-tight text-white group-hover:text-[#F5C518] transition-colors leading-[1.05]"
+                        className="font-bebas text-3xl sm:text-4xl uppercase tracking-normal text-white group-hover:text-[#F5C518] transition-colors leading-[1.1]"
                       >
                         {tool.title}
                       </h3>
@@ -517,7 +517,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                       </p>
                     ) : null}
                     <h3
-                      className="font-bebas text-2xl sm:text-3xl uppercase leading-[1.05] text-white hover:text-[#F5C518] transition-colors"
+                      className="font-bebas text-2xl sm:text-3xl uppercase leading-[1.1] text-white hover:text-[#F5C518] transition-colors"
                     >
                       {item.title || 'Saved Item'}
                     </h3>

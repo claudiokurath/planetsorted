@@ -62,7 +62,7 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySa
               Step 01 — About this tool
             </p>
             <h2
-              className="font-bebas mt-5 text-3xl uppercase leading-none text-white sm:text-5xl"
+              className="font-bebas mt-5 text-3xl uppercase leading-[1.15] text-white sm:text-4xl lg:text-5xl"
             >
               What it helps you do
             </h2>

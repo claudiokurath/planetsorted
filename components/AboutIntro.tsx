@@ -22,7 +22,7 @@ function StepCard({ n, head, body }: (typeof STEPS)[number]) {
       <span className="absolute left-1/2 top-0 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#F5C518] font-bebas text-lg text-black">
         {n}
       </span>
-      <h3 className="font-bebas text-2xl uppercase tracking-tight text-white sm:text-3xl">{head}</h3>
+      <h3 className="font-bebas text-2xl uppercase tracking-normal text-white sm:text-3xl">{head}</h3>
       <p className="mt-3 text-[13px] leading-relaxed text-neutral-400">{body}</p>
     </div>
   )
@@ -34,7 +34,7 @@ function PillarCard({ name, slug, body }: (typeof PILLARS)[number]) {
       href={`/category/${slug}`}
       className="group flex flex-col items-center gap-2.5 rounded-lg bg-[#F5C518] p-6 text-center text-black transition-transform hover:-translate-y-1"
     >
-      <span className="font-bebas text-2xl uppercase tracking-tight sm:text-3xl">{name}</span>
+      <span className="font-bebas text-2xl uppercase tracking-normal sm:text-3xl">{name}</span>
       <span className="text-[13px] font-medium leading-relaxed text-black/70">{body}</span>
     </Link>
   )
@@ -43,10 +43,26 @@ function PillarCard({ name, slug, body }: (typeof PILLARS)[number]) {
 export function AboutIntro() {
   return (
     <>
+      {/* Top Feature Media */}
+      <section className="mx-auto flex max-w-6xl flex-col items-center px-5 pt-12 pb-4 sm:pt-16">
+        <div className="relative w-full max-w-md sm:max-w-lg aspect-square overflow-hidden rounded-2xl border border-white/12 bg-black shadow-2xl">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster="/media/hero-poster.png"
+            className="h-full w-full object-cover"
+          >
+            <source src="/media/hero-video.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </section>
+
       {/* Hero */}
-      <section className="mx-auto flex max-w-6xl flex-col items-center gap-7 px-5 py-28 text-center sm:py-36">
+      <section className="mx-auto flex max-w-6xl flex-col items-center gap-7 px-5 py-16 text-center sm:py-20">
         <span className="sor7ed-pill">Neurodivergent-first platform</span>
-        <h1 className="font-bebas text-5xl uppercase leading-[0.9] tracking-tight text-white sm:text-7xl lg:text-8xl">
+        <h1 className="font-bebas text-4xl uppercase leading-[1.15] tracking-normal text-white sm:text-5xl lg:text-6xl">
           Tools built for brains that work differently
         </h1>
         <p className="max-w-3xl text-base leading-relaxed text-neutral-400 sm:text-lg">
@@ -74,7 +90,7 @@ export function AboutIntro() {
       <section className="mx-auto max-w-6xl px-5 py-16 sm:py-24">
         <div className="mx-auto mb-14 flex max-w-3xl flex-col items-center gap-4 text-center">
           <span className="sor7ed-pill">The problem we&rsquo;re solving</span>
-          <h2 className="font-bebas text-4xl uppercase tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h2 className="font-bebas text-3xl uppercase leading-[1.15] tracking-normal text-white sm:text-4xl lg:text-5xl">
             How it works
           </h2>
           <p className="text-sm leading-relaxed text-neutral-400 sm:text-base">
@@ -91,12 +107,12 @@ export function AboutIntro() {
 
       {/* 7 Pillars */}
       <section className="mx-auto max-w-6xl px-5 py-16 sm:py-24">
-        <div className="mx-auto mb-14 flex max-w-3xl flex-col items-center gap-4 text-center">
+        <div className="mb-14 flex flex-col items-center gap-4 text-center">
           <span className="sor7ed-pill">Content pillars</span>
-          <h2 className="font-bebas text-4xl uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h2 className="font-bebas text-3xl uppercase leading-[1.15] tracking-normal text-white sm:text-4xl lg:whitespace-nowrap lg:text-5xl">
             7 pillars. Every part of ND adult life.
           </h2>
-          <p className="text-sm leading-relaxed text-neutral-400 sm:text-base">
+          <p className="max-w-3xl text-sm leading-relaxed text-neutral-400 sm:text-base">
             SOR7ED covers the full reality of neurodivergent adult life — not just productivity hacks. Pick a
             pillar to see its tools and guidebook protocols.
           </p>

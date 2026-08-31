@@ -67,7 +67,7 @@ function ArticlePreview({
             <p className="mt-8 text-xs font-medium uppercase tracking-[0.14em] text-[#F5C518]">
               {category}
             </p>
-            <h1 className="font-bebas mt-4 max-w-4xl text-7xl uppercase leading-[0.84] tracking-tight text-white sm:text-8xl lg:text-9xl">
+            <h1 className="font-bebas mt-4 max-w-4xl text-4xl uppercase leading-[1.15] tracking-normal text-white sm:text-5xl lg:text-6xl">
               {title}
             </h1>
             <div className="mt-8 max-w-3xl whitespace-pre-line text-base leading-8 text-neutral-300 sm:text-lg">

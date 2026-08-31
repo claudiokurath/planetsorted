@@ -182,7 +182,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                   >
                     {j + 1}
                   </span>
-                  <p className="text-sm font-medium leading-snug text-white sm:text-[15px]">
+                  <p className="text-sm font-medium leading-[1.2] text-white sm:text-[15px]">
                     {item}
                   </p>
                 </li>
@@ -197,7 +197,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
               {block.items.map((stat, j) => (
                 <div key={j} className="text-center">
                   {stat.value ? (
-                    <p className="font-bebas text-5xl leading-none text-white sm:text-6xl">
+                    <p className="font-bebas text-5xl leading-[1.12] text-white sm:text-6xl">
                       {stat.value}
                     </p>
                   ) : null}
@@ -208,7 +208,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                     {stat.label}
                   </p>
                   {stat.detail ? (
-                    <p className="mt-1 text-xs leading-snug text-neutral-400">{stat.detail}</p>
+                    <p className="mt-1 text-xs leading-[1.2] text-neutral-400">{stat.detail}</p>
                   ) : null}
                 </div>
               ))}
@@ -295,11 +295,11 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
                     {useIcons ? (
                       <CardGlyph index={j} />
                     ) : (
-                      <span className="font-bebas text-lg leading-none">{j + 1}</span>
+                      <span className="font-bebas text-lg leading-[1.12]">{j + 1}</span>
                     )}
                   </div>
                   <h3
-                    className={`font-bebas text-xl uppercase leading-tight tracking-wide text-white sm:text-2xl ${
+                    className={`font-bebas text-xl uppercase leading-[1.15] tracking-wide text-white sm:text-2xl ${
                       useIcons ? '' : ''
                     }`}
                   >
@@ -341,7 +341,7 @@ function SlideCard({ slide, index }: { slide: DeckSlide; index: number }) {
     >
       <StepBadge label={badge} />
 
-      <h2 className="font-bebas mt-5 max-w-5xl text-3xl uppercase leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl">
+      <h2 className="font-bebas mt-5 max-w-5xl text-3xl uppercase leading-[1.1] tracking-normal text-white sm:text-5xl lg:text-6xl">
         {slide.title}
         {slide.titleMuted ? (
           <span className="text-neutral-500"> {slide.titleMuted}</span>
@@ -395,7 +395,7 @@ export function ProtocolDeck({
           </div>
         </div>
 
-        <h1 className="font-bebas relative z-10 max-w-5xl text-4xl uppercase leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
+        <h1 className="font-bebas relative z-10 max-w-5xl text-4xl uppercase leading-[1.1] tracking-normal text-white sm:text-6xl lg:text-6xl">
           {deck.title}
         </h1>
 

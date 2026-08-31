@@ -24,7 +24,7 @@ export function ContentHero({ title, description, category, meta, articleMode = 
         </Link>
       ) : null}
 
-      <h1 className="font-bebas max-w-4xl text-5xl uppercase leading-[0.92] tracking-tight text-white sm:text-6xl lg:text-7xl">
+      <h1 className="font-bebas max-w-4xl text-4xl uppercase leading-[1.15] tracking-normal text-white sm:text-5xl lg:text-6xl">
         {title}
       </h1>
 

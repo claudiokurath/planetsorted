@@ -59,6 +59,22 @@ body {
   color: var(--foreground);
   font-family: var(--font-jost), "Jost", system-ui, -apple-system, sans-serif;
   font-weight: 300;
+  /* Readability floor for body copy — this audience includes dyslexic and
+     ADHD readers. Generous line-height, no cramped text. */
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Display type (Anton) is a tight, heavy condensed face. Every heading gets a
+   readability floor: open line-height and a hair of letter-spacing so lines
+   and letters never collide. Tailwind `leading-*` utilities may raise this. */
+.font-bebas {
+  line-height: 1.12;
+  letter-spacing: 0.012em;
+}
+
+p {
+  line-height: 1.65;
 }
 
 ::selection {
