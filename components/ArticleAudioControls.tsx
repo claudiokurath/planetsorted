@@ -101,8 +101,8 @@ export function ArticleAudioControls({ bodyText, deepDiveUrl, isSubscriber = fal
           </button>
         )}
         {ttsState === 'playing' && (
-          <span className="flex items-center gap-1 text-xs text-[#C6A052]">
-            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-[#C6A052]" />
+          <span className="flex items-center gap-1 text-xs text-[#F5C518]">
+            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-[#F5C518]" />
             Reading
           </span>
         )}

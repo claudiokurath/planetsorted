@@ -91,7 +91,7 @@ export function SignupForm() {
     const inboxUrl = email ? INBOXES[email.split('@')[1]?.toLowerCase()] : null
     return (
       <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-7 text-center shadow-2xl sm:p-10">
-        <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#C6A052]">Links sent</p>
+        <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#F5C518]">Links sent</p>
         <h1 className="font-bebas mt-4 text-7xl uppercase leading-[0.84] text-white sm:text-8xl">Check your phone.</h1>
         <p className="mx-auto mt-5 max-w-sm text-sm leading-6 text-neutral-400 sm:text-base">
           {emailOnly
@@ -101,7 +101,7 @@ export function SignupForm() {
               : 'Your WhatsApp verification link is ready. Tap it once to verify and sign in.'}
         </p>
         {inboxUrl && emailLinkSent ? (
-          <a href={inboxUrl} target="_blank" rel="noopener noreferrer" className="mt-7 block min-h-14 rounded-full border border-white/15 px-6 py-4 text-sm font-medium uppercase tracking-wider text-white hover:border-[#C6A052]">
+          <a href={inboxUrl} target="_blank" rel="noopener noreferrer" className="mt-7 block min-h-14 rounded-full border border-white/15 px-6 py-4 text-sm font-medium uppercase tracking-wider text-white hover:border-[#F5C518]">
             Open email →
           </a>
         ) : null}
@@ -115,42 +115,42 @@ export function SignupForm() {
   return (
     <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-6 shadow-2xl sm:p-10">
       <div className="mb-8">
-        <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#C6A052]">One form. One go.</p>
+        <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#F5C518]">One form. One go.</p>
         <h1 className="font-bebas mt-4 text-7xl uppercase leading-[0.84] text-white sm:text-8xl">Get SOR7ED.</h1>
         <p className="mt-5 max-w-md text-sm leading-6 text-neutral-400 sm:text-base">WhatsApp is your product key. Add email if you want a backup sign-in and recovery route.</p>
       </div>
 
-      {linkExpired ? <div className="mb-6 rounded-none border border-[#C6A052]/30 bg-[#C6A052]/10 px-4 py-3 text-xs leading-relaxed text-[#C6A052]">That sign-in link expired. Send yourself a fresh one below.</div> : null}
+      {linkExpired ? <div className="mb-6 rounded-none border border-[#F5C518]/30 bg-[#F5C518]/10 px-4 py-3 text-xs leading-relaxed text-[#F5C518]">That sign-in link expired. Send yourself a fresh one below.</div> : null}
 
       {!emailOnly ? (
         <form onSubmit={handleUnifiedSubmit} className="space-y-4">
           <FieldLabel htmlFor="first-name">First name</FieldLabel>
-          <input id="first-name" required autoComplete="given-name" value={firstName} onChange={(event) => setFirstName(event.target.value)} placeholder="Claudio" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#C6A052]" />
+          <input id="first-name" required autoComplete="given-name" value={firstName} onChange={(event) => setFirstName(event.target.value)} placeholder="Claudio" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#F5C518]" />
 
           <FieldLabel htmlFor="signup-email">Email <span className="font-normal normal-case tracking-normal text-neutral-600">optional backup</span></FieldLabel>
-          <input id="signup-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#C6A052]" />
+          <input id="signup-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#F5C518]" />
 
           <FieldLabel htmlFor="signup-phone">WhatsApp number</FieldLabel>
           <div className="grid grid-cols-[150px_minmax(0,1fr)] gap-2">
             <label className="sr-only" htmlFor="country-code">Country code</label>
-            <select id="country-code" value={countryCode} onChange={(event) => setCountryCode(event.target.value)} className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-3 text-sm text-white outline-none focus:border-[#C6A052]">
+            <select id="country-code" value={countryCode} onChange={(event) => setCountryCode(event.target.value)} className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-3 text-sm text-white outline-none focus:border-[#F5C518]">
               {COUNTRY_CODES.map(([iso, country, code]) => <option key={`${iso}-${code}`} value={code}>{iso === 'GB' ? 'UK' : country} (+{code})</option>)}
             </select>
-            <input id="signup-phone" type="tel" inputMode="numeric" autoComplete="tel-national" required value={phone} onChange={(event) => setPhone(event.target.value.replace(/\D/g, ''))} placeholder="7591 922247" className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#C6A052]" />
+            <input id="signup-phone" type="tel" inputMode="numeric" autoComplete="tel-national" required value={phone} onChange={(event) => setPhone(event.target.value.replace(/\D/g, ''))} placeholder="7591 922247" className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#F5C518]" />
           </div>
           <p className="text-xs text-neutral-600">Choose the code, then enter the number without its first zero.</p>
 
           {errorMessage ? <p className="text-sm text-red-400" role="alert">{errorMessage}</p> : null}
-          <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full bg-[#C6A052] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50">
+          <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full bg-[#F5C518] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50">
             {state === 'loading' ? 'Sending…' : email ? 'Send both links →' : 'Send WhatsApp link →'}
           </button>
         </form>
       ) : (
         <form onSubmit={handleEmailOnlySubmit} className="space-y-4">
           <FieldLabel htmlFor="email-only">Email address</FieldLabel>
-          <input id="email-only" type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#C6A052]" />
+          <input id="email-only" type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#F5C518]" />
           {errorMessage ? <p className="text-sm text-red-400" role="alert">{errorMessage}</p> : null}
-          <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full border border-white/15 px-6 text-sm font-normal uppercase tracking-wider text-white hover:border-[#C6A052] disabled:opacity-50">{state === 'loading' ? 'Sending…' : 'Send email sign-in link →'}</button>
+          <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full border border-white/15 px-6 text-sm font-normal uppercase tracking-wider text-white hover:border-[#F5C518] disabled:opacity-50">{state === 'loading' ? 'Sending…' : 'Send email sign-in link →'}</button>
         </form>
       )}
 

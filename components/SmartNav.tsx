@@ -61,7 +61,7 @@ export function SmartNav() {
         {authReady && !user && (
           <Link
             href="/signup"
-            className="text-[11px] font-medium uppercase tracking-[0.24em] text-[#C6A052]"
+            className="text-[11px] font-medium uppercase tracking-[0.24em] text-[#F5C518]"
           >
             Sign In
           </Link>
@@ -90,7 +90,7 @@ export function SmartNav() {
                 href={link.href}
                 className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
                   isActive
-                    ? 'border-b-2 border-[#C6A052] text-white'
+                    ? 'border-b-2 border-[#F5C518] text-white'
                     : 'text-white/70 hover:text-white'
                 }`}
               >
@@ -106,7 +106,7 @@ export function SmartNav() {
                   href="/dashboard"
                   className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
                     pathname === '/dashboard'
-                      ? 'border-b-2 border-[#C6A052] text-white'
+                      ? 'border-b-2 border-[#F5C518] text-white'
                       : 'text-white/70 hover:text-white'
                   }`}
                 >
@@ -114,7 +114,7 @@ export function SmartNav() {
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] text-white/50 transition-colors hover:text-[#C6A052]"
+                  className="pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] text-white/50 transition-colors hover:text-[#F5C518]"
                 >
                   Sign Out
                 </button>
@@ -124,8 +124,8 @@ export function SmartNav() {
                 href="/signup"
                 className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
                   pathname === '/signup'
-                    ? 'border-b-2 border-[#C6A052] text-white'
-                    : 'text-[#C6A052] hover:text-white'
+                    ? 'border-b-2 border-[#F5C518] text-white'
+                    : 'text-[#F5C518] hover:text-white'
                 }`}
               >
                 Sign In

@@ -62,19 +62,19 @@ function getVerdict(score: number): Verdict {
   if (score >= 80)
     return {
       tier: 'Green Light — Decide Now',
-      color: '#C6A052',
+      color: '#F5C518',
       desc: 'You have enough clarity and margin for error. Further delay costs more than it helps — commit and move.',
     }
   if (score >= 60)
     return {
       tier: 'Lean In',
-      color: '#C6A052',
+      color: '#F5C518',
       desc: 'Your confidence is solid. Do one last gut check, set a decision deadline, and commit.',
     }
   if (score >= 35)
     return {
       tier: 'Proceed with Caution',
-      color: '#C6A052',
+      color: '#F5C518',
       desc: 'You are not fully ready. Shore up the weakest signal below, run a small test if you can, then decide.',
     }
   return {
@@ -329,12 +329,12 @@ export function DecisionParalysisApp() {
       <style>{`
         .dps-slider::-webkit-slider-thumb {
           -webkit-appearance: none; width: 18px; height: 18px;
-          border-radius: 50%; background: #C6A052; cursor: pointer;
+          border-radius: 50%; background: #F5C518; cursor: pointer;
           box-shadow: 0 0 0 3px rgba(34,211,196,0.25); transition: box-shadow .15s;
         }
         .dps-slider::-moz-range-thumb {
           width: 18px; height: 18px; border-radius: 50%;
-          background: #C6A052; border: none; cursor: pointer;
+          background: #F5C518; border: none; cursor: pointer;
         }
         .glass { background: #000000; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
         @keyframes dps-fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
@@ -349,11 +349,11 @@ export function DecisionParalysisApp() {
         <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: 'rgba(0,0,0,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
             <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#C6A052,#C6A052)' }}>
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#F5C518,#F5C518)' }}>
                 <span>🧭</span>
               </span>
               <span className="font-medium tracking-normal text-white" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
-                Decision Paralysis <span style={{ color: '#C6A052' }}>Solver</span>
+                Decision Paralysis <span style={{ color: '#F5C518' }}>Solver</span>
               </span>
             </div>
             <div className="hidden gap-6 text-sm font-medium text-slate-400 md:flex">
@@ -365,7 +365,7 @@ export function DecisionParalysisApp() {
             <a
               href="#assessment"
               className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-slate-900 shadow-md transition hover:opacity-90"
-              style={{ background: 'linear-gradient(90deg,#C6A052,#C6A052)' }}
+              style={{ background: 'linear-gradient(90deg,#F5C518,#F5C518)' }}
             >
               ⚡ Assess Decision
             </a>
@@ -377,12 +377,12 @@ export function DecisionParalysisApp() {
           <section className="py-16 md:py-24 grid gap-12 md:grid-cols-2 items-center">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium uppercase tracking-wider"
-                style={{ borderColor: 'rgba(34,211,196,0.3)', background: 'rgba(34,211,196,0.05)', color: '#C6A052' }}>
+                style={{ borderColor: 'rgba(34,211,196,0.3)', background: 'rgba(34,211,196,0.05)', color: '#F5C518' }}>
                 ✨ Decision Science Engine
               </span>
               <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-normal leading-[0.98] tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Break free from{' '}
-                <span style={{ background: 'linear-gradient(90deg,#C6A052,#C6A052)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                <span style={{ background: 'linear-gradient(90deg,#F5C518,#F5C518)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                   decision paralysis
                 </span>
               </h1>
@@ -390,7 +390,7 @@ export function DecisionParalysisApp() {
                 Clarify your options, boost confidence, and execute — with a framework built on real decision science, not gut-flipping alone.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
-                <a href="#assessment" className="rounded-full px-6 py-3 font-medium text-slate-900 shadow-lg transition hover:opacity-90" style={{ background: 'linear-gradient(90deg,#C6A052,#C6A052)' }}>
+                <a href="#assessment" className="rounded-full px-6 py-3 font-medium text-slate-900 shadow-lg transition hover:opacity-90" style={{ background: 'linear-gradient(90deg,#F5C518,#F5C518)' }}>
                   🎯 Readiness Check
                 </a>
                 <a href="#quick" className="rounded-full border border-white/20 px-6 py-3 font-medium text-white hover:bg-[#0A0A0A]/5 transition">
@@ -421,7 +421,7 @@ export function DecisionParalysisApp() {
           {/* Step 1: Readiness Assessment */}
           <section id="assessment" className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
-              <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#C6A052' }}>Step 1</p>
+              <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#F5C518' }}>Step 1</p>
               <h2 className="text-3xl font-normal sm:text-4xl">Decision Readiness Assessment</h2>
               <p className="mt-2 text-slate-400">Answer 4 quick signals to calculate your Decision Confidence Score.</p>
             </div>
@@ -435,7 +435,7 @@ export function DecisionParalysisApp() {
                     placeholder="e.g. Should I take the new job offer?"
                     value={assessment.title}
                     onChange={(e) => setAssessment({ ...assessment, title: e.target.value })}
-                    className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#C6A052] transition"
+                    className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#F5C518] transition"
                   />
                 </div>
 
@@ -444,7 +444,7 @@ export function DecisionParalysisApp() {
                   <select
                     value={assessment.category}
                     onChange={(e) => setAssessment({ ...assessment, category: e.target.value })}
-                    className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none focus:border-[#C6A052] transition"
+                    className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none focus:border-[#F5C518] transition"
                   >
                     {CATEGORIES.map((cat) => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -456,13 +456,13 @@ export function DecisionParalysisApp() {
                 <div>
                   <div className="flex justify-between text-sm font-medium mb-2">
                     <span className="text-slate-300">🔥 Risk Tolerance</span>
-                    <span className="text-[#C6A052]">{assessment.risk_tolerance}/10</span>
+                    <span className="text-[#F5C518]">{assessment.risk_tolerance}/10</span>
                   </div>
                   <input
                     type="range" min={1} max={10} value={assessment.risk_tolerance}
                     onChange={(e) => setAssessment({ ...assessment, risk_tolerance: Number(e.target.value) })}
                     className="dps-slider w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                    style={{ background: `linear-gradient(to right, #C6A052 ${((assessment.risk_tolerance - 1) / 9) * 100}%, rgba(255,255,255,0.1) ${((assessment.risk_tolerance - 1) / 9) * 100}%)` }}
+                    style={{ background: `linear-gradient(to right, #F5C518 ${((assessment.risk_tolerance - 1) / 9) * 100}%, rgba(255,255,255,0.1) ${((assessment.risk_tolerance - 1) / 9) * 100}%)` }}
                   />
                 </div>
 
@@ -470,13 +470,13 @@ export function DecisionParalysisApp() {
                 <div>
                   <div className="flex justify-between text-sm font-medium mb-2">
                     <span className="text-slate-300">💥 Potential Impact</span>
-                    <span className="text-[#C6A052]">{assessment.impact_magnitude}/10</span>
+                    <span className="text-[#F5C518]">{assessment.impact_magnitude}/10</span>
                   </div>
                   <input
                     type="range" min={1} max={10} value={assessment.impact_magnitude}
                     onChange={(e) => setAssessment({ ...assessment, impact_magnitude: Number(e.target.value) })}
                     className="dps-slider w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                    style={{ background: `linear-gradient(to right, #C6A052 ${((assessment.impact_magnitude - 1) / 9) * 100}%, rgba(255,255,255,0.1) ${((assessment.impact_magnitude - 1) / 9) * 100}%)` }}
+                    style={{ background: `linear-gradient(to right, #F5C518 ${((assessment.impact_magnitude - 1) / 9) * 100}%, rgba(255,255,255,0.1) ${((assessment.impact_magnitude - 1) / 9) * 100}%)` }}
                   />
                 </div>
 
@@ -484,13 +484,13 @@ export function DecisionParalysisApp() {
                 <div>
                   <div className="flex justify-between text-sm font-medium mb-2">
                     <span className="text-slate-300">📊 Information Sufficiency</span>
-                    <span className="text-[#C6A052]">{assessment.information_sufficiency}/10</span>
+                    <span className="text-[#F5C518]">{assessment.information_sufficiency}/10</span>
                   </div>
                   <input
                     type="range" min={1} max={10} value={assessment.information_sufficiency}
                     onChange={(e) => setAssessment({ ...assessment, information_sufficiency: Number(e.target.value) })}
                     className="dps-slider w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                    style={{ background: `linear-gradient(to right, #C6A052 ${((assessment.information_sufficiency - 1) / 9) * 100}%, rgba(255,255,255,0.1) ${((assessment.information_sufficiency - 1) / 9) * 100}%)` }}
+                    style={{ background: `linear-gradient(to right, #F5C518 ${((assessment.information_sufficiency - 1) / 9) * 100}%, rgba(255,255,255,0.1) ${((assessment.information_sufficiency - 1) / 9) * 100}%)` }}
                   />
                 </div>
 
@@ -503,7 +503,7 @@ export function DecisionParalysisApp() {
                   <button
                     type="button"
                     onClick={() => setAssessment({ ...assessment, reversibility: !assessment.reversibility })}
-                    className={`rounded-full px-4 py-1.5 text-xs font-medium transition ${assessment.reversibility ? 'bg-[#C6A052]/20 text-[#C6A052] border border-[#C6A052]/40' : 'bg-[#C6A052]/20 text-[#C6A052] border border-[#C6A052]/40'}`}
+                    className={`rounded-full px-4 py-1.5 text-xs font-medium transition ${assessment.reversibility ? 'bg-[#F5C518]/20 text-[#F5C518] border border-[#F5C518]/40' : 'bg-[#F5C518]/20 text-[#F5C518] border border-[#F5C518]/40'}`}
                   >
                     {assessment.reversibility ? '🔄 Two-Way Door' : '🔒 One-Way Door'}
                   </button>
@@ -512,7 +512,7 @@ export function DecisionParalysisApp() {
                 <button
                   type="submit"
                   className="w-full rounded-full py-4 font-medium text-slate-900 shadow-lg transition hover:opacity-90 active:scale-95"
-                  style={{ background: 'linear-gradient(90deg,#C6A052,#C6A052)' }}
+                  style={{ background: 'linear-gradient(90deg,#F5C518,#F5C518)' }}
                 >
                   ✨ Calculate Confidence
                 </button>
@@ -544,7 +544,7 @@ export function DecisionParalysisApp() {
                       <button
                         onClick={handleSaveToJournal}
                         disabled={saving}
-                        className="w-full rounded-full border border-[#C6A052]/40 bg-[#C6A052]/10 py-3 text-sm font-medium text-[#C6A052] hover:bg-[#C6A052]/20 transition disabled:opacity-50"
+                        className="w-full rounded-full border border-[#F5C518]/40 bg-[#F5C518]/10 py-3 text-sm font-medium text-[#F5C518] hover:bg-[#F5C518]/20 transition disabled:opacity-50"
                       >
                         {saving ? 'Saving…' : savedSuccess ? '✓ Saved to Journal' : '💾 Save to Journal'}
                       </button>
@@ -562,7 +562,7 @@ export function DecisionParalysisApp() {
           {/* Step 2: Compare Matrix */}
           <section id="compare" className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
-              <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#C6A052' }}>Step 2</p>
+              <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#F5C518' }}>Step 2</p>
               <h2 className="text-3xl font-normal sm:text-4xl">Option Comparison Matrix</h2>
               <p className="mt-2 text-slate-400">Stuck between choices? Weigh your criteria and let the math rank your options.</p>
             </div>
@@ -579,7 +579,7 @@ export function DecisionParalysisApp() {
                         {options.length > 2 && (
                           <button
                             onClick={() => setOptions(options.filter((o) => o.id !== opt.id))}
-                            className="text-slate-500 hover:text-[#C6A052]"
+                            className="text-slate-500 hover:text-[#F5C518]"
                           >
                             ×
                           </button>
@@ -593,7 +593,7 @@ export function DecisionParalysisApp() {
                       placeholder="Add an option…"
                       value={newOptName}
                       onChange={(e) => setNewOptName(e.target.value)}
-                      className="flex-1 rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#C6A052]"
+                      className="flex-1 rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#F5C518]"
                     />
                     <button
                       onClick={() => {
@@ -601,7 +601,7 @@ export function DecisionParalysisApp() {
                         setOptions([...options, { id: 'opt_' + Date.now(), name: newOptName.trim() }])
                         setNewOptName('')
                       }}
-                      className="rounded-xl px-4 py-2 text-xs font-medium text-slate-900 bg-[#C6A052] hover:bg-[#C6A052]"
+                      className="rounded-xl px-4 py-2 text-xs font-medium text-slate-900 bg-[#F5C518] hover:bg-[#F5C518]"
                     >
                       Add
                     </button>
@@ -621,10 +621,10 @@ export function DecisionParalysisApp() {
                               const val = Math.max(1, Math.min(5, parseInt(e.target.value) || 1))
                               setCriteria(criteria.map((c) => (c.id === crit.id ? { ...c, weight: val } : c)))
                             }}
-                            className="w-12 rounded border border-white/10 bg-black px-2 py-1 text-center text-xs text-[#C6A052]"
+                            className="w-12 rounded border border-white/10 bg-black px-2 py-1 text-center text-xs text-[#F5C518]"
                           />
                           {criteria.length > 1 && (
-                            <button onClick={() => setCriteria(criteria.filter((c) => c.id !== crit.id))} className="text-slate-500 hover:text-[#C6A052]">
+                            <button onClick={() => setCriteria(criteria.filter((c) => c.id !== crit.id))} className="text-slate-500 hover:text-[#F5C518]">
                               ×
                             </button>
                           )}
@@ -638,7 +638,7 @@ export function DecisionParalysisApp() {
                       placeholder="Add a criterion…"
                       value={newCritName}
                       onChange={(e) => setNewCritName(e.target.value)}
-                      className="flex-1 rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#C6A052]"
+                      className="flex-1 rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white placeholder-slate-500 outline-none focus:border-[#F5C518]"
                     />
                     <button
                       onClick={() => {
@@ -646,7 +646,7 @@ export function DecisionParalysisApp() {
                         setCriteria([...criteria, { id: 'crit_' + Date.now(), name: newCritName.trim(), weight: 3 }])
                         setNewCritName('')
                       }}
-                      className="rounded-xl px-4 py-2 text-xs font-medium text-slate-900 bg-[#C6A052] hover:bg-[#C6A052]"
+                      className="rounded-xl px-4 py-2 text-xs font-medium text-slate-900 bg-[#F5C518] hover:bg-[#F5C518]"
                     >
                       Add
                     </button>
@@ -681,7 +681,7 @@ export function DecisionParalysisApp() {
                                   const score = Math.max(1, Math.min(5, parseInt(e.target.value) || 1))
                                   setMatrixScores((prev) => ({ ...prev, [key]: score }))
                                 }}
-                                className="w-12 rounded border border-white/10 bg-black px-2 py-1 text-center text-xs text-[#C6A052]"
+                                className="w-12 rounded border border-white/10 bg-black px-2 py-1 text-center text-xs text-[#F5C518]"
                               />
                             </td>
                           )
@@ -700,12 +700,12 @@ export function DecisionParalysisApp() {
                     {matrixResults.ranking.map((res, idx) => (
                       <div key={res.option.id} className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-black p-4">
                         <div className="flex items-center gap-3 min-w-0">
-                          <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-medium ${idx === 0 ? 'bg-[#C6A052] text-slate-900' : 'bg-black text-slate-300'}`}>
+                          <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-medium ${idx === 0 ? 'bg-[#F5C518] text-slate-900' : 'bg-black text-slate-300'}`}>
                             #{idx + 1}
                           </span>
                           <span className="font-medium text-white truncate">{res.option.name}</span>
                         </div>
-                        <span className="font-mono text-sm font-medium text-[#C6A052]">
+                        <span className="font-mono text-sm font-medium text-[#F5C518]">
                           {res.total} pts
                         </span>
                       </div>
@@ -719,7 +719,7 @@ export function DecisionParalysisApp() {
           {/* Step 3: Quick Decide Tools */}
           <section id="quick" className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
-              <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#C6A052' }}>Step 3</p>
+              <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#F5C518' }}>Step 3</p>
               <h2 className="text-3xl font-normal sm:text-4xl">Quick Decide Toolkit</h2>
               <p className="mt-2 text-slate-400">For lower stakes or quick mental unblocking.</p>
             </div>
@@ -733,23 +733,23 @@ export function DecisionParalysisApp() {
                   <input
                     type="text" placeholder="Option 1" value={coinOpt1}
                     onChange={(e) => setCoinOpt1(e.target.value)}
-                    className="rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white outline-none focus:border-[#C6A052]"
+                    className="rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white outline-none focus:border-[#F5C518]"
                   />
                   <input
                     type="text" placeholder="Option 2" value={coinOpt2}
                     onChange={(e) => setCoinOpt2(e.target.value)}
-                    className="rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white outline-none focus:border-[#C6A052]"
+                    className="rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white outline-none focus:border-[#F5C518]"
                   />
                 </div>
                 <button
                   onClick={handleCoinFlip}
                   disabled={coinFlipping}
-                  className="w-full rounded-xl bg-[#C6A052] py-3 text-xs font-medium text-slate-900 hover:bg-[#C6A052] transition"
+                  className="w-full rounded-xl bg-[#F5C518] py-3 text-xs font-medium text-slate-900 hover:bg-[#F5C518] transition"
                 >
                   {coinFlipping ? 'Flipping…' : '🎲 Flip Coin'}
                 </button>
                 {coinResult && (
-                  <p className="text-center text-lg font-medium text-[#C6A052] dps-fade">
+                  <p className="text-center text-lg font-medium text-[#F5C518] dps-fade">
                     Result: {coinResult}
                   </p>
                 )}
@@ -762,7 +762,7 @@ export function DecisionParalysisApp() {
                 <input
                   type="text" placeholder="Decision topic…" value={t10_10_10_decision}
                   onChange={(e) => setT10_10_10_decision(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white outline-none focus:border-[#C6A052]"
+                  className="w-full rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white outline-none focus:border-[#F5C518]"
                 />
                 <div className="space-y-2">
                   <input
@@ -790,7 +790,7 @@ export function DecisionParalysisApp() {
             <section id="journal" className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-widest mb-1" style={{ color: '#C6A052' }}>History</p>
+                  <p className="text-xs font-medium uppercase tracking-widest mb-1" style={{ color: '#F5C518' }}>History</p>
                   <h2 className="text-3xl font-normal">Decision Journal</h2>
                 </div>
                 <button onClick={fetchJournal} className="text-xs text-slate-500 hover:text-white transition">↻ Refresh</button>
@@ -817,12 +817,12 @@ export function DecisionParalysisApp() {
                             {new Date(item.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
                           </span>
                           <span className="font-medium text-white truncate">{title}</span>
-                          <span className="text-[#C6A052] font-medium shrink-0">Score: {confidence}</span>
+                          <span className="text-[#F5C518] font-medium shrink-0">Score: {confidence}</span>
                           <span className="text-slate-400 text-xs hidden md:inline truncate">{verdict}</span>
                         </div>
                         <button
                           onClick={() => handleDeleteJournal(item.id)}
-                          className="shrink-0 rounded-lg px-3 py-1.5 text-xs text-slate-500 hover:bg-[#C6A052]/10 hover:text-[#C6A052] transition"
+                          className="shrink-0 rounded-lg px-3 py-1.5 text-xs text-slate-500 hover:bg-[#F5C518]/10 hover:text-[#F5C518] transition"
                         >
                           Delete
                         </button>

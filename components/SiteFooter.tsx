@@ -24,7 +24,7 @@ export function SiteFooter() {
               height={430}
               className="h-6 w-auto"
             />
-            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#C6A052]">
+            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#F5C518]">
               worry less, live more.
             </p>
             <p className="text-xs text-neutral-500 max-w-xs leading-relaxed">

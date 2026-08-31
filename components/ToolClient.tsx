@@ -58,7 +58,7 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySa
         {/* Explanation */}
         {explanation && (
           <section className="rounded-none border border-white/[0.12] bg-black px-6 py-10 sm:px-10 sm:py-12">
-            <p className="inline-flex rounded border border-[#C6A052]/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[#C6A052]">
+            <p className="inline-flex rounded border border-[#F5C518]/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[#F5C518]">
               Step 01 — About this tool
             </p>
             <h2
@@ -74,7 +74,7 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySa
 
         {/* Get Sorted CTA */}
         <section className="rounded-none border border-white/[0.12] bg-black px-6 py-10 sm:px-10 sm:py-12">
-          <p className="inline-flex rounded border border-[#C6A052]/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[#C6A052]">
+          <p className="inline-flex rounded border border-[#F5C518]/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[#F5C518]">
             Step 02 — Use the tool
           </p>
           <p className="mb-5 mt-5 max-w-2xl text-sm font-medium leading-relaxed text-neutral-200 sm:text-base">

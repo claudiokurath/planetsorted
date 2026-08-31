@@ -25,7 +25,7 @@ export function ContentCard({
   return (
     <Link
       href={href}
-      className="group relative flex min-h-[168px] h-full w-full flex-col overflow-hidden rounded-none border border-white/[0.12] bg-black transition-all duration-300 hover:-translate-y-1 hover:border-[#C6A052]/35 hover:shadow-none"
+      className="group relative flex min-h-[168px] h-full w-full flex-col overflow-hidden rounded-none border border-white/[0.12] bg-black transition-all duration-300 hover:-translate-y-1 hover:border-[#F5C518]/35 hover:shadow-none"
     >
       <div className={`flex min-w-0 flex-1 flex-col justify-between gap-3 p-4 sm:p-6 ${compact ? 'sm:min-h-52' : 'sm:min-h-72 sm:gap-5 lg:p-7'}`}>
         <div className="flex flex-col flex-1">
@@ -43,7 +43,7 @@ export function ContentCard({
           )}
           {/* Title only — no summary blurb. Sized ~2× the previous card title. */}
           <h3
-            className={`font-bebas ${compact ? 'text-[2.15rem] sm:text-5xl' : 'text-[2.15rem] sm:text-6xl lg:text-7xl'} mt-4 line-clamp-3 uppercase leading-[0.9] text-white transition-colors group-hover:text-[#C6A052] sm:mt-8`}
+            className={`font-bebas ${compact ? 'text-[2.15rem] sm:text-5xl' : 'text-[2.15rem] sm:text-6xl lg:text-7xl'} mt-4 line-clamp-3 uppercase leading-[0.9] text-white transition-colors group-hover:text-[#F5C518] sm:mt-8`}
           >
             {title}
           </h3>

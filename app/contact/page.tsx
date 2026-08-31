@@ -20,10 +20,10 @@ export default function ContactPage() {
               Get in Touch
             </h2>
             <p className="text-base text-neutral-300">
-              Email: <a href="mailto:hello@planetsorted.com" className="font-medium text-[#C6A052] underline">hello@planetsorted.com</a>
+              Email: <a href="mailto:hello@planetsorted.com" className="font-medium text-[#F5C518] underline">hello@planetsorted.com</a>
             </p>
             <p className="text-base text-neutral-300">
-              WhatsApp: <a href="https://wa.me/447591922247" target="_blank" rel="noopener noreferrer" className="font-medium text-[#C6A052] underline">+44 7591 922247</a>
+              WhatsApp: <a href="https://wa.me/447591922247" target="_blank" rel="noopener noreferrer" className="font-medium text-[#F5C518] underline">+44 7591 922247</a>
             </p>
           </div>
         </div>

@@ -26,7 +26,7 @@ export function StandaloneAdhdTaxApp() {
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
         <header className="rounded-none border border-white/10 bg-black p-8 shadow-2xl backdrop-blur">
-          <p className="text-sm font-medium uppercase tracking-[0.35em] text-[#C6A052]">Independent app</p>
+          <p className="text-sm font-medium uppercase tracking-[0.35em] text-[#F5C518]">Independent app</p>
           <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl font-normal tracking-normal leading-[0.95]">ADHD Tax Calculator</h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-200">
             See the hidden monthly and yearly cost of late fees, impulse purchases, forgotten subscriptions, and productivity leaks.
@@ -53,15 +53,15 @@ export function StandaloneAdhdTaxApp() {
                     value={field.value}
                     onChange={(e) => field.setValue(e.target.value)}
                     placeholder={field.placeholder}
-                    className="w-full rounded-none border border-white/10 bg-black px-4 py-3 text-white outline-none ring-0 focus:border-[#C6A052]"
+                    className="w-full rounded-none border border-white/10 bg-black px-4 py-3 text-white outline-none ring-0 focus:border-[#F5C518]"
                   />
                 </label>
               ))}
             </div>
           </section>
 
-          <section className="rounded-none border border-[#C6A052]/30 bg-[#C6A052]/10 p-6 shadow-2xl">
-            <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#C6A052]">Estimated annual leak</p>
+          <section className="rounded-none border border-[#F5C518]/30 bg-[#F5C518]/10 p-6 shadow-2xl">
+            <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#F5C518]">Estimated annual leak</p>
             <div className="mt-3 text-5xl font-normal sm:text-6xl">£{result.yearlyTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
             <p className="mt-2 text-slate-200">That’s about £{result.monthlyTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })} per month.</p>
 
@@ -79,7 +79,7 @@ export function StandaloneAdhdTaxApp() {
               <ul className="mt-3 space-y-2 text-sm text-slate-300">
                 {result.actionPlan.map((step) => (
                   <li key={step} className="flex gap-2">
-                    <span className="text-[#C6A052]">•</span>
+                    <span className="text-[#F5C518]">•</span>
                     <span>{step}</span>
                   </li>
                 ))}

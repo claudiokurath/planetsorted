@@ -109,15 +109,19 @@ Everything below this point in the document describes **Sorted Lab** specificall
 - Supporting: "clarity from clutter." · "sort the noise." · "tools that do something" · "practical protocols"
 - Utility: "No app. No spam. One next step." · "Built for ADHD brains." · "Templates, not inspiration."
 
-### Homepage Hero
-- **Headline:** "clarity from clutter." (set very large, thin, lower-case, on black)
-- **Body:** "PLANET SOR7ED turns overwhelm into one clear, manageable next step — templates, protocols, and plain-English tools built for brains that already have enough going on."
-- **Closing line:** "No app. No spam. One next step."
-- **Visual direction:** No photographic banner. The hero is type-led: the headline against black, one gold call to action, and the tangle-mark "chaos → clarity" motif set beside it (a loose grey scribble resolving into the gold tangle). Aligned to the same max page width as the sections below. No split-screen panels, no collage, no readability gradient over a photo.
+### The landing page (`/`)
+The homepage IS the pitch — a static page, no DB query. Three sections, matching the About/pitch deck:
+1. **Hero** — pill "NEURODIVERGENT-FIRST PLATFORM", headline **"Tools built for brains that work differently"** (huge Anton caps), the platform paragraph, and two CTAs: **Explore the Tools** (solid yellow) → `/tools`, **Read the Content** (yellow outline) → `/intelligence`.
+2. **How it works** — pill "THE PROBLEM WE'RE SOLVING", H2 "HOW IT WORKS", the "most systems were engineered for neurotypical brains" paragraph, then 3 step cards (black card, yellow top rule, yellow number badge): **FIND A TOOL → PUSH THE BUTTON → GET THE MESSAGE**.
+3. **7 Pillars** — pill "CONTENT PILLARS", H2 "7 PILLARS. EVERY PART OF ND ADULT LIFE.", then the 7 pillars as **solid yellow cards** (`components/AboutIntro.tsx`), each linking to `/category/[slug]`. Closes with the founder credit (Claudio Kurath, London).
 
-### Homepage Section Headers
-- "HOW IT WORKS," "TOOLBOX," and "GUIDEBOOK" use the display face (Anton, heavy condensed caps), responsive size.
-- All three sit on black, separated by 1px hairline rules only. No beige section background, no red rules. The old "beige + red rule" treatment is retired.
+The old "clarity from clutter" hero, "How it works" 3-step grid, and the Toolbox/Guidebook card rails are removed from `/`. `/about` 307-redirects to `/`.
+
+### Pillar pages (`/category/[slug]`)
+Each of the 7 pillars has its own page: deck-style header (pill "PILLAR" + Anton name + tagline), then that pillar's **Tools** and **Guidebook** entries only (`protocols.category = <Label>`). This is the primary content navigation — pick a pillar, get its tools and articles. `/tools` and `/intelligence` still list everything across all pillars.
+
+### Section headers
+Anton, heavy condensed caps, on black, separated by hairlines only. No beige backgrounds, no red rules.
 
 ### Homepage Scroll Snap
 - The homepage uses three vertical snap points: Hero; HOW IT WORKS + TOOLBOX as one combined stop; GUIDEBOOK as the final stop.
@@ -139,17 +143,17 @@ Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant o
 
 ## Visual Identity
 
-**Direction: monochrome, typographic, editorial restraint.** The logo carries the concept; the interface stays out of the way. Adopted v0.5.0, replacing the pitch-black + yellow "Gamma" styling (Bebas Neue, `#F5C518`, beige panels, red rules) — those are retired.
+**Direction: black + bright-yellow, heavy typographic.** The customer-facing decks (protocol deck, About/pitch deck) are the reference: pure black, one saturated yellow, heavy condensed caps, hairlines and pill badges. The site matches them so site → open-the-link → deck reads as one thing. Retires the beige/red-rule "Gamma" styling and the earlier thin-Jost + muted-gold pass (v0.5.0).
 
 ### Colour
 | Token | Value | Use |
 |---|---|---|
 | Ink | `#000000` | Ground. Every surface. |
-| Paper | `#F2F2F2` | Text, hairlines, the wordmark. |
-| Gold | `#C6A052` | The single accent. **One** primary action per view, one active/selected state, and the mark where it carries emphasis. Never as a fill behind body text, never decorative. |
+| Paper | `#F2F2F2` / `#FFFFFF` | Text, hairlines, the wordmark, headings. |
+| Signal | `#F5C518` | The single accent. Primary actions, active/selected states, the mark, step-number badges, the pill-badge outline. May be a **solid fill** for the pillar grid (yellow card, black text) — that is the one place it fills. |
 | Muted | `#8A8A8A` / `#6A6A6A` | Secondary and label text. |
 
-Hairlines are `1px solid rgba(255,255,255,0.12)`. No shadows, no gradients, no left-border accent cards. Cards are square; the one rounded shape is the **pill badge** — a thin gold hairline label (`.sor7ed-pill`) used for section/step labels ("MENTAL HEALTH RESOURCE", "PROTOCOL — STEP 1"), matching the customer-facing protocol deck.
+Hairlines are `1px solid rgba(255,255,255,0.12)`. No gradients. Cards are square except: the **pill badge** (`.sor7ed-pill`, thin yellow hairline label for section/step labels), the **step cards** (black, yellow top rule + yellow number badge — from the deck), and the **pillar cards** (solid yellow, `rounded-lg`). Everything else stays square hairline.
 
 ### Type
 - **Display:** `Anton` (Google Fonts) — heavy condensed grotesque, all-caps, tight tracking (`letter-spacing` ≈ -0.015em). This is the deck's headline face; the site uses it for every `h1`/`h2` so the site → open-the-link → deck reads as one system. Fallback stack `"Oswald", "Arial Narrow"`.
@@ -732,7 +736,8 @@ time someone is in the Notion UI.
 ---
 
 ## Version & History
-- **Current Version:** 0.5.0
+- **Current Version:** 0.5.1
+- **Notes (0.5.1):** Shipped the redesign against the customer-facing decks. Display face → **Anton** (heavy condensed caps) on every `h1`/`h2`, `font-bebas` aliased to it; body stays Jost. Accent → the decks' **bright yellow `#F5C518`** (not the muted gold of the first pass). Cover images **hidden** on all preview surfaces — article/tool headers and every listing card are title-led. New pill-badge, step-card and solid-yellow pillar-card components. **The landing `/` is now the pitch** (static: hero + How-it-works 3-step + 7-pillar grid); `/about` redirects to `/`. Each **pillar page `/category/[slug]`** carries that pillar's tools + guidebook — the primary content nav. Retired `home.module.css` and `RotatingHero`. Branch history note: merged as PR #17; PR #18's standalone `/about` page was reverted (#19) and folded into the landing instead.
 - **Notes (0.5.0):** Visual redesign — monochrome + gold typographic identity (new **Visual Identity** section). Retires the pitch-black + yellow "Gamma" styling: Bebas Neue → thin geometric sans (Jost stand-in), `#F5C518` yellow → `#C6A052` gold as the single accent, beige panels + red rules → black with 1px hairlines, photographic hero → type-led hero with the tangle "chaos → clarity" motif. Wordmark (tangle-O, 7-for-T) and tangle mark are the real assets (`sor7ed-logo-white.png`, `sorted-button/tangle.png`), recoloured gold where they carry emphasis. Primary tagline reinstated: **"worry less, live more."** Standalone tool pages to be brought onto the same system. Direction reference + homepage/tool/article/standalone mockups: design canvas (Claude Design). No code shipped yet — spec + mockups only. Resolved the open SOR7ED-button question: the sign-in + WhatsApp-verification gate is intended; the one-tap auto-send *is* the product, and a "text SORTED" prompt on Sorted Lab's own pages is explicitly wrong.
 - **Notes (0.4.21):** Guidebook ProtocolDeck. Unlocked `/intelligence/[slug]` no longer renders a grey wall of prose — body + protocol are parsed into kit-style black/yellow presentation slides (cover split, STEP badges, yellow card grids, numbered rails, callouts, stats) matching the Relationship Harm-Reduction Kit visual language. Print/Save-as-PDF uses A4 landscape (`ProtocolDeckPrint.css`). Locked visitors still see teaser + SOR7ED WhatsApp CTA only. Parser: `lib/protocolDeck.ts`; UI: `components/ProtocolDeck.tsx`.
 - **Notes (0.4.20):** Article teaser gate. Public `/intelligence/[slug]` shows only excerpt/summary teaser + SOR7ED CTA — full `problem` body and `protocol` unlock only when the visitor arrives via the WhatsApp rich link (`/r/[slug]` mints a 7-day HMAC `access_token`, same pattern as standalone tools). Signed-in website session is no longer a shortcut. Guessable `access_token=granted` removed.
