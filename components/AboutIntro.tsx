@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
 const STEPS = [
-  { n: '1', head: 'Find a tool', body: 'Pick the tool for the moment you’re actually in — not the ideal one.' },
-  { n: '2', head: 'Push the button', body: 'One tap on the SOR7ED button. No sign-up wall, no onboarding maze.' },
-  { n: '3', head: 'Get the message', body: 'The result and your next step land in your WhatsApp, kept for later.' },
+  { n: '1', head: 'Find a tool', body: 'Browse the pillars and pick the tool for the moment you’re actually in.' },
+  { n: '2', head: 'Push the button', body: 'Tap the SOR7ED button. First time: a magic-link sign-in and a one-off WhatsApp link.' },
+  { n: '3', head: 'Get the message', body: 'Your result and next step land in your WhatsApp thread — kept to come back to.' },
 ]
 
 const PILLARS = [
@@ -32,7 +32,7 @@ function PillarCard({ name, slug, body }: (typeof PILLARS)[number]) {
   return (
     <Link
       href={`/category/${slug}`}
-      className="group flex flex-col gap-2.5 rounded-lg bg-[#F5C518] p-6 text-black transition-transform hover:-translate-y-1"
+      className="group flex flex-col items-center gap-2.5 rounded-lg bg-[#F5C518] p-6 text-center text-black transition-transform hover:-translate-y-1"
     >
       <span className="font-bebas text-2xl uppercase tracking-tight sm:text-3xl">{name}</span>
       <span className="text-[13px] font-medium leading-relaxed text-black/70">{body}</span>
@@ -111,13 +111,6 @@ export function AboutIntro() {
             <PillarCard key={p.slug} {...p} />
           ))}
         </div>
-
-        <p className="mx-auto mt-16 max-w-3xl text-center text-sm leading-relaxed text-neutral-400 sm:text-base">
-          SOR7ED breaks the read-an-article / download-an-app / lose-the-planner loop by pairing content
-          directly with action — every article, tool and workflow ends in a concrete next step. Founded by{' '}
-          <span className="text-white">Claudio Kurath</span> and based in London, it uses WhatsApp as the
-          remote control and the website as the engine where real value is created, kept and revisited.
-        </p>
       </section>
     </>
   )
