@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
 const STEPS = [
-  { n: '1', head: 'Find a tool', body: 'Browse the pillars and pick the tool for the moment you’re actually in.' },
+  { n: '1', head: 'Find a tool', body: 'Browse the pillars and pick the tool for the moment you\u2019re actually in.' },
   { n: '2', head: 'Push the button', body: 'Tap the SOR7ED button. First time: a magic-link sign-in and a one-off WhatsApp link.' },
-  { n: '3', head: 'Get the message', body: 'Your result and next step land in your WhatsApp thread — kept to come back to.' },
+  { n: '3', head: 'Get the message', body: 'Your result and next step land in your WhatsApp thread \u2014 kept to come back to.' },
 ]
 
 const PILLARS = [
@@ -43,9 +43,13 @@ function PillarCard({ name, slug, body }: (typeof PILLARS)[number]) {
 export function AboutIntro() {
   return (
     <>
-      {/* Top Feature Media */}
-      <section className="mx-auto flex max-w-6xl flex-col items-center px-5 pt-12 pb-4 sm:pt-16">
-        <div className="relative w-full max-w-md sm:max-w-lg aspect-square">
+      {/* Snap section 1: Video + Hero */}
+      <section
+        className="min-h-screen flex flex-col items-center justify-center px-5 py-16 sm:py-20"
+        style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
+      >
+        {/* Feature video */}
+        <div className="relative w-full max-w-md sm:max-w-lg aspect-square mb-8">
           <video
             autoPlay
             loop
@@ -56,37 +60,40 @@ export function AboutIntro() {
             <source src="/media/sequence01_1.mp4" type="video/mp4" />
           </video>
         </div>
-      </section>
 
-      {/* Hero */}
-      <section className="mx-auto flex max-w-6xl flex-col items-center gap-7 px-5 py-16 text-center sm:py-20">
-        <span className="sor7ed-pill">Neurodivergent-first platform</span>
-        <h1 className="font-bebas text-4xl uppercase leading-[1.15] tracking-normal text-white sm:text-5xl lg:text-6xl">
-          Tools built for brains that work differently
-        </h1>
-        <p className="max-w-3xl text-base leading-relaxed text-neutral-400 sm:text-lg">
-          SOR7ED is a practical support platform for ADHD, autistic, AuDHD, dyslexic, bipolar and other
-          neurodivergent adults — combining honest editorial content with interactive tools that turn
-          overwhelming moments into real, usable outcomes.
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-3">
-          <Link
-            href="/tools"
-            className="rounded-lg bg-[#F5C518] px-7 py-3.5 text-xs font-medium uppercase tracking-[0.16em] text-black transition-transform hover:-translate-y-0.5"
-          >
-            Explore the tools
-          </Link>
-          <Link
-            href="/intelligence"
-            className="rounded-lg border border-[#F5C518] px-7 py-3.5 text-xs font-medium uppercase tracking-[0.16em] text-[#F5C518] transition-colors hover:bg-[#F5C518]/10"
-          >
-            Read the content
-          </Link>
+        {/* Hero copy */}
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-7 text-center">
+          <span className="sor7ed-pill">Neurodivergent-first platform</span>
+          <h1 className="font-bebas text-4xl uppercase leading-[1.15] tracking-normal text-white sm:text-5xl lg:text-6xl">
+            Tools built for brains that work differently
+          </h1>
+          <p className="max-w-3xl text-base leading-relaxed text-neutral-400 sm:text-lg">
+            SOR7ED is a practical support platform for ADHD, autistic, AuDHD, dyslexic, bipolar and other
+            neurodivergent adults &mdash; combining honest editorial content with interactive tools that turn
+            overwhelming moments into real, usable outcomes.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/tools"
+              className="rounded-lg bg-[#F5C518] px-7 py-3.5 text-xs font-medium uppercase tracking-[0.16em] text-black transition-transform hover:-translate-y-0.5"
+            >
+              Explore the tools
+            </Link>
+            <Link
+              href="/intelligence"
+              className="rounded-lg border border-[#F5C518] px-7 py-3.5 text-xs font-medium uppercase tracking-[0.16em] text-[#F5C518] transition-colors hover:bg-[#F5C518]/10"
+            >
+              Read the content
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="mx-auto max-w-6xl px-5 py-16 sm:py-24">
+      {/* Snap section 2: How it works */}
+      <section
+        className="min-h-screen flex flex-col justify-center mx-auto max-w-6xl px-5 py-16 sm:py-24"
+        style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
+      >
         <div className="mx-auto mb-14 flex max-w-3xl flex-col items-center gap-4 text-center">
           <span className="sor7ed-pill">The problem we&rsquo;re solving</span>
           <h2 className="font-bebas text-3xl uppercase leading-[1.15] tracking-normal text-white sm:text-4xl lg:text-5xl">
@@ -94,7 +101,7 @@ export function AboutIntro() {
           </h2>
           <p className="text-sm leading-relaxed text-neutral-400 sm:text-base">
             Most productivity and wellbeing advice is engineered for neurotypical brains. SOR7ED is built for
-            everyone else — with tools designed to work in the <em>actual</em> moment, not the ideal one.
+            everyone else &mdash; with tools designed to work in the <em>actual</em> moment, not the ideal one.
           </p>
         </div>
         <div className="grid gap-4 sm:grid-cols-3">
@@ -104,15 +111,18 @@ export function AboutIntro() {
         </div>
       </section>
 
-      {/* 7 Pillars */}
-      <section className="mx-auto max-w-6xl px-5 py-16 sm:py-24">
+      {/* Snap section 3: 7 Pillars */}
+      <section
+        className="min-h-screen flex flex-col justify-center mx-auto max-w-6xl px-5 py-16 sm:py-24"
+        style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
+      >
         <div className="mb-14 flex flex-col items-center gap-4 text-center">
           <span className="sor7ed-pill">Content pillars</span>
           <h2 className="font-bebas text-3xl uppercase leading-[1.15] tracking-normal text-white sm:text-4xl lg:whitespace-nowrap lg:text-5xl">
             7 pillars. Every part of ND adult life.
           </h2>
           <p className="max-w-3xl text-sm leading-relaxed text-neutral-400 sm:text-base">
-            SOR7ED covers the full reality of neurodivergent adult life — not just productivity hacks. Pick a
+            SOR7ED covers the full reality of neurodivergent adult life &mdash; not just productivity hacks. Pick a
             pillar to see its tools and guidebook protocols.
           </p>
         </div>
