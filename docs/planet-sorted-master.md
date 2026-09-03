@@ -129,7 +129,7 @@ Anton, heavy condensed caps, on black, separated by hairlines only. No beige bac
 
 ### Global Header
 - The sticky header uses a compact, centred SOR7ED logo on its own top row, with the navigation centred directly underneath.
-- Visible navigation is limited to ABOUT, GUIDEBOOK and TOOLBOX on every screen size. SOUNDS and ACCOUNT are not shown in the header, and the separate phone bottom-tab bar is disabled.
+- Header navigation is GUIDEBOOK, TOOLBOX and ABOUT on every screen size. For signed-in users ACCOUNT appears in the header (top row for mobile, link row for desktop), and the phone bottom-tab bar (Home / Toolbox / Guide / Account) is enabled on mobile. Sign In links carry `?next=<current path>` so a fresh session returns the visitor to the page they came from, and `/login` 307s to `/signup?mode=returning`. (Section updated 2026-09-02 to match the running code; the previous note claiming ACCOUNT was hidden and the tab bar disabled was stale.)
 
 ### Global Disclaimers
 Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant outputs:

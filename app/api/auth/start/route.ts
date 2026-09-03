@@ -37,7 +37,8 @@ export async function POST(req: NextRequest) {
   const phone = cleanPhone(data.countryCode, data.phone)
   const nextPath = safeNext(typeof data.next === 'string' ? data.next : undefined)
 
-  if (!firstName) return NextResponse.json({ error: 'Please enter your first name.' }, { status: 400 })
+  const existingOnly = data.existingOnly === true
+
   if (!phone) return NextResponse.json({ error: 'Please enter a valid WhatsApp number.' }, { status: 400 })
   if (data.email && !submittedEmail) return NextResponse.json({ error: 'Please check the email address.' }, { status: 400 })
 
@@ -52,6 +53,13 @@ export async function POST(req: NextRequest) {
   let authEmail = phoneOwner?.email || submittedEmail || `${phone}@users.planetsorted.com`
 
   if (!userId) {
+    if (existingOnly) {
+      return NextResponse.json(
+        { error: 'No account is linked to that number yet. Try your email, or create your account first.' },
+        { status: 404 }
+      )
+    }
+    if (!firstName) return NextResponse.json({ error: 'Please enter your first name.' }, { status: 400 })
     const { data: generated, error: generateError } = await admin.auth.admin.generateLink({
       type: 'magiclink',
       email: authEmail,

@@ -99,7 +99,7 @@ export type ToolRequest = {
 export type ToolRun = {
   id: string
   created_at: string
-  tool_request_id: string
+  tool_request_id: string | null
   tool_slug: string
   model: string
   output_text: string
@@ -136,6 +136,27 @@ export type WhatsAppPendingSignup = {
   id: string
   phone: string
   created_at?: string | null
+}
+
+/** Feature Flag configuration for gradual rollouts and experiments. */
+export type FeatureFlag = {
+  id: string
+  flag_key: string
+  description: string | null
+  enabled: boolean
+  rollout_percentage: number
+  allowed_user_ids: string[]
+  created_at: string
+  updated_at: string
+}
+
+/** Structured event tracking for user interactions and telemetry. */
+export type AnalyticsEvent = {
+  id: string
+  created_at: string
+  event_name: string
+  user_id: string | null
+  properties: Record<string, unknown>
 }
 
 // Supabase Database generic type — used to type createClient<Database>()
@@ -211,6 +232,25 @@ export type Database = {
         Insert: Pick<WhatsAppPendingSignup, 'phone'> &
           Partial<Omit<WhatsAppPendingSignup, 'phone'>>
         Update: Partial<WhatsAppPendingSignup>
+        Relationships: []
+      }
+      feature_flags: {
+        Row: FeatureFlag
+        Insert: Omit<FeatureFlag, 'id' | 'created_at' | 'updated_at'> & {
+          id?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<FeatureFlag>
+        Relationships: []
+      }
+      analytics_events: {
+        Row: AnalyticsEvent
+        Insert: Omit<AnalyticsEvent, 'id' | 'created_at'> & {
+          id?: string
+          created_at?: string
+        }
+        Update: Partial<AnalyticsEvent>
         Relationships: []
       }
     }

@@ -60,7 +60,7 @@ export function SmartNav() {
         </Link>
         {authReady && !user && (
           <Link
-            href="/signup"
+            href={`/signup?next=${encodeURIComponent(pathname || '/')}`}
             className="text-[11px] font-medium uppercase tracking-[0.24em] text-[#F5C518]"
           >
             Sign In
@@ -121,7 +121,7 @@ export function SmartNav() {
               </>
             ) : (
               <Link
-                href="/signup"
+                href={`/signup?next=${encodeURIComponent(pathname || '/')}`}
                 className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
                   pathname === '/signup'
                     ? 'border-b-2 border-[#F5C518] text-white'

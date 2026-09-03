@@ -131,7 +131,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
     async function initAuth() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) {
-        router.replace('/signup')
+        router.replace('/signup?error=signin-required&next=/dashboard')
         return
       }
       const { data: { session: activeSession } } = await supabase.auth.getSession()
@@ -162,7 +162,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, activeSession) => {
       if (!activeSession) {
-        router.replace('/signup')
+        router.replace('/signup?error=session-expired&next=/dashboard')
       } else {
         setSession(activeSession)
       }
