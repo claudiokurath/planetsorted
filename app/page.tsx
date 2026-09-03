@@ -28,10 +28,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <div
-      className="min-h-screen bg-black text-white"
-      style={{ scrollSnapType: 'y proximity' }}
-    >
+    <div className="min-h-screen overflow-x-hidden bg-black text-white">
       <AboutIntro />
     </div>
   )
