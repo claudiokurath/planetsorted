@@ -176,8 +176,19 @@ export function AboutIntro() {
           </p>
         </div>
 
-        {/* Right: WhatsApp example */}
-        <div className="w-full max-w-sm shrink-0">
+        {/* Right: Video & WhatsApp example */}
+        <div className="w-full max-w-sm shrink-0 flex flex-col gap-10">
+          <div className="relative w-full aspect-square">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="h-full w-full object-cover rounded-2xl"
+            >
+              <source src="/media/sequence01_1.mp4" type="video/mp4" />
+            </video>
+          </div>
           <WhatsAppExample />
         </div>
       </section>
