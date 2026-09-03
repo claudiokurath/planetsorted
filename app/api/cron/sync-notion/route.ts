@@ -57,11 +57,16 @@ export async function GET(req: NextRequest) {
 
     const results = []
     for (const source of sources) {
-      results.push(await syncPublishedContent(source))
+      // With webhooks enabled, cron is now a reconciliation pass:
+      // - Verify all published Notion pages are synced
+      // - Catch any pages that webhooks may have missed
+      // - Update sync_status for any articles that weren't recently touched
+      results.push(await reconcilePublishedContent(source))
     }
 
     return NextResponse.json({
       synced: results.reduce((total, result) => total + result.slugs.length, 0),
+      reconciled: results.reduce((total, result) => total + result.reconciled.length, 0),
       articles: results.find((result) => result.type === 'Article')?.slugs ?? [],
       tools: results.find((result) => result.type === 'Tool')?.slugs ?? [],
     })
@@ -181,6 +186,108 @@ async function unpublishStaleRows(type: SyncSource['type'], publishedSlugs: stri
     .in('slug', staleSlugs)
 
   if (updateError) throw updateError
+}
+
+// Reconciliation pass: verify all published Notion pages are in DB
+// This runs hourly and catches any webhooks that may have been missed
+async function reconcilePublishedContent(source: SyncSource) {
+  const pages = await queryAllPublishedPages(source.databaseId)
+  const publishedSlugs: string[] = []
+  const reconciled: string[] = []
+
+  for (const page of pages) {
+    const props = page.properties
+    const slug = getText(props['Slug']).trim()
+    if (!slug) continue
+
+    publishedSlugs.push(slug)
+
+    // Check if this page is already in DB and recently synced
+    const { data: existing } = await getSupabase()
+      .from('protocols')
+      .select('slug, last_synced_at, sync_status')
+      .eq('slug', slug)
+      .single()
+
+    if (existing) {
+      // Page exists in DB
+      const lastSyncedAt = new Date(existing.last_synced_at || 0)
+      const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000)
+
+      if (lastSyncedAt < fiveMinutesAgo || existing.sync_status === 'failed') {
+        // Webhook may have been missed or failed — re-sync now
+        try {
+          await syncPageFromNotion(page, source.type)
+          reconciled.push(slug)
+          console.log(`[Notion cron] Reconciled ${source.type}: ${slug}`)
+        } catch (err) {
+          console.error(`[Notion cron] Failed to reconcile ${source.type} "${slug}":`, err)
+        }
+      }
+    } else {
+      // Page not in DB yet — add it
+      try {
+        await syncPageFromNotion(page, source.type)
+        reconciled.push(slug)
+        console.log(`[Notion cron] Added missing ${source.type}: ${slug}`)
+      } catch (err) {
+        console.error(`[Notion cron] Failed to add ${source.type} "${slug}":`, err)
+      }
+    }
+  }
+
+  await unpublishStaleRows(source.type, publishedSlugs)
+  return { type: source.type, slugs: publishedSlugs, reconciled }
+}
+
+async function syncPageFromNotion(page: any, sourceType: 'Article' | 'Tool') {
+  const props = page.properties
+  const slug = getText(props['Slug']).trim()
+  if (!slug) throw new Error('No slug found')
+
+  const coverProperty = sourceType === 'Article' ? props['Cover Image'] : props['Cover Image 1']
+  const coverImage = await getCoverImage(slug, coverProperty)
+
+  const sharedRow: Record<string, unknown> = {
+    slug,
+    type: sourceType,
+    status: 'Published',
+    summary: getText(props['Summary']),
+    problem: getText(props['Blog Post']),
+    keyword: getText(props['WhatsApp Trigger']),
+    meta_description: getText(props['Meta Description']),
+    updated_at: new Date().toISOString(),
+    sync_status: 'synced',
+    last_synced_at: new Date().toISOString(),
+    sync_error: null,
+  }
+
+  if (coverImage !== undefined) {
+    sharedRow.cover_image = coverImage
+  }
+
+  const row: any = sourceType === 'Article'
+    ? {
+        ...sharedRow,
+        title: getText(props['Title']),
+        category: mapCategory(props['Category']?.select?.name),
+        excerpt: getText(props['Excerpt']),
+        cta: getText(props['CTA']),
+        protocol: getText(props['Protocol']),
+        gamma_url: getUrl(props['Gamma']),
+        audio_url: getUrl(props['Deep Dive']),
+        read_time: getText(props['Read Time']),
+        seo_title: getText(props['SEO Title']),
+      }
+    : {
+        ...sharedRow,
+        title: getText(props['Name']),
+        category: mapCategory(props['Category 1']?.select?.name),
+        cta: props['CTA Text']?.select?.name ?? '',
+      }
+
+  const { error } = await getSupabase().from('protocols').upsert(row, { onConflict: 'slug' })
+  if (error) throw error
 }
 
 async function getCoverImage(slug: string, prop: any): Promise<string | null | undefined> {
