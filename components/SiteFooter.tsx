@@ -35,13 +35,15 @@ export function SiteFooter() {
           {/* Column 2: Navigation */}
           <div className="space-y-2">
             <ul className="space-y-1.5 text-sm text-neutral-300">
-              <li><Link href="/intelligence" className="hover:text-white transition-colors">Guidebook</Link></li>
-              <li><Link href="/tools" className="hover:text-white transition-colors">Toolbox</Link></li>
-              <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+              <li><Link href="/tools" className="hover:text-white transition-colors">Tools</Link></li>
+              <li><Link href="/intelligence" className="hover:text-white transition-colors">Guides</Link></li>
+              <li><Link href="/membership" className="hover:text-white transition-colors">Membership</Link></li>
+              <li><Link href="/about" className="hover:text-white transition-colors">About Planet Sorted</Link></li>
               <li><Link href="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
+              <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
             </ul>
           </div>
+
 
           {/* Column 3: Categories */}
           <div className="space-y-2">
