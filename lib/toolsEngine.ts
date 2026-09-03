@@ -9,6 +9,7 @@
 
 import type { ToolConfig, ToolCalculatorInput, ToolCalculatorOutput } from '@/lib/types/toolConfig'
 import { calculateAdhdTax } from '@/lib/adhdTaxCalculator'
+import { calculateWeeklyWins } from '@/lib/weeklyWinsCalculator'
 
 /**
  * Map of calculator engine implementations
@@ -16,6 +17,7 @@ import { calculateAdhdTax } from '@/lib/adhdTaxCalculator'
  */
 const CALCULATOR_ENGINES: Record<string, (input: ToolCalculatorInput) => ToolCalculatorOutput> = {
   adhdTaxCalculator: calculateAdhdTax,
+  weeklyWinsCalculator: calculateWeeklyWins,
 }
 
 export interface CalculatorContext {

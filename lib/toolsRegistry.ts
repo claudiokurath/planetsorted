@@ -125,6 +125,107 @@ const ADHD_TAX_CALCULATOR: ToolConfig = {
 }
 
 /**
+ * Weekly Wins Generator Config
+ * Calculates non-linear progress across tasks, focus sessions, and regulation
+ */
+const WEEKLY_WINS_GENERATOR: ToolConfig = {
+  slug: 'weekly-wins-generator',
+  metadata: {
+    title: 'Weekly Wins Generator',
+    seo_title: 'Weekly Wins Generator | ADHD Progress Tracker',
+    meta_description: 'Capture and celebrate non-linear progress. Calculate your weekly win score across tasks, body-doubling, and nervous system regulation.',
+    fallback_description: 'Capture and celebrate non-linear progress across tasks, focus sessions, and regulation.',
+    category: 'Growth',
+    read_time: '3 min',
+    cover_image: '/images/tools/weekly-wins-hero.jpg',
+  },
+  inputs: [
+    {
+      name: 'tasksCompleted',
+      label: 'Tasks completed this week',
+      type: 'number',
+      default: 5,
+      placeholder: '0',
+      help: 'Every finished task counts, no matter the size',
+      min: 0,
+      step: 1,
+    },
+    {
+      name: 'bodyDoublingSessions',
+      label: 'Body-doubling sessions attended',
+      type: 'number',
+      default: 2,
+      placeholder: '0',
+      help: 'Focusmate, co-working, or working alongside someone',
+      min: 0,
+      step: 1,
+    },
+    {
+      name: 'spiralUses',
+      label: 'Spirals & reset tools used',
+      type: 'number',
+      default: 1,
+      placeholder: '0',
+      help: 'Times you recognized dysregulation and used a tool to reset',
+      min: 0,
+      step: 1,
+    },
+    {
+      name: 'hardThing',
+      label: 'The hard thing I did anyway',
+      type: 'text',
+      placeholder: 'e.g. Sent the delayed email, filed the invoice, attended the medical checkup...',
+      help: 'Optional: name the one thing that required exceptional activation energy',
+    },
+    {
+      name: 'tone',
+      label: 'Celebration tone',
+      type: 'select',
+      default: 'proud',
+      options: [
+        { value: 'proud', label: 'Proud & Grounded' },
+        { value: 'gentle', label: 'Gentle & Validating' },
+        { value: 'hype', label: 'Hype & Beast Mode 🔥' },
+      ],
+      help: 'How you want your weekly recap framed',
+    },
+  ],
+  computation: {
+    engine: 'weeklyWinsCalculator',
+    type: 'calculator',
+  },
+  output: {
+    headline: {
+      label: 'Weekly Win Score',
+      value_path: 'totalWinScore',
+      format: 'number',
+    },
+    subheading: {
+      label: '{scoreBand}',
+    },
+    sections: [
+      {
+        title: 'Weekly Recap',
+        type: 'text',
+        data: 'summary',
+      },
+      {
+        title: 'Points Breakdown',
+        type: 'breakdown',
+        data: 'breakdown',
+      },
+      {
+        title: 'Celebration & Next Steps',
+        type: 'action_list',
+        data: 'actionPlan',
+      },
+    ],
+  },
+  saveable: true,
+  historySaved: true,
+}
+
+/**
  * Central registry of all tools
  * To add a new tool:
  * 1. Create ToolConfig object with slug, metadata, inputs, computation, output
@@ -134,7 +235,7 @@ const ADHD_TAX_CALCULATOR: ToolConfig = {
  */
 export const TOOLS_CONFIG: ToolConfig[] = [
   ADHD_TAX_CALCULATOR,
-  // Add more tools here: WEEKLY_WINS_GENERATOR, BRAIN_DUMP_SORTER, etc.
+  WEEKLY_WINS_GENERATOR,
 ]
 
 /**
