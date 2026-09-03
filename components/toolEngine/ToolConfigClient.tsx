@@ -60,6 +60,21 @@ export function ToolConfigClient({
       } else {
         setError(calcResult.error || 'Calculation failed')
       }
+
+      // Non-blocking telemetry reporting
+      fetch('/api/analytics/event', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'tool_run',
+          toolSlug: config.slug,
+          success: calcResult.success,
+          latencyMs: calcResult.latency_ms,
+          error: calcResult.error,
+        }),
+      }).catch(() => {
+        // Non-critical telemetry failure
+      })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
     } finally {

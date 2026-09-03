@@ -56,7 +56,7 @@ export default async function GuidebookListingPage() {
           <p className="py-12 text-center text-neutral-500">No protocols published yet.</p>
         ) : (
           <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {articles.map((article) => (
+            {articles.map((article, index) => (
               <ContentCard
                 key={article.slug}
                 href={`/intelligence/${article.slug}`}
@@ -65,6 +65,7 @@ export default async function GuidebookListingPage() {
                 coverImage={article.cover_image}
                 category={article.category}
                 meta={article.read_time || undefined}
+                index={index}
               />
             ))}
           </div>
