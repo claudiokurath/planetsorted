@@ -91,13 +91,14 @@ export default async function CategoryPage({ params }: Props) {
               <section>
                 <SectionLabel>Tools</SectionLabel>
                 <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {tools.map((tool) => (
+                  {tools.map((tool, index) => (
                     <ContentCard
                       key={tool.slug}
                       href={`/tools/${tool.slug}`}
                       title={tool.title}
                       category={tool.category}
                       meta={tool.read_time || undefined}
+                      index={index}
                     />
                   ))}
                 </div>
@@ -108,13 +109,14 @@ export default async function CategoryPage({ params }: Props) {
               <section>
                 <SectionLabel>Guidebook</SectionLabel>
                 <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {articles.map((article) => (
+                  {articles.map((article, index) => (
                     <ContentCard
                       key={article.slug}
                       href={`/intelligence/${article.slug}`}
                       title={article.title}
                       category={article.category}
                       meta={article.read_time || undefined}
+                      index={index}
                     />
                   ))}
                 </div>
