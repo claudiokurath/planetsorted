@@ -4,8 +4,8 @@
  */
 
 export type FieldType = 'number' | 'text' | 'slider' | 'toggle' | 'select'
-export type CalculatorEngine = 'adhdTaxCalculator' | 'customFunction'
-export type OutputFormat = 'currency' | 'percentage' | 'integer' | 'text' | 'date'
+export type CalculatorEngine = 'adhdTaxCalculator' | 'weeklyWinsCalculator' | 'customFunction' | string
+export type OutputFormat = 'currency' | 'percentage' | 'integer' | 'decimal' | 'number' | 'text' | 'date'
 export type Category = 'Mind' | 'Wealth' | 'Body' | 'Tech' | 'Connection' | 'Impression' | 'Growth'
 
 export interface ToolInputField {

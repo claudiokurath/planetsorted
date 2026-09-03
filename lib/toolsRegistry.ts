@@ -174,6 +174,7 @@ const WEEKLY_WINS_GENERATOR: ToolConfig = {
       name: 'hardThing',
       label: 'The hard thing I did anyway',
       type: 'text',
+      default: '',
       placeholder: 'e.g. Sent the delayed email, filed the invoice, attended the medical checkup...',
       help: 'Optional: name the one thing that required exceptional activation energy',
     },

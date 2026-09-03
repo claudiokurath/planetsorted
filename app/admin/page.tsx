@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   },
 }
 
+export const dynamic = 'force-dynamic'
+
 interface AdminPageProps {
   searchParams: Promise<{ admin_key?: string }>
 }

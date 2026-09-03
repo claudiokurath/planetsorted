@@ -30,6 +30,10 @@ export type Protocol = {
   seo_title: string            // SEO page title override
   updated_at: string           // timestamptz, set on upsert
   type?: string                // 'Article' | 'Tool'
+  sync_status?: string | null
+  last_synced_at?: string | null
+  sync_error?: string | null
+  notion_page_id?: string | null
 }
 
 // Mirrors the LIVE `public.users` table, not the schema table in the master doc —
@@ -159,6 +163,20 @@ export type AnalyticsEvent = {
   properties: Record<string, unknown>
 }
 
+/** Notion webhook sync event audit trail. */
+export type NotionWebhookEvent = {
+  id: string
+  database_id: string
+  event_type: string
+  status: 'queued' | 'success' | 'failed' | 'skipped'
+  error_message: string | null
+  attempt: number
+  source_type: 'Article' | 'Tool'
+  slug: string | null
+  created_at: string
+  updated_at: string
+}
+
 // Supabase Database generic type — used to type createClient<Database>()
 // Every table needs a `Relationships` array and the schema needs `Views`/`Functions`
 // (even if empty) — @supabase/postgrest-js's GenericSchema constraint requires them,
@@ -251,6 +269,16 @@ export type Database = {
           created_at?: string
         }
         Update: Partial<AnalyticsEvent>
+        Relationships: []
+      }
+      notion_webhook_events: {
+        Row: NotionWebhookEvent
+        Insert: Omit<NotionWebhookEvent, 'id' | 'created_at' | 'updated_at'> & {
+          id?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: Partial<NotionWebhookEvent>
         Relationships: []
       }
     }

@@ -25,7 +25,8 @@ export function FormRenderer({
       <h2 className="text-2xl font-medium">Your inputs</h2>
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         {config.inputs.map((field) => {
-          const value = inputValues[field.name] ?? field.default
+          const rawValue = inputValues[field.name] ?? field.default
+          const textOrNumValue = typeof rawValue === 'boolean' ? '' : rawValue
           const isRequired = field.required ?? false
           const helpText = field.help || ''
 
@@ -41,7 +42,7 @@ export function FormRenderer({
                 <input
                   id={field.name}
                   type="number"
-                  value={value}
+                  value={textOrNumValue}
                   onChange={(e) => onInputChange(field.name, e.target.value)}
                   placeholder={field.placeholder ?? '0'}
                   min={field.min}
@@ -56,7 +57,7 @@ export function FormRenderer({
               {field.type === 'text' && (
                 <textarea
                   id={field.name}
-                  value={value}
+                  value={textOrNumValue}
                   onChange={(e) => onInputChange(field.name, e.target.value)}
                   placeholder={field.placeholder}
                   rows={4}
@@ -71,7 +72,7 @@ export function FormRenderer({
                   <input
                     id={field.name}
                     type="range"
-                    value={value}
+                    value={typeof rawValue === 'number' ? rawValue : Number(rawValue) || 0}
                     onChange={(e) => onInputChange(field.name, e.target.value)}
                     min={field.min ?? 0}
                     max={field.max ?? 100}
@@ -79,7 +80,7 @@ export function FormRenderer({
                     disabled={disabled}
                     className="flex-1"
                   />
-                  <span className="w-12 text-right text-sm font-medium text-white">{value}</span>
+                  <span className="w-12 text-right text-sm font-medium text-white">{String(rawValue)}</span>
                 </div>
               )}
 
@@ -89,7 +90,7 @@ export function FormRenderer({
                   <input
                     id={field.name}
                     type="checkbox"
-                    checked={value === true || value === 'true'}
+                    checked={rawValue === true || rawValue === 'true'}
                     onChange={(e) => onInputChange(field.name, e.target.checked)}
                     disabled={disabled}
                     className="h-4 w-4 rounded border-white/10 bg-black"
@@ -102,7 +103,7 @@ export function FormRenderer({
               {field.type === 'select' && field.options && (
                 <select
                   id={field.name}
-                  value={value}
+                  value={textOrNumValue}
                   onChange={(e) => onInputChange(field.name, e.target.value)}
                   disabled={disabled}
                   className="rounded-none border border-white/10 bg-black px-4 py-3 text-white outline-none transition focus:border-[#F5C518] disabled:opacity-50"
