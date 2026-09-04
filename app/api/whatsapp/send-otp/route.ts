@@ -86,8 +86,64 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const messageBody = `Your PLANET SOR7ED verification code is: ${otp}\n\nThis code will expire in 10 minutes.`
-    await sendWhatsAppMessage(whatsappNumber, messageBody)
+    const templateName = process.env.WHATSAPP_OTP_TEMPLATE || 'sor7ed_auth'
+    const phoneNumberId = process.env.META_PHONE_NUMBER_ID
+    const token = process.env.META_WHATSAPP_TOKEN
+
+    if (!phoneNumberId || !token) {
+      console.error('[WhatsApp missing config]')
+      return NextResponse.json({ error: 'WhatsApp is not configured on the server.' }, { status: 500 })
+    }
+
+    const payload = {
+      messaging_product: 'whatsapp',
+      recipient_type: 'individual',
+      to: whatsappNumber,
+      type: 'template',
+      template: {
+        name: templateName,
+        language: {
+          code: process.env.WHATSAPP_CONTENT_CARD_LANGUAGE?.trim() || 'en_GB',
+        },
+        components: [
+          {
+            type: 'body',
+            parameters: [
+              {
+                type: 'text',
+                text: otp,
+              },
+            ],
+          },
+          {
+            type: 'button',
+            sub_type: 'url',
+            index: '0',
+            parameters: [
+              {
+                type: 'text',
+                text: otp,
+              },
+            ],
+          },
+        ],
+      },
+    }
+
+    const res = await fetch(`https://graph.facebook.com/v23.0/${phoneNumberId}/messages`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+
+    if (!res.ok) {
+      const errorText = await res.text()
+      console.error('[WhatsApp OTP error]', res.status, errorText)
+      throw new Error(`WhatsApp API error: ${errorText}`)
+    }
 
     return NextResponse.json({ success: true, message: 'OTP sent successfully' })
   } catch (err) {
