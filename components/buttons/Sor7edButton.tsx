@@ -189,6 +189,11 @@ export function Sor7edButton({
 
       setState('sent')
       animateToSaved()
+
+      setTimeout(() => {
+        setState(initiallySaved ? 'sent' : 'idle')
+        setProgress(initiallySaved ? 1 : 0)
+      }, 3000)
     } catch {
       setState('error')
     }
