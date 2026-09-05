@@ -48,12 +48,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-raw-standalone-templates/biometric-state-tracker/biometric-state-tracker/
-raw-standalone-templates/brain-dump-sorter/brain dumb sorter/
-raw-standalone-templates/decision-paralysis-solver/decision-paralysis-solver/
-raw-standalone-templates/financial-autopilot/financial autopilot/
-raw-standalone-templates/decision-paralysis-solver/THENEWSOR7ED/
-raw-standalone-templates/decision-paralysis-solver/sor7ed-button/
 
 # Raw design-handoff dumps (Claude Design .jsx exports) dropped into
 # app/(standalone)/. Not wired as routes; un-ignore when building one.

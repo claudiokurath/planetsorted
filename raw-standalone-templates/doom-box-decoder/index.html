@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Doom Box Decoder — SOR7ED</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0b; --bg2: #111114; --bg3: #16161a; --bg4: #1e1e24; --border: #2a2a35;
+    --text: #f0f0f5; --muted: #9090a8; --dim: #5a5a70;
+
+    /* Doom Box accent = teal (sibling of Life Admin Inbox's yellow) */
+    --accent: #5eead4; --accentbg: rgba(94,234,212,.12); --accentborder: rgba(94,234,212,.3);
+    --accent-hover: #7cf5e0;
+
+    /* Semantic colours — kept identical to Life Admin Inbox */
+    --yellow: #f5c518; --yellowbg: rgba(245,197,24,.12);
+    --green: #22c55e; --greenbg: rgba(34,197,94,.12);
+    --orange: #f97316; --orangebg: rgba(249,115,22,.12);
+    --red: #ef4444; --redbg: rgba(239,68,68,.12);
+    --blue: #60a5fa; --bluebg: rgba(96,165,250,.12);
+    --purple: #a78bfa; --purplebg: rgba(167,139,250,.12);
+    --pink: #f472b6; --pinkbg: rgba(244,114,182,.12);
+
+    --radius: 16px; --radius-sm: 10px;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+  button { cursor: pointer; font-family: inherit; font-size: inherit; border: none; }
+  input, textarea, select { font-family: inherit; font-size: inherit; background: var(--bg2); color: var(--text); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; width: 100%; outline: none; transition: border-color .2s; }
+  input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+  select option { background: var(--bg2); }
+  a { color: var(--accent); text-decoration: none; }
+
+  .screen { display: none; } .screen.active { display: block; }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+  .container-sm { max-width: 680px; margin: 0 auto; padding: 0 16px; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,11,.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .nav-brand-wrap { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .nav-brand { font-weight: 800; font-size: 16px; letter-spacing: -.3px; white-space: nowrap; }
+  .nav-brand span { color: var(--accent); }
+  .sor-mark { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--dim); border-left: 1px solid var(--border); padding-left: 10px; white-space: nowrap; }
+  .sor-mark b { color: var(--muted); }
+  .nav-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+  .badge-paid { background: var(--accentbg); color: var(--accent); border: 1px solid var(--accentborder); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: .5px; }
+  @media (max-width: 560px) { .sor-mark { display: none; } }
+
+  /* BUTTONS */
+  .btn { display: inline-flex; align-items: center; gap: 6px; border-radius: var(--radius-sm); padding: 10px 20px; font-weight: 600; transition: all .15s; }
+  .btn-primary { background: var(--accent); color: #0a0a0b; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-primary:disabled { opacity: .4; cursor: not-allowed; }
+  .btn-ghost { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--muted); }
+  .btn-danger-ghost { background: transparent; color: var(--muted); border: 1.5px solid var(--border); }
+  .btn-danger-ghost:hover { border-color: var(--red); color: var(--red); }
+  .btn-sm { padding: 6px 14px; font-size: 13px; }
+
+  /* CARDS */
+  .card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 20px; }
+
+  /* LANDING */
+  #landing { padding-bottom: 80px; }
+  .hero { text-align: center; padding: 72px 20px 48px; }
+  .hero-pill { display: inline-block; background: var(--accentbg); border: 1px solid var(--accentborder); color: var(--accent); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 5px 16px; border-radius: 100px; margin-bottom: 24px; }
+  .hero h1 { font-size: clamp(32px, 6vw, 60px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 20px; text-wrap: balance; }
+  .hero h1 span { color: var(--accent); }
+  .hero p { font-size: 18px; color: var(--muted); max-width: 560px; margin: 0 auto 36px; text-wrap: pretty; }
+  .hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .hero-ctas .btn { padding: 14px 28px; font-size: 16px; border-radius: 12px; }
+
+  /* Painted "how it works" strip */
+  .how-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 720px; margin: 48px auto 0; padding: 0 20px; }
+  @media (max-width: 620px) { .how-strip { grid-template-columns: 1fr; } }
+  .how-step { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 18px; text-align: left; }
+  .how-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--accentbg); color: var(--accent); font-size: 12px; font-weight: 800; margin-bottom: 10px; }
+  .how-step h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .how-step p { font-size: 13px; color: var(--muted); }
+
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 56px; }
+  .feature-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 24px; }
+  .feature-icon { font-size: 28px; margin-bottom: 12px; }
+  .feature-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .feature-card p { font-size: 13px; color: var(--muted); }
+
+  .pricing-section { margin-top: 80px; text-align: center; }
+  .pricing-section h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+  .pricing-section > p { color: var(--muted); margin-bottom: 40px; }
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 620px; margin: 0 auto; }
+  @media (max-width: 520px) { .pricing-grid { grid-template-columns: 1fr; } }
+  .plan-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 28px; text-align: left; }
+  .plan-card.featured { border-color: var(--accent); background: rgba(94,234,212,.05); }
+  .plan-name { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 8px; }
+  .plan-price { font-size: 32px; font-weight: 900; margin-bottom: 4px; }
+  .plan-price span { font-size: 16px; font-weight: 400; color: var(--muted); }
+  .plan-features { list-style: none; margin: 16px 0; }
+  .plan-features li { font-size: 13px; color: var(--muted); padding: 4px 0; }
+  .plan-features li::before { content: "✓  "; color: var(--green); }
+  .plan-features li.locked::before { content: "✕  "; color: var(--dim); }
+  .plan-features li.locked { color: var(--dim); }
+
+  /* CAPTURE SCREEN */
+  #capture { padding: 32px 0 100px; }
+  .cap-header { text-align: center; margin-bottom: 24px; }
+  .cap-header h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; text-wrap: balance; }
+  .cap-header p { color: var(--muted); }
+  .mode-tabs { display: flex; gap: 6px; margin: 0 auto 24px; justify-content: center; background: var(--bg3); padding: 4px; border-radius: 100px; border: 1px solid var(--border); width: fit-content; max-width: 100%; flex-wrap: wrap; }
+  .mode-tab { padding: 8px 16px; border-radius: 100px; font-size: 13px; font-weight: 600; background: transparent; color: var(--muted); transition: all .2s; }
+  .mode-tab.active { background: var(--accentbg); color: var(--accent); }
+
+  /* Photo mode */
+  .photo-dropzone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 40px 20px; text-align: center; background: var(--bg2); transition: border-color .2s, background .2s; cursor: pointer; }
+  .photo-dropzone:hover, .photo-dropzone.dragover { border-color: var(--accent); background: rgba(94,234,212,.03); }
+  .photo-dropzone-icon { font-size: 44px; margin-bottom: 12px; }
+  .photo-dropzone h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .photo-dropzone p { font-size: 13px; color: var(--muted); }
+  .photo-dropzone .btn { margin-top: 16px; }
+  .photo-preview { display: none; }
+  .photo-preview.show { display: block; }
+  .photo-preview img { max-width: 100%; max-height: 320px; border-radius: var(--radius); border: 1.5px solid var(--border); display: block; margin: 0 auto 16px; }
+
+  /* Voice mode */
+  .voice-panel { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 32px; text-align: center; }
+  .voice-status { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .voice-mic-btn { display: inline-flex; align-items: center; justify-content: center; width: 88px; height: 88px; border-radius: 50%; background: var(--accentbg); border: 2px solid var(--accentborder); color: var(--accent); font-size: 36px; transition: all .2s; }
+  .voice-mic-btn:hover { background: var(--accent); color: #0a0a0b; }
+  .voice-mic-btn.recording { background: var(--red); color: white; border-color: var(--red); animation: pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,.4); } 50% { box-shadow: 0 0 0 16px rgba(239,68,68,0); } }
+  .voice-transcript { margin-top: 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; font-size: 14px; color: var(--muted); min-height: 60px; text-align: left; }
+  .voice-transcript.has-content { color: var(--text); }
+  .voice-unsupported { background: var(--orangebg); border: 1px solid rgba(249,115,22,.3); color: var(--orange); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 13px; margin-bottom: 16px; }
+
+  /* Type mode */
+  .type-textarea { min-height: 200px; resize: vertical; font-size: 16px; line-height: 1.7; border-radius: var(--radius); padding: 18px; }
+  .type-helper { font-size: 12px; color: var(--dim); margin-top: 8px; }
+
+  /* Contents review — shared across all 3 modes */
+  .contents-review { margin-top: 24px; }
+  .contents-review h3 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+  .contents-review h3 .count { color: var(--accent); }
+  .contents-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px; background: var(--bg2); border: 1.5px solid var(--border); border-radius: var(--radius); min-height: 64px; }
+  .contents-chips.empty { color: var(--dim); font-size: 13px; align-items: center; }
+  .content-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px 6px 12px; background: var(--bg3); border: 1px solid var(--border); border-radius: 100px; font-size: 13px; }
+  .content-chip button { background: none; border: none; color: var(--dim); padding: 0 2px; font-size: 15px; line-height: 1; }
+  .content-chip button:hover { color: var(--red); }
+  .add-chip-row { display: flex; gap: 8px; margin-top: 8px; }
+  .add-chip-row input { flex: 1; }
+
+  /* Box meta grid */
+  .box-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+  @media (max-width: 560px) { .box-meta-grid { grid-template-columns: 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+  .form-hint { font-size: 11px; color: var(--dim); }
+
+  .cap-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; flex-wrap: wrap; gap: 12px; }
+  .cap-count { font-size: 12px; color: var(--dim); }
+
+  /* BOX SAVED / LABEL */
+  #box-saved { padding: 32px 0 100px; }
+  .saved-header { text-align: center; margin-bottom: 32px; }
+  .saved-header .tick { font-size: 40px; margin-bottom: 8px; }
+  .saved-header h2 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+  .saved-header p { color: var(--muted); font-size: 14px; }
+
+  .label-preview { max-width: 420px; margin: 0 auto 24px; background: white; color: #111; border-radius: 12px; padding: 24px; font-family: -apple-system, sans-serif; box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+  .label-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; border-bottom: 2px dashed #ccc; padding-bottom: 14px; }
+  .label-num { font-size: 44px; font-weight: 900; line-height: 1; letter-spacing: -1px; color: #111; }
+  .label-num-sub { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-top: 2px; }
+  .label-qr { width: 72px; height: 72px; flex-shrink: 0; padding: 4px; background: white; border: 1px solid #eee; border-radius: 4px; }
+  .label-qr svg { display: block; width: 100%; height: 100%; }
+  .label-summary { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 6px; line-height: 1.4; }
+  .label-room { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #666; margin-bottom: 12px; }
+  .label-contents { font-size: 12px; color: #333; line-height: 1.5; margin-bottom: 12px; }
+  .label-footer { display: flex; justify-content: space-between; font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .5px; border-top: 1px solid #eee; padding-top: 10px; }
+  .label-footer .brand { font-weight: 700; color: #111; }
+
+  .saved-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+  /* SEARCH */
+  #search { padding: 32px 0 100px; }
+  .search-header { margin-bottom: 20px; text-align: center; }
+  .search-header h2 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+  .search-header p { color: var(--muted); font-size: 14px; }
+  .search-bar-wrap { position: relative; margin-bottom: 24px; }
+  .search-bar { padding: 16px 20px 16px 48px; font-size: 16px; border-radius: 12px; }
+  .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 20px; pointer-events: none; }
+  .search-summary { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .search-summary b { color: var(--text); }
+  .search-empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+  .search-empty .icon { font-size: 40px; margin-bottom: 12px; opacity: .6; }
+  .result-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 12px; cursor: pointer; transition: border-color .2s; }
+  .result-card:hover { border-color: var(--accent); }
+  .result-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
+  .result-box-tag { font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .5px; }
+  .result-room { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+  .result-summary { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+  .result-matches { display: flex; flex-wrap: wrap; gap: 6px; }
+  .match-chip { font-size: 12px; padding: 3px 10px; border-radius: 100px; background: var(--bg2); border: 1px solid var(--border); color: var(--muted); }
+  .match-chip.hit { background: var(--accentbg); color: var(--accent); border-color: var(--accentborder); }
+  .result-meta { font-size: 11px; color: var(--dim); margin-top: 10px; }
+
+  /* ALL BOXES */
+  #boxes { padding: 32px 0 100px; }
+  .boxes-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
+  .boxes-header h2 { font-size: 24px; font-weight: 800; }
+  .boxes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .box-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 18px; cursor: pointer; transition: border-color .2s; display: flex; flex-direction: column; gap: 8px; }
+  .box-card:hover { border-color: var(--accent); }
+  .box-card-num { font-size: 32px; font-weight: 900; letter-spacing: -1px; line-height: 1; color: var(--accent); }
+  .box-card-room { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
+  .box-card-summary { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.4; }
+  .box-card-meta { font-size: 12px; color: var(--dim); margin-top: auto; }
+
+  /* BOX DETAIL */
+  #box-detail { padding: 32px 0 100px; }
+  .detail-back { font-size: 13px; color: var(--muted); margin-bottom: 12px; display: inline-flex; align-items: center; gap: 4px; }
+  .detail-back:hover { color: var(--accent); }
+  .detail-grid { display: grid; grid-template-columns: 420px 1fr; gap: 24px; align-items: start; }
+  @media (max-width: 780px) { .detail-grid { grid-template-columns: 1fr; } }
+  .detail-side { display: flex; flex-direction: column; gap: 16px; }
+  .detail-photo { width: 100%; border-radius: var(--radius); border: 1.5px solid var(--border); display: block; }
+  .detail-info h2 { font-size: 28px; font-weight: 900; margin-bottom: 6px; }
+  .detail-info .detail-summary { font-size: 16px; color: var(--muted); margin-bottom: 20px; }
+  .detail-contents-list { list-style: none; }
+  .detail-contents-list li { padding: 10px 12px; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 6px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+  .detail-contents-list li::before { content: "•"; color: var(--accent); font-weight: 800; }
+  .detail-actions { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+
+  /* Locked overlay */
+  .locked-overlay { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 32px; text-align: center; }
+  .locked-overlay .lock-icon { font-size: 32px; margin-bottom: 12px; }
+  .locked-overlay h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .locked-overlay p { color: var(--muted); font-size: 14px; max-width: 380px; margin: 0 auto 20px; }
+
+  /* PRINT SHEET */
+  #print-sheet { padding: 32px 0 100px; }
+  .print-actions { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+  .a4-sheet { background: white; color: #111; max-width: 794px; margin: 0 auto; padding: 40px 32px; border-radius: 12px; }
+  .a4-labels { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .a4-label { border: 2px dashed #bbb; border-radius: 8px; padding: 16px; font-family: -apple-system, sans-serif; page-break-inside: avoid; break-inside: avoid; }
+  .a4-label .label-header { padding-bottom: 10px; margin-bottom: 10px; }
+  .a4-label .label-num { font-size: 34px; }
+  .a4-label .label-qr { width: 56px; height: 56px; }
+  .a4-label .label-summary { font-size: 13px; margin-bottom: 4px; }
+  .a4-label .label-contents { font-size: 11px; }
+
+  /* MODAL */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; opacity: 0; pointer-events: none; transition: opacity .25s; }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal { background: var(--bg3); border: 1.5px solid var(--border); border-radius: 20px; padding: 32px; max-width: 480px; width: 100%; transform: translateY(16px); transition: transform .25s; position: relative; }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal h2 { font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+  .modal .modal-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+  .modal-features { list-style: none; margin-bottom: 24px; }
+  .modal-features li { font-size: 14px; padding: 6px 0; border-bottom: 1px solid var(--border); color: var(--muted); }
+  .modal-features li::before { content: "✓  "; color: var(--green); font-weight: 700; }
+  .modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; color: var(--muted); font-size: 22px; }
+  .modal-price { font-size: 28px; font-weight: 900; margin-bottom: 20px; }
+  .modal-price span { font-size: 14px; font-weight: 400; color: var(--muted); }
+  .modal-footer { font-size: 11px; color: var(--dim); text-align: center; margin-top: 12px; }
+
+  /* Confirm modal */
+  .modal-danger { text-align: center; }
+  .modal-danger .btn-row { display: flex; gap: 8px; justify-content: center; margin-top: 20px; }
+
+  /* Disclaimer + toast */
+  .disclaimer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10,10,11,.96); border-top: 1px solid var(--border); padding: 8px 16px; text-align: center; font-size: 11px; color: var(--dim); z-index: 50; }
+  .toast { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--bg4); border: 1px solid var(--border); border-radius: 100px; padding: 10px 20px; font-size: 13px; font-weight: 600; opacity: 0; transition: all .3s; pointer-events: none; z-index: 200; white-space: nowrap; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Free-tier counter */
+  .free-counter { font-size: 11px; color: var(--muted); padding: 4px 10px; border: 1px solid var(--border); border-radius: 100px; }
+  .free-counter b { color: var(--text); }
+  .free-counter.full { color: var(--orange); border-color: rgba(249,115,22,.3); }
+
+  /* Utility */
+  .mt-4{margin-top:16px}.mt-6{margin-top:24px}.mb-4{margin-bottom:16px}.mb-6{margin-bottom:24px}
+  .flex{display:flex}.gap-2{gap:8px}.items-center{align-items:center}.justify-between{justify-content:space-between}
+  .text-muted{color:var(--muted)}.text-sm{font-size:13px}.w-full{width:100%}.text-center{text-align:center}.hidden{display:none!important}
+
+  /* Print */
+  @media print {
+    nav, .disclaimer-bar, .print-actions, .toast, .modal-overlay, .saved-actions, .detail-actions, .detail-back { display: none !important; }
+    body { background: white; color: #111; }
+    #print-sheet, #box-saved { padding: 0; }
+    .a4-sheet { box-shadow: none; padding: 0; max-width: none; border-radius: 0; }
+    .label-preview { box-shadow: none; margin: 0 auto; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* Motion */
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeIn .4s ease forwards; }
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <div class="nav-brand-wrap">
+    <div class="nav-brand">Doom Box <span>Decoder</span></div>
+    <div class="sor-mark">part of <b>SOR7ED</b></div>
+  </div>
+  <div class="nav-actions">
+    <span id="free-counter" class="free-counter hidden"><b id="free-count">0</b>/3 boxes</span>
+    <span id="paid-badge" class="badge-paid hidden">Premium</span>
+    <button class="btn btn-ghost btn-sm hidden" id="nav-search-btn" onclick="showScreen('search')">Search</button>
+    <button class="btn btn-ghost btn-sm hidden" id="nav-boxes-btn" onclick="showScreen('boxes')">My boxes</button>
+    <button class="btn btn-ghost btn-sm" onclick="loadDemo()">Demo</button>
+    <button class="btn btn-primary btn-sm" id="nav-upgrade-btn" onclick="openUpgrade()">Upgrade</button>
+    <button class="btn btn-primary btn-sm hidden" id="nav-new-btn" onclick="startNewBox()">+ New box</button>
+  </div>
+</nav>
+
+<!-- LANDING -->
+<div id="landing" class="screen active">
+  <div class="container">
+    <div class="hero">
+      <div class="hero-pill">✦ Never lose a spare charger again</div>
+      <h1>Photograph a box.<br><span>Find what's in it, months later.</span></h1>
+      <p>Panic-tidied everything into a random box? Snap it, say it, or type it. Get a printable label and a searchable memory — so "spare phone charger" is a two-second lookup, not a lost afternoon.</p>
+      <div class="hero-ctas">
+        <button class="btn btn-primary" onclick="startNewBox()">Log a box →</button>
+        <button class="btn btn-ghost" onclick="loadDemo()">See a demo</button>
+      </div>
+    </div>
+
+    <div class="how-strip">
+      <div class="how-step">
+        <div class="how-num">1</div>
+        <h4>Capture in seconds</h4>
+        <p>Snap a photo of what's going in, dictate a quick list, or type it. Whichever's fastest.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">2</div>
+        <h4>Print the label</h4>
+        <p>Every box gets a big number and QR — tape it on the outside. Done.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">3</div>
+        <h4>Search when you need it</h4>
+        <p>"Where's my passport photo?" → Box 04, spare room, packed last March.</p>
+      </div>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">📸</div><h3>Snap it</h3><p>One photo. We remember what's in the box even when you don't.</p></div>
+      <div class="feature-card"><div class="feature-icon">🎙️</div><h3>Say it</h3><p>Rapid-fire dictate contents while you pack. Hands-free for panic mode.</p></div>
+      <div class="feature-card"><div class="feature-icon">⌨️</div><h3>Type it</h3><p>One item per line, comma-separated, however you write. We sort it.</p></div>
+      <div class="feature-card"><div class="feature-icon">🏷️</div><h3>Printable labels</h3><p>Big number + QR + human summary. Tape once, forget forever.</p></div>
+      <div class="feature-card"><div class="feature-icon">🔎</div><h3>Instant search</h3><p>Fuzzy match across every box, room, and item you've ever packed.</p></div>
+      <div class="feature-card"><div class="feature-icon">💸</div><h3>Never buy twice</h3><p>Stop replacing things you already own. Object permanence, outsourced.</p></div>
+    </div>
+
+    <div class="pricing-section">
+      <h2>Simple pricing</h2>
+      <p>Start free. Upgrade when your house has more boxes than furniture.</p>
+      <div class="pricing-grid">
+        <div class="plan-card">
+          <div class="plan-name">Free</div>
+          <div class="plan-price">£0 <span>/ forever</span></div>
+          <ul class="plan-features">
+            <li>Log up to 3 boxes</li>
+            <li>Photo, voice or type capture</li>
+            <li>Instant search</li>
+            <li>Print single label</li>
+            <li class="locked">Unlimited boxes</li>
+            <li class="locked">Print full label sheets</li>
+            <li class="locked">Export manifest (CSV / JSON)</li>
+          </ul>
+          <button class="btn btn-ghost w-full" onclick="startNewBox()">Get started</button>
+        </div>
+        <div class="plan-card featured">
+          <div class="plan-name">Premium</div>
+          <div class="plan-price">£4 <span>/ month</span></div>
+          <ul class="plan-features">
+            <li>Everything in Free</li>
+            <li>Unlimited boxes</li>
+            <li>Print sheets (8 labels per A4)</li>
+            <li>Export full manifest</li>
+            <li>Room filters and grouping</li>
+            <li>Photo attachments saved</li>
+            <li>Priority support</li>
+          </ul>
+          <button class="btn btn-primary w-full" onclick="openUpgrade()">Upgrade now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CAPTURE -->
+<div id="capture" class="screen">
+  <div class="container-sm">
+    <div class="cap-header">
+      <h2>What's going in this box?</h2>
+      <p>Fastest method wins. Nobody is grading this.</p>
+    </div>
+
+    <div class="mode-tabs" role="tablist">
+      <button class="mode-tab active" id="tab-photo" onclick="switchMode('photo')">📸 Photo</button>
+      <button class="mode-tab" id="tab-voice" onclick="switchMode('voice')">🎙️ Voice</button>
+      <button class="mode-tab" id="tab-type" onclick="switchMode('type')">⌨️ Type</button>
+    </div>
+
+    <!-- PHOTO MODE -->
+    <div id="mode-photo">
+      <div class="photo-dropzone" id="photo-dropzone" onclick="document.getElementById('photo-input').click()">
+        <div class="photo-dropzone-icon">📸</div>
+        <h4>Snap or drop a photo of the contents</h4>
+        <p>Then edit the auto-generated list below. Doesn't need to be perfect.</p>
+        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); document.getElementById('photo-input').click()">Choose photo</button>
+        <input type="file" id="photo-input" accept="image/*" capture="environment" style="display:none" />
+      </div>
+      <div class="photo-preview" id="photo-preview">
+        <img id="photo-img" alt="Box contents" />
+        <div class="text-center">
+          <button class="btn btn-ghost btn-sm" onclick="clearPhoto()">Remove photo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VOICE MODE -->
+    <div id="mode-voice" class="hidden">
+      <div id="voice-unsupported" class="voice-unsupported hidden">
+        Your browser doesn't support voice input. Try the Photo or Type tabs — same result.
+      </div>
+      <div class="voice-panel">
+        <div class="voice-status" id="voice-status">Tap the mic and list what's going in — pause between items.</div>
+        <button class="voice-mic-btn" id="voice-mic-btn" onclick="toggleRecording()">🎙️</button>
+        <div class="voice-transcript" id="voice-transcript">Your dictated contents will appear here…</div>
+      </div>
+    </div>
+
+    <!-- TYPE MODE -->
+    <div id="mode-type" class="hidden">
+      <textarea id="type-textarea" class="type-textarea" placeholder="Spare phone charger&#10;Winter jumpers (grey, navy)&#10;Old iPhone 8&#10;Tax paperwork 2023&#10;Christmas lights"></textarea>
+      <div class="type-helper">One item per line — or use commas. We sort it out.</div>
+    </div>
+
+    <!-- CONTENTS REVIEW (shared) -->
+    <div class="contents-review" id="contents-review">
+      <h3>In this box <span class="count" id="content-count">0 items</span></h3>
+      <div class="contents-chips empty" id="contents-chips">Add something above, or type it here ↓</div>
+      <div class="add-chip-row">
+        <input type="text" id="add-chip-input" placeholder="Add another item…" onkeydown="if(event.key==='Enter'){event.preventDefault();addChipFromInput()}" />
+        <button class="btn btn-ghost btn-sm" onclick="addChipFromInput()">Add</button>
+      </div>
+    </div>
+
+    <!-- BOX META -->
+    <div class="box-meta-grid">
+      <div class="form-group">
+        <label class="form-label" for="meta-room">Room / location</label>
+        <input type="text" id="meta-room" placeholder="Spare room, loft, under the stairs…" list="room-suggestions" />
+        <datalist id="room-suggestions">
+          <option value="Bedroom"><option value="Spare room"><option value="Living room"><option value="Kitchen">
+          <option value="Loft / attic"><option value="Garage"><option value="Under the stairs"><option value="Cupboard">
+          <option value="Storage unit"><option value="Shed">
+        </datalist>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="meta-summary">Short summary <span class="form-hint">(auto-filled)</span></label>
+        <input type="text" id="meta-summary" placeholder="e.g. cables + winter stuff" />
+      </div>
+    </div>
+
+    <div class="cap-footer">
+      <span class="cap-count" id="cap-count">Box <b id="cap-next-num">01</b> · packed today</span>
+      <div class="flex gap-2">
+        <button class="btn btn-ghost" onclick="cancelCapture()">Cancel</button>
+        <button class="btn btn-primary" id="seal-btn" onclick="sealBox()" disabled>Seal this box →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOX SAVED -->
+<div id="box-saved" class="screen">
+  <div class="container-sm">
+    <div class="saved-header fade-in">
+      <div class="tick">✅</div>
+      <h2>Sealed. You'll never lose it now.</h2>
+      <p>Print this label and tape it to the outside. Or just remember the number — that works too.</p>
+    </div>
+    <div id="saved-label-container"></div>
+    <div class="saved-actions">
+      <button class="btn btn-primary" onclick="printSingleLabel()">🖨️ Print this label</button>
+      <button class="btn btn-ghost" onclick="startNewBox()">+ Log another box</button>
+      <button class="btn btn-ghost" onclick="showScreen('search')">🔎 Search my boxes</button>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div id="search" class="screen">
+  <div class="container-sm">
+    <div class="search-header">
+      <h2>Find something.</h2>
+      <p>Search across every box, every item, every room.</p>
+    </div>
+    <div class="search-bar-wrap">
+      <span class="search-icon">🔎</span>
+      <input type="text" id="search-input" class="search-bar" placeholder="e.g. spare charger, passport, winter coat…" oninput="runSearch()" autofocus />
+    </div>
+    <div id="search-results-wrap"></div>
+  </div>
+</div>
+
+<!-- ALL BOXES -->
+<div id="boxes" class="screen">
+  <div class="container">
+    <div class="boxes-header">
+      <h2>My boxes</h2>
+      <div class="flex gap-2">
+        <button class="btn btn-ghost btn-sm" onclick="showScreen('print-sheet')">🖨️ Print all labels</button>
+        <button class="btn btn-ghost btn-sm" onclick="exportManifest()">⬇ Export manifest</button>
+      </div>
+    </div>
+    <div id="boxes-list"></div>
+  </div>
+</div>
+
+<!-- BOX DETAIL -->
+<div id="box-detail" class="screen">
+  <div class="container">
+    <a class="detail-back" href="#" onclick="event.preventDefault();showScreen('boxes')">← Back to all boxes</a>
+    <div id="detail-content"></div>
+  </div>
+</div>
+
+<!-- PRINT SHEET -->
+<div id="print-sheet" class="screen">
+  <div class="container">
+    <div class="print-actions">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print</button>
+      <button class="btn btn-ghost" onclick="showScreen('boxes')">← Back to boxes</button>
+    </div>
+    <div id="print-sheet-content"></div>
+  </div>
+</div>
+
+<!-- UPGRADE MODAL -->
+<div class="modal-overlay" id="upgrade-modal" onclick="closeUpgrade(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeUpgradeBtn()">✕</button>
+    <div style="font-size:36px;margin-bottom:12px">📦</div>
+    <h2>Unlimited boxes, printable sheets, exportable manifest.</h2>
+    <p class="modal-sub">Free is for trying it out. Premium is for the person whose loft has thirty of these.</p>
+    <div class="modal-price">£4 <span>/ month · cancel anytime</span></div>
+    <ul class="modal-features">
+      <li>Unlimited boxes (free stops at 3)</li>
+      <li>Print 8 labels per A4 sheet</li>
+      <li>Export full manifest as CSV or JSON</li>
+      <li>Filter and group by room</li>
+      <li>Photo attachments saved with each box</li>
+      <li>Priority support</li>
+    </ul>
+    <button class="btn btn-primary w-full" style="padding:14px;font-size:16px" onclick="activatePremium()">Upgrade to Premium →</button>
+    <p class="modal-footer">Demo mode: clicking Upgrade activates Premium locally for this session.</p>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE MODAL -->
+<div class="modal-overlay" id="confirm-modal" onclick="closeConfirm(event)">
+  <div class="modal modal-danger">
+    <div style="font-size:36px;margin-bottom:12px">🗑️</div>
+    <h2>Delete this box?</h2>
+    <p class="modal-sub">This removes it from your search. The physical box is your problem.</p>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="closeConfirmBtn()">Keep it</button>
+      <button class="btn btn-primary" style="background:var(--red);color:white" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="disclaimer-bar">Doom Box Decoder helps you remember what you packed. It does not physically find the box for you.</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════
+const STORAGE_KEY = 'sor7ed.doombox.v1';
+const FREE_LIMIT = 3;
+
+let state = {
+  isPaid: false,
+  currentScreen: 'landing',
+  boxes: [],
+  nextNumber: 1,
+  // Capture draft
+  draft: {
+    mode: 'photo',
+    contents: [],     // array of item strings
+    photoDataUrl: null,
+    room: '',
+    summary: '',
+  },
+  // Search
+  query: '',
+  // Selected box (for detail / delete)
+  selectedBoxId: null,
+  pendingDeleteId: null,
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      state.boxes = parsed.boxes || [];
+      state.nextNumber = parsed.nextNumber || (state.boxes.length + 1);
+      state.isPaid = !!parsed.isPaid;
+    }
+  } catch (e) { console.warn('Could not load state', e); }
+  refreshFreeCounter();
+  refreshPaidBadge();
+}
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      boxes: state.boxes,
+      nextNumber: state.nextNumber,
+      isPaid: state.isPaid,
+    }));
+  } catch (e) { console.warn('Could not save state', e); }
+  refreshFreeCounter();
+}
+
+function refreshFreeCounter() {
+  const el = document.getElementById('free-counter');
+  const c = document.getElementById('free-count');
+  if (state.isPaid) { el.classList.add('hidden'); return; }
+  el.classList.remove('hidden');
+  c.textContent = state.boxes.length;
+  el.classList.toggle('full', state.boxes.length >= FREE_LIMIT);
+}
+function refreshPaidBadge() {
+  document.getElementById('paid-badge').classList.toggle('hidden', !state.isPaid);
+  document.getElementById('nav-upgrade-btn').classList.toggle('hidden', state.isPaid);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  state.currentScreen = id;
+  window.scrollTo(0, 0);
+
+  const hasBoxes = state.boxes.length > 0;
+  document.getElementById('nav-search-btn').classList.toggle('hidden', !hasBoxes);
+  document.getElementById('nav-boxes-btn').classList.toggle('hidden', !hasBoxes);
+  document.getElementById('nav-new-btn').classList.toggle('hidden', !hasBoxes || id === 'capture');
+
+  if (id === 'print-sheet' && !state.isPaid) { openUpgrade(); return; }
+  if (id === 'search') { renderSearch(); setTimeout(() => document.getElementById('search-input')?.focus(), 50); }
+  if (id === 'boxes') renderBoxes();
+  if (id === 'print-sheet') renderPrintSheet();
+  if (id === 'capture') renderCaptureNumber();
+}
+
+function startNewBox() {
+  if (!state.isPaid && state.boxes.length >= FREE_LIMIT) {
+    openUpgrade();
+    return;
+  }
+  // Reset draft
+  state.draft = { mode: 'photo', contents: [], photoDataUrl: null, room: '', summary: '' };
+  document.getElementById('type-textarea').value = '';
+  document.getElementById('meta-room').value = '';
+  document.getElementById('meta-summary').value = '';
+  document.getElementById('add-chip-input').value = '';
+  clearPhoto();
+  stopRecording();
+  document.getElementById('voice-transcript').textContent = 'Your dictated contents will appear here…';
+  document.getElementById('voice-transcript').classList.remove('has-content');
+  switchMode('photo');
+  renderChips();
+  renderCaptureNumber();
+  showScreen('capture');
+}
+
+function renderCaptureNumber() {
+  const num = String(state.nextNumber).padStart(2, '0');
+  document.getElementById('cap-next-num').textContent = num;
+}
+
+function cancelCapture() {
+  showScreen(state.boxes.length ? 'boxes' : 'landing');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// CAPTURE MODES
+// ═══════════════════════════════════════════════════════════════════
+function switchMode(mode) {
+  state.draft.mode = mode;
+  ['photo', 'voice', 'type'].forEach(m => {
+    document.getElementById('tab-' + m).classList.toggle('active', m === mode);
+    document.getElementById('mode-' + m).classList.toggle('hidden', m !== mode);
+  });
+  if (mode === 'voice') initVoice();
+}
+
+// ── PHOTO MODE ──
+document.getElementById('photo-input').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    state.draft.photoDataUrl = ev.target.result;
+    document.getElementById('photo-img').src = ev.target.result;
+    document.getElementById('photo-dropzone').style.display = 'none';
+    document.getElementById('photo-preview').classList.add('show');
+    // Seed some plausible contents from filename (so user has something to edit)
+    seedContentsFromFilename(file.name);
+    showToast('Photo added. Edit the item list below.');
+  };
+  reader.readAsDataURL(file);
+});
+
+// Drag-and-drop on the dropzone
+const dz = document.getElementById('photo-dropzone');
+['dragenter', 'dragover'].forEach(evt => dz.addEventListener(evt, e => { e.preventDefault(); dz.classList.add('dragover'); }));
+['dragleave', 'drop'].forEach(evt => dz.addEventListener(evt, e => { e.preventDefault(); dz.classList.remove('dragover'); }));
+dz.addEventListener('drop', e => {
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    document.getElementById('photo-input').files = e.dataTransfer.files;
+    document.getElementById('photo-input').dispatchEvent(new Event('change'));
+  }
+});
+
+function clearPhoto() {
+  state.draft.photoDataUrl = null;
+  document.getElementById('photo-input').value = '';
+  document.getElementById('photo-img').src = '';
+  document.getElementById('photo-dropzone').style.display = '';
+  document.getElementById('photo-preview').classList.remove('show');
+}
+
+function seedContentsFromFilename(name) {
+  // Very light heuristic — filename often contains a room or descriptor
+  const guesses = [];
+  const clean = name.toLowerCase().replace(/\.[a-z0-9]+$/, '').replace(/[_\-]+/g, ' ');
+  if (/cable|wire|charger|cord/.test(clean)) guesses.push('Cables', 'Chargers');
+  if (/winter|coat|jumper|scarf/.test(clean)) guesses.push('Winter clothes');
+  if (/tax|paperwork|document/.test(clean)) guesses.push('Paperwork');
+  if (/christmas|xmas|decoration/.test(clean)) guesses.push('Christmas decorations');
+  if (/book/.test(clean)) guesses.push('Books');
+  if (/tool/.test(clean)) guesses.push('Tools');
+  if (/kitchen/.test(clean)) guesses.push('Kitchen bits');
+  // Always append a placeholder so user knows to edit
+  if (!guesses.length) guesses.push('Item from photo (edit me)');
+  guesses.forEach(g => addContent(g, { silent: true }));
+  renderChips();
+}
+
+// ── VOICE MODE ──
+let recognition = null;
+let isRecording = false;
+let voiceBuffer = '';
+
+function initVoice() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const unsupported = document.getElementById('voice-unsupported');
+  if (!SR) {
+    unsupported.classList.remove('hidden');
+    document.getElementById('voice-mic-btn').disabled = true;
+    return;
+  }
+  unsupported.classList.add('hidden');
+  if (recognition) return;
+  recognition = new SR();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = 'en-GB';
+  recognition.onresult = (e) => {
+    let interim = '', final = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const r = e.results[i];
+      if (r.isFinal) final += r[0].transcript + ' ';
+      else interim += r[0].transcript;
+    }
+    if (final) {
+      voiceBuffer += final;
+      // Split by commas, "and", or long pauses (a period from the engine)
+      const items = voiceBuffer.split(/[,.]|\band\b/i).map(s => s.trim()).filter(s => s.length > 1);
+      // Keep the last fragment as pending (in case not finished)
+      const lastFinal = voiceBuffer.match(/[,.]|\band\b/i);
+      let pending = '';
+      if (!lastFinal) { pending = voiceBuffer.trim(); voiceBuffer = pending; }
+      else {
+        // Everything before last separator becomes items; keep tail
+        const idx = voiceBuffer.search(/[,.]|\band\b(?![^,.]*[,.])/i);
+        // Simpler: just commit everything and reset buffer
+        items.forEach(it => addContent(capitalise(it), { silent: true, dedupe: true }));
+        voiceBuffer = '';
+      }
+      renderChips();
+    }
+    document.getElementById('voice-transcript').textContent =
+      state.draft.contents.length
+        ? `Captured: ${state.draft.contents.join(' · ')}${interim ? ' … ' + interim : ''}`
+        : (interim || 'Listening…');
+    document.getElementById('voice-transcript').classList.add('has-content');
+  };
+  recognition.onerror = (e) => {
+    if (e.error === 'not-allowed') showToast('Microphone blocked. Enable it in browser settings.');
+    else if (e.error === 'no-speech') { /* silent */ }
+    else showToast('Voice error: ' + e.error);
+    stopRecording();
+  };
+  recognition.onend = () => {
+    if (isRecording) {
+      // Auto-restart while user wants it on
+      try { recognition.start(); } catch (_) {}
+    }
+  };
+}
+
+function toggleRecording() {
+  if (!recognition) return;
+  if (isRecording) stopRecording();
+  else startRecording();
+}
+function startRecording() {
+  try {
+    recognition.start();
+    isRecording = true;
+    document.getElementById('voice-mic-btn').classList.add('recording');
+    document.getElementById('voice-status').textContent = 'Listening — say each item, pause between them. Tap the mic to stop.';
+  } catch (e) { showToast('Could not start recording'); }
+}
+function stopRecording() {
+  isRecording = false;
+  if (recognition) { try { recognition.stop(); } catch (_) {} }
+  const btn = document.getElementById('voice-mic-btn');
+  if (btn) btn.classList.remove('recording');
+  const status = document.getElementById('voice-status');
+  if (status) status.textContent = 'Tap the mic and list what\'s going in — pause between items.';
+}
+function capitalise(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+// ── TYPE MODE ──
+document.getElementById('type-textarea').addEventListener('input', function() {
+  const raw = this.value;
+  // Reset draft contents from typed input each time (typing is the source of truth for this mode)
+  const items = raw.split(/[\n,]+/).map(s => s.trim()).filter(s => s.length > 0);
+  // Only replace if user is actively typing (mode is type)
+  if (state.draft.mode === 'type') {
+    state.draft.contents = items.map(capitalise);
+    renderChips();
+  }
+});
+
+// ── SHARED: contents chips ──
+function addContent(text, opts = {}) {
+  text = text.trim();
+  if (!text) return;
+  if (opts.dedupe && state.draft.contents.some(c => c.toLowerCase() === text.toLowerCase())) return;
+  state.draft.contents.push(text);
+  if (!opts.silent) renderChips();
+}
+function removeContent(idx) {
+  state.draft.contents.splice(idx, 1);
+  renderChips();
+  // If user is in Type mode, reflect the removal back into the textarea
+  if (state.draft.mode === 'type') {
+    document.getElementById('type-textarea').value = state.draft.contents.join('\n');
+  }
+}
+function addChipFromInput() {
+  const input = document.getElementById('add-chip-input');
+  const val = input.value.trim();
+  if (!val) return;
+  addContent(capitalise(val));
+  input.value = '';
+  input.focus();
+  // Reflect into type textarea if in type mode
+  if (state.draft.mode === 'type') {
+    document.getElementById('type-textarea').value = state.draft.contents.join('\n');
+  }
+}
+function renderChips() {
+  const el = document.getElementById('contents-chips');
+  const count = document.getElementById('content-count');
+  const n = state.draft.contents.length;
+  count.textContent = n === 1 ? '1 item' : n + ' items';
+  document.getElementById('seal-btn').disabled = n === 0;
+
+  if (n === 0) {
+    el.classList.add('empty');
+    el.innerHTML = 'Add something above, or type it here ↓';
+    autoFillSummary();
+    return;
+  }
+  el.classList.remove('empty');
+  el.innerHTML = state.draft.contents.map((c, i) =>
+    `<span class="content-chip">${escapeHtml(c)}<button title="Remove" onclick="removeContent(${i})">✕</button></span>`
+  ).join('');
+  autoFillSummary();
+}
+
+function autoFillSummary() {
+  const summaryInput = document.getElementById('meta-summary');
+  // Only auto-fill if user hasn't manually edited
+  if (summaryInput.dataset.manual === 'true') return;
+  const c = state.draft.contents;
+  if (c.length === 0) { summaryInput.value = ''; summaryInput.placeholder = 'e.g. cables + winter stuff'; return; }
+  if (c.length === 1) summaryInput.value = c[0];
+  else if (c.length === 2) summaryInput.value = c.join(' + ');
+  else summaryInput.value = c.slice(0, 2).join(' + ') + ` + ${c.length - 2} more`;
+}
+document.getElementById('meta-summary').addEventListener('input', function() { this.dataset.manual = 'true'; });
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// SEAL BOX
+// ═══════════════════════════════════════════════════════════════════
+function sealBox() {
+  if (state.draft.contents.length === 0) return;
+  if (!state.isPaid && state.boxes.length >= FREE_LIMIT) {
+    openUpgrade();
+    return;
+  }
+  stopRecording();
+  const box = {
+    id: 'box_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+    number: state.nextNumber,
+    room: document.getElementById('meta-room').value.trim() || 'Unspecified',
+    summary: document.getElementById('meta-summary').value.trim() || state.draft.contents.slice(0, 2).join(' + '),
+    contents: [...state.draft.contents],
+    photoDataUrl: state.isPaid ? state.draft.photoDataUrl : null, // only paid saves photos
+    createdAt: new Date().toISOString(),
+  };
+  state.boxes.push(box);
+  state.nextNumber++;
+  saveState();
+  state.selectedBoxId = box.id;
+  renderSavedLabel(box);
+  showScreen('box-saved');
+  showToast('Box ' + String(box.number).padStart(2, '0') + ' sealed.');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// LABEL RENDERING (single + sheet)
+// ═══════════════════════════════════════════════════════════════════
+function renderSavedLabel(box) {
+  document.getElementById('saved-label-container').innerHTML = buildLabelHtml(box);
+}
+
+function buildLabelHtml(box, opts = {}) {
+  const num = String(box.number).padStart(2, '0');
+  const date = new Date(box.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  const contentsPreview = box.contents.slice(0, 6).join(' · ') + (box.contents.length > 6 ? ` · +${box.contents.length - 6} more` : '');
+  const qr = buildQrPlaceholder(box.number);
+  const wrapClass = opts.sheet ? 'a4-label' : 'label-preview';
+  return `
+    <div class="${wrapClass}">
+      <div class="label-header">
+        <div>
+          <div class="label-num">${num}</div>
+          <div class="label-num-sub">Doom Box</div>
+        </div>
+        <div class="label-qr">${qr}</div>
+      </div>
+      <div class="label-summary">${escapeHtml(box.summary || 'Untitled box')}</div>
+      <div class="label-room">${escapeHtml(box.room || 'Unspecified')}</div>
+      <div class="label-contents">${escapeHtml(contentsPreview)}</div>
+      <div class="label-footer">
+        <span>Packed ${date}</span>
+        <span class="brand">SOR7ED</span>
+      </div>
+    </div>
+  `;
+}
+
+// Deterministic 8×8 "QR-style" glyph derived from box number
+// (Not a scannable QR — just a visual marker. Real product wires a QR lib.)
+function buildQrPlaceholder(seed) {
+  const size = 8;
+  const cell = 6;
+  let rng = (seed + 1) * 2654435761 >>> 0;
+  const next = () => { rng ^= rng << 13; rng ^= rng >>> 17; rng ^= rng << 5; return (rng >>> 0) / 0xffffffff; };
+  let rects = '';
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      // Force corners solid (finder-pattern feel)
+      const corner = (x < 3 && y < 3) || (x >= size - 3 && y < 3) || (x < 3 && y >= size - 3);
+      const on = corner ? ((x + y) % 2 === 0 || (x === 0 || y === 0 || x === 2 || y === 2)) : next() > .55;
+      if (on) rects += `<rect x="${x*cell}" y="${y*cell}" width="${cell}" height="${cell}" fill="#111"/>`;
+    }
+  }
+  return `<svg viewBox="0 0 ${size*cell} ${size*cell}" xmlns="http://www.w3.org/2000/svg">${rects}</svg>`;
+}
+
+function printSingleLabel() {
+  // Isolate the label for print: hide everything else via a body class
+  document.body.classList.add('printing-single');
+  const style = document.createElement('style');
+  style.id = 'print-single-style';
+  style.textContent = `@media print { body.printing-single > *:not(#box-saved) { display: none !important; } body.printing-single #box-saved .saved-header, body.printing-single #box-saved .saved-actions { display: none !important; } }`;
+  document.head.appendChild(style);
+  window.print();
+  setTimeout(() => {
+    document.body.classList.remove('printing-single');
+    document.getElementById('print-single-style')?.remove();
+  }, 500);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// SEARCH ENGINE
+// ═══════════════════════════════════════════════════════════════════
+function scoreMatch(query, box) {
+  if (!query) return { score: 0, hits: [] };
+  const q = query.toLowerCase().trim();
+  const qTokens = q.split(/\s+/).filter(Boolean);
+  let score = 0;
+  const hits = new Set();
+
+  // Item-level matches (strongest signal)
+  box.contents.forEach(item => {
+    const lo = item.toLowerCase();
+    if (lo === q) { score += 100; hits.add(item); return; }
+    if (lo.includes(q)) { score += 60; hits.add(item); return; }
+    let tokenHits = 0;
+    qTokens.forEach(t => { if (lo.includes(t)) tokenHits++; });
+    if (tokenHits === qTokens.length && qTokens.length > 1) { score += 45; hits.add(item); }
+    else if (tokenHits > 0) { score += 20 * tokenHits; hits.add(item); }
+    // Levenshtein-ish: close match on any token
+    qTokens.forEach(t => {
+      if (t.length >= 4 && levDistance(t, lo.slice(0, t.length + 2)) <= 1) { score += 10; hits.add(item); }
+    });
+  });
+  // Summary
+  const sumLo = (box.summary || '').toLowerCase();
+  if (sumLo.includes(q)) score += 25;
+  qTokens.forEach(t => { if (sumLo.includes(t)) score += 8; });
+  // Room
+  const roomLo = (box.room || '').toLowerCase();
+  if (roomLo === q) score += 30;
+  else if (roomLo.includes(q)) score += 15;
+  qTokens.forEach(t => { if (roomLo.includes(t)) score += 5; });
+  // Box number literal match
+  if (q === String(box.number) || q === String(box.number).padStart(2, '0') || q === 'box ' + box.number) score += 80;
+
+  return { score, hits: [...hits] };
+}
+
+function levDistance(a, b) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+  const dp = Array.from({length: a.length+1}, () => new Array(b.length+1).fill(0));
+  for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+  for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i-1] === b[j-1] ? 0 : 1;
+      dp[i][j] = Math.min(dp[i-1][j] + 1, dp[i][j-1] + 1, dp[i-1][j-1] + cost);
+    }
+  }
+  return dp[a.length][b.length];
+}
+
+function runSearch() {
+  state.query = document.getElementById('search-input').value;
+  renderSearchResults();
+}
+
+function renderSearch() {
+  document.getElementById('search-input').value = state.query || '';
+  renderSearchResults();
+}
+
+function renderSearchResults() {
+  const wrap = document.getElementById('search-results-wrap');
+  const q = state.query.trim();
+
+  if (state.boxes.length === 0) {
+    wrap.innerHTML = `<div class="search-empty"><div class="icon">📦</div><h3>No boxes yet</h3><p style="margin-top:6px">The moment you shove things in one, come back here.</p><div style="margin-top:16px"><button class="btn btn-primary" onclick="startNewBox()">Log your first box</button></div></div>`;
+    return;
+  }
+
+  if (!q) {
+    wrap.innerHTML = `<div class="search-empty"><div class="icon">🔎</div><p>Start typing what you're looking for.</p><p style="font-size:12px;color:var(--dim);margin-top:8px">You have <b style="color:var(--text)">${state.boxes.length}</b> box${state.boxes.length===1?'':'es'} logged, containing <b style="color:var(--text)">${state.boxes.reduce((s,b)=>s+b.contents.length,0)}</b> items.</p></div>`;
+    return;
+  }
+
+  const scored = state.boxes
+    .map(box => ({ box, ...scoreMatch(q, box) }))
+    .filter(r => r.score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  if (scored.length === 0) {
+    wrap.innerHTML = `
+      <div class="search-summary">No matches for <b>"${escapeHtml(q)}"</b> across ${state.boxes.length} box${state.boxes.length===1?'':'es'}.</div>
+      <div class="search-empty">
+        <div class="icon">🤷</div>
+        <p>Try a different word — or maybe it's not in a box at all.</p>
+      </div>`;
+    return;
+  }
+
+  const html = [`<div class="search-summary">Found <b>${scored.length}</b> match${scored.length===1?'':'es'} for <b>"${escapeHtml(q)}"</b></div>`];
+  scored.forEach(({ box, hits }) => {
+    const date = new Date(box.createdAt).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
+    const chips = box.contents.map(item =>
+      `<span class="match-chip ${hits.includes(item) ? 'hit' : ''}">${escapeHtml(item)}</span>`
+    ).join('');
+    html.push(`
+      <div class="result-card" onclick="openBox('${box.id}')">
+        <div class="result-head">
+          <div>
+            <div class="result-box-tag">Box ${String(box.number).padStart(2,'0')}</div>
+            <div class="result-summary">${escapeHtml(box.summary || 'Untitled box')}</div>
+          </div>
+          <div class="result-room">${escapeHtml(box.room || 'Unspecified')}</div>
+        </div>
+        <div class="result-matches">${chips}</div>
+        <div class="result-meta">Packed ${date} · ${box.contents.length} item${box.contents.length===1?'':'s'}</div>
+      </div>
+    `);
+  });
+  wrap.innerHTML = html.join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// ALL BOXES / DETAIL
+// ═══════════════════════════════════════════════════════════════════
+function renderBoxes() {
+  const wrap = document.getElementById('boxes-list');
+  if (state.boxes.length === 0) {
+    wrap.innerHTML = `<div class="search-empty"><div class="icon">📦</div><p>No boxes yet.</p><div style="margin-top:16px"><button class="btn btn-primary" onclick="startNewBox()">Log your first box</button></div></div>`;
+    return;
+  }
+  // Sort by newest first
+  const sorted = [...state.boxes].sort((a, b) => b.number - a.number);
+  wrap.innerHTML = `<div class="boxes-grid">` + sorted.map(box => {
+    const num = String(box.number).padStart(2, '0');
+    const date = new Date(box.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+    return `
+      <div class="box-card" onclick="openBox('${box.id}')">
+        <div class="box-card-num">${num}</div>
+        <div class="box-card-room">${escapeHtml(box.room || 'Unspecified')}</div>
+        <div class="box-card-summary">${escapeHtml(box.summary || 'Untitled')}</div>
+        <div class="box-card-meta">${box.contents.length} item${box.contents.length===1?'':'s'} · packed ${date}</div>
+      </div>
+    `;
+  }).join('') + `</div>`;
+}
+
+function openBox(id) {
+  state.selectedBoxId = id;
+  const box = state.boxes.find(b => b.id === id);
+  if (!box) return;
+  renderBoxDetail(box);
+  showScreen('box-detail');
+}
+
+function renderBoxDetail(box) {
+  const num = String(box.number).padStart(2, '0');
+  const date = new Date(box.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+  const photoBlock = box.photoDataUrl
+    ? `<img class="detail-photo" src="${box.photoDataUrl}" alt="Contents photo" />`
+    : `<div class="card" style="padding:32px;text-align:center;color:var(--dim);font-size:13px">📷 No photo saved${!state.isPaid ? ' <br><span style="font-size:11px">Upgrade to keep photos</span>' : ''}</div>`;
+
+  const contentsList = box.contents.map(c => `<li>${escapeHtml(c)}</li>`).join('');
+
+  document.getElementById('detail-content').innerHTML = `
+    <div class="detail-grid">
+      <div class="detail-side">
+        ${photoBlock}
+        ${buildLabelHtml(box)}
+      </div>
+      <div>
+        <div class="detail-info">
+          <h2>Box ${num}</h2>
+          <div class="detail-summary">${escapeHtml(box.summary || 'Untitled box')} · <span style="color:var(--dim)">${escapeHtml(box.room)}</span></div>
+          <div style="font-size:12px;color:var(--dim);margin-bottom:20px">Packed ${date}</div>
+          <div class="section-head" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">Contents (${box.contents.length})</div>
+          </div>
+          <ul class="detail-contents-list">${contentsList}</ul>
+          <div class="detail-actions">
+            <button class="btn btn-primary btn-sm" onclick="printSingleLabel()">🖨️ Print label</button>
+            <button class="btn btn-danger-ghost btn-sm" onclick="askDelete('${box.id}')">Delete box</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display:none">${buildLabelHtml(box)}</div>
+  `;
+  // For print-single: put the label inside #box-saved container so the print handler still finds it
+  document.getElementById('saved-label-container').innerHTML = buildLabelHtml(box);
+}
+
+function askDelete(id) {
+  state.pendingDeleteId = id;
+  document.getElementById('confirm-modal').classList.add('open');
+}
+function closeConfirm(e) { if (e.target.id === 'confirm-modal') closeConfirmBtn(); }
+function closeConfirmBtn() {
+  state.pendingDeleteId = null;
+  document.getElementById('confirm-modal').classList.remove('open');
+}
+function confirmDelete() {
+  state.boxes = state.boxes.filter(b => b.id !== state.pendingDeleteId);
+  saveState();
+  closeConfirmBtn();
+  showToast('Box deleted');
+  showScreen('boxes');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PRINT SHEET (paid)
+// ═══════════════════════════════════════════════════════════════════
+function renderPrintSheet() {
+  const wrap = document.getElementById('print-sheet-content');
+  if (!state.isPaid) return; // guarded upstream
+  if (state.boxes.length === 0) {
+    wrap.innerHTML = `<div class="search-empty">No boxes to print.</div>`;
+    return;
+  }
+  const sorted = [...state.boxes].sort((a, b) => a.number - b.number);
+  const labels = sorted.map(b => buildLabelHtml(b, { sheet: true })).join('');
+  wrap.innerHTML = `<div class="a4-sheet"><div class="a4-labels">${labels}</div></div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// EXPORT (paid)
+// ═══════════════════════════════════════════════════════════════════
+function exportManifest() {
+  if (!state.isPaid) { openUpgrade(); return; }
+  if (state.boxes.length === 0) { showToast('No boxes to export'); return; }
+  const rows = [['number', 'room', 'summary', 'contents', 'packed']];
+  state.boxes.forEach(b => {
+    rows.push([
+      String(b.number).padStart(2, '0'),
+      b.room,
+      b.summary,
+      b.contents.join(' | '),
+      new Date(b.createdAt).toISOString().slice(0, 10),
+    ]);
+  });
+  const csv = rows.map(r => r.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'doom-box-manifest.csv';
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 100);
+  showToast('Manifest downloaded');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// UPGRADE MODAL
+// ═══════════════════════════════════════════════════════════════════
+function openUpgrade() { document.getElementById('upgrade-modal').classList.add('open'); }
+function closeUpgrade(e) { if (e.target.id === 'upgrade-modal') closeUpgradeBtn(); }
+function closeUpgradeBtn() { document.getElementById('upgrade-modal').classList.remove('open'); }
+function activatePremium() {
+  state.isPaid = true;
+  saveState();
+  refreshPaidBadge();
+  closeUpgradeBtn();
+  showToast('Premium activated — unlimited boxes ✨');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════════════════
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// DEMO DATA
+// ═══════════════════════════════════════════════════════════════════
+function loadDemo() {
+  const today = new Date();
+  const daysAgo = n => new Date(today.getTime() - n * 86400000).toISOString();
+  const demo = [
+    { number: 1, room: 'Spare room', summary: 'Cables + old tech',
+      contents: ['Spare phone charger (iPhone)', 'USB-C cable', 'Old iPhone 8', 'Travel adapter (EU)', 'Travel adapter (US)', 'HDMI cable', 'Bluetooth headphones (broken)'],
+      createdAt: daysAgo(120) },
+    { number: 2, room: 'Loft', summary: 'Winter clothes',
+      contents: ['Wool jumper (grey)', 'Wool jumper (navy)', 'Winter coat', 'Two scarves', 'Ski gloves', 'Thermal socks'],
+      createdAt: daysAgo(210) },
+    { number: 3, room: 'Under the stairs', summary: 'Christmas decorations',
+      contents: ['Fairy lights x3', 'Tree ornaments', 'Wreath', 'Christmas cards (unwritten)', 'Stockings x4'],
+      createdAt: daysAgo(280) },
+    { number: 4, room: 'Spare room', summary: 'Paperwork + passport photos',
+      contents: ['Passport photos (Feb 2024)', 'Old tax returns 2022', 'Old tax returns 2023', 'NHS letters', 'Council tax records', 'Warranty documents'],
+      createdAt: daysAgo(60) },
+    { number: 5, room: 'Kitchen cupboard', summary: 'Rarely-used kitchen bits',
+      contents: ['Ice cream scoop', 'Melon baller', 'Springform tin', 'Pastry brush', 'Kitchen scales (backup)', 'Sushi mat'],
+      createdAt: daysAgo(30) },
+  ].map(b => ({ ...b, id: 'demo_' + b.number, photoDataUrl: null }));
+
+  state.boxes = demo;
+  state.nextNumber = demo.length + 1;
+  saveState();
+  showScreen('search');
+  showToast('Loaded 5 demo boxes — try searching "charger"');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.getElementById('upgrade-modal').classList.remove('open');
+    document.getElementById('confirm-modal').classList.remove('open');
+  }
+});
+
+loadState();
+if (state.boxes.length > 0) {
+  // If they've got boxes saved, land on search (probably why they opened it)
+  showScreen('landing');
+}
+</script>
+</body>
+</html>

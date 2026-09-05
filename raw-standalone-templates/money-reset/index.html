@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ADHD Money Reset</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0d10;
+    --bg-2: #0f1114;
+    --surface: #14171c;
+    --surface-2: #1a1e24;
+    --border: rgba(255,255,255,0.06);
+    --border-strong: rgba(255,255,255,0.10);
+    --text: #f0f0f2;
+    --text-muted: #8a8f98;
+    --text-dim: #5a6069;
+    --gold: #F5C84C;
+    --gold-soft: rgba(245,200,76,0.14);
+    --purple: #8B5CF6;
+    --purple-soft: rgba(139,92,246,0.14);
+    --green: #22c55e;
+    --orange: #f97316;
+    --red: #ef4444;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-lg: 20px;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+  code, pre, .mono { font-family: 'Geist Mono', ui-monospace, monospace; }
+  button { font-family: inherit; }
+  input, textarea, select { font-family: inherit; }
+  ::selection { background: var(--gold); color: #000; }
+  #root { min-height: 100vh; }
+  a { color: inherit; }
+
+  /* thin scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-thumb { background: #2a2f36; border-radius: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="calculations.jsx"></script>
+<script type="text/babel" src="ui-primitives.jsx"></script>
+<script type="text/babel" src="landing.jsx"></script>
+<script type="text/babel" src="form-steps.jsx"></script>
+<script type="text/babel" src="results-modules.jsx"></script>
+<script type="text/babel" src="results-dashboard.jsx"></script>
+<script type="text/babel" src="export-page.jsx"></script>
+<script type="text/babel" src="app.jsx"></script>
+</body>
+</html>
