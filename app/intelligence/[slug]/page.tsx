@@ -9,6 +9,7 @@ import { Sor7edButton } from '@/components/buttons/Sor7edButton'
 import { buildProtocolDeck } from '@/lib/protocolDeck'
 import { verifyArticleAccessToken } from '@/lib/crypto/tokens'
 import { extractArticlePreview } from '@/lib/content/articlePreview'
+import { gammaEmbedUrl } from '@/lib/content/gammaEmbed'
 import type { Protocol } from '@/lib/types/database'
 
 interface Props {
@@ -24,6 +25,7 @@ function ArticlePreview({
   category,
   coverImage,
   preview,
+  blogGammaUrl,
   isLoggedIn,
   whatsappVerified,
   isSaved,
@@ -33,10 +35,12 @@ function ArticlePreview({
   category: string
   coverImage: string | null
   preview: string
+  blogGammaUrl: string | null
   isLoggedIn: boolean
   whatsappVerified: boolean
   isSaved: boolean
 }) {
+  const gammaEmbed = gammaEmbedUrl(blogGammaUrl)
   return (
     <div className="min-h-screen bg-black text-white">
       <main className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
@@ -73,6 +77,18 @@ function ArticlePreview({
             <div className="mt-8 max-w-3xl whitespace-pre-line text-base leading-8 text-neutral-300 sm:text-lg">
               {preview}
             </div>
+
+            {gammaEmbed ? (
+              <div className="mt-10 overflow-hidden border border-white/[0.12] bg-black">
+                <iframe
+                  src={gammaEmbed}
+                  title={`${title} — presentation`}
+                  loading="lazy"
+                  allow="fullscreen"
+                  className="block h-[70vh] max-h-[720px] w-full"
+                />
+              </div>
+            ) : null}
 
             <div className="mt-10 border-t border-white/10 pt-8">
               <Sor7edButton
@@ -135,7 +151,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
 
   const { data: rawProtocol } = await supabase
     .from('protocols')
-    .select('title, summary, category, cover_image, problem, read_time, excerpt, meta_description, audio_url, protocol, slug')
+    .select('title, summary, category, cover_image, problem, read_time, excerpt, meta_description, audio_url, protocol, slug, blog_gamma_url')
     .eq('slug', slug)
     .eq('status', 'Published')
     .single()
@@ -205,6 +221,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         category={item.category}
         coverImage={item.cover_image}
         preview={preview}
+        blogGammaUrl={item.blog_gamma_url ?? null}
         isLoggedIn={isLoggedIn}
         whatsappVerified={whatsappVerified}
         isSaved={isSaved}
