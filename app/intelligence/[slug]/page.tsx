@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { cookies } from 'next/headers'
@@ -8,7 +7,6 @@ import { ProtocolDeck } from '@/components/ProtocolDeck'
 import { Sor7edButton } from '@/components/buttons/Sor7edButton'
 import { buildProtocolDeck } from '@/lib/protocolDeck'
 import { verifyArticleAccessToken } from '@/lib/crypto/tokens'
-import { extractArticlePreview } from '@/lib/content/articlePreview'
 import { gammaEmbedUrl } from '@/lib/content/gammaEmbed'
 import type { Protocol } from '@/lib/types/database'
 
@@ -18,94 +16,6 @@ interface Props {
 }
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
-
-function ArticlePreview({
-  title,
-  slug,
-  category,
-  coverImage,
-  preview,
-  blogGammaUrl,
-  isLoggedIn,
-  whatsappVerified,
-  isSaved,
-}: {
-  title: string
-  slug: string
-  category: string
-  coverImage: string | null
-  preview: string
-  blogGammaUrl: string | null
-  isLoggedIn: boolean
-  whatsappVerified: boolean
-  isSaved: boolean
-}) {
-  const gammaEmbed = gammaEmbedUrl(blogGammaUrl)
-  return (
-    <div className="min-h-screen bg-black text-white">
-      <main className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
-        <article className="relative mx-auto max-w-5xl overflow-hidden rounded-none border border-white/[0.12] bg-black">
-          {coverImage ? (
-            <div className="relative aspect-[16/6] w-full overflow-hidden sm:aspect-[16/7]">
-              <Image
-                src={coverImage}
-                alt=""
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 1024px"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-            </div>
-          ) : null}
-
-          <div className="px-6 pb-10 pt-8 sm:px-10 sm:pb-14 lg:px-14">
-            <div className="relative h-8 w-36">
-              <Image
-                src="/images/sor7ed-logo-white.png"
-                alt="SOR7ED"
-                fill
-                className="object-contain object-left"
-              />
-            </div>
-            <p className="mt-8 text-xs font-medium uppercase tracking-[0.14em] text-[#F5C518]">
-              {category}
-            </p>
-            <h1 className="font-bebas mt-4 max-w-4xl text-4xl uppercase leading-[1.15] tracking-normal text-white sm:text-5xl lg:text-6xl">
-              {title}
-            </h1>
-            <div className="mt-8 max-w-3xl whitespace-pre-line text-base leading-8 text-neutral-300 sm:text-lg">
-              {preview}
-            </div>
-
-            {gammaEmbed ? (
-              <div className="mt-10 overflow-hidden border border-white/[0.12] bg-black">
-                <iframe
-                  src={gammaEmbed}
-                  title={`${title} — presentation`}
-                  loading="lazy"
-                  allow="fullscreen"
-                  className="block h-[70vh] max-h-[720px] w-full"
-                />
-              </div>
-            ) : null}
-
-            <div className="mt-10 border-t border-white/10 pt-8">
-              <Sor7edButton
-                slug={slug}
-                context="article"
-                isLoggedIn={isLoggedIn}
-                whatsappVerified={whatsappVerified}
-                initiallySaved={isSaved}
-                size="lg"
-              />
-            </div>
-          </div>
-        </article>
-      </main>
-    </div>
-  )
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
@@ -195,8 +105,9 @@ export default async function ArticlePage({ params, searchParams }: Props) {
     isSaved = !!savedItemResult.data
   }
 
-  // The public page is a short preview. The rich link delivered through the
-  // Sorted flow mints the HMAC that unlocks the full article and protocol.
+  // The full blog post is public. The rich link delivered through the Sorted
+  // flow mints the HMAC that additionally unlocks the step-by-step protocol
+  // and the audio deep dive — those stay behind the button.
   const cookieStore = await cookies()
   const cookieToken = cookieStore.get(`sor7ed_access_${slug}`)?.value
   const queryToken = resolvedSearchParams.access_token
@@ -208,26 +119,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   const description = item.excerpt?.trim() || item.summary?.trim() || item.meta_description?.trim()
   const rawBodyText = item.problem || ''
   const actionProtocolText = item.protocol?.trim() || ''
-  const preview = extractArticlePreview(rawBodyText, description)
-
-  // Public visitors only see the clean TLDR text. Once signed in, the Sorted
-  // action appears; the presentation deck and audio only arrive through the
-  // verified link delivered by that action.
-  if (!isUnlocked) {
-    return (
-      <ArticlePreview
-        title={item.title}
-        slug={item.slug}
-        category={item.category}
-        coverImage={item.cover_image}
-        preview={preview}
-        blogGammaUrl={item.blog_gamma_url ?? null}
-        isLoggedIn={isLoggedIn}
-        whatsappVerified={whatsappVerified}
-        isSaved={isSaved}
-      />
-    )
-  }
+  const gammaEmbed = gammaEmbedUrl(item.blog_gamma_url ?? null)
 
   const { data: relatedTools } = await supabase
     .from('protocols')
@@ -241,9 +133,9 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   const relatedTool = relatedTools?.[0] ?? null
 
   // Kit-style presentation deck (black + red info sheets, matching the
-  // SOR7ED PDF system) — body slides are always built; the protocol slide
-  // is only included once unlocked, so its text never even reaches the
-  // client bundle for locked visitors.
+  // SOR7ED PDF system). The full body is public; the protocol slide is only
+  // included once unlocked, so its text never even reaches the client bundle
+  // for signed-out visitors.
   const deck = buildProtocolDeck({
     title: item.title,
     lede: description,
@@ -260,9 +152,23 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         <ProtocolDeck
           deck={deck}
           bodyText={[rawBodyText, isUnlocked ? actionProtocolText : ''].filter(Boolean).join('\n\n')}
-          audioUrl={audioUrl}
+          audioUrl={isUnlocked ? audioUrl : undefined}
           isSubscriber={isSubscriber || isUnlocked}
         />
+
+        {gammaEmbed ? (
+          <section className="mx-auto mt-6 max-w-6xl sm:mt-8">
+            <div className="overflow-hidden border border-white/[0.12] bg-black">
+              <iframe
+                src={gammaEmbed}
+                title={`${item.title} — presentation`}
+                loading="lazy"
+                allow="fullscreen"
+                className="block h-[70vh] max-h-[720px] w-full"
+              />
+            </div>
+          </section>
+        ) : null}
 
         <section className="mx-auto mt-6 max-w-6xl border-t border-neutral-900 pt-8 sm:mt-8">
           <Sor7edButton

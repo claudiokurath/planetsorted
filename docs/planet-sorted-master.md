@@ -293,7 +293,7 @@ This **sign-in + verification gate is intended** (confirmed by the founder, v0.5
 **Public detail-page layout (v0.5.0 monochrome direction — see Visual Identity):**
 - Type-led, no photographic banner. Category tag + thin large title + hairline rule.
 - Tool: title, one compact Summary, then the interactive tool (or its teaser), then the `Sor7edButton`.
-- Article: title, the public teaser (excerpt/summary), then the `Sor7edButton`. Full body + protocol unlock via the WhatsApp rich-link `access_token` (0.4.20).
+- Article: the full blog post body is public (rendered as the ProtocolDeck, plus the Blog post Gamma embed), then the `Sor7edButton`. Only the step-by-step **protocol** slide and the **audio deep dive** stay behind the WhatsApp rich-link `access_token`.
 - `components/ContentHero.tsx` (dark-overlay image banner) is superseded by this and can be retired.
 
 **Key files:**
