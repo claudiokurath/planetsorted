@@ -99,7 +99,7 @@ function PillarCard({ name, slug, body }: (typeof PILLARS)[number]) {
     >
       <div className="relative aspect-square w-32 overflow-hidden rounded-full bg-[#F5C518] ring-1 ring-white/10 sm:w-36">
         <Image
-          src={`/images/pillars/${slug}.jpg`}
+          src={`/images/pillars/${slug}.png`}
           alt={`${name} pillar`}
           fill
           sizes="144px"
