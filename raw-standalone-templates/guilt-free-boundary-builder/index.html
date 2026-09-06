@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Guilt-Free Boundary Builder — SOR7ED</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0b; --bg2: #111114; --bg3: #16161a; --bg4: #1e1e24; --border: #2a2a35;
+    --text: #f0f0f5; --muted: #9090a8; --dim: #5a5a70;
+
+    /* Boundary Builder accent = rose (sibling of yellow/teal in the toolkit) */
+    --accent: #fb7185; --accentbg: rgba(251,113,133,.12); --accentborder: rgba(251,113,133,.3);
+    --accent-hover: #fda4af;
+
+    /* Semantic colours — same across toolkit */
+    --yellow: #f5c518; --yellowbg: rgba(245,197,24,.12);
+    --green: #22c55e; --greenbg: rgba(34,197,94,.12);
+    --orange: #f97316; --orangebg: rgba(249,115,22,.12);
+    --red: #ef4444; --redbg: rgba(239,68,68,.12);
+    --blue: #60a5fa; --bluebg: rgba(96,165,250,.12);
+    --purple: #a78bfa; --purplebg: rgba(167,139,250,.12);
+
+    /* Tone-slot colours (three variants) */
+    --softer: #a78bfa; --softerbg: rgba(167,139,250,.10);
+    --neutral: #60a5fa; --neutralbg: rgba(96,165,250,.10);
+    --firmer: #fb7185; --firmerbg: rgba(251,113,133,.10);
+
+    --radius: 16px; --radius-sm: 10px;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+  button { cursor: pointer; font-family: inherit; font-size: inherit; border: none; }
+  input, textarea, select { font-family: inherit; font-size: inherit; background: var(--bg2); color: var(--text); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; width: 100%; outline: none; transition: border-color .2s; }
+  input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+  select option { background: var(--bg2); }
+  a { color: var(--accent); text-decoration: none; }
+
+  .screen { display: none; } .screen.active { display: block; }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+  .container-sm { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,11,.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .nav-brand-wrap { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .nav-brand { font-weight: 800; font-size: 16px; letter-spacing: -.3px; white-space: nowrap; }
+  .nav-brand span { color: var(--accent); }
+  .sor-mark { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--dim); border-left: 1px solid var(--border); padding-left: 10px; white-space: nowrap; }
+  .sor-mark b { color: var(--muted); }
+  .nav-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+  .badge-paid { background: var(--accentbg); color: var(--accent); border: 1px solid var(--accentborder); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: .5px; }
+  @media (max-width: 600px) { .sor-mark { display: none; } }
+
+  /* BUTTONS */
+  .btn { display: inline-flex; align-items: center; gap: 6px; border-radius: var(--radius-sm); padding: 10px 20px; font-weight: 600; transition: all .15s; }
+  .btn-primary { background: var(--accent); color: #1a0a0f; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-primary:disabled { opacity: .4; cursor: not-allowed; }
+  .btn-ghost { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--muted); }
+  .btn-sm { padding: 6px 14px; font-size: 13px; }
+
+  .card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 20px; }
+
+  /* LANDING */
+  #landing { padding-bottom: 80px; }
+  .hero { text-align: center; padding: 72px 20px 48px; }
+  .hero-pill { display: inline-block; background: var(--accentbg); border: 1px solid var(--accentborder); color: var(--accent); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 5px 16px; border-radius: 100px; margin-bottom: 24px; }
+  .hero h1 { font-size: clamp(32px, 6vw, 60px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 20px; text-wrap: balance; }
+  .hero h1 span { color: var(--accent); }
+  .hero p { font-size: 18px; color: var(--muted); max-width: 580px; margin: 0 auto 36px; text-wrap: pretty; }
+  .hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .hero-ctas .btn { padding: 14px 28px; font-size: 16px; border-radius: 12px; }
+
+  .promise-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 780px; margin: 48px auto 0; padding: 0 20px; }
+  @media (max-width: 620px) { .promise-strip { grid-template-columns: 1fr; } }
+  .promise-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .promise-card .k { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+  .promise-card .v { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .promise-card p { font-size: 13px; color: var(--muted); }
+
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 56px; }
+  .feature-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 24px; }
+  .feature-icon { font-size: 28px; margin-bottom: 12px; }
+  .feature-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .feature-card p { font-size: 13px; color: var(--muted); }
+
+  .pricing-section { margin-top: 80px; text-align: center; }
+  .pricing-section h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+  .pricing-section > p { color: var(--muted); margin-bottom: 40px; }
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 620px; margin: 0 auto; }
+  @media (max-width: 520px) { .pricing-grid { grid-template-columns: 1fr; } }
+  .plan-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 28px; text-align: left; }
+  .plan-card.featured { border-color: var(--accent); background: rgba(251,113,133,.05); }
+  .plan-name { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 8px; }
+  .plan-price { font-size: 32px; font-weight: 900; margin-bottom: 4px; }
+  .plan-price span { font-size: 16px; font-weight: 400; color: var(--muted); }
+  .plan-features { list-style: none; margin: 16px 0; }
+  .plan-features li { font-size: 13px; color: var(--muted); padding: 4px 0; }
+  .plan-features li::before { content: "✓  "; color: var(--green); }
+  .plan-features li.locked::before { content: "✕  "; color: var(--dim); }
+  .plan-features li.locked { color: var(--dim); }
+
+  /* COMPOSE (INPUT) SCREEN */
+  #compose { padding: 32px 0 100px; }
+  .compose-header { text-align: center; margin-bottom: 28px; }
+  .compose-header h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; text-wrap: balance; }
+  .compose-header p { color: var(--muted); }
+  .compose-panel { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 24px; }
+  .cx-textarea { min-height: 160px; resize: vertical; font-size: 16px; line-height: 1.6; border-radius: var(--radius-sm); padding: 16px; }
+  .cx-help { font-size: 12px; color: var(--dim); margin-top: 8px; }
+  .cx-count { font-size: 12px; color: var(--dim); }
+
+  .cx-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  @media (max-width: 620px) { .cx-row { grid-template-columns: 1fr; } }
+  .cx-group { display: flex; flex-direction: column; gap: 6px; }
+  .cx-group.full { grid-column: 1 / -1; }
+  .cx-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .cx-label .cx-optional { font-size: 10px; color: var(--dim); text-transform: none; letter-spacing: 0; font-weight: 400; }
+
+  /* Segmented pickers for relationship + channel */
+  .seg { display: flex; flex-wrap: wrap; gap: 6px; }
+  .seg-opt { padding: 8px 12px; border-radius: var(--radius-sm); background: var(--bg2); border: 1.5px solid var(--border); color: var(--muted); font-size: 13px; font-weight: 600; transition: all .15s; }
+  .seg-opt:hover { border-color: var(--muted); color: var(--text); }
+  .seg-opt.active { background: var(--accentbg); border-color: var(--accentborder); color: var(--accent); }
+
+  /* Example prompts */
+  .examples { margin-top: 20px; }
+  .examples p { font-size: 12px; color: var(--dim); margin-bottom: 8px; }
+  .example-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .example-chip { font-size: 12px; padding: 5px 12px; border-radius: 100px; background: var(--bg2); border: 1px solid var(--border); color: var(--muted); cursor: pointer; transition: all .2s; }
+  .example-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  .cx-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; flex-wrap: wrap; gap: 12px; }
+
+  /* RESULTS */
+  #results { padding: 32px 0 100px; }
+  .results-header { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .results-header h2 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+  .results-header p { color: var(--muted); font-size: 14px; max-width: 520px; }
+
+  /* Situation echo card */
+  .situation-echo { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 24px; }
+  .situation-echo .k { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+  .situation-echo .v { font-size: 14px; color: var(--text); line-height: 1.5; }
+  .situation-echo .meta { font-size: 12px; color: var(--muted); margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .meta-chip { padding: 3px 10px; border-radius: 100px; background: var(--bg2); border: 1px solid var(--border); }
+  .situation-echo .btn { padding: 4px 10px; font-size: 11px; }
+
+  /* Reassurance card (feature) */
+  .reassurance { background: linear-gradient(180deg, rgba(251,113,133,.06), transparent); border: 1.5px solid var(--accentborder); border-radius: var(--radius); padding: 20px 22px; margin-bottom: 24px; display: flex; gap: 16px; align-items: flex-start; }
+  .reassurance .icon { font-size: 24px; flex-shrink: 0; }
+  .reassurance .body { font-size: 14px; color: var(--text); line-height: 1.6; }
+  .reassurance .body b { color: var(--accent); }
+
+  /* Draft cards — three tone variants side by side (stack on mobile) */
+  .drafts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
+  @media (max-width: 900px) { .drafts-grid { grid-template-columns: 1fr; } }
+
+  .draft-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; position: relative; }
+  .draft-card.tone-softer { border-top: 3px solid var(--softer); }
+  .draft-card.tone-neutral { border-top: 3px solid var(--neutral); }
+  .draft-card.tone-firmer { border-top: 3px solid var(--firmer); }
+  .draft-card.locked { opacity: .55; }
+
+  .draft-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .tone-pill { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; padding: 3px 10px; border-radius: 100px; }
+  .tone-pill.softer { background: var(--softerbg); color: var(--softer); }
+  .tone-pill.neutral { background: var(--neutralbg); color: var(--neutral); }
+  .tone-pill.firmer { background: var(--firmerbg); color: var(--firmer); }
+  .draft-length { font-size: 11px; color: var(--dim); }
+  .draft-tag { font-size: 11px; color: var(--muted); margin-bottom: 12px; font-style: italic; }
+  .draft-body { flex: 1; background: var(--bg2); border-radius: 10px; padding: 14px; font-size: 13.5px; line-height: 1.7; color: var(--text); white-space: pre-wrap; font-family: inherit; min-height: 140px; margin-bottom: 12px; border: 1px solid var(--border); }
+  .draft-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .draft-actions .btn { padding: 6px 10px; font-size: 12px; flex: 1; min-width: 0; justify-content: center; }
+
+  .locked-overlay-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(22,22,26,.85); border-radius: var(--radius); padding: 20px; text-align: center; }
+  .locked-overlay-inner .icon { font-size: 24px; margin-bottom: 8px; }
+  .locked-overlay-inner p { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+
+  /* Anticipated pushback section */
+  .pushback-section { margin-bottom: 28px; }
+  .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .section-title { font-size: 16px; font-weight: 800; }
+  .section-count { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 100px; background: var(--bg2); color: var(--muted); }
+
+  .pushback-list { display: grid; gap: 10px; }
+  .pushback-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: 12px; padding: 16px; }
+  .pushback-q { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px; }
+  .pushback-q::before { content: "\"" ; color: var(--dim); font-size: 24px; line-height: .8; }
+  .pushback-a { font-size: 13px; color: var(--muted); line-height: 1.6; padding-left: 20px; border-left: 2px solid var(--accentborder); }
+  .pushback-a b { color: var(--text); }
+
+  /* Regenerate bar */
+  .regenerate-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 20px; padding: 12px 14px; background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); }
+  .regenerate-bar .label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-right: 4px; }
+
+  /* Locked feature overlay (full section) */
+  .upgrade-gate { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 32px; text-align: center; margin-bottom: 28px; }
+  .upgrade-gate .lock-icon { font-size: 32px; margin-bottom: 12px; }
+  .upgrade-gate h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .upgrade-gate p { color: var(--muted); font-size: 14px; max-width: 380px; margin: 0 auto 20px; }
+
+  /* LIBRARY (saved boundaries) */
+  #library { padding: 32px 0 100px; }
+  .library-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
+  .library-header h2 { font-size: 24px; font-weight: 800; }
+  .library-empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+  .library-empty .icon { font-size: 40px; margin-bottom: 12px; opacity: .6; }
+  .lib-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .lib-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 18px; cursor: pointer; transition: border-color .2s; display: flex; flex-direction: column; gap: 8px; }
+  .lib-card:hover { border-color: var(--accent); }
+  .lib-card .k { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
+  .lib-card .title { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .lib-card .meta { font-size: 11px; color: var(--dim); margin-top: auto; display: flex; justify-content: space-between; gap: 8px; }
+
+  /* MODAL */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; opacity: 0; pointer-events: none; transition: opacity .25s; }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal { background: var(--bg3); border: 1.5px solid var(--border); border-radius: 20px; padding: 32px; max-width: 480px; width: 100%; transform: translateY(16px); transition: transform .25s; position: relative; }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal h2 { font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+  .modal .modal-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+  .modal-features { list-style: none; margin-bottom: 24px; }
+  .modal-features li { font-size: 14px; padding: 6px 0; border-bottom: 1px solid var(--border); color: var(--muted); }
+  .modal-features li::before { content: "✓  "; color: var(--green); font-weight: 700; }
+  .modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; color: var(--muted); font-size: 22px; }
+  .modal-price { font-size: 28px; font-weight: 900; margin-bottom: 20px; }
+  .modal-price span { font-size: 14px; font-weight: 400; color: var(--muted); }
+  .modal-footer { font-size: 11px; color: var(--dim); text-align: center; margin-top: 12px; }
+
+  .modal-danger { text-align: center; }
+  .modal-danger .btn-row { display: flex; gap: 8px; justify-content: center; margin-top: 20px; }
+
+  /* Disclaimer + toast */
+  .disclaimer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10,10,11,.96); border-top: 1px solid var(--border); padding: 8px 16px; text-align: center; font-size: 11px; color: var(--dim); z-index: 50; }
+  .toast { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--bg4); border: 1px solid var(--border); border-radius: 100px; padding: 10px 20px; font-size: 13px; font-weight: 600; opacity: 0; transition: all .3s; pointer-events: none; z-index: 200; white-space: nowrap; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .free-counter { font-size: 11px; color: var(--muted); padding: 4px 10px; border: 1px solid var(--border); border-radius: 100px; }
+  .free-counter b { color: var(--text); }
+  .free-counter.full { color: var(--orange); border-color: rgba(249,115,22,.3); }
+
+  /* Utility */
+  .mt-4{margin-top:16px}.mt-6{margin-top:24px}.mb-4{margin-bottom:16px}.mb-6{margin-bottom:24px}
+  .flex{display:flex}.gap-2{gap:8px}.items-center{align-items:center}.justify-between{justify-content:space-between}
+  .text-muted{color:var(--muted)}.text-sm{font-size:13px}.w-full{width:100%}.text-center{text-align:center}.hidden{display:none!important}
+
+  @media print {
+    nav, .disclaimer-bar, .toast, .modal-overlay, .draft-actions, .regenerate-bar, .cx-footer, .results-header .btn { display: none !important; }
+    body { background: white; color: #111; }
+    .draft-card, .card, .pushback-card, .situation-echo, .reassurance { background: white; color: #111; border: 1px solid #ddd; box-shadow: none; }
+    .draft-body { background: #f9f9f9; color: #111; border-color: #eee; }
+    .tone-pill { border: 1px solid currentColor; }
+  }
+
+  ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeIn .4s ease forwards; }
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <div class="nav-brand-wrap">
+    <div class="nav-brand">Boundary <span>Builder</span></div>
+    <div class="sor-mark">part of <b>SOR7ED</b></div>
+  </div>
+  <div class="nav-actions">
+    <span id="free-counter" class="free-counter hidden"><b id="free-count">0</b>/3 drafts today</span>
+    <span id="paid-badge" class="badge-paid hidden">Premium</span>
+    <button class="btn btn-ghost btn-sm hidden" id="nav-library-btn" onclick="showScreen('library')">Saved</button>
+    <button class="btn btn-ghost btn-sm" onclick="loadDemo()">Demo</button>
+    <button class="btn btn-primary btn-sm" id="nav-upgrade-btn" onclick="openUpgrade()">Upgrade</button>
+    <button class="btn btn-primary btn-sm hidden" id="nav-new-btn" onclick="startNew()">+ New boundary</button>
+  </div>
+</nav>
+
+<!-- LANDING -->
+<div id="landing" class="screen active">
+  <div class="container">
+    <div class="hero">
+      <div class="hero-pill">✦ Say no without the three-paragraph apology</div>
+      <h1>The message you've been drafting for two days.<br><span>Written for you in ten seconds.</span></h1>
+      <p>Cancel plans, decline the invitation, turn down the extra project, tell them you can't lend the money. Type what's happening. Get three polished versions — softer, neutral, or firmer — ready to send.</p>
+      <div class="hero-ctas">
+        <button class="btn btn-primary" onclick="startNew()">Write a boundary →</button>
+        <button class="btn btn-ghost" onclick="loadDemo()">See an example</button>
+      </div>
+    </div>
+
+    <div class="promise-strip">
+      <div class="promise-card">
+        <div class="k">No</div>
+        <div class="v">Guilt spirals</div>
+        <p>You're not being unkind. You're being honest. That's it.</p>
+      </div>
+      <div class="promise-card">
+        <div class="k">No</div>
+        <div class="v">Over-explaining</div>
+        <p>"No" is a full sentence. We'll give you that version too.</p>
+      </div>
+      <div class="promise-card">
+        <div class="k">No</div>
+        <div class="v">Hours of drafting</div>
+        <p>Type it, tweak it, send it. The whole thing takes a minute.</p>
+      </div>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">💬</div><h3>Three tones per message</h3><p>Softer, neutral, firmer — side by side. Pick the one that fits.</p></div>
+      <div class="feature-card"><div class="feature-icon">📮</div><h3>Every channel covered</h3><p>Email, text, WhatsApp, verbal script — the length and register change.</p></div>
+      <div class="feature-card"><div class="feature-icon">🛡️</div><h3>Anticipated pushback</h3><p>What they'll probably say. What you can reply. Ready in advance.</p></div>
+      <div class="feature-card"><div class="feature-icon">🚫</div><h3>The "no explanation" version</h3><p>For the times when a full sentence is already too much.</p></div>
+      <div class="feature-card"><div class="feature-icon">💾</div><h3>Saved for reruns</h3><p>Same request from the same person? Reuse and edit in one tap.</p></div>
+      <div class="feature-card"><div class="feature-icon">🖨️</div><h3>Print or copy</h3><p>Take it into the room with you. Whatever gets you across the line.</p></div>
+    </div>
+
+    <div class="pricing-section">
+      <h2>Simple pricing</h2>
+      <p>Start free. Upgrade when you find yourself using it every week.</p>
+      <div class="pricing-grid">
+        <div class="plan-card">
+          <div class="plan-name">Free</div>
+          <div class="plan-price">£0 <span>/ forever</span></div>
+          <ul class="plan-features">
+            <li>3 boundary drafts per day</li>
+            <li>Neutral tone unlocked</li>
+            <li>Email & text channels</li>
+            <li class="locked">Softer & firmer tones</li>
+            <li class="locked">"No explanation" version</li>
+            <li class="locked">Anticipated pushback replies</li>
+            <li class="locked">Saved library</li>
+          </ul>
+          <button class="btn btn-ghost w-full" onclick="startNew()">Get started</button>
+        </div>
+        <div class="plan-card featured">
+          <div class="plan-name">Premium</div>
+          <div class="plan-price">£4 <span>/ month</span></div>
+          <ul class="plan-features">
+            <li>Unlimited drafts</li>
+            <li>All three tones (softer / neutral / firmer)</li>
+            <li>All channels (email, text, WhatsApp, verbal)</li>
+            <li>"No explanation" version</li>
+            <li>Anticipated pushback + replies</li>
+            <li>Saved library across sessions</li>
+            <li>Print & export</li>
+          </ul>
+          <button class="btn btn-primary w-full" onclick="openUpgrade()">Upgrade now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPOSE -->
+<div id="compose" class="screen">
+  <div class="container-sm">
+    <div class="compose-header">
+      <h2>What do you need to say?</h2>
+      <p>Type it as messily as it lives in your head. We'll do the rest.</p>
+    </div>
+
+    <div class="compose-panel">
+      <div class="cx-group full">
+        <label class="cx-label" for="situation">The situation <span class="cx-optional">be honest, no one else reads this</span></label>
+        <textarea id="situation" class="cx-textarea" placeholder="My sister has invited me to her hen do in Portugal in September. It's £800 minimum, I can't afford it and honestly don't want to go. She'll be upset. I've been putting off replying for a week."></textarea>
+        <div class="cx-help" id="situation-help">
+          <span id="situation-count">0 characters</span> · include who, what, and how you feel about it
+        </div>
+      </div>
+
+      <div class="cx-row">
+        <div class="cx-group">
+          <label class="cx-label">Who is this for?</label>
+          <div class="seg" id="seg-relationship" data-value="friend">
+            <button class="seg-opt" data-val="family">Family</button>
+            <button class="seg-opt active" data-val="friend">Friend</button>
+            <button class="seg-opt" data-val="partner">Partner</button>
+            <button class="seg-opt" data-val="colleague">Colleague</button>
+            <button class="seg-opt" data-val="boss">Boss</button>
+            <button class="seg-opt" data-val="client">Client</button>
+            <button class="seg-opt" data-val="acquaintance">Acquaintance</button>
+          </div>
+        </div>
+        <div class="cx-group">
+          <label class="cx-label">How are you sending it?</label>
+          <div class="seg" id="seg-channel" data-value="text">
+            <button class="seg-opt" data-val="email">📧 Email</button>
+            <button class="seg-opt active" data-val="text">💬 Text / WhatsApp</button>
+            <button class="seg-opt" data-val="verbal">🗣️ In person / call</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cx-row">
+        <div class="cx-group">
+          <label class="cx-label">Their name <span class="cx-optional">optional</span></label>
+          <input type="text" id="their-name" placeholder="Sam, Mum, Priya…" />
+        </div>
+        <div class="cx-group">
+          <label class="cx-label">Your name <span class="cx-optional">optional, for emails</span></label>
+          <input type="text" id="your-name" placeholder="How you sign off" />
+        </div>
+      </div>
+
+      <div class="examples">
+        <p>Or start from an example:</p>
+        <div class="example-chips">
+          <span class="example-chip" onclick="loadExample('expensive_invite')">Expensive invite</span>
+          <span class="example-chip" onclick="loadExample('cancel_plans')">Cancel plans</span>
+          <span class="example-chip" onclick="loadExample('extra_work')">Extra work</span>
+          <span class="example-chip" onclick="loadExample('family_obligation')">Family obligation</span>
+          <span class="example-chip" onclick="loadExample('lend_money')">Lend money</span>
+          <span class="example-chip" onclick="loadExample('unpaid_labour')">Unpaid favour</span>
+          <span class="example-chip" onclick="loadExample('reduce_contact')">Reduce contact</span>
+          <span class="example-chip" onclick="loadExample('guilt_trip')">Guilt-tripping reply</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cx-footer">
+      <button class="btn btn-ghost" onclick="cancelCompose()">Cancel</button>
+      <button class="btn btn-primary" id="generate-btn" onclick="generateDrafts()" disabled>Write my drafts →</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen">
+  <div class="container">
+    <div class="results-header fade-in">
+      <div>
+        <h2>Here's what to send.</h2>
+        <p>Three tones, ready to copy. Pick the one that fits — or use "No explanation" if you don't owe them a reason (you don't).</p>
+      </div>
+      <div class="flex gap-2">
+        <button class="btn btn-ghost btn-sm" onclick="startNew()">✎ New boundary</button>
+        <button class="btn btn-ghost btn-sm" onclick="saveDraft()">💾 Save</button>
+        <button class="btn btn-ghost btn-sm" onclick="window.print()">🖨️ Print</button>
+      </div>
+    </div>
+
+    <div id="results-content"></div>
+  </div>
+</div>
+
+<!-- LIBRARY -->
+<div id="library" class="screen">
+  <div class="container">
+    <div class="library-header">
+      <h2>Saved boundaries</h2>
+      <div class="flex gap-2">
+        <button class="btn btn-primary btn-sm" onclick="startNew()">+ New boundary</button>
+      </div>
+    </div>
+    <div id="library-content"></div>
+  </div>
+</div>
+
+<!-- UPGRADE MODAL -->
+<div class="modal-overlay" id="upgrade-modal" onclick="closeUpgrade(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeUpgradeBtn()">✕</button>
+    <div style="font-size:36px;margin-bottom:12px">🛡️</div>
+    <h2>Unlock every tone, every channel, every reply.</h2>
+    <p class="modal-sub">Free is for a nudge. Premium is for when boundaries are a regular part of your week.</p>
+    <div class="modal-price">£4 <span>/ month · cancel anytime</span></div>
+    <ul class="modal-features">
+      <li>Unlimited drafts (free stops at 3/day)</li>
+      <li>All three tones (softer / neutral / firmer)</li>
+      <li>All channels — email, text, verbal script</li>
+      <li>"No explanation" version</li>
+      <li>Anticipated pushback + ready replies</li>
+      <li>Saved library across sessions</li>
+      <li>Print & export</li>
+    </ul>
+    <button class="btn btn-primary w-full" style="padding:14px;font-size:16px" onclick="activatePremium()">Upgrade to Premium →</button>
+    <p class="modal-footer">Demo mode: clicking Upgrade activates Premium locally for this session.</p>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE -->
+<div class="modal-overlay" id="confirm-modal" onclick="closeConfirm(event)">
+  <div class="modal modal-danger">
+    <div style="font-size:36px;margin-bottom:12px">🗑️</div>
+    <h2>Delete this saved boundary?</h2>
+    <p class="modal-sub">You can always write a new one — but this exact draft is gone.</p>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="closeConfirmBtn()">Keep it</button>
+      <button class="btn btn-primary" style="background:var(--red);color:white" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="disclaimer-bar">Boundary Builder helps you find the words. It does not replace therapy or professional advice for high-risk situations.</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════
+const STORAGE_KEY = 'sor7ed.boundary.v1';
+const FREE_DAILY_LIMIT = 3;
+
+let state = {
+  isPaid: false,
+  currentScreen: 'landing',
+  saved: [],           // saved boundary objects
+  dailyCount: 0,       // free-tier draft counter (per calendar day)
+  dailyDate: null,     // ISO date of the counter
+  current: null,       // last generated boundary
+  pendingDeleteId: null,
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      state.isPaid = !!p.isPaid;
+      state.saved = p.saved || [];
+      state.dailyCount = p.dailyCount || 0;
+      state.dailyDate = p.dailyDate || null;
+    }
+  } catch (e) { console.warn('load state', e); }
+  // Reset daily counter if it's a new day
+  const today = new Date().toISOString().slice(0, 10);
+  if (state.dailyDate !== today) { state.dailyCount = 0; state.dailyDate = today; }
+  refreshFreeCounter(); refreshPaidBadge();
+}
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      isPaid: state.isPaid, saved: state.saved,
+      dailyCount: state.dailyCount, dailyDate: state.dailyDate,
+    }));
+  } catch (e) { console.warn('save state', e); }
+  refreshFreeCounter();
+}
+
+function refreshFreeCounter() {
+  const el = document.getElementById('free-counter');
+  const c = document.getElementById('free-count');
+  if (state.isPaid) { el.classList.add('hidden'); return; }
+  el.classList.remove('hidden');
+  c.textContent = state.dailyCount;
+  el.classList.toggle('full', state.dailyCount >= FREE_DAILY_LIMIT);
+}
+function refreshPaidBadge() {
+  document.getElementById('paid-badge').classList.toggle('hidden', !state.isPaid);
+  document.getElementById('nav-upgrade-btn').classList.toggle('hidden', state.isPaid);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  state.currentScreen = id;
+  window.scrollTo(0, 0);
+  const hasSaved = state.saved.length > 0;
+  document.getElementById('nav-library-btn').classList.toggle('hidden', !state.isPaid);
+  document.getElementById('nav-new-btn').classList.toggle('hidden', id === 'compose');
+  if (id === 'library') { if (!state.isPaid) { openUpgrade(); return; } renderLibrary(); }
+}
+
+function startNew() {
+  document.getElementById('situation').value = '';
+  document.getElementById('their-name').value = '';
+  document.getElementById('your-name').value = '';
+  document.getElementById('situation-count').textContent = '0 characters';
+  document.getElementById('generate-btn').disabled = true;
+  setSeg('seg-relationship', 'friend');
+  setSeg('seg-channel', 'text');
+  showScreen('compose');
+  setTimeout(() => document.getElementById('situation').focus(), 100);
+}
+function cancelCompose() { showScreen(state.saved.length && state.isPaid ? 'library' : 'landing'); }
+
+// Segmented pickers
+document.querySelectorAll('.seg').forEach(seg => {
+  seg.querySelectorAll('.seg-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      seg.querySelectorAll('.seg-opt').forEach(o => o.classList.remove('active'));
+      opt.classList.add('active');
+      seg.dataset.value = opt.dataset.val;
+    });
+  });
+});
+function setSeg(segId, val) {
+  const seg = document.getElementById(segId);
+  seg.dataset.value = val;
+  seg.querySelectorAll('.seg-opt').forEach(o => o.classList.toggle('active', o.dataset.val === val));
+}
+function getSeg(segId) { return document.getElementById(segId).dataset.value; }
+
+// Situation counter + enable/disable
+document.getElementById('situation').addEventListener('input', function() {
+  const n = this.value.trim().length;
+  document.getElementById('situation-count').textContent = n + ' characters';
+  document.getElementById('generate-btn').disabled = n < 15;
+});
+
+// ═══════════════════════════════════════════════════════════════════
+// EXAMPLES
+// ═══════════════════════════════════════════════════════════════════
+const EXAMPLES = {
+  expensive_invite: {
+    situation: "My sister has invited me to her hen do in Portugal in September. Flights, hotel, activities — it's £800 minimum. I can't afford it and honestly don't want to go. She'll be upset. I've been putting off replying for a week.",
+    relationship: 'family', channel: 'text', theirName: 'Meg',
+  },
+  cancel_plans: {
+    situation: "I made dinner plans with Priya for Saturday but I'm completely wrecked from the week and I'll be terrible company. I've cancelled on her before. I feel guilty asking again.",
+    relationship: 'friend', channel: 'text', theirName: 'Priya',
+  },
+  extra_work: {
+    situation: "My manager just messaged asking if I can take on another project on top of the two I'm already delivering. I know if I say yes I'll burn out again. Last time I said no I felt weird about it for weeks.",
+    relationship: 'boss', channel: 'text', theirName: 'Alex',
+  },
+  family_obligation: {
+    situation: "Mum is expecting me at Sunday lunch every week and it's become an obligation. I need one Sunday to myself. I don't want a big conversation about it, I just need to say I'm not coming this weekend.",
+    relationship: 'family', channel: 'text', theirName: 'Mum',
+  },
+  lend_money: {
+    situation: "My friend Jamie has asked to borrow £300 until next month. He's borrowed before and taken a long time to pay back. I can afford to lose it but I don't want to lend it again and I don't want to lie about why.",
+    relationship: 'friend', channel: 'text', theirName: 'Jamie',
+  },
+  unpaid_labour: {
+    situation: "The school PTA keeps asking me to run the summer fair again this year. I ran it the last two years and it's a huge unpaid time sink. I want to say no without it becoming a whole thing.",
+    relationship: 'acquaintance', channel: 'email', theirName: 'Sarah',
+  },
+  reduce_contact: {
+    situation: "There's a friend I've drifted from and every time we meet up I leave feeling drained. I don't want to end the friendship dramatically but I need to stop replying quickly and stop initiating.",
+    relationship: 'friend', channel: 'text', theirName: 'Chris',
+  },
+  guilt_trip: {
+    situation: "I told my mum I couldn't come to a family dinner and she replied 'That's fine, I'll just tell everyone you're too busy for family again.' I don't want to apologise but I also don't want to escalate.",
+    relationship: 'family', channel: 'text', theirName: 'Mum',
+  },
+};
+
+function loadExample(key) {
+  const ex = EXAMPLES[key];
+  document.getElementById('situation').value = ex.situation;
+  document.getElementById('their-name').value = ex.theirName || '';
+  setSeg('seg-relationship', ex.relationship);
+  setSeg('seg-channel', ex.channel);
+  document.getElementById('situation').dispatchEvent(new Event('input'));
+  document.getElementById('situation').focus();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// DRAFT GENERATOR
+// ═══════════════════════════════════════════════════════════════════
+// This is a template engine, not an LLM call — it detects the intent
+// from the situation text and slots the components together.
+// Production would call window.genspark.complete() here with a
+// structured prompt. Templates below serve as fallback + spec.
+
+// Detect intent from the situation text.
+// Order matters — first match wins. More-specific patterns MUST come before
+// broader ones (e.g. expensive_invite before lend_money, because a hen-do
+// situation naturally mentions £ amounts and would otherwise be misclassified).
+function detectIntent(text) {
+  const t = text.toLowerCase();
+  // 1. Social invitation the user can't/won't afford or attend — check first
+  //    so any "£X for the wedding / hen do / holiday" wording routes here
+  //    before hitting the lend_money check.
+  if (/hen do|stag do|wedding|birthday|christening|baby shower|invit|holiday|trip abroad|destination/.test(t)) return 'expensive_invite';
+  // 2. Lending money — require the actual lending verb, not just "money" or a price.
+  //    (Previous version matched any /£\d/ and captured all invite scenarios.)
+  if (/\b(borrow|lend|loan|pay me back|paid me back|owe me|iou)\b/.test(t)) return 'lend_money';
+  // 3. Cancelling existing plans
+  if (/cancel|not up to|too tired|exhausted|reschedul|rain check|bail on|pull out/.test(t)) return 'cancel_plans';
+  // 4. Extra work / capacity at a job
+  if (/project|task|deadline|take on|extra|another|deliver|workload|overtime/.test(t) && /(boss|manager|work|team|colleague|client|office|job)/.test(t)) return 'extra_work';
+  // 5. Recurring family obligation
+  if (/sunday lunch|family dinner|obligation|every week|every sunday|every weekend|expect(ed|s|ing)? me/.test(t)) return 'family_obligation';
+  // 6. Unpaid labour / volunteering
+  if (/pta|volunteer|help out|favour|committee|run the|organise|coordinate|host/.test(t)) return 'unpaid_labour';
+  // 7. Reducing contact with someone
+  if (/drift|drain|reduce contact|less contact|stop replying|distance|space from|scaling back/.test(t)) return 'reduce_contact';
+  // 8. Ending the relationship entirely — check before guilt_trip so "end friendship"
+  //    doesn't get caught by the broader "always/never" guilt-trip patterns.
+  if (/end (the )?friendship|end (the )?relationship|stop being friends|cut (them|him|her) off|no contact/.test(t)) return 'end_relationship';
+  // 9. Responding to a guilt-trip reply
+  if (/guilt|passive.?aggressive|manipulat|silent treatment|\balways\b|\bnever\b|too busy for|selfish/.test(t)) return 'guilt_trip';
+  return 'generic_decline';
+}
+
+// Detect whether the text expresses a wish to not explain
+function inferReason(text) {
+  const t = text.toLowerCase();
+  if (/can'?t afford|expensive|£|money|broke|skint/.test(t)) return 'financial';
+  if (/exhaust|tired|burnt out|drained|wrecked|no energy|shattered/.test(t)) return 'capacity';
+  if (/don'?t want|not up for|not into|don'?t enjoy/.test(t)) return 'preference';
+  if (/anxious|scared|overwhelm|too much/.test(t)) return 'wellbeing';
+  return 'unspecified';
+}
+
+// Salutation + sign-off per relationship + channel
+function greeting(relationship, channel, theirName) {
+  const name = theirName ? theirName : '';
+  if (channel === 'email') {
+    if (['boss', 'client', 'colleague'].includes(relationship)) return `Hi ${name || '[Name]'},`;
+    if (relationship === 'family' && !name) return `Hi,`;
+    return `Hi ${name || '[Name]'},`;
+  }
+  if (channel === 'verbal') {
+    return name ? `Hey ${name} —` : `Hey —`;
+  }
+  // text
+  return name ? `Hey ${name},` : `Hey,`;
+}
+function signoff(relationship, channel, yourName) {
+  if (channel === 'verbal') return '';
+  const name = yourName || '';
+  if (channel === 'email') {
+    if (['boss', 'client', 'colleague'].includes(relationship)) return `\n\nBest,\n${name || '[Your name]'}`;
+    return `\n\nLove,\n${name || '[Your name]'}`;
+  }
+  // text
+  return name ? `\n\nx ${name}` : `\n\nx`;
+}
+
+// Draft templates: [intent][tone] -> body function
+// tone ∈ 'softer' | 'neutral' | 'firmer'
+const TEMPLATES = {
+  expensive_invite: {
+    softer: ({name, channel}) => channel === 'verbal'
+      ? `Something I wanted to talk to you about — I've been sitting with the ${'{event}'} invite and I'm so sorry, I can't come. Money's really tight right now and I don't want to say yes and then be stressed the whole time. It's got nothing to do with wanting to be there for you — I really do. Can we plan something smaller, just us, so I can properly celebrate you?`
+      : `I've been sitting with this and I'm so sorry — I can't come to ${'{event}'}. Money's honestly tight right now and I don't want to say yes and end up stressed about it the whole time. Nothing to do with how much I love you or want to celebrate. Can we do something just the two of us instead? I really want to.`,
+    neutral: ({name, channel}) => channel === 'verbal'
+      ? `About ${'{event}'} — I'm not going to be able to come. It's out of my budget this year. I'd love to celebrate with you separately though — let's find a date.`
+      : `Thank you so much for the invite. Really honoured. I'm not going to be able to make ${'{event}'} — it's out of my budget this year. Would love to celebrate with you separately, let me know what works.`,
+    firmer: ({name, channel}) => channel === 'verbal'
+      ? `I'm not coming to ${'{event}'}. I can't afford it and I'm not going to stretch for something this size. I hope it's brilliant.`
+      : `I've thought about it and I'm not coming to ${'{event}'}. It's not in my budget and I'm not going to stretch for it. I hope you have the best time.`,
+  },
+  cancel_plans: {
+    softer: ({name, channel}) => `I'm so sorry to do this — can we push tonight/${'{day}'}? I'm running on empty and I'd be rubbish company. I really do want to see you, just not when I'm like this. Free ${'{alt}'} if that works?`,
+    neutral: ({name, channel}) => `I need to rain-check ${'{day}'}. I'm knackered from the week and won't be great company. Free ${'{alt}'} — does that work?`,
+    firmer: ({name, channel}) => `Not going to make ${'{day}'} — I need a night in. Let's find another date in a couple of weeks.`,
+  },
+  extra_work: {
+    softer: ({name, channel}) => `Thanks for thinking of me for this. I want to be honest — I'm at capacity with ${'{current}'} and I don't think I can take on another project without something slipping. Happy to talk through priorities if it's helpful, but I don't think I can add this on top.`,
+    neutral: ({name, channel}) => `Thanks for the offer. I'm going to say no on this one — I'm already delivering ${'{current}'} and adding more would put the quality at risk. Happy to revisit next quarter if it's still on the table.`,
+    firmer: ({name, channel}) => `I can't take this one on. I'm at capacity. If it needs to happen, I'd want to hand off one of my existing projects — let me know if that's an option.`,
+  },
+  family_obligation: {
+    softer: ({name, channel}) => `Just a heads-up — I won't make it this Sunday. Nothing's wrong, I just need a quiet weekend to myself. See you the Sunday after? Love you.`,
+    neutral: ({name, channel}) => `I'm not coming this Sunday — I need a weekend at home. See you next week.`,
+    firmer: ({name, channel}) => `I'm not coming Sunday. I'll see you when I next see you — likely the following week.`,
+  },
+  lend_money: {
+    softer: ({name, channel}) => `I've thought about it and I'm going to say no this time. It's not about the amount — I just need to keep money and friendship separate at the moment. I hope you find another way to bridge it, and let me know if there's anything else I can do.`,
+    neutral: ({name, channel}) => `I'm not going to lend the money this time. I know it's awkward — I just don't want money to be a thing between us. Hope you get sorted.`,
+    firmer: ({name, channel}) => `I'm not lending money at the moment. Sorry.`,
+  },
+  unpaid_labour: {
+    softer: ({name, channel}) => `Thank you so much for asking — it means a lot that you thought of me. I'm not going to be able to run it this year. It's been a lot the last two years and I need to step back. I'll cheer from the sidelines though — happy to hand over what I know to whoever picks it up.`,
+    neutral: ({name, channel}) => `Thanks for asking. I won't be running the fair this year. Happy to brief whoever takes it on, but I can't lead it again.`,
+    firmer: ({name, channel}) => `I'm not running the fair this year. Someone else will need to take it on.`,
+  },
+  reduce_contact: {
+    softer: ({name, channel}) => `Hey — I've been a bit slower to reply recently and I wanted to be honest rather than let it feel weird. I'm just at a stretched point and I'm being more careful about my energy in general. Not about you — just where I am. Hope you're doing okay.`,
+    neutral: ({name, channel}) => `Hey — quick honest note. I'm going to be slower to reply and quieter for a bit. Nothing dramatic, I'm just protecting my time. Hope things are good with you.`,
+    firmer: ({name, channel}) => `Hey — I've been meaning to say. I'm scaling back socially at the moment and I'll be quieter than usual. Hope you're well.`,
+  },
+  guilt_trip: {
+    softer: ({name, channel}) => `That's not fair. I know you're disappointed and I'm sorry it lands like that. It's not about being too busy for family — I just can't come this time. I love you and I'll see you soon.`,
+    neutral: ({name, channel}) => `I'm not going to argue about this. I can't come this time. Please don't frame it as me not caring about family — it's just one dinner.`,
+    firmer: ({name, channel}) => `I'm not engaging with that. I can't come. We can talk when it's not framed like this.`,
+  },
+  end_relationship: {
+    softer: ({name, channel}) => `I've been thinking a lot and I want to be honest with you. Our friendship hasn't been feeling good to either of us for a while and I don't think I have the energy to keep it going. I'm not angry — I just need to step back. I wish you well.`,
+    neutral: ({name, channel}) => `I don't think this friendship is working for either of us anymore. I'm going to step back. I hope you're well.`,
+    firmer: ({name, channel}) => `I'm ending contact. Please don't get in touch.`,
+  },
+  generic_decline: {
+    softer: ({name, channel}) => `Thank you so much for asking / including me — really appreciate it. I'm going to have to say no this time. It's not the right thing for me at the moment. Hope it all goes brilliantly.`,
+    neutral: ({name, channel}) => `Thanks for asking. I'm going to say no this time. Hope it goes well.`,
+    firmer: ({name, channel}) => `I can't do this. Sorry.`,
+  },
+};
+
+// "No explanation" version (paid) — universal short forms
+const NO_EXPLANATION = {
+  text: `Can't do this one — sorry.`,
+  email: `Thanks for asking, but I'm going to pass on this. All the best.`,
+  verbal: `Not this time. Thanks though.`,
+};
+
+// Anticipated pushback + replies per intent (paid)
+const PUSHBACK = {
+  expensive_invite: [
+    { q: `"But it wouldn't be the same without you."`, a: `I love that you feel that way. I'm still not coming — but I'll celebrate you separately, properly.` },
+    { q: `"Can't you just put it on a credit card?"`, a: `I've decided I'm not adding to debt for this. It's not the right choice for me right now.` },
+    { q: `"Everyone else is coming."`, a: `I understand. My answer's still the same.` },
+  ],
+  cancel_plans: [
+    { q: `"You always do this."`, a: `Fair — I know I've cancelled before. I'm sorry. Can we find another date now while I've got my calendar open?` },
+    { q: `"Can you not just push through?"`, a: `I could, but I'd be no fun and I'd regret it tomorrow. Rain check is better for both of us.` },
+  ],
+  extra_work: [
+    { q: `"Everyone's stretched — can you just fit it in?"`, a: `I hear that. I'm being straight with you — if I add this, one of the other projects slips. Which one would you like me to deprioritise?` },
+    { q: `"It's high visibility — good for your profile."`, a: `Appreciate that. My answer's the same — I don't have the capacity to do it well right now.` },
+  ],
+  family_obligation: [
+    { q: `"Everyone will be asking about you."`, a: `Tell them I said hi. I'll see them another time.` },
+    { q: `"You don't come round enough as it is."`, a: `I hear that. I'm still not coming this Sunday. Let's find a time that actually works for me too.` },
+  ],
+  lend_money: [
+    { q: `"I'll pay you back this time I promise."`, a: `I believe you. I'm still not going to lend it.` },
+    { q: `"You have it though — you said so."`, a: `Having it and lending it are different things. My answer's the same.` },
+  ],
+  unpaid_labour: [
+    { q: `"No one else knows how to do it."`, a: `I'm happy to brief whoever takes it on. I'm not going to lead it again.` },
+    { q: `"It'll fall apart without you."`, a: `Then it might need to be smaller this year. I'm not able to run it.` },
+  ],
+  reduce_contact: [
+    { q: `"Have I done something?"`, a: `No, honestly. This is about my capacity, not about you.` },
+    { q: `"You're being distant."`, a: `I am, deliberately, at the moment. I'll be back in touch when I've got more to give.` },
+  ],
+  guilt_trip: [
+    { q: `"Fine, don't come then, we're used to it."`, a: `That's not fair. I'll come when I can. I'm not going to argue about this one.` },
+    { q: `"After everything I do for you?"`, a: `I know you do a lot. This isn't about that. I still can't come this time.` },
+  ],
+  end_relationship: [
+    { q: `"Can we just talk about this?"`, a: `I've said what I need to say. I'm not going to keep going over it.` },
+  ],
+  generic_decline: [
+    { q: `"Are you sure? It's really no trouble."`, a: `I'm sure — thank you. My answer's the same.` },
+    { q: `"Why not?"`, a: `I don't owe you a reason, but the short version is: it's not right for me right now.` },
+  ],
+};
+
+// Fill placeholders with best-effort guesses from the situation
+function fillPlaceholders(body, ctx) {
+  const t = ctx.situation.toLowerCase();
+  // Event guess
+  let event = 'this';
+  if (/hen do/.test(t)) event = 'the hen do';
+  else if (/wedding/.test(t)) event = 'the wedding';
+  else if (/birthday/.test(t)) event = 'the birthday';
+  else if (/holiday|trip/.test(t)) event = 'the trip';
+  else if (/party/.test(t)) event = 'the party';
+  // Day guess
+  let day = 'the plan';
+  const dayMatch = t.match(/\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday|tonight|tomorrow|this weekend)\b/);
+  if (dayMatch) day = dayMatch[1];
+  // Alt day
+  let alt = 'next week';
+  if (day === 'this weekend' || /weekend/.test(day)) alt = 'next weekend';
+  // Current workload
+  let current = 'what I'+"'m"+' already delivering';
+  const currentMatch = t.match(/(two|three|four|the) projects?/);
+  if (currentMatch) current = currentMatch[0];
+
+  return body
+    .replace(/\{event\}/g, event)
+    .replace(/\{day\}/g, day)
+    .replace(/\{alt\}/g, alt)
+    .replace(/\{current\}/g, current);
+}
+
+function buildDraft(intent, tone, ctx) {
+  const templateFn = (TEMPLATES[intent] || TEMPLATES.generic_decline)[tone];
+  const body = fillPlaceholders(templateFn({ name: ctx.theirName, channel: ctx.channel }), ctx);
+  const greet = greeting(ctx.relationship, ctx.channel, ctx.theirName);
+  const sign = signoff(ctx.relationship, ctx.channel, ctx.yourName);
+  // Verbal script has no greet/sign in the traditional sense
+  if (ctx.channel === 'verbal') return body;
+  return `${greet}\n\n${body}${sign}`;
+}
+
+function generateDrafts() {
+  if (!state.isPaid && state.dailyCount >= FREE_DAILY_LIMIT) { openUpgrade(); return; }
+  const situation = document.getElementById('situation').value.trim();
+  if (situation.length < 15) return;
+  const relationship = getSeg('seg-relationship');
+  const channel = getSeg('seg-channel');
+  const theirName = document.getElementById('their-name').value.trim();
+  const yourName = document.getElementById('your-name').value.trim();
+
+  const intent = detectIntent(situation);
+  const reason = inferReason(situation);
+  const ctx = { situation, relationship, channel, theirName, yourName, intent, reason };
+
+  const drafts = {
+    softer: buildDraft(intent, 'softer', ctx),
+    neutral: buildDraft(intent, 'neutral', ctx),
+    firmer: buildDraft(intent, 'firmer', ctx),
+    noExplain: NO_EXPLANATION[channel],
+  };
+  const pushback = PUSHBACK[intent] || PUSHBACK.generic_decline;
+
+  state.current = { id: 'b_' + Date.now(), ctx, intent, drafts, pushback, createdAt: new Date().toISOString() };
+  if (!state.isPaid) { state.dailyCount++; saveState(); }
+  renderResults();
+  showScreen('results');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER RESULTS
+// ═══════════════════════════════════════════════════════════════════
+const INTENT_LABELS = {
+  expensive_invite: 'Declining an expensive invite',
+  cancel_plans: 'Cancelling plans',
+  extra_work: 'Turning down extra work',
+  family_obligation: 'Declining a family obligation',
+  lend_money: 'Saying no to lending money',
+  unpaid_labour: 'Declining unpaid labour',
+  reduce_contact: 'Reducing contact',
+  guilt_trip: 'Responding to guilt-tripping',
+  end_relationship: 'Ending contact',
+  generic_decline: 'Declining a request',
+};
+
+const REL_LABEL = { family: 'Family', friend: 'Friend', partner: 'Partner', colleague: 'Colleague', boss: 'Boss', client: 'Client', acquaintance: 'Acquaintance' };
+const CH_LABEL = { email: '📧 Email', text: '💬 Text', verbal: '🗣️ Verbal script' };
+
+function renderResults() {
+  const container = document.getElementById('results-content');
+  container.innerHTML = '';
+  container.appendChild(buildReassurance(state.current));
+  container.appendChild(buildSituationEcho(state.current));
+  container.appendChild(buildDraftsGrid(state.current));
+  container.appendChild(buildNoExplanation(state.current));
+  container.appendChild(buildPushback(state.current));
+}
+
+function buildReassurance(b) {
+  const div = document.createElement('div');
+  div.className = 'reassurance fade-in';
+  const bits = {
+    expensive_invite: `You're not being cheap. You're being <b>honest about what you can afford.</b>`,
+    cancel_plans: `You're not letting them down. You're <b>being honest about your capacity.</b>`,
+    extra_work: `You're not being unhelpful. You're <b>protecting the quality of your existing work.</b>`,
+    family_obligation: `You're not a bad daughter/son/sibling. You're <b>a person with limited weekends.</b>`,
+    lend_money: `Lending money is a favour, not an obligation. <b>You're allowed to say no.</b>`,
+    unpaid_labour: `Doing it twice doesn't mean you owe them a third. <b>Someone else can step up.</b>`,
+    reduce_contact: `Friendships change. Quiet stepping back is <b>a kind way to do it.</b>`,
+    guilt_trip: `You don't have to match their reaction. <b>Calm honesty ends the loop.</b>`,
+    end_relationship: `You're allowed to end things that aren't good for you. <b>You don't need permission.</b>`,
+    generic_decline: `"No" is a full sentence. <b>You don't owe them a reason.</b>`,
+  };
+  div.innerHTML = `<div class="icon">🕊️</div><div class="body">${bits[b.intent] || bits.generic_decline}</div>`;
+  return div;
+}
+
+function buildSituationEcho(b) {
+  const div = document.createElement('div');
+  div.className = 'situation-echo';
+  div.innerHTML = `
+    <div class="k"><span>The situation</span> <span style="color:var(--accent)">${INTENT_LABELS[b.intent]}</span></div>
+    <div class="v">${escapeHtml(b.ctx.situation)}</div>
+    <div class="meta">
+      <span class="meta-chip">${REL_LABEL[b.ctx.relationship]}</span>
+      <span class="meta-chip">${CH_LABEL[b.ctx.channel]}</span>
+      ${b.ctx.theirName ? `<span class="meta-chip">To: ${escapeHtml(b.ctx.theirName)}</span>` : ''}
+    </div>
+  `;
+  return div;
+}
+
+function buildDraftsGrid(b) {
+  const wrap = document.createElement('div');
+  wrap.innerHTML = `<div class="section-head"><span class="section-title">Three tones</span><span class="section-count">Pick one</span></div>`;
+  const grid = document.createElement('div');
+  grid.className = 'drafts-grid';
+
+  const tones = [
+    { key: 'softer', label: 'Softer', desc: 'Warm, considers their feelings, keeps the door open.', free: false },
+    { key: 'neutral', label: 'Neutral', desc: 'Clear, polite, no over-explaining.', free: true },
+    { key: 'firmer', label: 'Firmer', desc: 'Direct. No apology, no wiggle room.', free: false },
+  ];
+
+  tones.forEach(t => {
+    const body = b.drafts[t.key];
+    const wc = body.split(/\s+/).length;
+    const card = document.createElement('div');
+    card.className = `draft-card tone-${t.key}` + ((!state.isPaid && !t.free) ? ' locked' : '');
+    card.innerHTML = `
+      <div class="draft-head">
+        <span class="tone-pill ${t.key}">${t.label}</span>
+        <span class="draft-length">${wc} words</span>
+      </div>
+      <div class="draft-tag">${t.desc}</div>
+      <pre class="draft-body">${escapeHtml(body)}</pre>
+      <div class="draft-actions">
+        <button class="btn btn-primary" onclick="copyText(this, ${JSON.stringify(body).replace(/"/g,'&quot;')})">📋 Copy</button>
+        <button class="btn btn-ghost" onclick="regenerateTone('${t.key}')">↻ Regenerate</button>
+      </div>
+      ${(!state.isPaid && !t.free) ? `
+        <div class="locked-overlay-inner">
+          <div class="icon">🔒</div>
+          <p><b style="color:var(--text)">${t.label}</b> tone is Premium.</p>
+          <button class="btn btn-primary btn-sm" onclick="openUpgrade()">Unlock tones</button>
+        </div>` : ''}
+    `;
+    grid.appendChild(card);
+  });
+  wrap.appendChild(grid);
+  return wrap;
+}
+
+function buildNoExplanation(b) {
+  const wrap = document.createElement('div');
+  wrap.style.marginBottom = '28px';
+  wrap.innerHTML = `<div class="section-head"><span class="section-title">"No explanation" version</span><span class="section-count">For when you're done</span></div>`;
+  if (!state.isPaid) {
+    const gate = document.createElement('div'); gate.className = 'upgrade-gate';
+    gate.innerHTML = `<div class="lock-icon">🚫</div><h3>The shortest possible version</h3>
+      <p>For the times you don't owe them a reason and you're not going to invent one. Unlock with Premium.</p>
+      <button class="btn btn-primary" onclick="openUpgrade()">Unlock</button>`;
+    wrap.appendChild(gate);
+    return wrap;
+  }
+  const card = document.createElement('div');
+  card.className = 'draft-card tone-firmer';
+  card.innerHTML = `
+    <div class="draft-head">
+      <span class="tone-pill firmer">No explanation</span>
+      <span class="draft-length">${b.drafts.noExplain.split(/\s+/).length} words</span>
+    </div>
+    <div class="draft-tag">"No" is a full sentence. This is it.</div>
+    <pre class="draft-body">${escapeHtml(b.drafts.noExplain)}</pre>
+    <div class="draft-actions">
+      <button class="btn btn-primary" onclick="copyText(this, ${JSON.stringify(b.drafts.noExplain).replace(/"/g,'&quot;')})">📋 Copy</button>
+    </div>
+  `;
+  wrap.appendChild(card);
+  return wrap;
+}
+
+function buildPushback(b) {
+  const wrap = document.createElement('div');
+  wrap.className = 'pushback-section';
+  wrap.innerHTML = `<div class="section-head"><span class="section-title">What they might say back</span><span class="section-count">Ready replies</span></div>`;
+  if (!state.isPaid) {
+    const gate = document.createElement('div'); gate.className = 'upgrade-gate';
+    gate.innerHTML = `<div class="lock-icon">🛡️</div><h3>Anticipated pushback + your replies</h3>
+      <p>What they'll probably say — and exactly what you can say back. Rehearsed in advance so you don't spiral.</p>
+      <button class="btn btn-primary" onclick="openUpgrade()">Unlock replies</button>`;
+    wrap.appendChild(gate);
+    return wrap;
+  }
+  const list = document.createElement('div');
+  list.className = 'pushback-list';
+  b.pushback.forEach(p => {
+    const c = document.createElement('div');
+    c.className = 'pushback-card';
+    c.innerHTML = `
+      <div class="pushback-q">${escapeHtml(p.q.slice(1, -1))}</div>
+      <div class="pushback-a"><b>You:</b> ${escapeHtml(p.a)}</div>
+    `;
+    list.appendChild(c);
+  });
+  wrap.appendChild(list);
+  return wrap;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════════════════════════════════
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    setTimeout(() => btn.textContent = orig, 1500);
+    showToast('Copied to clipboard');
+  }).catch(() => showToast('Copy failed — try selecting the text'));
+}
+
+function regenerateTone(tone) {
+  // In the prototype, "regenerate" nudges the template with a minor variant.
+  // Production hooks window.genspark.complete() here.
+  if (!state.current) return;
+  if (!state.isPaid && tone !== 'neutral') { openUpgrade(); return; }
+  // Simple variant: swap a phrase to signal "regenerated"
+  const variants = {
+    softer: [
+      body => body.replace(/I'm so sorry/g, 'Really sorry').replace(/really/g, 'genuinely'),
+      body => body.replace(/^/, 'Hey — I want to be honest with you. '),
+      body => body.replace(/Hope /g, 'I hope '),
+    ],
+    neutral: [
+      body => body.replace(/Thanks/g, 'Thank you').replace(/Happy to/g, 'I\'m happy to'),
+      body => body.replace(/going to say no/g, 'going to have to pass'),
+    ],
+    firmer: [
+      body => body.replace(/I can't/g, 'I won\'t be able to').replace(/Sorry\.?/g, ''),
+      body => body.replace(/\bI'm\b/g, 'I am'),
+    ],
+  };
+  const v = variants[tone];
+  const fn = v[Math.floor(Math.random() * v.length)];
+  state.current.drafts[tone] = fn(state.current.drafts[tone]);
+  renderResults();
+  showToast('Regenerated');
+}
+
+function saveDraft() {
+  if (!state.isPaid) { openUpgrade(); return; }
+  if (!state.current) return;
+  // Dedupe by content
+  if (state.saved.some(s => s.id === state.current.id)) { showToast('Already saved'); return; }
+  state.saved.unshift(state.current);
+  saveState();
+  showToast('Saved to library');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// LIBRARY (paid)
+// ═══════════════════════════════════════════════════════════════════
+function renderLibrary() {
+  const wrap = document.getElementById('library-content');
+  if (state.saved.length === 0) {
+    wrap.innerHTML = `<div class="library-empty">
+      <div class="icon">💾</div>
+      <h3>No saved boundaries yet</h3>
+      <p>Save a draft after generating it and it'll show up here — great for reusing when the same request comes back.</p>
+      <div style="margin-top:16px"><button class="btn btn-primary" onclick="startNew()">Write your first</button></div>
+    </div>`;
+    return;
+  }
+  wrap.innerHTML = `<div class="lib-list">` + state.saved.map(b => {
+    const date = new Date(b.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+    const preview = b.ctx.situation.slice(0, 110) + (b.ctx.situation.length > 110 ? '…' : '');
+    return `
+      <div class="lib-card" onclick="openSaved('${b.id}')">
+        <div class="k">${INTENT_LABELS[b.intent]} · ${REL_LABEL[b.ctx.relationship]}</div>
+        <div class="title">${escapeHtml(preview)}</div>
+        <div class="meta">
+          <span>${CH_LABEL[b.ctx.channel]}${b.ctx.theirName ? ' · ' + escapeHtml(b.ctx.theirName) : ''}</span>
+          <span>Saved ${date}</span>
+        </div>
+      </div>
+    `;
+  }).join('') + `</div>`;
+}
+
+function openSaved(id) {
+  const b = state.saved.find(s => s.id === id);
+  if (!b) return;
+  state.current = b;
+  renderResults();
+  showScreen('results');
+}
+
+function askDelete(id) {
+  state.pendingDeleteId = id;
+  document.getElementById('confirm-modal').classList.add('open');
+}
+function closeConfirm(e) { if (e.target.id === 'confirm-modal') closeConfirmBtn(); }
+function closeConfirmBtn() { state.pendingDeleteId = null; document.getElementById('confirm-modal').classList.remove('open'); }
+function confirmDelete() {
+  state.saved = state.saved.filter(s => s.id !== state.pendingDeleteId);
+  saveState();
+  closeConfirmBtn();
+  showToast('Deleted');
+  renderLibrary();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// UPGRADE MODAL
+// ═══════════════════════════════════════════════════════════════════
+function openUpgrade() { document.getElementById('upgrade-modal').classList.add('open'); }
+function closeUpgrade(e) { if (e.target.id === 'upgrade-modal') closeUpgradeBtn(); }
+function closeUpgradeBtn() { document.getElementById('upgrade-modal').classList.remove('open'); }
+function activatePremium() {
+  state.isPaid = true;
+  saveState();
+  refreshPaidBadge();
+  closeUpgradeBtn();
+  // Re-render current results if we're on that screen so overlays disappear
+  if (state.currentScreen === 'results' && state.current) renderResults();
+  showToast('Premium activated — all tones unlocked ✨');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════════════════
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// DEMO
+// ═══════════════════════════════════════════════════════════════════
+function loadDemo() {
+  const ex = EXAMPLES.expensive_invite;
+  document.getElementById('situation').value = ex.situation;
+  document.getElementById('their-name').value = ex.theirName || '';
+  setSeg('seg-relationship', ex.relationship);
+  setSeg('seg-channel', ex.channel);
+  document.getElementById('situation').dispatchEvent(new Event('input'));
+  // Bypass the free counter for the demo — auto-flip paid so all sections show
+  const wasPaid = state.isPaid;
+  state.isPaid = true;
+  generateDrafts();
+  state.isPaid = wasPaid;
+  refreshPaidBadge();
+  refreshFreeCounter();
+  showToast('Demo loaded — showing full Premium result');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// UTIL
+// ═══════════════════════════════════════════════════════════════════
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.getElementById('upgrade-modal').classList.remove('open');
+    document.getElementById('confirm-modal').classList.remove('open');
+  }
+});
+
+loadState();
+</script>
+</body>
+</html>
