@@ -572,7 +572,7 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 4. **Cover images:** auto-downloaded to a content-versioned Supabase Storage path (`notion-files/covers/{slug}/{hash}.{ext}`). Replacing a Notion image creates a new public URL, so CDN and browser caches refresh reliably.
 5. Articles appear on `/intelligence/{slug}` and Tools appear on `/tools` and `/dashboard` within 5 minutes.
 6. WhatsApp keywords dynamically match `protocols.keyword` (e.g. sending `TAX`, `CLARITY`, `DOPAMINE`) and return rich link cards via `/r/{slug}`. For detailed step-by-step procedures, see [Content & Tools Workflow Runbook](docs/content-workflow-runbook.md).
-7. Every published blog post must include a `Gamma` URL. The Sorted-button delivery path shares that Gamma link with the customer.
+7. Every published blog post must include a `Protocol Gamma` URL and a `Blog post Gamma` URL. `Protocol Gamma` is the link the Sorted-button delivery path shares with the customer over WhatsApp; `Blog post Gamma` is embedded directly on the article page.
 
 ### Notion DB Property Mappings
 | Notion Property | Maps to | Notes |
@@ -587,7 +587,8 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 | Blog Post | `problem` | markdown page content |
 | CTA | `cta` | page footer action |
 | Cover Image | `cover_image` | downloaded to Supabase Storage |
-| Gamma | `gamma_url` | customer-facing Sorted-button destination; falls back to `/r/{slug}` when empty |
+| Protocol Gamma | `gamma_url` | customer-facing Sorted-button WhatsApp destination; falls back to `/r/{slug}` when empty |
+| Blog post Gamma | `blog_gamma_url` | embedded on the article page (not sent via WhatsApp) |
 | Protocol | `protocol` | WhatsApp text delivery |
 | WhatsApp Trigger | `keyword` | trigger keyword |
 | Cover Image 1 | `cover_image` | |
