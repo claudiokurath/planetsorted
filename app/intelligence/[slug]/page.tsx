@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { createServerClient, createSessionClient } from '@/lib/supabase/server'
 import { ProtocolDeck } from '@/components/ProtocolDeck'
+import { GammaEmbed } from '@/components/GammaEmbed'
 import { Sor7edButton } from '@/components/buttons/Sor7edButton'
 import { buildProtocolDeck } from '@/lib/protocolDeck'
 import { verifyArticleAccessToken } from '@/lib/crypto/tokens'
@@ -119,6 +120,9 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   const description = item.excerpt?.trim() || item.summary?.trim() || item.meta_description?.trim()
   const rawBodyText = item.problem || ''
   const actionProtocolText = item.protocol?.trim() || ''
+
+  // The "Blog post Gamma" is the website deck. When it's set it *is* the
+  // content; only fall back to the parsed ProtocolDeck when it's missing.
   const gammaEmbed = gammaEmbedUrl(item.blog_gamma_url ?? null)
 
   const { data: relatedTools } = await supabase
@@ -132,43 +136,32 @@ export default async function ArticlePage({ params, searchParams }: Props) {
 
   const relatedTool = relatedTools?.[0] ?? null
 
-  // Kit-style presentation deck (black + red info sheets, matching the
-  // SOR7ED PDF system). The full body is public; the protocol slide is only
-  // included once unlocked, so its text never even reaches the client bundle
-  // for signed-out visitors.
-  const deck = buildProtocolDeck({
-    title: item.title,
-    lede: description,
-    category: item.category,
-    readTime: item.read_time,
-    coverImage: item.cover_image,
-    body: rawBodyText,
-    protocol: isUnlocked ? actionProtocolText || null : null,
-  })
+  // Fallback deck (parsed from markdown) — only built when there is no Gamma.
+  const deck = gammaEmbed
+    ? null
+    : buildProtocolDeck({
+        title: item.title,
+        lede: description,
+        category: item.category,
+        readTime: item.read_time,
+        coverImage: item.cover_image,
+        body: rawBodyText,
+        protocol: isUnlocked ? actionProtocolText || null : null,
+      })
 
   return (
     <div className="min-h-screen bg-black text-white">
       <main className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
-        <ProtocolDeck
-          deck={deck}
-          bodyText={[rawBodyText, isUnlocked ? actionProtocolText : ''].filter(Boolean).join('\n\n')}
-          audioUrl={isUnlocked ? audioUrl : undefined}
-          isSubscriber={isSubscriber || isUnlocked}
-        />
-
         {gammaEmbed ? (
-          <section className="mx-auto mt-6 max-w-6xl sm:mt-8">
-            <div className="overflow-hidden border border-white/[0.12] bg-black">
-              <iframe
-                src={gammaEmbed}
-                title={`${item.title} — presentation`}
-                loading="lazy"
-                allow="fullscreen"
-                className="block h-[70vh] max-h-[720px] w-full"
-              />
-            </div>
-          </section>
-        ) : null}
+          <GammaEmbed src={gammaEmbed} title={`${item.title} — presentation`} />
+        ) : (
+          <ProtocolDeck
+            deck={deck!}
+            bodyText={[rawBodyText, isUnlocked ? actionProtocolText : ''].filter(Boolean).join('\n\n')}
+            audioUrl={isUnlocked ? audioUrl : undefined}
+            isSubscriber={isSubscriber || isUnlocked}
+          />
+        )}
 
         <section className="mx-auto mt-6 max-w-6xl border-t border-neutral-900 pt-8 sm:mt-8">
           <Sor7edButton

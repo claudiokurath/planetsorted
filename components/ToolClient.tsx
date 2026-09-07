@@ -1,6 +1,8 @@
 import { ContentHero } from '@/components/ContentHero'
 import { ContentCard } from '@/components/ContentCard'
+import { GammaEmbed } from '@/components/GammaEmbed'
 import { Sor7edButton } from '@/components/buttons/Sor7edButton'
+import { gammaEmbedUrl } from '@/lib/content/gammaEmbed'
 import type { Protocol } from '@/lib/types/database'
 
 type RelatedArticle = Pick<Protocol, 'slug' | 'title' | 'cover_image' | 'read_time' | 'category'>
@@ -43,6 +45,7 @@ function splitToolSummary(summary?: string | null, fallbackDescription?: string 
 
 export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySaved = false, relatedArticles = [] }: ToolClientProps) {
   const { description, explanation } = splitToolSummary(toolData.summary, toolData.meta_description)
+  const gammaEmbed = gammaEmbedUrl(toolData.blog_gamma_url ?? null)
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -55,8 +58,11 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySa
       />
 
       <main className="mx-auto max-w-5xl space-y-6 px-4 pb-20 pt-1 sm:px-6 lg:px-8">
-        {/* Explanation */}
-        {explanation && (
+        {/* The real Gamma deck is the content; the parsed explanation is the
+            fallback for tools that have no Gamma set yet. */}
+        {gammaEmbed ? (
+          <GammaEmbed src={gammaEmbed} title={`${toolData.title} — presentation`} />
+        ) : explanation ? (
           <section className="rounded-none border border-white/[0.12] bg-black px-6 py-10 sm:px-10 sm:py-12">
             <p className="inline-flex rounded border border-[#F5C518]/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-[#F5C518]">
               Step 01 — About this tool
@@ -70,7 +76,7 @@ export function ToolClient({ toolData, isLoggedIn, whatsappVerified, initiallySa
               {explanation}
             </p>
           </section>
-        )}
+        ) : null}
 
         {/* Get Sorted CTA */}
         <section className="rounded-none border border-white/[0.12] bg-black px-6 py-10 sm:px-10 sm:py-12">
