@@ -97,12 +97,12 @@ function PillarCard({ name, slug, body }: (typeof PILLARS)[number]) {
       href={`/category/${slug}`}
       className="group flex flex-col items-center gap-3 text-center transition-transform hover:-translate-y-1"
     >
-      <div className="relative aspect-square w-32 overflow-hidden rounded-full bg-[#F5C518] ring-1 ring-white/10 sm:w-36">
+      <div className="relative aspect-square w-44 overflow-hidden rounded-full bg-[#F5C518] ring-1 ring-white/10 sm:w-52">
         <Image
           src={`/images/pillars/${slug}.png`}
           alt={`${name} pillar`}
           fill
-          sizes="144px"
+          sizes="208px"
           className="object-cover"
         />
       </div>
