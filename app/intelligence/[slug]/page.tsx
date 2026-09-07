@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { cookies } from 'next/headers'
@@ -158,26 +159,24 @@ export default async function ArticlePage({ params, searchParams }: Props) {
               href={audioUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-start gap-4 border border-white/[0.12] bg-black p-6 transition-colors hover:border-[#F5C518]/50 sm:flex-row sm:items-center sm:justify-between sm:p-8"
+              className="group block overflow-hidden border border-white/[0.12] transition-colors hover:border-[#F5C518]/60"
             >
-              <div className="flex items-center gap-4">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F5C518] text-black">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M5 3l14 9-14 9V3z" />
-                  </svg>
+              <Image
+                src="/images/deepdive.png"
+                alt="Audio deep dive"
+                width={1144}
+                height={572}
+                className="w-full"
+                sizes="(max-width: 1152px) 100vw, 1152px"
+              />
+              <div className="flex items-center justify-between gap-4 bg-black px-5 py-3">
+                <span className="text-[13px] leading-relaxed text-neutral-400">
+                  A two-host conversation walking through this piece.
                 </span>
-                <div>
-                  <p className="font-bebas text-xl uppercase tracking-normal text-white sm:text-2xl">
-                    Audio deep dive
-                  </p>
-                  <p className="text-[13px] leading-relaxed text-neutral-400">
-                    A two-host conversation walking through this piece.
-                  </p>
-                </div>
+                <span className="shrink-0 text-xs font-medium uppercase tracking-[0.16em] text-[#F5C518]">
+                  Listen &rarr;
+                </span>
               </div>
-              <span className="text-xs font-medium uppercase tracking-[0.16em] text-[#F5C518]">
-                Listen &rarr;
-              </span>
             </a>
           </section>
         ) : null}
