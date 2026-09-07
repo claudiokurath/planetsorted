@@ -27,7 +27,7 @@ export default async function UpgradePage() {
       redirect('/signup')
     }
 
-    const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+    const site = process.env.SITE_URL ?? 'https://planetsorted.com'
     const priceId = process.env.STRIPE_PRICE_ID_PLUS_MONTHLY
 
     if (!priceId) {

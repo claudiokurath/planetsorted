@@ -128,7 +128,7 @@ export function SignupForm() {
     setErrorMessage('')
 
     const supabase = createBrowserClient()
-    const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+    const site = window.location.origin
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim().toLowerCase(),
       options: { emailRedirectTo: `${site}/auth/callback?next=${encodeURIComponent(nextPath)}` },

@@ -12,7 +12,7 @@ import {
 } from '@/lib/billing/credits'
 import type { Database } from '@/lib/types/database'
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
 
 const TOOL_KEYWORDS: Record<string, string> = {
   TAX: 'adhd-tax-calculator',

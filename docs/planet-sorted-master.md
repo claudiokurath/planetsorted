@@ -639,7 +639,7 @@ Wipes `saved_items`, `credits_ledger`, `entitlements`, `tool_requests` (cascadin
 - **Primary domain:** `planetsorted.com`. `sor7ed.com` → 301 permanent redirect to `planetsorted.com` (DNS/Vercel level) — this is a **flip** of the previous direction.
 - `Organization` + `WebSite` schema JSON-LD in `<head>` with `alternateName: ['sorted', 'Sorted', 'planet sorted']`.
 - Dynamic `sitemap.xml` fetching live `Published` slugs; `robots.txt` blocking `/api/`, `/dashboard`, `/signup`.
-- `metadataBase` = `NEXT_PUBLIC_SITE_URL`. Logo alt text updated to reference Planet Sorted.
+- `metadataBase` = `SITE_URL`. Logo alt text updated to reference Planet Sorted.
 
 ---
 
@@ -676,7 +676,7 @@ Wipes `saved_items`, `credits_ledger`, `entitlements`, `tool_requests` (cascadin
 | `NOTION_CRM_SECRET` | Notion CRM sync (new signups → CRM database) |
 | `NOTION_CRM_DB_ID` | Notion CRM database (`35e0d6014acc80ff8761c320c06835ee`) — optional, defaults to this ID |
 | `CRON_SECRET` | Cron route auth |
-| `NEXT_PUBLIC_SITE_URL` | Now defaults to `planetsorted.com` |
+| `SITE_URL` | Now defaults to `planetsorted.com` |
 | `NEXT_PUBLIC_WA_NUMBER` | GET IT SORTED button (wa.me links) |
 | `META_PHONE_NUMBER_ID` / `META_WHATSAPP_TOKEN` | WhatsApp send API |
 | `META_APP_SECRET` | Meta webhook `X-Hub-Signature-256` verification (required in production) |

@@ -235,7 +235,7 @@ Node version in CI: **22** (matches Dockerfile / Vercel target).
 - Production domain: **`planetsorted.com`** (+ `www` if configured → apex or vice versa; document the canonical host)
 - `sor7ed.com` remains redirect-only
 - Vercel env vars set per environment (Production / Preview / Development as needed)
-- `NEXT_PUBLIC_SITE_URL` in Production must be `https://planetsorted.com` (no trailing slash inconsistency in new code)
+- `SITE_URL` in Production must be `https://planetsorted.com` (no trailing slash inconsistency in new code)
 
 ### Crons (`vercel.json`)
 
@@ -282,10 +282,10 @@ Grouped by area. **Required in Production** unless marked optional.
 
 | Variable | Client? | Notes |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | yes | Production: `https://planetsorted.com` |
+| `SITE_URL` | yes | Production: `https://planetsorted.com` |
 | `NEXT_PUBLIC_WA_NUMBER` | yes | E.164 / wa.me builder number |
 | `NEXT_PUBLIC_API_BASE_URL` | yes | Optional legacy/alternate API base — avoid new uses |
-| `NEXT_PUBLIC_WEB_BASE_URL` | yes | Optional alternate web base — prefer `NEXT_PUBLIC_SITE_URL` |
+| `NEXT_PUBLIC_WEB_BASE_URL` | yes | Optional alternate web base — prefer `SITE_URL` |
 
 #### Supabase
 

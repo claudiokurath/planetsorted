@@ -4,7 +4,7 @@ import type { Protocol } from '@/lib/types/database'
 import { CATEGORY_LIST } from '@/lib/categoryStyles'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+  const siteUrl = process.env.SITE_URL ?? 'https://planetsorted.com'
   const supabase = createServerClient()
 
   // Fetch dynamic published protocols from Supabase

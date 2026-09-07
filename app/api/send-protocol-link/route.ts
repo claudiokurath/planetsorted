@@ -4,7 +4,7 @@ import { sendWhatsAppContentCard } from '@/lib/whatsapp/send'
 import type { User, Protocol } from '@/lib/types/database'
 import { ogImageForContent } from '@/lib/og/imageUrl'
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
 
 export async function POST(req: NextRequest) {
   try {

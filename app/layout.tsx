@@ -33,7 +33,7 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'Planet Sorted',
   description: 'Practical protocols for neurodivergent minds.',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'),
+  metadataBase: new URL(process.env.SITE_URL ?? 'https://planetsorted.com'),
 }
 
 export default function RootLayout({

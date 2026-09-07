@@ -56,7 +56,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ sent: 0, skipped: 0, message: 'No opted-in subscribers.' })
     }
 
-    const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planetsorted.com'
+    const site = process.env.SITE_URL ?? 'https://planetsorted.com'
     const linkUrl = `${site}/r/${protocol.slug}`
     // Real newlines — previous version had a double-escaped "\\n\\n" literal.
     const messageBody = `*${protocol.title}*\n\n${
