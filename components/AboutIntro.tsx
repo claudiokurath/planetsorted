@@ -106,7 +106,7 @@ function PillarCard({ name, slug, body }: (typeof PILLARS)[number]) {
           className="object-cover"
         />
       </div>
-      <span className="font-bebas text-xl uppercase tracking-normal text-white sm:text-2xl">{name}</span>
+      {/* Name is baked into the pillar artwork; alt text carries it for a11y. */}
       <span className="max-w-[15rem] text-[13px] leading-relaxed text-neutral-400">{body}</span>
     </Link>
   )
