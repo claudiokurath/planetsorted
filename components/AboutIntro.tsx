@@ -62,7 +62,7 @@ function SectionHeader({
 }) {
   const t = T[tone]
   return (
-    <div className="mb-14 flex flex-col gap-5 sm:mb-16">
+    <div className="mb-10 flex flex-col gap-4 sm:mb-12">
       <div className="flex items-baseline gap-3">
         <span className="font-bebas text-lg leading-none text-[#F5C518] sm:text-xl">{index}</span>
         <span className={`text-[10px] font-normal uppercase tracking-[0.18em] ${t.label}`}>{label}</span>
@@ -153,12 +153,9 @@ export function AboutIntro() {
         </div>
       </section>
 
-      {/* Snap section 2: How it works — inverted (off-white) for a hard visual split */}
-      <section
-        className="flex min-h-screen flex-col justify-center bg-[#F2F2F2] text-neutral-950"
-        style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
-      >
-        <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:py-24">
+      {/* Section 2: How it works — inverted (off-white) band, sized to its content */}
+      <section className="bg-[#F2F2F2] text-neutral-950">
+        <div className="mx-auto w-full max-w-6xl px-5 py-14 sm:py-16">
           <SectionHeader
             index="01"
             label="The problem we’re solving"
