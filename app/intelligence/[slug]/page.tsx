@@ -152,13 +152,43 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   return (
     <div className="min-h-screen bg-black text-white">
       <main className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
+        {audioUrl ? (
+          <section className="mx-auto mb-6 max-w-6xl sm:mb-8">
+            <a
+              href={audioUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col items-start gap-4 border border-white/[0.12] bg-black p-6 transition-colors hover:border-[#F5C518]/50 sm:flex-row sm:items-center sm:justify-between sm:p-8"
+            >
+              <div className="flex items-center gap-4">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F5C518] text-black">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M5 3l14 9-14 9V3z" />
+                  </svg>
+                </span>
+                <div>
+                  <p className="font-bebas text-xl uppercase tracking-normal text-white sm:text-2xl">
+                    Audio deep dive
+                  </p>
+                  <p className="text-[13px] leading-relaxed text-neutral-400">
+                    A two-host conversation walking through this piece.
+                  </p>
+                </div>
+              </div>
+              <span className="text-xs font-medium uppercase tracking-[0.16em] text-[#F5C518]">
+                Listen &rarr;
+              </span>
+            </a>
+          </section>
+        ) : null}
+
         {gammaEmbed ? (
           <GammaEmbed src={gammaEmbed} title={`${item.title} — presentation`} />
         ) : (
           <ProtocolDeck
             deck={deck!}
             bodyText={[rawBodyText, isUnlocked ? actionProtocolText : ''].filter(Boolean).join('\n\n')}
-            audioUrl={isUnlocked ? audioUrl : undefined}
+            audioUrl={undefined}
             isSubscriber={isSubscriber || isUnlocked}
           />
         )}
