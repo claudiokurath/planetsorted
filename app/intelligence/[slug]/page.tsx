@@ -1,19 +1,15 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { cookies } from 'next/headers'
-import { createServerClient, createSessionClient } from '@/lib/supabase/server'
+import { createServerClient } from '@/lib/supabase/server'
 import { ProtocolDeck } from '@/components/ProtocolDeck'
 import { GammaEmbed } from '@/components/GammaEmbed'
-import { Sor7edButton } from '@/components/buttons/Sor7edButton'
 import { buildProtocolDeck } from '@/lib/protocolDeck'
-import { verifyArticleAccessToken } from '@/lib/crypto/tokens'
 import { gammaEmbedUrl } from '@/lib/content/gammaEmbed'
 import type { Protocol } from '@/lib/types/database'
 
 interface Props {
   params: Promise<{ slug: string }>
-  searchParams?: Promise<{ access_token?: string }>
 }
 
 const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
@@ -55,14 +51,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ArticlePage({ params, searchParams }: Props) {
+export default async function ArticlePage({ params }: Props) {
   const { slug } = await params
-  const resolvedSearchParams = searchParams ? await searchParams : {}
   const supabase = createServerClient()
 
   const { data: rawProtocol } = await supabase
     .from('protocols')
-    .select('title, summary, category, cover_image, problem, read_time, excerpt, meta_description, audio_url, protocol, slug, blog_gamma_url')
+    .select('title, summary, category, cover_image, problem, read_time, excerpt, meta_description, protocol, slug, blog_gamma_url')
     .eq('slug', slug)
     .eq('status', 'Published')
     .single()
@@ -70,58 +65,12 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   const item = rawProtocol as Protocol | null
   if (!item) notFound()
 
-  // Check user session & subscription
-  const sessionSupabase = await createSessionClient()
-  const { data: { user } } = await sessionSupabase.auth.getUser()
-  const isLoggedIn = !!user
-  let isSubscriber = false
-  let whatsappVerified = false
-  let isSaved = false
-
-  if (user?.id) {
-    const [entitlementResult, profileResult, savedItemResult] = await Promise.all([
-      supabase
-        .from('entitlements')
-        .select('status')
-        .eq('user_id', user.id)
-        .in('status', ['active', 'trialing'])
-        .maybeSingle(),
-      supabase
-        .from('users')
-        .select('whatsapp_verified')
-        .eq('user_id', user.id)
-        .single(),
-      supabase
-        .from('saved_items')
-        .select('id')
-        .eq('user_id', user.id)
-        .like('url', `%/r/${slug}`)
-        .limit(1)
-        .maybeSingle(),
-    ])
-
-    const entitlement = entitlementResult.data
-    isSubscriber = !!entitlement
-    whatsappVerified = !!profileResult.data?.whatsapp_verified
-    isSaved = !!savedItemResult.data
-  }
-
-  // The full blog post is public. The rich link delivered through the Sorted
-  // flow mints the HMAC that additionally unlocks the step-by-step protocol
-  // and the audio deep dive — those stay behind the button.
-  const cookieStore = await cookies()
-  const cookieToken = cookieStore.get(`sor7ed_access_${slug}`)?.value
-  const queryToken = resolvedSearchParams.access_token
-  const isUnlocked =
-    verifyArticleAccessToken(slug, queryToken) ||
-    verifyArticleAccessToken(slug, cookieToken)
-
   const description = item.excerpt?.trim() || item.summary?.trim() || item.meta_description?.trim()
   const rawBodyText = item.problem || ''
   const actionProtocolText = item.protocol?.trim() || ''
 
-  // The "Blog post Gamma" is the website deck. When it's set it *is* the
-  // content; only fall back to the parsed ProtocolDeck when it's missing.
+  // The "Blog post Gamma" is the deck. When it's set it *is* the content;
+  // otherwise fall back to the parsed ProtocolDeck built from the markdown.
   const gammaEmbed = gammaEmbedUrl(item.blog_gamma_url ?? null)
 
   const { data: relatedTools } = await supabase
@@ -135,7 +84,6 @@ export default async function ArticlePage({ params, searchParams }: Props) {
 
   const relatedTool = relatedTools?.[0] ?? null
 
-  // Fallback deck (parsed from markdown) — only built when there is no Gamma.
   const deck = gammaEmbed
     ? null
     : buildProtocolDeck({
@@ -145,7 +93,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         readTime: item.read_time,
         coverImage: item.cover_image,
         body: rawBodyText,
-        protocol: isUnlocked ? actionProtocolText || null : null,
+        protocol: actionProtocolText || null,
       })
 
   return (
@@ -156,27 +104,13 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         ) : (
           <ProtocolDeck
             deck={deck!}
-            bodyText={[rawBodyText, isUnlocked ? actionProtocolText : ''].filter(Boolean).join('\n\n')}
-            isSubscriber={isSubscriber || isUnlocked}
+            bodyText={[rawBodyText, actionProtocolText].filter(Boolean).join('\n\n')}
+            isSubscriber
           />
         )}
 
-        <section className="mx-auto mt-6 flex max-w-6xl flex-col items-center gap-4 border-t border-neutral-900 pt-8 text-center sm:mt-8">
-          <p className="text-sm leading-relaxed text-neutral-400">
-            Read the piece above, then push the button to get its protocol in your WhatsApp thread.
-          </p>
-          <Sor7edButton
-            slug={item.slug}
-            context="article"
-            isLoggedIn={isLoggedIn}
-            whatsappVerified={whatsappVerified}
-            initiallySaved={isSaved}
-            size="lg"
-          />
-        </section>
-
         {relatedTool ? (
-          <section className="mx-auto mt-6 max-w-6xl sm:mt-8">
+          <section className="mx-auto mt-8 max-w-6xl text-center">
             <Link
               href={`/tools/${relatedTool.slug}`}
               className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-2 text-xs font-medium uppercase tracking-wider text-neutral-200 transition-colors hover:border-[#F5C518] hover:text-[#F5C518]"

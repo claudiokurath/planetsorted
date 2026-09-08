@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ToolClient } from '@/components/ToolClient'
-import { createServerClient, createSessionClient } from '@/lib/supabase/server'
+import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
 
 interface Props {
@@ -72,39 +72,5 @@ export default async function ToolPage({ params }: Props) {
     .order('updated_at', { ascending: false })
     .limit(3)
 
-  const sessionSupabase = await createSessionClient()
-  const { data: { session } } = await sessionSupabase.auth.getSession()
-  const isLoggedIn = !!session?.user
-  let whatsappVerified = false
-  let isSaved = false
-
-  if (session?.user?.id) {
-    const [profileResult, savedItemResult] = await Promise.all([
-      supabase
-        .from('users')
-        .select('whatsapp_verified')
-        .eq('user_id', session.user.id)
-        .single(),
-      supabase
-        .from('saved_items')
-        .select('id')
-        .eq('user_id', session.user.id)
-        .like('url', `%/r/${slug}`)
-        .limit(1)
-        .maybeSingle(),
-    ])
-
-    whatsappVerified = !!profileResult.data?.whatsapp_verified
-    isSaved = !!savedItemResult.data
-  }
-
-  return (
-    <ToolClient
-      toolData={tool as Protocol}
-      isLoggedIn={isLoggedIn}
-      whatsappVerified={whatsappVerified}
-      initiallySaved={isSaved}
-      relatedArticles={relatedArticles ?? []}
-    />
-  )
+  return <ToolClient toolData={tool as Protocol} relatedArticles={relatedArticles ?? []} />
 }
