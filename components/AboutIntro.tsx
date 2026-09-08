@@ -1,6 +1,21 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+const WHAT = [
+  {
+    head: 'Tools that do something',
+    body: 'Interactive calculators, sorters and planners — not just articles. You put something in, you get something usable out.',
+  },
+  {
+    head: 'Guides in plain language',
+    body: 'Practical write-ups on the real stuff: burnout, admin, masking, money, relationships. No jargon, no shame, no “just try harder”.',
+  },
+  {
+    head: 'Sorted by life area',
+    body: 'Everything sits under one of seven pillars. Pick the part of life you’re stuck in and start there.',
+  },
+]
+
 const PILLARS = [
   { name: 'Body', slug: 'body', body: 'Burnout, sensory load, medication, sleep, chronic pain, substance use, physical regulation.' },
   { name: 'Connection', slug: 'connection', body: 'Relationships, friendship, consent, intimacy, boundaries, shared living, communication scripts.' },
@@ -73,9 +88,42 @@ export function AboutIntro() {
         </div>
       </section>
 
+      {/* What this is */}
+      <section className="border-t border-white/10 bg-black">
+        <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:py-24">
+          <div className="mx-auto mb-12 flex max-w-3xl flex-col items-center gap-4 text-center">
+            <span className="text-[10px] font-normal uppercase tracking-[0.18em] text-neutral-500">
+              The idea
+            </span>
+            <h2 className="font-bebas text-3xl uppercase leading-[1.1] tracking-normal sm:text-4xl lg:text-5xl">
+              <span className="text-white">Support that fits </span>
+              <span className="text-neutral-500">how your brain actually works</span>
+            </h2>
+            <p className="text-sm leading-relaxed text-neutral-400 sm:text-base">
+              Most productivity and wellbeing advice assumes a brain that plans ahead, starts on time and
+              follows through. SOR7ED is for everyone else &mdash; built for ADHD, autistic and AuDHD brains,
+              in short steps, for the messy moment rather than the ideal one.
+            </p>
+          </div>
+
+          <div className="grid gap-10 sm:grid-cols-3 sm:gap-6">
+            {WHAT.map((w) => (
+              <div key={w.head} className="text-center">
+                <h3 className="font-bebas text-xl uppercase tracking-normal text-white sm:text-2xl">
+                  {w.head}
+                </h3>
+                <p className="mx-auto mt-3 max-w-xs text-[13px] leading-relaxed text-neutral-400">
+                  {w.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* 7 Pillars */}
       <section
-        className="flex min-h-screen flex-col justify-center bg-black"
+        className="flex min-h-screen flex-col justify-center border-t border-white/10 bg-black"
         style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
       >
         <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:py-24">
