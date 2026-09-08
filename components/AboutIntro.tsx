@@ -41,18 +41,16 @@ const T = {
 } satisfies Record<Tone, Record<string, string>>
 
 /**
- * Section header: a gold index number with a label, the two-tone display
- * heading, then the intro — centred to match the hero and the card grids.
+ * Section header: a small label, the two-tone display heading, then the
+ * intro — centred to match the hero and the card grids.
  */
 function SectionHeader({
-  index,
   label,
   lead,
   rest,
   tone,
   children,
 }: {
-  index: string
   label: string
   lead: string
   rest: string
@@ -62,10 +60,7 @@ function SectionHeader({
   const t = T[tone]
   return (
     <div className="mb-10 flex flex-col items-center gap-4 text-center sm:mb-12">
-      <div className="flex items-baseline gap-3">
-        <span className="font-bebas text-lg leading-none text-[#F5C518] sm:text-xl">{index}</span>
-        <span className={`text-[10px] font-normal uppercase tracking-[0.18em] ${t.label}`}>{label}</span>
-      </div>
+      <span className={`text-[10px] font-normal uppercase tracking-[0.18em] ${t.label}`}>{label}</span>
       <h2 className="font-bebas text-3xl uppercase leading-[1.1] tracking-normal sm:text-4xl lg:text-5xl">
         <span className={t.heading}>{lead} </span>
         <span className={t.headingMuted}>{rest}</span>
@@ -156,7 +151,6 @@ export function AboutIntro() {
       <section className="bg-[#F2F2F2] text-neutral-950">
         <div className="mx-auto w-full max-w-6xl px-5 py-14 sm:py-16">
           <SectionHeader
-            index="01"
             label="The problem we’re solving"
             lead="How it works."
             rest="3 steps to success"
@@ -185,7 +179,6 @@ export function AboutIntro() {
       >
         <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:py-24">
           <SectionHeader
-            index="02"
             label="Content pillars"
             lead="7 pillars."
             rest="Every part of ND adult life."
