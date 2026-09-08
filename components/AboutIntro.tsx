@@ -2,9 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const STEPS = [
-  { n: '1', head: 'Find a tool', body: 'Browse the pillars and pick the tool for the moment you’re actually in.' },
-  { n: '2', head: 'Push the button', body: 'Tap the SOR7ED button. First time: a magic-link sign-in and a one-off WhatsApp link.' },
-  { n: '3', head: 'Get the message', body: 'Your result and next step land in your WhatsApp thread — kept to come back to.' },
+  { n: '1', head: 'Find your moment', body: 'Browse the pillars and pick the tool or guide for where you actually are right now.' },
+  { n: '2', head: 'Work through it', body: 'Built for ADHD and autistic brains — short steps, plain language, no shame, made for the messy moment.' },
+  { n: '3', head: 'Leave with a next step', body: 'Every tool and guide ends with one concrete thing to do. Stop after that if you need to.' },
 ]
 
 const PILLARS = [

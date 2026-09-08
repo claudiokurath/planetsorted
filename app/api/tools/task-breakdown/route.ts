@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireUser } from '@/lib/auth/requireUser'
-import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
-import { createServerClient } from '@/lib/supabase/server'
-import type { Database } from '@/lib/types/database'
 
 export const runtime = 'nodejs'
 
@@ -11,7 +8,6 @@ export const runtime = 'nodejs'
  *
  * Accepts: { task: string; context?: string }
  * - Generates a plain-language next step via OpenAI
- * - Sends the result to the user's WhatsApp
  * - Returns the result text for the on-page confirmation screen
  */
 export async function POST(req: NextRequest) {
@@ -32,22 +28,6 @@ export async function POST(req: NextRequest) {
 
   if (!task) {
     return NextResponse.json({ error: 'task is required.' }, { status: 400 })
-  }
-
-  // ── 3. Fetch user's WhatsApp number ──────────────────────────────────────
-  const admin = createServerClient()
-  const { data: userRow } = await (admin as ReturnType<typeof createServerClient>)
-    .from('users')
-    .select('whatsapp_number')
-    .eq('user_id', auth.user.id)
-    .maybeSingle()
-
-  const waNumber = (userRow as { whatsapp_number?: string } | null)?.whatsapp_number
-  if (!waNumber) {
-    return NextResponse.json(
-      { error: 'no_whatsapp', message: 'No WhatsApp number linked to your account.' },
-      { status: 422 }
-    )
   }
 
   // ── 4. Generate breakdown via OpenAI ─────────────────────────────────────
@@ -110,18 +90,5 @@ Rules:
     return NextResponse.json({ error: 'AI returned an empty result.' }, { status: 502 })
   }
 
-  // ── 5. Send to WhatsApp ───────────────────────────────────────────────────
-  const waBody = `Planet Sorted\nYour next step\n\n${resultText}\n\nYou can stop after the first action.`
-  try {
-    await sendWhatsAppMessage(waNumber, waBody)
-  } catch (err) {
-    console.error('[task-breakdown] WhatsApp send error', err)
-    // Return the result anyway — user can read it on-page
-    return NextResponse.json(
-      { result: resultText, whatsapp: false, error: 'whatsapp_send_failed' },
-      { status: 200 }
-    )
-  }
-
-  return NextResponse.json({ result: resultText, whatsapp: true }, { status: 200 })
+  return NextResponse.json({ result: resultText }, { status: 200 })
 }

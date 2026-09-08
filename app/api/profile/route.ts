@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireUser } from '@/lib/auth/requireUser'
-import { syncUserToCrm } from '@/lib/notion/syncUserToCrm'
 
 const FIRST_NAME_MAX = 40
 const FIRST_NAME_RE = /^[\p{L}\p{N}\s'-]*$/u
@@ -44,17 +43,6 @@ export async function GET(req: NextRequest) {
         created_at: new Date().toISOString(),
       }
 
-      if (defaultProfile.email) {
-        try {
-          await syncUserToCrm({
-            firstName: defaultProfile.first_name,
-            email: defaultProfile.email,
-            source: 'Website',
-          })
-        } catch (err) {
-          console.error('[Notion CRM sync error]', err)
-        }
-      }
 
       return NextResponse.json(defaultProfile)
     }
