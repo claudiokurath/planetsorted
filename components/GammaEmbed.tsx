@@ -16,7 +16,7 @@ export function GammaEmbed({ src, title }: GammaEmbedProps) {
         title={title}
         loading="lazy"
         allow="fullscreen"
-        className="block h-[78vh] min-h-[520px] w-full"
+        className="block h-[68vh] min-h-[460px] w-full"
       />
     </div>
   )

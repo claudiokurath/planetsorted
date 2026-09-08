@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient } from '@/lib/supabase/server'
 
 const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
 
+/**
+ * The URL the WhatsApp Sorted-button card points at. It must always land the
+ * visitor on the SOR7ED page for that piece — where the Gamma deck is embedded
+ * with the Sorted button underneath — never jump straight to gamma.app, or the
+ * button they need to press for the protocol isn't there.
+ *
+ * `/r/[slug]` handles the rest: article vs tool routing, the access token, and
+ * rich OG cards for crawlers.
+ */
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
@@ -12,29 +20,6 @@ export async function GET(
 
   if (!/^[a-z0-9-]{1,100}$/.test(cleanSlug)) {
     return NextResponse.redirect(new URL('/', req.url))
-  }
-
-  const supabase = createServerClient()
-  const { data: content } = await supabase
-    .from('protocols')
-    .select('gamma_url, type')
-    .eq('slug', cleanSlug)
-    .eq('status', 'Published')
-    .maybeSingle()
-
-  const gammaUrl = content?.gamma_url?.trim()
-  if (content?.type === 'Article' && gammaUrl) {
-    try {
-      const destination = new URL(gammaUrl)
-      if (
-        destination.protocol === 'https:' &&
-        (destination.hostname === 'gamma.app' || destination.hostname.endsWith('.gamma.app'))
-      ) {
-        return NextResponse.redirect(destination)
-      }
-    } catch {
-      // Invalid or non-Gamma Notion values fall through to the safe SOR7ED URL.
-    }
   }
 
   return NextResponse.redirect(`${SITE}/r/${cleanSlug}`)

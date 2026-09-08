@@ -161,7 +161,10 @@ export default async function ArticlePage({ params, searchParams }: Props) {
           />
         )}
 
-        <section className="mx-auto mt-6 max-w-6xl border-t border-neutral-900 pt-8 sm:mt-8">
+        <section className="mx-auto mt-6 flex max-w-6xl flex-col items-center gap-4 border-t border-neutral-900 pt-8 text-center sm:mt-8">
+          <p className="text-sm leading-relaxed text-neutral-400">
+            Read the piece above, then push the button to get its protocol in your WhatsApp thread.
+          </p>
           <Sor7edButton
             slug={item.slug}
             context="article"
