@@ -1,12 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-const STEPS = [
-  { n: '1', head: 'Find a tool', body: 'Browse the pillars and pick the tool for the moment you’re actually in.' },
-  { n: '2', head: 'Push the button', body: 'Tap the SOR7ED button. First time: a magic-link sign-in and a one-off WhatsApp link.' },
-  { n: '3', head: 'Get the message', body: 'Your result and next step land in your WhatsApp thread — kept to come back to.' },
-]
-
 const PILLARS = [
   { name: 'Body', slug: 'body', body: 'Burnout, sensory load, medication, sleep, chronic pain, substance use, physical regulation.' },
   { name: 'Connection', slug: 'connection', body: 'Relationships, friendship, consent, intimacy, boundaries, shared living, communication scripts.' },
@@ -16,74 +10,6 @@ const PILLARS = [
   { name: 'Wealth', slug: 'wealth', body: 'ADHD tax, bills, debt, subscriptions, financial avoidance, money systems, admin survival.' },
   { name: 'Mind', slug: 'mind', body: 'Executive function, attention, decision fatigue, emotional regulation, RSD, anxiety, ADHD systems.' },
 ]
-
-type Tone = 'dark' | 'light'
-
-const T = {
-  dark: {
-    heading: 'text-white',
-    headingMuted: 'text-neutral-500',
-    body: 'text-neutral-400',
-    label: 'text-neutral-500',
-    hairline: 'border-white/12',
-    chipBg: 'bg-black',
-    ring: 'ring-white/12',
-  },
-  light: {
-    heading: 'text-neutral-950',
-    headingMuted: 'text-neutral-400',
-    body: 'text-neutral-600',
-    label: 'text-neutral-500',
-    hairline: 'border-black/15',
-    chipBg: 'bg-[#F2F2F2]',
-    ring: 'ring-black/15',
-  },
-} satisfies Record<Tone, Record<string, string>>
-
-/**
- * Section header: a small label, the two-tone display heading, then the
- * intro — centred to match the hero and the card grids.
- */
-function SectionHeader({
-  label,
-  lead,
-  rest,
-  tone,
-  children,
-}: {
-  label: string
-  lead: string
-  rest: string
-  tone: Tone
-  children: React.ReactNode
-}) {
-  const t = T[tone]
-  return (
-    <div className="mb-10 flex flex-col items-center gap-4 text-center sm:mb-12">
-      <span className={`text-[10px] font-normal uppercase tracking-[0.18em] ${t.label}`}>{label}</span>
-      <h2 className="font-bebas text-3xl uppercase leading-[1.1] tracking-normal sm:text-4xl lg:text-5xl">
-        <span className={t.heading}>{lead} </span>
-        <span className={t.headingMuted}>{rest}</span>
-      </h2>
-      <p className={`max-w-2xl text-sm leading-relaxed sm:text-base ${t.body}`}>{children}</p>
-    </div>
-  )
-}
-
-function StepCard({ n, head, body, tone }: (typeof STEPS)[number] & { tone: Tone }) {
-  const t = T[tone]
-  return (
-    <div className="relative flex flex-col items-center px-2 text-center">
-      <span
-        className={`relative z-10 flex h-16 w-16 items-center justify-center rounded-full font-bebas text-4xl leading-none text-[#F5C518] ring-1 sm:h-20 sm:w-20 sm:text-5xl ${t.chipBg} ${t.ring}`}
-      >
-        {n}
-      </span>
-      <h3 className={`mt-5 font-bebas text-2xl uppercase tracking-normal sm:text-3xl ${t.heading}`}>{head}</h3>
-      <p className={`mt-3 max-w-xs text-[13px] leading-relaxed ${t.body}`}>{body}</p>
-    </div>
-  )
-}
 
 function PillarCard({ name, slug, body }: (typeof PILLARS)[number]) {
   return (
@@ -109,7 +35,7 @@ function PillarCard({ name, slug, body }: (typeof PILLARS)[number]) {
 export function AboutIntro() {
   return (
     <>
-      {/* Snap section 1: Video + Hero — black */}
+      {/* Hero */}
       <section
         className="flex min-h-screen flex-col items-center justify-center bg-black px-5 py-16 sm:py-20"
         style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
@@ -126,9 +52,9 @@ export function AboutIntro() {
             Tools built for brains that work differently
           </h1>
           <p className="max-w-3xl text-base leading-relaxed text-neutral-400 sm:text-lg">
-            SOR7ED is a practical support platform for ADHD, autistic, AuDHD, dyslexic, bipolar and other
-            neurodivergent adults &mdash; combining honest editorial content with interactive tools that turn
-            overwhelming moments into real, usable outcomes.
+            SOR7ED is a practical support hub for ADHD, autistic, AuDHD, dyslexic, bipolar and other
+            neurodivergent adults &mdash; tools, protocols and plain-language guides that make everyday life
+            less overwhelming.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
@@ -147,46 +73,25 @@ export function AboutIntro() {
         </div>
       </section>
 
-      {/* Section 2: How it works — inverted (off-white) band, sized to its content */}
-      <section className="bg-[#F2F2F2] text-neutral-950">
-        <div className="mx-auto w-full max-w-6xl px-5 py-14 sm:py-16">
-          <SectionHeader
-            label="The problem we’re solving"
-            lead="How it works."
-            rest="3 steps to success"
-            tone="light"
-          >
-            Most productivity and wellbeing advice is engineered for neurotypical brains. SOR7ED is built for
-            everyone else &mdash; with tools designed to work in the <em>actual</em> moment, not the ideal one.
-          </SectionHeader>
-
-          <div className="relative grid gap-12 sm:grid-cols-3 sm:gap-6">
-            <div
-              aria-hidden
-              className="absolute left-0 right-0 top-8 hidden border-t border-black/15 sm:block sm:top-10"
-            />
-            {STEPS.map((s) => (
-              <StepCard key={s.n} tone="light" {...s} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Snap section 3: 7 Pillars — black (the photos need the dark ground) */}
+      {/* 7 Pillars */}
       <section
         className="flex min-h-screen flex-col justify-center bg-black"
         style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
       >
         <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:py-24">
-          <SectionHeader
-            label="Content pillars"
-            lead="7 pillars."
-            rest="Every part of ND adult life."
-            tone="dark"
-          >
-            SOR7ED covers the full reality of neurodivergent adult life &mdash; not just productivity hacks. Pick a
-            pillar to see its tools and guidebook protocols.
-          </SectionHeader>
+          <div className="mb-10 flex flex-col items-center gap-4 text-center sm:mb-12">
+            <span className="text-[10px] font-normal uppercase tracking-[0.18em] text-neutral-500">
+              Content pillars
+            </span>
+            <h2 className="font-bebas text-3xl uppercase leading-[1.1] tracking-normal sm:text-4xl lg:text-5xl">
+              <span className="text-white">7 pillars. </span>
+              <span className="text-neutral-500">Every part of ND adult life.</span>
+            </h2>
+            <p className="max-w-2xl text-sm leading-relaxed text-neutral-400 sm:text-base">
+              SOR7ED covers the full reality of neurodivergent adult life &mdash; not just productivity hacks.
+              Pick a pillar to see its tools and guides.
+            </p>
+          </div>
 
           <div className="grid justify-items-center gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
             {PILLARS.slice(0, 4).map((p) => (
