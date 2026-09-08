@@ -94,7 +94,7 @@
 | Website, tools, intelligence, dashboard, WA webhook, Stripe, crons | **Canonical repo** (`planetsorted`) |
 | Product rules / brand / schema narrative | `docs/planet-sorted-master.md` |
 | Content authoring workflow | `docs/content-workflow-runbook.md` + Notion CMS |
-| Partner embed widget | `public/widget.js` + `/api/widget-config` (same repo) |
+| Partner embed widget | **moved out** — now its own repo (`sor7ed-button`) |
 | Shared tooling / future monorepo packages | Consolidated repo **only after** promotion |
 
 ### 🏷️ Domains & brand (non-negotiable)
