@@ -10,7 +10,7 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
 
 export function generateStaticParams() {
   return CATEGORY_LIST.map((c) => ({ slug: c.slug }))

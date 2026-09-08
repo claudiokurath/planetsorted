@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const row = data as Pick<SavedItem, 'title' | 'category' | 'url'> | null
   if (!row) return {}
 
-  const site = process.env.SITE_URL ?? 'https://planetsorted.com'
+  const site = process.env.SITE_URL ?? 'https://www.sor7ed.com'
   const title = row.title ?? 'Saved Item — PLANET SOR7ED'
   // `saved_items` stores no per-item description or OG image, so fall back to the
   // category blurb and let the site-level default OG image apply.

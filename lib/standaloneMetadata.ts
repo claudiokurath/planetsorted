@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
 import { ogImageForContent } from '@/lib/og/imageUrl'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
 
 export async function getStandaloneMetadata(
   slug: string,

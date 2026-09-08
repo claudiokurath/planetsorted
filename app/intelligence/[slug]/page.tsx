@@ -17,7 +17,7 @@ interface Props {
   searchParams?: Promise<{ access_token?: string }>
 }
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params

@@ -5,7 +5,7 @@ import { getToolConfig, TOOL_SLUGS } from '@/lib/toolsRegistry'
 import { ToolConfigClient } from '@/components/toolEngine/ToolConfigClient'
 import { ogImageForContent } from '@/lib/og/imageUrl'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
 
 interface ConfigToolPageProps {
   params: Promise<{ slug: string }>

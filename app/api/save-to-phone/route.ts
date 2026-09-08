@@ -9,7 +9,7 @@ import {
 import { splitIntoChunks } from '@/lib/whatsapp/splitIntoChunks'
 import { ogImageForContent } from '@/lib/og/imageUrl'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
 const SAFE_LIMIT = 3500
 
 export async function POST(req: NextRequest) {
