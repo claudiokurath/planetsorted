@@ -41,9 +41,8 @@ const T = {
 } satisfies Record<Tone, Record<string, string>>
 
 /**
- * Editorial section header: a gold index number with a label, then the two-tone
- * display heading and intro — left-aligned, per the master doc ("Anton caps,
- * separated by hairlines only").
+ * Section header: a gold index number with a label, the two-tone display
+ * heading, then the intro — centred to match the hero and the card grids.
  */
 function SectionHeader({
   index,
@@ -62,7 +61,7 @@ function SectionHeader({
 }) {
   const t = T[tone]
   return (
-    <div className="mb-10 flex flex-col gap-4 sm:mb-12">
+    <div className="mb-10 flex flex-col items-center gap-4 text-center sm:mb-12">
       <div className="flex items-baseline gap-3">
         <span className="font-bebas text-lg leading-none text-[#F5C518] sm:text-xl">{index}</span>
         <span className={`text-[10px] font-normal uppercase tracking-[0.18em] ${t.label}`}>{label}</span>
