@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { cookies } from 'next/headers'
@@ -117,7 +116,6 @@ export default async function ArticlePage({ params, searchParams }: Props) {
     verifyArticleAccessToken(slug, queryToken) ||
     verifyArticleAccessToken(slug, cookieToken)
 
-  const audioUrl = item.audio_url?.trim() || undefined
   const description = item.excerpt?.trim() || item.summary?.trim() || item.meta_description?.trim()
   const rawBodyText = item.problem || ''
   const actionProtocolText = item.protocol?.trim() || ''
@@ -153,41 +151,12 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   return (
     <div className="min-h-screen bg-black text-white">
       <main className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
-        {audioUrl ? (
-          <section className="mx-auto mb-6 max-w-6xl sm:mb-8">
-            <a
-              href={audioUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block overflow-hidden border border-white/[0.12] transition-colors hover:border-[#F5C518]/60"
-            >
-              <Image
-                src="/images/deepdive.png"
-                alt="Audio deep dive"
-                width={1144}
-                height={572}
-                className="w-full"
-                sizes="(max-width: 1152px) 100vw, 1152px"
-              />
-              <div className="flex items-center justify-between gap-4 bg-black px-5 py-3">
-                <span className="text-[13px] leading-relaxed text-neutral-400">
-                  A two-host conversation walking through this piece.
-                </span>
-                <span className="shrink-0 text-xs font-medium uppercase tracking-[0.16em] text-[#F5C518]">
-                  Listen &rarr;
-                </span>
-              </div>
-            </a>
-          </section>
-        ) : null}
-
         {gammaEmbed ? (
           <GammaEmbed src={gammaEmbed} title={`${item.title} — presentation`} />
         ) : (
           <ProtocolDeck
             deck={deck!}
             bodyText={[rawBodyText, isUnlocked ? actionProtocolText : ''].filter(Boolean).join('\n\n')}
-            audioUrl={undefined}
             isSubscriber={isSubscriber || isUnlocked}
           />
         )}
