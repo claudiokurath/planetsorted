@@ -15,7 +15,7 @@ import { ogImageForContent, proxiedCoverImage } from '@/lib/og/imageUrl'
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
 const LOGO_IMAGE = `${SITE}/images/sor7ed-logo-white.png`
 
 const SYSTEM_SLUGS: Record<string, { target: string; title: string; description: string }> = {

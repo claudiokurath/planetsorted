@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { AboutIntro } from '@/components/AboutIntro'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
 const OG_CARD = '/api/og?card=welcome'
 
 const DESC =

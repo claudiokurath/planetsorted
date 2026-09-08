@@ -4,7 +4,7 @@
  * 1200×630 JPEG (sharp upscale) instead of a tiny source stretched by /api/og.
  */
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
 
 export function proxiedCoverImage(rawCover: string | null | undefined): string | null {
   const url = rawCover?.trim()

@@ -72,7 +72,7 @@ export default async function WhatsAppConfirmPage({ searchParams }: Props) {
   })
 
   if (authUser.email?.endsWith('@users.planetsorted.com')) {
-    const site = process.env.SITE_URL ?? 'https://planetsorted.com'
+    const site = process.env.SITE_URL ?? 'https://www.sor7ed.com'
     const { data: login } = await admin.auth.admin.generateLink({
       type: 'magiclink',
       email: authUser.email,

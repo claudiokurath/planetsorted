@@ -3,7 +3,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import { ContentCard } from '@/components/ContentCard'
 import { PageHeader } from '@/components/PageHeader'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
 const OG_CARD = '/api/og?card=welcome'
 
 export const metadata: Metadata = {

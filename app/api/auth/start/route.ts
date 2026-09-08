@@ -5,7 +5,7 @@ import { buildConnectToken, CONNECT_TOKEN_TTL_SECONDS } from '@/lib/crypto/token
 import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
 import { safeNext } from '@/lib/safeNext'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
 const RESEND_WINDOW_MS = 60 * 1000
 
 function cleanName(value: unknown): string {

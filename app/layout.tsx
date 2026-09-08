@@ -33,7 +33,7 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'Planet Sorted',
   description: 'Practical protocols for neurodivergent minds.',
-  metadataBase: new URL(process.env.SITE_URL ?? 'https://planetsorted.com'),
+  metadataBase: new URL(process.env.SITE_URL ?? 'https://www.sor7ed.com'),
 }
 
 export default function RootLayout({
@@ -46,10 +46,10 @@ export default function RootLayout({
     '@graph': [
       {
         '@type': 'Organization',
-        '@id': 'https://planetsorted.com/#organization',
+        '@id': 'https://www.sor7ed.com/#organization',
         'name': 'Planet Sorted',
         'alternateName': ['sorted', 'Sorted', 'planet sorted'],
-        'url': 'https://planetsorted.com',
+        'url': 'https://www.sor7ed.com',
         'foundingDate': '2025',
         'address': {
           '@type': 'PostalAddress',
@@ -59,11 +59,11 @@ export default function RootLayout({
       },
       {
         '@type': 'WebSite',
-        '@id': 'https://planetsorted.com/#website',
-        'url': 'https://planetsorted.com',
+        '@id': 'https://www.sor7ed.com/#website',
+        'url': 'https://www.sor7ed.com',
         'name': 'Planet Sorted',
         'publisher': {
-          '@id': 'https://planetsorted.com/#organization',
+          '@id': 'https://www.sor7ed.com/#organization',
         },
       },
     ],
