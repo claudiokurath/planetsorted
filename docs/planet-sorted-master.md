@@ -31,7 +31,7 @@
 ---
 
 ## Executive Summary
-**Planet Sorted** is the mother brand and main website — the umbrella everything else sits under. The current build is **Sorted Lab**: practical protocols, templates, and tools for neurodivergent adults, delivered via a website and remote-controlled through WhatsApp. Content is authored in Notion, synced to Supabase every 5 minutes, and surfaced on the website as public articles and member tools. The website delivers the value; WhatsApp is the remote control — users save content, run tools, and return to results with one text message, no new app required. Beyond Sorted Lab, Planet Sorted is built to house further divisions over time — **Sorted Concierge** (the original "we do it for you" idea, reinstated as a future line) and whatever else comes next — without being capped at a fixed number.
+**Planet Sorted** is the mother brand and main website — the umbrella everything else sits under. The current build is **Sorted Lab**: practical protocols, templates, and tools for neurodivergent adults, delivered via a website and remote-controlled through WhatsApp. Content is authored in Notion, synced to Supabase every 5 minutes, and surfaced on the website as public articles and member tools. The website delivers the value; WhatsApp is the delivery channel — results are pushed to the user's phone from the site and stay there, no new app required. (The inbound command bot has been removed; texting the number does not run tools.) Beyond Sorted Lab, Planet Sorted is built to house further divisions over time — **Sorted Concierge** (the original "we do it for you" idea, reinstated as a future line) and whatever else comes next — without being capped at a fixed number.
 
 ---
 
@@ -61,7 +61,7 @@ Everything below this point in the document describes **Sorted Lab** specificall
 
 ### What Sorted Lab Is
 - A content site (public) + tools platform (public free / paid gated), running under Planet Sorted.
-- A WhatsApp remote control system — not a WhatsApp chatbot.
+- A WhatsApp delivery channel — not a WhatsApp chatbot. Nothing is driven by texting the number.
 - A Notion-powered CMS with Supabase as the live database.
 - Practical tools and templates for neurodivergent adults; plain-English protocols that turn chaos into a next step.
 
@@ -242,25 +242,41 @@ What must always be true:
 ## WhatsApp as Remote Control
 
 ### Core Concept
-WhatsApp is the remote control and permanent personal library for the user's saved tools and results. The website delivers the value (tool results pages, articles, dashboard); WhatsApp is how users return to it instantly, from any conversation, with one keyword.
+WhatsApp is a **delivery channel only**. The website is where everything starts and
+happens — tools, articles, saves, account. WhatsApp is how a result reaches the user's
+phone and stays there.
+
+The inbound command bot was removed. Texting the business number does not run tools,
+retrieve articles, save anything, or sign anyone in.
 
 ### Command System
 
+The webhook accepts exactly four commands, all of them consent controls. Everything
+else gets a single plain-English reply pointing back to the site.
+
 | Command | Behaviour |
 |---------|-----------|
-| `SAVE <slug>` | Save content/tool to personal WhatsApp library (always free) |
-| `RUN <tool-slug>` | Execute a tool — this is what gets metered/paywalled |
-| `ARTICLE <slug>` | Retrieve an article with its protocol |
-| `LIBRARY` | Reprint all saved items with their links |
-| `LOGIN` | Receive a magic link to the web dashboard |
-| `HELP` / `MENU` | See available commands |
 | `STOP` | Unsubscribe from all WhatsApp messages (`whatsapp_opted_out = true`) |
 | `STOPWEEKLY` | Unsubscribe from weekly broadcast only (`weekly_opted_in = false`) |
 | `START` | Re-subscribe to all messages (`whatsapp_opted_out = false`) |
 | `STARTWEEKLY` | Re-subscribe to Tuesday broadcast (`weekly_opted_in = true`) |
 
-### Tool Shorthand Triggers
-- `TAX` → ADHD Tax Calculator · `AUTOPILOT` → Financial Autopilot · `CLARITY` → Decision Paralysis Solver · `DOPAMINE` → Dopamine Menu Generator · `TRIAGE` → Task Triage · `RSD` → RSD Response Scripts · `SENSORY` → Sensory Audit · `BURNOUT` → Burnout Assessment
+These are retained because Meta's Business Policy and UK PECR require a working
+opt-out, and because the outbound senders read `whatsapp_opted_out` before sending.
+
+**Crisis detection still runs first,** ahead of the consent commands — a crisis message
+is answered regardless of what else the webhook does or does not handle.
+
+**Removed:** `SAVE`, `RUN`, `ARTICLE`, `LIBRARY`, `LOGIN`, `HELP` / `MENU`, the
+`CONNECT-` linking branch, WhatsApp-first signup, and the tool shorthand triggers
+(`TAX`, `AUTOPILOT`, `CLARITY`, `DOPAMINE`, `TRIAGE`, `RSD`, `SENSORY`, `BURNOUT`).
+
+### Connecting a number
+Two paths remain, neither of which needs an inbound message:
+- **OTP** — `/connect` and dashboard settings call `/api/whatsapp/send-otp` then
+  `/api/whatsapp/verify-otp`.
+- **Web confirm link** — `/api/auth/start` sends a `${SITE}/auth/whatsapp-confirm?token=…`
+  link that verifies server-side when tapped.
 
 ### Rich Preview System
 - Every outbound WhatsApp message with a URL uses `preview_url: true`.
@@ -324,19 +340,19 @@ Every tool outputs results using this standard layout:
 ## Sorted Lab — Featured & Priority Tools
 
 ### 1) ADHD Tax Calculator
-- **Slug:** `adhd-tax-calculator` · **Remote trigger:** `TAX` · **Category tag:** Wealth
+- **Slug:** `adhd-tax-calculator` · **Category tag:** Wealth
 - **Promise:** "In 3 minutes, find your ADHD Tax and get a 30-day plan to cut it."
 - **Deliverable:** PDF: "My ADHD Tax Leak Map + 30-Day Plan."
 - **Paywall split:** Free = headline + basic breakdown. Paid = full plan + rules artifact + export + history/compare.
 
 ### 2) Financial Autopilot
-- **Slug:** `financial-autopilot` · **Remote trigger:** `AUTOPILOT` · **Category tag:** Wealth
+- **Slug:** `financial-autopilot` · **Category tag:** Wealth
 - **Promise:** "Set up your finances to run on autopilot in 15 minutes."
 - **Deliverable:** PDF: "Financial Autopilot Setup Pack."
 - **Paywall split:** Free = snapshot + high-level split. Paid = transfer plan + checklist + projection + export + history/compare.
 
 ### 3) Decision Paralysis Solver
-- **Slug:** `decision-paralysis-solver` · **Remote trigger:** `CLARITY` · **Category tag:** Mind
+- **Slug:** `decision-paralysis-solver` · **Category tag:** Mind
 - **Promise:** "Get unstuck in 5 minutes: decision + guardrails + next step."
 - **Deliverable:** PDF: "Decision Brief."
 - **Paywall split:** Free = score + top blocker. Paid = full brief + scripts + export + history/compare.
@@ -348,10 +364,10 @@ Every tool outputs results using this standard layout:
 **Principle: Don't paywall the basic answer. Free = insight. Paid = deliverable + continuity.**
 
 ### Free Tier (always)
-- Run all tools + view headline result + basic breakdown. Read all articles. SAVE unlimited; 5 free WhatsApp RUN commands. No exports, no history, no compare.
+- Run all tools + view headline result + basic breakdown. Read all articles. Save unlimited. No exports, no history, no compare. (WhatsApp `RUN` metering is retired along with the inbound bot — see Command System.)
 
 ### Plus — Founding Member (£5.99/month or £49/year)
-- Save run history + compare mode, PDF exports, full 7-day + 30-day plans, full scripts/templates packs, advanced variants, unlimited WhatsApp RUN commands.
+- Save run history + compare mode, PDF exports, full 7-day + 30-day plans, full scripts/templates packs, advanced variants.
 
 ### Supporter (£9.99–£12.99/month)
 - Same features as Plus, "pay it forward" framing — subsidises scholarships.
@@ -571,7 +587,7 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 3. Cron runs every 5 min (or trigger manually via `scratch/sync-and-check.js`) → upserts row in Supabase `protocols` by `slug`.
 4. **Cover images:** auto-downloaded to a content-versioned Supabase Storage path (`notion-files/covers/{slug}/{hash}.{ext}`). Replacing a Notion image creates a new public URL, so CDN and browser caches refresh reliably.
 5. Articles appear on `/intelligence/{slug}` and Tools appear on `/tools` and `/dashboard` within 5 minutes.
-6. WhatsApp keywords dynamically match `protocols.keyword` (e.g. sending `TAX`, `CLARITY`, `DOPAMINE`) and return rich link cards via `/r/{slug}`. For detailed step-by-step procedures, see [Content & Tools Workflow Runbook](docs/content-workflow-runbook.md).
+6. `protocols.keyword` (synced from the Notion **WhatsApp Trigger** property) is **vestigial** — the inbound bot that matched it has been removed, so nothing reads it for triggering any more. The column and its sync are left in place because part of that sync lives in the immutable `app/api/cron/sync-notion/route.ts`. For detailed step-by-step procedures, see [Content & Tools Workflow Runbook](docs/content-workflow-runbook.md).
 7. Every published blog post must include a `Protocol Gamma` URL and a `Blog post Gamma` URL. `Protocol Gamma` is the link the Sorted-button delivery path shares with the customer over WhatsApp; `Blog post Gamma` is embedded directly on the article page.
 
 ### Notion DB Property Mappings
@@ -602,13 +618,11 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 
 ## WhatsApp Messaging Integration
 
-- **Inbound:** `POST /api/whatsapp/webhook` — parses payloads into `{ verb, arg }`.
-- **SAVE handler:** writes to `rich_links` and `saved_items`; responds with `planetsorted.com/r/[slug]` rich card.
-- **RUN handler:** `lib/billing/credits.ts` — active entitlement → unlimited; else debit 1 from `credits_ledger` (5 free on signup). Paywall reply → `/r/upgrade`. Bare tool keywords (TAX, CLARITY, …) are metered the same as `RUN <tool>`.
-- **ARTICLE handler:** delivers article + protocol, paginated for long text, link back to the web page.
-- **LOGIN handler:** generates magic link → sends to WhatsApp thread.
+- **Inbound:** `POST /api/whatsapp/webhook` — verifies Meta's `X-Hub-Signature-256`, logs delivery-status callbacks for diagnostics, then handles crisis detection and the four consent commands. Nothing else.
 - **Crisis detection:** intercepts crisis keywords before any other handler.
 - **STOP / STOPWEEKLY / START / STARTWEEKLY:** as specified in the Command System table above, each with its own confirmation message.
+- **Everything else inbound:** one plain-English reply pointing at the website.
+- **Removed handlers:** SAVE, RUN, ARTICLE, LOGIN, LIBRARY. `credits_ledger` existed specifically to meter WhatsApp `RUN`, so with inbound gone it currently meters nothing — `lib/billing/credits.ts` is still imported by `/api/billing/status` and is left in place pending a separate decision on the credit product.
 - **Weekly broadcasts:** opt-in only, Tuesdays 10am via Vercel Cron.
 - **Rich previews:** `preview_url: true` on every outbound URL; all bot URLs go via `/r/[slug]` or `/s/[id]`.
 - **Compliance:** all messages logged.
