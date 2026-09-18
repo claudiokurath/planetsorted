@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireUser } from '@/lib/auth/requireUser'
-import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
-import { generateOtp } from '@/lib/crypto/tokens'
+import { generateOtp, hashOtp } from '@/lib/crypto/tokens'
 
 const OTP_TTL_MS = 10 * 60 * 1000
 const MIN_RESEND_INTERVAL_MS = 60 * 1000
@@ -34,10 +33,19 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  const metadata = authUser.user_metadata || {}
-  const lastSentAt = Number(metadata.whatsapp_otp_last_sent_at ?? 0)
-  const sendCount = Number(metadata.whatsapp_otp_send_count ?? 0)
-  const sendWindowStart = Number(metadata.whatsapp_otp_send_window_start ?? 0)
+  // Throttles live in a service-role-only table, not user_metadata. In
+  // user_metadata the client could reset them with supabase.auth.updateUser().
+  const { data: challenge } = await supabase
+    .from('whatsapp_otp_challenges')
+    .select('last_sent_at, send_count, send_window_start')
+    .eq('user_id', authUser.id)
+    .maybeSingle()
+
+  const lastSentAt = challenge?.last_sent_at ? Date.parse(challenge.last_sent_at) : 0
+  const sendCount = challenge?.send_count ?? 0
+  const sendWindowStart = challenge?.send_window_start
+    ? Date.parse(challenge.send_window_start)
+    : 0
   const now = Date.now()
 
   if (lastSentAt && now - lastSentAt < MIN_RESEND_INTERVAL_MS) {
@@ -62,21 +70,24 @@ export async function POST(req: NextRequest) {
   const otp = generateOtp()
 
   try {
-    const { error: updateError } = await supabase.auth.admin.updateUserById(
-      authUser.id,
-      {
-        user_metadata: {
-          ...metadata,
-          whatsapp_verification_otp: otp,
-          whatsapp_pending_number: whatsappNumber,
-          whatsapp_otp_expiry: now + OTP_TTL_MS,
-          whatsapp_otp_attempts: 0,
-          whatsapp_otp_last_sent_at: now,
-          whatsapp_otp_send_count: nextSendCount,
-          whatsapp_otp_send_window_start: nextWindowStart,
+    // Only the digest is stored. The plaintext code below goes into the
+    // WhatsApp template payload and nowhere else.
+    const { error: updateError } = await supabase
+      .from('whatsapp_otp_challenges')
+      .upsert(
+        {
+          user_id: authUser.id,
+          phone: whatsappNumber,
+          otp_hash: hashOtp(otp, authUser.id),
+          expires_at: new Date(now + OTP_TTL_MS).toISOString(),
+          attempts: 0,
+          last_sent_at: new Date(now).toISOString(),
+          send_count: nextSendCount,
+          send_window_start: new Date(nextWindowStart).toISOString(),
+          updated_at: new Date(now).toISOString(),
         },
-      }
-    )
+        { onConflict: 'user_id' }
+      )
 
     if (updateError) {
       console.error('[OTP storage error]', updateError)

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireUser } from '@/lib/auth/requireUser'
+import { hashOtp, timingSafeEqualHex } from '@/lib/crypto/tokens'
 
 const MAX_ATTEMPTS = 5
 
@@ -27,13 +28,21 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  const metadata = authUser.user_metadata || {}
-  const storedOtp = metadata.whatsapp_verification_otp
-  const pendingNumber = metadata.whatsapp_pending_number
-  const expiry = Number(metadata.whatsapp_otp_expiry ?? 0)
-  const attempts = Number(metadata.whatsapp_otp_attempts ?? 0)
+  // The challenge lives in a service-role-only table. It used to sit in
+  // user_metadata, where the browser could read the code straight out of the
+  // access token and verify a number it did not control.
+  const { data: challenge } = await supabase
+    .from('whatsapp_otp_challenges')
+    .select('phone, otp_hash, expires_at, attempts')
+    .eq('user_id', authUser.id)
+    .maybeSingle()
 
-  if (!storedOtp || !pendingNumber) {
+  const storedHash = challenge?.otp_hash
+  const pendingNumber = challenge?.phone
+  const expiry = challenge?.expires_at ? Date.parse(challenge.expires_at) : 0
+  const attempts = challenge?.attempts ?? 0
+
+  if (!storedHash || !pendingNumber) {
     return NextResponse.json(
       {
         error:
@@ -57,10 +66,11 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  if (storedOtp !== otp) {
-    await supabase.auth.admin.updateUserById(authUser.id, {
-      user_metadata: { ...metadata, whatsapp_otp_attempts: attempts + 1 },
-    })
+  if (!timingSafeEqualHex(hashOtp(otp, authUser.id), storedHash)) {
+    await supabase
+      .from('whatsapp_otp_challenges')
+      .update({ attempts: attempts + 1, updated_at: new Date().toISOString() })
+      .eq('user_id', authUser.id)
     return NextResponse.json(
       { error: 'Incorrect verification code. Please try again.' },
       { status: 400 }
@@ -133,15 +143,18 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    await supabase.auth.admin.updateUserById(authUser.id, {
-      user_metadata: {
-        ...metadata,
-        whatsapp_verification_otp: null,
-        whatsapp_pending_number: null,
-        whatsapp_otp_expiry: null,
-        whatsapp_otp_attempts: null,
-      },
-    })
+    // Consume the challenge. The send-rate counters are deliberately left
+    // intact so verifying cannot be used to reset the hourly allowance.
+    await supabase
+      .from('whatsapp_otp_challenges')
+      .update({
+        phone: null,
+        otp_hash: null,
+        expires_at: null,
+        attempts: 0,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('user_id', authUser.id)
 
     return NextResponse.json({
       success: true,
