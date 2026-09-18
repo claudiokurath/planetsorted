@@ -143,6 +143,28 @@ export type WhatsAppPendingSignup = {
   created_at?: string | null
 }
 
+/**
+ * Server-side WhatsApp OTP challenge. Service-role only (RLS on, no policies).
+ *
+ * Replaces the old user_metadata storage, which the browser could both read
+ * (exposing the code) and write (resetting the throttles).
+ *
+ * `phone` / `otp_hash` / `expires_at` are nulled once a challenge is consumed;
+ * the send-rate counters below survive so verifying cannot reset them.
+ */
+export type WhatsAppOtpChallenge = {
+  user_id: string
+  phone: string | null
+  otp_hash: string | null
+  expires_at: string | null
+  attempts: number
+  last_sent_at: string | null
+  send_count: number
+  send_window_start: string | null
+  created_at?: string | null
+  updated_at?: string | null
+}
+
 /** Feature Flag configuration for gradual rollouts and experiments. */
 export type FeatureFlag = {
   id: string
@@ -251,6 +273,13 @@ export type Database = {
         Insert: Pick<WhatsAppPendingSignup, 'phone'> &
           Partial<Omit<WhatsAppPendingSignup, 'phone'>>
         Update: Partial<WhatsAppPendingSignup>
+        Relationships: []
+      }
+      whatsapp_otp_challenges: {
+        Row: WhatsAppOtpChallenge
+        Insert: Pick<WhatsAppOtpChallenge, 'user_id'> &
+          Partial<Omit<WhatsAppOtpChallenge, 'user_id'>>
+        Update: Partial<WhatsAppOtpChallenge>
         Relationships: []
       }
       feature_flags: {

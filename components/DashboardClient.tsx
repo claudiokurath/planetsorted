@@ -51,9 +51,6 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
   const [whatsappError, setWhatsappError] = useState('')
   const [whatsappSuccess, setWhatsappSuccess] = useState('')
   const [whatsappLoading, setWhatsappLoading] = useState(false)
-  const [qrLink, setQrLink] = useState('')
-  const [qrLoading, setQrLoading] = useState(false)
-  const [qrError, setQrError] = useState('')
 
   // Saved Items State
   const [savedItems, setSavedItems] = useState<SavedItem[]>([])
@@ -136,7 +133,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       }
       const { data: { session: activeSession } } = await supabase.auth.getSession()
       setSession(activeSession)
-      const [profileData] = await Promise.all([
+      await Promise.all([
         fetchProfile(activeSession),
         fetchSavedItems(activeSession),
         fetchBilling(activeSession),
@@ -151,9 +148,6 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
           : null
       if (requestedTab) {
         setActiveTab(requestedTab)
-      }
-      if (requestedTab === 'settings' && profileData && !profileData.whatsapp_verified) {
-        handleGenerateQr(activeSession)
       }
       setLoading(false)
     }
@@ -195,38 +189,6 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       setProfileMessage('Failed to save settings. Please try again.')
     } finally {
       setProfileSaving(false)
-    }
-  }
-
-  // While a QR/connect link is showing and not yet verified, poll for the
-  // webhook having processed it — otherwise the UI just sits there looking
-  // broken even after the user correctly taps Send in WhatsApp.
-  useEffect(() => {
-    if (!qrLink || verifyState === 'verified') return
-    const interval = setInterval(async () => {
-      const data = await fetchProfile()
-      if (data?.whatsapp_verified) {
-        setQrLink('')
-        clearInterval(interval)
-      }
-    }, 4000)
-    return () => clearInterval(interval)
-  }, [qrLink, verifyState, fetchProfile])
-
-  async function handleGenerateQr(activeSession = session) {
-    setQrLoading(true)
-    setQrError('')
-    try {
-      const headers = await getAuthHeader(activeSession)
-      const res = await fetch('/api/whatsapp/connect-qr', { headers })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Failed to generate QR code')
-      setQrLink(data.waLink)
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Could not generate a QR code right now.'
-      setQrError(msg)
-    } finally {
-      setQrLoading(false)
     }
   }
 
@@ -503,7 +465,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
             <div className="glass-card rounded-none p-12 text-center text-gray-400">
               <p className="text-base font-medium text-gray-300 mb-2">Your library is currently empty</p>
               <p className="text-xs text-gray-500 max-w-md mx-auto leading-relaxed">
-                Save articles and tool results right here on the web, or text <code className="bg-black px-1.5 py-0.5 rounded text-[#F5C518] font-mono">SAVE [slug]</code> on WhatsApp to store items for later.
+                Save articles and tool results right here on the web and they will show up in this library.
               </p>
             </div>
           ) : (
@@ -644,51 +606,6 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
                   {whatsappLoading ? 'Sending…' : 'Send Verification Code'}
                 </button>
               </form>
-            )}
-
-            {verifyState === 'unverified' && (
-              <div className="mt-6 space-y-3 border-t border-gray-800 pt-6">
-                <p className="text-xs font-medium text-gray-300">Or scan to connect instantly</p>
-                <p className="text-[11px] text-gray-500">
-                  Skips typing a number entirely — scan with your phone (or tap the link
-                  on mobile). WhatsApp will open with a message already typed in, but{' '}
-                  <strong className="text-gray-300">you still have to tap Send inside WhatsApp</strong>{' '}
-                  — it doesn&apos;t send itself. That message is what proves it&apos;s really your number.
-                </p>
-                {!qrLink && (
-                  <button
-                    type="button"
-                    onClick={() => handleGenerateQr()}
-                    disabled={qrLoading}
-                    className="rounded-xl border border-gray-700 px-4 py-2 text-xs font-medium text-gray-300 hover:border-[#F5C518] hover:text-[#F5C518] transition-colors disabled:opacity-50"
-                  >
-                    {qrLoading ? 'Generating…' : 'Generate QR Code'}
-                  </button>
-                )}
-                {qrError && <p className="text-xs text-red-400">{qrError}</p>}
-                {qrLink && (
-                  <div className="flex flex-col items-start gap-3 rounded-xl border border-gray-800 bg-black p-4">
-                    <Image
-                      src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(qrLink)}`}
-                      alt="Scan to connect WhatsApp"
-                      width={180}
-                      height={180}
-                      unoptimized
-                      className="rounded-lg bg-white p-2"
-                    />
-                    <a
-                      href={qrLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-medium text-[#F5C518] underline"
-                    >
-                      Or tap here to open WhatsApp directly →
-                    </a>
-                    <p className="text-xs font-medium text-amber-400">↑ Remember to tap Send in WhatsApp — it won&apos;t connect until you do.</p>
-                    <p className="text-[11px] text-gray-500">Expires in 10 minutes.</p>
-                  </div>
-                )}
-              </div>
             )}
 
             {verifyState === 'otp_sent' && (
