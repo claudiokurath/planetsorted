@@ -293,7 +293,7 @@ This **sign-in + verification gate is intended** (confirmed by the founder, v0.5
 **Public detail-page layout (v0.5.0 monochrome direction — see Visual Identity):**
 - Type-led, no photographic banner. Category tag + thin large title + hairline rule.
 - Tool: title, one compact Summary, then the interactive tool (or its teaser), then the `Sor7edButton`.
-- Article: title, the public teaser (excerpt/summary), then the `Sor7edButton`. Full body + protocol unlock via the WhatsApp rich-link `access_token` (0.4.20).
+- Article: the full blog post body is public (rendered as the ProtocolDeck, plus the Blog post Gamma embed), then the `Sor7edButton`. Only the step-by-step **protocol** slide and the **audio deep dive** stay behind the WhatsApp rich-link `access_token`.
 - `components/ContentHero.tsx` (dark-overlay image banner) is superseded by this and can be retired.
 
 **Key files:**
@@ -572,7 +572,7 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 4. **Cover images:** auto-downloaded to a content-versioned Supabase Storage path (`notion-files/covers/{slug}/{hash}.{ext}`). Replacing a Notion image creates a new public URL, so CDN and browser caches refresh reliably.
 5. Articles appear on `/intelligence/{slug}` and Tools appear on `/tools` and `/dashboard` within 5 minutes.
 6. WhatsApp keywords dynamically match `protocols.keyword` (e.g. sending `TAX`, `CLARITY`, `DOPAMINE`) and return rich link cards via `/r/{slug}`. For detailed step-by-step procedures, see [Content & Tools Workflow Runbook](docs/content-workflow-runbook.md).
-7. Every published blog post must include a `Gamma` URL. The Sorted-button delivery path shares that Gamma link with the customer.
+7. Every published blog post must include a `Protocol Gamma` URL and a `Blog post Gamma` URL. `Protocol Gamma` is the link the Sorted-button delivery path shares with the customer over WhatsApp; `Blog post Gamma` is embedded directly on the article page.
 
 ### Notion DB Property Mappings
 | Notion Property | Maps to | Notes |
@@ -587,7 +587,8 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 | Blog Post | `problem` | markdown page content |
 | CTA | `cta` | page footer action |
 | Cover Image | `cover_image` | downloaded to Supabase Storage |
-| Gamma | `gamma_url` | customer-facing Sorted-button destination; falls back to `/r/{slug}` when empty |
+| Protocol Gamma | `gamma_url` | customer-facing Sorted-button WhatsApp destination; falls back to `/r/{slug}` when empty |
+| Blog post Gamma | `blog_gamma_url` | embedded on the article page (not sent via WhatsApp) |
 | Protocol | `protocol` | WhatsApp text delivery |
 | WhatsApp Trigger | `keyword` | trigger keyword |
 | Cover Image 1 | `cover_image` | |
@@ -638,7 +639,7 @@ Wipes `saved_items`, `credits_ledger`, `entitlements`, `tool_requests` (cascadin
 - **Primary domain:** `planetsorted.com`. `sor7ed.com` → 301 permanent redirect to `planetsorted.com` (DNS/Vercel level) — this is a **flip** of the previous direction.
 - `Organization` + `WebSite` schema JSON-LD in `<head>` with `alternateName: ['sorted', 'Sorted', 'planet sorted']`.
 - Dynamic `sitemap.xml` fetching live `Published` slugs; `robots.txt` blocking `/api/`, `/dashboard`, `/signup`.
-- `metadataBase` = `NEXT_PUBLIC_SITE_URL`. Logo alt text updated to reference Planet Sorted.
+- `metadataBase` = `SITE_URL`. Logo alt text updated to reference Planet Sorted.
 
 ---
 
@@ -675,7 +676,7 @@ Wipes `saved_items`, `credits_ledger`, `entitlements`, `tool_requests` (cascadin
 | `NOTION_CRM_SECRET` | Notion CRM sync (new signups → CRM database) |
 | `NOTION_CRM_DB_ID` | Notion CRM database (`35e0d6014acc80ff8761c320c06835ee`) — optional, defaults to this ID |
 | `CRON_SECRET` | Cron route auth |
-| `NEXT_PUBLIC_SITE_URL` | Now defaults to `planetsorted.com` |
+| `SITE_URL` | Now defaults to `planetsorted.com` |
 | `NEXT_PUBLIC_WA_NUMBER` | GET IT SORTED button (wa.me links) |
 | `META_PHONE_NUMBER_ID` / `META_WHATSAPP_TOKEN` | WhatsApp send API |
 | `META_APP_SECRET` | Meta webhook `X-Hub-Signature-256` verification (required in production) |

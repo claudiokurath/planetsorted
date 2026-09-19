@@ -193,6 +193,9 @@ export function Sor7edButton({
       setTimeout(() => {
         setState(initiallySaved ? 'sent' : 'idle')
         setProgress(initiallySaved ? 1 : 0)
+        // Return to the resting state so the button can be pushed again to
+        // re-send the link (each push sends a fresh WhatsApp message).
+        if (!initiallySaved) sentToWhatsApp.current = false
       }, 3000)
     } catch {
       setState('error')
