@@ -107,3 +107,36 @@ p {
 .bg-green-50\/50 {
   background-color: rgba(245, 197, 24, 0.1) !important;
 }
+
+/* --- 2026 marketing surface --- */
+
+/* Section-index labels (little 10px caps rows at the top of every section) */
+.themed-idx {
+  font-family: var(--font-jetbrains-mono, ui-monospace, monospace);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--sor7ed-muted, #8a8a8a);
+  font-weight: 500;
+}
+
+/* Off-white paper section (used by "Idea" and "From the blog") */
+.theme-paper {
+  background: #F5F2EA;
+  color: #0A0A0A;
+  --local-muted: #6a6a6a;
+  --local-dim:   #a3a3a3;
+  --local-body:  rgba(10, 10, 10, 0.72);
+}
+.theme-paper .themed-idx { color: var(--local-muted); }
+.theme-paper .themed-body { color: var(--local-body); }
+
+/* Section hairlines (top / bottom rules that adapt to theme) */
+.themed-hair-t { border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.themed-hair-b { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.theme-paper.themed-hair-t,
+.theme-paper .themed-hair-t { border-top-color: rgba(10, 10, 10, 0.10); }
+.theme-paper.themed-hair-b,
+.theme-paper .themed-hair-b { border-bottom-color: rgba(10, 10, 10, 0.10); }
+
