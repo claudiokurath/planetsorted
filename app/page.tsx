@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { AboutIntro } from '@/components/AboutIntro'
 
 const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
@@ -32,6 +33,21 @@ export default function HomePage() {
       className="min-h-screen bg-black text-white"
       style={{ scrollSnapType: 'y proximity' }}
     >
+      {/* Entrance band. Deliberately short and never overlaid with text — the
+          artwork carries the personality, the type below carries the message. */}
+      <div
+        className="relative w-full overflow-hidden border-b border-white/10"
+        style={{ height: 'clamp(104px, 15vw, 152px)' }}
+      >
+        <Image
+          src="/images/banners/main.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+      </div>
       <AboutIntro />
     </div>
   )
