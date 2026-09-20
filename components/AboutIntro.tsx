@@ -89,7 +89,7 @@ export function AboutIntro() {
       </section>
 
       {/* What this is */}
-      <section className="border-t-[3px] border-[#C0392B] bg-black">
+      <section className="border-t border-white/10 bg-black">
         <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:py-24">
           <div className="mx-auto mb-12 flex max-w-3xl flex-col items-center gap-4 text-center">
             <span className="text-[10px] font-normal uppercase tracking-[0.18em] text-neutral-500">
@@ -123,7 +123,7 @@ export function AboutIntro() {
 
       {/* 7 Pillars */}
       <section
-        className="flex min-h-screen flex-col justify-center border-t-[3px] border-[#C0392B] bg-black"
+        className="flex min-h-screen flex-col justify-center border-t border-white/10 bg-black"
         style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
       >
         <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:py-24">
