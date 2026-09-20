@@ -1,272 +1,166 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { FaqDisclosure } from '@/components/marketing/FaqDisclosure'
-import { SectionHeader } from '@/components/marketing/SectionHeader'
 
 export const metadata: Metadata = {
-  title: 'Membership — PLANET SOR7ED',
+  title: 'Membership — Planet Sorted',
   description:
-    'Save your results, revisit previous work and keep useful steps together. Free is honestly free — Membership adds the version of each tool you can actually use on a Wednesday.',
+    'Save your results, revisit previous work and keep useful steps together. Compare free and membership.',
 }
-
-/**
- * Membership — restyled to match the 2026 marketing surface (Home).
- *
- * Copy honesty:
- *   The three-tier pricing (£0 / £5.99 / £9.99) shown in the design mock is
- *   provisional. Fill in real numbers before launch and delete the "[TBD]"
- *   markers below. Same for the tier features that still read "[TBD]".
- */
 
 const FAQ = [
   {
-    q: 'Can I really use SOR7ED without paying?',
-    a: 'Yes. The blog is free forever — no account, no paywall. Once tools open (in waves via the waitlist), the free tier is a real tier — not a nag screen. You lower the ceiling on how often you can use the paid version. Nothing more.',
+    q: 'What can I use for free?',
+    a: 'You can use all core tools — including the Task Breakdown Wizard and ADHD Tax Calculator — without a membership. Results are delivered to your WhatsApp and shown on screen.',
   },
   {
-    q: 'What exactly is behind Plus?',
-    a: '[TBD — full Plus feature list to be confirmed before launch. Draft: save runs, compare across weeks, full-fidelity PDF export of any tool output, unlimited WhatsApp reruns, private beta access to unreleased tools.]',
+    q: 'Do I need WhatsApp?',
+    a: 'Yes. Planet Sorted delivers your results via WhatsApp so you can find them again without logging in. You connect your WhatsApp number once, on first use. A standard UK or international number works — no special app is needed.',
   },
   {
-    q: 'How do I qualify for a scholarship?',
-    a: 'If you are on a waiting list, unemployed, or just cannot right now — you get Plus for £0–£2/month. No proof required. Ask via the waitlist form and mention "scholarship" in the message field.',
+    q: 'What happens at my usage limit?',
+    a: '[TBD — to be filled before launch. Free tier limits will be stated here concretely.]',
   },
   {
-    q: 'Do you offer refunds?',
-    a: '[TBD — refund policy to be confirmed before launch. Likely: full refund within 14 days, no questions asked.]',
+    q: 'How do I cancel?',
+    a: '[TBD — cancellation method and notice period to be stated here before launch.]',
   },
   {
-    q: 'Is there a lifetime option?',
-    a: '[TBD — lifetime pricing to be confirmed before launch. Currently: no lifetime tier planned.]',
+    q: 'What happens to saved results after cancellation?',
+    a: '[TBD — data retention policy for membership results to be confirmed before launch.]',
   },
   {
-    q: 'What happens if I cancel?',
-    a: '[TBD — cancellation flow to be confirmed before launch. Likely: cancel from the account page in one tap. Access continues to the end of the paid period. Saved runs remain readable for 90 days.]',
-  },
-]
-
-/**
- * NB: prices below are placeholders from the design mock — replace before launch.
- */
-const TIERS = [
-  {
-    tag: 'FREE · ALWAYS',
-    name: 'Just try it',
-    price: '£0',
-    period: '/ FOREVER',
-    tagline: 'Anyone. Everyone. The website works without an account. Sign up only when you want to save.',
-    features: [
-      'All 24 blog posts — no paywall, no account',
-      'All tools — full result on screen',
-      'Basic breakdown + 24-hour action plan',
-      'Save runs to your account',
-      'All 154 guidebook articles',
-    ],
-    cta: { label: 'Start with a post', href: '/intelligence' },
-    accent: false,
+    q: 'How is my information used?',
+    a: 'Your answers are used to generate your result. We store the minimum needed to deliver it and improve the tools. We do not sell your data. Full details in our privacy policy.',
   },
   {
-    tag: 'PLUS · FOUNDING MEMBER',
-    name: 'Sort it properly',
-    price: '£5.99',
-    period: '/ MONTH',
-    tagline: 'For the person who is already using the tools and wants to keep the outputs.',
-    features: [
-      'Everything in Free',
-      'Saved run history — compare across weeks',
-      'PDF exports — Leak Map, Decision Brief, Autopilot Pack',
-      'Full 7-day + 30-day plans',
-      'Advanced variants (conservative / realistic / aggressive)',
-      'WhatsApp companion when it ships',
-    ],
-    cta: { label: 'Join waitlist for Plus', href: '#waitlist' },
-    accent: true,
-  },
-  {
-    tag: 'SUPPORTER · PAY IT FORWARD',
-    name: 'Buy someone else in',
-    price: '£9.99',
-    period: '/ MONTH',
-    tagline: 'Some features in Plus. Your name funds a scholarship seat for someone on a long NHS waiting list.',
-    features: [
-      'Everything in Plus',
-      '1 scholarship seat funded per month',
-      'Early access to new tools (before the wider list)',
-      'Named on the /supporters page (optional)',
-    ],
-    cta: { label: 'Support the work', href: '#waitlist' },
-    accent: false,
+    q: 'What kind of support does Planet Sorted provide?',
+    a: 'Planet Sorted is a self-guided toolset. It is not a medical, psychiatric, clinical, legal or financial service, and it is not a crisis service. If you need urgent help, call 999 or text SHOUT to 85258.',
   },
 ]
 
 export default function MembershipPage() {
   return (
-    <main className="bg-black text-white">
+    <div className="min-h-screen bg-black text-white">
+      <div className="mx-auto max-w-4xl px-5 pt-20 pb-28 sm:pt-28">
 
-      {/* Header */}
-      <section className="py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-5">
-
-          <SectionHeader index="01" label="MEMBERSHIP" right="3 TIERS · £0 START" />
-
-          <h1 className="font-bebas text-5xl uppercase leading-[1.02] tracking-normal text-white md:text-[112px]">
-            Membership
+        {/* Header */}
+        <div className="mb-16 text-center">
+          <span className="sor7ed-pill">Membership</span>
+          <h1 className="mt-5 font-bebas text-4xl uppercase leading-[1.15] tracking-normal text-white sm:text-5xl lg:text-6xl">
+            Keep track of what helps.
           </h1>
-          <h2 className="mt-4 font-bebas text-3xl uppercase leading-tight tracking-normal text-[#F5C518] md:text-5xl">
-            Free is honestly free.
-          </h2>
-
-          <p className="mt-6 max-w-2xl text-[15px] leading-[1.7] text-neutral-300 md:text-[16px]">
-            The blog is free forever. The tools open in waves via the waitlist. Once you're in, the free
-            tier is a real tier — not a nag screen. You pay only for the version the future-you can actually
-            use on a Wednesday.
-          </p>
-          <p className="mt-2 max-w-2xl text-[13px] text-neutral-500">
-            No trial needed. No email guilt-trips. Cancel from your account page in one tap.
+          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-neutral-400">
+            Save your results, revisit previous work and keep useful steps together.
           </p>
         </div>
-      </section>
 
-      {/* Tiers */}
-      <section className="border-t border-white/10 py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-5">
-          <div className="grid gap-6 md:grid-cols-3">
-            {TIERS.map((t) => (
-              <div
-                key={t.name}
-                className={`flex flex-col border p-6 md:p-8 ${
-                  t.accent
-                    ? 'border-[#F5C518] bg-neutral-950 shadow-[0_0_0_1px_#F5C518_inset]'
-                    : 'border-white/15 bg-neutral-950'
-                }`}
-              >
-                <span className={`themed-idx mb-4 ${t.accent ? 'text-[#F5C518]' : ''}`}>{t.tag}</span>
-                <h3 className="font-bebas text-2xl uppercase tracking-normal text-white">{t.name}</h3>
-                <div className="mt-4 flex items-baseline gap-2">
-                  <span className="font-bebas text-6xl leading-none tracking-normal text-white">
-                    {t.price}
-                  </span>
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-neutral-500">
-                    {t.period}
-                  </span>
-                </div>
-                <p className="mt-4 text-[13px] leading-relaxed text-neutral-400">{t.tagline}</p>
-                <ul className="mt-6 flex-1 space-y-3 border-t border-white/10 pt-5">
-                  {t.features.map((f) => (
-                    <li key={f} className="flex gap-2.5 text-[13px] leading-relaxed text-neutral-300">
-                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#F5C518]" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href={t.cta.href}
-                  className={`mt-6 block text-center px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.16em] transition-opacity hover:opacity-90 ${
-                    t.accent
-                      ? 'bg-[#F5C518] text-black'
-                      : 'border border-white/25 text-white hover:border-white'
-                  }`}
-                >
-                  {t.cta.label}
-                </Link>
+        {/* Comparison table */}
+        <section className="mb-20">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-white/10">
+                  <th className="py-4 pr-6 text-left text-xs font-medium uppercase tracking-widest text-neutral-500">
+                    Question
+                  </th>
+                  <th className="px-4 py-4 text-center text-xs font-medium uppercase tracking-widest text-neutral-300">
+                    Free
+                  </th>
+                  <th className="px-4 py-4 text-center text-xs font-medium uppercase tracking-widest text-[#F5C518]">
+                    Membership
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/8">
+                {[
+                  {
+                    q: 'Which tools can I use?',
+                    free: 'Core tools (Task Breakdown Wizard, ADHD Tax Calculator)',
+                    member: '[TBD — full tool list to be confirmed before launch]',
+                  },
+                  {
+                    q: 'How often can I use them?',
+                    free: '[TBD — free tier usage limit to be stated here]',
+                    member: '[TBD — membership usage limit to be stated here]',
+                  },
+                  {
+                    q: 'Can I save and revisit results?',
+                    free: 'No',
+                    member: 'Yes — results saved to your account',
+                  },
+                  {
+                    q: 'Can I compare or export results?',
+                    free: 'No',
+                    member: '[TBD — export/compare feature to be confirmed]',
+                  },
+                  {
+                    q: 'What does support include?',
+                    free: 'Self-service (tools + WhatsApp delivery)',
+                    member: '[TBD — membership support description to be confirmed]',
+                  },
+                ].map((row) => (
+                  <tr key={row.q}>
+                    <td className="py-4 pr-6 text-neutral-300">{row.q}</td>
+                    <td className="px-4 py-4 text-center text-neutral-400">{row.free}</td>
+                    <td className="px-4 py-4 text-center text-white">{row.member}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* Use-case examples */}
+        <section className="mb-20">
+          <h2 className="mb-6 font-bebas text-2xl uppercase tracking-normal text-white sm:text-3xl">
+            What membership makes possible
+          </h2>
+          <p className="mb-4 text-xs uppercase tracking-widest text-neutral-500">
+            Labelled examples — not a guarantee of specific features
+          </p>
+          <ul className="space-y-4">
+            {[
+              'Return to a previous plan when you\'re ready to pick the task up again.',
+              'Find previous outputs without scrolling back through your WhatsApp thread.',
+            ].map((example) => (
+              <li key={example} className="flex gap-3 text-sm leading-relaxed text-neutral-400">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#F5C518]" />
+                {example}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* FAQ */}
+        <section className="mb-20">
+          <h2 className="mb-8 font-bebas text-2xl uppercase tracking-normal text-white sm:text-3xl">
+            Questions
+          </h2>
+          <div className="space-y-8">
+            {FAQ.map((item) => (
+              <div key={item.q} className="border-t border-white/8 pt-6">
+                <h3 className="mb-3 text-sm font-semibold text-white">{item.q}</h3>
+                <p className="text-sm leading-relaxed text-neutral-400">{item.a}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Scholarship band */}
-      <section className="border-t border-white/10 bg-[#F5C518] py-14 md:py-20">
-        <div className="mx-auto max-w-5xl px-5 text-center text-black">
-          <p className="font-bebas text-2xl uppercase leading-tight tracking-normal md:text-4xl">
-            If you're on a waiting list, unemployed,
-            <br />
-            or just cannot right now —{' '}
-            <span className="underline decoration-black/40 underline-offset-8">you get Plus</span> for
-            £0–£2/month. No proof needed.
-          </p>
-          <p className="mt-6 text-[13px] text-black/70">
-            This is a promise, not a formality. 1-in-12 members funds 1-in-4 seats. If that ratio slips, we
-            say so on this page.
+        {/* Closing CTA */}
+        <div className="text-center">
+          <p className="mb-6 text-sm leading-relaxed text-neutral-400">
+            Start with a free tool and see whether it helps.
           </p>
           <Link
-            href="#waitlist"
-            className="mt-8 inline-block bg-black px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-white transition-opacity hover:opacity-90"
+            id="membership-explore-free"
+            href="/start"
+            className="inline-block rounded-lg bg-[#F5C518] px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-black transition-opacity hover:opacity-90"
           >
-            Ask on the waitlist form
+            Explore free tools
           </Link>
         </div>
-      </section>
 
-      {/* Free vs Plus, without the table */}
-      <section className="border-t border-white/10 py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-5">
-          <SectionHeader index="02" label="THE PLAIN-ENGLISH VERSION" right="FREE VS PLUS · WITHOUT THE TABLE" />
-
-          <div className="grid gap-6 md:grid-cols-2 md:gap-8">
-            <div className="border border-white/15 bg-neutral-950 p-8">
-              <span className="themed-idx">FREE · ON-SCREEN</span>
-              <h3 className="mt-4 font-bebas text-3xl uppercase leading-tight tracking-normal text-white md:text-4xl">
-                The tool tells you the answer.
-              </h3>
-              <p className="mt-4 text-[14px] leading-relaxed text-neutral-400">
-                Every tool runs fully in the browser. You see the number, the breakdown, the one first thing
-                to do this week. You don't need an account.
-              </p>
-            </div>
-            <div className="border border-[#F5C518] bg-neutral-950 p-8 shadow-[0_0_0_1px_#F5C518_inset]">
-              <span className="themed-idx text-[#F5C518]">PLUS · DELIVERABLE · CONTINUITY</span>
-              <h3 className="mt-4 font-bebas text-3xl uppercase leading-tight tracking-normal text-white md:text-4xl">
-                The tool remembers you.
-              </h3>
-              <p className="mt-4 text-[14px] leading-relaxed text-neutral-400">
-                Saved runs. Compare week-on-week. Real PDFs to print. Full 30-day plans instead of 7.
-                Unlimited WhatsApp reruns. The version of the tool future-you can actually use on a
-                Wednesday.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="border-t border-white/10 py-16 md:py-24">
-        <div className="mx-auto max-w-4xl px-5">
-          <SectionHeader index="03" label="REASONABLE FEARS" right="THE HONEST ANSWERS" />
-          <div>
-            {FAQ.map((item, i) => (
-              <FaqDisclosure key={item.q} question={item.q} defaultOpen={i === 0}>
-                {item.a}
-              </FaqDisclosure>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Waitlist anchor + closing */}
-      <section id="waitlist" className="theme-paper py-20 md:py-28">
-        <div className="mx-auto max-w-4xl px-5 text-center">
-          <span className="themed-idx mb-6 block">THE NEXT STEP</span>
-          <h2 className="font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:text-[64px]">
-            Read a post first.{' '}
-            <span style={{ color: 'rgba(10,10,10,0.42)' }}>Decide about Plus on a Wednesday.</span>
-          </h2>
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              href="/intelligence"
-              className="inline-flex items-center gap-2 bg-black px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-white transition-opacity hover:opacity-90"
-            >
-              Read the blog
-            </Link>
-            <Link
-              href="/#waitlist"
-              className="inline-flex items-center gap-2 border border-black/25 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-black transition-colors hover:border-black"
-            >
-              Join the waitlist
-            </Link>
-          </div>
-        </div>
-      </section>
-    </main>
+      </div>
+    </div>
   )
 }
