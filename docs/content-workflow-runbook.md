@@ -18,15 +18,15 @@ Planet Sorted uses a unified content model where **Notion is the authoring CMS**
        ├─────────────────────────────────┬──────────────────────────────────┐
        ▼                                 ▼                                  ▼
 [Next.js Website]                [WhatsApp Webhook]                 [Dynamic Redirects]
-• /tools (Tools Grid)            • Matches incoming keywords        • /r/[slug] checks type
-• /dashboard (Featured Tools)    • e.g., "TAX", "CLARITY"           • Redirects to /tools/ or
-• /intelligence (Articles)       • Returns rich shortlink cards       /intelligence/
+• /tools (Tools Grid)            • Crisis detection                 • /r/[slug] checks type
+• /dashboard (Featured Tools)    • STOP / START consent only        • Redirects to /tools/ or
+• /intelligence (Articles)       • No keyword triggering              /intelligence/
 ```
 
 ### Key Architectural Benefits
-- **Zero Code Deployments:** Adding a tool, hiding an article, or changing a WhatsApp keyword happens 100% in Notion.
+- **Zero Code Deployments:** Adding a tool or hiding an article happens 100% in Notion.
 - **Unified Database:** Both articles and tools live in the Supabase `protocols` table, differentiated by the `type` column (`'Article'` vs `'Tool'`).
-- **Dynamic WhatsApp Dispatch:** Incoming WhatsApp messages query the database in real-time. If an incoming word matches `protocols.keyword` where `status = 'Published'`, the bot immediately replies with the tool or article card.
+- **Outbound-only WhatsApp:** The inbound command bot has been removed. Incoming messages are no longer matched against `protocols.keyword` — the webhook handles crisis detection and the STOP/START consent commands only. Content reaches WhatsApp by being sent from the website.
 
 ---
 
@@ -41,7 +41,7 @@ To launch a new interactive tool or template:
    - **Type:** `Tool` (Select property)
    - **Status:** `Published` (Select property)
    - **Category:** One of the 7 taxonomy terms: `Mind`, `Wealth`, `Body`, `Tech`, `Connection`, `Impression`, `Growth`
-   - **WhatsApp Trigger (Keyword):** Uppercase keyword, e.g., `SLEEP` (What users text to the WhatsApp bot to get the tool)
+   - **WhatsApp Trigger (Keyword):** Uppercase keyword, e.g., `SLEEP`. **Vestigial** — still synced to `protocols.keyword`, but nothing reads it now that inbound keyword triggering is gone. Safe to leave blank on new rows.
    - **Summary:** Short 1–2 sentence promise displayed on cards and previews.
    - **Read Time:** e.g., `3 min` or `5 min`
    - **Cover Image 1:** Upload an image or provide a valid external URL.
@@ -101,12 +101,13 @@ Content sorting on the frontend uses timestamps (`order('updated_at', { ascendin
   If it shows `0 rows`, the sync failed or credentials in `.env.local` are expired.
 
 ### Issue B: WhatsApp keyword does not trigger the tool card
-- **Check 1 (Keyword Formatting):** Ensure the `WhatsApp Trigger` in Notion is a clean word with no trailing spaces or punctuation (e.g., `TAX`, not `TAX ` or `#TAX`).
-- **Check 2 (Simulation Test):** Run the local WhatsApp keyword simulator against your live database:
-  ```bash
-  node --env-file=.env.local scratch/test-wa-keywords.js
-  ```
-  This tests the exact query used by `app/api/whatsapp/webhook/route.ts` and prints `[PASS]` or `[FAIL]` for each keyword.
+**This is expected.** Keyword triggering was removed with the inbound bot. Texting a
+keyword to the business number replies with a pointer back to the website. Content
+reaches WhatsApp by being sent from the site, not by being requested over WhatsApp.
+
+If a member cannot receive anything at all, check instead that their number is
+verified (`whatsapp_verified`) and that they have not opted out (`whatsapp_opted_out`
+— they may have texted `STOP`).
 
 ### Issue C: Cover image fails to display
 - When syncing, the cron route (`app/api/cron/sync-notion/route.ts`) downloads Notion images to a content-versioned Supabase Storage path: `notion-files/covers/{slug}/{hash}.{ext}`. A replaced image gets a new URL so caches cannot keep showing the previous cover.
@@ -122,6 +123,5 @@ Content sorting on the frontend uses timestamps (`order('updated_at', { ascendin
 | Script Name | Command | Purpose |
 | :--- | :--- | :--- |
 | **Sync & Check** | `node --env-file=.env.local scratch/sync-and-check.js` | Triggers live Notion → Supabase sync and reports updated rows. |
-| **Test WA Keywords** | `node --env-file=.env.local scratch/test-wa-keywords.js` | Simulates WhatsApp webhook queries against all 8 tool keywords. |
 | **Check DB Tools** | `node --env-file=.env.local scratch/check-all-tools-db.js` | Lists all published tools currently in Supabase `protocols`. |
 | **Refresh Covers** | `node --env-file=.env.local scratch/force-refresh-covers.js` | Redownloads and updates Notion cover images to Supabase storage. |

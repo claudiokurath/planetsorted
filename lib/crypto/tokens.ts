@@ -183,3 +183,18 @@ export function verifyMetaSignature(
 export function generateOtp(): string {
   return crypto.randomInt(0, 1_000_000).toString().padStart(6, '0')
 }
+
+/**
+ * Hash an OTP for storage. The plaintext code is never persisted — only this
+ * digest — so a database or log leak does not hand over a usable code.
+ *
+ * Salted with the user id so the same six digits do not produce the same
+ * digest across accounts, which would otherwise let one user recognise
+ * another's code. Compare with timingSafeEqualHex, never with ===.
+ */
+export function hashOtp(otp: string, userId: string): string {
+  return crypto
+    .createHmac('sha256', signingSecret())
+    .update(`${userId}.${otp}`)
+    .digest('hex')
+}

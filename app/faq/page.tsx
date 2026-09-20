@@ -17,8 +17,8 @@ export default function FAQPage() {
       a: 'No app required. Everything runs on your browser and inside WhatsApp.'
     },
     {
-      q: 'How does WhatsApp remote control work?',
-      a: 'Text one keyword (like TAX or CLARITY) to +44 7591 922247 on WhatsApp and get your result delivered straight to your chat. Sign up first at planetsorted.com — no app, no spam.'
+      q: 'How does WhatsApp work with SOR7ED?',
+      a: 'Connect your number once in your dashboard settings, then send any tool result or protocol to your own WhatsApp from the site with one tap. Texting the number will not run tools — everything starts on planetsorted.com. Reply STOP at any time to opt out.'
     },
     {
       q: 'Is PLANET SOR7ED free?',
