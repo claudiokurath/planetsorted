@@ -68,8 +68,8 @@ export default async function HomePage() {
       <div className="mx-auto max-w-7xl px-4 pt-8 pb-16 sm:px-6 sm:pt-10 lg:px-8">
         <PageHeader
           eyebrow="PLANET SOR7ED"
-          title="Seven Pillars"
-          description="Every part of neurodivergent adult life. Start where you actually are."
+          title="7 Pillars"
+          description="Every part of ND adult life. Pick a pillar to see its tools and guidebook protocols."
         />
 
         <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -80,7 +80,7 @@ export default async function HomePage() {
                 key={pillar.slug}
                 href={`/category/${pillar.slug}`}
                 title={pillar.label}
-                summary={pillar.tagline}
+                summary={pillar.blurb}
                 category={pillar.label}
                 meta={count > 0 ? `${count} ${count === 1 ? 'PROTOCOL' : 'PROTOCOLS'}` : undefined}
                 index={index}
