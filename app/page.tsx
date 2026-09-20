@@ -20,21 +20,6 @@ export const metadata: Metadata = {
   },
 }
 
-/*
- * Section grounds alternate so every seam is visible and it's obvious where
- * one section ends and the next begins. Tokens live in app/globals.css.
- *
- *   01 Hero         ink     (black)
- *   02 Calculator   paper   (off-white)
- *   03 The idea     ink
- *   04 Pillars      gold    ← the single yellow ground on the page
- *   05 Blog         ink
- *   06 Brain dump   paper
- *   07 FAQ          ink  ┐ one dark block: the questions and the sign-up
- *   08 Waitlist     ink  ┘ belong together, split by a hairline only
- *   09 Closing      paper   (ends light, against the black site footer)
- */
-
 const AUDIENCE_PRIMARY = ['ADHD', 'Autistic', 'AuDHD']
 const AUDIENCE_SECONDARY = [
   'Dyslexic',
@@ -78,8 +63,8 @@ export default function HomePage() {
   return (
     <main id="top" className="bg-black text-white">
 
-      {/* 01 — HERO · ink */}
-      <section className="theme-ink relative">
+      {/* 01 — HERO */}
+      <section className="relative">
         <div className="mx-auto max-w-6xl px-5 pt-14 pb-12 md:pt-24 md:pb-16">
 
           <SectionHeader index="01" label="WHAT THIS IS" right="EST. LONDON · 2025" />
@@ -107,13 +92,13 @@ export default function HomePage() {
 
           {/* Headline */}
           <div className="mx-auto max-w-5xl text-center">
-            <h1 className="themed-strong font-bebas text-[38px] uppercase leading-[0.98] tracking-normal md:text-[80px] lg:text-[96px]">
+            <h1 className="font-bebas text-[38px] uppercase leading-[0.98] tracking-normal text-white md:text-[80px] lg:text-[96px]">
               Most productivity advice was built for
               <br className="hidden sm:block" />{' '}
-              <span className="themed-soft">a brain you don't have.</span>
+              <span className="text-white/45">a brain you don't have.</span>
             </h1>
 
-            <p className="mx-auto mt-8 max-w-2xl text-[15px] leading-[1.7] themed-body md:mt-10 md:text-[17px]">
+            <p className="mx-auto mt-8 max-w-2xl text-[15px] leading-[1.7] text-neutral-300 md:mt-10 md:text-[17px]">
               SOR7ED is a small library of practical tools and plain-English protocols for the messy moment,
               not the ideal one. Sorted into seven parts of adult life, so you always know where to start.
             </p>
@@ -121,7 +106,7 @@ export default function HomePage() {
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
               <Link
                 href="/intelligence"
-                className="themed-btn inline-flex items-center gap-2 px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em]"
+                className="inline-flex items-center gap-2 bg-[#F5C518] px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-black transition-opacity hover:opacity-90"
               >
                 Read the blog
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
@@ -130,7 +115,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="#calculator"
-                className="themed-btn-ghost inline-flex items-center gap-2 px-8 py-4 text-xs font-medium uppercase tracking-[0.16em]"
+                className="inline-flex items-center gap-2 border border-white/25 px-8 py-4 text-xs font-medium uppercase tracking-[0.16em] text-white transition-colors hover:border-white"
               >
                 Preview a tool
               </Link>
@@ -161,8 +146,8 @@ export default function HomePage() {
         <HeroMarquee />
       </section>
 
-      {/* 02 — CALCULATOR SHOWCASE · paper */}
-      <section id="calculator" className="theme-paper py-16 md:py-28">
+      {/* 02 — CALCULATOR SHOWCASE */}
+      <section id="calculator" className="border-b border-white/10 py-16 md:py-28">
         <div className="mx-auto max-w-6xl px-5">
 
           <SectionHeader
@@ -174,24 +159,24 @@ export default function HomePage() {
           <div className="grid items-start gap-8 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-5">
               <span className="sor7ed-pill">Featured tool · Wealth</span>
-              <h2 className="themed-strong mt-6 font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:text-[64px]">
+              <h2 className="mt-6 font-bebas text-4xl uppercase leading-[1.02] tracking-normal text-white md:text-[64px]">
                 The ADHD
                 <br />
-                <span className="themed-soft">Tax Calculator.</span>
+                <span className="text-[#F5C518]">Tax Calculator.</span>
               </h2>
-              <p className="mt-6 max-w-md text-[15px] leading-[1.7] themed-body">
+              <p className="mt-6 max-w-md text-[15px] leading-[1.7] text-neutral-300">
                 Three minutes. You put in the money you actually lost to late fees, forgotten
                 subscriptions, duplicate purchases and impulse buys. You get a real number, a leak map,
                 and a 30-day plan to cut it.
               </p>
-              <p className="themed-note mt-4 max-w-md text-[13px] leading-[1.6]">
+              <p className="mt-4 max-w-md text-[13px] leading-[1.6] text-neutral-500">
                 The tool is in private beta. Read what it does, see a live preview, then join the
                 waitlist to get access.
               </p>
               <div className="mt-8 flex items-center gap-4">
                 <Link
                   href="/tools/adhd-tax-calculator"
-                  className="themed-btn px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em]"
+                  className="bg-[#F5C518] px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-black transition-opacity hover:opacity-90"
                 >
                   Read about the tool
                 </Link>
@@ -209,16 +194,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 03 — THE IDEA · ink */}
-      <section id="about" className="theme-ink py-16 md:py-28">
+      {/* 03 — THE IDEA (paper theme) */}
+      <section id="about" className="theme-paper py-16 md:py-28">
         <div className="mx-auto max-w-6xl px-5">
 
           <SectionHeader index="03" label="THE IDEA" right="3 THINGS TO KNOW" />
 
           <div className="mb-12 max-w-3xl md:mb-20">
-            <h2 className="themed-strong font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:text-[64px]">
+            <h2 className="font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:text-[64px]">
               Support that fits{' '}
-              <span className="themed-soft">how your brain actually works.</span>
+              <span style={{ color: 'rgba(10,10,10,0.42)' }}>how your brain actually works.</span>
             </h2>
             <p className="mt-6 max-w-2xl text-[15px] leading-[1.7] themed-body md:mt-8 md:text-[16px]">
               Most productivity and wellbeing advice assumes a brain that plans ahead, starts on time, and
@@ -231,8 +216,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 04 — PILLARS LATTICE · gold */}
-      <section id="pillars" className="theme-gold py-16 md:py-28">
+      {/* 04 — PILLARS LATTICE */}
+      <section id="pillars" className="py-16 md:py-28">
         <div className="mx-auto max-w-6xl px-5">
 
           <SectionHeader
@@ -242,11 +227,11 @@ export default function HomePage() {
           />
 
           <div className="mb-10 max-w-3xl md:mb-16">
-            <h2 className="themed-strong font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:text-[64px]">
-              <span>Sorted by life area. </span>
-              <span className="themed-soft">Not by mood.</span>
+            <h2 className="font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:text-[64px]">
+              <span className="text-white">Sorted by life area. </span>
+              <span className="text-white/45">Not by mood.</span>
             </h2>
-            <p className="mt-6 max-w-2xl text-[15px] leading-[1.7] themed-body">
+            <p className="mt-6 max-w-2xl text-[15px] leading-[1.7] text-neutral-400">
               Seven categories. Every tool, every guide, every WhatsApp keyword — sorted here.
               Click a pillar to open its guidebook.
             </p>
@@ -256,16 +241,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 05 — FROM THE BLOG · ink */}
-      <section id="blog" className="theme-ink py-16 md:py-28">
+      {/* 05 — FROM THE BLOG (paper) */}
+      <section id="blog" className="theme-paper themed-hair-t py-16 md:py-28">
         <div className="mx-auto max-w-6xl px-5">
 
           <SectionHeader index="05" label="FROM THE BLOG" right="READ FIRST · TOOLS LATER" />
 
           <div className="mb-10 max-w-3xl md:mb-14">
-            <h2 className="themed-strong font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:text-[64px]">
+            <h2 className="font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:text-[64px]">
               Every tool starts as a post.{' '}
-              <span className="themed-soft">Read the thinking, then use the thing.</span>
+              <span style={{ color: 'rgba(10,10,10,0.42)' }}>Read the thinking, then use the thing.</span>
             </h2>
             <p className="mt-6 max-w-2xl text-[15px] leading-[1.7] themed-body">
               Each protocol is written up in plain English first — the problem, the pattern, the fix — with
@@ -282,7 +267,7 @@ export default function HomePage() {
           <div className="mt-10">
             <Link
               href="/intelligence"
-              className="themed-btn inline-flex items-center gap-2 px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em]"
+              className="inline-flex items-center gap-2 bg-black px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-white transition-opacity hover:opacity-90"
             >
               Read the blog →
             </Link>
@@ -290,8 +275,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 06 — BRAIN DUMP · paper */}
-      <section id="tool" className="theme-paper py-16 md:py-28">
+      {/* 06 — BRAIN DUMP (paper) */}
+      <section id="tool" className="theme-paper themed-hair-t py-16 md:py-28">
         <div className="mx-auto max-w-7xl px-5">
 
           <SectionHeader
@@ -303,16 +288,16 @@ export default function HomePage() {
           <div className="grid items-start gap-8 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-5">
               <span className="sor7ed-pill">Tool · Mind · Beta</span>
-              <h2 className="themed-strong mt-6 font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:text-[56px]">
+              <h2 className="mt-6 font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:text-[56px]">
                 Brain Dump
                 <br />
-                <span className="themed-soft">Sorter.</span>
+                <span style={{ color: 'rgba(10,10,10,0.42)' }}>Sorter.</span>
               </h2>
               <p className="mt-6 max-w-md text-[15px] leading-[1.7] themed-body">
                 Empty your head. We sort what came out into{' '}
                 <span
                   className="font-medium"
-                  style={{ color: '#000000', background: '#F5C518', padding: '0 4px' }}
+                  style={{ color: '#0A0A0A', background: '#F5C518', padding: '0 4px' }}
                 >
                   Do now
                 </span>
@@ -322,7 +307,7 @@ export default function HomePage() {
               <div className="mt-8 flex items-center gap-4">
                 <Link
                   href="#waitlist"
-                  className="themed-btn px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em]"
+                  className="bg-black px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-white transition-opacity hover:opacity-90"
                 >
                   Join the waitlist
                 </Link>
@@ -340,15 +325,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 07 — FAQ · ink (start of the dark FAQ + waitlist block) */}
-      <section className="theme-ink py-16 md:py-28">
+      {/* 07 — FAQ */}
+      <section className="py-16 md:py-28">
         <div className="mx-auto max-w-4xl px-5">
 
           <SectionHeader index="07" label="IS THIS FOR ME?" right="READ IF UNSURE" />
 
-          <h2 className="themed-strong mb-10 font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:mb-14 md:text-[56px]">
-            <span>A few honest answers </span>
-            <span className="themed-soft">before you commit five minutes.</span>
+          <h2 className="mb-10 font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:mb-14 md:text-[56px]">
+            <span className="text-white">A few honest answers </span>
+            <span className="text-white/45">before you commit five minutes.</span>
           </h2>
 
           <div>
@@ -377,7 +362,7 @@ export default function HomePage() {
             </FaqDisclosure>
             <FaqDisclosure question="Where do I start if I feel too overwhelmed to choose?">
               Start with the{' '}
-              <Link href="#calculator" className="themed-link">
+              <Link href="#calculator" className="text-[#F5C518] underline underline-offset-4">
                 ADHD Tax Calculator
               </Link>
               . Three minutes, one honest number, one next step. That's the whole promise of the site.
@@ -390,17 +375,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 08 — WAITLIST · ink (same block as the FAQ, hairline divider only) */}
-      <section id="waitlist" className="theme-ink themed-hair-t py-16 md:py-28">
+      {/* 08 — WAITLIST */}
+      <section id="waitlist" className="themed-hair-t py-16 md:py-28">
         <div className="mx-auto max-w-4xl px-5">
 
           <SectionHeader index="08" label="EARLY ACCESS" right="147 ON THE LIST · UK FIRST" />
 
-          <h2 className="themed-strong font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:text-[64px]">
+          <h2 className="font-bebas text-4xl uppercase leading-[1.02] tracking-normal text-white md:text-[64px]">
             <span>The blog is open. </span>
-            <span className="themed-soft">The tools are next.</span>
+            <span className="text-white/45">The tools are next.</span>
           </h2>
-          <p className="mt-6 max-w-2xl text-[15px] leading-[1.7] themed-body">
+          <p className="mt-6 max-w-2xl text-[15px] leading-[1.7] text-neutral-300">
             Drop your email and we'll send you a single message the day your tool access opens. No sequence,
             no drip, no newsletter guilt. One email. That's the whole deal.
           </p>
@@ -409,7 +394,7 @@ export default function HomePage() {
 
           <p className="themed-idx mt-6">
             By joining you accept the{' '}
-            <Link href="/privacy" className="themed-link">
+            <Link href="/privacy" className="text-[#F5C518] underline underline-offset-4">
               Privacy Notice
             </Link>
             . One email. Never sold. Unsubscribe with one tap.
@@ -417,13 +402,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 09 — CLOSING · paper (ends light, against the black site footer) */}
+      {/* 09 — CLOSING (paper) */}
       <section className="theme-paper py-20 md:py-32">
         <div className="mx-auto max-w-4xl px-5 text-center">
           <span className="themed-idx mb-6 block">09 / END</span>
-          <h2 className="themed-strong font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:text-[72px]">
+          <h2 className="font-bebas text-4xl uppercase leading-[1.02] tracking-normal md:text-[72px]">
             <span>Pick one thing. </span>
-            <span className="themed-soft">Do it badly. That still counts.</span>
+            <span style={{ color: 'rgba(10,10,10,0.42)' }}>Do it badly. That still counts.</span>
           </h2>
           <p className="themed-idx mt-10">Built by Claudio Kurath in London · 2026</p>
         </div>

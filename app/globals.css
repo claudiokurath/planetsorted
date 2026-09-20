@@ -41,10 +41,10 @@
 .sor7ed-pill {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--local-pill-border, rgba(245, 197, 24, 0.55));
+  border: 1px solid rgba(245, 197, 24, 0.55);
   border-radius: 999px;
   padding: 5px 13px;
-  color: var(--local-pill-fg, var(--sor7ed-gold));
+  color: var(--sor7ed-gold);
   font-size: 10px;
   font-weight: 400;
   letter-spacing: 0.18em;
@@ -110,77 +110,6 @@ p {
 
 /* --- 2026 marketing surface --- */
 
-/*
- * SECTION GROUNDS
- * Every landing section declares exactly one ground: .theme-ink (black),
- * .theme-paper (off-white) or .theme-gold (SOR7ED yellow). Grounds alternate
- * down the page so each seam between sections is unmistakable — it should be
- * obvious at a glance what belongs together and where a new section starts.
- *
- * Children never hard-code colours; they read the --local-* tokens below, so
- * a section can change ground without touching any of its components.
- *
- * .theme-ink deliberately sets no background of its own. That lets it double
- * as a token reset on a dark card sitting inside a light section (see
- * LeakBreakdownCard), where the card keeps its own bg but needs ink tokens.
- */
-
-.theme-ink {
-  --local-fg: #FFFFFF;
-  --local-body: #D4D4D4;
-  --local-muted: #8A8A8A;
-  --local-dim: rgba(255, 255, 255, 0.45);
-  --local-rule: rgba(255, 255, 255, 0.12);
-  --local-rule-strong: rgba(255, 255, 255, 0.30);
-  --local-hover: rgba(255, 255, 255, 0.03);
-  --local-accent: #F5C518;
-  --local-pill-border: rgba(245, 197, 24, 0.55);
-  --local-pill-fg: #F5C518;
-  --local-cta-bg: #F5C518;
-  --local-cta-fg: #000000;
-}
-
-/* Paper ground — true white, per the Paper token in the master doc.
-   (Not beige: the doc retires the old beige/red-rule styling, and beige
-   next to black reads as a muddy third colour rather than a clean break.) */
-.theme-paper {
-  background: #FFFFFF;
-  color: #000000;
-  --local-fg: #000000;
-  --local-body: rgba(0, 0, 0, 0.72);
-  --local-muted: #6A6A6A;
-  --local-dim: rgba(0, 0, 0, 0.48);
-  --local-rule: rgba(0, 0, 0, 0.12);
-  --local-rule-strong: rgba(0, 0, 0, 0.32);
-  --local-hover: rgba(0, 0, 0, 0.03);
-  /* On white, gold is a fill — never text. Emphasis goes black. */
-  --local-accent: #000000;
-  --local-pill-border: rgba(0, 0, 0, 0.28);
-  --local-pill-fg: #000000;
-  --local-cta-bg: #000000;
-  --local-cta-fg: #FFFFFF;
-}
-
-/* Gold ground — used once, on the pillars. Everything on it goes ink. */
-.theme-gold {
-  background: #F5C518;
-  color: #000000;
-  --local-fg: #000000;
-  --local-body: rgba(0, 0, 0, 0.78);
-  --local-muted: rgba(0, 0, 0, 0.62);
-  --local-dim: rgba(0, 0, 0, 0.52);
-  --local-rule: rgba(0, 0, 0, 0.20);
-  --local-rule-strong: rgba(0, 0, 0, 0.40);
-  --local-hover: rgba(0, 0, 0, 0.06);
-  --local-accent: #000000;
-  --local-pill-border: rgba(0, 0, 0, 0.35);
-  --local-pill-fg: #000000;
-  --local-cta-bg: #000000;
-  --local-cta-fg: #FFFFFF;
-}
-
-/* --- Ground-aware utilities ------------------------------------------- */
-
 /* Section-index labels (little 10px caps rows at the top of every section) */
 .themed-idx {
   font-family: var(--font-jetbrains-mono, ui-monospace, monospace);
@@ -188,49 +117,26 @@ p {
   line-height: 1;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--local-muted, #8a8a8a);
+  color: var(--sor7ed-muted, #8a8a8a);
   font-weight: 500;
 }
 
-.themed-body   { color: var(--local-body, #D4D4D4); }
-.themed-strong { color: var(--local-fg, #FFFFFF); }
-/* The half-tone second clause every headline on this page ends with. */
-.themed-soft   { color: var(--local-dim, rgba(255, 255, 255, 0.45)); }
-.themed-accent { color: var(--local-accent, #F5C518); }
-/* Quiet aside copy — smaller-voice paragraphs that are not index labels. */
-.themed-note   { color: var(--local-muted, #8A8A8A); }
-
-/* Section hairlines and internal rules (adapt to the ground) */
-.themed-hair-t { border-top: 1px solid var(--local-rule, rgba(255, 255, 255, 0.08)); }
-.themed-hair-b { border-bottom: 1px solid var(--local-rule, rgba(255, 255, 255, 0.08)); }
-.themed-rule   { border-color: var(--local-rule, rgba(255, 255, 255, 0.12)); }
-.themed-rule-strong { border-color: var(--local-rule-strong, rgba(255, 255, 255, 0.30)); }
-.themed-row-hover:hover { background-color: var(--local-hover, rgba(255, 255, 255, 0.03)); }
-
-/* Hover / focus states live here rather than as Tailwind variants: the themed-*
-   classes are unlayered, so they outrank anything Tailwind generates. These
-   descendant selectors are specific enough to win. */
-.group:hover .themed-hover-accent { color: var(--local-accent, #F5C518); }
-.themed-input:focus { border-color: var(--local-fg, #FFFFFF); }
-
-/* Primary action — gold on ink, ink on paper and gold. */
-.themed-btn {
-  background-color: var(--local-cta-bg, #F5C518);
-  color: var(--local-cta-fg, #000000);
-  transition: opacity 150ms ease;
+/* Off-white paper section (used by "Idea" and "From the blog") */
+.theme-paper {
+  background: #F5F2EA;
+  color: #0A0A0A;
+  --local-muted: #6a6a6a;
+  --local-dim:   #a3a3a3;
+  --local-body:  rgba(10, 10, 10, 0.72);
 }
-.themed-btn:hover { opacity: 0.9; }
+.theme-paper .themed-idx { color: var(--local-muted); }
+.theme-paper .themed-body { color: var(--local-body); }
 
-/* Secondary action — hairline outline in the ground's own ink. */
-.themed-btn-ghost {
-  border: 1px solid var(--local-rule-strong, rgba(255, 255, 255, 0.30));
-  color: var(--local-fg, #FFFFFF);
-  transition: border-color 150ms ease;
-}
-.themed-btn-ghost:hover { border-color: var(--local-fg, #FFFFFF); }
+/* Section hairlines (top / bottom rules that adapt to theme) */
+.themed-hair-t { border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.themed-hair-b { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.theme-paper.themed-hair-t,
+.theme-paper .themed-hair-t { border-top-color: rgba(10, 10, 10, 0.10); }
+.theme-paper.themed-hair-b,
+.theme-paper .themed-hair-b { border-bottom-color: rgba(10, 10, 10, 0.10); }
 
-.themed-link {
-  color: var(--local-accent, #F5C518);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}

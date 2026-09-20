@@ -1,5 +1,5 @@
 /**
- * "The idea" — three-column supporting statement. Ground-agnostic.
+ * "The idea" — three-column supporting statement. Paper theme.
  * Copy is the same as the old <AboutIntro /> — kept for continuity.
  */
 const COLUMNS = [
@@ -26,10 +26,10 @@ export function IdeaColumns() {
       {COLUMNS.map((c, i) => (
         <div
           key={c.idx}
-          className={`themed-rule md:px-10 ${i > 0 ? 'md:border-l' : ''}`}
+          className={`md:px-10 ${i > 0 ? 'md:border-l md:border-[rgba(10,10,10,0.10)]' : ''}`}
         >
           <span className="themed-idx block mb-4">{c.idx}</span>
-          <h3 className="mb-3 font-bebas text-2xl uppercase leading-tight tracking-normal themed-strong md:text-[26px]">
+          <h3 className="mb-3 font-bebas text-2xl uppercase leading-tight tracking-normal md:text-[26px]">
             {c.head}
           </h3>
           <p className="max-w-xs text-[14px] leading-relaxed themed-body">{c.body}</p>
