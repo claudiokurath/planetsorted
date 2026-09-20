@@ -37,7 +37,7 @@ export function WaitlistForm({ endpoint = '/api/waitlist' }: { endpoint?: string
 
   if (state === 'done') {
     return (
-      <p className="mt-10 border-t border-[#F5C518]/40 pt-6 text-[15px] text-white">
+      <p className="themed-strong mt-10 border-t themed-rule-strong pt-6 text-[15px]">
         You're on the list. We'll email once — the day your slot opens.
       </p>
     )
@@ -47,7 +47,7 @@ export function WaitlistForm({ endpoint = '/api/waitlist' }: { endpoint?: string
     <>
       <form
         onSubmit={submit}
-        className="mt-10 grid gap-3 sm:grid-cols-[1fr_auto] sm:gap-0 sm:border-b sm:border-white/20"
+        className="themed-rule-strong mt-10 grid gap-3 sm:grid-cols-[1fr_auto] sm:gap-0 sm:border-b"
       >
         <input
           type="email"
@@ -57,18 +57,18 @@ export function WaitlistForm({ endpoint = '/api/waitlist' }: { endpoint?: string
           placeholder="you@yourbrain.com"
           aria-label="Your email address"
           disabled={state === 'sending'}
-          className="border border-white/20 bg-transparent px-4 py-4 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#F5C518] sm:border-0 sm:border-b-0 disabled:opacity-60"
+          className="themed-input themed-strong themed-rule-strong border bg-transparent px-4 py-4 placeholder:text-[color:var(--local-muted)] focus:outline-none sm:border-0 disabled:opacity-60"
         />
         <button
           type="submit"
           disabled={state === 'sending'}
-          className="bg-[#F5C518] px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-black transition-opacity hover:opacity-90 disabled:opacity-60"
+          className="themed-btn px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] disabled:opacity-60"
         >
           {state === 'sending' ? 'Sending…' : 'Join Waitlist'}
         </button>
       </form>
       {state === 'error' ? (
-        <p className="mt-3 text-[13px] text-[#F5C518]">
+        <p className="themed-accent mt-3 text-[13px]">
           Couldn't sign you up ({errorMsg}). Try again or drop us an email.
         </p>
       ) : null}

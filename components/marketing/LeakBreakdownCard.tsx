@@ -11,7 +11,7 @@ const LEAKS = [
 
 export function LeakBreakdownCard() {
   return (
-    <div className="relative overflow-hidden border border-white/10 bg-neutral-950 p-6 md:p-10">
+    <div className="theme-ink relative overflow-hidden border border-white/10 bg-black p-6 shadow-[0_30px_60px_-30px_rgba(10,10,10,0.45)] md:p-10">
       <div className="absolute inset-x-0 top-0 h-[3px] bg-[#F5C518]" />
 
       <div className="mb-5 flex items-center justify-between">

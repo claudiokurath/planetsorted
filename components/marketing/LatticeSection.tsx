@@ -19,26 +19,26 @@ const PILLARS = [
 
 export function LatticeSection() {
   return (
-    <div className="border-t border-white/10">
+    <div className="border-t themed-rule">
       {PILLARS.map((p) => (
         <Link
           key={p.slug}
           href={`/category/${p.slug}`}
-          className="group grid grid-cols-[auto_1fr_auto_auto] items-center gap-6 border-b border-white/10 px-2 py-7 transition-colors hover:bg-white/[0.02] md:gap-10 md:py-9"
+          className="themed-row-hover group grid grid-cols-[auto_1fr_auto_auto] items-center gap-6 border-b themed-rule px-2 py-7 transition-colors md:gap-10 md:py-9"
         >
-          <span className="font-mono text-[11px] tracking-widest text-neutral-500 group-hover:text-[#F5C518]">
+          <span className="themed-idx themed-hover-accent transition-colors">
             {p.idx}
           </span>
           <div>
-            <div className="font-bebas text-4xl uppercase leading-none tracking-normal text-white transition-colors group-hover:text-[#F5C518] md:text-6xl">
+            <div className="themed-strong themed-hover-accent font-bebas text-4xl uppercase leading-none tracking-normal transition-colors md:text-6xl">
               {p.name}
             </div>
-            <div className="mt-2 text-[12px] text-neutral-500 md:text-sm">{p.tag}</div>
+            <div className="mt-2 text-[12px] themed-body md:text-sm">{p.tag}</div>
           </div>
-          <span className="hidden text-[11px] uppercase tracking-widest text-neutral-500 md:inline">
+          <span className="themed-idx hidden md:inline">
             {p.count} Protocols
           </span>
-          <span className="font-mono text-lg text-neutral-500 group-hover:text-[#F5C518]" aria-hidden>
+          <span className="themed-note themed-hover-accent font-mono text-lg transition-colors" aria-hidden>
             →
           </span>
         </Link>

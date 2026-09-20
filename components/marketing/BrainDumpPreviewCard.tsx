@@ -30,8 +30,8 @@ const BUCKET_STYLES: Record<string, string> = {
 export function BrainDumpPreviewCard() {
   return (
     <div
-      className="overflow-hidden rounded-lg border bg-neutral-950 shadow-[0_30px_60px_-30px_rgba(10,10,10,0.35)]"
-      style={{ borderColor: 'rgba(10,10,10,0.25)' }}
+      className="theme-ink overflow-hidden rounded-lg border bg-black shadow-[0_30px_60px_-30px_rgba(10,10,10,0.35)]"
+      style={{ borderColor: 'rgba(0,0,0,0.25)' }}
     >
       <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.02] px-5 py-3.5">
         <div className="flex gap-1.5">
