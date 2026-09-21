@@ -5,7 +5,6 @@ import { AboutIntro } from '@/components/AboutIntro'
 import { ContentCard } from '@/components/ContentCard'
 import { PageHeader } from '@/components/PageHeader'
 import { createServerClient } from '@/lib/supabase/server'
-import { CATEGORY_LIST } from '@/lib/categoryStyles'
 
 const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
 const OG_CARD = '/api/og?card=welcome'
@@ -37,17 +36,26 @@ export const revalidate = 60
 export default async function HomePage() {
   const supabase = createServerClient()
 
-  // One query, then count in memory — seven buckets is not worth seven round trips.
-  const { data: published } = await supabase
-    .from('protocols')
-    .select('category')
-    .eq('status', 'Published')
+  // Same shape and filters as /intelligence and /tools, capped at three so the
+  // landing page stays a preview rather than a second listing page.
+  const COLUMNS = 'slug, title, summary, cover_image, read_time, category'
 
-  const counts = new Map<string, number>()
-  for (const row of published ?? []) {
-    const key = (row as { category: string | null }).category
-    if (key) counts.set(key, (counts.get(key) ?? 0) + 1)
-  }
+  const [{ data: guidebook }, { data: toolbox }] = await Promise.all([
+    supabase
+      .from('protocols')
+      .select(COLUMNS)
+      .eq('status', 'Published')
+      .or('type.eq.Article,type.is.null')
+      .order('updated_at', { ascending: false })
+      .limit(3),
+    supabase
+      .from('protocols')
+      .select(COLUMNS)
+      .eq('status', 'Published')
+      .eq('type', 'Tool')
+      .order('updated_at', { ascending: false })
+      .limit(3),
+  ])
 
   return (
     <div
@@ -72,50 +80,99 @@ export default async function HomePage() {
 
       <AboutIntro />
 
-      {/* Pillars. Same card treatment as the Guidebook — PageHeader and
-          ContentCard already do this job on /intelligence, so this is
-          composition rather than a second set of components. */}
-      <section
-        className="border-t border-white/10 bg-black"
-        style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
-      >
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-          <PageHeader
-            eyebrow="Content pillars"
-            title="7 Pillars"
-            description="Every part of ND adult life. Pick a pillar to see its tools and guidebook protocols."
-          />
+      <PreviewRow
+        eyebrow="PLANET SOR7ED INTELLIGENCE"
+        title="Guidebook"
+        description="Plain-English protocols that turn chaos into a next step."
+        hrefBase="/intelligence"
+        viewAllLabel="All protocols"
+        items={guidebook ?? []}
+      />
 
-          <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {CATEGORY_LIST.map((pillar, index) => {
-              const count = counts.get(pillar.label) ?? 0
-              return (
-                <ContentCard
-                  key={pillar.slug}
-                  href={`/category/${pillar.slug}`}
-                  title={pillar.label}
-                  summary={pillar.blurb}
-                  category={pillar.label}
-                  meta={count > 0 ? `${count} ${count === 1 ? 'PROTOCOL' : 'PROTOCOLS'}` : undefined}
-                  index={index}
-                />
-              )
-            })}
-          </div>
+      <PreviewRow
+        eyebrow="PLANET SOR7ED LAB"
+        title="Toolbox"
+        description="Interactive tools that turn overwhelm into a next action."
+        hrefBase="/tools"
+        viewAllLabel="All tools"
+        items={toolbox ?? []}
+      />
 
-          <div className="mt-16 flex flex-col items-center gap-3 border-t border-white/10 pt-8 text-center sm:mt-20">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-neutral-500">
-              Built by Claudio Kurath in London
-            </p>
-            <Link
-              href="/tools"
-              className="font-bebas text-lg uppercase tracking-normal text-[#F5C518] transition-opacity hover:opacity-80"
-            >
-              Start with a tool &rarr;
-            </Link>
-          </div>
-        </div>
-      </section>
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 border-t border-white/10 px-4 py-12 text-center sm:px-6 lg:px-8">
+        <p className="text-[11px] uppercase tracking-[0.18em] text-neutral-500">
+          Built by Claudio Kurath in London
+        </p>
+        <Link
+          href="/tools"
+          className="font-bebas text-lg uppercase tracking-normal text-[#F5C518] transition-opacity hover:opacity-80"
+        >
+          Start with a tool &rarr;
+        </Link>
+      </div>
     </div>
+  )
+}
+
+interface PreviewItem {
+  slug: string
+  title: string
+  summary: string | null
+  cover_image: string | null
+  read_time: string | null
+  category: string | null
+}
+
+function PreviewRow({
+  eyebrow,
+  title,
+  description,
+  hrefBase,
+  viewAllLabel,
+  items,
+}: {
+  eyebrow: string
+  title: string
+  description: string
+  hrefBase: string
+  viewAllLabel: string
+  items: PreviewItem[]
+}) {
+  // Nothing published yet is a real state on this site — say nothing rather
+  // than leaving an empty heading stranded on the page.
+  if (items.length === 0) return null
+
+  return (
+    <section
+      className="border-t border-white/10 bg-black"
+      style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
+    >
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <PageHeader eyebrow={eyebrow} title={title} description={description} />
+
+        <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
+            <ContentCard
+              key={item.slug}
+              href={`${hrefBase}/${item.slug}`}
+              title={item.title}
+              summary={item.summary ?? undefined}
+              coverImage={item.cover_image}
+              category={item.category}
+              meta={item.read_time ?? undefined}
+              showCover
+            />
+          ))}
+        </div>
+
+        <div className="mt-10 flex justify-center">
+          <Link
+            href={hrefBase}
+            className="rounded-none border border-[#F5C518] px-7 py-3.5 text-xs font-medium uppercase tracking-[0.16em] text-[#F5C518] transition-colors hover:bg-[#F5C518]/10"
+          >
+            {viewAllLabel}
+          </Link>
+        </div>
+      </div>
+    </section>
   )
 }

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { getCategoryStyle } from '@/lib/categoryStyles'
 
@@ -12,6 +13,12 @@ interface ContentCardProps {
   compact?: boolean
   /** Deck-style number rail ("01", "02"…). Omit in compact/dashboard surfaces. */
   index?: number
+  /**
+   * Opt-in cover art. Listing surfaces stay title-led (see dbad233); only the
+   * landing page's preview rows turn this on, so the covers stay a highlight
+   * rather than the default everywhere.
+   */
+  showCover?: boolean
 }
 
 export function ContentCard({
@@ -22,9 +29,12 @@ export function ContentCard({
   category,
   compact = false,
   index,
+  coverImage,
+  showCover = false,
 }: ContentCardProps) {
   const style = getCategoryStyle(category)
   const rail = typeof index === 'number' ? String(index + 1).padStart(2, '0') : null
+  const cover = showCover && coverImage ? coverImage : null
 
   return (
     <Link
@@ -38,7 +48,19 @@ export function ContentCard({
         </span>
       )}
 
-      <div className={`flex min-w-0 flex-1 flex-col justify-between gap-3 p-4 sm:p-6 ${compact ? 'sm:min-h-52' : 'sm:min-h-72 sm:gap-5 lg:p-7'}`}>
+      {cover && (
+        <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden border-b border-white/[0.12]">
+          <Image
+            src={cover}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          />
+        </div>
+      )}
+
+      <div className={`flex min-w-0 flex-1 flex-col justify-between gap-3 p-4 sm:p-6 ${compact ? 'sm:min-h-52' : cover ? 'sm:gap-4 lg:p-7' : 'sm:min-h-72 sm:gap-5 lg:p-7'}`}>
         <div className="flex flex-col flex-1">
           {style && (
             <div className={compact ? undefined : 'pl-7 sm:pl-8'}>
@@ -55,7 +77,7 @@ export function ContentCard({
           )}
           {/* Title only — no summary blurb. Sized ~2× the previous card title. */}
           <h3
-            className={`font-bebas ${compact ? 'text-[1.75rem] sm:text-4xl' : 'text-[1.75rem] sm:text-4xl lg:text-5xl'} mt-4 line-clamp-3 uppercase leading-[1.15] text-white transition-colors group-hover:text-[#F5C518] sm:mt-8`}
+            className={`font-bebas ${compact ? 'text-[1.75rem] sm:text-4xl' : 'text-[1.75rem] sm:text-4xl lg:text-5xl'} mt-4 line-clamp-3 uppercase leading-[1.15] text-white transition-colors group-hover:text-[#F5C518] ${cover ? 'sm:mt-4' : 'sm:mt-8'}`}
           >
             {title}
           </h3>
