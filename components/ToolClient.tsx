@@ -2,6 +2,7 @@ import { ContentHero } from '@/components/ContentHero'
 import { ContentCard } from '@/components/ContentCard'
 import { GammaEmbed } from '@/components/GammaEmbed'
 import { gammaEmbedUrl } from '@/lib/content/gammaEmbed'
+import { ToolWhatsAppCta } from '@/components/ToolWhatsAppCta'
 import type { Protocol } from '@/lib/types/database'
 
 type RelatedArticle = Pick<Protocol, 'slug' | 'title' | 'cover_image' | 'read_time' | 'category'>
@@ -41,7 +42,9 @@ function splitToolSummary(summary?: string | null, fallbackDescription?: string 
 
 export function ToolClient({ toolData, relatedArticles = [] }: ToolClientProps) {
   const { description, explanation } = splitToolSummary(toolData.summary, toolData.meta_description)
-  const gammaEmbed = gammaEmbedUrl(toolData.blog_gamma_url ?? null)
+  // Tools sync their single Notion "Gamma" property into gamma_url;
+  // blog_gamma_url stays as a fallback for anything set the old way.
+  const gammaEmbed = gammaEmbedUrl(toolData.gamma_url ?? toolData.blog_gamma_url ?? null)
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -68,6 +71,9 @@ export function ToolClient({ toolData, relatedArticles = [] }: ToolClientProps) 
             </p>
           </section>
         ) : null}
+
+        {/* The deck is the pitch; this is the next step off the back of it. */}
+        <ToolWhatsAppCta slug={toolData.slug} />
 
         {relatedArticles.length > 0 && (
           <section className="border-t border-white/[0.12] pt-10">
