@@ -38,3 +38,8 @@ CREATE TABLE IF NOT EXISTS notion_webhook_events (
 CREATE INDEX IF NOT EXISTS idx_webhook_events_created_at ON notion_webhook_events(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_webhook_events_status ON notion_webhook_events(status);
 CREATE INDEX IF NOT EXISTS idx_webhook_events_slug ON notion_webhook_events(slug);
+
+-- This table is written only by the sync routes using the service role, which
+-- bypasses RLS. Enabling RLS with no policies keeps it unreadable from the
+-- anon and authenticated keys.
+ALTER TABLE notion_webhook_events ENABLE ROW LEVEL SECURITY;
