@@ -130,6 +130,10 @@ async function syncPublishedContent(source: SyncSource) {
             title: getText(props['Name']),
             category: mapCategory(props['Category 1']?.select?.name),
             cta: props['CTA Text']?.select?.name ?? '',
+            // Tools carry a single "Gamma" property. It holds either a share
+            // link or the whole <iframe> snippet from Gamma's embed dialog —
+            // gammaEmbedUrl normalises both, so store what Notion has verbatim.
+            gamma_url: getUrl(props['Gamma']),
           }
 
       const { error } = await getSupabase().from('protocols').upsert(row, { onConflict: 'slug' })
@@ -286,6 +290,10 @@ async function syncPageFromNotion(page: any, sourceType: 'Article' | 'Tool') {
         title: getText(props['Name']),
         category: mapCategory(props['Category 1']?.select?.name),
         cta: props['CTA Text']?.select?.name ?? '',
+        // Tools carry a single "Gamma" property. It holds either a share
+        // link or the whole <iframe> snippet from Gamma's embed dialog —
+        // gammaEmbedUrl normalises both, so store what Notion has verbatim.
+        gamma_url: getUrl(props['Gamma']),
       }
 
   const { error } = await getSupabase().from('protocols').upsert(row, { onConflict: 'slug' })
