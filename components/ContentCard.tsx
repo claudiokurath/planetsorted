@@ -43,24 +43,27 @@ export function ContentCard({
     >
       {/* Deck-style number rail — system string, yellow on hover */}
       {rail && (
-        <span className="absolute left-4 top-4 font-mono text-[11px] font-medium tracking-widest text-neutral-600 transition-colors group-hover:text-[#F5C518] sm:left-5 sm:top-5">
+        <span className="absolute left-4 top-4 z-10 font-mono text-[11px] font-medium tracking-widest text-neutral-600 transition-colors group-hover:text-[#F5C518] sm:left-5 sm:top-5">
           {rail}
         </span>
       )}
 
       {cover && (
-        <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden border-b border-white/[0.12]">
+        <>
           <Image
             src={cover}
             alt=""
             fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            sizes="(min-width: 640px) 50vw, 100vw"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
-        </div>
+          {/* Flat scrim, not a gradient — the type has to stay readable over
+              any photograph, and the brand does not use gradients. */}
+          <div className="absolute inset-0 bg-black/65 transition-colors duration-300 group-hover:bg-black/55" />
+        </>
       )}
 
-      <div className={`flex min-w-0 flex-1 flex-col justify-between gap-3 p-4 sm:p-6 ${compact ? 'sm:min-h-52' : cover ? 'sm:gap-4 lg:p-7' : 'sm:min-h-72 sm:gap-5 lg:p-7'}`}>
+      <div className={`relative z-10 flex min-w-0 flex-1 flex-col justify-between gap-3 p-4 sm:p-6 ${compact ? 'sm:min-h-52' : 'sm:min-h-72 sm:gap-5 lg:p-7'}`}>
         <div className="flex flex-col flex-1">
           {style && (
             <div className={compact ? undefined : 'pl-7 sm:pl-8'}>
@@ -77,7 +80,7 @@ export function ContentCard({
           )}
           {/* Title only — no summary blurb. Sized ~2× the previous card title. */}
           <h3
-            className={`font-bebas ${compact ? 'text-[1.75rem] sm:text-4xl' : 'text-[1.75rem] sm:text-4xl lg:text-5xl'} mt-4 line-clamp-3 uppercase leading-[1.15] text-white transition-colors group-hover:text-[#F5C518] ${cover ? 'sm:mt-4' : 'sm:mt-8'}`}
+            className={`font-bebas ${compact ? 'text-[1.75rem] sm:text-4xl' : 'text-[1.75rem] sm:text-4xl lg:text-5xl'} mt-4 line-clamp-3 uppercase leading-[1.15] text-white transition-colors group-hover:text-[#F5C518] sm:mt-8`}
           >
             {title}
           </h3>

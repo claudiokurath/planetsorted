@@ -149,7 +149,7 @@ function PreviewRow({
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <PageHeader eyebrow={eyebrow} title={title} description={description} />
 
-        <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2">
           {items.map((item) => (
             <ContentCard
               key={item.slug}
