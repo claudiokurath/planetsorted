@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { SortedSaveButton } from '@/components/SortedSaveButton'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -66,23 +65,23 @@ export function ToolWhatsAppCta({ slug }: Props) {
     })
   }
 
+  // Everyone gets the same mark. Only what the click does changes: a visitor
+  // who cannot receive anything yet is sent to sign up rather than being handed
+  // a consolation text link, which is how the control ended up invisible to
+  // precisely the people it exists to convert.
   if (!ready) {
-    const href = isLoggedIn
-      ? '/dashboard?tab=settings'
-      : `/signup?next=${encodeURIComponent(`/tools/${slug}`)}`
-    const label = isLoggedIn
-      ? 'Connect WhatsApp to receive it'
-      : 'Sign in to get the complete tool'
-
     return (
-      <div className="flex flex-col items-center gap-4 border-y border-white/[0.12] py-7 text-center">
-        <Link
-          href={href}
-          className="font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500 transition-colors hover:text-[#F5C518]"
-        >
-          {label} &rarr;
-        </Link>
-      </div>
+      <SortedSaveButton
+        href={
+          isLoggedIn
+            ? '/dashboard?tab=settings'
+            : `/signup?next=${encodeURIComponent(`/tools/${slug}`)}`
+        }
+        copy={{
+          lead: 'Get this sorted',
+          trail: isLoggedIn ? 'connect WhatsApp' : 'sign up to receive',
+        }}
+      />
     )
   }
 

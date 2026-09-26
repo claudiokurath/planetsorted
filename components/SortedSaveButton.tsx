@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 /** Timings from the v9 handoff. */
@@ -24,6 +25,14 @@ interface Props {
    *  the mark has already resolved and yanking it back reads as a glitch. */
   onSave?: () => void | Promise<void>
   disabled?: boolean
+  /**
+   * When set, the mark navigates here instead of resolving. Everyone sees the
+   * same control; only what the click does changes. Visitors who cannot receive
+   * anything yet still get the mark rather than a consolation text link.
+   */
+  href?: string
+  /** Rest-state words. The done copy is fixed — it describes what happened. */
+  copy?: { lead: string; trail: string }
 }
 
 /**
@@ -37,7 +46,12 @@ interface Props {
  * The tangle is raster on purpose; a vector trace was tried and rejected because
  * the hand-drawn character does not survive it.
  */
-export function SortedSaveButton({ onSave, disabled = false }: Props) {
+export function SortedSaveButton({
+  onSave,
+  disabled = false,
+  href,
+  copy: restCopy = COPY.rest,
+}: Props) {
   const rootRef = useRef<HTMLDivElement>(null)
   const rafRef = useRef<number | null>(null)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -106,33 +120,43 @@ export function SortedSaveButton({ onSave, disabled = false }: Props) {
     }
   }
 
-  const copy = done ? COPY.done : COPY.rest
+  const copy = done ? COPY.done : restCopy
+
+  const mark = (
+    <span className="sb__mark">
+      <Image
+        className="sb__tangle"
+        src="/images/tangle-white.png"
+        alt=""
+        width={84}
+        height={84}
+        draggable={false}
+      />
+      <svg className="sb__tick" viewBox="-24 -24 48 48" aria-hidden="true">
+        <path d="M -13 1 L -3 11 L 15 -11" />
+      </svg>
+    </span>
+  )
 
   return (
     <div ref={rootRef} className="sb">
       <span className="sb__label sb__label--lead">{copy.lead}</span>
 
-      <button
-        type="button"
-        className="sb__btn"
-        aria-label="Save — SOR7ED"
-        onClick={handleClick}
-        disabled={disabled}
-      >
-        <span className="sb__mark">
-          <Image
-            className="sb__tangle"
-            src="/images/tangle-white.png"
-            alt=""
-            width={84}
-            height={84}
-            draggable={false}
-          />
-          <svg className="sb__tick" viewBox="-24 -24 48 48" aria-hidden="true">
-            <path d="M -13 1 L -3 11 L 15 -11" />
-          </svg>
-        </span>
-      </button>
+      {href ? (
+        <Link href={href} className="sb__btn" aria-label={`${copy.lead} — SOR7ED`}>
+          {mark}
+        </Link>
+      ) : (
+        <button
+          type="button"
+          className="sb__btn"
+          aria-label="Save — SOR7ED"
+          onClick={handleClick}
+          disabled={disabled}
+        >
+          {mark}
+        </button>
+      )}
 
       <span className="sb__label">{copy.trail}</span>
 
@@ -145,7 +169,9 @@ export function SortedSaveButton({ onSave, disabled = false }: Props) {
         .sb {
           /* Handoff defaults remapped to the site's tokens. The tangle asset
              carries its own ink, so --sb-ink is not needed here. */
-          --sb-accent: #f5c518;
+          /* WhatsApp green: the tick is the destination, not the brand
+             accent. Scoped to this control — the site stays #F5C518. */
+          --sb-accent: #25d366;
           --sb-muted: #737373;
           --sb-line: rgba(255, 255, 255, 0.12);
           --sb-ease: cubic-bezier(0.16, 1, 0.3, 1);
