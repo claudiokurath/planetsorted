@@ -1,7 +1,8 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
+import { SortedSaveButton } from '@/components/SortedSaveButton'
 import { createBrowserClient } from '@/lib/supabase/client'
 
 interface Props {
@@ -9,13 +10,17 @@ interface Props {
 }
 
 /**
- * Resolves the viewer's sign-in and WhatsApp state in the browser, then hands it
- * to SaveToPhoneButton.
+ * The send control on a tool page: the SOR7ED mark, which resolves into a tick
+ * once the tool is on its way to the visitor's chat.
  *
- * Deliberately client-side: /tools/[slug] is a cacheable public page, and
- * reading the session on the server would make it per-user dynamic for every
- * visitor. Until the profile lands we render the signed-out button, which is the
- * correct thing to show anyone who is not logged in anyway.
+ * Auth is resolved in the browser on purpose. /tools/[slug] is a cacheable
+ * public page, and reading the session on the server would make it per-user
+ * dynamic for every visitor.
+ *
+ * Note for whoever picks this up: the v9 handoff's button has no sign-in gate,
+ * and the master document records that gating public CTAs was what "silently
+ * blocked most visitors from receiving anything". The gate is kept here only
+ * because removing it is a behaviour decision, not a visual one.
  */
 export function ToolWhatsAppCta({ slug }: Props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -41,7 +46,7 @@ export function ToolWhatsAppCta({ slug }: Props) {
         const profile = await res.json()
         if (!cancelled) setWhatsappVerified(Boolean(profile?.whatsapp_verified))
       } catch {
-        // Leave the signed-out button in place — it still gives a usable path.
+        // Leave the signed-out path in place — it is still a usable next step.
       }
     }
 
@@ -51,14 +56,35 @@ export function ToolWhatsAppCta({ slug }: Props) {
     }
   }, [])
 
-  return (
-    <div className="flex justify-center border-t border-white/[0.12] pt-8">
-      <SaveToPhoneButton
-        slug={slug}
-        context="tool"
-        isLoggedIn={isLoggedIn}
-        whatsappVerified={whatsappVerified}
-      />
-    </div>
-  )
+  const ready = isLoggedIn && whatsappVerified
+
+  async function send() {
+    await fetch('/api/save-to-phone', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug, context: 'tool', includeLink: true }),
+    })
+  }
+
+  if (!ready) {
+    const href = isLoggedIn
+      ? '/dashboard?tab=settings'
+      : `/signup?next=${encodeURIComponent(`/tools/${slug}`)}`
+    const label = isLoggedIn
+      ? 'Connect WhatsApp to receive it'
+      : 'Sign in to get the complete tool'
+
+    return (
+      <div className="flex flex-col items-center gap-4 border-y border-white/[0.12] py-7 text-center">
+        <Link
+          href={href}
+          className="font-mono text-[11px] uppercase tracking-[0.14em] text-neutral-500 transition-colors hover:text-[#F5C518]"
+        >
+          {label} &rarr;
+        </Link>
+      </div>
+    )
+  }
+
+  return <SortedSaveButton onSave={send} />
 }
