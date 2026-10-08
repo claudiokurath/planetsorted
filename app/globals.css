@@ -148,6 +148,8 @@ p {
 .sorted-hero-top, .sorted-hero-footnote { display: flex; justify-content: space-between; gap: 20px; }
 .sorted-eyebrow { display: block; font-size: .875rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: #F5C518; }
 .sorted-hero-motto { font-size: .875rem; color: #aaa; }
+.sorted-hero-video { width: min(100%, 400px); margin: 28px auto 0; aspect-ratio: 1; }
+.sorted-hero-video video { display: block; width: 100%; height: 100%; object-fit: contain; }
 .sorted-hero h1 { max-width: 1050px; margin: 36px 0 42px; font-family: var(--font-anton), 'Arial Narrow', sans-serif; font-size: clamp(3.4rem, 8.5vw, 7.4rem); line-height: 1.08; letter-spacing: -.015em; text-transform: uppercase; text-wrap: balance; }
 .sorted-hero h1 span { color: #F5C518; }
 .sorted-hero-bottom { display: flex; align-items: center; justify-content: space-between; gap: 48px; }

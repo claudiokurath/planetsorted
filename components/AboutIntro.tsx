@@ -16,6 +16,12 @@ export function AboutIntro() {
           <span className="sorted-eyebrow">Neurodivergent-first platform</span>
           <span className="sorted-hero-motto">Worry less, live more.</span>
         </div>
+        <div className="sorted-hero-video">
+          <video autoPlay loop muted playsInline controls preload="metadata" aria-label="SOR7ED brand animation">
+            <source src="/media/sequence01_1.mp4" type="video/mp4" />
+            Your browser does not support this video.
+          </video>
+        </div>
         <h1 id="home-heading">Tools built for brains that work <span>differently.</span></h1>
         <div className="sorted-hero-bottom">
           <div className="sorted-hero-copy">
