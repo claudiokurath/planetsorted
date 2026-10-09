@@ -11,6 +11,21 @@ export function SiteFooter() {
 
   if (isStandaloneToolRoute(pathname)) return null
 
+  if (pathname === '/') {
+    return (
+      <footer className="border-t border-white/10 px-6 py-5 pb-24 text-xs text-neutral-400 md:pb-5">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
+          <p>© {new Date().getFullYear()} SOR7ED LIMITED</p>
+          <nav aria-label="Legal information" className="flex gap-5">
+            <Link href="/privacy" className="hover:text-white">Privacy</Link>
+            <Link href="/terms" className="hover:text-white">Terms</Link>
+            <Link href="/cookies" className="hover:text-white">Cookies</Link>
+          </nav>
+        </div>
+      </footer>
+    )
+  }
+
   return (
     <footer className="border-t border-white/10 bg-black py-12 text-white pb-24 md:pb-12">
       <div className="mx-auto max-w-7xl px-6">

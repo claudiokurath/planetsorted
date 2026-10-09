@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { CATEGORY_LIST } from '@/lib/categoryStyles'
 
@@ -11,31 +10,6 @@ const STEPS = [
 export function AboutIntro() {
   return (
     <div className="sorted-intro">
-      <section className="sorted-photo-hero" aria-labelledby="home-heading">
-        <div className="sorted-photo-hero-copy">
-          <div className="sorted-photo-hero-mark" aria-hidden="true">
-            <video autoPlay loop muted playsInline preload="metadata" tabIndex={-1}>
-              <source src="/media/sequence01_1.mp4" type="video/mp4" />
-            </video>
-            <Image className="sorted-photo-hero-static-mark" src="/images/tangle-yellow.png" alt="" width={112} height={112} />
-          </div>
-          <span className="sorted-photo-hero-eyebrow">Neurodivergent-first. Everyday life.</span>
-          <h1 id="home-heading">Built for brains<br />that work <span>differently.</span></h1>
-          <div className="sorted-photo-hero-description">
-            <p>SOR7ED is a practical support hub for ADHD, autistic, AuDHD, dyslexic, bipolar and other neurodivergent adults.</p>
-            <p>Tools, protocols and plain-language guides that make everyday life less overwhelming. One clear next step.</p>
-          </div>
-          <div className="sorted-actions">
-            <Link href="/tools" className="sorted-action sorted-action-primary">Explore the tools</Link>
-            <Link href="/intelligence" className="sorted-action sorted-action-secondary">Read the guidebook</Link>
-          </div>
-          <span className="sorted-photo-hero-motto">Worry less, live more.</span>
-        </div>
-        <div className="sorted-photo-hero-image">
-          <Image src="/images/hero-yellow-portrait.webp" alt="A man in a yellow suit looking at his phone" fill sizes="(max-width: 800px) 100vw, 40vw" preload className="sorted-photo-hero-portrait" />
-        </div>
-      </section>
-
       <section className="sorted-section" aria-labelledby="how-heading">
         <div className="sorted-section-heading">
           <div><span className="sorted-eyebrow">01 / How it works</span><h2 id="how-heading">Less friction.<br /><span>More living.</span></h2></div>
