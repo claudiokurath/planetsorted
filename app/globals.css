@@ -204,6 +204,8 @@ p {
 @media print {
   html body { background: #fff !important; color: #000 !important; }
   html body main, html body main * {
+    transition: none !important;
+    animation: none !important;
     color: #000 !important;
     background-color: transparent !important;
     background-image: none !important;
