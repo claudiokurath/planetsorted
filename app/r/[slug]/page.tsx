@@ -15,7 +15,7 @@ import { ogImageForContent, proxiedCoverImage } from '@/lib/og/imageUrl'
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
+const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
 const LOGO_IMAGE = `${SITE}/images/sor7ed-logo-white.png`
 
 const SYSTEM_SLUGS: Record<string, { target: string; title: string; description: string }> = {
@@ -93,21 +93,6 @@ export default async function RichLinkRedirect({ params }: Props) {
     redirect(`${SITE}${systemItem.target}`)
   }
 
-  const standalonePath = STANDALONE_ROUTES[lowerSlug]
-  if (standalonePath) {
-    if (crawler) {
-      // Metadata already set in generateMetadata; render a tiny body for the bot.
-      return <CrawlerShell title={lowerSlug} description="" />
-    }
-    // Can't set cookies here — this is a Server Component render (a plain
-    // GET), and Next.js only allows cookies().set() inside a Server Action
-    // or Route Handler; doing it here 500s on every request. The query-param
-    // token is sufficient on its own — the destination page's guard checks
-    // it directly (see lib/standaloneGuard.ts).
-    const { token } = buildStandaloneAccessToken(lowerSlug, STANDALONE_ACCESS_TTL_SECONDS)
-    redirect(`${SITE}${standalonePath}?access_token=${encodeURIComponent(token)}`)
-  }
-
   const supabase = createServerClient()
   const { data: content } = await supabase
     .from('protocols')
@@ -116,7 +101,15 @@ export default async function RichLinkRedirect({ params }: Props) {
     .eq('status', 'Published')
     .single()
 
-  if (!content) notFound()
+  if (!content) {
+    const standalonePath = STANDALONE_ROUTES[lowerSlug]
+    if (standalonePath) {
+      if (crawler) return <CrawlerShell title={lowerSlug} description="" />
+      const { token } = buildStandaloneAccessToken(lowerSlug, STANDALONE_ACCESS_TTL_SECONDS)
+      redirect(`${SITE}${standalonePath}?access_token=${encodeURIComponent(token)}`)
+    }
+    notFound()
+  }
 
   if (crawler) {
     return (

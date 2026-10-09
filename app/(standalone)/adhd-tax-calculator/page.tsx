@@ -1,10 +1,5 @@
-import { StandaloneAdhdTaxApp } from '@/components/StandaloneAdhdTaxApp'
+import { redirect } from 'next/navigation'
 import { getStandaloneMetadata } from '@/lib/standaloneMetadata'
-import { verifyStandaloneAccess } from '@/lib/standaloneGuard'
-
-interface Props {
-  searchParams?: Promise<{ access_token?: string }>
-}
 
 export async function generateMetadata() {
   return getStandaloneMetadata(
@@ -14,7 +9,6 @@ export async function generateMetadata() {
   )
 }
 
-export default async function StandaloneAdhdTaxCalculatorPage({ searchParams }: Props) {
-  await verifyStandaloneAccess('adhd-tax-calculator', searchParams)
-  return <StandaloneAdhdTaxApp />
+export default function StandaloneAdhdTaxCalculatorPage() {
+  redirect('/tools/adhd-tax-calculator')
 }

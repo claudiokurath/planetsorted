@@ -5,97 +5,43 @@ import { getCategoryStyle } from '@/lib/categoryStyles'
 interface ContentCardProps {
   href: string
   title: string
-  /** Kept optional for call-site compatibility; cards are title-led — no cover images. */
   summary?: string
   coverImage?: string | null
   meta?: string
   category?: string | null
   compact?: boolean
-  /** Deck-style number rail ("01", "02"…). Omit in compact/dashboard surfaces. */
   index?: number
-  /**
-   * Opt-in cover art. Listing surfaces stay title-led (see dbad233); only the
-   * landing page's preview rows turn this on, so the covers stay a highlight
-   * rather than the default everywhere.
-   */
   showCover?: boolean
 }
 
-export function ContentCard({
-  href,
-  title,
-  summary,
-  meta,
-  category,
-  compact = false,
-  index,
-  coverImage,
-  showCover = false,
-}: ContentCardProps) {
-  const style = getCategoryStyle(category)
+export function ContentCard({ href, title, summary, meta, category, compact = false, index, coverImage, showCover = !compact }: ContentCardProps) {
+  const categoryStyle = getCategoryStyle(category)
   const rail = typeof index === 'number' ? String(index + 1).padStart(2, '0') : null
+  const description = summary?.replace(/<br\s*\/?\s*>/gi, '\n').replace(/<[^>]*>/g, '').replace(/^#{1,6}\s+/gm, '').replace(/\*\*/g, '').replace(/^OVERVIEW\s*/i, '').trim().split(/\n\s*\n/)[0]
   const cover = showCover && coverImage ? coverImage : null
 
   return (
-    <Link
-      href={href}
-      className="group relative flex min-h-[168px] h-full w-full flex-col overflow-hidden rounded-none border border-white/[0.12] bg-black transition-all duration-300 hover:-translate-y-1 hover:border-[#F5C518] hover:shadow-none before:absolute before:left-0 before:top-0 before:h-[2px] before:w-full before:origin-left before:scale-x-0 before:bg-[#F5C518] before:transition-transform before:duration-300 group-hover:before:scale-x-100"
-    >
-      {/* Deck-style number rail — system string, yellow on hover */}
-      {rail && (
-        <span className="absolute left-4 top-4 z-10 font-mono text-[11px] font-medium tracking-widest text-neutral-600 transition-colors group-hover:text-[#F5C518] sm:left-5 sm:top-5">
-          {rail}
-        </span>
-      )}
-
-      {cover && (
-        <>
-          <Image
-            src={cover}
-            alt=""
-            fill
-            sizes="(min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          />
-          {/* Flat scrim, not a gradient — the type has to stay readable over
-              any photograph, and the brand does not use gradients. */}
-          <div className="absolute inset-0 bg-black/65 transition-colors duration-300 group-hover:bg-black/55" />
-        </>
-      )}
-
-      <div className={`relative z-10 flex min-w-0 flex-1 flex-col justify-between gap-3 p-4 sm:p-6 ${compact ? 'sm:min-h-52' : 'sm:min-h-72 sm:gap-5 lg:p-7'}`}>
-        <div className="flex flex-col flex-1">
-          {style && (
-            <div className={compact ? undefined : 'pl-7 sm:pl-8'}>
-              {/* sor7ed-pill treatment — yellow hairline, not the grey bubble */}
-              <span className={`inline-flex items-center rounded-full border border-[#F5C518]/40 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.22em] text-[#F5C518] ${compact ? '' : 'sm:mb-3'}`}>
-                {style.label}
-                {style.tagline && (
-                  <span className="ml-1.5 hidden font-normal normal-case tracking-normal text-neutral-500 md:inline">
-                    • {style.tagline}
-                  </span>
-                )}
-              </span>
-            </div>
-          )}
-          {/* Title only — no summary blurb. Sized ~2× the previous card title. */}
-          <h3
-            className={`font-bebas ${compact ? 'text-[1.75rem] sm:text-4xl' : 'text-[1.75rem] sm:text-4xl lg:text-5xl'} mt-4 line-clamp-3 uppercase leading-[1.15] text-white transition-colors group-hover:text-[#F5C518] sm:mt-8`}
-          >
-            {title}
-          </h3>
-          {summary ? (
-            <p className="mt-2 line-clamp-2 text-[11px] leading-[1.45] text-neutral-400 sm:mt-4 sm:text-sm sm:leading-relaxed">
-              {summary}
-            </p>
-          ) : null}
-        </div>
-        {meta && (
-          <p className={`${compact ? 'text-[11px]' : 'text-[11px]'} hidden border-t border-white/10 pt-3 font-mono font-medium uppercase tracking-widest text-neutral-500 sm:block`}>
-            {meta}
-          </p>
-        )}
+    <Link href={href} className="group flex h-full min-w-0 flex-col overflow-hidden border border-white/15 bg-black transition-colors hover:border-[#F5C518] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F5C518]">
+      <div className="flex flex-col gap-4 p-5 sm:p-6">
+        {(categoryStyle || rail) ? (
+          <div className="flex items-center justify-between gap-3 text-sm">
+            {categoryStyle ? <span className="font-medium text-[#F5C518]">{categoryStyle.label}</span> : null}
+            {rail ? <span className="font-mono text-neutral-400">{rail}</span> : null}
+          </div>
+        ) : null}
+        <h3 className={`font-bebas uppercase leading-[1.2] text-white transition-colors group-hover:text-[#F5C518] ${compact ? 'text-2xl' : 'text-3xl sm:min-h-[2.4em]'}`}>{title}</h3>
       </div>
+      {cover ? (
+        <div className="relative aspect-square w-full shrink-0 bg-neutral-950">
+          <Image src={cover} alt="" fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-contain" unoptimized={!cover.startsWith('/') && !cover.startsWith('https://wyxvbzbqbznqjftbgcxc.supabase.co/')} />
+        </div>
+      ) : null}
+      {(summary || meta) ? (
+        <div className="flex flex-1 flex-col gap-5 p-5 sm:p-6">
+          {description ? <p className="line-clamp-4 text-base leading-relaxed text-neutral-300">{description}</p> : null}
+          {meta ? <p className="mt-auto border-t border-white/10 pt-4 text-sm text-neutral-400">{meta}</p> : null}
+        </div>
+      ) : null}
     </Link>
   )
 }

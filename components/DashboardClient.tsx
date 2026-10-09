@@ -3,35 +3,22 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
 import type { Session } from '@supabase/supabase-js'
 import { createBrowserClient } from '@/lib/supabase/client'
 import type { SavedItem, User } from '@/lib/types/database'
-import { SaveToPhoneButton } from '@/components/SaveToPhoneButton'
 
-interface ToolItem {
-  slug: string
-  title: string
-  cover_image?: string | null
-  read_time?: string | null
-}
-
-interface DashboardClientProps {
-  tools?: ToolItem[]
-}
-
-type Tab = 'tools' | 'library' | 'settings'
+type Tab = 'library' | 'settings'
 type VerifyState = 'unverified' | 'otp_sent' | 'verified'
 
-export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
+export function DashboardClient() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const supabase = useMemo(() => createBrowserClient(), [])
 
   const initialTab = ((): Tab => {
     const tab = searchParams.get('tab')
-    if (tab === 'tools' || tab === 'library' || tab === 'settings') return tab
-    return 'tools'
+    if (tab === 'library' || tab === 'settings') return tab
+    return 'library'
   })()
   const [activeTab, setActiveTab] = useState<Tab>(initialTab)
   const [loading, setLoading] = useState(true)
@@ -143,7 +130,7 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       // into a second onboarding flow.
       const tabParam = new URLSearchParams(window.location.search).get('tab')
       const requestedTab =
-        tabParam === 'tools' || tabParam === 'library' || tabParam === 'settings'
+        tabParam === 'library' || tabParam === 'settings'
           ? tabParam
           : null
       if (requestedTab) {
@@ -347,20 +334,6 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       {/* Main Dashboard Tabs */}
       <div className="mb-8 flex gap-6 overflow-x-auto border-b border-gray-800/80">
         <button
-          onClick={() => setActiveTab('tools')}
-          className={`pb-4 text-sm font-medium border-b-2 transition-all flex items-center gap-2 ${
-            activeTab === 'tools'
-              ? 'border-[#F5C518] text-[#F5C518]'
-              : 'border-transparent text-gray-400 hover:text-gray-200'
-          }`}
-        >
-          <span>⚡ Interactive Tools</span>
-          <span className="rounded-full bg-[#F5C518]/10 px-2 py-0.5 text-[10px] text-[#F5C518]">
-            {tools.length}
-          </span>
-        </button>
-
-        <button
           onClick={() => setActiveTab('library')}
           className={`pb-4 text-sm font-medium border-b-2 transition-all flex items-center gap-2 ${
             activeTab === 'library'
@@ -387,58 +360,6 @@ export function DashboardClient({ tools = [] }: DashboardClientProps = {}) {
       </div>
 
       {/* TAB 1: INTERACTIVE TOOLS HUB */}
-      {activeTab === 'tools' && (
-        <div className="space-y-8">
-          {!tools || tools.length === 0 ? (
-            <p className="text-center text-neutral-500 py-12">No interactive tools active right now.</p>
-          ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {tools.map(tool => (
-                <div key={tool.slug} className="group flex flex-col justify-between overflow-hidden rounded-none border border-white/[0.12] bg-black">
-                  {tool.cover_image ? (
-                    <div className="relative aspect-video w-full overflow-hidden bg-black">
-                      <Image
-                        src={tool.cover_image}
-                        alt=""
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-[1.035]"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
-                    </div>
-                  ) : null}
-                  <div className="flex flex-1 flex-col justify-between p-6">
-                    <div className="space-y-3">
-                      {tool.read_time ? (
-                        <span className="text-[10px] font-medium text-[#F5C518] font-mono">
-                          {tool.read_time}
-                        </span>
-                      ) : null}
-
-                      {/* Title only — no summary wall of text. Sized ~2× former card title. */}
-                      <h3
-                        className="font-bebas text-3xl sm:text-4xl uppercase tracking-normal text-white group-hover:text-[#F5C518] transition-colors leading-[1.1]"
-                      >
-                        {tool.title}
-                      </h3>
-                    </div>
-
-                    <div className="mt-6 border-t border-gray-800/80 pt-5">
-                      <SaveToPhoneButton
-                        slug={tool.slug}
-                        context="tool"
-                        isLoggedIn={Boolean(session)}
-                        whatsappVerified={Boolean(profile?.whatsapp_verified)}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
       {/* TAB 2: SAVED LIBRARY */}
       {activeTab === 'library' && (
         <div className="space-y-6">

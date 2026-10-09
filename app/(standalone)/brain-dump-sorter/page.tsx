@@ -1,10 +1,5 @@
-import { BrainDumpSorterApp } from '@/components/BrainDumpSorterApp'
+import { redirect } from 'next/navigation'
 import { getStandaloneMetadata } from '@/lib/standaloneMetadata'
-import { verifyStandaloneAccess } from '@/lib/standaloneGuard'
-
-interface Props {
-  searchParams?: Promise<{ access_token?: string }>
-}
 
 export async function generateMetadata() {
   return getStandaloneMetadata(
@@ -14,7 +9,6 @@ export async function generateMetadata() {
   )
 }
 
-export default async function BrainDumpSorterPage({ searchParams }: Props) {
-  await verifyStandaloneAccess('brain-dump-sorter', searchParams)
-  return <BrainDumpSorterApp />
+export default function BrainDumpSorterPage() {
+  redirect('/tools/brain-dump-sorter')
 }

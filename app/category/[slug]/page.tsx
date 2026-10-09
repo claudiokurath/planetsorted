@@ -10,7 +10,7 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
-const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
+const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
 
 export function generateStaticParams() {
   return CATEGORY_LIST.map((c) => ({ slug: c.slug }))
@@ -56,7 +56,7 @@ export default async function CategoryPage({ params }: Props) {
   const supabase = createServerClient()
   const { data: items } = await supabase
     .from('protocols')
-    .select('slug, title, read_time, category, type')
+    .select('slug, title, summary, cover_image, read_time, category, type')
     .eq('category', category.label)
     .eq('status', 'Published')
     .order('updated_at', { ascending: false })
@@ -96,6 +96,8 @@ export default async function CategoryPage({ params }: Props) {
                       key={tool.slug}
                       href={`/tools/${tool.slug}`}
                       title={tool.title}
+                      summary={tool.summary}
+                      coverImage={tool.cover_image}
                       category={tool.category}
                       meta={tool.read_time || undefined}
                       index={index}
@@ -114,6 +116,8 @@ export default async function CategoryPage({ params }: Props) {
                       key={article.slug}
                       href={`/intelligence/${article.slug}`}
                       title={article.title}
+                      summary={article.summary}
+                      coverImage={article.cover_image}
                       category={article.category}
                       meta={article.read_time || undefined}
                       index={index}

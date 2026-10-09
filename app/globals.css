@@ -199,3 +199,15 @@ p {
 }
 @media (max-width: 360px) { .sorted-pillars { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .sorted-intro *, .sorted-intro *::before, .sorted-intro *::after { transition: none !important; scroll-behavior: auto !important; } }
+
+/* Keep print overrides after screen utilities, including nested dark panels. */
+@media print {
+  html body { background: #fff !important; color: #000 !important; }
+  html body main, html body main * {
+    color: #000 !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}
