@@ -32,7 +32,7 @@ export function ContentCard({ href, title, summary, meta, category, compact = fa
           {categoryStyle ? <span className="truncate font-medium text-[#F5C518]">{categoryStyle.label}</span> : <span />}
           {rail ? <span className="font-mono text-neutral-400">{rail}</span> : null}
         </div>
-        <h3 title={title} className="font-bebas line-clamp-2 h-[2.4em] shrink-0 text-2xl uppercase leading-[1.2] text-white transition-colors group-hover:text-[#F5C518]">{title}</h3>
+        <h3 title={title} className="font-bebas line-clamp-2 h-[2.4em] shrink-0 text-[2rem] uppercase leading-[1.2] tracking-[-0.015em] text-white transition-colors group-hover:text-[#F5C518]">{title}</h3>
         <p className="line-clamp-3 h-[4.875em] shrink-0 text-base leading-[1.625] text-neutral-300">{description || ''}</p>
         <p className="mt-auto h-9 border-t border-white/10 pt-3 text-sm text-neutral-400">{meta || ''}</p>
       </div>
