@@ -1,6 +1,11 @@
-import { redirect } from 'next/navigation'
+import type { Metadata } from 'next'
+import { AboutIntro } from '@/components/AboutIntro'
 
-// The About content is the landing page.
+export const metadata: Metadata = {
+  title: 'About — PLANET SOR7ED',
+  description: 'Practical tools and plain-language guides for neurodivergent everyday life. Learn how SOR7ED works and explore seven areas of life.',
+}
+
 export default function AboutPage() {
-  redirect('/')
+  return <AboutIntro />
 }
