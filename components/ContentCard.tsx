@@ -21,27 +21,21 @@ export function ContentCard({ href, title, summary, meta, category, compact = fa
   const cover = showCover && coverImage ? coverImage : null
 
   return (
-    <Link href={href} className="group flex h-full min-w-0 flex-col overflow-hidden border border-white/15 bg-black transition-colors hover:border-[#F5C518] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F5C518]">
-      <div className="flex flex-col gap-4 p-5 sm:p-6">
-        {(categoryStyle || rail) ? (
-          <div className="flex items-center justify-between gap-3 text-sm">
-            {categoryStyle ? <span className="font-medium text-[#F5C518]">{categoryStyle.label}</span> : null}
-            {rail ? <span className="font-mono text-neutral-400">{rail}</span> : null}
-          </div>
-        ) : null}
-        <h3 className={`font-bebas uppercase leading-[1.2] text-white transition-colors group-hover:text-[#F5C518] ${compact ? 'text-2xl' : 'text-3xl sm:min-h-[2.4em]'}`}>{title}</h3>
-      </div>
-      {cover ? (
+    <Link href={href} aria-label={title} className="group flex h-full min-w-0 flex-col overflow-hidden border border-white/15 bg-black transition-colors hover:border-[#F5C518] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F5C518]">
+      {showCover ? (
         <div className="relative aspect-square w-full shrink-0 bg-neutral-950">
-          <Image src={cover} alt="" fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-contain" unoptimized={!cover.startsWith('/') && !cover.startsWith('https://wyxvbzbqbznqjftbgcxc.supabase.co/')} />
+          {cover ? <Image src={cover} alt="" fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-contain" unoptimized={!cover.startsWith('/') && !cover.startsWith('https://wyxvbzbqbznqjftbgcxc.supabase.co/')} /> : null}
         </div>
       ) : null}
-      {(summary || meta) ? (
-        <div className="flex flex-1 flex-col gap-5 p-5 sm:p-6">
-          {description ? <p className="line-clamp-4 text-base leading-relaxed text-neutral-300">{description}</p> : null}
-          {meta ? <p className="mt-auto border-t border-white/10 pt-4 text-sm text-neutral-400">{meta}</p> : null}
+      <div className="flex flex-1 flex-col gap-4 p-5 sm:p-6">
+        <div className="flex h-5 items-center justify-between gap-3 text-sm">
+          {categoryStyle ? <span className="truncate font-medium text-[#F5C518]">{categoryStyle.label}</span> : <span />}
+          {rail ? <span className="font-mono text-neutral-400">{rail}</span> : null}
         </div>
-      ) : null}
+        <h3 title={title} className="font-bebas line-clamp-2 h-[2.4em] shrink-0 text-2xl uppercase leading-[1.2] text-white transition-colors group-hover:text-[#F5C518]">{title}</h3>
+        <p className="line-clamp-3 h-[4.875em] shrink-0 text-base leading-[1.625] text-neutral-300">{description || ''}</p>
+        <p className="mt-auto h-9 border-t border-white/10 pt-3 text-sm text-neutral-400">{meta || ''}</p>
+      </div>
     </Link>
   )
 }
