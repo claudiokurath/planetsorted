@@ -1,56 +1,43 @@
-/* Print / Save-as-PDF styles for ProtocolDeck — landscape A4 kit sheets
-   (black field + red accents; force colour printing). */
-
+/* Ink-friendly browser printing and Save as PDF. */
 @media print {
-  /* Hide chrome */
-  header,
-  footer,
-  nav,
-  .print\:hidden {
+  html, body {
+    background: white !important;
+    color: black !important;
+    -webkit-print-color-adjust: economy !important;
+    print-color-adjust: economy !important;
+  }
+
+  body > header, body > footer, nav, video, button,
+  .print\:hidden, .sb, .sorted-actions, .sorted-brand-stamp {
     display: none !important;
   }
 
-  body {
-    background: #000 !important;
-    color: #fff !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+  main { padding: 0 !important; }
+
+  main, main * {
+    background-color: transparent !important;
+    background-image: none !important;
+    color: black !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    border-color: #bbb !important;
+    -webkit-print-color-adjust: economy !important;
+    print-color-adjust: economy !important;
   }
 
-  main {
-    padding: 0 !important;
-  }
-
-  .protocol-deck {
-    background: #000 !important;
-  }
-
+  .protocol-deck { background: white !important; }
   .deck-slide {
     break-after: page;
     break-inside: avoid;
-    page-break-after: always;
-    page-break-inside: avoid;
     min-height: 0 !important;
     border-radius: 0 !important;
-    border: none !important;
     margin: 0 !important;
-    padding: 12mm 14mm !important;
-    box-shadow: none !important;
+    padding: 8mm !important;
   }
-
-  .deck-slide:last-child {
-    break-after: auto;
-    page-break-after: auto;
-  }
-
-  /* Force red accents / charcoal cards to print with colour */
-  .protocol-deck * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
+  .deck-slide:last-child { break-after: auto; }
+  .sorted-hero, .sorted-section { padding: 8mm 0 !important; }
+  .sorted-step, .sorted-pillar { break-inside: avoid; }
+  a { text-decoration: none; }
 }
 
-@page {
-  size: A4 landscape;
-  margin: 0;
-}
+@page { size: A4; margin: 12mm; }

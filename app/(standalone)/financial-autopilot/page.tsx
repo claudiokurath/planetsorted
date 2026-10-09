@@ -1,10 +1,5 @@
-import { FinancialAutopilotApp } from '@/components/FinancialAutopilotApp'
+import { redirect } from 'next/navigation'
 import { getStandaloneMetadata } from '@/lib/standaloneMetadata'
-import { verifyStandaloneAccess } from '@/lib/standaloneGuard'
-
-interface Props {
-  searchParams?: Promise<{ access_token?: string }>
-}
 
 export async function generateMetadata() {
   return getStandaloneMetadata(
@@ -14,7 +9,6 @@ export async function generateMetadata() {
   )
 }
 
-export default async function FinancialAutopilotPage({ searchParams }: Props) {
-  await verifyStandaloneAccess('financial-autopilot', searchParams)
-  return <FinancialAutopilotApp />
+export default function FinancialAutopilotPage() {
+  redirect('/tools/financial-autopilot')
 }

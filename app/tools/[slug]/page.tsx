@@ -8,7 +8,7 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
-const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
+const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params

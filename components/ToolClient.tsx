@@ -1,3 +1,4 @@
+import { PrintPageButton } from '@/components/PrintPageButton'
 import { ContentHero } from '@/components/ContentHero'
 import { ContentCard } from '@/components/ContentCard'
 import { GammaEmbed } from '@/components/GammaEmbed'
@@ -12,39 +13,11 @@ interface ToolClientProps {
   relatedArticles?: RelatedArticle[]
 }
 
-function cleanBlock(block: string) {
-  return block.replace(/^#{1,6}\s+/g, '').replace(/\s+/g, ' ').trim()
-}
-
-function shortenAtSentence(text: string, maxLength = 620) {
-  if (text.length <= maxLength) return text
-
-  const candidate = text.slice(0, maxLength)
-  const sentenceEnd = Math.max(candidate.lastIndexOf('.'), candidate.lastIndexOf('!'), candidate.lastIndexOf('?'))
-
-  return `${candidate.slice(0, sentenceEnd > 280 ? sentenceEnd + 1 : maxLength).trim()}…`
-}
-
-function splitToolSummary(summary?: string | null, fallbackDescription?: string | null) {
-  const blocks = (summary ?? '')
-    .split(/\n{2,}/)
-    .map(cleanBlock)
-    .filter(Boolean)
-
-  const description = blocks[0] || fallbackDescription?.trim() || ''
-  const explanation = blocks.slice(1, 3).join(' ') || fallbackDescription?.trim() || description
-
-  return {
-    description: shortenAtSentence(description, 220),
-    explanation: shortenAtSentence(explanation),
-  }
-}
-
 export function ToolClient({ toolData, relatedArticles = [] }: ToolClientProps) {
-  const { description, explanation } = splitToolSummary(toolData.summary, toolData.meta_description)
+  const description = toolData.meta_description || toolData.summary?.replace(/<br\s*\/?\s*>/gi, '\n').replace(/<[^>]*>/g, '').replace(/^OVERVIEW\s*/i, '').trim().split(/\n\s*\n/)[0]
   // Tools sync their single Notion "Gamma" property into gamma_url;
   // blog_gamma_url stays as a fallback for anything set the old way.
-  const gammaEmbed = gammaEmbedUrl(toolData.gamma_url ?? toolData.blog_gamma_url ?? null)
+  const gammaEmbed = gammaEmbedUrl(toolData.gamma_url) ?? gammaEmbedUrl(toolData.blog_gamma_url)
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -57,20 +30,12 @@ export function ToolClient({ toolData, relatedArticles = [] }: ToolClientProps) 
       />
 
       <main className="mx-auto max-w-5xl space-y-6 px-4 pb-20 pt-1 sm:px-6 lg:px-8">
-        {/* The Gamma deck is the content; the parsed explanation is the
-            fallback for tools with no Gamma set yet. */}
+        <div className="print:hidden"><PrintPageButton /></div>
         {gammaEmbed ? (
           <GammaEmbed src={gammaEmbed} title={`${toolData.title} — presentation`} />
-        ) : explanation ? (
-          <section className="rounded-none border border-white/[0.12] bg-black px-6 py-10 sm:px-10 sm:py-12">
-            <h2 className="font-bebas text-3xl uppercase leading-[1.15] text-white sm:text-4xl lg:text-5xl">
-              What it helps you do
-            </h2>
-            <p className="mt-5 max-w-3xl text-base leading-relaxed text-neutral-300 sm:text-lg">
-              {explanation}
-            </p>
-          </section>
-        ) : null}
+        ) : (
+          <p className="border border-white/15 p-6 text-base text-neutral-300">This tool’s content is not available yet. Please check back soon.</p>
+        )}
 
         {/* The deck is the pitch; this is the next step off the back of it. */}
         <ToolWhatsAppCta slug={toolData.slug} />

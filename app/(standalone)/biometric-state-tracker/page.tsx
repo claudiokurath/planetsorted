@@ -1,10 +1,5 @@
-import { BiometricStateApp } from '@/components/BiometricStateApp'
+import { redirect } from 'next/navigation'
 import { getStandaloneMetadata } from '@/lib/standaloneMetadata'
-import { verifyStandaloneAccess } from '@/lib/standaloneGuard'
-
-interface Props {
-  searchParams?: Promise<{ access_token?: string }>
-}
 
 export async function generateMetadata() {
   return getStandaloneMetadata(
@@ -14,7 +9,6 @@ export async function generateMetadata() {
   )
 }
 
-export default async function BiometricStateTrackerPage({ searchParams }: Props) {
-  await verifyStandaloneAccess('biometric-state-tracker', searchParams)
-  return <BiometricStateApp />
+export default function BiometricStateTrackerPage() {
+  redirect('/tools/biometric-state-tracker')
 }
