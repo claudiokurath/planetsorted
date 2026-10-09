@@ -17,7 +17,7 @@ export function AboutIntro() {
           <span className="sorted-hero-motto">Worry less, live more.</span>
         </div>
         <div className="sorted-hero-video">
-          <video autoPlay loop muted playsInline controls preload="metadata" aria-label="SOR7ED brand animation">
+          <video autoPlay loop muted playsInline preload="metadata" aria-label="SOR7ED brand animation">
             <source src="/media/sequence01_1.mp4" type="video/mp4" />
             Your browser does not support this video.
           </video>
