@@ -55,7 +55,7 @@ export function SmartNav() {
             width={1600}
             height={402}
             priority
-            className="h-5 w-auto"
+            className="h-7 w-auto"
           />
         </Link>
         {authReady && !user && (
@@ -77,7 +77,7 @@ export function SmartNav() {
             width={1600}
             height={402}
             priority
-            className="h-6 w-auto lg:h-7"
+            className="h-9 w-auto lg:h-10"
           />
         </Link>
 
