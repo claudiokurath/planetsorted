@@ -1,12 +1,11 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { AboutIntro } from '@/components/AboutIntro'
 import { ContentCard } from '@/components/ContentCard'
 import { PageHeader } from '@/components/PageHeader'
 import { createServerClient } from '@/lib/supabase/server'
 
-const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
+const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
 const OG_CARD = '/api/og?card=welcome'
 
 const DESC =
@@ -62,22 +61,6 @@ export default async function HomePage() {
       className="min-h-screen bg-black text-white"
       style={{ scrollSnapType: 'y proximity' }}
     >
-      {/* Entrance band. Deliberately short and never overlaid with text — the
-          artwork carries the personality, the type below carries the message. */}
-      <div
-        className="relative w-full overflow-hidden border-b border-white/10"
-        style={{ height: 'clamp(104px, 15vw, 152px)' }}
-      >
-        <Image
-          src="/images/banners/main.webp"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-      </div>
-
       <AboutIntro />
 
       <PreviewRow
@@ -99,14 +82,14 @@ export default async function HomePage() {
       />
 
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 border-t border-white/10 px-4 py-12 text-center sm:px-6 lg:px-8">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-neutral-500">
+        <p className="text-sm uppercase tracking-[0.18em] text-neutral-500">
           Built by Claudio Kurath in London
         </p>
         <Link
           href="/tools"
           className="font-bebas text-lg uppercase tracking-normal text-[#F5C518] transition-opacity hover:opacity-80"
         >
-          Start with a tool &rarr;
+          Start with a tool
         </Link>
       </div>
     </div>
@@ -149,7 +132,7 @@ function PreviewRow({
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <PageHeader eyebrow={eyebrow} title={title} description={description} />
 
-        <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 items-stretch gap-6 md:grid-cols-3">
           {items.map((item) => (
             <ContentCard
               key={item.slug}
@@ -167,7 +150,7 @@ function PreviewRow({
         <div className="mt-10 flex justify-center">
           <Link
             href={hrefBase}
-            className="rounded-none border border-[#F5C518] px-7 py-3.5 text-xs font-medium uppercase tracking-[0.16em] text-[#F5C518] transition-colors hover:bg-[#F5C518]/10"
+            className="rounded-none border border-[#F5C518] px-7 py-3.5 text-sm font-medium uppercase tracking-[0.16em] text-[#F5C518] transition-colors hover:bg-[#F5C518]/10"
           >
             {viewAllLabel}
           </Link>
