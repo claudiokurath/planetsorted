@@ -1,24 +1,24 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 
 const OPTIONS = [
-  { href: '/tools', title: 'Explore the tools', description: 'Find a practical next step.', number: '01' },
-  { href: '/intelligence', title: 'Read the guidebook', description: 'Make sense of what feels tangled.', number: '02' },
-  { href: '/signup?mode=returning&next=%2Fdashboard', title: 'Sign in', description: 'Return to your saved library.', number: '03' },
+  { href: '/about', title: 'About us' },
+  { href: '/tools', title: 'Toolbox' },
+  { href: '/intelligence', title: 'Guidebook' },
 ]
 
 export function HomeGateway() {
   const videoRef = useRef<HTMLVideoElement>(null)
-
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
     const update = () => {
       const video = videoRef.current
       if (!video) return
       if (preference.matches) video.pause()
-      else void video.play().catch(() => { /* The poster remains if autoplay is unavailable. */ })
+      else void video.play().catch(() => {})
     }
     update()
     preference.addEventListener('change', update)
@@ -26,28 +26,28 @@ export function HomeGateway() {
   }, [])
 
   return (
-    <section className="sorted-entry" aria-labelledby="entry-heading">
-      <h1 id="entry-heading" className="sr-only">Built for brains that work differently. PLANET SOR7ED.</h1>
-      <div className="sorted-entry-media">
-        <video ref={videoRef} autoPlay muted loop playsInline preload="auto" poster="/images/entry-hero-poster.webp" aria-hidden="true" tabIndex={-1}>
-          <source src="/media/entry-hero.mp4" type="video/mp4" />
-        </video>
-        {/* A native image keeps the full composition visible for reduced motion. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="sorted-entry-still" src="/images/entry-hero-poster.webp" alt="" />
-      </div>
-      <div className="sorted-entry-choices">
-        <p className="sorted-entry-description">Practical tools and plain-language guides for neurodivergent adults. Choose where you want to start.</p>
-        <nav className="sorted-entry-options" aria-label="Choose your next step">
+    <section className="sorted-paper-hero" aria-labelledby="entry-heading">
+      <div className="sorted-paper-content">
+        <div className="sorted-paper-mark" aria-hidden="true">
+          <video ref={videoRef} autoPlay muted loop playsInline preload="auto" tabIndex={-1} poster="/images/tangle-white.png">
+            <source src="/media/sequence01_1.mp4" type="video/mp4" />
+          </video>
+          <Image className="sorted-paper-static-mark" src="/images/tangle-white.png" alt="" width={120} height={120} />
+        </div>
+        <div className="sorted-paper-panel">
+          <span className="sorted-paper-eyebrow">Neurodivergent-first. Everyday life.</span>
+          <h1 id="entry-heading">Built for brains<br />that work <span>differently.</span></h1>
+          <p>SOR7ED is a practical support hub for ADHD, autistic, AuDHD, dyslexic, bipolar and other neurodivergent adults.</p>
+          <p>Tools, protocols and plain-language guides that make everyday life less overwhelming. One clear next step.</p>
+        </div>
+        <nav className="sorted-paper-options" aria-label="Choose where to start">
           {OPTIONS.map(option => (
-            <Link href={option.href} key={option.number} className="sorted-entry-option">
-              <span className="sorted-entry-option-number" aria-hidden="true">{option.number}</span>
-              <span><strong>{option.title}</strong><span className="sorted-entry-option-description">{option.description}</span></span>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
-            </Link>
+            <Link href={option.href} key={option.href} className="sorted-paper-option">{option.title}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12" /></svg></Link>
           ))}
         </nav>
-        <Link className="sorted-entry-about" href="/about">Who we are & how it works</Link>
+      </div>
+      <div className="sorted-paper-portrait">
+        <Image src="/images/hero-yellow-portrait.webp" alt="A man in a yellow suit looking at his phone" fill sizes="(max-width: 760px) 100vw, 40vw" preload />
       </div>
     </section>
   )
