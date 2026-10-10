@@ -45,6 +45,7 @@ export function HomeGateway() {
             <Link href={option.href} key={option.href} className="sorted-paper-option">{option.title}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12" /></svg></Link>
           ))}
         </nav>
+        <p className="mt-7 text-sm">Worry less, live more.</p>
       </div>
       <div className="sorted-paper-portrait">
         <Image src="/images/hero-yellow-cutout.png" alt="A man in a yellow suit looking at his phone" fill sizes="(max-width: 760px) 100vw, 40vw" preload />
