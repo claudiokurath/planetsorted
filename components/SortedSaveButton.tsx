@@ -170,7 +170,7 @@ export function SortedSaveButton({
           /* Handoff defaults remapped to the site's tokens. The tangle asset
              carries its own ink, so --sb-ink is not needed here. */
           /* WhatsApp green: the tick is the destination, not the brand
-             accent. Scoped to this control — the site stays #E0B244. */
+             accent. Scoped to this control — the site stays #FFBA2E. */
           --sb-accent: #25d366;
           --sb-muted: #737373;
           --sb-line: rgba(255, 255, 255, 0.12);

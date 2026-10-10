@@ -90,11 +90,11 @@ function scoreLabel(s: number) {
 }
 
 function scoreBand(s: number): string {
-  if (s >= 85) return 'text-[#E0B244]'
-  if (s >= 70) return 'text-[#E0B244]'
-  if (s >= 55) return 'text-[#E0B244]'
-  if (s >= 40) return 'text-[#E0B244]'
-  return 'text-[#E0B244]'
+  if (s >= 85) return 'text-[#FFBA2E]'
+  if (s >= 70) return 'text-[#FFBA2E]'
+  if (s >= 55) return 'text-[#FFBA2E]'
+  if (s >= 40) return 'text-[#FFBA2E]'
+  return 'text-[#FFBA2E]'
 }
 
 function generateRecommendations(d: EntryInputs, hydrationTarget: number): Recommendation[] {
@@ -162,7 +162,7 @@ function FieldInput({ ...props }: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#E0B244] focus:ring-1 focus:ring-[#E0B244]/30 transition"
+      className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#FFBA2E] focus:ring-1 focus:ring-[#FFBA2E]/30 transition"
     />
   )
 }
@@ -184,9 +184,9 @@ function SliderRow({
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
         className="bst-slider w-full h-1.5 rounded-full appearance-none cursor-pointer"
-        style={{ background: `linear-gradient(to right, #E0B244 ${((value - min) / (max - min)) * 100}%, rgba(255,255,255,0.1) ${((value - min) / (max - min)) * 100}%)` }}
+        style={{ background: `linear-gradient(to right, #FFBA2E ${((value - min) / (max - min)) * 100}%, rgba(255,255,255,0.1) ${((value - min) / (max - min)) * 100}%)` }}
       />
-      <p className="mt-1 text-center text-xs font-medium text-[#E0B244]">{display}</p>
+      <p className="mt-1 text-center text-xs font-medium text-[#FFBA2E]">{display}</p>
     </div>
   )
 }
@@ -195,7 +195,7 @@ function StatRing({ score }: { score: number }) {
   const r = 44
   const circ = 2 * Math.PI * r
   const fill = (score / 100) * circ
-  const col = score >= 70 ? '#E0B244' : score >= 40 ? '#E0B244' : '#C25A5A'
+  const col = score >= 70 ? '#FFBA2E' : score >= 40 ? '#FFBA2E' : '#C25A5A'
 
   return (
     <svg width="120" height="120" viewBox="0 0 120 120" className="mx-auto">
@@ -215,9 +215,9 @@ function StatRing({ score }: { score: number }) {
 }
 
 const REC_STYLES: Record<RecType, string> = {
-  good: 'border-[#E0B244]/30 bg-[#E0B244]/10 text-[#E0B244]',
-  warn: 'border-[#E0B244]/30 bg-[#E0B244]/10 text-[#E0B244]',
-  bad:  'border-[#E0B244]/30 bg-[#E0B244]/10 text-[#E0B244]',
+  good: 'border-[#FFBA2E]/30 bg-[#FFBA2E]/10 text-[#FFBA2E]',
+  warn: 'border-[#FFBA2E]/30 bg-[#FFBA2E]/10 text-[#FFBA2E]',
+  bad:  'border-[#FFBA2E]/30 bg-[#FFBA2E]/10 text-[#FFBA2E]',
 }
 
 // ─── Main component ───────────────────────────────────────────────────────────
@@ -345,12 +345,12 @@ export function BiometricStateApp() {
       <style>{`
         .bst-slider::-webkit-slider-thumb {
           -webkit-appearance: none; width: 18px; height: 18px;
-          border-radius: 50%; background: #E0B244; cursor: pointer;
+          border-radius: 50%; background: #FFBA2E; cursor: pointer;
           box-shadow: 0 0 0 3px rgba(34,229,208,0.25); transition: box-shadow .15s;
         }
         .bst-slider::-moz-range-thumb {
           width: 18px; height: 18px; border-radius: 50%;
-          background: #E0B244; border: none; cursor: pointer;
+          background: #FFBA2E; border: none; cursor: pointer;
         }
         .bst-slider:focus::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(34,229,208,0.35); }
         .glass { background: #000000; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
@@ -366,11 +366,11 @@ export function BiometricStateApp() {
         <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: 'rgba(0,0,0,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
             <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#E0B244,#E0B244)' }}>
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#FFBA2E,#FFBA2E)' }}>
                 <span className="text-base">💧</span>
               </span>
               <span className="font-medium tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
-                Biometric<span style={{ color: '#E0B244' }}>State</span>
+                Biometric<span style={{ color: '#FFBA2E' }}>State</span>
               </span>
             </div>
             <div className="hidden gap-7 text-sm font-medium text-slate-400 md:flex">
@@ -381,7 +381,7 @@ export function BiometricStateApp() {
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="hidden items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-slate-900 sm:inline-flex"
-              style={{ background: 'linear-gradient(90deg,#E0B244,#E0B244)' }}
+              style={{ background: 'linear-gradient(90deg,#FFBA2E,#FFBA2E)' }}
             >
               ⚡ New Check-In
             </button>
@@ -394,12 +394,12 @@ export function BiometricStateApp() {
           <section className="py-16 md:py-24 grid gap-12 md:grid-cols-2 items-center">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium uppercase tracking-wider"
-                style={{ borderColor: 'rgba(34,229,208,0.3)', background: 'rgba(34,229,208,0.05)', color: '#E0B244' }}>
+                style={{ borderColor: 'rgba(34,229,208,0.3)', background: 'rgba(34,229,208,0.05)', color: '#FFBA2E' }}>
                 ✨ AI-Powered Insights
               </span>
               <h1 className="mt-6 text-5xl sm:text-6xl lg:text-6xl font-normal leading-[1.1] tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Optimize your{' '}
-                <span style={{ background: 'linear-gradient(90deg,#E0B244,#E0B244)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                <span style={{ background: 'linear-gradient(90deg,#FFBA2E,#FFBA2E)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                   cognitive & physical
                 </span>{' '}
                 performance
@@ -431,11 +431,11 @@ export function BiometricStateApp() {
               {result && (
                 <div className="mt-6 grid grid-cols-2 gap-4 text-center bst-fade">
                   <div className="rounded-none py-4 px-2" style={{ background: '#000000' }}>
-                    <p className="text-lg font-medium text-[#E0B244]">{result.hydrationTarget.toLocaleString()}ml</p>
+                    <p className="text-lg font-medium text-[#FFBA2E]">{result.hydrationTarget.toLocaleString()}ml</p>
                     <p className="text-xs text-slate-400 mt-1">Hydration Target</p>
                   </div>
                   <div className="rounded-none py-4 px-2" style={{ background: '#000000' }}>
-                    <p className="text-lg font-medium text-[#E0B244]">{MOOD_EMOJI[result.mood]} {result.mood}</p>
+                    <p className="text-lg font-medium text-[#FFBA2E]">{MOOD_EMOJI[result.mood]} {result.mood}</p>
                     <p className="text-xs text-slate-400 mt-1">Mood</p>
                   </div>
                 </div>
@@ -446,7 +446,7 @@ export function BiometricStateApp() {
           {/* ── Check-In Form ── */}
           <section className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <div className="text-center mb-10">
-              <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#E0B244' }}>Daily Check-In</p>
+              <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#FFBA2E' }}>Daily Check-In</p>
               <h2 className="text-3xl font-normal sm:text-4xl">Log Today&apos;s Biometric State</h2>
               <p className="mt-3 text-slate-400 max-w-lg mx-auto">Fill in what you know — the engine calculates your personalized hydration target and biometric score instantly.</p>
             </div>
@@ -522,7 +522,7 @@ export function BiometricStateApp() {
                 <select
                   value={inputs.mood}
                   onChange={(e) => set('mood', e.target.value as Mood)}
-                  className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none focus:border-[#E0B244] transition"
+                  className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none focus:border-[#FFBA2E] transition"
                 >
                   {(['Energized', 'Balanced', 'Tired', 'Foggy', 'Anxious', 'Low'] as Mood[]).map((m) => (
                     <option key={m} value={m}>{MOOD_EMOJI[m]} {m}</option>
@@ -538,7 +538,7 @@ export function BiometricStateApp() {
                   value={inputs.notes}
                   onChange={(e) => set('notes', e.target.value)}
                   placeholder="Anything else worth noting today?"
-                  className="w-full resize-none rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#E0B244] transition"
+                  className="w-full resize-none rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-[#FFBA2E] transition"
                 />
               </div>
 
@@ -547,17 +547,17 @@ export function BiometricStateApp() {
                   type="submit"
                   disabled={saving}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 font-medium text-slate-900 shadow-lg transition hover:opacity-90 active:scale-95 disabled:opacity-60"
-                  style={{ background: 'linear-gradient(90deg,#E0B244,#E0B244)' }}
+                  style={{ background: 'linear-gradient(90deg,#FFBA2E,#FFBA2E)' }}
                 >
                   {saving ? '⏳ Saving…' : '✨ Analyze & Save Check-In'}
                 </button>
                 {authChecked && !userId && (
                   <p className="text-xs text-slate-500">
                     Results won&apos;t be saved.{' '}
-                    <a href="/signup" className="text-[#E0B244] underline hover:text-[#E0B244]">Log in</a> to keep a history.
+                    <a href="/signup" className="text-[#FFBA2E] underline hover:text-[#FFBA2E]">Log in</a> to keep a history.
                   </p>
                 )}
-                {saveError && <p className="text-xs text-[#E0B244]">{saveError}</p>}
+                {saveError && <p className="text-xs text-[#FFBA2E]">{saveError}</p>}
               </div>
             </form>
           </section>
@@ -566,7 +566,7 @@ export function BiometricStateApp() {
           {result && (
             <section ref={resultsRef} className="py-14 border-t bst-fade" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
               <div className="text-center mb-10">
-                <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#E0B244' }}>Your Insights</p>
+                <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#FFBA2E' }}>Your Insights</p>
                 <h2 className="text-3xl font-normal sm:text-4xl">AI-Powered Recommendations</h2>
               </div>
 
@@ -579,12 +579,12 @@ export function BiometricStateApp() {
                 </div>
                 <div className="glass rounded-none p-6 text-center">
                   <p className="text-xs uppercase tracking-widest text-slate-400 font-medium mb-4">Personalized Hydration</p>
-                  <p className="text-5xl font-normal text-[#E0B244]">{result.hydrationTarget.toLocaleString()}</p>
+                  <p className="text-5xl font-normal text-[#FFBA2E]">{result.hydrationTarget.toLocaleString()}</p>
                   <p className="mt-2 text-sm font-medium text-slate-300">ml / day</p>
                 </div>
                 <div className="glass rounded-none p-6 text-center">
                   <p className="text-xs uppercase tracking-widest text-slate-400 font-medium mb-4">Hydration Progress</p>
-                  <p className="text-5xl font-normal text-[#E0B244]">{hydrationPct}%</p>
+                  <p className="text-5xl font-normal text-[#FFBA2E]">{hydrationPct}%</p>
                   <p className="mt-2 text-sm font-medium text-slate-300">of daily target reached</p>
                 </div>
               </div>
@@ -609,7 +609,7 @@ export function BiometricStateApp() {
             <section className="py-14 border-t" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-widest mb-1" style={{ color: '#E0B244' }}>Track Progress</p>
+                  <p className="text-xs font-medium uppercase tracking-widest mb-1" style={{ color: '#FFBA2E' }}>Track Progress</p>
                   <h2 className="text-3xl font-normal">Check-In History</h2>
                 </div>
                 <button onClick={fetchHistory} className="text-xs text-slate-500 hover:text-white transition">↻ Refresh</button>
@@ -635,14 +635,14 @@ export function BiometricStateApp() {
                           <span className="text-slate-500 shrink-0">
                             {new Date(row.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                           </span>
-                          <span className="font-medium text-[#E0B244]">Score: {score}</span>
+                          <span className="font-medium text-[#FFBA2E]">Score: {score}</span>
                           <span className="text-slate-400 hidden sm:block">Hydration: {hydration}</span>
                           <span className="text-slate-400 hidden md:block">Mood: {mood}</span>
                         </div>
                         <button
                           onClick={() => handleDelete(row.id)}
                           aria-label="Delete"
-                          className="shrink-0 rounded-lg px-3 py-1.5 text-xs text-slate-500 transition hover:bg-[#E0B244]/10 hover:text-[#E0B244]"
+                          className="shrink-0 rounded-lg px-3 py-1.5 text-xs text-slate-500 transition hover:bg-[#FFBA2E]/10 hover:text-[#FFBA2E]"
                         >
                           Delete
                         </button>

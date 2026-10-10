@@ -21,7 +21,7 @@ export function ContentCard({ href, title, summary, meta, category, compact = fa
   const cover = showCover && coverImage ? coverImage : null
 
   return (
-    <Link href={href} aria-label={title} className="group flex h-full min-w-0 flex-col overflow-hidden border border-white/15 bg-black transition-colors hover:border-[#E0B244] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E0B244]">
+    <Link href={href} aria-label={title} className="group flex h-full min-w-0 flex-col overflow-hidden border border-white/15 bg-black transition-colors hover:border-[#FFBA2E] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FFBA2E]">
       {showCover ? (
         <div className="relative aspect-square w-full shrink-0 bg-neutral-950">
           {cover ? <Image src={cover} alt="" fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-contain" unoptimized={!cover.startsWith('/') && !cover.startsWith('https://wyxvbzbqbznqjftbgcxc.supabase.co/')} /> : null}
@@ -29,10 +29,10 @@ export function ContentCard({ href, title, summary, meta, category, compact = fa
       ) : null}
       <div className="flex flex-1 flex-col gap-4 p-5 sm:p-6">
         <div className="flex h-5 items-center justify-between gap-3 text-sm">
-          {categoryStyle ? <span className="truncate font-medium text-[#E0B244]">{categoryStyle.label}</span> : <span />}
+          {categoryStyle ? <span className="truncate font-medium text-[#FFBA2E]">{categoryStyle.label}</span> : <span />}
           {rail ? <span className="font-mono text-neutral-400">{rail}</span> : null}
         </div>
-        <h3 title={title} className="font-bebas line-clamp-2 h-[2.4em] shrink-0 text-[2rem] uppercase leading-[1.2] tracking-[-0.015em] text-white transition-colors group-hover:text-[#E0B244]">{title}</h3>
+        <h3 title={title} className="font-bebas line-clamp-2 h-[2.4em] shrink-0 text-[2rem] uppercase leading-[1.2] tracking-[-0.015em] text-white transition-colors group-hover:text-[#FFBA2E]">{title}</h3>
         <p className="line-clamp-3 h-[4.875em] shrink-0 text-base leading-[1.625] text-neutral-300">{description || ''}</p>
         <p className="mt-auto h-9 border-t border-white/10 pt-3 text-sm text-neutral-400">{meta || ''}</p>
       </div>

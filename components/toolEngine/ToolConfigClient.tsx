@@ -113,7 +113,7 @@ export function ToolConfigClient({
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
       <header className="rounded-none border border-white/10 bg-black p-8 shadow-2xl backdrop-blur">
-        <p className="text-sm font-medium uppercase tracking-[0.35em] text-[#E0B244]">
+        <p className="text-sm font-medium uppercase tracking-[0.35em] text-[#FFBA2E]">
           Independent app
         </p>
         <h1 className="mt-3 text-5xl font-normal leading-[1.1] sm:text-6xl md:text-6xl">
@@ -153,7 +153,7 @@ export function ToolConfigClient({
 
         {/* Loading state */}
         {isCalculating && (
-          <div className="rounded-none border border-[#E0B244]/30 bg-[#E0B244]/10 p-6 text-center text-slate-200">
+          <div className="rounded-none border border-[#FFBA2E]/30 bg-[#FFBA2E]/10 p-6 text-center text-slate-200">
             Calculating...
           </div>
         )}

@@ -57,7 +57,7 @@ export default function StartHerePage() {
               key={card.id}
               id={card.id}
               href={card.href}
-              className="group flex flex-col gap-4 rounded-xl border border-white/10 bg-white/3 p-8 transition-all duration-200 hover:border-[#E0B244]/40 hover:bg-white/5"
+              className="group flex flex-col gap-4 rounded-xl border border-white/10 bg-white/3 p-8 transition-all duration-200 hover:border-[#FFBA2E]/40 hover:bg-white/5"
             >
               <span className="text-3xl">{card.emoji}</span>
               <div>
@@ -66,7 +66,7 @@ export default function StartHerePage() {
                 </h2>
                 <p className="mt-2 text-sm leading-relaxed text-neutral-400">{card.body}</p>
               </div>
-              <span className="mt-auto inline-flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-[#E0B244] transition-gap group-hover:gap-3">
+              <span className="mt-auto inline-flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-[#FFBA2E] transition-gap group-hover:gap-3">
                 {card.cta}
                 <svg
                   width="14"

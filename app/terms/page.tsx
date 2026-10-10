@@ -44,7 +44,7 @@ export default function TermsPage() {
       </p>
 
       <p className="mt-10 text-sm text-neutral-500">
-        If you have questions about these terms, contact us at <a href="mailto:hello@planetsorted.com" className="text-[#E0B244] underline">hello@planetsorted.com</a>.
+        If you have questions about these terms, contact us at <a href="mailto:hello@planetsorted.com" className="text-[#FFBA2E] underline">hello@planetsorted.com</a>.
       </p>
     </article>
   )

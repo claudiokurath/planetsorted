@@ -113,7 +113,7 @@ export default async function ArticlePage({ params }: Props) {
           <section className="mx-auto mt-8 max-w-6xl text-center">
             <Link
               href={`/tools/${relatedTool.slug}`}
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-2 text-xs font-medium uppercase tracking-wider text-neutral-200 transition-colors hover:border-[#E0B244] hover:text-[#E0B244]"
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-2 text-xs font-medium uppercase tracking-wider text-neutral-200 transition-colors hover:border-[#FFBA2E] hover:text-[#FFBA2E]"
             >
               Try the {item.category} tool: {relatedTool.title} →
             </Link>

@@ -26,11 +26,11 @@ export function LatticeSection() {
           href={`/category/${p.slug}`}
           className="group grid grid-cols-[auto_1fr_auto_auto] items-center gap-6 border-b border-white/10 px-2 py-7 transition-colors hover:bg-white/[0.02] md:gap-10 md:py-9"
         >
-          <span className="font-mono text-[11px] tracking-widest text-neutral-500 group-hover:text-[#E0B244]">
+          <span className="font-mono text-[11px] tracking-widest text-neutral-500 group-hover:text-[#FFBA2E]">
             {p.idx}
           </span>
           <div>
-            <div className="font-bebas text-4xl uppercase leading-none tracking-normal text-white transition-colors group-hover:text-[#E0B244] md:text-6xl">
+            <div className="font-bebas text-4xl uppercase leading-none tracking-normal text-white transition-colors group-hover:text-[#FFBA2E] md:text-6xl">
               {p.name}
             </div>
             <div className="mt-2 text-[12px] text-neutral-500 md:text-sm">{p.tag}</div>
@@ -38,7 +38,7 @@ export function LatticeSection() {
           <span className="hidden text-[11px] uppercase tracking-widest text-neutral-500 md:inline">
             {p.count} Protocols
           </span>
-          <span className="font-mono text-lg text-neutral-500 group-hover:text-[#E0B244]" aria-hidden>
+          <span className="font-mono text-lg text-neutral-500 group-hover:text-[#FFBA2E]" aria-hidden>
             →
           </span>
         </Link>

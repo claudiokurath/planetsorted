@@ -177,7 +177,7 @@ Same base as Life Admin Inbox and Doom Box Decoder — only the accent swaps. Th
   --firmer:   #fb7185;  --firmerbg:  rgba(251,113,133,.10);
 
   /* Semantic colours — identical across the SOR7ED toolkit */
-  --yellow: #E0B244;  --yellowbg: rgba(224,178,68,.12);
+  --yellow: #FFBA2E;  --yellowbg: rgba(255,186,46,.12);
   --green:  #22c55e;  --greenbg:  rgba(34,197,94,.12);
   --orange: #f97316;  --orangebg: rgba(249,115,22,.12);
   --red:    #ef4444;  --redbg:    rgba(239,68,68,.12);

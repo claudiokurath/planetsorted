@@ -155,7 +155,7 @@ export function SignupForm() {
           height={1024}
           className="mx-auto mb-6 h-16 w-16 select-none sm:h-20 sm:w-20"
         />
-        <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#E0B244]">Links sent</p>
+        <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#FFBA2E]">Links sent</p>
         <h1 className="font-bebas mt-4 text-4xl uppercase leading-[1.15] text-white sm:text-5xl">
           {viaEmail ? 'Check your email.' : 'Check your phone.'}
         </h1>
@@ -169,7 +169,7 @@ export function SignupForm() {
               : 'Your WhatsApp verification link is ready. Tap it once to verify and sign in.'}
         </p>
         {inboxUrl ? (
-          <a href={inboxUrl} target="_blank" rel="noopener noreferrer" className="mt-7 block min-h-14 rounded-full border border-white/15 px-6 py-4 text-sm font-medium uppercase tracking-wider text-white hover:border-[#E0B244]">
+          <a href={inboxUrl} target="_blank" rel="noopener noreferrer" className="mt-7 block min-h-14 rounded-full border border-white/15 px-6 py-4 text-sm font-medium uppercase tracking-wider text-white hover:border-[#FFBA2E]">
             Open email →
           </a>
         ) : null}
@@ -189,7 +189,7 @@ export function SignupForm() {
           aria-pressed={mode === 'first'}
           className={`border px-4 py-3 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
             mode === 'first'
-              ? 'border-[#E0B244] bg-[#E0B244]/10 text-white'
+              ? 'border-[#FFBA2E] bg-[#FFBA2E]/10 text-white'
               : 'border-white/10 text-neutral-500 hover:border-white/25 hover:text-white'
           }`}
         >
@@ -201,7 +201,7 @@ export function SignupForm() {
           aria-pressed={mode === 'returning'}
           className={`border px-4 py-3 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
             mode === 'returning'
-              ? 'border-[#E0B244] bg-[#E0B244]/10 text-white'
+              ? 'border-[#FFBA2E] bg-[#FFBA2E]/10 text-white'
               : 'border-white/10 text-neutral-500 hover:border-white/25 hover:text-white'
           }`}
         >
@@ -210,7 +210,7 @@ export function SignupForm() {
       </div>
 
       <div className="mb-8">
-        <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#E0B244]">
+        <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#FFBA2E]">
           {mode === 'returning' ? 'Welcome back' : 'One form. One go.'}
         </p>
         <h1 className="font-bebas mt-4 text-4xl uppercase leading-[1.15] text-white sm:text-5xl">
@@ -223,28 +223,28 @@ export function SignupForm() {
         </p>
       </div>
 
-      {bannerMessage ? <div className="mb-6 rounded-none border border-[#E0B244]/30 bg-[#E0B244]/10 px-4 py-3 text-xs leading-relaxed text-[#E0B244]">{bannerMessage}</div> : null}
+      {bannerMessage ? <div className="mb-6 rounded-none border border-[#FFBA2E]/30 bg-[#FFBA2E]/10 px-4 py-3 text-xs leading-relaxed text-[#FFBA2E]">{bannerMessage}</div> : null}
 
       {mode === 'first' ? (
         <form onSubmit={handleFirstTimeSubmit} className="space-y-4">
           <FieldLabel htmlFor="first-name">First name</FieldLabel>
-          <input id="first-name" required autoComplete="given-name" value={firstName} onChange={(event) => setFirstName(event.target.value)} placeholder="Claudio" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#E0B244]" />
+          <input id="first-name" required autoComplete="given-name" value={firstName} onChange={(event) => setFirstName(event.target.value)} placeholder="Claudio" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#FFBA2E]" />
 
           <FieldLabel htmlFor="signup-email">Email <span className="font-normal normal-case tracking-normal text-neutral-600">optional backup</span></FieldLabel>
-          <input id="signup-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#E0B244]" />
+          <input id="signup-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#FFBA2E]" />
 
           <FieldLabel htmlFor="signup-phone">WhatsApp number</FieldLabel>
           <div className="grid grid-cols-[150px_minmax(0,1fr)] gap-2">
             <label className="sr-only" htmlFor="country-code">Country code</label>
-            <select id="country-code" value={countryCode} onChange={(event) => setCountryCode(event.target.value)} className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-3 text-sm text-white outline-none focus:border-[#E0B244]">
+            <select id="country-code" value={countryCode} onChange={(event) => setCountryCode(event.target.value)} className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-3 text-sm text-white outline-none focus:border-[#FFBA2E]">
               {COUNTRY_CODES.map(([iso, country, code]) => <option key={`${iso}-${code}`} value={code}>{iso === 'GB' ? 'UK' : country} (+{code})</option>)}
             </select>
-            <input id="signup-phone" type="tel" inputMode="numeric" autoComplete="tel-national" required value={phone} onChange={(event) => setPhone(event.target.value.replace(/\D/g, ''))} placeholder="7591 922247" className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#E0B244]" />
+            <input id="signup-phone" type="tel" inputMode="numeric" autoComplete="tel-national" required value={phone} onChange={(event) => setPhone(event.target.value.replace(/\D/g, ''))} placeholder="7591 922247" className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#FFBA2E]" />
           </div>
           <p className="text-xs text-neutral-600">Choose the code, then enter the number without its first zero.</p>
 
           {errorMessage ? <p className="text-sm text-red-400" role="alert">{errorMessage}</p> : null}
-          <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full bg-[#E0B244] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50">
+          <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full bg-[#FFBA2E] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50">
             {state === 'loading' ? 'Sending…' : email ? 'Send both links →' : 'Send WhatsApp link →'}
           </button>
         </form>
@@ -259,24 +259,24 @@ export function SignupForm() {
               <FieldLabel htmlFor="returning-phone">WhatsApp number</FieldLabel>
               <div className="grid grid-cols-[150px_minmax(0,1fr)] gap-2">
                 <label className="sr-only" htmlFor="returning-country">Country code</label>
-                <select id="returning-country" value={countryCode} onChange={(event) => setCountryCode(event.target.value)} className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-3 text-sm text-white outline-none focus:border-[#E0B244]">
+                <select id="returning-country" value={countryCode} onChange={(event) => setCountryCode(event.target.value)} className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-3 text-sm text-white outline-none focus:border-[#FFBA2E]">
                   {COUNTRY_CODES.map(([iso, country, code]) => <option key={`${iso}-${code}`} value={code}>{iso === 'GB' ? 'UK' : country} (+{code})</option>)}
                 </select>
-                <input id="returning-phone" type="tel" inputMode="numeric" autoComplete="tel-national" required value={phone} onChange={(event) => setPhone(event.target.value.replace(/\D/g, ''))} placeholder="7591 922247" className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#E0B244]" />
+                <input id="returning-phone" type="tel" inputMode="numeric" autoComplete="tel-national" required value={phone} onChange={(event) => setPhone(event.target.value.replace(/\D/g, ''))} placeholder="7591 922247" className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#FFBA2E]" />
               </div>
               <p className="text-xs text-neutral-600">Choose the code, then enter the number without its first zero.</p>
 
               {errorMessage ? <p className="text-sm text-red-400" role="alert">{errorMessage}</p> : null}
-              <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full bg-[#E0B244] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50">
+              <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full bg-[#FFBA2E] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50">
                 {state === 'loading' ? 'Sending…' : 'Send WhatsApp link →'}
               </button>
             </form>
           ) : (
             <form onSubmit={handleReturningEmailSubmit} className="space-y-4">
               <FieldLabel htmlFor="returning-email">Email address</FieldLabel>
-              <input id="returning-email" type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#E0B244]" />
+              <input id="returning-email" type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#FFBA2E]" />
               {errorMessage ? <p className="text-sm text-red-400" role="alert">{errorMessage}</p> : null}
-              <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full border border-white/15 px-6 text-sm font-normal uppercase tracking-wider text-white hover:border-[#E0B244] disabled:opacity-50">{state === 'loading' ? 'Sending…' : 'Send email sign-in link →'}</button>
+              <button type="submit" disabled={state === 'loading'} className="min-h-14 w-full rounded-full border border-white/15 px-6 text-sm font-normal uppercase tracking-wider text-white hover:border-[#FFBA2E] disabled:opacity-50">{state === 'loading' ? 'Sending…' : 'Send email sign-in link →'}</button>
             </form>
           )}
         </>
@@ -292,7 +292,7 @@ function ChannelButton({ active, onClick, children }: { active: boolean; onClick
       onClick={onClick}
       aria-pressed={active}
       className={`border-b-2 pb-1 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
-        active ? 'border-[#E0B244] text-white' : 'border-transparent text-neutral-500 hover:text-white'
+        active ? 'border-[#FFBA2E] text-white' : 'border-transparent text-neutral-500 hover:text-white'
       }`}
     >
       {children}

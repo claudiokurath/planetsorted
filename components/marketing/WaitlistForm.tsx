@@ -37,7 +37,7 @@ export function WaitlistForm({ endpoint = '/api/waitlist' }: { endpoint?: string
 
   if (state === 'done') {
     return (
-      <p className="mt-10 border-t border-[#E0B244]/40 pt-6 text-[15px] text-white">
+      <p className="mt-10 border-t border-[#FFBA2E]/40 pt-6 text-[15px] text-white">
         You're on the list. We'll email once — the day your slot opens.
       </p>
     )
@@ -57,18 +57,18 @@ export function WaitlistForm({ endpoint = '/api/waitlist' }: { endpoint?: string
           placeholder="you@yourbrain.com"
           aria-label="Your email address"
           disabled={state === 'sending'}
-          className="border border-white/20 bg-transparent px-4 py-4 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#E0B244] sm:border-0 sm:border-b-0 disabled:opacity-60"
+          className="border border-white/20 bg-transparent px-4 py-4 text-white placeholder:text-neutral-500 focus:outline-none focus:border-[#FFBA2E] sm:border-0 sm:border-b-0 disabled:opacity-60"
         />
         <button
           type="submit"
           disabled={state === 'sending'}
-          className="bg-[#E0B244] px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-black transition-opacity hover:opacity-90 disabled:opacity-60"
+          className="bg-[#FFBA2E] px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-black transition-opacity hover:opacity-90 disabled:opacity-60"
         >
           {state === 'sending' ? 'Sending…' : 'Join Waitlist'}
         </button>
       </form>
       {state === 'error' ? (
-        <p className="mt-3 text-[13px] text-[#E0B244]">
+        <p className="mt-3 text-[13px] text-[#FFBA2E]">
           Couldn't sign you up ({errorMsg}). Try again or drop us an email.
         </p>
       ) : null}

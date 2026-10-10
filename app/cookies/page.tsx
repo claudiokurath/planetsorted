@@ -31,7 +31,7 @@ export default function CookiesPage() {
       </p>
 
       <p className="mt-10 text-sm text-neutral-500">
-        If you have any questions, feel free to email us at <a href="mailto:hello@planetsorted.com" className="text-[#E0B244] underline">hello@planetsorted.com</a>.
+        If you have any questions, feel free to email us at <a href="mailto:hello@planetsorted.com" className="text-[#FFBA2E] underline">hello@planetsorted.com</a>.
       </p>
     </article>
   )
