@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
+import { BrandLogo } from '@/components/BrandLogo'
 import { usePathname } from 'next/navigation'
 import { isStandaloneToolRoute } from '@/lib/isStandaloneToolRoute'
 import { CATEGORY_LIST } from '@/lib/categoryStyles'
@@ -32,13 +32,7 @@ export function SiteFooter() {
         <div className="grid gap-8 grid-cols-1 md:grid-cols-4 pb-8 border-b border-white/10">
           {/* Column 1: Brand */}
           <div className="space-y-3">
-            <Image
-              src="/images/sor7ed-logo-white.png"
-              alt="SOR7ED"
-              width={1832}
-              height={430}
-              className="h-6 w-auto"
-            />
+            <BrandLogo className="h-6 w-auto" />
             <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#F5C518]">
               worry less, live more.
             </p>

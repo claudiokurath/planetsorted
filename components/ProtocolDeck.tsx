@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { BrandLogo } from '@/components/BrandLogo'
 import Link from 'next/link'
 import type { DeckBlock, DeckSlide, ProtocolDeckData } from '@/lib/protocolDeck'
 import { ArticleAudioControls } from '@/components/ArticleAudioControls'
@@ -385,13 +386,7 @@ export function ProtocolDeck({
         {/* SOR7ED wordmark */}
         <div className="relative z-10 mb-10 sm:mb-14" aria-hidden>
           <div className="relative mx-auto h-8 w-36 sm:h-10 sm:w-44">
-            <Image
-              src="/images/sor7ed-logo-white.png"
-              alt="SOR7ED"
-              fill
-              priority
-              className="object-contain opacity-95"
-            />
+            <BrandLogo className="h-full w-full  opacity-95" />
           </div>
         </div>
 

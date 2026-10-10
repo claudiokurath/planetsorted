@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import { BrandLogo } from '@/components/BrandLogo'
 import { getCategoryStyle } from '@/lib/categoryStyles'
 
 interface ContentHeroProps {
@@ -50,7 +50,7 @@ export function ContentHero({ title, description, category, meta, articleMode = 
     <section className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
       <div className="relative mx-auto flex max-w-5xl flex-col items-center gap-5 border border-white/[0.12] bg-black px-6 pb-14 pt-12 text-center sm:px-10 sm:pb-16">
         <div className="relative h-7 w-32">
-          <Image src="/images/sor7ed-logo-white.png" alt="SOR7ED" fill className="object-contain" />
+          <BrandLogo className="h-full w-full" />
         </div>
         {inner}
       </div>
