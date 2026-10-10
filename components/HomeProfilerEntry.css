@@ -1,0 +1,7 @@
+.sorted-paper-profiler { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; margin-top: 28px; padding: 18px 24px; max-width: 100%; background: white; color: #191511; font-family: var(--font-anton), sans-serif; font-size: 1.5rem; line-height: 1.25; text-transform: uppercase; }
+.sorted-paper-profiler-note { flex-basis: 100%; font-family: var(--font-jost), sans-serif; font-size: .875rem; font-weight: 400; text-transform: none; }
+.sorted-paper-profiler:hover { background: #fff5de; }
+.sorted-paper-profiler:focus-visible { outline: 3px solid #191511; outline-offset: 5px; }
+.sorted-paper-profiler + .sorted-paper-options { margin-top: 14px; }
+.sorted-paper-profiler + .sorted-paper-options .sorted-paper-option { min-height: 48px; padding: 12px; font-size: 1rem; }
+@media (max-width: 400px) { .sorted-paper-profiler { font-size: 1.25rem; padding: 16px; } }
