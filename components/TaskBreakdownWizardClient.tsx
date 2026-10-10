@@ -1,5 +1,7 @@
 'use client'
 
+import { StandaloneToolShell } from '@/components/StandaloneToolShell'
+
 import { useState, useRef } from 'react'
 import Link from 'next/link'
 
@@ -79,7 +81,9 @@ export function TaskBreakdownWizardClient() {
   }
 
   return (
+    <StandaloneToolShell title="Task Breakdown Wizard" category="Mind">
     <div className="mx-auto max-w-2xl">
+      <header className="sorted-tool-task-heading"><h1>Task Breakdown Wizard</h1><p>Turn big ideas into clear, actionable plans.</p></header>
       {/* ── FORM ─────────────────────────────────────────────────────────── */}
       {(phase === 'form' || phase === 'error') && (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -144,7 +148,7 @@ export function TaskBreakdownWizardClient() {
           </p>
 
           <button
-            type="submit"
+            type="submit" data-tool-primary
             className="w-full rounded-lg bg-[#FFBA2E] py-4 text-sm font-semibold uppercase tracking-[0.16em] text-black transition-opacity hover:opacity-90 active:scale-[0.98]"
           >
             Send my first step to WhatsApp
@@ -216,5 +220,6 @@ export function TaskBreakdownWizardClient() {
         </div>
       )}
     </div>
+    </StandaloneToolShell>
   )
 }

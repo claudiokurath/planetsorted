@@ -1,5 +1,7 @@
 'use client'
 
+import { StandaloneToolShell } from '@/components/StandaloneToolShell'
+
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -341,18 +343,19 @@ export function BiometricStateApp() {
   const hydrationPct = result ? Math.min(100, Math.round((inputs.water_intake / result.hydrationTarget) * 100)) : 0
 
   return (
+    <StandaloneToolShell title="Biometric State Tracker" category="Tech">
     <>
       <style>{`
         .bst-slider::-webkit-slider-thumb {
           -webkit-appearance: none; width: 18px; height: 18px;
           border-radius: 50%; background: #FFBA2E; cursor: pointer;
-          box-shadow: 0 0 0 3px rgba(34,229,208,0.25); transition: box-shadow .15s;
+          box-shadow: 0 0 0 3px rgba(255,186,46,0.25); transition: box-shadow .15s;
         }
         .bst-slider::-moz-range-thumb {
           width: 18px; height: 18px; border-radius: 50%;
           background: #FFBA2E; border: none; cursor: pointer;
         }
-        .bst-slider:focus::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(34,229,208,0.35); }
+        .bst-slider:focus::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(255,186,46,0.35); }
         .glass { background: #000000; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
         @keyframes bst-fade-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
         .bst-fade { animation: bst-fade-in .4s ease both; }
@@ -363,30 +366,6 @@ export function BiometricStateApp() {
         style={{ background: '#000000' }}
       >
         {/* ── Sticky nav ── */}
-        <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: 'rgba(0,0,0,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-            <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#FFBA2E,#FFBA2E)' }}>
-                <span className="text-base">💧</span>
-              </span>
-              <span className="font-medium tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
-                Biometric<span style={{ color: '#FFBA2E' }}>State</span>
-              </span>
-            </div>
-            <div className="hidden gap-7 text-sm font-medium text-slate-400 md:flex">
-              {['Log Entry', 'Insights', 'History'].map((label) => (
-                <button key={label} className="hover:text-white transition">{label}</button>
-              ))}
-            </div>
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="hidden items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-slate-900 sm:inline-flex"
-              style={{ background: 'linear-gradient(90deg,#FFBA2E,#FFBA2E)' }}
-            >
-              ⚡ New Check-In
-            </button>
-          </nav>
-        </header>
 
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
@@ -394,12 +373,12 @@ export function BiometricStateApp() {
           <section className="py-16 md:py-24 grid gap-12 md:grid-cols-2 items-center">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium uppercase tracking-wider"
-                style={{ borderColor: 'rgba(34,229,208,0.3)', background: 'rgba(34,229,208,0.05)', color: '#FFBA2E' }}>
+                style={{ borderColor: 'rgba(255,186,46,0.3)', background: 'rgba(255,186,46,0.05)', color: '#FFBA2E' }}>
                 ✨ AI-Powered Insights
               </span>
               <h1 className="mt-6 text-5xl sm:text-6xl lg:text-6xl font-normal leading-[1.1] tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Optimize your{' '}
-                <span style={{ background: 'linear-gradient(90deg,#FFBA2E,#FFBA2E)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                <span style={{ color: '#FFBA2E' }}>
                   cognitive & physical
                 </span>{' '}
                 performance
@@ -544,10 +523,10 @@ export function BiometricStateApp() {
 
               <div className="md:col-span-2 flex flex-col sm:flex-row items-center gap-4">
                 <button
-                  type="submit"
+                  type="submit" data-tool-primary
                   disabled={saving}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 font-medium text-slate-900 shadow-lg transition hover:opacity-90 active:scale-95 disabled:opacity-60"
-                  style={{ background: 'linear-gradient(90deg,#FFBA2E,#FFBA2E)' }}
+                  style={{ background: '#FFBA2E' }}
                 >
                   {saving ? '⏳ Saving…' : '✨ Analyze & Save Check-In'}
                 </button>
@@ -679,5 +658,6 @@ export function BiometricStateApp() {
         </div>
       </div>
     </>
+    </StandaloneToolShell>
   )
 }

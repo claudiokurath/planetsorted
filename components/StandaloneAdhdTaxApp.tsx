@@ -1,5 +1,7 @@
 'use client'
 
+import { StandaloneToolShell } from '@/components/StandaloneToolShell'
+
 import { useMemo, useState } from 'react'
 import { calculateAdhdTax } from '@/lib/adhdTaxCalculator'
 
@@ -23,6 +25,7 @@ export function StandaloneAdhdTaxApp() {
   }), [lateFees, weeklyImpulsePurchases, forgottenSubscriptions, lostItemReplacement, productivityLossPercent, monthlyIncome, missedOpportunities])
 
   return (
+    <StandaloneToolShell title="ADHD Tax Calculator" category="Wealth">
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
         <header className="rounded-none border border-white/10 bg-black p-8 shadow-2xl backdrop-blur">
@@ -89,5 +92,6 @@ export function StandaloneAdhdTaxApp() {
         </div>
       </div>
     </div>
+    </StandaloneToolShell>
   )
 }
