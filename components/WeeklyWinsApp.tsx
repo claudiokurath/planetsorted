@@ -1,5 +1,7 @@
 'use client'
 
+import { StandaloneToolShell } from '@/components/StandaloneToolShell'
+
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { createBrowserClient } from '@/lib/supabase/client'
 
@@ -305,6 +307,7 @@ export function WeeklyWinsApp() {
 
   // ─── Render ─────────────────────────────────────────────────────────────────
   return (
+    <StandaloneToolShell title="Weekly Wins Generator" category="Body">
     <>
       <style>{`
         .weekly-wins-slider::-webkit-slider-thumb {
@@ -314,7 +317,7 @@ export function WeeklyWinsApp() {
           border-radius: 50%;
           background: #FFBA2E;
           cursor: pointer;
-          box-shadow: 0 0 0 3px rgba(192,57,43,0.25);
+          box-shadow: 0 0 0 3px rgba(255,186,46,0.25);
           transition: box-shadow 0.15s;
         }
         .weekly-wins-slider::-moz-range-thumb {
@@ -326,7 +329,7 @@ export function WeeklyWinsApp() {
           cursor: pointer;
         }
         .weekly-wins-slider:focus::-webkit-slider-thumb {
-          box-shadow: 0 0 0 5px rgba(192,57,43,0.35);
+          box-shadow: 0 0 0 5px rgba(255,186,46,0.35);
         }
       `}</style>
 
@@ -493,7 +496,7 @@ export function WeeklyWinsApp() {
 
               {/* Generate CTA */}
               <button
-                id="generate-wins"
+                id="generate-wins" data-tool-primary
                 onClick={handleGenerate}
                 disabled={saving}
                 className="w-full rounded-none bg-[#FFBA2E] px-8 py-4 text-sm font-medium uppercase tracking-widest text-[#000000] shadow-lg transition-all hover:bg-[#C79A0E] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
@@ -616,5 +619,6 @@ export function WeeklyWinsApp() {
         </div>
       </div>
     </>
+    </StandaloneToolShell>
   )
 }

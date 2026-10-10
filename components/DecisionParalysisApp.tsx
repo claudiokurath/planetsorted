@@ -1,5 +1,7 @@
 'use client'
 
+import { StandaloneToolShell } from '@/components/StandaloneToolShell'
+
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -325,12 +327,13 @@ export function DecisionParalysisApp() {
   }
 
   return (
+    <StandaloneToolShell title="Decision Paralysis Solver" category="Mind">
     <>
       <style>{`
         .dps-slider::-webkit-slider-thumb {
           -webkit-appearance: none; width: 18px; height: 18px;
           border-radius: 50%; background: #FFBA2E; cursor: pointer;
-          box-shadow: 0 0 0 3px rgba(34,211,196,0.25); transition: box-shadow .15s;
+          box-shadow: 0 0 0 3px rgba(255,186,46,0.25); transition: box-shadow .15s;
         }
         .dps-slider::-moz-range-thumb {
           width: 18px; height: 18px; border-radius: 50%;
@@ -346,43 +349,18 @@ export function DecisionParalysisApp() {
         style={{ background: '#000000' }}
       >
         {/* Header */}
-        <header className="sticky top-0 z-50 backdrop-blur-md" style={{ background: 'rgba(0,0,0,0.85)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-            <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: 'linear-gradient(135deg,#FFBA2E,#FFBA2E)' }}>
-                <span>🧭</span>
-              </span>
-              <span className="font-medium tracking-normal text-white" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
-                Decision Paralysis <span style={{ color: '#FFBA2E' }}>Solver</span>
-              </span>
-            </div>
-            <div className="hidden gap-6 text-sm font-medium text-slate-400 md:flex">
-              <a href="#assessment" className="hover:text-white transition">Assess</a>
-              <a href="#compare" className="hover:text-white transition">Compare</a>
-              <a href="#quick" className="hover:text-white transition">Quick Decide</a>
-              <a href="#journal" className="hover:text-white transition">Journal</a>
-            </div>
-            <a
-              href="#assessment"
-              className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-slate-900 shadow-md transition hover:opacity-90"
-              style={{ background: 'linear-gradient(90deg,#FFBA2E,#FFBA2E)' }}
-            >
-              ⚡ Assess Decision
-            </a>
-          </div>
-        </header>
 
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           {/* Hero */}
           <section className="py-16 md:py-24 grid gap-12 md:grid-cols-2 items-center">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium uppercase tracking-wider"
-                style={{ borderColor: 'rgba(34,211,196,0.3)', background: 'rgba(34,211,196,0.05)', color: '#FFBA2E' }}>
+                style={{ borderColor: 'rgba(255,186,46,0.3)', background: 'rgba(255,186,46,0.05)', color: '#FFBA2E' }}>
                 ✨ Decision Science Engine
               </span>
               <h1 className="mt-6 text-5xl sm:text-6xl lg:text-6xl font-normal leading-[1.1] tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Break free from{' '}
-                <span style={{ background: 'linear-gradient(90deg,#FFBA2E,#FFBA2E)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                <span style={{ color: '#FFBA2E' }}>
                   decision paralysis
                 </span>
               </h1>
@@ -390,7 +368,7 @@ export function DecisionParalysisApp() {
                 Clarify your options, boost confidence, and execute — with a framework built on real decision science, not gut-flipping alone.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
-                <a href="#assessment" className="rounded-full px-6 py-3 font-medium text-slate-900 shadow-lg transition hover:opacity-90" style={{ background: 'linear-gradient(90deg,#FFBA2E,#FFBA2E)' }}>
+                <a href="#assessment" className="rounded-full px-6 py-3 font-medium text-slate-900 shadow-lg transition hover:opacity-90" style={{ background: '#FFBA2E' }}>
                   🎯 Readiness Check
                 </a>
                 <a href="#quick" className="rounded-full border border-white/20 px-6 py-3 font-medium text-white hover:bg-[#0A0A0A]/5 transition">
@@ -510,9 +488,9 @@ export function DecisionParalysisApp() {
                 </div>
 
                 <button
-                  type="submit"
+                  type="submit" data-tool-primary
                   className="w-full rounded-full py-4 font-medium text-slate-900 shadow-lg transition hover:opacity-90 active:scale-95"
-                  style={{ background: 'linear-gradient(90deg,#FFBA2E,#FFBA2E)' }}
+                  style={{ background: '#FFBA2E' }}
                 >
                   ✨ Calculate Confidence
                 </button>
@@ -842,5 +820,6 @@ export function DecisionParalysisApp() {
         </div>
       </div>
     </>
+    </StandaloneToolShell>
   )
 }
