@@ -317,7 +317,7 @@ p {
 .sorted-about-promises { margin-bottom: 28px; padding-left: 22px; list-style: disc; }
 .sorted-about-promises li { padding: 8px 0 8px 8px; font-size: 1.25rem; line-height: 1.6; }
 .sorted-about-promises li::marker { color: #F5C518; }
-.sorted-about-domains { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.sorted-about-domains { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 20px; }
 .sorted-about-domains a { display: flex; flex-direction: column; gap: 14px; border: 1px solid #333; min-height: 220px; padding: 28px; }
 .sorted-about-domains p { font-size: 1rem; }
 .sorted-about-domains a > span { margin-top: auto; color: #F5C518; font-size: .875rem; }
