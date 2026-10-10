@@ -47,7 +47,7 @@ export function HomeGateway() {
         </nav>
       </div>
       <div className="sorted-paper-portrait">
-        <Image src="/images/hero-yellow-portrait.webp" alt="A man in a yellow suit looking at his phone" fill sizes="(max-width: 760px) 100vw, 40vw" preload />
+        <Image src="/images/hero-yellow-cutout.png" alt="A man in a yellow suit looking at his phone" fill sizes="(max-width: 760px) 100vw, 40vw" preload />
       </div>
     </section>
   )
