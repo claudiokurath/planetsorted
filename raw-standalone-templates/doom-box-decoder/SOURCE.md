@@ -41,7 +41,7 @@ For the full screen-by-screen breakdown, design tokens, state model, and product
     --accent-hover: #7cf5e0;
 
     /* Semantic colours — kept identical to Life Admin Inbox */
-    --yellow: #f5c518; --yellowbg: rgba(245,197,24,.12);
+    --yellow: #FFBA2E; --yellowbg: rgba(255,186,46,.12);
     --green: #22c55e; --greenbg: rgba(34,197,94,.12);
     --orange: #f97316; --orangebg: rgba(249,115,22,.12);
     --red: #ef4444; --redbg: rgba(239,68,68,.12);

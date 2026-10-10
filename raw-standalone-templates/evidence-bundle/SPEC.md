@@ -13,7 +13,7 @@ The visual language should be implemented as a small set of design tokens so it 
   --bg-elevated: #1e1e1e;     /* inputs, hovered rows */
   --border: #2a2a2a;
 
-  --yellow: #f5c518;   /* primary actions only */
+  --yellow: #FFBA2E;   /* primary actions only */
   --green:  #22c55e;   /* strong / core evidence */
   --orange: #f97316;   /* needs review */
   --red:    #ef4444;   /* risk / urgent */

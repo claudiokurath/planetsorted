@@ -30,7 +30,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         <div className="max-w-md border border-white/10 p-8 bg-[#080808] shadow-2xl">
           <span className="sor7ed-pill mb-4">ACCESS RESTRICTED</span>
           <h1 className="text-2xl font-bold tracking-tight text-white mt-4 mb-2">
-            PLANET <span className="text-[#F5C518]">SOR7ED</span>
+            PLANET <span className="text-[#FFBA2E]">SOR7ED</span>
           </h1>
           <p className="text-xs text-white/60 leading-relaxed mb-6 font-sans">
             You do not have administrative access to this section. Please sign in with an authorized account or provide a valid access key.
@@ -38,7 +38,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           <div className="flex flex-col gap-3">
             <Link
               href="/auth"
-              className="w-full py-2.5 px-4 bg-[#F5C518] hover:bg-[#F5C518]/90 text-black text-xs uppercase tracking-widest font-bold transition-all"
+              className="w-full py-2.5 px-4 bg-[#FFBA2E] hover:bg-[#FFBA2E]/90 text-black text-xs uppercase tracking-widest font-bold transition-all"
             >
               Sign In via Magic Link
             </Link>
