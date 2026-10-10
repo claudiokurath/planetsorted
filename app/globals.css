@@ -340,3 +340,17 @@ p {
   .sorted-about-page p { font-size: 1rem; }
 }
 @media (max-width: 380px) { .sorted-about-domains { grid-template-columns: 1fr; } }
+
+/* White ink on dark surfaces; inherit dark ink on light surfaces. */
+.sorted-brand-logo {
+  display: inline-block;
+  flex-shrink: 0;
+  aspect-ratio: 1832 / 430;
+  background-color: currentColor;
+  mask-image: url('/images/sor7ed-logo-white.png');
+  mask-mode: luminance;
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+}
+@media print { .sorted-brand-logo { color: black !important; print-color-adjust: exact; } }
