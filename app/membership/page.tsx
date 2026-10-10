@@ -66,7 +66,7 @@ export default function MembershipPage() {
                   <th className="px-4 py-4 text-center text-xs font-medium uppercase tracking-widest text-neutral-300">
                     Free
                   </th>
-                  <th className="px-4 py-4 text-center text-xs font-medium uppercase tracking-widest text-[#F5C518]">
+                  <th className="px-4 py-4 text-center text-xs font-medium uppercase tracking-widest text-[#E0B244]">
                     Membership
                   </th>
                 </tr>
@@ -124,7 +124,7 @@ export default function MembershipPage() {
               'Find previous outputs without scrolling back through your WhatsApp thread.',
             ].map((example) => (
               <li key={example} className="flex gap-3 text-sm leading-relaxed text-neutral-400">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#F5C518]" />
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#E0B244]" />
                 {example}
               </li>
             ))}
@@ -154,7 +154,7 @@ export default function MembershipPage() {
           <Link
             id="membership-explore-free"
             href="/start"
-            className="inline-block rounded-lg bg-[#F5C518] px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-black transition-opacity hover:opacity-90"
+            className="inline-block rounded-lg bg-[#E0B244] px-8 py-4 text-xs font-semibold uppercase tracking-[0.16em] text-black transition-opacity hover:opacity-90"
           >
             Explore free tools
           </Link>

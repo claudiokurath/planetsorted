@@ -117,11 +117,11 @@ export function MobileNav() {
                   : 'text-neutral-500 hover:text-neutral-200'
               }`}
             >
-              <span className={active ? 'text-[#F5C518]' : 'text-current'}>{tab.icon}</span>
+              <span className={active ? 'text-[#E0B244]' : 'text-current'}>{tab.icon}</span>
               <span className={active ? 'text-white' : undefined}>{tab.label}</span>
               <span
                 className={`mt-0.5 h-0.5 w-5 rounded-full transition-colors ${
-                  active ? 'bg-[#F5C518]' : 'bg-transparent'
+                  active ? 'bg-[#E0B244]' : 'bg-transparent'
                 }`}
               />
             </Link>

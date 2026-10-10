@@ -22,7 +22,7 @@ export function ExportPage({ run, onBack }: { run: AdminRun; onBack: () => void 
       
       <div className="space-y-4">
         {run.items.map(i => (
-          <div key={i.id} className="border-l-4 pl-4 py-1" style={{ borderColor: "#f5c518" }}>
+          <div key={i.id} className="border-l-4 pl-4 py-1" style={{ borderColor: "#E0B244" }}>
             <p className="font-bold text-lg">{i.title}</p>
             <p className="text-sm text-gray-600 mt-1">
               <span className="capitalize">{i.bucket.replace("_", " ")}</span>

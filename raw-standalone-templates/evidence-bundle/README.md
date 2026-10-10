@@ -14,7 +14,7 @@ The task is to **build the Evidence Bundle Organiser in the target codebase's ex
 
 Notably:
 - Local React state drives the MVP; every write-path in the spec is annotated with where the Supabase call will go later. Do not skip the local-state phase — it lets the UI ship without a backend.
-- Yellow (`#f5c518`) is reserved for primary actions only. Green/orange/red are reserved strictly for evidence status and risk severity. Do not repurpose these as decorative colours.
+- Yellow (`#E0B244`) is reserved for primary actions only. Green/orange/red are reserved strictly for evidence status and risk severity. Do not repurpose these as decorative colours.
 - Two pieces of legal/privacy copy are **mandatory** and must appear at every point a user is about to add sensitive material or act on the tool's output — see "Safety, Privacy & Disclosure" below and in `SPEC.md`.
 
 ## Fidelity
@@ -135,7 +135,7 @@ From `SPEC.md`, in CSS custom-property form (drop into `:root` or lift into `tai
   --bg-elevated: #1e1e1e;   /* inputs, hovered rows */
   --border:      #2a2a2a;
 
-  --yellow: #f5c518;   /* primary actions ONLY */
+  --yellow: #E0B244;   /* primary actions ONLY */
   --green:  #22c55e;   /* strong / core evidence */
   --orange: #f97316;   /* needs review */
   --red:    #ef4444;   /* risk / urgent */

@@ -21,7 +21,7 @@ const SORTED: { bucket: 'Now' | 'Later' | 'Delegate' | 'Drop'; text: string }[] 
 ]
 
 const BUCKET_STYLES: Record<string, string> = {
-  Now:      'bg-[#F5C518] text-black',
+  Now:      'bg-[#E0B244] text-black',
   Later:    'bg-white/10 text-white',
   Delegate: 'bg-white/5 text-neutral-300',
   Drop:     'bg-transparent text-neutral-500 line-through',
@@ -37,7 +37,7 @@ export function BrainDumpPreviewCard() {
         <div className="flex gap-1.5">
           <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
           <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#F5C518]/70" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#E0B244]/70" />
         </div>
         <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.24em] text-neutral-500">
           sor7ed / brain-dump-sorter
@@ -88,7 +88,7 @@ export function BrainDumpPreviewCard() {
           </div>
           <p className="text-[15px] text-white">
             Open your email and send{' '}
-            <span className="text-[#F5C518]">invoice #204</span>. That's it. Everything else is parked.
+            <span className="text-[#E0B244]">invoice #204</span>. That's it. Everything else is parked.
           </p>
         </div>
       </div>

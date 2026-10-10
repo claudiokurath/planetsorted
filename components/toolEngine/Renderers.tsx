@@ -49,7 +49,7 @@ export function FormRenderer({
                   max={field.max}
                   step={field.step}
                   disabled={disabled}
-                  className="rounded-none border border-white/10 bg-black px-4 py-3 text-white outline-none transition focus:border-[#F5C518] disabled:opacity-50"
+                  className="rounded-none border border-white/10 bg-black px-4 py-3 text-white outline-none transition focus:border-[#E0B244] disabled:opacity-50"
                 />
               )}
 
@@ -62,7 +62,7 @@ export function FormRenderer({
                   placeholder={field.placeholder}
                   rows={4}
                   disabled={disabled}
-                  className="rounded-none border border-white/10 bg-black px-4 py-3 text-white outline-none transition focus:border-[#F5C518] disabled:opacity-50"
+                  className="rounded-none border border-white/10 bg-black px-4 py-3 text-white outline-none transition focus:border-[#E0B244] disabled:opacity-50"
                 />
               )}
 
@@ -106,7 +106,7 @@ export function FormRenderer({
                   value={textOrNumValue}
                   onChange={(e) => onInputChange(field.name, e.target.value)}
                   disabled={disabled}
-                  className="rounded-none border border-white/10 bg-black px-4 py-3 text-white outline-none transition focus:border-[#F5C518] disabled:opacity-50"
+                  className="rounded-none border border-white/10 bg-black px-4 py-3 text-white outline-none transition focus:border-[#E0B244] disabled:opacity-50"
                 >
                   <option value="">Select an option...</option>
                   {field.options.map((option) => (
@@ -145,11 +145,11 @@ export function ResultsRenderer({
   isSaving = false,
 }: ResultsRendererProps) {
   return (
-    <section className="rounded-none border border-[#F5C518]/30 bg-[#F5C518]/10 p-6 shadow-2xl">
+    <section className="rounded-none border border-[#E0B244]/30 bg-[#E0B244]/10 p-6 shadow-2xl">
       {/* Headline */}
       {config.output.headline && (
         <>
-          <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#F5C518]">
+          <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#E0B244]">
             {config.output.headline.label}
           </p>
           <div className="mt-3 text-5xl font-normal sm:text-6xl">
@@ -202,7 +202,7 @@ export function ResultsRenderer({
         <button
           onClick={onSave}
           disabled={isSaving}
-          className="mt-6 w-full rounded-none border border-white/10 bg-black px-4 py-3 font-medium text-[#F5C518] transition hover:border-[#F5C518] disabled:opacity-50"
+          className="mt-6 w-full rounded-none border border-white/10 bg-black px-4 py-3 font-medium text-[#E0B244] transition hover:border-[#E0B244] disabled:opacity-50"
         >
           {isSaving ? 'Saving...' : 'Save Result'}
         </button>
@@ -245,7 +245,7 @@ function ActionListSection({ data }: { data: string[] | undefined }) {
     <ul className="space-y-2">
       {data.map((step, idx) => (
         <li key={idx} className="flex gap-3">
-          <span className="mt-0.5 text-[#F5C518]">•</span>
+          <span className="mt-0.5 text-[#E0B244]">•</span>
           <span className="text-sm text-slate-300">{step}</span>
         </li>
       ))}
