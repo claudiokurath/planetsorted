@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { GammaEmbed } from '@/components/GammaEmbed'
 import { ContentCard } from '@/components/ContentCard'
 import { PageHeader } from '@/components/PageHeader'
 import { createServerClient } from '@/lib/supabase/server'
@@ -21,6 +23,15 @@ export default async function ToolboxListingPage() {
           title="Toolbox"
           description="Practical interactive tools designed to deliver instant clarity and turn overwhelm into a next action."
         />
+
+        <section className="mb-14" aria-label="The tools your brain actually needs">
+          <GammaEmbed src="https://gamma.app/embed/d7h8pad1cxhj4z7" title="The tools your brain actually needs" />
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-4 text-sm">
+            <a href="#published-tools" className="text-[#F5C518] underline underline-offset-4">Browse all tools ↓</a>
+            <Link href="https://gamma.app/docs/THE-TOOLS-YOUR-BRAIN-ACTUALLY-NEEDS-d7h8pad1cxhj4z7" target="_blank" rel="noopener noreferrer" className="text-neutral-300 underline underline-offset-4">Open presentation in a new tab</Link>
+          </div>
+        </section>
+        <h2 id="published-tools" className="mb-8 scroll-mt-28 font-bebas text-3xl uppercase text-white sm:text-4xl">All tools</h2>
 
         {!tools || tools.length === 0 ? (
           <p className="py-12 text-center text-neutral-500">No tools published yet.</p>

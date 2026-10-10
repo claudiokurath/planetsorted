@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { GammaEmbed } from '@/components/GammaEmbed'
 import type { Metadata } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
 import { ContentCard } from '@/components/ContentCard'
@@ -51,6 +53,15 @@ export default async function GuidebookListingPage() {
           title="Guidebook"
           description="Plain-English protocols that turn chaos into a next step."
         />
+
+        <section className="mb-14" aria-label="Your intelligence was never the problem">
+          <GammaEmbed src="https://gamma.app/embed/sqmzw6ub4xnwt51" title="Your intelligence was never the problem" />
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-4 text-sm">
+            <a href="#published-guides" className="text-[#F5C518] underline underline-offset-4">Browse all guides ↓</a>
+            <Link href="https://gamma.app/docs/YOUR-INTELLIGENCE-WAS-NEVER-THE-PROBLEM-sqmzw6ub4xnwt51" target="_blank" rel="noopener noreferrer" className="text-neutral-300 underline underline-offset-4">Open presentation in a new tab</Link>
+          </div>
+        </section>
+        <h2 id="published-guides" className="mb-8 scroll-mt-28 font-bebas text-3xl uppercase text-white sm:text-4xl">All guides</h2>
 
         {!articles || articles.length === 0 ? (
           <p className="py-12 text-center text-neutral-500">No protocols published yet.</p>
