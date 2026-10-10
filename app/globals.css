@@ -296,6 +296,23 @@ p {
   .sorted-paper-panel, .sorted-paper-panel h1 span, .sorted-paper-option { animation: none; }
 }
 
+/* Native collection introductions share the About page's presentation style. */
+.sorted-collection-features { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
+.sorted-collection-features article { border-top: 2px solid #F5C518; padding-top: 24px; }
+.sorted-collection-features h3 { margin: 20px 0 16px; }
+.sorted-collection-content { scroll-margin-top: 100px; }
+.sorted-collection-description { margin-bottom: 32px; }
+@media (max-width: 1000px) { .sorted-collection-features { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 540px) { .sorted-collection-features { grid-template-columns: 1fr; } }
+@media print {
+  .sorted-about-page, .sorted-about-block { background: white !important; color: black !important; }
+  .sorted-about-page p, .sorted-about-page h1, .sorted-about-page h2, .sorted-about-page h3 { color: black !important; }
+  .sorted-about-art { display: none; }
+  .sorted-about-cover { display: block; }
+  .sorted-about-block { break-inside: auto; }
+  .sorted-collection-features article { break-inside: avoid; }
+}
+
 /* About: the supplied black-and-yellow presentation as a readable web page. */
 .sorted-about-page { max-width: 1280px; margin: auto; color: #f2f2f2; background: #000; }
 .sorted-about-page h1, .sorted-about-page h2, .sorted-about-page h3 { font-family: var(--font-anton), sans-serif; text-transform: uppercase; line-height: 1.13; }
@@ -354,20 +371,3 @@ p {
   mask-repeat: no-repeat;
 }
 @media print { .sorted-brand-logo { color: black !important; print-color-adjust: exact; } }
-
-/* Native collection introductions share the About page's presentation style. */
-.sorted-collection-features { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
-.sorted-collection-features article { border-top: 2px solid #F5C518; padding-top: 24px; }
-.sorted-collection-features h3 { margin: 20px 0 16px; }
-.sorted-collection-content { scroll-margin-top: 100px; }
-.sorted-collection-description { margin-bottom: 32px; }
-@media (max-width: 1000px) { .sorted-collection-features { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 540px) { .sorted-collection-features { grid-template-columns: 1fr; } }
-@media print {
-  .sorted-about-page, .sorted-about-block { background: white !important; color: black !important; }
-  .sorted-about-page p, .sorted-about-page h1, .sorted-about-page h2, .sorted-about-page h3 { color: black !important; }
-  .sorted-about-art { display: none; }
-  .sorted-about-cover { display: block; }
-  .sorted-about-block { break-inside: auto; }
-  .sorted-collection-features article { break-inside: avoid; }
-}
