@@ -4,6 +4,7 @@ import { Client } from '@notionhq/client'
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from '@/lib/types/database'
 import { buildVersionedCoverPath } from '@/lib/content/coverStorage'
+import { getNotionProperty } from '@/lib/content/notionProperties'
 
 export const dynamic = 'force-dynamic'
 
@@ -267,7 +268,7 @@ async function syncSinglePage(pageId: string, sourceType: 'Article' | 'Tool') {
           cta: getText(props['CTA']),
           protocol: getText(props['Protocol']),
           gamma_url: getUrl(props['Protocol Gamma']),
-          blog_gamma_url: getUrl(props['Blog post Gamma']),
+          blog_gamma_url: getUrl(getNotionProperty(props, 'Blog Post Gamma')),
           audio_url: getUrl(props['Deep Dive']),
           read_time: getText(props['Read Time']),
           seo_title: getText(props['SEO Title']),
