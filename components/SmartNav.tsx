@@ -54,7 +54,7 @@ export function SmartNav() {
         {authReady && !user && (
           <Link
             href={`/signup?next=${encodeURIComponent(pathname || '/')}`}
-            className="text-[11px] font-medium uppercase tracking-[0.24em] text-[#F5C518]"
+            className="text-[11px] font-medium uppercase tracking-[0.24em] text-[#FFBA2E]"
           >
             Sign In
           </Link>
@@ -76,7 +76,7 @@ export function SmartNav() {
                 href={link.href}
                 className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
                   isActive
-                    ? 'border-b-2 border-[#F5C518] text-white'
+                    ? 'border-b-2 border-[#FFBA2E] text-white'
                     : 'text-white/70 hover:text-white'
                 }`}
               >
@@ -92,7 +92,7 @@ export function SmartNav() {
                   href="/dashboard"
                   className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
                     pathname === '/dashboard'
-                      ? 'border-b-2 border-[#F5C518] text-white'
+                      ? 'border-b-2 border-[#FFBA2E] text-white'
                       : 'text-white/70 hover:text-white'
                   }`}
                 >
@@ -100,7 +100,7 @@ export function SmartNav() {
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] text-white/50 transition-colors hover:text-[#F5C518]"
+                  className="pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] text-white/50 transition-colors hover:text-[#FFBA2E]"
                 >
                   Sign Out
                 </button>
@@ -110,8 +110,8 @@ export function SmartNav() {
                 href={`/signup?next=${encodeURIComponent(pathname || '/')}`}
                 className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
                   pathname === '/signup'
-                    ? 'border-b-2 border-[#F5C518] text-white'
-                    : 'text-[#F5C518] hover:text-white'
+                    ? 'border-b-2 border-[#FFBA2E] text-white'
+                    : 'text-[#FFBA2E] hover:text-white'
                 }`}
               >
                 Sign In

@@ -33,7 +33,7 @@ export function SiteFooter() {
           {/* Column 1: Brand */}
           <div className="space-y-3">
             <BrandLogo className="h-6 w-auto" />
-            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#F5C518]">
+            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#FFBA2E]">
               worry less, live more.
             </p>
             <p className="text-xs text-neutral-500 max-w-xs leading-relaxed">

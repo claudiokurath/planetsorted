@@ -86,7 +86,7 @@ export function TaskBreakdownWizardClient() {
           <div>
             <label
               htmlFor="tbw-task"
-              className="mb-2 block text-sm font-medium uppercase tracking-widest text-[#F5C518]"
+              className="mb-2 block text-sm font-medium uppercase tracking-widest text-[#FFBA2E]"
             >
               What task are you trying to do?
             </label>
@@ -97,7 +97,7 @@ export function TaskBreakdownWizardClient() {
               rows={3}
               required
               placeholder="For example: reply to an email I've been avoiding."
-              className="w-full resize-none rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder-neutral-500 focus:border-[#F5C518]/60 focus:outline-none focus:ring-1 focus:ring-[#F5C518]/40"
+              className="w-full resize-none rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder-neutral-500 focus:border-[#FFBA2E]/60 focus:outline-none focus:ring-1 focus:ring-[#FFBA2E]/40"
             />
           </div>
 
@@ -117,7 +117,7 @@ export function TaskBreakdownWizardClient() {
               onChange={(e) => setContext(e.target.value)}
               rows={2}
               placeholder="For example: low energy, not sure where to start, anxious about the reply."
-              className="w-full resize-none rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder-neutral-500 focus:border-[#F5C518]/60 focus:outline-none focus:ring-1 focus:ring-[#F5C518]/40"
+              className="w-full resize-none rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder-neutral-500 focus:border-[#FFBA2E]/60 focus:outline-none focus:ring-1 focus:ring-[#FFBA2E]/40"
             />
           </div>
 
@@ -145,7 +145,7 @@ export function TaskBreakdownWizardClient() {
 
           <button
             type="submit"
-            className="w-full rounded-lg bg-[#F5C518] py-4 text-sm font-semibold uppercase tracking-[0.16em] text-black transition-opacity hover:opacity-90 active:scale-[0.98]"
+            className="w-full rounded-lg bg-[#FFBA2E] py-4 text-sm font-semibold uppercase tracking-[0.16em] text-black transition-opacity hover:opacity-90 active:scale-[0.98]"
           >
             Send my first step to WhatsApp
           </button>
@@ -155,7 +155,7 @@ export function TaskBreakdownWizardClient() {
       {/* ── LOADING ──────────────────────────────────────────────────────── */}
       {phase === 'loading' && (
         <div className="flex flex-col items-center gap-6 py-16 text-center">
-          <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/20 border-t-[#F5C518]" />
+          <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/20 border-t-[#FFBA2E]" />
           <p className="text-sm text-neutral-400">Working on your next step&hellip;</p>
         </div>
       )}
@@ -165,7 +165,7 @@ export function TaskBreakdownWizardClient() {
         <div ref={resultRef} className="space-y-8">
           {/* Status line */}
           <div className="flex items-start gap-3">
-            <span className="mt-0.5 text-[#F5C518]">
+            <span className="mt-0.5 text-[#FFBA2E]">
               {data.whatsapp ? (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
@@ -189,8 +189,8 @@ export function TaskBreakdownWizardClient() {
           </div>
 
           {/* Result card */}
-          <div className="rounded-lg border border-[#F5C518]/25 bg-white/4 p-6">
-            <p className="mb-1 text-xs font-medium uppercase tracking-widest text-[#F5C518]">
+          <div className="rounded-lg border border-[#FFBA2E]/25 bg-white/4 p-6">
+            <p className="mb-1 text-xs font-medium uppercase tracking-widest text-[#FFBA2E]">
               Your next step
             </p>
             <div className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-white">
@@ -208,7 +208,7 @@ export function TaskBreakdownWizardClient() {
             </button>
             <button
               onClick={handleReset}
-              className="rounded-lg border border-[#F5C518]/30 px-5 py-2.5 text-xs font-medium uppercase tracking-widest text-[#F5C518] transition-colors hover:border-[#F5C518]/60"
+              className="rounded-lg border border-[#FFBA2E]/30 px-5 py-2.5 text-xs font-medium uppercase tracking-widest text-[#FFBA2E] transition-colors hover:border-[#FFBA2E]/60"
             >
               Break down a different task
             </button>

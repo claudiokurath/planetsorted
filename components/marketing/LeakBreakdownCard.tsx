@@ -12,7 +12,7 @@ const LEAKS = [
 export function LeakBreakdownCard() {
   return (
     <div className="relative overflow-hidden border border-white/10 bg-neutral-950 p-6 md:p-10">
-      <div className="absolute inset-x-0 top-0 h-[3px] bg-[#F5C518]" />
+      <div className="absolute inset-x-0 top-0 h-[3px] bg-[#FFBA2E]" />
 
       <div className="mb-5 flex items-center justify-between">
         <span className="themed-idx">Your leak · last 12 months</span>
@@ -37,7 +37,7 @@ export function LeakBreakdownCard() {
               <span className="font-mono text-[11px] text-neutral-500">{l.pct}%</span>
               <span className="col-span-3 mt-1.5 block h-[2px] w-full bg-white/[0.06]">
                 <span
-                  className="block h-full bg-[#F5C518]"
+                  className="block h-full bg-[#FFBA2E]"
                   style={{ width: `${l.pct}%` }}
                 />
               </span>

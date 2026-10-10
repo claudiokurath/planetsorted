@@ -104,11 +104,11 @@ export function AdminDashboardClient({
   }
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 py-8 md:px-12 font-sans selection:bg-[#F5C518] selection:text-black">
+    <div className="min-h-screen bg-black text-white px-4 py-8 md:px-12 font-sans selection:bg-[#FFBA2E] selection:text-black">
       {/* Toast Notification */}
       {notice && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#111] border border-[#F5C518]/60 text-[#F5C518] px-5 py-3 rounded shadow-2xl text-xs uppercase tracking-widest animate-fade-in flex items-center gap-2">
-          <span className="inline-block w-2 h-2 rounded-full bg-[#F5C518] animate-ping" />
+        <div className="fixed bottom-6 right-6 z-50 bg-[#111] border border-[#FFBA2E]/60 text-[#FFBA2E] px-5 py-3 rounded shadow-2xl text-xs uppercase tracking-widest animate-fade-in flex items-center gap-2">
+          <span className="inline-block w-2 h-2 rounded-full bg-[#FFBA2E] animate-ping" />
           {notice}
         </div>
       )}
@@ -121,7 +121,7 @@ export function AdminDashboardClient({
             <span className="text-xs text-white/40 tracking-wider">v1.0.0</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mt-2 text-[#F2F2F2]">
-            PLANET <span className="text-[#F5C518]">SOR7ED</span>
+            PLANET <span className="text-[#FFBA2E]">SOR7ED</span>
           </h1>
           <p className="text-xs text-white/50 tracking-wider uppercase mt-1">
             Telemetry, Tool Performance & Feature Rollout Engine
@@ -144,7 +144,7 @@ export function AdminDashboardClient({
                 }}
                 className={`px-3 py-1 text-xs tracking-wider uppercase transition-colors rounded-sm ${
                   timeRange === hours
-                    ? 'bg-[#F5C518] text-black font-bold'
+                    ? 'bg-[#FFBA2E] text-black font-bold'
                     : 'text-white/60 hover:text-white'
                 }`}
               >
@@ -157,7 +157,7 @@ export function AdminDashboardClient({
           <button
             onClick={() => handleRefresh(timeRange)}
             disabled={isRefreshing}
-            className="px-4 py-2 border border-white/20 hover:border-[#F5C518] text-xs font-semibold uppercase tracking-wider text-white transition-all hover:bg-white/5 disabled:opacity-50 flex items-center gap-2"
+            className="px-4 py-2 border border-white/20 hover:border-[#FFBA2E] text-xs font-semibold uppercase tracking-wider text-white transition-all hover:bg-white/5 disabled:opacity-50 flex items-center gap-2"
           >
             <span className={`inline-block ${isRefreshing ? 'animate-spin' : ''}`}>↻</span>
             {isRefreshing ? 'Syncing...' : 'Refresh'}
@@ -168,7 +168,7 @@ export function AdminDashboardClient({
       {/* KPI Overview Grid */}
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {/* Card 1: Tool Executions */}
-        <div className="border border-white/10 bg-[#080808] p-6 hover:border-[#F5C518]/40 transition-colors">
+        <div className="border border-white/10 bg-[#080808] p-6 hover:border-[#FFBA2E]/40 transition-colors">
           <div className="text-xs tracking-widest text-white/50 uppercase">Total Tool Runs ({timeRange}h)</div>
           <div className="text-4xl font-extrabold text-white mt-2 font-mono">
             {metrics.totalRuns.toLocaleString()}
@@ -180,9 +180,9 @@ export function AdminDashboardClient({
         </div>
 
         {/* Card 2: Success Rate */}
-        <div className="border border-white/10 bg-[#080808] p-6 hover:border-[#F5C518]/40 transition-colors">
+        <div className="border border-white/10 bg-[#080808] p-6 hover:border-[#FFBA2E]/40 transition-colors">
           <div className="text-xs tracking-widest text-white/50 uppercase">Success Rate</div>
-          <div className="text-4xl font-extrabold text-[#F5C518] mt-2 font-mono flex items-center gap-2">
+          <div className="text-4xl font-extrabold text-[#FFBA2E] mt-2 font-mono flex items-center gap-2">
             {metrics.successRatePercent}%
           </div>
           <div className="text-xs text-white/40 mt-2">
@@ -191,7 +191,7 @@ export function AdminDashboardClient({
         </div>
 
         {/* Card 3: Average Latency */}
-        <div className="border border-white/10 bg-[#080808] p-6 hover:border-[#F5C518]/40 transition-colors">
+        <div className="border border-white/10 bg-[#080808] p-6 hover:border-[#FFBA2E]/40 transition-colors">
           <div className="text-xs tracking-widest text-white/50 uppercase">Avg Run Latency</div>
           <div className="text-4xl font-extrabold text-white mt-2 font-mono">
             {metrics.avgLatencyMs} <span className="text-sm font-normal text-white/40">ms</span>
@@ -202,14 +202,14 @@ export function AdminDashboardClient({
         </div>
 
         {/* Card 4: Registered Users & Subscriptions */}
-        <div className="border border-white/10 bg-[#080808] p-6 hover:border-[#F5C518]/40 transition-colors">
+        <div className="border border-white/10 bg-[#080808] p-6 hover:border-[#FFBA2E]/40 transition-colors">
           <div className="text-xs tracking-widest text-white/50 uppercase">Platform Accounts</div>
           <div className="text-4xl font-extrabold text-white mt-2 font-mono">
             {metrics.totalUsers.toLocaleString()}
           </div>
           <div className="text-xs text-white/40 mt-2 flex items-center justify-between">
             <span>Active Subscriptions:</span>
-            <span className="text-[#F5C518] font-bold">{metrics.activeSubscriptions}</span>
+            <span className="text-[#FFBA2E] font-bold">{metrics.activeSubscriptions}</span>
           </div>
         </div>
       </section>
@@ -220,7 +220,7 @@ export function AdminDashboardClient({
           onClick={() => setActiveTab('analytics')}
           className={`pb-3 text-xs tracking-widest uppercase transition-all font-semibold relative ${
             activeTab === 'analytics'
-              ? 'text-[#F5C518] border-b-2 border-[#F5C518]'
+              ? 'text-[#FFBA2E] border-b-2 border-[#FFBA2E]'
               : 'text-white/50 hover:text-white'
           }`}
         >
@@ -230,7 +230,7 @@ export function AdminDashboardClient({
           onClick={() => setActiveTab('flags')}
           className={`pb-3 text-xs tracking-widest uppercase transition-all font-semibold relative ${
             activeTab === 'flags'
-              ? 'text-[#F5C518] border-b-2 border-[#F5C518]'
+              ? 'text-[#FFBA2E] border-b-2 border-[#FFBA2E]'
               : 'text-white/50 hover:text-white'
           }`}
         >
@@ -270,7 +270,7 @@ export function AdminDashboardClient({
                     metrics.toolBreakdown.map((item) => (
                       <tr key={item.toolSlug} className="hover:bg-white/[0.02] transition-colors">
                         <td className="p-4 font-bold text-white font-sans flex items-center gap-2">
-                          <span className="text-[#F5C518] font-mono">/</span>
+                          <span className="text-[#FFBA2E] font-mono">/</span>
                           {item.toolSlug}
                         </td>
                         <td className="p-4 text-right text-white/80">{item.runs.toLocaleString()}</td>
@@ -369,7 +369,7 @@ export function AdminDashboardClient({
                     {/* Flag Details */}
                     <div className="max-w-xl">
                       <div className="flex items-center gap-3">
-                        <code className="text-sm font-bold text-[#F5C518] bg-[#F5C518]/10 px-2 py-0.5 rounded border border-[#F5C518]/20">
+                        <code className="text-sm font-bold text-[#FFBA2E] bg-[#FFBA2E]/10 px-2 py-0.5 rounded border border-[#FFBA2E]/20">
                           {flag.flag_key}
                         </code>
                         <span
@@ -396,7 +396,7 @@ export function AdminDashboardClient({
                       <div className="flex flex-col gap-1 w-44">
                         <div className="flex justify-between text-xs font-mono">
                           <span className="text-white/40">Rollout:</span>
-                          <span className="text-[#F5C518] font-bold">{flag.rollout_percentage}%</span>
+                          <span className="text-[#FFBA2E] font-bold">{flag.rollout_percentage}%</span>
                         </div>
                         <input
                           type="range"
@@ -409,7 +409,7 @@ export function AdminDashboardClient({
                             const val = parseInt(e.target.value, 10)
                             handleRolloutChange(flag.flag_key, val)
                           }}
-                          className="accent-[#F5C518] cursor-pointer disabled:opacity-30 h-1 bg-white/20 rounded"
+                          className="accent-[#FFBA2E] cursor-pointer disabled:opacity-30 h-1 bg-white/20 rounded"
                         />
                       </div>
 
@@ -420,7 +420,7 @@ export function AdminDashboardClient({
                         className={`px-5 py-2 text-xs uppercase tracking-widest font-bold transition-all border ${
                           flag.enabled
                             ? 'bg-red-500/10 border-red-500/30 text-red-400 hover:bg-red-500/20'
-                            : 'bg-[#F5C518] border-[#F5C518] text-black hover:bg-[#F5C518]/90'
+                            : 'bg-[#FFBA2E] border-[#FFBA2E] text-black hover:bg-[#FFBA2E]/90'
                         } disabled:opacity-50 min-w-[120px]`}
                       >
                         {isUpdating ? 'Saving...' : flag.enabled ? 'Disable' : 'Enable'}
