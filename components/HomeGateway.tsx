@@ -48,7 +48,7 @@ export function HomeGateway() {
         <p className="mt-7 text-sm">Worry less, live more.</p>
       </div>
       <div className="sorted-paper-portrait">
-        <Image src="/images/hero-yellow-cutout.png" alt="A man in a yellow suit looking at his phone" fill sizes="(max-width: 760px) 100vw, 40vw" preload />
+        <Image src="/images/hero-red-phone.png" alt="A person in a yellow sweater holding a red phone, with a collage of everyday objects above their head" fill sizes="100vw" preload />
       </div>
     </section>
   )
