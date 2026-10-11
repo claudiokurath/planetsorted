@@ -31,15 +31,21 @@ export default async function ConnectPage({ searchParams }: Props) {
   const supabase = createServerClient()
   const { data: profile } = await supabase
     .from('users')
-    .select('whatsapp_verified')
+    .select('whatsapp_verified, whatsapp_opted_out')
     .eq('user_id', user.id)
     .maybeSingle()
 
-  if (profile?.whatsapp_verified) redirect(nextPath)
+  // STOP remains an explicit preference. Connecting again must not bypass it.
+  if (profile?.whatsapp_opted_out) redirect('/dashboard?tab=settings')
+
+  // A returning member still needs to deliberately request the item. Sending
+  // on GET would also send when a browser prefetches this connection URL.
+  const alreadyConnected = Boolean(profile?.whatsapp_verified)
+  if (alreadyConnected && !(slug && context)) redirect(nextPath)
 
   return (
-    <main className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-black p-4 sm:p-6">
-      <ConnectWhatsAppForm nextPath={nextPath} slug={slug} context={context} />
-    </main>
+    <section aria-labelledby="connect-title" className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-black p-4 sm:p-6">
+      <ConnectWhatsAppForm nextPath={nextPath} slug={slug} context={context} alreadyConnected={alreadyConnected} />
+    </section>
   )
 }

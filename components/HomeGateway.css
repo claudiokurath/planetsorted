@@ -1,0 +1,87 @@
+/* The uploaded artwork stays intact; live copy occupies its empty left side. */
+.sorted-paper-hero.sorted-gateway {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 1280px;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+
+.sorted-gateway .sorted-paper-content {
+  grid-area: 1 / 1;
+  width: 54%;
+  max-width: none;
+  padding: clamp(24px, 2.5vw, 36px);
+}
+
+.sorted-gateway .sorted-paper-mark {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 18px;
+}
+
+.sorted-gateway .sorted-paper-panel { width: 100%; min-height: 0; }
+.sorted-gateway .sorted-paper-eyebrow { font-size: .6875rem; letter-spacing: .08em; }
+.sorted-gateway .sorted-paper-panel h1 {
+  margin: 16px 0 22px;
+  font-size: clamp(2.25rem, 3.65vw, 3.25rem);
+  line-height: 1.14;
+}
+
+.sorted-gateway .sorted-paper-panel h1 span { display: block; width: fit-content; }
+.sorted-gateway .sorted-paper-panel p { font-size: 1rem; line-height: 1.6; }
+.sorted-gateway .sorted-paper-panel p + p { margin-top: 12px; }
+.sorted-gateway .sorted-paper-motto { margin-top: 18px; font-size: .875rem; line-height: 1.5; }
+.sorted-gateway .sorted-paper-portrait {
+  position: relative;
+  grid-area: 1 / 1;
+  align-self: center;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1456 / 816;
+}
+.sorted-gateway .sorted-paper-portrait img { object-fit: contain; object-position: center; }
+.sorted-gateway .sorted-paper-options { gap: 10px; }
+.sorted-gateway .sorted-paper-option { max-width: none; gap: 8px; animation-delay: .7s; animation-fill-mode: backwards; }
+.sorted-gateway .sorted-paper-option:nth-child(2) { animation-delay: .85s; }
+.sorted-gateway .sorted-paper-option:nth-child(3) { animation-delay: 1s; }
+
+/* Stack before the copy would become a narrow column. The full image remains visible. */
+@media (max-width: 1000px) {
+  .sorted-paper-hero.sorted-gateway { display: block; aspect-ratio: auto; }
+  .sorted-gateway .sorted-paper-content {
+    width: 100%;
+    max-width: 640px;
+    margin-inline: auto;
+    padding: 32px;
+  }
+  .sorted-gateway .sorted-paper-panel h1 { font-size: clamp(2.5rem, 6vw, 3.5rem); }
+  .sorted-gateway .sorted-paper-portrait {
+    position: relative;
+    z-index: auto;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1456 / 816;
+  }
+}
+
+@media (max-width: 760px) {
+  .sorted-gateway .sorted-paper-content { padding: 28px 24px 24px; }
+  .sorted-gateway .sorted-paper-mark { width: 48px; height: 48px; margin-bottom: 18px; }
+  .sorted-gateway .sorted-paper-panel h1 { font-size: clamp(2.25rem, 9vw, 3.5rem); margin: 16px 0 24px; }
+  .sorted-gateway .sorted-paper-panel p { font-size: 1rem; line-height: 1.6; }
+  .sorted-gateway .sorted-paper-motto { margin-top: 18px; }
+}
+
+@media (max-width: 360px) {
+  .sorted-gateway .sorted-paper-content { padding-inline: 20px; }
+  .sorted-gateway .sorted-paper-panel h1 { font-size: 2.125rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sorted-gateway .sorted-paper-panel,
+  .sorted-gateway .sorted-paper-panel h1 span,
+  .sorted-gateway .sorted-paper-option { animation: none; }
+}

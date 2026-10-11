@@ -4,7 +4,7 @@ import type { Protocol } from '@/lib/types/database'
 import { CATEGORY_LIST } from '@/lib/categoryStyles'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = process.env.SITE_URL ?? 'https://www.sor7ed.com'
+  const siteUrl = process.env.SITE_URL ?? 'https://planetsorted.com'
   const supabase = createServerClient()
 
   // Fetch dynamic published protocols from Supabase
@@ -23,18 +23,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily' as const,
       priority: 1.0,
     },
-    {
-      url: `${siteUrl}/intelligence`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/tools`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    },
+    ...['about', 'brain-type', 'contact', 'faq', 'membership', 'privacy', 'terms', 'cookies'].map(path => ({
+      url: `${siteUrl}/${path}`,
+      changeFrequency: 'monthly' as const,
+      priority: path === 'brain-type' ? 0.8 : 0.5,
+    })),
   ]
 
   // Category hub pages

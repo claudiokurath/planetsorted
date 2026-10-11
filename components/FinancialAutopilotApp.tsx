@@ -142,6 +142,7 @@ export function FinancialAutopilotApp() {
   const [plan, setPlan] = useState<PlanResult | null>(null)
   const [saving, setSaving] = useState(false)
   const [savedSuccess, setSavedSuccess] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
   const [history, setHistory] = useState<JournalEntry[]>([])
   const [historyLoading, setHistoryLoading] = useState(false)
 
@@ -188,6 +189,7 @@ export function FinancialAutopilotApp() {
     const res = computePlan(inputs)
     setPlan(res)
     setSavedSuccess(false)
+    setSaveError(null)
 
     if (!userId) return
     setSaving(true)
@@ -200,7 +202,7 @@ export function FinancialAutopilotApp() {
         dti: res.dti,
       })
 
-      const { data: req } = await supabase
+      const { data: req, error: requestError } = await supabase
         .from('tool_requests')
         .insert({
           user_id: userId,
@@ -212,27 +214,34 @@ export function FinancialAutopilotApp() {
         .select('id')
         .single()
 
-      if (req) {
-        await supabase.from('tool_runs').insert({
-          tool_request_id: req.id,
-          tool_slug: 'financial-autopilot',
-          model: 'engine-v1',
-          output_text: summary,
-          success: true,
-          latency_ms: 0,
-        })
-        setSavedSuccess(true)
-        await fetchHistory()
-      }
+      if (requestError || !req) throw new Error('Save failed')
+      const { error: runError } = await supabase.from('tool_runs').insert({
+        tool_request_id: req.id,
+        tool_slug: 'financial-autopilot',
+        model: 'engine-v1',
+        output_text: summary,
+        success: true,
+        latency_ms: 0,
+      })
+      if (runError) throw new Error('Save failed')
+      setSavedSuccess(true)
+      await fetchHistory()
     } catch {
+      setSaveError("Your plan is ready, but we couldn't save it. Please generate it again to retry saving your history.")
     } finally {
       setSaving(false)
     }
   }
 
   const handleDeleteHistory = async (id: string) => {
-    await supabase.from('tool_runs').delete().eq('id', id)
-    setHistory((prev) => prev.filter((item) => item.id !== id))
+    setSaveError(null)
+    try {
+      const { error } = await supabase.from('tool_runs').delete().eq('id', id)
+      if (error) throw error
+      setHistory((prev) => prev.filter((item) => item.id !== id))
+    } catch {
+      setSaveError("We couldn't delete that entry. It is still in your history — please try again.")
+    }
   }
 
   return (
@@ -314,8 +323,9 @@ export function FinancialAutopilotApp() {
               <div className="space-y-5">
                 <h3 className="text-lg font-medium text-white mb-4">💳 Financial Snapshot</h3>
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1.5">Monthly Income (after taxes)</label>
+                  <label htmlFor="fa-income" className="block text-xs font-medium text-slate-300 mb-1.5">Monthly Income (after taxes)</label>
                   <input
+                    id="fa-income"
                     type="number" min={0} step={100}
                     value={inputs.monthly_income || ''}
                     onChange={(e) => setInputs({ ...inputs, monthly_income: parseFloat(e.target.value) || 0 })}
@@ -325,8 +335,9 @@ export function FinancialAutopilotApp() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1.5">Monthly Expenses</label>
+                  <label htmlFor="fa-expenses" className="block text-xs font-medium text-slate-300 mb-1.5">Monthly Expenses</label>
                   <input
+                    id="fa-expenses"
                     type="number" min={0} step={100}
                     value={inputs.monthly_expenses || ''}
                     onChange={(e) => setInputs({ ...inputs, monthly_expenses: parseFloat(e.target.value) || 0 })}
@@ -336,8 +347,9 @@ export function FinancialAutopilotApp() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1.5">Current Total Savings</label>
+                  <label htmlFor="fa-savings" className="block text-xs font-medium text-slate-300 mb-1.5">Current Total Savings</label>
                   <input
+                    id="fa-savings"
                     type="number" min={0} step={500}
                     value={inputs.current_savings || ''}
                     onChange={(e) => setInputs({ ...inputs, current_savings: parseFloat(e.target.value) || 0 })}
@@ -347,8 +359,9 @@ export function FinancialAutopilotApp() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1.5">Total Debt Amount</label>
+                  <label htmlFor="fa-debt" className="block text-xs font-medium text-slate-300 mb-1.5">Total Debt Amount</label>
                   <input
+                    id="fa-debt"
                     type="number" min={0} step={500}
                     value={inputs.debt_amount || ''}
                     onChange={(e) => setInputs({ ...inputs, debt_amount: parseFloat(e.target.value) || 0 })}
@@ -358,8 +371,9 @@ export function FinancialAutopilotApp() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1.5">Years Until Retirement</label>
+                  <label htmlFor="fa-retirement" className="block text-xs font-medium text-slate-300 mb-1.5">Years Until Retirement</label>
                   <input
+                    id="fa-retirement"
                     type="number" min={1} max={60} step={1}
                     value={inputs.years_to_retirement || ''}
                     onChange={(e) => setInputs({ ...inputs, years_to_retirement: parseInt(e.target.value) || 1 })}
@@ -374,10 +388,11 @@ export function FinancialAutopilotApp() {
                   <h3 className="text-lg font-medium text-white mb-4">⚙️ Autopilot Preferences</h3>
                   <div>
                     <div className="flex justify-between text-xs font-medium mb-2">
-                      <span className="text-slate-300">Risk Tolerance</span>
+                      <label htmlFor="fa-risk" className="text-slate-300">Risk Tolerance</label>
                       <span className="text-[#FFBA2E]">{inputs.risk_tolerance} ({inputs.risk_tolerance < 3 ? 'Conservative' : 'Aggressive'})</span>
                     </div>
                     <input
+                      id="fa-risk"
                       type="range" min={1} max={5} value={inputs.risk_tolerance}
                       onChange={(e) => setInputs({ ...inputs, risk_tolerance: Number(e.target.value) })}
                       className="fa-slider w-full h-1.5 rounded-full appearance-none cursor-pointer"
@@ -392,6 +407,8 @@ export function FinancialAutopilotApp() {
                     </div>
                     <button
                       type="button"
+                      aria-label="Automate investments"
+                      aria-pressed={inputs.automate_investments}
                       onClick={() => setInputs({ ...inputs, automate_investments: !inputs.automate_investments })}
                       className={`rounded-full px-4 py-1.5 text-xs font-medium transition ${inputs.automate_investments ? 'bg-[#FFBA2E]/20 text-[#FFBA2E] border border-[#FFBA2E]/40' : 'bg-black text-slate-500 border border-slate-700'}`}
                     >
@@ -410,6 +427,7 @@ export function FinancialAutopilotApp() {
                     {saving ? 'Generating Plan…' : '✨ Generate My Autopilot Plan'}
                   </button>
                   {savedSuccess && <p className="text-center text-xs text-[#FFBA2E]">✓ Plan saved to history</p>}
+                  {saveError && <p role="alert" className="text-sm text-[#FFBA2E]">{saveError}</p>}
                 </div>
               </div>
             </form>
@@ -521,7 +539,7 @@ export function FinancialAutopilotApp() {
                     } catch {}
                     return (
                       <div key={item.id} className="glass flex items-center justify-between gap-4 rounded-none px-5 py-4">
-                        <div className="flex items-center gap-6 min-w-0 text-sm">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 min-w-0 text-sm">
                           <span className="text-slate-500 shrink-0">
                             {new Date(item.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
                           </span>
@@ -546,7 +564,7 @@ export function FinancialAutopilotApp() {
           {/* Footer */}
           <footer className="border-t py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <p>© 2026 PLANET SOR7ED · Financial Autopilot</p>
-            <Link href="/" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</Link>
+            <Link href="/" target="_top" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</Link>
           </footer>
         </div>
       </div>

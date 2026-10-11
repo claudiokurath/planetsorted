@@ -47,15 +47,15 @@ export function TaskBreakdownWizardClient() {
         return
       }
 
-      if (!json.result) {
-        setErrorMsg(json.error || 'Something went wrong generating your next step.')
+      if (!res.ok || typeof json.result !== 'string' || !json.result.trim()) {
+        setErrorMsg("We couldn't generate your next step. Your answers are still here — please try again.")
         setPhase('error')
         return
       }
 
       setData({ result: json.result, whatsapp: json.whatsapp ?? false })
       setPhase('result')
-      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
+      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }), 100)
     } catch {
       setErrorMsg("We couldn't reach the server. Your answers are still here.")
       setPhase('error')
@@ -127,7 +127,7 @@ export function TaskBreakdownWizardClient() {
 
           {/* Error message */}
           {phase === 'error' && errorMsg && (
-            <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+            <div role="alert" className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
               {errorMsg}
             </div>
           )}
@@ -158,7 +158,7 @@ export function TaskBreakdownWizardClient() {
 
       {/* ── LOADING ──────────────────────────────────────────────────────── */}
       {phase === 'loading' && (
-        <div className="flex flex-col items-center gap-6 py-16 text-center">
+        <div role="status" className="flex flex-col items-center gap-6 py-16 text-center">
           <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/20 border-t-[#FFBA2E]" />
           <p className="text-sm text-neutral-400">Working on your next step&hellip;</p>
         </div>
@@ -166,7 +166,7 @@ export function TaskBreakdownWizardClient() {
 
       {/* ── RESULT ───────────────────────────────────────────────────────── */}
       {phase === 'result' && data && (
-        <div ref={resultRef} className="space-y-8">
+        <div ref={resultRef} aria-live="polite" className="space-y-8">
           {/* Status line */}
           <div className="flex items-start gap-3">
             <span className="mt-0.5 text-[#FFBA2E]">
@@ -183,7 +183,7 @@ export function TaskBreakdownWizardClient() {
               )}
             </span>
             <div>
-              <p className="font-medium text-white">Your next step is on its way.</p>
+              <p className="font-medium text-white">{data.whatsapp ? 'Your next step is on its way.' : 'Your next step is ready.'}</p>
               <p className="mt-1 text-sm text-neutral-400">
                 {data.whatsapp
                   ? "It's arriving in your WhatsApp now. Here's a copy, in case you want it here too."

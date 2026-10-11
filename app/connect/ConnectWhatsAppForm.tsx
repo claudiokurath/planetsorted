@@ -4,96 +4,120 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-type Phase = 'phone' | 'code' | 'finishing'
+type Phase = 'phone' | 'code' | 'confirm-send' | 'finishing' | 'delivery-error'
 
 interface ConnectWhatsAppFormProps {
   nextPath: string
   slug?: string
   context?: 'article' | 'tool'
+  alreadyConnected?: boolean
 }
 
-export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsAppFormProps) {
+export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected = false }: ConnectWhatsAppFormProps) {
   const router = useRouter()
-  const [phase, setPhase] = useState<Phase>('phone')
+  const [phase, setPhase] = useState<Phase>(alreadyConnected && slug && context ? 'confirm-send' : 'phone')
   const [countryCode, setCountryCode] = useState('44')
   const [phone, setPhone] = useState('')
   const [code, setCode] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const hasRequestedItem = Boolean(slug && context)
 
   async function sendCode(event: React.FormEvent) {
     event.preventDefault()
     setLoading(true)
     setError('')
 
-    const response = await fetch('/api/whatsapp/send-otp', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ whatsappNumber: `${countryCode}${phone.replace(/^0/, '')}` }),
-    })
-    const body = await response.json().catch(() => ({}))
-
-    if (!response.ok) {
-      setError(body.error || 'We could not send the code. Check the number and try again.')
+    try {
+      const response = await fetch('/api/whatsapp/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ whatsappNumber: `${countryCode}${phone.replace(/^0/, '')}` }),
+      })
+      if (!response.ok) {
+        setError('We could not send the code. Check the number and try again.')
+        return
+      }
+      setPhase('code')
+    } catch {
+      setError('We could not send the code. Check your connection and try again.')
+    } finally {
       setLoading(false)
-      return
     }
+  }
 
-    setPhase('code')
-    setLoading(false)
+  async function finishConnection() {
+    setLoading(true)
+    setError('')
+    setPhase('finishing')
+
+    try {
+      if (slug && context) {
+        const delivery = await fetch('/api/save-to-phone', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug, context, includeLink: true }),
+        })
+        if (!delivery.ok) throw new Error('Delivery failed')
+
+        // Delivery has succeeded. A separate library failure must not prompt
+        // a second send or claim that the WhatsApp message did not arrive.
+        await fetch('/api/saved-items', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug, context }),
+        }).catch(() => undefined)
+      }
+
+      router.replace(nextPath)
+      router.refresh()
+    } catch {
+      setError('Your WhatsApp is connected, but the link could not be sent. Please try again.')
+      setPhase('delivery-error')
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function verifyCode(event: React.FormEvent) {
     event.preventDefault()
     setLoading(true)
     setError('')
-
-    const response = await fetch('/api/whatsapp/verify-otp', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ otp: code }),
-    })
-    const body = await response.json().catch(() => ({}))
-
-    if (!response.ok) {
-      setError(body.error || 'That code did not work. Please try again.')
-      setLoading(false)
-      return
-    }
-
-    setPhase('finishing')
-
-    if (slug && context) {
-      const delivery = await fetch('/api/save-to-phone', {
+    try {
+      const response = await fetch('/api/whatsapp/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, context, includeLink: true }),
+        body: JSON.stringify({ otp: code }),
       })
-
-      if (delivery.ok) {
-        await fetch('/api/saved-items', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ slug, context }),
-        })
+      if (!response.ok) {
+        setError('That code did not work. Check the six digits and try again.')
+        return
       }
+      await finishConnection()
+    } catch {
+      setError('We could not check the code. Check your connection and try again.')
+    } finally {
+      setLoading(false)
     }
-
-    router.replace(nextPath)
-    router.refresh()
   }
 
   return (
     <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-6 shadow-2xl sm:p-10">
       <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#FFBA2E]">
-        One-time connection
+        {alreadyConnected ? 'Ready for WhatsApp' : 'One-time connection'}
       </p>
-      <h1 className="font-bebas mt-4 text-4xl uppercase leading-[1.15] text-white sm:text-5xl">
-        Get the link.
+      <h1 id="connect-title" className="font-bebas mt-4 text-4xl uppercase leading-[1.15] text-white sm:text-5xl">
+        {hasRequestedItem ? 'Get the link.' : 'Connect WhatsApp.'}
       </h1>
       <p className="mt-5 max-w-md text-sm leading-6 text-neutral-400 sm:text-base">
-        Your requested tools and protocols arrive as private WhatsApp links. Connect your number once; after that, the SOR7ED button does the rest.
+        {alreadyConnected ? 'Your WhatsApp is connected. Choose below to receive this link in your chat.' : 'Your requested tools and protocols arrive as private WhatsApp links. Connect your number once; after that, the SOR7ED button does the rest.'}
       </p>
+
+      {phase === 'confirm-send' ? (
+        <button type="button" onClick={finishConnection} disabled={loading} className="mt-8 min-h-14 w-full bg-white px-6 text-sm font-medium uppercase tracking-wider text-black disabled:opacity-50">
+          {context === 'article' ? 'Get this protocol via WhatsApp →' : 'Get this tool via WhatsApp →'}
+        </button>
+      ) : null}
 
       {phase === 'phone' ? (
         <form onSubmit={sendCode} className="mt-8 space-y-4">
@@ -170,7 +194,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
             disabled={loading || code.length !== 6}
             className="min-h-14 w-full rounded-full bg-[#FFBA2E] px-6 text-sm font-normal uppercase tracking-wider text-black disabled:opacity-50"
           >
-            {loading ? 'Checking…' : 'Connect and send my link →'}
+            {loading ? 'Checking…' : hasRequestedItem ? 'Connect and send my link →' : 'Connect WhatsApp →'}
           </button>
           <button
             type="button"
@@ -184,11 +208,20 @@ export function ConnectWhatsAppForm({ nextPath, slug, context }: ConnectWhatsApp
 
       {phase === 'finishing' ? (
         <div className="mt-8 rounded-none border border-[#FFBA2E]/25 bg-[#FFBA2E]/5 p-5 text-sm font-medium text-[#FFBA2E]" role="status">
-          Connected. Sending your private link…
+          {hasRequestedItem ? 'Connected. Sending your private link…' : 'Connected. Returning to the website…'}
         </div>
       ) : null}
 
-      <Link href={nextPath} className="mt-7 block text-center text-xs text-neutral-600 hover:text-neutral-300">
+      {phase === 'delivery-error' ? (
+        <div className="mt-8 space-y-4">
+          <p className="text-sm leading-6 text-neutral-300" role="alert">{error}</p>
+          <button type="button" onClick={finishConnection} disabled={loading} className="min-h-14 w-full bg-white px-6 text-sm font-medium uppercase tracking-wider text-black disabled:opacity-50">
+            Try sending my link again →
+          </button>
+        </div>
+      ) : null}
+
+      <Link href={nextPath} className="mt-7 flex min-h-11 items-center justify-center text-center text-sm text-neutral-300 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FFBA2E]">
         Not now — return to browsing
       </Link>
     </div>

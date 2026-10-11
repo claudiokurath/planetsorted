@@ -35,6 +35,8 @@ export const metadata: Metadata = {
   title: 'PLANET SOR7ED',
   description: 'Practical protocols for neurodivergent minds.',
   metadataBase: new URL(process.env.SITE_URL ?? 'https://planetsorted.com'),
+  openGraph: { siteName: 'PLANET SOR7ED', type: 'website', images: [{ url: '/api/og?card=welcome', width: 1200, height: 630, alt: 'PLANET SOR7ED' }] },
+  twitter: { card: 'summary_large_image', images: ['/api/og?card=welcome'] },
 }
 
 export default function RootLayout({

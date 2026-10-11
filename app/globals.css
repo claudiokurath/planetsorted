@@ -457,8 +457,8 @@ p {
 .sorted-tool-app .grid > * { min-width: 0; }
 
 /* Shared navigation, accessible controls and ink-friendly native pages. */
-.sorted-skip-link { position: fixed; top: 12px; left: 12px; z-index: 100; padding: 12px 20px; background: white; color: black; transform: translateY(-200%); }
-.sorted-skip-link:focus { transform: translateY(0); }
+.sorted-skip-link { position: fixed; top: 12px; left: -10000px; z-index: 100; padding: 12px 20px; background: white; color: black; }
+.sorted-skip-link:focus { left: 12px; }
 :where(a, button, input, select, textarea):focus-visible { outline: 2px solid #FFBA2E; outline-offset: 4px; }
 #main-content { min-width: 0; }
 #main-content:focus { outline: none; }

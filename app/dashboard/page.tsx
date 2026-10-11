@@ -12,18 +12,18 @@ export const metadata: Metadata = {
 
 export default async function DashboardPage() {
   return (
-    <main className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-black text-white">
       <div className="flex min-h-screen items-start justify-center px-4 pt-8 pb-24 sm:pt-10 sm:pb-20">
         <div className="w-full max-w-7xl">
           <Suspense
             fallback={
-              <p className="text-center text-neutral-500 py-20">Loading your account…</p>
+              <p role="status" className="text-center text-neutral-300 py-20">Loading your account…</p>
             }
           >
             <DashboardClient />
           </Suspense>
         </div>
       </div>
-    </main>
+    </div>
   )
 }

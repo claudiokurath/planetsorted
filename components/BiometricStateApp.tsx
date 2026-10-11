@@ -156,8 +156,8 @@ function generateRecommendations(d: EntryInputs, hydrationTarget: number): Recom
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
-function FieldLabel({ children }: { children: React.ReactNode }) {
-  return <label className="block text-sm font-medium text-slate-300 mb-2">{children}</label>
+function FieldLabel({ children, htmlFor }: { children: React.ReactNode; htmlFor: string }) {
+  return <label htmlFor={htmlFor} className="block text-sm font-medium text-slate-300 mb-2">{children}</label>
 }
 
 function FieldInput({ ...props }: React.InputHTMLAttributes<HTMLInputElement>) {
@@ -176,7 +176,7 @@ function SliderRow({
 }) {
   return (
     <div>
-      <FieldLabel>{label}</FieldLabel>
+      <FieldLabel htmlFor={id}>{label}</FieldLabel>
       <input
         id={id}
         type="range"
@@ -306,7 +306,7 @@ export function BiometricStateApp() {
     const score = computeBiometricScore(inputs, hydrationTarget)
     const recs = generateRecommendations(inputs, hydrationTarget)
     setResult({ score, hydrationTarget, recs, mood: inputs.mood })
-    setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
+    setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }), 100)
     setSaveError(null)
 
     if (!userId) return
@@ -336,8 +336,14 @@ export function BiometricStateApp() {
   }, [inputs, userId, supabase, fetchHistory])
 
   const handleDelete = useCallback(async (id: string) => {
-    await supabase.from('tool_runs').delete().eq('id', id)
-    setHistory((prev) => prev.filter((r) => r.id !== id))
+    setSaveError(null)
+    try {
+      const { error } = await supabase.from('tool_runs').delete().eq('id', id)
+      if (error) throw error
+      setHistory((prev) => prev.filter((r) => r.id !== id))
+    } catch {
+      setSaveError("We couldn't delete that entry. It is still in your history — please try again.")
+    }
   }, [supabase])
 
   const hydrationPct = result ? Math.min(100, Math.round((inputs.water_intake / result.hydrationTarget) * 100)) : 0
@@ -434,8 +440,8 @@ export function BiometricStateApp() {
 
               {/* Weight */}
               <div>
-                <FieldLabel>⚖️ Weight (kg)</FieldLabel>
-                <FieldInput type="number" min={40} max={200} step={0.1} placeholder="e.g. 72" required
+                <FieldLabel htmlFor="bst-weight">⚖️ Weight (kg)</FieldLabel>
+                <FieldInput id="bst-weight" type="number" min={40} max={200} step={0.1} placeholder="e.g. 72" required
                   value={inputs.weight} onChange={(e) => set('weight', parseFloat(e.target.value) || 70)} />
               </div>
 
@@ -445,31 +451,31 @@ export function BiometricStateApp() {
 
               {/* Caffeine */}
               <div>
-                <FieldLabel>☕ Caffeine (mg)</FieldLabel>
-                <FieldInput type="number" min={0} max={500} step={10} placeholder="e.g. 150"
+                <FieldLabel htmlFor="bst-caffeine">☕ Caffeine (mg)</FieldLabel>
+                <FieldInput id="bst-caffeine" type="number" min={0} max={500} step={10} placeholder="e.g. 150"
                   value={inputs.caffeine_intake || ''} onChange={(e) => set('caffeine_intake', parseFloat(e.target.value) || 0)} />
                 <p className="mt-1 text-xs text-slate-500">1 espresso ≈ 63mg · 1 coffee ≈ 95mg · 1 energy drink ≈ 80mg</p>
               </div>
 
               {/* Alcohol */}
               <div>
-                <FieldLabel>🍷 Alcohol (units)</FieldLabel>
-                <FieldInput type="number" min={0} max={5} step={0.5} placeholder="e.g. 1"
+                <FieldLabel htmlFor="bst-alcohol">🍷 Alcohol (units)</FieldLabel>
+                <FieldInput id="bst-alcohol" type="number" min={0} max={5} step={0.5} placeholder="e.g. 1"
                   value={inputs.alcohol_intake || ''} onChange={(e) => set('alcohol_intake', parseFloat(e.target.value) || 0)} />
                 <p className="mt-1 text-xs text-slate-500">1 unit ≈ 1 small glass of wine or 1 beer</p>
               </div>
 
               {/* Temperature */}
               <div>
-                <FieldLabel>🌡️ Ambient Temperature (°C)</FieldLabel>
-                <FieldInput type="number" min={-10} max={50} step={1} placeholder="e.g. 22"
+                <FieldLabel htmlFor="bst-temperature">🌡️ Ambient Temperature (°C)</FieldLabel>
+                <FieldInput id="bst-temperature" type="number" min={-10} max={50} step={1} placeholder="e.g. 22"
                   value={inputs.temperature} onChange={(e) => set('temperature', parseFloat(e.target.value) || 20)} />
               </div>
 
               {/* Sleep hours */}
               <div>
-                <FieldLabel>🛏️ Sleep Last Night (hrs)</FieldLabel>
-                <FieldInput type="number" min={0} max={12} step={0.5} placeholder="e.g. 7.5"
+                <FieldLabel htmlFor="bst-sleep-hours">🛏️ Sleep Last Night (hrs)</FieldLabel>
+                <FieldInput id="bst-sleep-hours" type="number" min={0} max={12} step={0.5} placeholder="e.g. 7.5"
                   value={inputs.sleep_hours} onChange={(e) => set('sleep_hours', parseFloat(e.target.value) || 0)} />
               </div>
 
@@ -479,8 +485,8 @@ export function BiometricStateApp() {
 
               {/* Heart rate */}
               <div>
-                <FieldLabel>❤️ Resting Heart Rate (bpm)</FieldLabel>
-                <FieldInput type="number" min={30} max={150} step={1} placeholder="e.g. 65"
+                <FieldLabel htmlFor="bst-heart-rate">❤️ Resting Heart Rate (bpm)</FieldLabel>
+                <FieldInput id="bst-heart-rate" type="number" min={30} max={150} step={1} placeholder="e.g. 65"
                   value={inputs.heart_rate || ''} onChange={(e) => set('heart_rate', parseFloat(e.target.value) || 0)} />
               </div>
 
@@ -490,15 +496,16 @@ export function BiometricStateApp() {
 
               {/* Water */}
               <div>
-                <FieldLabel>💧 Water Consumed Today (ml)</FieldLabel>
-                <FieldInput type="number" min={0} max={6000} step={50} placeholder="e.g. 800"
+                <FieldLabel htmlFor="bst-water">💧 Water Consumed Today (ml)</FieldLabel>
+                <FieldInput id="bst-water" type="number" min={0} max={6000} step={50} placeholder="e.g. 800"
                   value={inputs.water_intake || ''} onChange={(e) => set('water_intake', parseFloat(e.target.value) || 0)} />
               </div>
 
               {/* Mood */}
               <div>
-                <FieldLabel>😊 Mood</FieldLabel>
+                <FieldLabel htmlFor="bst-mood">😊 Mood</FieldLabel>
                 <select
+                  id="bst-mood"
                   value={inputs.mood}
                   onChange={(e) => set('mood', e.target.value as Mood)}
                   className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none focus:border-[#FFBA2E] transition"
@@ -511,8 +518,9 @@ export function BiometricStateApp() {
 
               {/* Notes — full width */}
               <div className="md:col-span-2">
-                <FieldLabel>📝 Notes (optional)</FieldLabel>
+                <FieldLabel htmlFor="bst-notes">📝 Notes (optional)</FieldLabel>
                 <textarea
+                  id="bst-notes"
                   rows={3}
                   value={inputs.notes}
                   onChange={(e) => set('notes', e.target.value)}
@@ -533,10 +541,10 @@ export function BiometricStateApp() {
                 {authChecked && !userId && (
                   <p className="text-xs text-slate-500">
                     Results won&apos;t be saved.{' '}
-                    <a href="/signup" className="text-[#FFBA2E] underline hover:text-[#FFBA2E]">Log in</a> to keep a history.
+                    <a href="/signup" target="_top" className="text-[#FFBA2E] underline hover:text-[#FFBA2E]">Log in</a> to keep a history.
                   </p>
                 )}
-                {saveError && <p className="text-xs text-[#FFBA2E]">{saveError}</p>}
+                {saveError && <p role="alert" className="text-xs text-[#FFBA2E]">{saveError}</p>}
               </div>
             </form>
           </section>
@@ -652,7 +660,7 @@ export function BiometricStateApp() {
           <footer className="border-t py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600"
             style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <p>© 2026 PLANET SOR7ED · Biometric State Tracker · Not medical advice.</p>
-            <Link href="/" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</Link>
+            <Link href="/" target="_top" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</Link>
           </footer>
 
         </div>

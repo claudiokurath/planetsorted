@@ -286,6 +286,8 @@ export function WeeklyWinsApp() {
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
+    }).catch(() => {
+      setSaveError("We couldn't copy your draft. You can select the text below and copy it manually.")
     })
   }, [draft])
 
@@ -299,8 +301,14 @@ export function WeeklyWinsApp() {
   // ── Delete history row ──────────────────────────────────────────────────────
   const handleDelete = useCallback(
     async (id: string) => {
-      await supabase.from('tool_runs').delete().eq('id', id)
-      setHistory((prev) => prev.filter((r) => r.id !== id))
+      setSaveError(null)
+      try {
+        const { error } = await supabase.from('tool_runs').delete().eq('id', id)
+        if (error) throw error
+        setHistory((prev) => prev.filter((r) => r.id !== id))
+      } catch {
+        setSaveError("We couldn't delete that entry. It is still in your history — please try again.")
+      }
     },
     [supabase],
   )
@@ -452,6 +460,7 @@ export function WeeklyWinsApp() {
                     <button
                       key={t.value}
                       id={`tone-${t.value}`}
+                      aria-pressed={tone === t.value}
                       onClick={() => setTone(t.value)}
                       className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all ${
                         tone === t.value
@@ -505,13 +514,13 @@ export function WeeklyWinsApp() {
               </button>
 
               {saveError && (
-                <p className="text-sm text-[#FFBA2E]">{saveError}</p>
+                <p role="alert" className="text-sm text-[#FFBA2E]">{saveError}</p>
               )}
 
               {authChecked && !userId && (
                 <p className="rounded-xl border border-white/10 bg-black px-4 py-3 text-xs text-neutral-400">
                   Your summary will generate but won&apos;t be saved.{' '}
-                  <a href="/signup" className="text-[#FFBA2E] underline hover:text-[#FFBA2E]">
+                  <a href="/signup" target="_top" className="text-[#FFBA2E] underline hover:text-[#FFBA2E]">
                     Log in
                   </a>{' '}
                   to keep a wins history.

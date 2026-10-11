@@ -30,6 +30,12 @@ const ICONS = {
       <path strokeLinecap="round" strokeLinejoin="round" d="M5 19.5c1.5-3 4-4.5 7-4.5s5.5 1.5 7 4.5" />
     </svg>
   ),
+  about: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5" aria-hidden>
+      <circle cx="12" cy="12" r="9" />
+      <path strokeLinecap="round" d="M12 11v6M12 7h.01" />
+    </svg>
+  ),
   signin: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5" aria-hidden>
       <path strokeLinecap="round" strokeLinejoin="round" d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
@@ -82,6 +88,12 @@ export function MobileNav() {
       match: (p: string) => p === '/intelligence' || p.startsWith('/intelligence/'),
       icon: ICONS.guide,
     },
+    {
+      href: '/about',
+      label: 'About',
+      match: (p: string) => p === '/about',
+      icon: ICONS.about,
+    },
     user
       ? {
           href: '/dashboard',
@@ -100,7 +112,7 @@ export function MobileNav() {
   return (
     <nav
       aria-label="Mobile primary navigation"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10/90 bg-black backdrop-blur-md md:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-black backdrop-blur-md md:hidden"
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
     >
       <div className="mx-auto flex max-w-lg items-stretch">
@@ -111,7 +123,7 @@ export function MobileNav() {
               key={tab.href}
               href={tab.href}
               aria-current={active ? 'page' : undefined}
-              className={`flex flex-1 flex-col items-center justify-center gap-0.5 py-2.5 text-[10px] font-medium uppercase tracking-wider transition-colors ${
+              className={`flex min-h-16 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 py-2.5 text-[10px] font-medium uppercase tracking-[0.04em] transition-colors ${
                 active
                   ? 'text-white'
                   : 'text-neutral-400 hover:text-white'

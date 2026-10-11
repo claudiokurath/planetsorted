@@ -4,8 +4,8 @@ import { createSessionClient } from '@/lib/supabase/server'
 import { stripe } from '@/lib/stripe'
 
 export const metadata = {
-  title: 'Upgrade to Plus — Planet Sorted',
-  description: 'Unlock unlimited tools and saved results.',
+  title: 'Plus membership — PLANET SOR7ED',
+  description: 'Review SOR7ED Plus membership and subscription details.',
 }
 
 export default async function UpgradePage() {
@@ -27,7 +27,7 @@ export default async function UpgradePage() {
       redirect('/signup')
     }
 
-    const site = process.env.SITE_URL ?? 'https://www.sor7ed.com'
+    const site = process.env.SITE_URL ?? 'https://planetsorted.com'
     const priceId = process.env.STRIPE_PRICE_ID_PLUS_MONTHLY
 
     if (!priceId) {
@@ -77,23 +77,24 @@ export default async function UpgradePage() {
   // State 1: No active session
   if (!authUser) {
     return (
-      <div className="mx-auto max-w-md px-6 py-24 text-center space-y-8 font-sans">
+      <div className="mx-auto max-w-lg px-6 py-16 text-center space-y-8">
         <div className="space-y-3">
-          <div className="text-4xl">🔒</div>
-          <h1 className="text-2xl font-medium text-white">Sign in to Upgrade</h1>
-          <p className="text-sm text-neutral-300">
-            To upgrade to Plus, you need to be signed in first.
+          <span className="sor7ed-pill">SOR7ED Plus</span>
+          <h1 className="font-bebas text-4xl uppercase text-white sm:text-5xl">Sign in to review Plus</h1>
+          <p className="text-base leading-relaxed text-neutral-300">
+            Sign in with your email to continue. No password needed.
           </p>
         </div>
 
         <Link
-          href="/signup"
-          className="inline-block w-full rounded-full bg-green-500 py-3 font-medium text-white hover:bg-green-600 transition-colors"
+          href="/signup?next=%2Fr%2Fupgrade"
+          className="inline-flex min-h-12 w-full items-center justify-center bg-white px-5 py-3 text-base font-medium text-black transition-colors hover:bg-[#FFBA2E]"
         >
-          Sign in or create your free account — no password needed.
+          Sign in or create a free account
         </Link>
 
-        <p className="text-xs text-neutral-500 leading-normal text-left border-t border-white/10 pt-6">
+        <Link href="/membership" className="inline-flex min-h-11 items-center text-base text-[#FFBA2E] underline">Back to membership</Link>
+        <p className="text-sm text-neutral-400 leading-relaxed text-left border-t border-white/10 pt-6">
           {disclaimer}
         </p>
       </div>
@@ -102,58 +103,41 @@ export default async function UpgradePage() {
 
   // State 2: Active session
   return (
-    <div className="mx-auto max-w-md px-6 py-20 space-y-8 font-sans">
+    <div className="mx-auto max-w-lg px-6 py-16 space-y-8">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-extrabold text-white">PLANET SOR7ED Plus</h1>
-        <p className="text-lg font-medium text-green-600">£5.99/month or £49/year</p>
+        <span className="sor7ed-pill">Membership</span>
+        <h1 className="font-bebas text-4xl uppercase text-white sm:text-5xl">PLANET SOR7ED Plus</h1>
+        <p className="text-2xl text-[#FFBA2E]">£5.99 per month</p>
       </div>
 
       <div className="rounded-none border border-white/10 bg-black p-6 space-y-4">
-        <h2 className="font-medium text-white">Included in Plus:</h2>
-        <ul className="space-y-3 text-sm text-neutral-300">
-          <li className="flex items-start gap-2">
-            <span className="text-green-500 font-medium">✓</span>
-            <span>Saved run history (timestamped)</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="text-green-500 font-medium">✓</span>
-            <span>Compare mode for your tool runs</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="text-green-500 font-medium">✓</span>
-            <span>PDF exports for plans and briefs</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="text-green-500 font-medium">✓</span>
-            <span>Full 7-day and 30-day action plans</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="text-green-500 font-medium">✓</span>
-            <span>Unlimited WhatsApp RUN commands</span>
-          </li>
-        </ul>
+        <h2 className="font-bebas text-3xl uppercase text-white">Before you subscribe</h2>
+        <p className="text-base leading-relaxed text-neutral-300">Core tools, guidebook content and your saved library are available without a paid membership.</p>
+        <p className="text-base leading-relaxed text-neutral-300">Continue to checkout to review the subscription price and terms before confirming payment.</p>
+        <Link href="/contact" className="inline-flex min-h-11 items-center text-base text-[#FFBA2E] underline">Ask a membership question</Link>
       </div>
 
       <div className="space-y-4">
         <form action={handleSubscribe}>
           <button
             type="submit"
-            className="w-full rounded-full bg-green-500 py-3 font-medium text-white hover:bg-green-600 transition-colors"
+            className="min-h-12 w-full bg-white px-5 py-3 text-base font-medium text-black transition-colors hover:bg-[#FFBA2E]"
           >
-            Subscribe Now
+            Continue to secure checkout
           </button>
         </form>
 
-        <p className="text-xs text-center text-neutral-500">
-          Scholarships and pay-what-you-can tiers are available, no proof needed. Contact us at{' '}
-          <a href="mailto:hello@planetsorted.com" className="underline">
+        <p className="text-sm leading-relaxed text-center text-neutral-400">
+          For membership or billing questions, contact{' '}
+          <a href="mailto:hello@planetsorted.com" className="inline-flex min-h-11 items-center break-all text-[#FFBA2E] underline">
             hello@planetsorted.com
           </a>
           .
         </p>
       </div>
 
-      <p className="text-xs text-neutral-500 leading-normal border-t border-white/10 pt-6">
+      <Link href="/membership" className="inline-flex min-h-11 items-center text-base text-[#FFBA2E] underline">Back to membership</Link>
+      <p className="text-sm text-neutral-400 leading-relaxed border-t border-white/10 pt-6">
         {disclaimer}
       </p>
     </div>

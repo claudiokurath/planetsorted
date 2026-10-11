@@ -62,6 +62,7 @@ export function BrainDumpSorterApp() {
   const [sorted, setSorted] = useState<SortedResult | null>(null)
   const [saving, setSaving] = useState(false)
   const [savedSuccess, setSavedSuccess] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
 
   const [history, setHistory] = useState<JournalEntry[]>([])
   const [historyLoading, setHistoryLoading] = useState(false)
@@ -113,6 +114,7 @@ export function BrainDumpSorterApp() {
     const result = classifyText(cleanText)
     setSorted(result)
     setSavedSuccess(false)
+    setSaveError(null)
 
     if (!userId) return
     setSaving(true)
@@ -125,7 +127,7 @@ export function BrainDumpSorterApp() {
         result,
       })
 
-      const { data: req } = await supabase
+      const { data: req, error: requestError } = await supabase
         .from('tool_requests')
         .insert({
           user_id: userId,
@@ -137,27 +139,34 @@ export function BrainDumpSorterApp() {
         .select('id')
         .single()
 
-      if (req) {
-        await supabase.from('tool_runs').insert({
-          tool_request_id: req.id,
-          tool_slug: 'brain-dump-sorter',
-          model: 'engine-v1',
-          output_text: summary,
-          success: true,
-          latency_ms: 0,
-        })
-        setSavedSuccess(true)
-        await fetchHistory()
-      }
+      if (requestError || !req) throw new Error('Save failed')
+      const { error: runError } = await supabase.from('tool_runs').insert({
+        tool_request_id: req.id,
+        tool_slug: 'brain-dump-sorter',
+        model: 'engine-v1',
+        output_text: summary,
+        success: true,
+        latency_ms: 0,
+      })
+      if (runError) throw new Error('Save failed')
+      setSavedSuccess(true)
+      await fetchHistory()
     } catch {
+      setSaveError("Your sorted thoughts are ready, but we couldn't save them. Please try sorting again to save your history.")
     } finally {
       setSaving(false)
     }
   }
 
   const handleDeleteHistory = async (id: string) => {
-    await supabase.from('tool_runs').delete().eq('id', id)
-    setHistory((prev) => prev.filter((item) => item.id !== id))
+    setSaveError(null)
+    try {
+      const { error } = await supabase.from('tool_runs').delete().eq('id', id)
+      if (error) throw error
+      setHistory((prev) => prev.filter((item) => item.id !== id))
+    } catch {
+      setSaveError("We couldn't delete that entry. It is still in your history — please try again.")
+    }
   }
 
   return (
@@ -227,8 +236,9 @@ export function BrainDumpSorterApp() {
 
             <form onSubmit={handleSort} className="glass rounded-none p-6 md:p-10 space-y-6">
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-2">Raw Brain Dump Input</label>
+                <label htmlFor="brain-dump-input" className="block text-xs font-medium text-slate-300 mb-2">Raw Brain Dump Input</label>
                 <textarea
+                  id="brain-dump-input"
                   rows={4}
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
@@ -249,6 +259,7 @@ export function BrainDumpSorterApp() {
                 </button>
                 {savedSuccess && <p className="text-xs text-[#FFBA2E] font-medium">✓ Sorted and saved to history log</p>}
               </div>
+              {saveError && <p role="alert" className="text-sm text-[#FFBA2E]">{saveError}</p>}
             </form>
 
             {/* Results Grid */}
@@ -364,7 +375,7 @@ export function BrainDumpSorterApp() {
                     } catch {}
                     return (
                       <div key={item.id} className="glass flex items-center justify-between gap-4 rounded-none px-5 py-4">
-                        <div className="flex items-center gap-6 min-w-0 text-sm">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 min-w-0 text-sm">
                           <span className="text-slate-500 shrink-0">
                             {new Date(item.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
                           </span>
@@ -390,7 +401,7 @@ export function BrainDumpSorterApp() {
           {/* Footer */}
           <footer className="border-t py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <p>© 2026 PLANET SOR7ED · Brain Dump Sorter</p>
-            <Link href="/" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</Link>
+            <Link href="/" target="_top" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</Link>
           </footer>
         </div>
       </div>

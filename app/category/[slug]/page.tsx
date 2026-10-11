@@ -28,6 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
+    alternates: { canonical: `${SITE}/category/${slug}` },
     openGraph: {
       title,
       description,
@@ -42,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export const revalidate = 60
 
 const SectionLabel = ({ children }: { children: string }) => (
-  <h2 className="mb-6 text-xs font-medium uppercase tracking-[0.24em] text-neutral-500">{children}</h2>
+  <h2 className="mb-6 font-bebas text-3xl uppercase leading-tight text-white">{children}</h2>
 )
 
 export default async function CategoryPage({ params }: Props) {
@@ -78,7 +79,7 @@ export default async function CategoryPage({ params }: Props) {
         <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-500">
           <Link href="/tools" className="transition-colors hover:text-white">All tools</Link>
           <span className="text-neutral-700">·</span>
-          <Link href="/intelligence" className="transition-colors hover:text-white">All guidebook</Link>
+          <Link href="/intelligence" className="transition-colors hover:text-white">Guidebook</Link>
         </div>
       </header>
 
