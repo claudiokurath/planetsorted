@@ -1,23 +1,16 @@
 interface GammaEmbedProps {
-  /** Already-resolved gamma.app/embed/… URL (see lib/content/gammaEmbed). */
   src: string
   title: string
 }
 
-/**
- * Full-width embed of a Gamma deck — used as the primary content on article
- * and tool pages so visitors read the real presentation, not a reconstruction.
- */
+/** Open the original presentation as a full page, without nested scrolling. */
 export function GammaEmbed({ src, title }: GammaEmbedProps) {
+  const destination = src.replace('https://gamma.app/embed/', 'https://gamma.app/docs/')
   return (
-    <div className="mx-auto max-w-6xl overflow-hidden border border-white/[0.12] bg-black">
-      <iframe
-        src={src}
-        title={title}
-        loading="lazy"
-        allow="fullscreen"
-        className="block h-[68vh] min-h-[460px] w-full"
-      />
-    </div>
+    <section className="sorted-presentation-link mx-auto max-w-6xl border border-white/15 p-6 sm:p-10" aria-label={title}>
+      <p className="mb-3 text-sm text-neutral-300">Read the full presentation</p>
+      <h2 className="mb-6 font-bebas text-3xl uppercase sm:text-4xl">{title}</h2>
+      <a href={destination} className="inline-flex min-h-12 items-center gap-4 bg-white px-6 py-3 font-medium text-black hover:bg-[#FFBA2E]">Open presentation <span aria-hidden="true">↗</span></a>
+    </section>
   )
 }

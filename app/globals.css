@@ -455,3 +455,31 @@ p {
 .sorted-tool-app section[id] { border-width: 1px 0 0; background: transparent; }
 .sorted-tool-app :is(input, textarea, select) { min-width: 0; max-width: 100%; }
 .sorted-tool-app .grid > * { min-width: 0; }
+
+/* Shared navigation, accessible controls and ink-friendly native pages. */
+.sorted-skip-link { position: fixed; top: 12px; left: 12px; z-index: 100; padding: 12px 20px; background: white; color: black; transform: translateY(-200%); }
+.sorted-skip-link:focus { transform: translateY(0); }
+:where(a, button, input, select, textarea):focus-visible { outline: 2px solid #FFBA2E; outline-offset: 4px; }
+#main-content { min-width: 0; }
+#main-content:focus { outline: none; }
+:where(header, footer) :where(a, button) { touch-action: manipulation; }
+@media (max-width: 767px) {
+  body > main { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  header nav a, header nav button { min-height: 44px; display: inline-flex; align-items: center; }
+  footer a { display: inline-flex; align-items: center; min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+@media print {
+  html, body, #main-content { background: white !important; color: black !important; }
+  body > header, body > footer, body > nav, .sorted-skip-link, video, iframe, button { display: none !important; }
+  #main-content { padding-bottom: 0 !important; }
+  #main-content :where(div, section, article, header, aside, input, select, textarea) { background-color: white !important; background-image: none !important; box-shadow: none !important; color: black !important; border-color: #bbb !important; }
+  #main-content :where(h1,h2,h3,h4,p,span,label,a,li,small) { color: black !important; text-shadow: none !important; }
+  .sorted-paper-portrait, .sorted-paper-mark, .sorted-paper-options, .sorted-paper-profiler { display: none !important; }
+  .sorted-paper-content, .sorted-paper-panel { width: 100% !important; max-width: none !important; min-height: 0 !important; }
+  .sorted-brand-logo { background-color: black !important; }
+  .sorted-presentation-link { break-inside: avoid; }
+}
