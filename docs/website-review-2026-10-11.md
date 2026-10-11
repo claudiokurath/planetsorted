@@ -17,11 +17,11 @@ Two source issues remain and should not be replaced with guessed links:
 - Financial Avoidance's **Protocol Gamma** property points to a digital-file organisation presentation.
 - Organising Digital Files has no **Protocol Gamma** value. Its **Blog Post Gamma** is populated.
 
-## Protected sync dependency
+## Approved Notion sync fix
 
-`app/api/cron/sync-notion/route.ts` reads `Blog post Gamma`; Notion names the property `Blog Post Gamma`. Two sync paths can therefore replace valid article deck links with null. A verified, applicable patch is prepared at [patches/notion-cron-properties.patch](patches/notion-cron-properties.patch). It uses the existing case-insensitive property helper.
+`app/api/cron/sync-notion/route.ts` previously read `Blog post Gamma`; Notion names the property `Blog Post Gamma`. Both sync paths now use the existing case-insensitive property helper, preferring the exact current property name. This preserves article deck links and embedded iframe snippets while keeping **Protocol Gamma** separate. The reviewed change is recorded at [patches/notion-cron-properties.patch](patches/notion-cron-properties.patch).
 
-AGENTS.md rule 5 says the sync route is “final and immutable” unless explicitly authorised. The uploaded brief also requires following protected-file rules. The route remains unchanged pending explicit permission to apply this patch. The daily sync runs at 00:00 UTC; the restored article values alone do not prevent this regression.
+The owner explicitly authorised this protected-file change on 11 October. The fix is applied in PR #65 and takes effect in production after that PR is merged and deployed. The daily sync runs at 00:00 UTC.
 
 The protected save/send files also retain some historical `sor7ed.com` fallbacks. Unprotected metadata, routing and account link fallbacks are corrected to `planetsorted.com`; protected files remain unchanged.
 
@@ -49,4 +49,4 @@ Actual magic-link email arrival, real OTP arrival, Meta delivery and Stripe paym
 - All profiler outcomes, recommendations, tie/reset behavior and clipboard interactions passed.
 - Mocked history-save/deletion failures and retries, OTP failures and delivery retries passed without live writes or messages. Returning-member confirmation and opt-out server branches also passed.
 - Native print view uses white backgrounds and black text, hides navigation and hero controls; reduced-motion and keyboard skip navigation passed.
-- The prepared Notion sync patch passes `git apply --check` but has not been applied.
+- The approved Notion sync patch is applied. Eight mocked sync scenarios passed across both sync paths: current and legacy property names, exact-match preference and iframe-rich-text values. Article destinations, protocol destinations and cover images were preserved without external writes. TypeScript and focused ESLint passed; ESLint reports one pre-existing unused-function warning.
