@@ -6,6 +6,7 @@ import { SortedSaveButton } from '@/components/SortedSaveButton'
 
 export function SitewideSortedButton() {
   const pathname = usePathname() || '/'
+  if (pathname === '/embed/sor7ed-button') return null
   const content = pathname.match(/^\/(tools|intelligence|embed)\/([^/]+)\/?$/)
   const standalone = pathname.match(/^\/(?:standalone\/)?(adhd-tax-calculator|biometric-state-tracker|brain-dump-sorter|decision-paralysis-solver|financial-autopilot|weekly-wins|task-breakdown-wizard)\/?$/)
   const slug = content?.[2] || standalone?.[1]
