@@ -6,3 +6,12 @@
 .sorted-paper-profiler + .sorted-paper-options .sorted-paper-option { min-height: 48px; padding: 12px; font-size: 1rem; }
 @media (max-width: 400px) { .sorted-paper-profiler { font-size: 1.25rem; padding: 16px; } }
 @media (max-width: 760px) { .sorted-paper-profiler + .sorted-paper-options { display: none; } }
+
+@media (min-width: 761px) {
+  .sorted-paper-hero { min-height: 0; aspect-ratio: 1456 / 816; }
+  .sorted-paper-content { padding: 24px 32px; max-width: 100%; }
+  .sorted-paper-mark { width: 64px; height: 64px; margin-bottom: 16px; }
+  .sorted-paper-panel h1 { font-size: clamp(2rem, 3.8vw, 3rem); margin: 16px 0 20px; }
+  .sorted-paper-panel p { font-size: 1rem; line-height: 1.5; }
+  .sorted-paper-profiler { margin-top: 20px; padding: 14px 20px; font-size: 1.25rem; }
+}
