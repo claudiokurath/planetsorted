@@ -49,13 +49,13 @@ export function SmartNav() {
     <header className="sticky top-0 z-50 border-b border-white/[0.08] bg-black/90 text-white backdrop-blur-xl">
       {/* Mobile: logo-only bar — primary nav lives in the bottom tab bar */}
       <nav aria-label="Primary navigation" className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 md:hidden">
-        <Link href="/" aria-label="PLANET SOR7ED home" className="flex items-center">
+        <Link href="/" aria-label="PLANET SOR7ED home" className="flex min-h-11 items-center">
           <BrandLogo className="h-7 w-auto" />
         </Link>
         {authReady && !user && (
           <Link
             href={`/signup?next=${encodeURIComponent(pathname || '/')}`}
-            className="text-[11px] font-medium uppercase tracking-[0.24em] text-[#FFBA2E]"
+            className="inline-flex min-h-11 items-center px-2 text-xs font-medium uppercase tracking-[0.16em] text-[#FFBA2E]"
           >
             Sign In
           </Link>
@@ -63,12 +63,12 @@ export function SmartNav() {
       </nav>
 
       {/* Desktop: full top nav */}
-      <nav aria-label="Primary navigation" className="mx-auto hidden max-w-7xl items-center justify-between gap-8 px-6 py-3 md:flex lg:px-8">
-        <Link href="/" aria-label="PLANET SOR7ED home" className="flex shrink-0 items-center">
-          <BrandLogo className="h-9 w-auto lg:h-10" />
+      <nav aria-label="Primary navigation" className="mx-auto hidden max-w-7xl items-center justify-between gap-4 px-6 py-3 md:flex lg:px-8">
+        <Link href="/" aria-label="PLANET SOR7ED home" className="flex min-h-11 shrink-0 items-center">
+          <BrandLogo className="h-8 w-auto lg:h-10" />
         </Link>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-3 lg:gap-6">
           {navLinks.map((link) => {
             const isActive = pathname === link.href || pathname?.startsWith(`${link.href}/`)
             return (
@@ -76,7 +76,7 @@ export function SmartNav() {
                 key={link.href}
                 href={link.href}
                 aria-current={isActive ? 'page' : undefined}
-                className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
+                className={`inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
                   isActive
                     ? 'border-b-2 border-[#FFBA2E] text-white'
                     : 'text-white/70 hover:text-white'
@@ -92,7 +92,8 @@ export function SmartNav() {
               <>
                 <Link
                   href="/dashboard"
-                  className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
+                  aria-current={pathname === '/dashboard' ? 'page' : undefined}
+                  className={`inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
                     pathname === '/dashboard'
                       ? 'border-b-2 border-[#FFBA2E] text-white'
                       : 'text-white/70 hover:text-white'
@@ -102,7 +103,7 @@ export function SmartNav() {
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] text-white/50 transition-colors hover:text-[#FFBA2E]"
+                  className="inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] text-white/70 transition-colors hover:text-[#FFBA2E]"
                 >
                   Sign Out
                 </button>
@@ -110,7 +111,8 @@ export function SmartNav() {
             ) : (
               <Link
                 href={`/signup?next=${encodeURIComponent(pathname || '/')}`}
-                className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
+                aria-current={pathname === '/signup' ? 'page' : undefined}
+                className={`inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
                   pathname === '/signup'
                     ? 'border-b-2 border-[#FFBA2E] text-white'
                     : 'text-[#FFBA2E] hover:text-white'

@@ -3,7 +3,6 @@ import { ContentHero } from '@/components/ContentHero'
 import { ContentCard } from '@/components/ContentCard'
 import { GammaEmbed } from '@/components/GammaEmbed'
 import { gammaEmbedUrl } from '@/lib/content/gammaEmbed'
-import { ToolWhatsAppCta } from '@/components/ToolWhatsAppCta'
 import type { Protocol } from '@/lib/types/database'
 
 type RelatedArticle = Pick<Protocol, 'slug' | 'title' | 'cover_image' | 'read_time' | 'category'>
@@ -38,7 +37,7 @@ export function ToolClient({ toolData, relatedArticles = [] }: ToolClientProps) 
         )}
 
         {/* The deck is the pitch; this is the next step off the back of it. */}
-        <ToolWhatsAppCta slug={toolData.slug} />
+
 
         {relatedArticles.length > 0 && (
           <section className="border-t border-white/[0.12] pt-10">

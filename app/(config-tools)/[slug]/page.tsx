@@ -5,7 +5,7 @@ import { getToolConfig, TOOL_SLUGS } from '@/lib/toolsRegistry'
 import { ToolConfigClient } from '@/components/toolEngine/ToolConfigClient'
 import { ogImageForContent } from '@/lib/og/imageUrl'
 
-const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
+const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
 
 interface ConfigToolPageProps {
   params: Promise<{ slug: string }>
@@ -42,6 +42,7 @@ export async function generateMetadata({ params }: ConfigToolPageProps): Promise
   return {
     title: `${title} — PLANET SOR7ED`,
     description,
+    alternates: { canonical: `${SITE}/${slug}` },
     openGraph: {
       title: `${title} — PLANET SOR7ED`,
       description,

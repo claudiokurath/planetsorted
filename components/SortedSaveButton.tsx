@@ -17,12 +17,11 @@ function ease(p: number) {
 
 const COPY = {
   rest: { lead: 'Save this piece', trail: 'tap the mark' },
-  done: { lead: 'Saved to your chat', trail: 'sorted.' },
+  done: { lead: 'Sent to your WhatsApp', trail: 'sorted.' },
 } as const
 
 interface Props {
-  /** Fires on the way into the done state. Errors are swallowed by design —
-   *  the mark has already resolved and yanking it back reads as a glitch. */
+  /** The tangle resolves only after this operation succeeds. */
   onSave?: () => void | Promise<void>
   disabled?: boolean
   /**
@@ -33,6 +32,7 @@ interface Props {
   href?: string
   /** Rest-state words. The done copy is fixed — it describes what happened. */
   copy?: { lead: string; trail: string }
+  compact?: boolean
 }
 
 /**
@@ -51,6 +51,7 @@ export function SortedSaveButton({
   disabled = false,
   href,
   copy: restCopy = COPY.rest,
+  compact = false,
 }: Props) {
   const rootRef = useRef<HTMLDivElement>(null)
   const rafRef = useRef<number | null>(null)
@@ -58,6 +59,8 @@ export function SortedSaveButton({
   const tRef = useRef(0)
 
   const [done, setDone] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
 
   const paint = useCallback((v: number) => {
     tRef.current = v
@@ -103,8 +106,15 @@ export function SortedSaveButton({
     }
   }, [])
 
-  function handleClick() {
-    if (disabled) return
+  async function handleClick() {
+    if (disabled || sending || !onSave) return
+    setError('')
+    if (!done) {
+      setSending(true)
+      try { await onSave() }
+      catch { setError('Could not send to WhatsApp. Please try again.'); return }
+      finally { setSending(false) }
+    }
     if (timerRef.current) clearTimeout(timerRef.current)
 
     const next = !done
@@ -112,7 +122,6 @@ export function SortedSaveButton({
     run(next ? 1 : 0)
 
     if (next) {
-      void Promise.resolve(onSave?.()).catch(() => {})
       timerRef.current = setTimeout(() => {
         setDone(false)
         run(0)
@@ -120,7 +129,7 @@ export function SortedSaveButton({
     }
   }
 
-  const copy = done ? COPY.done : restCopy
+  const copy = done ? COPY.done : sending ? { lead: 'Sending to WhatsApp…', trail: 'one moment' } : restCopy
 
   const mark = (
     <span className="sb__mark">
@@ -139,20 +148,20 @@ export function SortedSaveButton({
   )
 
   return (
-    <div ref={rootRef} className="sb">
+    <div ref={rootRef} className={`sb${compact ? ' sb--compact' : ''}`} aria-busy={sending}>
       <span className="sb__label sb__label--lead">{copy.lead}</span>
 
       {href ? (
-        <Link href={href} className="sb__btn" aria-label={`${copy.lead} — SOR7ED`}>
+        <Link href={href} target="_top" className="sb__btn" aria-label={`${copy.lead} — SOR7ED`}>
           {mark}
         </Link>
       ) : (
         <button
           type="button"
           className="sb__btn"
-          aria-label="Save — SOR7ED"
+          aria-label={`${copy.lead} — SOR7ED`}
           onClick={handleClick}
-          disabled={disabled}
+          disabled={disabled || sending}
         >
           {mark}
         </button>
@@ -160,9 +169,10 @@ export function SortedSaveButton({
 
       <span className="sb__label">{copy.trail}</span>
 
+      {error ? <span role="alert" className="sb__error">{error}</span> : null}
       {/* The visual change is quiet, so announce it. */}
       <span className="sr-only" role="status" aria-live="polite">
-        {done ? 'Saved to your chat' : ''}
+        {sending ? 'Sending…' : done ? 'Sent to your WhatsApp' : ''}
       </span>
 
       <style>{`
@@ -172,7 +182,7 @@ export function SortedSaveButton({
           /* WhatsApp green: the tick is the destination, not the brand
              accent. Scoped to this control — the site stays #FFBA2E. */
           --sb-accent: #25d366;
-          --sb-muted: #737373;
+          --sb-muted: #a3a3a3;
           --sb-line: rgba(255, 255, 255, 0.12);
           --sb-ease: cubic-bezier(0.16, 1, 0.3, 1);
           --sb-mark: 84px;
@@ -181,6 +191,7 @@ export function SortedSaveButton({
           --td: 0;
 
           display: flex;
+          flex-wrap: wrap;
           align-items: center;
           justify-content: center;
           gap: 24px;
@@ -201,10 +212,38 @@ export function SortedSaveButton({
             var(--sb-accent) calc(var(--td) * 100%)
           );
           transition: color 0.32s var(--sb-ease);
+          max-width: 25ch;
+          line-height: 1.6;
         }
         .sb__label--lead {
           text-align: right;
         }
+        .sb__error {
+          flex-basis: 100%;
+          text-align: center;
+          font-family: var(--font-jost), sans-serif;
+          font-size: 14px;
+          line-height: 1.5;
+          color: white;
+        }
+        .sb--compact {
+          --sb-mark: 60px;
+          flex-direction: column;
+          gap: 8px;
+          padding: 20px 0 0;
+          border-bottom: 0;
+        }
+        .sb--compact .sb__label {
+          min-width: 0;
+          text-align: center;
+          letter-spacing: 0.04em;
+        }
+        .sb--compact .sb__label--lead {
+          min-height: 3.2em;
+          font-size: 14px;
+          font-weight: 500;
+        }
+        .sb--compact .sb__error { flex-basis: auto; }
 
         .sb__btn {
           appearance: none;
@@ -286,6 +325,10 @@ export function SortedSaveButton({
             text-align: center;
             min-width: 0;
           }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .sb *, .sb *::before, .sb *::after { transition: none !important; }
+          .sb__mark:hover { transform: none; }
         }
       `}</style>
     </div>

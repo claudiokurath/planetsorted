@@ -1,0 +1,78 @@
+.sorted-account {
+  min-width: 0;
+}
+
+.sorted-account h2 {
+  font-family: var(--font-anton), "Arial Narrow", sans-serif;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.sorted-account input:not([type="checkbox"]) {
+  min-width: 0;
+  min-height: 48px;
+  border-color: #525252;
+  border-radius: 0;
+  background: #111;
+  font-size: 16px;
+}
+
+.sorted-account input::placeholder {
+  color: #a3a3a3;
+}
+
+.sorted-account label:not(.sr-only) {
+  font-size: 14px;
+}
+
+.sorted-account button {
+  min-height: 44px;
+  border-radius: 0;
+  font-size: 14px;
+  box-shadow: none;
+}
+
+.sorted-account .glow-button,
+.sorted-account .sorted-account-action {
+  border: 1px solid #fff;
+  background: #fff;
+  padding: 10px 20px;
+  color: #000;
+  font-weight: 500;
+}
+
+.sorted-account .glow-button:hover:not(:disabled),
+.sorted-account .sorted-account-action:hover:not(:disabled) {
+  border-color: #ffba2e;
+  background: #ffba2e;
+}
+
+.sorted-account button:disabled,
+.sorted-account fieldset:disabled {
+  opacity: 0.65;
+}
+
+.sorted-account fieldset {
+  min-width: 0;
+}
+
+.sorted-account .glass-card {
+  background: #0b0b0b;
+  border-color: #383838;
+  box-shadow: none;
+}
+
+.sorted-account .glass-card > p,
+.sorted-account .glass-card form > p,
+.sorted-account .glass-card form > div > p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 639px) {
+  .sorted-account h1 {
+    font-size: clamp(2rem, 9vw, 2.5rem);
+  }
+}

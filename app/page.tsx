@@ -8,6 +8,7 @@ const DESC =
   'SOR7ED is a practical support platform for ADHD, autistic, AuDHD, dyslexic, bipolar and other neurodivergent adults — honest editorial content paired with interactive tools that end in a real next step.'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/' },
   title: 'PLANET SOR7ED — Tools built for brains that work differently',
   description: DESC,
   openGraph: {

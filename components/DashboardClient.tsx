@@ -6,6 +6,7 @@ import Link from 'next/link'
 import type { Session } from '@supabase/supabase-js'
 import { createBrowserClient } from '@/lib/supabase/client'
 import type { SavedItem, User } from '@/lib/types/database'
+import './DashboardClient.css'
 
 type Tab = 'library' | 'settings'
 type VerifyState = 'unverified' | 'otp_sent' | 'verified'
@@ -24,6 +25,8 @@ export function DashboardClient() {
   const [loading, setLoading] = useState(true)
   const [session, setSession] = useState<Session | null>(null)
   const [profile, setProfile] = useState<User | null>(null)
+  const [profileLoading, setProfileLoading] = useState(false)
+  const [profileError, setProfileError] = useState('')
   
   // Settings Form State
   const [firstName, setFirstName] = useState('')
@@ -42,15 +45,16 @@ export function DashboardClient() {
   // Saved Items State
   const [savedItems, setSavedItems] = useState<SavedItem[]>([])
   const [itemsLoading, setItemsLoading] = useState(false)
+  const [itemsError, setItemsError] = useState('')
   const [libraryFilter, setLibraryFilter] = useState('')
 
   // GDPR Deletion State
   const [deletingAccount, setDeletingAccount] = useState(false)
 
-  // Billing / RUN credits
+  // Actual membership status; website tools are not metered by RUN credits.
   const [billingPlan, setBillingPlan] = useState<string>('Free')
   const [billingUnlimited, setBillingUnlimited] = useState(false)
-  const [creditBalance, setCreditBalance] = useState<number | null>(null)
+  const [billingUnavailable, setBillingUnavailable] = useState(false)
 
   const getAuthHeader = useCallback(async (activeSession = session) => {
     return {
@@ -60,6 +64,7 @@ export function DashboardClient() {
   }, [session])
 
   const fetchProfile = useCallback(async (activeSession = session) => {
+    setProfileLoading(true)
     try {
       const headers = await getAuthHeader(activeSession)
       const res = await fetch('/api/profile', { headers })
@@ -70,10 +75,14 @@ export function DashboardClient() {
       setWeeklyOptedIn(data.weekly_opted_in)
       setWhatsappNumber(data.whatsapp_number || '')
       setVerifyState(data.whatsapp_verified ? 'verified' : 'unverified')
+      setProfileError('')
       return data
     } catch {
       console.error('Failed to fetch profile')
+      setProfileError('We could not load your account settings. Please try again before making changes.')
       return null
+    } finally {
+      setProfileLoading(false)
     }
   }, [getAuthHeader, session])
 
@@ -85,8 +94,10 @@ export function DashboardClient() {
       if (!res.ok) throw new Error()
       const data: SavedItem[] = await res.json()
       setSavedItems(data)
+      setItemsError('')
     } catch {
       console.error('Failed to fetch saved items')
+      setItemsError('We could not load your saved items. Your library has not been changed.')
     } finally {
       setItemsLoading(false)
     }
@@ -104,9 +115,9 @@ export function DashboardClient() {
       }
       setBillingPlan(data.plan || 'Free')
       setBillingUnlimited(Boolean(data.unlimited))
-      setCreditBalance(typeof data.balance === 'number' ? data.balance : null)
+      setBillingUnavailable(false)
     } catch {
-      // Non-fatal — keep the static Free defaults
+      setBillingUnavailable(true)
     }
   }, [getAuthHeader, session])
 
@@ -192,12 +203,14 @@ export function DashboardClient() {
         body: JSON.stringify({ whatsappNumber })
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Failed to send OTP')
+      if (!res.ok) {
+        setWhatsappError(typeof data.error === 'string' ? data.error : 'We could not send the code. Please check your number and try again.')
+        return
+      }
       setVerifyState('otp_sent')
       setWhatsappSuccess('Verification code sent to WhatsApp! Check your phone.')
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'An unexpected error occurred.'
-      setWhatsappError(msg)
+    } catch {
+      setWhatsappError('We could not send the code. Please check your connection and try again.')
     } finally {
       setWhatsappLoading(false)
     }
@@ -216,13 +229,15 @@ export function DashboardClient() {
         body: JSON.stringify({ otp })
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Verification failed')
+      if (!res.ok) {
+        setWhatsappError(typeof data.error === 'string' ? data.error : 'We could not verify the code. Please check it and try again.')
+        return
+      }
       setVerifyState('verified')
       setWhatsappSuccess('WhatsApp number successfully verified ✓')
       await fetchProfile()
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Verification failed. Please check the code and try again.'
-      setWhatsappError(msg)
+    } catch {
+      setWhatsappError('We could not verify the code. Please check your connection and try again.')
     } finally {
       setWhatsappLoading(false)
     }
@@ -264,8 +279,8 @@ export function DashboardClient() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="flex items-center gap-3 rounded-none border border-gray-800 bg-black px-6 py-4 shadow-xl backdrop-blur-xl">
-          <span className="h-3 w-3 rounded-full bg-[#FFBA2E] animate-ping" />
+        <div role="status" className="flex items-center gap-3 rounded-none border border-gray-800 bg-black px-6 py-4">
+          <span aria-hidden="true" className="h-3 w-3 rounded-full bg-[#FFBA2E] motion-safe:animate-ping" />
           <span className="text-sm font-medium text-gray-300">Loading your account...</span>
         </div>
       </div>
@@ -273,57 +288,48 @@ export function DashboardClient() {
   }
 
   return (
-    <div className="w-full">
+    <div className="sorted-account w-full">
       {/* Compact account header — matches PageHeader language site-wide */}
       <header className="mb-8 sm:mb-10">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div className="min-w-0 space-y-3">
             <div className="flex items-center gap-2.5">
               <span className="h-0.5 w-8 rounded-full bg-[#FFBA2E]" />
-              <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-neutral-400">
+              <span className="text-sm font-medium uppercase tracking-[0.22em] text-neutral-400">
                 PLANET SOR7ED
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <h1
-                className="font-bebas text-4xl uppercase leading-[1.1] tracking-normal text-white sm:text-5xl lg:text-6xl"
+                className="font-bebas break-words text-4xl uppercase leading-[1.1] tracking-normal text-white sm:text-5xl lg:text-6xl"
               >
                 Welcome back{profile?.first_name ? `, ${profile.first_name}` : ''}
               </h1>
-              <span className="rounded-full border border-[#FFBA2E]/30 bg-[#FFBA2E]/10 px-3 py-0.5 text-xs font-medium text-[#FFBA2E]">
+              <span className="rounded-full border border-[#FFBA2E]/30 bg-[#FFBA2E]/10 px-3 py-0.5 text-sm font-medium text-[#FFBA2E]">
                 {billingUnlimited ? billingPlan : 'Member'}
               </span>
             </div>
-            <p className="font-mono text-xs tracking-wide text-neutral-500">
+            <p className="break-all font-mono text-sm tracking-wide text-neutral-400">
               {session?.user?.email}
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="rounded-xl border border-white/10 bg-black px-4 py-2.5 text-center">
-              <span className="block text-[10px] font-medium uppercase tracking-wider text-neutral-500">
-                {billingUnlimited ? billingPlan : 'Free Credits'}
+            <div className="border border-white/20 bg-black px-4 py-2.5 text-center">
+              <span className="block text-sm font-medium uppercase tracking-wider text-neutral-400">
+                Your plan
               </span>
-              <span className="text-sm font-normal text-[#FFBA2E] sm:text-base">
-                {billingUnlimited
-                  ? 'Unlimited RUNs'
-                  : creditBalance === null
-                    ? '…'
-                    : `${creditBalance} Run${creditBalance === 1 ? '' : 's'} Available`}
+              <span className="block text-base font-normal text-[#FFBA2E]">
+                {billingUnavailable ? 'Plan unavailable' : billingPlan}
               </span>
-              {!billingUnlimited && (
-                <Link
-                  href="/r/upgrade"
-                  className="mt-1 block text-[10px] font-medium text-[#FFBA2E]/80 underline hover:text-[#FFBA2E]"
-                >
-                  Upgrade to Plus
-                </Link>
-              )}
+              <Link href="/membership" className="mt-1 inline-flex min-h-11 items-center text-sm font-medium text-[#FFBA2E] underline hover:text-white">
+                Membership details
+              </Link>
             </div>
 
             <button
               onClick={handleSignOut}
-              className="rounded-full border border-neutral-700 bg-black px-5 py-2.5 text-xs font-medium text-neutral-200 transition-all hover:border-neutral-500 hover:bg-neutral-800 hover:text-white active:scale-95"
+              className="rounded-full border border-neutral-700 bg-black px-5 py-2.5 text-sm font-medium text-neutral-200 transition-all hover:border-neutral-500 hover:bg-neutral-800 hover:text-white active:scale-95"
             >
               Sign Out
             </button>
@@ -331,63 +337,85 @@ export function DashboardClient() {
         </div>
       </header>
 
+      {profileError && (
+        <div role="alert" className="mb-6 space-y-3 border border-white/20 p-5 text-base text-neutral-300">
+          <p>{profileError}</p>
+          <button type="button" onClick={() => void fetchProfile()} disabled={profileLoading} className="sorted-account-action">
+            {profileLoading ? 'Loading settings…' : 'Try again'}
+          </button>
+        </div>
+      )}
+
       {/* Main Dashboard Tabs */}
-      <div className="mb-8 flex gap-6 overflow-x-auto border-b border-gray-800/80">
+      <div role="group" aria-label="Account sections" className="mb-8 flex gap-4 border-b border-gray-800/80 sm:gap-6">
         <button
+          type="button"
+          aria-pressed={activeTab === 'library'}
+          aria-controls={activeTab === 'library' ? 'account-library' : undefined}
           onClick={() => setActiveTab('library')}
           className={`pb-4 text-sm font-medium border-b-2 transition-all flex items-center gap-2 ${
             activeTab === 'library'
               ? 'border-[#FFBA2E] text-[#FFBA2E]'
-              : 'border-transparent text-gray-400 hover:text-gray-200'
+              : 'border-transparent text-neutral-400 hover:text-gray-200'
           }`}
         >
-          <span>📚 Saved Library</span>
-          <span className="rounded-full bg-black px-2 py-0.5 text-[10px] text-gray-300">
+          <span>Saved library</span>
+          <span className="rounded-full bg-black px-2 py-0.5 text-xs text-gray-300">
             {savedItems.length}
           </span>
         </button>
 
         <button
+          type="button"
+          aria-pressed={activeTab === 'settings'}
+          aria-controls={activeTab === 'settings' ? 'account-settings' : undefined}
           onClick={() => setActiveTab('settings')}
           className={`pb-4 text-sm font-medium border-b-2 transition-all ${
             activeTab === 'settings'
               ? 'border-[#FFBA2E] text-[#FFBA2E]'
-              : 'border-transparent text-gray-400 hover:text-gray-200'
+              : 'border-transparent text-neutral-400 hover:text-gray-200'
           }`}
         >
-          ⚙️ Account Settings
+          Account settings
         </button>
       </div>
 
-      {/* TAB 1: INTERACTIVE TOOLS HUB */}
-      {/* TAB 2: SAVED LIBRARY */}
+      {/* Saved items only — no tool catalogue or recommendations. */}
       {activeTab === 'library' && (
-        <div className="space-y-6">
+        <section id="account-library" aria-labelledby="account-library-title" className="space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-xl font-medium text-white">Your Saved Library</h2>
-              <p className="text-xs text-gray-400 mt-1">Articles, tools, and protocols saved from the web or WhatsApp.</p>
+              <h2 id="account-library-title" className="text-xl font-medium text-white">Your saved library</h2>
+              <p className="text-base text-neutral-400 mt-1">The tools and protocols you have saved.</p>
             </div>
 
+            <label htmlFor="library-search" className="sr-only">Search your saved library</label>
             <input
-              type="text"
+              id="library-search"
+              type="search"
               placeholder="Search library items..."
               value={libraryFilter}
               onChange={(e) => setLibraryFilter(e.target.value)}
-              className="w-full sm:w-64 rounded-xl border border-gray-800 bg-black px-4 py-2 text-xs text-white placeholder-gray-500 focus:border-[#FFBA2E] focus:outline-none"
+              className="w-full sm:w-64 rounded-xl border border-gray-800 bg-black px-4 py-2 text-sm text-white placeholder-gray-500 focus:border-[#FFBA2E] focus:outline-none"
             />
           </div>
 
           {itemsLoading ? (
-            <div className="glass-card rounded-none p-12 text-center text-gray-400 text-sm">
+            <div role="status" className="glass-card rounded-none p-8 sm:p-12 text-center text-neutral-300 text-base">
               Loading your saved items...
             </div>
+          ) : itemsError ? (
+            <div role="alert" className="glass-card rounded-none p-8 sm:p-12 text-center text-neutral-300">
+              <p className="mb-4 text-base">{itemsError}</p>
+              <button type="button" onClick={() => void fetchSavedItems()} className="sorted-account-action">Try again</button>
+            </div>
           ) : filteredLibrary.length === 0 ? (
-            <div className="glass-card rounded-none p-12 text-center text-gray-400">
+            <div role="status" className="glass-card rounded-none p-8 sm:p-12 text-center text-neutral-300">
               <p className="text-base font-medium text-gray-300 mb-2">{savedItems.length ? 'No saved items match your search' : 'Your library is currently empty'}</p>
-              <p className="text-xs text-gray-500 max-w-md mx-auto leading-relaxed">
-                Save articles and tool results right here on the web and they will show up in this library.
+              <p className="text-base text-neutral-400 max-w-md mx-auto leading-relaxed">
+                {savedItems.length ? 'Try another title or category, or clear the search to see your saved items.' : 'Items appear here after you save them. You have not saved any items yet.'}
               </p>
+              {savedItems.length > 0 && <button type="button" onClick={() => setLibraryFilter('')} className="sorted-account-action mt-4">Clear search</button>}
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
@@ -395,48 +423,50 @@ export function DashboardClient() {
                 <div key={item.id} className="glass-card glass-card-hover rounded-none p-5 sm:p-6 flex flex-col justify-between min-h-[140px]">
                   <div>
                     {item.category ? (
-                      <p className="text-[10px] font-medium uppercase tracking-widest text-[#FFBA2E]/80 mb-2">
+                      <p className="text-xs font-medium uppercase tracking-widest text-[#FFBA2E]/80 mb-2">
                         {item.category}
                       </p>
                     ) : null}
                     <h3
-                      className="font-bebas text-2xl sm:text-3xl uppercase leading-[1.1] text-white hover:text-[#FFBA2E] transition-colors"
+                      className="font-bebas break-words text-2xl sm:text-3xl uppercase leading-[1.1] text-white"
                     >
                       {item.title || 'Saved Item'}
                     </h3>
                   </div>
 
-                  <a
-                    href={item.url || '#'}
+                  {item.url ? <a
+                    href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-medium text-[#FFBA2E] hover:underline mt-2"
+                    className="inline-flex min-h-11 items-center gap-1.5 text-base font-medium text-[#FFBA2E] hover:underline mt-2"
                   >
-                    <span>Open Saved Protocol</span>
-                    <span>&rarr;</span>
-                  </a>
+                    <span>Open saved item<span className="sr-only">: {item.title || 'Saved item'} (opens in a new tab)</span></span>
+                    <span aria-hidden="true">&rarr;</span>
+                  </a> : <p className="mt-3 text-sm text-neutral-400">This saved link is unavailable.</p>}
                 </div>
               ))}
             </div>
           )}
-        </div>
+        </section>
       )}
 
       {/* TAB 3: ACCOUNT SETTINGS */}
       {activeTab === 'settings' && (
-        <div className="max-w-2xl space-y-10">
+        <section id="account-settings" aria-label="Account settings" className="max-w-2xl space-y-10">
           {/* Profile Form */}
           <div className="glass-card rounded-none p-6 sm:p-8 space-y-6">
             <h2 className="text-lg font-medium text-white border-b border-gray-800/80 pb-3">Profile Preferences</h2>
             
             <form onSubmit={handleProfileSave} className="space-y-4">
+              <fieldset disabled={Boolean(profileError) || profileLoading} className="space-y-4">
               <div>
-                <label htmlFor="firstName" className="block text-xs font-medium text-gray-300 mb-1.5">
+                <label htmlFor="firstName" className="block text-sm font-medium text-gray-300 mb-1.5">
                   First Name
                 </label>
                 <input
                   id="firstName"
                   type="text"
+                  autoComplete="given-name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   placeholder="e.g. Claudio"
@@ -453,44 +483,45 @@ export function DashboardClient() {
                     className="mt-1 h-4 w-4 rounded border-gray-800 bg-black text-[#FFBA2E] focus:ring-[#FFBA2E]"
                   />
                   <div>
-                    <span className="block text-xs font-medium text-gray-200">Weekly Broadcast</span>
-                    <span className="block text-[11px] text-gray-500 leading-normal mt-0.5">
-                      Get one practical neurodivergent nudge on WhatsApp every Tuesday around 10am.
+                    <span className="block text-sm font-medium text-gray-200">Weekly Broadcast</span>
+                    <span className="block text-sm text-neutral-400 leading-normal mt-0.5">
+                      Receive one practical neurodivergent nudge on WhatsApp each week.
                     </span>
                   </div>
                 </label>
               </div>
 
               {profileMessage && (
-                <p className="text-xs font-medium text-[#FFBA2E]">{profileMessage}</p>
+                <p role="status" className="text-sm font-medium text-[#FFBA2E]">{profileMessage}</p>
               )}
 
               <button
                 type="submit"
                 disabled={profileSaving}
-                className="glow-button rounded-xl px-6 py-2.5 text-xs font-medium text-gray-950 disabled:opacity-50"
+                className="glow-button rounded-xl px-6 py-2.5 text-sm font-medium text-gray-950 disabled:opacity-50"
               >
                 {profileSaving ? 'Saving…' : 'Save Changes'}
               </button>
+              </fieldset>
             </form>
           </div>
 
           {/* WhatsApp Verification Widget */}
           <div className="glass-card rounded-none p-6 sm:p-8 space-y-6">
             <h2 className="text-lg font-medium text-white border-b border-gray-800/80 pb-3">WhatsApp Link</h2>
-            <p className="text-xs text-gray-400 leading-relaxed">
+            <p className="text-sm text-neutral-400 leading-relaxed">
               Verify your WhatsApp number to enable direct Save-to-Phone capabilities from web tools and articles.
             </p>
 
             {verifyState === 'verified' && (
               <div className="space-y-4">
-                <div className="rounded-xl border border-[#FFBA2E]/30 bg-[#FFBA2E]/10 px-4 py-3 text-xs text-[#FFBA2E] flex items-center justify-between">
+                <div className="rounded-xl border border-[#FFBA2E]/30 bg-[#FFBA2E]/10 px-4 py-3 text-sm text-[#FFBA2E] flex items-center justify-between">
                   <span>Linked Phone Number: <strong>+{profile?.whatsapp_number}</strong></span>
-                  <span className="font-medium text-[10px] bg-[#FFBA2E] text-gray-950 px-2 py-0.5 rounded-full uppercase">Verified</span>
+                  <span className="font-medium text-xs bg-[#FFBA2E] text-gray-950 px-2 py-0.5 rounded-full uppercase">Verified</span>
                 </div>
                 <button
                   onClick={() => setVerifyState('unverified')}
-                  className="text-xs text-gray-400 hover:text-white underline"
+                  className="text-sm text-neutral-400 hover:text-white underline"
                 >
                   Change linked phone number
                 </button>
@@ -500,29 +531,35 @@ export function DashboardClient() {
             {verifyState === 'unverified' && (
               <form onSubmit={handleSendOtp} className="space-y-4">
                 <div>
-                  <label htmlFor="whatsapp" className="block text-xs font-medium text-gray-300 mb-1.5">
+                  <label htmlFor="whatsapp" className="block text-sm font-medium text-gray-300 mb-1.5">
                     WhatsApp Phone Number (Digits only, starting with country code)
                   </label>
                   <input
                     id="whatsapp"
                     type="tel"
+                    autoComplete="tel"
+                    inputMode="tel"
+                    required
+                    minLength={10}
+                    maxLength={15}
+                    aria-describedby="whatsapp-number-format"
                     value={whatsappNumber}
                     onChange={(e) => setWhatsappNumber(e.target.value.replace(/\D/g, ''))}
                     placeholder="e.g. 447591922247"
                     className="w-full rounded-xl border border-gray-800 bg-black px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:border-[#FFBA2E] focus:outline-none font-mono"
                   />
-                  <p className="mt-1 text-[11px] text-gray-500">
+                  <p id="whatsapp-number-format" className="mt-2 text-sm text-neutral-400">
                     Format: Country code + phone number (e.g. 44 for UK, 1 for US). No plus signs or spaces.
                   </p>
                 </div>
 
-                {whatsappError && <p className="text-xs text-red-400">{whatsappError}</p>}
-                {whatsappSuccess && <p className="text-xs text-[#FFBA2E]">{whatsappSuccess}</p>}
+                {whatsappError && <p role="alert" className="text-sm text-red-400">{whatsappError}</p>}
+                {whatsappSuccess && <p role="status" className="text-sm text-[#FFBA2E]">{whatsappSuccess}</p>}
 
                 <button
                   type="submit"
                   disabled={whatsappLoading}
-                  className="glow-button rounded-xl px-6 py-2.5 text-xs font-medium text-gray-950 disabled:opacity-50"
+                  className="glow-button rounded-xl px-6 py-2.5 text-sm font-medium text-gray-950 disabled:opacity-50"
                 >
                   {whatsappLoading ? 'Sending…' : 'Send Verification Code'}
                 </button>
@@ -532,12 +569,16 @@ export function DashboardClient() {
             {verifyState === 'otp_sent' && (
               <form onSubmit={handleVerifyOtp} className="space-y-4">
                 <div>
-                  <label htmlFor="otp" className="block text-xs font-medium text-gray-300 mb-1.5">
+                  <label htmlFor="otp" className="block text-sm font-medium text-gray-300 mb-1.5">
                     Enter Verification Code
                   </label>
                   <input
                     id="otp"
                     type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    required
+                    pattern="[0-9]{6}"
                     maxLength={6}
                     value={otp}
                     onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
@@ -546,14 +587,14 @@ export function DashboardClient() {
                   />
                 </div>
 
-                {whatsappError && <p className="text-xs text-red-400">{whatsappError}</p>}
-                {whatsappSuccess && <p className="text-xs text-[#FFBA2E]">{whatsappSuccess}</p>}
+                {whatsappError && <p role="alert" className="text-sm text-red-400">{whatsappError}</p>}
+                {whatsappSuccess && <p role="status" className="text-sm text-[#FFBA2E]">{whatsappSuccess}</p>}
 
                 <div className="flex gap-3">
                   <button
                     type="submit"
                     disabled={whatsappLoading}
-                    className="glow-button rounded-xl px-6 py-2.5 text-xs font-medium text-gray-950 disabled:opacity-50"
+                    className="glow-button rounded-xl px-6 py-2.5 text-sm font-medium text-gray-950 disabled:opacity-50"
                   >
                     {whatsappLoading ? 'Verifying…' : 'Verify Code'}
                   </button>
@@ -564,7 +605,7 @@ export function DashboardClient() {
                       setWhatsappError('')
                       setWhatsappSuccess('')
                     }}
-                    className="rounded-xl border border-gray-800 px-4 py-2.5 text-xs font-medium text-gray-400 hover:text-white"
+                    className="rounded-xl border border-gray-800 px-4 py-2.5 text-sm font-medium text-neutral-400 hover:text-white"
                   >
                     Back
                   </button>
@@ -576,18 +617,18 @@ export function DashboardClient() {
           {/* Account Deletion */}
           <div className="glass-card rounded-none p-6 sm:p-8 space-y-4 border-red-500/20">
             <h2 className="text-base font-medium text-red-400">Delete Account (GDPR)</h2>
-            <p className="text-xs text-gray-400 leading-relaxed">
+            <p className="text-sm text-neutral-400 leading-relaxed">
               Permanently erase all saved articles, tool history, credits, and profiles. This operation cannot be reversed.
             </p>
             <button
               onClick={handleDeleteAccount}
               disabled={deletingAccount}
-              className="rounded-xl border border-red-500/40 bg-red-500/10 px-5 py-2 text-xs font-medium text-red-400 hover:bg-red-500/20 transition-colors disabled:opacity-50"
+              className="rounded-xl border border-red-500/40 bg-red-500/10 px-5 py-2 text-sm font-medium text-red-400 hover:bg-red-500/20 transition-colors disabled:opacity-50"
             >
               {deletingAccount ? 'Deleting Account…' : 'Permanently Delete My Account'}
             </button>
           </div>
-        </div>
+        </section>
       )}
     </div>
   )

@@ -154,6 +154,7 @@ export function DecisionParalysisApp() {
 
   const [saving, setSaving] = useState(false)
   const [savedSuccess, setSavedSuccess] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
 
   // ── Step 2: Compare Matrix State ──
   const [options, setOptions] = useState<OptionItem[]>([
@@ -247,6 +248,7 @@ export function DecisionParalysisApp() {
     )
     setAssessmentResult({ confidence, verdict, advice })
     setSavedSuccess(false)
+    setSaveError(null)
   }
 
   const handleSaveToJournal = async () => {
@@ -254,6 +256,8 @@ export function DecisionParalysisApp() {
     if (!userId) return
 
     setSaving(true)
+    setSavedSuccess(false)
+    setSaveError(null)
     try {
       const summary = JSON.stringify({
         title: assessment.title || 'Untitled Decision',
@@ -263,7 +267,7 @@ export function DecisionParalysisApp() {
         reversibility: assessment.reversibility ? 'Two-Way Door' : 'One-Way Door',
       })
 
-      const { data: req } = await supabase
+      const { data: req, error: requestError } = await supabase
         .from('tool_requests')
         .insert({
           user_id: userId,
@@ -275,27 +279,34 @@ export function DecisionParalysisApp() {
         .select('id')
         .single()
 
-      if (req) {
-        await supabase.from('tool_runs').insert({
-          tool_request_id: req.id,
-          tool_slug: 'decision-paralysis-solver',
-          model: 'engine-v1',
-          output_text: summary,
-          success: true,
-          latency_ms: 0,
-        })
-        setSavedSuccess(true)
-        await fetchJournal()
-      }
+      if (requestError || !req) throw new Error('Save failed')
+      const { error: runError } = await supabase.from('tool_runs').insert({
+        tool_request_id: req.id,
+        tool_slug: 'decision-paralysis-solver',
+        model: 'engine-v1',
+        output_text: summary,
+        success: true,
+        latency_ms: 0,
+      })
+      if (runError) throw new Error('Save failed')
+      setSavedSuccess(true)
+      await fetchJournal()
     } catch {
+      setSaveError("Your result is ready, but we couldn't save it. Please try Save to Journal again.")
     } finally {
       setSaving(false)
     }
   }
 
   const handleDeleteJournal = async (id: string) => {
-    await supabase.from('tool_runs').delete().eq('id', id)
-    setJournal((prev) => prev.filter((item) => item.id !== id))
+    setSaveError(null)
+    try {
+      const { error } = await supabase.from('tool_runs').delete().eq('id', id)
+      if (error) throw error
+      setJournal((prev) => prev.filter((item) => item.id !== id))
+    } catch {
+      setSaveError("We couldn't delete that entry. It is still in your journal — please try again.")
+    }
   }
 
   // ── Matrix calculations ──
@@ -407,8 +418,9 @@ export function DecisionParalysisApp() {
             <div className="grid md:grid-cols-2 gap-8">
               <form onSubmit={handleCalculate} className="glass rounded-none p-6 md:p-8 space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">What decision are you facing?</label>
+                  <label htmlFor="dps-topic" className="block text-sm font-medium text-slate-300 mb-2">What decision are you facing?</label>
                   <input
+                    id="dps-topic"
                     type="text"
                     placeholder="e.g. Should I take the new job offer?"
                     value={assessment.title}
@@ -418,8 +430,9 @@ export function DecisionParalysisApp() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">Category</label>
+                  <label htmlFor="dps-category" className="block text-sm font-medium text-slate-300 mb-2">Category</label>
                   <select
+                    id="dps-category"
                     value={assessment.category}
                     onChange={(e) => setAssessment({ ...assessment, category: e.target.value })}
                     className="w-full rounded-xl border border-white/10 bg-black px-4 py-3 text-sm text-white outline-none focus:border-[#FFBA2E] transition"
@@ -433,10 +446,11 @@ export function DecisionParalysisApp() {
                 {/* Risk tolerance */}
                 <div>
                   <div className="flex justify-between text-sm font-medium mb-2">
-                    <span className="text-slate-300">🔥 Risk Tolerance</span>
+                    <label htmlFor="dps-risk" className="text-slate-300">🔥 Risk Tolerance</label>
                     <span className="text-[#FFBA2E]">{assessment.risk_tolerance}/10</span>
                   </div>
                   <input
+                    id="dps-risk"
                     type="range" min={1} max={10} value={assessment.risk_tolerance}
                     onChange={(e) => setAssessment({ ...assessment, risk_tolerance: Number(e.target.value) })}
                     className="dps-slider w-full h-1.5 rounded-full appearance-none cursor-pointer"
@@ -447,10 +461,11 @@ export function DecisionParalysisApp() {
                 {/* Impact magnitude */}
                 <div>
                   <div className="flex justify-between text-sm font-medium mb-2">
-                    <span className="text-slate-300">💥 Potential Impact</span>
+                    <label htmlFor="dps-impact" className="text-slate-300">💥 Potential Impact</label>
                     <span className="text-[#FFBA2E]">{assessment.impact_magnitude}/10</span>
                   </div>
                   <input
+                    id="dps-impact"
                     type="range" min={1} max={10} value={assessment.impact_magnitude}
                     onChange={(e) => setAssessment({ ...assessment, impact_magnitude: Number(e.target.value) })}
                     className="dps-slider w-full h-1.5 rounded-full appearance-none cursor-pointer"
@@ -461,10 +476,11 @@ export function DecisionParalysisApp() {
                 {/* Information sufficiency */}
                 <div>
                   <div className="flex justify-between text-sm font-medium mb-2">
-                    <span className="text-slate-300">📊 Information Sufficiency</span>
+                    <label htmlFor="dps-information" className="text-slate-300">📊 Information Sufficiency</label>
                     <span className="text-[#FFBA2E]">{assessment.information_sufficiency}/10</span>
                   </div>
                   <input
+                    id="dps-information"
                     type="range" min={1} max={10} value={assessment.information_sufficiency}
                     onChange={(e) => setAssessment({ ...assessment, information_sufficiency: Number(e.target.value) })}
                     className="dps-slider w-full h-1.5 rounded-full appearance-none cursor-pointer"
@@ -480,6 +496,8 @@ export function DecisionParalysisApp() {
                   </div>
                   <button
                     type="button"
+                    aria-label="Is this decision reversible?"
+                    aria-pressed={assessment.reversibility}
                     onClick={() => setAssessment({ ...assessment, reversibility: !assessment.reversibility })}
                     className={`rounded-full px-4 py-1.5 text-xs font-medium transition ${assessment.reversibility ? 'bg-[#FFBA2E]/20 text-[#FFBA2E] border border-[#FFBA2E]/40' : 'bg-[#FFBA2E]/20 text-[#FFBA2E] border border-[#FFBA2E]/40'}`}
                   >
@@ -527,6 +545,7 @@ export function DecisionParalysisApp() {
                         {saving ? 'Saving…' : savedSuccess ? '✓ Saved to Journal' : '💾 Save to Journal'}
                       </button>
                     )}
+                    {saveError && <p role="alert" className="text-sm text-[#FFBA2E]">{saveError}</p>}
                   </div>
                 ) : (
                   <div className="my-auto text-center text-slate-500 py-12">
@@ -556,6 +575,7 @@ export function DecisionParalysisApp() {
                         {opt.name}
                         {options.length > 2 && (
                           <button
+                            aria-label={`Remove ${opt.name}`}
                             onClick={() => setOptions(options.filter((o) => o.id !== opt.id))}
                             className="text-slate-500 hover:text-[#FFBA2E]"
                           >
@@ -567,6 +587,7 @@ export function DecisionParalysisApp() {
                   </div>
                   <div className="flex gap-2">
                     <input
+                      aria-label="New option"
                       type="text"
                       placeholder="Add an option…"
                       value={newOptName}
@@ -594,6 +615,7 @@ export function DecisionParalysisApp() {
                         <span>{crit.name}</span>
                         <div className="flex items-center gap-3">
                           <input
+                            aria-label={`${crit.name} weight`}
                             type="number" min={1} max={5} value={crit.weight}
                             onChange={(e) => {
                               const val = Math.max(1, Math.min(5, parseInt(e.target.value) || 1))
@@ -602,7 +624,7 @@ export function DecisionParalysisApp() {
                             className="w-12 rounded border border-white/10 bg-black px-2 py-1 text-center text-xs text-[#FFBA2E]"
                           />
                           {criteria.length > 1 && (
-                            <button onClick={() => setCriteria(criteria.filter((c) => c.id !== crit.id))} className="text-slate-500 hover:text-[#FFBA2E]">
+                            <button aria-label={`Remove ${crit.name}`} onClick={() => setCriteria(criteria.filter((c) => c.id !== crit.id))} className="text-slate-500 hover:text-[#FFBA2E]">
                               ×
                             </button>
                           )}
@@ -612,6 +634,7 @@ export function DecisionParalysisApp() {
                   </div>
                   <div className="flex gap-2">
                     <input
+                      aria-label="New criterion"
                       type="text"
                       placeholder="Add a criterion…"
                       value={newCritName}
@@ -654,6 +677,7 @@ export function DecisionParalysisApp() {
                           return (
                             <td key={crit.id} className="py-2.5 px-3">
                               <input
+                                aria-label={`${opt.name}: ${crit.name} rating`}
                                 type="number" min={1} max={5} value={val}
                                 onChange={(e) => {
                                   const score = Math.max(1, Math.min(5, parseInt(e.target.value) || 1))
@@ -709,11 +733,13 @@ export function DecisionParalysisApp() {
                 <p className="text-xs text-slate-400">Can&apos;t pick between two options? Flip the coin — pay attention to how you feel while it is in the air.</p>
                 <div className="grid grid-cols-2 gap-3">
                   <input
+                    aria-label="Coin flip option 1"
                     type="text" placeholder="Option 1" value={coinOpt1}
                     onChange={(e) => setCoinOpt1(e.target.value)}
                     className="rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white outline-none focus:border-[#FFBA2E]"
                   />
                   <input
+                    aria-label="Coin flip option 2"
                     type="text" placeholder="Option 2" value={coinOpt2}
                     onChange={(e) => setCoinOpt2(e.target.value)}
                     className="rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white outline-none focus:border-[#FFBA2E]"
@@ -738,22 +764,26 @@ export function DecisionParalysisApp() {
                 <h3 className="text-xl font-medium flex items-center gap-2">⏳ 10-10-10 Rule</h3>
                 <p className="text-xs text-slate-400">How will you feel about this choice in 10 minutes, 10 months, and 10 years?</p>
                 <input
+                  aria-label="10-10-10 decision topic"
                   type="text" placeholder="Decision topic…" value={t10_10_10_decision}
                   onChange={(e) => setT10_10_10_decision(e.target.value)}
                   className="w-full rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-white outline-none focus:border-[#FFBA2E]"
                 />
                 <div className="space-y-2">
                   <input
+                    aria-label="How will you feel in 10 minutes?"
                     type="text" placeholder="In 10 Minutes?" value={t10m}
                     onChange={(e) => setT10m(e.target.value)}
                     className="w-full rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-slate-200 outline-none"
                   />
                   <input
+                    aria-label="How will you feel in 10 months?"
                     type="text" placeholder="In 10 Months?" value={t10mo}
                     onChange={(e) => setT10mo(e.target.value)}
                     className="w-full rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-slate-200 outline-none"
                   />
                   <input
+                    aria-label="How will you feel in 10 years?"
                     type="text" placeholder="In 10 Years?" value={t10y}
                     onChange={(e) => setT10y(e.target.value)}
                     className="w-full rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-slate-200 outline-none"
@@ -815,7 +845,7 @@ export function DecisionParalysisApp() {
           {/* Footer */}
           <footer className="border-t py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-600" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
             <p>© 2026 PLANET SOR7ED · Decision Paralysis Solver</p>
-            <Link href="/" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</Link>
+            <Link href="/" target="_top" className="hover:text-slate-400 transition">← Back to PLANET SOR7ED</Link>
           </footer>
         </div>
       </div>

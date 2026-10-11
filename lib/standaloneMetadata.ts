@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
 import { ogImageForContent } from '@/lib/og/imageUrl'
 
-const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
+const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
 
 export async function getStandaloneMetadata(
   slug: string,
@@ -25,6 +25,7 @@ export async function getStandaloneMetadata(
   return {
     title: `${title} — PLANET SOR7ED`,
     description,
+    alternates: { canonical: `${SITE}/${slug}` },
     openGraph: {
       title: `${title} — PLANET SOR7ED`,
       description,

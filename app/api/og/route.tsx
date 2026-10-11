@@ -5,8 +5,8 @@ export const runtime = 'edge'
 
 const CARDS: Record<string, { heading: string; sub: string }> = {
   welcome: {
-    heading: 'TEXT A WORD.\nGET A PROTOCOL.',
-    sub: 'No app. No spam. Just what works.',
+    heading: 'BUILT FOR BRAINS\nTHAT WORK DIFFERENTLY.',
+    sub: 'Practical tools and protocols. One clear next step.',
   },
   goodbye: {
     heading: "YOU'RE PAUSED.",
