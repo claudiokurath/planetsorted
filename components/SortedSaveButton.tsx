@@ -151,7 +151,7 @@ export function SortedSaveButton({
       <span className="sb__label sb__label--lead">{copy.lead}</span>
 
       {href ? (
-        <Link href={href} className="sb__btn" aria-label={`${copy.lead} — SOR7ED`}>
+        <Link href={href} target="_top" className="sb__btn" aria-label={`${copy.lead} — SOR7ED`}>
           {mark}
         </Link>
       ) : (
