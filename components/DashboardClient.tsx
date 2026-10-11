@@ -384,7 +384,7 @@ export function DashboardClient() {
             </div>
           ) : filteredLibrary.length === 0 ? (
             <div className="glass-card rounded-none p-12 text-center text-gray-400">
-              <p className="text-base font-medium text-gray-300 mb-2">Your library is currently empty</p>
+              <p className="text-base font-medium text-gray-300 mb-2">{savedItems.length ? 'No saved items match your search' : 'Your library is currently empty'}</p>
               <p className="text-xs text-gray-500 max-w-md mx-auto leading-relaxed">
                 Save articles and tool results right here on the web and they will show up in this library.
               </p>

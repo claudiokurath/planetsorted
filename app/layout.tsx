@@ -31,9 +31,9 @@ const jetBrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Planet Sorted',
+  title: 'PLANET SOR7ED',
   description: 'Practical protocols for neurodivergent minds.',
-  metadataBase: new URL(process.env.SITE_URL ?? 'https://www.sor7ed.com'),
+  metadataBase: new URL(process.env.SITE_URL ?? 'https://planetsorted.com'),
 }
 
 export default function RootLayout({
@@ -46,10 +46,10 @@ export default function RootLayout({
     '@graph': [
       {
         '@type': 'Organization',
-        '@id': 'https://www.sor7ed.com/#organization',
+        '@id': 'https://planetsorted.com/#organization',
         'name': 'Planet Sorted',
         'alternateName': ['sorted', 'Sorted', 'planet sorted'],
-        'url': 'https://www.sor7ed.com',
+        'url': 'https://planetsorted.com',
         'foundingDate': '2025',
         'address': {
           '@type': 'PostalAddress',
@@ -59,11 +59,11 @@ export default function RootLayout({
       },
       {
         '@type': 'WebSite',
-        '@id': 'https://www.sor7ed.com/#website',
-        'url': 'https://www.sor7ed.com',
+        '@id': 'https://planetsorted.com/#website',
+        'url': 'https://planetsorted.com',
         'name': 'Planet Sorted',
         'publisher': {
-          '@id': 'https://www.sor7ed.com/#organization',
+          '@id': 'https://planetsorted.com/#organization',
         },
       },
     ],
@@ -78,8 +78,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col font-sans">
+        <a href="#main-content" className="sorted-skip-link">Skip to content</a>
         <SmartNav />
-        <main className="flex-1 pb-20 md:pb-0">{children}</main>
+        <main id="main-content" tabIndex={-1} className="flex-1 pb-20 md:pb-0">{children}</main>
         <SiteFooter />
         <MobileNav />
       </body>

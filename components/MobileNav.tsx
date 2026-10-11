@@ -78,7 +78,7 @@ export function MobileNav() {
     },
     {
       href: '/intelligence',
-      label: 'Guide',
+      label: 'Guidebook',
       match: (p: string) => p === '/intelligence' || p.startsWith('/intelligence/'),
       icon: ICONS.guide,
     },
@@ -114,7 +114,7 @@ export function MobileNav() {
               className={`flex flex-1 flex-col items-center justify-center gap-0.5 py-2.5 text-[10px] font-medium uppercase tracking-wider transition-colors ${
                 active
                   ? 'text-white'
-                  : 'text-neutral-500 hover:text-neutral-200'
+                  : 'text-neutral-400 hover:text-white'
               }`}
             >
               <span className={active ? 'text-[#FFBA2E]' : 'text-current'}>{tab.icon}</span>

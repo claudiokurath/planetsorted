@@ -16,7 +16,8 @@ export function SiteFooter() {
       <footer className="border-t border-white/10 px-6 py-5 pb-24 text-xs text-neutral-400 md:pb-5">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
           <p>© {new Date().getFullYear()} SOR7ED LIMITED</p>
-          <nav aria-label="Legal information" className="flex gap-5">
+          <nav aria-label="Legal information" className="flex flex-wrap gap-5">
+            <Link href="/about" className="hover:text-white">About</Link>
             <Link href="/privacy" className="hover:text-white">Privacy</Link>
             <Link href="/terms" className="hover:text-white">Terms</Link>
             <Link href="/cookies" className="hover:text-white">Cookies</Link>
@@ -44,10 +45,10 @@ export function SiteFooter() {
           {/* Column 2: Navigation */}
           <div className="space-y-2">
             <ul className="space-y-1.5 text-sm text-neutral-300">
-              <li><Link href="/tools" className="hover:text-white transition-colors">Tools</Link></li>
-              <li><Link href="/intelligence" className="hover:text-white transition-colors">Guides</Link></li>
+              <li><Link href="/tools" className="hover:text-white transition-colors">Toolbox</Link></li>
+              <li><Link href="/intelligence" className="hover:text-white transition-colors">Guidebook</Link></li>
               <li><Link href="/membership" className="hover:text-white transition-colors">Membership</Link></li>
-              <li><Link href="/about" className="hover:text-white transition-colors">About Planet Sorted</Link></li>
+              <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
               <li><Link href="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
             </ul>

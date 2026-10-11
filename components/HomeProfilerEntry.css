@@ -5,3 +5,4 @@
 .sorted-paper-profiler + .sorted-paper-options { margin-top: 14px; }
 .sorted-paper-profiler + .sorted-paper-options .sorted-paper-option { min-height: 48px; padding: 12px; font-size: 1rem; }
 @media (max-width: 400px) { .sorted-paper-profiler { font-size: 1.25rem; padding: 16px; } }
+@media (max-width: 760px) { .sorted-paper-profiler + .sorted-paper-options { display: none; } }

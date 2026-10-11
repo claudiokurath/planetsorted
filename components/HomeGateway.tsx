@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import Image, { getImageProps } from 'next/image'
+import Image from 'next/image'
 import Link from 'next/link'
 import './HomeProfilerEntry.css'
 
@@ -10,16 +10,6 @@ const OPTIONS = [
   { href: '/tools', title: 'Toolbox' },
   { href: '/intelligence', title: 'Guidebook' },
 ]
-
-const heroImage = {
-  alt: 'A person in a yellow sweater holding a red phone, with a collage of everyday objects above their head',
-  fill: true,
-  sizes: '100vw',
-  loading: 'eager' as const,
-  fetchPriority: 'high' as const,
-}
-const { props: desktopHero } = getImageProps({ ...heroImage, src: '/images/hero-red-phone.png' })
-const { props: mobileHero } = getImageProps({ ...heroImage, src: '/images/hero-red-phone-mobile.jpg' })
 
 export function HomeGateway() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -60,11 +50,7 @@ export function HomeGateway() {
         <p className="mt-7 text-sm">Worry less, live more.</p>
       </div>
       <div className="sorted-paper-portrait">
-        <picture>
-          <source media="(max-width: 760px)" srcSet={mobileHero.srcSet} sizes={mobileHero.sizes} />
-          {/* getImageProps optimizes both crops; picture downloads the matching one. */}
-          <img {...desktopHero} alt={heroImage.alt} />
-        </picture>
+        <Image src="/images/hero-brain-machine.png" alt="A brain inside a transparent machine on a warm yellow background" fill sizes="(max-width: 760px) 52vw, 100vw" preload />
       </div>
     </section>
   )

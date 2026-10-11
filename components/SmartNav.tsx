@@ -39,8 +39,9 @@ export function SmartNav() {
   if (isStandaloneToolRoute(pathname)) return null
 
   const navLinks = [
-    { label: 'Guidebook', href: '/intelligence' },
+    { label: 'Home', href: '/' },
     { label: 'Toolbox', href: '/tools' },
+    { label: 'Guidebook', href: '/intelligence' },
     { label: 'About', href: '/about' },
   ]
 
@@ -74,6 +75,7 @@ export function SmartNav() {
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={isActive ? 'page' : undefined}
                 className={`pb-0.5 text-[11px] font-medium uppercase tracking-[0.24em] transition-colors ${
                   isActive
                     ? 'border-b-2 border-[#FFBA2E] text-white'
