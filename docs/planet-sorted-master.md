@@ -635,6 +635,16 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 - `/dashboard` contains Overview (saved items, history, compare) and Settings (name, email, WhatsApp, weekly toggle, verification, deletion).
 
 ### WhatsApp Number Verification
+Returning-member sign-in (`/signup?mode=returning`) uses the existing approved
+`sor7ed_saved_card` link template, not a free-form message. This avoids Meta's
+24-hour conversation-window rejection. Its private confirmation link expires
+after 10 minutes, is bound to the pending server-side token digest, and finishes
+Supabase magic-link sign-in for both email-linked and WhatsApp-only members.
+The confirmation moves to the primary domain before creating the session; it
+preserves the member's name and WhatsApp opt-out. A template failure is shown as
+a failure; there is no free-form text fallback. API acceptance is not a delivery
+receipt.
+
 1. User enters number (E.164) in Settings.
 2. Server sends a 6-digit OTP via the Meta API.
 3. User enters the code on the dashboard.

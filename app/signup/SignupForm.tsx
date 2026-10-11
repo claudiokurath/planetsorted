@@ -78,25 +78,33 @@ export function SignupForm() {
     router.replace(`/signup?${params.toString()}`, { scroll: false })
   }
 
+  async function requestWhatsAppLinks(details: Record<string, unknown>) {
+    try {
+      const response = await fetch('/api/auth/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(details),
+      })
+      const body = await response.json().catch(() => ({}))
+      if (!response.ok || !body.sent) {
+        setState('error')
+        setErrorMessage(body.error || 'We could not send your link. Please try again.')
+        return
+      }
+      setEmailLinkSent(Boolean(body.emailSent))
+      setState('sent')
+    } catch {
+      setState('error')
+      setErrorMessage('We could not connect. Please check your connection and try again.')
+    }
+  }
+
   async function handleFirstTimeSubmit(event: React.FormEvent) {
     event.preventDefault()
     setState('loading')
     setErrorMessage('')
 
-    const response = await fetch('/api/auth/start', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ firstName, email, countryCode, phone, next: nextPath }),
-    })
-    const body = await response.json().catch(() => ({}))
-    if (!response.ok) {
-      setState('error')
-      setErrorMessage(body.error || 'We could not send your links. Please try again.')
-      return
-    }
-
-    setEmailLinkSent(Boolean(body.emailSent))
-    setState('sent')
+    await requestWhatsAppLinks({ firstName, email, countryCode, phone, next: nextPath })
   }
 
   async function handleReturningWhatsAppSubmit(event: React.FormEvent) {
@@ -105,20 +113,7 @@ export function SignupForm() {
     setState('loading')
     setErrorMessage('')
 
-    const response = await fetch('/api/auth/start', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ firstName: '', email: '', countryCode, phone, next: nextPath, existingOnly: true }),
-    })
-    const body = await response.json().catch(() => ({}))
-    if (!response.ok) {
-      setState('error')
-      setErrorMessage(body.error || 'We could not send your link. Please try again.')
-      return
-    }
-
-    setEmailLinkSent(Boolean(body.emailSent))
-    setState('sent')
+    await requestWhatsAppLinks({ firstName: '', email: '', countryCode, phone, next: nextPath, existingOnly: true })
   }
 
   async function handleReturningEmailSubmit(event: React.FormEvent) {
@@ -163,10 +158,10 @@ export function SignupForm() {
           {mode === 'returning'
             ? viaEmail
               ? 'Your secure sign-in link is waiting in your email.'
-              : 'Your WhatsApp sign-in link is on its way. Tap it once to sign in.'
+              : 'Your sign-in link has been submitted to WhatsApp. Tap the button in the message to sign in. If it does not arrive, wait a minute and try again, or use email sign-in.'
             : viaEmail
-              ? 'Your WhatsApp verification link and email sign-in link were sent together. Open both once and you are SOR7ED.'
-              : 'Your WhatsApp verification link is ready. Tap it once to verify and sign in.'}
+              ? 'Tap the button in your WhatsApp message to connect your number and sign in. We also sent an email sign-in link.'
+              : 'Your link has been submitted to WhatsApp. Tap the button in the message to connect your number and sign in.'}
         </p>
         {inboxUrl ? (
           <a href={inboxUrl} target="_blank" rel="noopener noreferrer" className="mt-7 block min-h-14 rounded-full border border-white/15 px-6 py-4 text-sm font-medium uppercase tracking-wider text-white hover:border-[#FFBA2E]">
