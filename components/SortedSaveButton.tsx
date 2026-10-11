@@ -58,6 +58,8 @@ export function SortedSaveButton({
   const tRef = useRef(0)
 
   const [done, setDone] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
 
   const paint = useCallback((v: number) => {
     tRef.current = v
@@ -103,8 +105,15 @@ export function SortedSaveButton({
     }
   }, [])
 
-  function handleClick() {
-    if (disabled) return
+  async function handleClick() {
+    if (disabled || sending) return
+    setError('')
+    if (!done) {
+      setSending(true)
+      try { await onSave?.() }
+      catch { setError('Could not send to WhatsApp. Please try again.'); return }
+      finally { setSending(false) }
+    }
     if (timerRef.current) clearTimeout(timerRef.current)
 
     const next = !done
@@ -112,7 +121,6 @@ export function SortedSaveButton({
     run(next ? 1 : 0)
 
     if (next) {
-      void Promise.resolve(onSave?.()).catch(() => {})
       timerRef.current = setTimeout(() => {
         setDone(false)
         run(0)
@@ -152,7 +160,7 @@ export function SortedSaveButton({
           className="sb__btn"
           aria-label="Save — SOR7ED"
           onClick={handleClick}
-          disabled={disabled}
+          disabled={disabled || sending}
         >
           {mark}
         </button>
@@ -160,9 +168,10 @@ export function SortedSaveButton({
 
       <span className="sb__label">{copy.trail}</span>
 
+      {error ? <span role="alert" className="text-sm text-white">{error}</span> : null}
       {/* The visual change is quiet, so announce it. */}
       <span className="sr-only" role="status" aria-live="polite">
-        {done ? 'Saved to your chat' : ''}
+        {error || (sending ? 'Sending…' : done ? 'Saved to your chat' : '')}
       </span>
 
       <style>{`

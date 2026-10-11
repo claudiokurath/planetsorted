@@ -6,6 +6,8 @@ import { createBrowserClient } from '@/lib/supabase/client'
 
 interface Props {
   slug: string
+  returnPath?: string
+  context?: 'article' | 'tool'
 }
 
 /**
@@ -21,7 +23,7 @@ interface Props {
  * blocked most visitors from receiving anything". The gate is kept here only
  * because removing it is a behaviour decision, not a visual one.
  */
-export function ToolWhatsAppCta({ slug }: Props) {
+export function ToolWhatsAppCta({ slug, returnPath = `/tools/${slug}`, context = 'tool' }: Props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [whatsappVerified, setWhatsappVerified] = useState(false)
 
@@ -58,11 +60,12 @@ export function ToolWhatsAppCta({ slug }: Props) {
   const ready = isLoggedIn && whatsappVerified
 
   async function send() {
-    await fetch('/api/save-to-phone', {
+    const response = await fetch('/api/save-to-phone', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, context: 'tool', includeLink: true }),
+      body: JSON.stringify({ slug, context, includeLink: true }),
     })
+    if (!response.ok) throw new Error('Could not send to WhatsApp. Please try again.')
   }
 
   // Everyone gets the same mark. Only what the click does changes: a visitor
@@ -75,7 +78,7 @@ export function ToolWhatsAppCta({ slug }: Props) {
         href={
           isLoggedIn
             ? '/dashboard?tab=settings'
-            : `/signup?next=${encodeURIComponent(`/tools/${slug}`)}`
+            : `/signup?next=${encodeURIComponent(returnPath)}`
         }
         copy={{
           lead: 'Get this sorted',

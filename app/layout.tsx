@@ -3,6 +3,7 @@ import { Anton, Jost, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { SmartNav } from '@/components/SmartNav'
 import { MobileNav } from '@/components/MobileNav'
+import { SitewideSortedButton } from '@/components/SitewideSortedButton'
 import { SiteFooter } from '@/components/SiteFooter'
 
 // Display face — heavy condensed grotesque, matches the customer-facing
@@ -81,6 +82,7 @@ export default function RootLayout({
         <a href="#main-content" className="sorted-skip-link">Skip to content</a>
         <SmartNav />
         <main id="main-content" tabIndex={-1} className="flex-1 pb-20 md:pb-0">{children}</main>
+        <SitewideSortedButton />
         <SiteFooter />
         <MobileNav />
       </body>

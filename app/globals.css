@@ -483,3 +483,7 @@ p {
   .sorted-brand-logo { background-color: black !important; }
   .sorted-presentation-link { break-inside: avoid; }
 }
+
+.sorted-sitewide-save { padding: 32px 20px; background: #000; color: white; border-top: 1px solid #333; }
+@media (max-width: 767px) { .sorted-sitewide-save { padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)); } }
+@media print { .sorted-sitewide-save { display: none !important; } }
