@@ -3,6 +3,11 @@
 The button uses your SOR7ED tangle mark. Visitors see what they will receive,
 sign in and connect WhatsApp if necessary, then request that specific item.
 
+The website's Toolbox and Guidebook now have native copies of the current
+Gamma pages, with the button already included under every published preview.
+The instructions below are optional for adding the same control inside the
+separately published Gamma pages. See [native collections](native-collections.md).
+
 ## Under a tool preview
 
 In Gamma, add an **Embed / Webpage** block beneath the preview and paste:

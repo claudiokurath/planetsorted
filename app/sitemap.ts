@@ -23,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily' as const,
       priority: 1.0,
     },
-    ...['about', 'brain-type', 'contact', 'faq', 'membership', 'privacy', 'terms', 'cookies'].map(path => ({
+    ...['tools', 'intelligence', 'about', 'brain-type', 'contact', 'faq', 'membership', 'privacy', 'terms', 'cookies'].map(path => ({
       url: `${siteUrl}/${path}`,
       changeFrequency: 'monthly' as const,
       priority: path === 'brain-type' ? 0.8 : 0.5,
