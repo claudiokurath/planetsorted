@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { createServerClient } from '@/lib/supabase/server'
 import { buildConnectToken, CONNECT_TOKEN_TTL_SECONDS } from '@/lib/crypto/tokens'
-import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
+import { sendWhatsAppSignInLink, signInTokenDigest } from '@/lib/whatsapp/signInLink'
 import { safeNext } from '@/lib/safeNext'
 
 const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
@@ -43,11 +43,15 @@ export async function POST(req: NextRequest) {
   if (data.email && !submittedEmail) return NextResponse.json({ error: 'Please check the email address.' }, { status: 400 })
 
   const admin = createServerClient()
-  const { data: phoneOwner } = await admin
+  const { data: phoneOwner, error: phoneLookupError } = await admin
     .from('users')
     .select('user_id, email')
     .eq('whatsapp_number', phone)
     .maybeSingle()
+
+  if (phoneLookupError) {
+    return NextResponse.json({ error: 'We could not check your account. Please try again.' }, { status: 502 })
+  }
 
   let userId = phoneOwner?.user_id
   let authEmail = phoneOwner?.email || submittedEmail || `${phone}@users.planetsorted.com`
@@ -101,12 +105,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Your links were just sent. Please wait a minute before trying again.' }, { status: 429 })
   }
 
+  const { token } = buildConnectToken(userId, CONNECT_TOKEN_TTL_SECONDS)
   const { error: metadataError } = await admin.auth.admin.updateUserById(userId, {
-    user_metadata: { ...authUser.user_metadata, first_name: firstName },
+    user_metadata: { ...authUser.user_metadata, ...(firstName ? { first_name: firstName } : {}) },
     app_metadata: {
       ...authUser.app_metadata,
       pending_whatsapp_number: phone,
       pending_signup_next: nextPath,
+      pending_signin_token_digest: signInTokenDigest(token),
       signup_links_sent_at: Date.now(),
     },
   })
@@ -114,20 +120,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'We could not prepare your verification links.' }, { status: 500 })
   }
 
-  const { token } = buildConnectToken(userId, CONNECT_TOKEN_TTL_SECONDS)
-  const whatsappLink = `${SITE}/auth/whatsapp-confirm?token=${encodeURIComponent(token)}`
-
   try {
-    await sendWhatsAppMessage(
-      phone,
-      `VERIFY YOUR WHATSAPP\n\nTap this private link once to connect your number to SOR7ED:\n${whatsappLink}`
-    )
+    await sendWhatsAppSignInLink(phone, token, SITE)
   } catch {
-    return NextResponse.json({ error: 'We could not reach that WhatsApp number. Please check it and try again.' }, { status: 502 })
+    return NextResponse.json({ error: 'We could not send your WhatsApp sign-in link. Please try again in a minute, or use email sign-in.' }, { status: 502 })
   }
 
-  const emailSent = Boolean(submittedEmail && !authEmail.endsWith('@users.planetsorted.com'))
-  if (emailSent) {
+  let emailSent = false
+  if (submittedEmail && !authEmail.endsWith('@users.planetsorted.com')) {
     const anon = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -140,6 +140,7 @@ export async function POST(req: NextRequest) {
       },
     })
     if (emailError) console.error('[Unified signup email error]', emailError)
+    else emailSent = true
   }
 
   return NextResponse.json({ sent: true, emailSent })
