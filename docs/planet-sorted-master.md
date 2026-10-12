@@ -143,6 +143,12 @@ Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant o
 
 ## Visual Identity
 
+**Homepage hero:** remove the photographic hero image. The silent animated scribble
+sits beside the live headline at a larger size (up to 240px desktop, 84–100px mobile).
+Keep the black canvas, existing copy and entry choices; compact spacing fits ordinary
+desktop and phone viewports. Retain natural scrolling for short screens or enlarged
+text rather than clipping content, and show a still for reduced motion.
+
 **About source:** `/about` recreates https://untitled-tbkg71d.gamma.site/ and
 the supplied Untitled.pdf as native content. Omit the entire “The Numbers” section.
 Retain the source artwork, story, differences, seven categories, philosophy and

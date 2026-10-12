@@ -30,15 +30,17 @@ export function HomeGateway() {
   return (
     <section className="sorted-paper-hero sorted-gateway" aria-labelledby="entry-heading">
       <div className="sorted-paper-content">
-        <div className="sorted-paper-mark" aria-hidden="true">
-          <video ref={videoRef} autoPlay muted loop playsInline preload="auto" tabIndex={-1} poster="/images/tangle-white.png">
-            <source src="/media/tangle-loop-256.mp4" type="video/mp4" />
-          </video>
-          <Image className="sorted-paper-static-mark" src="/images/tangle-white.png" alt="" width={120} height={120} />
-        </div>
         <div className="sorted-paper-panel">
           <span className="sorted-paper-eyebrow">Neurodivergent-first. Everyday life.</span>
-          <h1 id="entry-heading">Built for brains<br />that work <span>differently.</span></h1>
+          <div className="sorted-gateway-heading">
+            <h1 id="entry-heading">Built for brains<br />that work <span>differently.</span></h1>
+            <div className="sorted-paper-mark" aria-hidden="true">
+              <video ref={videoRef} autoPlay muted loop playsInline preload="auto" tabIndex={-1} poster="/images/tangle-white.png">
+                <source src="/media/tangle-loop-256.mp4" type="video/mp4" />
+              </video>
+              <Image className="sorted-paper-static-mark" src="/images/tangle-white.png" alt="" width={256} height={256} loading="eager" />
+            </div>
+          </div>
           <div className="sorted-paper-description">
             <p>SOR7ED is a practical support hub for ADHD, autistic, AuDHD, dyslexic, bipolar and other neurodivergent adults.</p>
             <p>Tools, protocols and plain-language guides that make everyday life less overwhelming. One clear next step.</p>
@@ -51,9 +53,6 @@ export function HomeGateway() {
           ))}
         </nav>
         <p className="sorted-paper-motto">Worry less, live more.</p>
-      </div>
-      <div className="sorted-paper-portrait">
-        <Image src="/images/hero-brain-machine.png" alt="A brain inside a transparent machine on a warm yellow background" fill sizes="(min-width: 1280px) 1280px, 100vw" preload />
       </div>
     </section>
   )

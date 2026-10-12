@@ -1,90 +1,57 @@
-/* The uploaded artwork stays intact; live copy occupies its empty left side. */
+/* A compact black entry screen: the moving scribble sits beside live type. */
 .sorted-paper-hero.sorted-gateway {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  max-width: 1280px;
+  display: block;
+  max-width: 960px;
   min-height: 0;
-  aspect-ratio: auto;
+  margin: 16px auto;
   --hero-backdrop: #000;
   color: #f2f2f2;
   border: 1px solid var(--sor7ed-section-border);
 }
-
-.sorted-gateway .sorted-paper-content {
-  grid-area: 1 / 1;
-  width: 54%;
-  max-width: none;
-  padding: clamp(24px, 2.5vw, 36px);
-  background: #000;
-}
-
-.sorted-gateway .sorted-paper-mark {
-  width: 56px;
-  height: 56px;
-  margin-bottom: 18px;
-}
-
+.sorted-gateway .sorted-paper-content { width: 100%; max-width: none; padding: 24px 32px; background: #000; }
 .sorted-gateway .sorted-paper-panel { width: 100%; min-height: 0; }
 .sorted-gateway .sorted-paper-eyebrow { font-size: .6875rem; letter-spacing: .08em; }
-.sorted-gateway .sorted-paper-panel h1 {
-  margin: 16px 0 22px;
-  font-size: clamp(2.25rem, 3.65vw, 3.25rem);
-  line-height: 1.14;
-}
-
+.sorted-gateway-heading { display: grid; grid-template-columns: minmax(0, 1fr) clamp(160px, 20vw, 240px); align-items: center; gap: 28px; margin: 14px 0 18px; }
+.sorted-gateway .sorted-paper-mark { width: 100%; height: auto; aspect-ratio: 1; margin: 0; }
+.sorted-gateway .sorted-paper-panel h1 { margin: 0; font-size: clamp(2.5rem, 4.4vw, 3.5rem); line-height: 1.12; }
 .sorted-gateway .sorted-paper-panel h1 span { display: block; width: fit-content; }
-.sorted-gateway .sorted-paper-panel p { font-size: 1rem; line-height: 1.6; color: #d4d4d4; }
-.sorted-gateway .sorted-paper-panel p + p { margin-top: 12px; }
-.sorted-gateway .sorted-paper-motto { margin-top: 18px; font-size: .875rem; line-height: 1.5; }
-.sorted-gateway .sorted-paper-portrait {
-  position: relative;
-  grid-area: 1 / 1;
-  align-self: center;
-  inset: auto;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1456 / 816;
-}
-.sorted-gateway .sorted-paper-portrait img { object-fit: contain; object-position: center; }
+.sorted-gateway .sorted-paper-panel p { font-size: 1rem; line-height: 1.5; color: #d4d4d4; }
+.sorted-gateway .sorted-paper-panel p + p { margin-top: 8px; }
+.sorted-gateway .sorted-paper-description { max-width: 720px; }
+.sorted-gateway .sorted-paper-motto { margin-top: 12px; font-size: .875rem; line-height: 1.5; }
 .sorted-gateway .sorted-paper-options { gap: 10px; }
 .sorted-gateway .sorted-paper-option { max-width: none; gap: 8px; color: #191511; animation-delay: .7s; animation-fill-mode: backwards; }
 .sorted-gateway .sorted-paper-option:focus-visible { outline-color: #FFBA2E; }
 .sorted-gateway .sorted-paper-option:nth-child(2) { animation-delay: .85s; }
 .sorted-gateway .sorted-paper-option:nth-child(3) { animation-delay: 1s; }
+.sorted-gateway .sorted-paper-profiler { margin-top: 16px; min-height: 72px; padding: 12px 16px; }
+.sorted-gateway .sorted-paper-profiler + .sorted-paper-options { margin-top: 10px; }
 
-/* Stack before the copy would become a narrow column. The full image remains visible. */
-@media (max-width: 1000px) {
-  .sorted-paper-hero.sorted-gateway { display: block; aspect-ratio: auto; }
-  .sorted-gateway .sorted-paper-content {
-    width: 100%;
-    max-width: 640px;
-    margin-inline: auto;
-    padding: 32px;
-  }
-  .sorted-gateway .sorted-paper-panel h1 { font-size: clamp(2.5rem, 6vw, 3.5rem); }
-  .sorted-gateway .sorted-paper-portrait {
-    position: relative;
-    z-index: auto;
-    inset: auto;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1456 / 816;
-  }
-}
+/* Keep the entry screen compact without clipping content or locking scrolling. */
+body:has(.sorted-gateway) #main-content { display: flex; align-items: center; padding: 0 20px; }
+body:has(.sorted-gateway) > footer { padding-top: 8px; padding-bottom: 8px; }
+body:has(.sorted-gateway) > footer > div { gap: 8px; }
+body:has(.sorted-gateway) > footer nav { column-gap: 12px; }
 
 @media (max-width: 760px) {
-  .sorted-gateway .sorted-paper-content { padding: 28px 24px 24px; }
-  .sorted-gateway .sorted-paper-mark { width: 48px; height: 48px; margin-bottom: 18px; }
-  .sorted-gateway .sorted-paper-panel h1 { font-size: clamp(2.25rem, 9vw, 3.5rem); margin: 16px 0 24px; }
-  .sorted-gateway .sorted-paper-panel p { font-size: 1rem; line-height: 1.6; }
-  .sorted-gateway .sorted-paper-motto { margin-top: 18px; }
+  .sorted-gateway .sorted-paper-content { padding: 20px; }
+  .sorted-gateway-heading { grid-template-columns: minmax(0, 1fr) 100px; gap: 16px; margin: 12px 0 16px; }
+  .sorted-gateway .sorted-paper-panel h1 { font-size: clamp(1.9rem, 6.8vw, 2.5rem); }
+  .sorted-gateway .sorted-paper-profiler { margin-top: 16px; }
+  body:has(.sorted-gateway) > footer { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  body:has(.sorted-gateway) > footer { font-size: 12px; }
 }
-
 @media (max-width: 360px) {
-  .sorted-gateway .sorted-paper-content { padding-inline: 20px; }
-  .sorted-gateway .sorted-paper-panel h1 { font-size: 2.125rem; }
+  .sorted-gateway .sorted-paper-content { padding: 16px; }
+  .sorted-gateway-heading { grid-template-columns: minmax(0, 1fr) 84px; gap: 12px; }
+  .sorted-gateway .sorted-paper-panel h1 { font-size: 1.75rem; }
 }
-
+@media (min-width: 761px) and (max-height: 800px) {
+  .sorted-paper-hero.sorted-gateway { margin-block: 8px; }
+  .sorted-gateway .sorted-paper-content { padding: 16px 24px; }
+  .sorted-gateway-heading { grid-template-columns: minmax(0, 1fr) 160px; margin-block: 10px 14px; }
+  .sorted-gateway .sorted-paper-panel h1 { font-size: 2.5rem; }
+}
 @media (prefers-reduced-motion: reduce) {
   .sorted-gateway .sorted-paper-panel,
   .sorted-gateway .sorted-paper-panel h1 span,
