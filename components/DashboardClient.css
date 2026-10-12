@@ -15,6 +15,7 @@
   justify-content: space-between;
   min-width: 0;
   padding: 16px;
+  border: 1px solid var(--sor7ed-section-border);
 }
 .sorted-account-library-title {
   display: -webkit-box;
