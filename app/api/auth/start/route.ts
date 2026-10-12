@@ -4,6 +4,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import { buildConnectToken, CONNECT_TOKEN_TTL_SECONDS } from '@/lib/crypto/tokens'
 import { sendWhatsAppSignInLink, signInTokenDigest } from '@/lib/whatsapp/signInLink'
 import { safeNext } from '@/lib/safeNext'
+import { scheduleCrmSync } from '@/lib/notion/syncCrmAccount'
 
 const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
 const RESEND_WINDOW_MS = 60 * 1000
@@ -119,6 +120,8 @@ export async function POST(req: NextRequest) {
   if (metadataError) {
     return NextResponse.json({ error: 'We could not prepare your verification links.' }, { status: 500 })
   }
+
+  scheduleCrmSync(userId)
 
   try {
     await sendWhatsAppSignInLink(phone, token, SITE)

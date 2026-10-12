@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import type { EmailOtpType } from '@supabase/supabase-js'
 import { createSessionClient } from '@/lib/supabase/server'
 import { safeNext } from '@/lib/safeNext'
+import { scheduleCrmSync } from '@/lib/notion/syncCrmAccount'
 
 // Supabase can hand a magic link back to us in three shapes:
 //
@@ -25,12 +26,18 @@ export async function GET(req: NextRequest) {
   const supabase = await createSessionClient()
 
   if (tokenHash && type) {
-    const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash })
-    if (!error) return NextResponse.redirect(`${origin}${next}`)
+    const { data, error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash })
+    if (!error) {
+      if (data.user) scheduleCrmSync(data.user.id)
+      return NextResponse.redirect(`${origin}${next}`)
+    }
     console.error('[auth/callback] verifyOtp failed:', error.message)
   } else if (code) {
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (!error) return NextResponse.redirect(`${origin}${next}`)
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+    if (!error) {
+      if (data.user) scheduleCrmSync(data.user.id)
+      return NextResponse.redirect(`${origin}${next}`)
+    }
     console.error('[auth/callback] code exchange failed:', error.message)
   } else {
     // Implicit flow: tokens sit in the URL hash. Modern browsers preserve the
