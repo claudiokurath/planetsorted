@@ -1,0 +1,51 @@
+.page { background: #000; color: #fff; padding: 32px 20px; font-weight: 300; }
+.cover, .panel { max-width: 1160px; margin-inline: auto; border: 1px solid var(--sor7ed-section-border); border-radius: 10px; overflow: hidden; }
+.cover { margin-bottom: 64px; }
+.cover img { display: block; width: 100%; height: auto; }
+.panel { padding: clamp(24px, 3.4vw, 48px); margin-bottom: 64px; background: #000; }
+.panel:last-child { margin-bottom: 0; }
+.panel h1, .panel h2, .panel h3 { font-family: var(--font-anton), 'Arial Narrow', sans-serif; font-weight: 400; text-transform: uppercase; overflow-wrap: break-word; }
+.panel h1, .panel h2 { margin: 0 0 32px; font-size: clamp(2rem, 3.9vw, 3.5rem); line-height: 1.2; letter-spacing: .01em; }
+.panel h3 { margin: 0 0 12px; font-size: 1.5rem; line-height: 1.25; }
+.panel p { font-size: 1.125rem; line-height: 1.8; color: #d4d4d4; }
+.panel > p + p { margin-top: 20px; }
+.differences { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.differences article { padding: 24px; text-align: center; background: #FFBA2E; color: #000; border-radius: 6px; }
+.differences p { color: #252015; }
+.number { display: block; margin-bottom: 16px; font-family: var(--font-anton), sans-serif; font-size: 1.5rem; }
+.branches { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 18px; }
+.branches a { grid-column: span 3; min-width: 0; padding: 20px; border: 1px solid #FFBA2E; border-radius: 6px; }
+.branches a:nth-child(n+5) { grid-column: span 4; }
+.branches a:hover { background: #FFBA2E0D; }
+.branches h3 { font-size: 1.4rem; }
+.branches p { font-size: 1rem; line-height: 1.8; }
+.philosophy { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 18px; list-style: none; margin-top: 24px; }
+.philosophy li { grid-column: span 2; padding: 20px; background: #FFBA2E; color: #252015; border-radius: 6px; font-size: 1.125rem; line-height: 1.7; }
+.philosophy li:nth-child(n+4) { grid-column: span 3; }
+.panel .callout { margin-top: 24px; padding: 18px 22px; background: #fff; color: #222; border-radius: 4px; }
+.promise { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 24px 0; }
+.promise article { padding: 20px; border: 1px solid #FFBA2E; border-radius: 6px; }
+.promise h3 { font-size: 1.5rem; }
+.page a:focus-visible { outline: 2px solid #FFBA2E; outline-offset: 5px; }
+@media (max-width: 1000px) {
+  .branches { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .branches a, .branches a:nth-child(n+5) { grid-column: auto; }
+}
+@media (max-width: 640px) {
+  .page { padding: 20px 16px; }
+  .cover, .panel { margin-bottom: 28px; }
+  .panel h1, .panel h2 { margin-bottom: 24px; }
+  .differences, .branches, .philosophy, .promise { grid-template-columns: minmax(0, 1fr); }
+  .philosophy li, .philosophy li:nth-child(n+4) { grid-column: auto; }
+}
+@media print {
+  .page, .panel { background: #fff; color: #000; }
+  .page { padding: 0; }
+  .cover { display: none; }
+  .panel { border-color: #bbb; margin-bottom: 20px; padding: 20px; }
+  .panel h1, .panel h2 { font-size: 24pt; }
+  .panel h3 { font-size: 16pt; }
+  .panel p { color: #000; }
+  .differences article, .philosophy li, .promise article, .branches a { background: #fff; color: #000; border: 1px solid #bbb; break-inside: avoid; }
+  .panel .callout { border: 1px solid #bbb; }
+}
