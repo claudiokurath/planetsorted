@@ -2,7 +2,6 @@ import { PrintPageButton } from '@/components/PrintPageButton'
 import { ContentHero } from '@/components/ContentHero'
 import { ContentCard } from '@/components/ContentCard'
 import { NativePresentation, hasNativePresentation } from '@/components/NativePresentation'
-import { ToolWhatsAppCta } from '@/components/ToolWhatsAppCta'
 import type { Protocol } from '@/lib/types/database'
 
 type RelatedArticle = Pick<Protocol, 'slug' | 'title' | 'cover_image' | 'read_time' | 'category'>
@@ -34,9 +33,6 @@ export function ToolClient({ toolData, relatedArticles = [] }: ToolClientProps) 
         ) : (
           <p className="border border-white/15 p-6 text-base text-neutral-300">This tool’s content is not available yet. Please check back soon.</p>
         )}
-        <section className="border border-white/65 p-4 print:hidden" aria-label="Receive this tool">
-          <ToolWhatsAppCta slug={toolData.slug} />
-        </section>
 
         {/* The deck is the pitch; this is the next step off the back of it. */}
 

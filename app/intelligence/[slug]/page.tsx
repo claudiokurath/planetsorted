@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
 import { ProtocolDeck } from '@/components/ProtocolDeck'
 import { NativePresentation, hasNativePresentation } from '@/components/NativePresentation'
-import { ToolWhatsAppCta } from '@/components/ToolWhatsAppCta'
 import { PrintPageButton } from '@/components/PrintPageButton'
 import { buildProtocolDeck } from '@/lib/protocolDeck'
 import type { Protocol } from '@/lib/types/database'
@@ -108,10 +107,6 @@ export default async function ArticlePage({ params }: Props) {
             isSubscriber
           />
         )}
-
-        <section className="mx-auto mt-6 max-w-6xl border border-white/65 p-4 print:hidden" aria-label="Receive the private protocol">
-          <ToolWhatsAppCta slug={slug} context="article" />
-        </section>
 
         {relatedTool ? (
           <section className="mx-auto mt-8 max-w-6xl text-center">
