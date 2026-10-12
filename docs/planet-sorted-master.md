@@ -143,6 +143,20 @@ Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant o
 
 ## Visual Identity
 
+**Preview update:** resource titles overlay edge-to-edge cover images, with a
+readable dark scrim and the description below. Preview cards show no runtime labels
+or numbered metadata rows. The compact SOR7ED action remains alongside each resource.
+
+**Background update:** all screen page backgrounds, collection gaps, hero copy,
+account panels and tool panels use pure black. White hero/action buttons and the
+colours inside existing artwork remain intact. Print views retain white backgrounds
+and dark text.
+Major screen sections use thin 1px white borders to distinguish adjoining black
+surfaces; print borders remain ink-friendly.
+The sitewide WhatsApp action uses a compact row (56px mark, 76px tap target,
+14–16px vertical padding). Standalone pages reserve space for the mobile navigation
+outside the row rather than inflating the button section.
+
 **Direction: black + bright-yellow, heavy typographic.** The customer-facing decks (protocol deck, About/pitch deck) are the reference: pure black, one saturated yellow, heavy condensed caps, hairlines and pill badges. The site matches them so site → open-the-link → deck reads as one thing. Retires the beige/red-rule "Gamma" styling and the earlier thin-Jost + muted-gold pass (v0.5.0).
 
 ### Colour

@@ -52,7 +52,7 @@ export function ToolClient({ toolData, relatedArticles = [] }: ToolClientProps) 
                   title={article.title}
                   coverImage={article.cover_image}
                   category={article.category}
-                  meta={article.read_time || undefined}
+
                   compact
                 />
               ))}
