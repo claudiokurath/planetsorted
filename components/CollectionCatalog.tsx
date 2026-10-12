@@ -75,8 +75,8 @@ export async function CollectionCatalog({ type, heading, description }: Collecti
       ) : result.items.length === 0 ? (
         <p className="border border-white/15 p-6 text-base text-neutral-300">No {label} have been published yet. Please check back soon.</p>
       ) : (
-        <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {result.items.map((item, index) => (
+        <div className="grid auto-rows-fr grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {result.items.map((item) => (
             <ContentCard
               key={item.slug}
               href={`${route}/${item.slug}`}
@@ -84,8 +84,7 @@ export async function CollectionCatalog({ type, heading, description }: Collecti
               summary={(type === 'Article' ? item.excerpt || item.summary : item.summary || item.excerpt) || undefined}
               coverImage={item.cover_image}
               category={item.category}
-              meta={item.read_time || undefined}
-              index={index}
+
             />
           ))}
         </div>

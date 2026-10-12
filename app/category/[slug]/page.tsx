@@ -68,7 +68,7 @@ export default async function CategoryPage({ params }: Props) {
   return (
     <main className="min-h-screen bg-black text-white">
       {/* Pillar header */}
-      <header className="mx-auto flex max-w-5xl flex-col items-center gap-5 px-5 py-24 text-center sm:py-28">
+      <header className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-5 py-12 text-center sm:py-16">
         <span className="sor7ed-pill">Pillar</span>
         <h1 className="font-bebas text-4xl uppercase leading-[1.15] tracking-normal text-white sm:text-5xl lg:text-6xl">
           {category.label}
@@ -87,12 +87,12 @@ export default async function CategoryPage({ params }: Props) {
         {tools.length === 0 && articles.length === 0 ? (
           <p className="py-12 text-center text-neutral-500">Nothing published in {category.label} yet.</p>
         ) : (
-          <div className="flex flex-col gap-16">
+          <div className="flex flex-col gap-10">
             {tools.length > 0 && (
               <section>
                 <SectionLabel>Tools</SectionLabel>
-                <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {tools.map((tool, index) => (
+                <div className="grid auto-rows-fr grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {tools.map((tool) => (
                     <ContentCard
                       key={tool.slug}
                       href={`/tools/${tool.slug}`}
@@ -100,8 +100,7 @@ export default async function CategoryPage({ params }: Props) {
                       summary={tool.summary}
                       coverImage={tool.cover_image}
                       category={tool.category}
-                      meta={tool.read_time || undefined}
-                      index={index}
+
                     />
                   ))}
                 </div>
@@ -111,8 +110,8 @@ export default async function CategoryPage({ params }: Props) {
             {articles.length > 0 && (
               <section>
                 <SectionLabel>Guidebook</SectionLabel>
-                <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {articles.map((article, index) => (
+                <div className="grid auto-rows-fr grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {articles.map((article) => (
                     <ContentCard
                       key={article.slug}
                       href={`/intelligence/${article.slug}`}
@@ -120,8 +119,7 @@ export default async function CategoryPage({ params }: Props) {
                       summary={article.summary}
                       coverImage={article.cover_image}
                       category={article.category}
-                      meta={article.read_time || undefined}
-                      index={index}
+
                     />
                   ))}
                 </div>

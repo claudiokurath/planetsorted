@@ -143,6 +143,10 @@ Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant o
 
 ## Visual Identity
 
+**Preview update:** resource titles overlay edge-to-edge cover images, with a
+readable dark scrim and the description below. Preview cards show no runtime labels
+or numbered metadata rows. The compact SOR7ED action remains alongside each resource.
+
 **Background update:** all screen page backgrounds, collection gaps, hero copy,
 account panels and tool panels use pure black. White hero/action buttons and the
 colours inside existing artwork remain intact. Print views retain white backgrounds
