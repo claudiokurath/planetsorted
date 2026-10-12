@@ -19,7 +19,7 @@
 .sorted-account-library-title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   overflow: hidden;
   overflow-wrap: anywhere;
   font-size: 1.375rem;
