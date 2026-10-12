@@ -1,0 +1,20 @@
+.presentation { max-width: 1160px; margin-inline: auto; background: #000; color: #fff; display: grid; gap: 20px; }
+.card { min-width: 0; border: 1px solid var(--sor7ed-section-border); overflow: hidden; }
+.withArt { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: center; }
+.art { min-width: 0; }
+.art img { width: 100%; height: auto; display: block; }
+.copy { min-width: 0; padding: clamp(24px, 4vw, 56px); }
+.copy h1, .copy h2, .copy h3 { font-family: var(--font-anton), sans-serif; text-transform: uppercase; line-height: 1.18; overflow-wrap: anywhere; }
+.copy h1 { font-size: clamp(2rem, 4.5vw, 3.6rem); }
+.copy h2 { font-size: clamp(1.8rem, 3.6vw, 3rem); }
+.copy h3 { font-size: clamp(1.3rem, 2vw, 1.7rem); margin-top: 32px; }
+.copy p, .copy li { color: #d4d4d4; font-size: 1.125rem; line-height: 1.75; white-space: pre-line; }
+.copy p, .copy ul { margin-top: 20px; }
+.copy ul { list-style: disc; padding-left: 24px; }
+.copy li + li { margin-top: 8px; }
+.groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 28px; margin-top: 28px; }
+.group { min-width: 0; border-top: 1px solid #ffffff65; padding-top: 20px; }
+.group h3:first-child { margin-top: 0; }
+.group p, .group li { font-size: 1rem; }
+@media (max-width: 760px) { .withArt { grid-template-columns: 1fr; } .copy p, .copy li { font-size: 1rem; } }
+@media print { .presentation, .card, .copy { background: white !important; color: black !important; } .copy p, .copy li { color: black !important; } .card { overflow: visible; break-inside: auto; border-color: #aaa; } .withArt { display: block; } .art { display: none; } .copy { padding: 16px; } }

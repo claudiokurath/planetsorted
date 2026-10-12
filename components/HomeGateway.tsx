@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import './HomeProfilerEntry.css'
 import './HomeGateway.css'
 
 const OPTIONS = [
@@ -52,7 +51,10 @@ export function HomeGateway() {
             <Link href={option.href} key={option.href} className="sorted-paper-option">{option.title}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12" /></svg></Link>
           ))}
         </nav>
-        <p className="sorted-paper-motto">Worry less, live more.</p>
+        <div className="sorted-gateway-footer">
+          <Link href="/signup" className="sorted-gateway-signup">Create your free account <span aria-hidden="true">→</span></Link>
+          <p className="sorted-paper-motto">Worry less, live more.</p>
+        </div>
       </div>
     </section>
   )

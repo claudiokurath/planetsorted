@@ -5,12 +5,11 @@ import { createServerClient } from '@/lib/supabase/server'
 import { STANDALONE_ROUTES } from '@/lib/standaloneRoutes'
 import {
   buildStandaloneAccessToken,
-  buildArticleAccessToken,
   STANDALONE_ACCESS_TTL_SECONDS,
-  ARTICLE_ACCESS_TTL_SECONDS,
 } from '@/lib/crypto/tokens'
 import { isOgCrawler } from '@/lib/og/crawlers'
 import { ogImageForContent, proxiedCoverImage } from '@/lib/og/imageUrl'
+import { PRIVATE_PDF_SLUG } from '@/lib/content/privateProtocol'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -120,16 +119,17 @@ export default async function RichLinkRedirect({ params }: Props) {
     )
   }
 
-  // Humans from the WhatsApp rich link get a short-lived HMAC so the
-  // destination can unlock full body + protocol. Public pages stay teaser-only.
+  // WhatsApp cards open the member protocol; public articles remain readable
+  // at /intelligence/{slug}. A public short link does not grant private access.
   if (content.type === 'Tool') {
     redirect(`${SITE}/tools/${content.slug}`)
   }
 
-  const { token } = buildArticleAccessToken(content.slug, ARTICLE_ACCESS_TTL_SECONDS)
-  redirect(
-    `${SITE}/intelligence/${content.slug}?access_token=${encodeURIComponent(token)}`
-  )
+  // Unlike the public article, this attachment requires a real member session.
+  // An access_token minted by this public short link cannot unlock the PDF.
+  if (content.slug === PRIVATE_PDF_SLUG) redirect(`/api/protocols/${content.slug}`)
+
+  redirect(`/protocols/${content.slug}`)
 }
 
 function CrawlerShell({ title, description }: { title: string; description: string }) {
