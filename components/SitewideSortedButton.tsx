@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation'
 import { ToolWhatsAppCta, WhatsAppConnectionCta } from '@/components/ToolWhatsAppCta'
 import { STANDALONE_ROUTES } from '@/lib/standaloneRoutes'
+import { isStandaloneToolRoute } from '@/lib/isStandaloneToolRoute'
 
 export function SitewideSortedButton() {
   const pathname = usePathname() || '/'
@@ -11,7 +12,7 @@ export function SitewideSortedButton() {
   const standaloneSlug = Object.entries(STANDALONE_ROUTES).find(([, route]) => route === pathname.replace(/\/$/, ''))?.[0]
   const slug = content?.[2] || standaloneSlug
   return (
-    <aside className="sorted-sitewide-save print:hidden" aria-label="Continue with SOR7ED on WhatsApp">
+    <aside className={`sorted-sitewide-save print:hidden${isStandaloneToolRoute(pathname) ? ' sorted-sitewide-save--standalone' : ''}`} aria-label="Continue with SOR7ED on WhatsApp">
       {slug ? <ToolWhatsAppCta slug={slug} returnPath={pathname} context={content?.[1] === 'intelligence' ? 'article' : 'tool'} /> : (
         <WhatsAppConnectionCta returnPath={pathname} />
       )}
