@@ -1,5 +1,5 @@
 .page {
-  background: #fff;
+  background: #000;
   color: #fff;
   padding-bottom: 32px;
   font-weight: 300;
@@ -63,17 +63,18 @@
   flex-direction: column;
   gap: 16px;
   padding: 24px 18px;
-  background: #ffc107;
+  background: #000;
   border-radius: 6px;
-  color: #000;
+  color: #fff;
+  border: 1px solid #333;
 }
 
 .features h3 { min-height: 2.4em; }
-.features p { color: #272000; }
+.features p { color: #d4d4d4; }
 .number { font-family: var(--font-anton), sans-serif; font-size: 1.5rem; margin-bottom: 14px; }
 
 .journey { display: grid; grid-template-columns: 3fr 5fr; padding: 0; }
-.journeyArt { background: #f1efeb; }
+.journeyArt { background: #000; }
 .journeyArt img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .journeyCopy { padding: clamp(24px, 3.3vw, 48px); min-width: 0; }
 .journeyCopy > p { margin-top: 28px; }

@@ -5,6 +5,8 @@
   max-width: 1280px;
   min-height: 0;
   aspect-ratio: auto;
+  --hero-backdrop: #000;
+  color: #f2f2f2;
 }
 
 .sorted-gateway .sorted-paper-content {
@@ -12,6 +14,7 @@
   width: 54%;
   max-width: none;
   padding: clamp(24px, 2.5vw, 36px);
+  background: #000;
 }
 
 .sorted-gateway .sorted-paper-mark {
@@ -29,7 +32,7 @@
 }
 
 .sorted-gateway .sorted-paper-panel h1 span { display: block; width: fit-content; }
-.sorted-gateway .sorted-paper-panel p { font-size: 1rem; line-height: 1.6; }
+.sorted-gateway .sorted-paper-panel p { font-size: 1rem; line-height: 1.6; color: #d4d4d4; }
 .sorted-gateway .sorted-paper-panel p + p { margin-top: 12px; }
 .sorted-gateway .sorted-paper-motto { margin-top: 18px; font-size: .875rem; line-height: 1.5; }
 .sorted-gateway .sorted-paper-portrait {
@@ -43,7 +46,8 @@
 }
 .sorted-gateway .sorted-paper-portrait img { object-fit: contain; object-position: center; }
 .sorted-gateway .sorted-paper-options { gap: 10px; }
-.sorted-gateway .sorted-paper-option { max-width: none; gap: 8px; animation-delay: .7s; animation-fill-mode: backwards; }
+.sorted-gateway .sorted-paper-option { max-width: none; gap: 8px; color: #191511; animation-delay: .7s; animation-fill-mode: backwards; }
+.sorted-gateway .sorted-paper-option:focus-visible { outline-color: #FFBA2E; }
 .sorted-gateway .sorted-paper-option:nth-child(2) { animation-delay: .85s; }
 .sorted-gateway .sorted-paper-option:nth-child(3) { animation-delay: 1s; }
 

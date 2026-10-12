@@ -27,7 +27,7 @@
 }
 
 .sorted-gateway .sorted-paper-profiler:hover { background: #fff5de; }
-.sorted-gateway .sorted-paper-profiler:focus-visible { outline: 3px solid #191511; outline-offset: 4px; }
+.sorted-gateway .sorted-paper-profiler:focus-visible { outline: 3px solid #FFBA2E; outline-offset: 4px; }
 .sorted-gateway .sorted-paper-profiler + .sorted-paper-options { margin-top: 12px; }
 .sorted-gateway .sorted-paper-profiler + .sorted-paper-options .sorted-paper-option {
   min-height: 48px;

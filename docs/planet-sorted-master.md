@@ -143,6 +143,11 @@ Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant o
 
 ## Visual Identity
 
+**Background update:** all screen page backgrounds, collection gaps, hero copy,
+account panels and tool panels use pure black. White hero/action buttons and the
+colours inside existing artwork remain intact. Print views retain white backgrounds
+and dark text.
+
 **Direction: black + bright-yellow, heavy typographic.** The customer-facing decks (protocol deck, About/pitch deck) are the reference: pure black, one saturated yellow, heavy condensed caps, hairlines and pill badges. The site matches them so site → open-the-link → deck reads as one thing. Retires the beige/red-rule "Gamma" styling and the earlier thin-Jost + muted-gold pass (v0.5.0).
 
 ### Colour

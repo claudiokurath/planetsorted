@@ -1,6 +1,6 @@
 
 .brain-type-profiler{
-  --bg:#000; --fg:#fff; --accent:#FFBA2E; --panel:#0c0c0c;
+  --bg:#000; --fg:#fff; --accent:#FFBA2E; --panel:#000;
   --line:rgba(255,255,255,.16); --muted:rgba(255,255,255,.58);
   --display:var(--font-brain-display),'Arial Narrow',sans-serif;
   --body:var(--font-brain-body),system-ui,sans-serif;
