@@ -7,6 +7,7 @@
   aspect-ratio: auto;
   --hero-backdrop: #000;
   color: #f2f2f2;
+  border: 1px solid var(--sor7ed-section-border);
 }
 
 .sorted-gateway .sorted-paper-content {

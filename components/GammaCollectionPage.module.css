@@ -13,7 +13,7 @@
 .cover, .panel {
   max-width: 1160px;
   margin-inline: auto;
-  border: 1px solid #9a9a9a;
+  border: 1px solid var(--sor7ed-section-border);
   border-radius: 11px;
   overflow: hidden;
 }
@@ -66,7 +66,7 @@
   background: #000;
   border-radius: 6px;
   color: #fff;
-  border: 1px solid #333;
+  border: 1px solid var(--sor7ed-section-border);
 }
 
 .features h3 { min-height: 2.4em; }

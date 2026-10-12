@@ -60,7 +60,7 @@
 
 .sorted-account .glass-card {
   background: #000;
-  border-color: #383838;
+  border-color: var(--sor7ed-section-border);
   box-shadow: none;
 }
 
