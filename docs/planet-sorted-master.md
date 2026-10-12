@@ -143,6 +143,12 @@ Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant o
 
 ## Visual Identity
 
+**About source:** `/about` recreates https://untitled-tbkg71d.gamma.site/ and
+the supplied Untitled.pdf as native content. Omit the entire “The Numbers” section.
+Retain the source artwork, story, differences, seven categories, philosophy and
+closing promise; keep a black outer background, thin white panel borders and
+white print backgrounds.
+
 **Preview update:** resource titles overlay edge-to-edge cover images, with a
 readable dark scrim and the description below. Preview cards show no runtime labels
 or numbered metadata rows. The compact SOR7ED action remains alongside each resource.
