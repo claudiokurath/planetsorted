@@ -1,3 +1,4 @@
+import { scheduleCrmSync } from '@/lib/notion/syncCrmAccount'
 import { NextRequest, NextResponse } from 'next/server'
 import { requireUser } from '@/lib/auth/requireUser'
 import { hashOtp, timingSafeEqualHex } from '@/lib/crypto/tokens'
@@ -156,6 +157,7 @@ export async function POST(req: NextRequest) {
       })
       .eq('user_id', authUser.id)
 
+    scheduleCrmSync(authUser.id)
     return NextResponse.json({
       success: true,
       message: 'WhatsApp number successfully verified!',

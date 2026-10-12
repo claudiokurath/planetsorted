@@ -4,6 +4,7 @@ import { headers } from 'next/headers'
 import { createServerClient } from '@/lib/supabase/server'
 import { verifyConnectToken } from '@/lib/crypto/tokens'
 import { safeNext } from '@/lib/safeNext'
+import { scheduleCrmSync } from '@/lib/notion/syncCrmAccount'
 import { matchesPendingSignInToken } from '@/lib/whatsapp/signInLink'
 
 interface Props {
@@ -103,6 +104,7 @@ export default async function WhatsAppConfirmPage({ searchParams }: Props) {
   if (consumeError) {
     return <VerificationMessage title="Could not sign in." body="Please return to sign in and try again." href="/signup?mode=returning" label="Back to sign in" />
   }
+  scheduleCrmSync(authUser.id)
   const params = new URLSearchParams({ token_hash: login.properties.hashed_token, type: 'magiclink', next: nextPath })
   redirect(`/auth/callback?${params}`)
 }

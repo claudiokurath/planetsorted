@@ -207,6 +207,18 @@ export type NotionWebhookEvent = {
 export type Database = {
   public: {
     Tables: {
+      notion_crm_reconciliation: {
+        Row: { id: number; next_page: number }
+        Insert: { id: number; next_page?: number }
+        Update: { next_page?: number }
+        Relationships: []
+      }
+      notion_crm_sync: {
+        Row: { user_id: string; notion_page_id: string | null; contact_hash: string | null; synced_at: string | null; lock_until: string | null; lock_token: string | null; last_error: string | null }
+        Insert: { user_id: string; notion_page_id?: string | null; contact_hash?: string | null; synced_at?: string | null; lock_until?: string | null; lock_token?: string | null; last_error?: string | null }
+        Update: { notion_page_id?: string | null; contact_hash?: string | null; synced_at?: string | null; lock_until?: string | null; lock_token?: string | null; last_error?: string | null }
+        Relationships: []
+      }
       protocols: {
         Row: Protocol
         Insert: Omit<Protocol, 'id'> & { id?: string }

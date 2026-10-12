@@ -672,7 +672,27 @@ receipt.
 5. Until step 4, `Sor7edButton` shows "CONNECT WHATSAPP →" instead of the send button — see "The SOR7ED Button" (the `?tab=settings` deep-link is fixed).
 
 ### Notion CRM Sync
-Every new signup (WhatsApp-first or email/dashboard) is mirrored, best-effort, into the Notion `CRM` database (properties: Name, Email, WhatsApp, Status, Source, Signed Up) via `lib/notion/syncUserToCrm.ts`. A Notion outage never blocks account creation — sync failures are logged, not surfaced to the user.
+Supabase Auth is the source for all sign-ups, including pending and email-only
+accounts without a `users` profile. The Notion CRM is database
+`35e0d601-4acc-80ff-8761-c320c06835ee`. Each record is keyed by Supabase User ID;
+actual creation dates, confirmation and WhatsApp verification are tracked. Real
+emails are recorded; synthetic phone-login email addresses are left blank.
+
+Signup start, successful magic-link callbacks, WhatsApp confirmation/OTP verification
+and profile reads/updates schedule non-blocking sync with Next.js `after`. Use
+`NOTION_CRM_SECRET` when configured, otherwise the existing `NOTION_SECRET`.
+The configured integration must have CRM read/update access; builds check its schema.
+
+The server-only `notion_crm_sync` ledger stores page IDs, contact hashes, retry errors
+and expiring exclusive locks. RLS denies client access. Unchanged contacts are skipped;
+manual notes, country, acquisition source and unsubscribe/bounce decisions are preserved.
+New unconfirmed accounts are Pending; confirmation promotes only Pending records.
+
+`/api/cron/sync-crm` reconciles daily at 00:20 UTC using `CRON_SECRET`. A server-only
+cursor advances through larger account lists and resumes after time-budget limits.
+Failed records retry on subsequent reconciliation or profile activity. The Notion
+“Newest sign-ups” view sorts by Signed Up descending. Initial backfill: 20 accounts,
+13 confirmed and 7 pending. Syncing CRM does not send messages or opt anyone in.
 
 ### GDPR Deletion
 Wipes `saved_items`, `credits_ledger`, `entitlements`, `tool_requests` (cascading to `tool_runs` via `tool_request_id`, since that table has no direct `user_id`), and the `users` row, then deletes the corresponding Supabase auth user.
