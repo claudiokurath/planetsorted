@@ -40,11 +40,14 @@
 .sorted-gateway .sorted-paper-panel p + p { margin-top: 8px; }
 .sorted-gateway .sorted-paper-description { max-width: 720px; }
 .sorted-gateway .sorted-paper-motto { margin-top: 6px; font-size: .875rem; line-height: 1.5; }
-.sorted-gateway-signup { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; margin-top: 6px; color: #fff; text-decoration: underline; text-underline-offset: 5px; font-size: .9375rem; }
+.sorted-gateway-signup { display: inline-flex; align-items: center; gap: 10px; min-width: 0; min-height: 44px; margin-top: 6px; color: #fff; font-size: .875rem; line-height: 1.35; }
+.sorted-gateway-signup-image { flex: 0 0 60px; width: 60px; height: auto; aspect-ratio: 3 / 2; border: 1px solid var(--sor7ed-section-border); }
+.sorted-gateway-signup-label { min-width: 0; text-decoration: underline; text-underline-offset: 5px; }
+.sorted-gateway-signup-arrow { flex-shrink: 0; }
 .sorted-gateway-signup:hover { color: #FFBA2E; }
 .sorted-gateway-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 6px; }
 .sorted-gateway-footer .sorted-gateway-signup { margin-top: 0; }
-.sorted-gateway-footer .sorted-paper-motto { margin-top: 0; max-width: 100px; }
+.sorted-gateway-footer .sorted-paper-motto { flex: 0 0 80px; margin-top: 0; max-width: 80px; }
 .sorted-gateway .sorted-paper-options { gap: 10px; }
 .sorted-gateway .sorted-paper-option { max-width: none; gap: 8px; color: #191511; animation-delay: .7s; animation-fill-mode: backwards; }
 .sorted-gateway .sorted-paper-option:focus-visible { outline-color: #FFBA2E; }
@@ -66,6 +69,8 @@ body:has(.sorted-gateway) > footer nav { column-gap: 12px; }
   body:has(.sorted-gateway) > footer { font-size: 12px; }
 }
 @media (max-width: 360px) {
+  .sorted-gateway-signup { gap: 8px; }
+  .sorted-gateway-signup-image { flex-basis: 48px; width: 48px; }
   .sorted-gateway .sorted-paper-content { padding: 16px; }
   .sorted-gateway-heading { grid-template-columns: minmax(0, 1fr) 84px; gap: 12px; }
   .sorted-gateway .sorted-paper-panel h1 { font-size: 1.75rem; }

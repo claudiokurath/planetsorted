@@ -52,7 +52,11 @@ export function HomeGateway() {
           ))}
         </nav>
         <div className="sorted-gateway-footer">
-          <Link href="/signup" className="sorted-gateway-signup">Create your free account <span aria-hidden="true">→</span></Link>
+          <Link href="/signup" className="sorted-gateway-signup">
+            <Image src="/images/signup-membership.webp" alt="" width={1344} height={896} sizes="60px" className="sorted-gateway-signup-image" />
+            <span className="sorted-gateway-signup-label">Create your free account</span>
+            <span className="sorted-gateway-signup-arrow" aria-hidden="true">→</span>
+          </Link>
           <p className="sorted-paper-motto">Worry less, live more.</p>
         </div>
       </div>
