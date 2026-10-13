@@ -4,12 +4,10 @@ const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
 
 /**
  * The URL the WhatsApp Sorted-button card points at. It must always land the
- * visitor on the SOR7ED page for that piece — where the Gamma deck is embedded
- * with the Sorted button underneath — never jump straight to gamma.app, or the
- * button they need to press for the protocol isn't there.
+ * visitor on SOR7ED for that piece, never jump straight to gamma.app.
  *
- * `/r/[slug]` handles the rest: article vs tool routing, the access token, and
- * rich OG cards for crawlers.
+ * `/r/[slug]` handles tool vs private protocol routing and rich OG cards for
+ * crawlers. Member protocols validate the session at the destination.
  */
 export async function GET(
   req: NextRequest,

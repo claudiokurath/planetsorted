@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
 import { ProtocolDeck } from '@/components/ProtocolDeck'
-import { GammaEmbed } from '@/components/GammaEmbed'
+import { NativePresentation, hasNativePresentation } from '@/components/NativePresentation'
+import { PrintPageButton } from '@/components/PrintPageButton'
 import { buildProtocolDeck } from '@/lib/protocolDeck'
-import { gammaEmbedUrl } from '@/lib/content/gammaEmbed'
 import type { Protocol } from '@/lib/types/database'
 
 interface Props {
@@ -58,7 +58,7 @@ export default async function ArticlePage({ params }: Props) {
 
   const { data: rawProtocol } = await supabase
     .from('protocols')
-    .select('title, summary, category, cover_image, problem, read_time, excerpt, meta_description, protocol, slug, blog_gamma_url')
+    .select('title, summary, category, cover_image, problem, read_time, excerpt, meta_description, slug, blog_gamma_url')
     .eq('slug', slug)
     .eq('status', 'Published')
     .single()
@@ -68,11 +68,8 @@ export default async function ArticlePage({ params }: Props) {
 
   const description = item.excerpt?.trim() || item.summary?.trim() || item.meta_description?.trim()
   const rawBodyText = item.problem || ''
-  const actionProtocolText = item.protocol?.trim() || ''
-
-  // The "Blog post Gamma" is the deck. When it's set it *is* the content;
-  // otherwise fall back to the parsed ProtocolDeck built from the markdown.
-  const gammaEmbed = gammaEmbedUrl(item.blog_gamma_url ?? null)
+  // Public article content only. Never query or serialize the private protocol.
+  const native = hasNativePresentation(slug, item.blog_gamma_url)
 
   const { data: relatedTools } = await supabase
     .from('protocols')
@@ -85,7 +82,7 @@ export default async function ArticlePage({ params }: Props) {
 
   const relatedTool = relatedTools?.[0] ?? null
 
-  const deck = gammaEmbed
+  const deck = native
     ? null
     : buildProtocolDeck({
         title: item.title,
@@ -94,18 +91,19 @@ export default async function ArticlePage({ params }: Props) {
         readTime: item.read_time,
         coverImage: item.cover_image,
         body: rawBodyText,
-        protocol: actionProtocolText || null,
+        protocol: null,
       })
 
   return (
     <div className="min-h-screen bg-black text-white">
       <main className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
-        {gammaEmbed ? (
-          <GammaEmbed src={gammaEmbed} title={`${item.title} — presentation`} />
+        <div className="mx-auto mb-5 max-w-6xl print:hidden"><PrintPageButton /></div>
+        {native ? (
+          <NativePresentation slug={slug} />
         ) : (
           <ProtocolDeck
             deck={deck!}
-            bodyText={[rawBodyText, actionProtocolText].filter(Boolean).join('\n\n')}
+            bodyText={rawBodyText}
             isSubscriber
           />
         )}

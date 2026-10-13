@@ -1,8 +1,7 @@
 import { PrintPageButton } from '@/components/PrintPageButton'
 import { ContentHero } from '@/components/ContentHero'
 import { ContentCard } from '@/components/ContentCard'
-import { GammaEmbed } from '@/components/GammaEmbed'
-import { gammaEmbedUrl } from '@/lib/content/gammaEmbed'
+import { NativePresentation, hasNativePresentation } from '@/components/NativePresentation'
 import type { Protocol } from '@/lib/types/database'
 
 type RelatedArticle = Pick<Protocol, 'slug' | 'title' | 'cover_image' | 'read_time' | 'category'>
@@ -16,22 +15,21 @@ export function ToolClient({ toolData, relatedArticles = [] }: ToolClientProps) 
   const description = toolData.meta_description || toolData.summary?.replace(/<br\s*\/?\s*>/gi, '\n').replace(/<[^>]*>/g, '').replace(/^OVERVIEW\s*/i, '').trim().split(/\n\s*\n/)[0]
   // Tools sync their single Notion "Gamma" property into gamma_url;
   // blog_gamma_url stays as a fallback for anything set the old way.
-  const gammaEmbed = gammaEmbedUrl(toolData.gamma_url) ?? gammaEmbedUrl(toolData.blog_gamma_url)
+  const native = hasNativePresentation(toolData.slug, toolData.gamma_url ?? toolData.blog_gamma_url)
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <ContentHero
+      {!native ? <ContentHero
         title={toolData.title}
         description={description}
         category={toolData.category}
-        meta={toolData.read_time}
         coverImage={toolData.cover_image}
-      />
+      /> : null}
 
       <main className="mx-auto max-w-5xl space-y-6 px-4 pb-20 pt-1 sm:px-6 lg:px-8">
         <div className="print:hidden"><PrintPageButton /></div>
-        {gammaEmbed ? (
-          <GammaEmbed src={gammaEmbed} title={`${toolData.title} — presentation`} />
+        {native ? (
+          <NativePresentation slug={toolData.slug} />
         ) : (
           <p className="border border-white/15 p-6 text-base text-neutral-300">This tool’s content is not available yet. Please check back soon.</p>
         )}
