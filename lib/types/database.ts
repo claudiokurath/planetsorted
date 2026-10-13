@@ -207,6 +207,12 @@ export type NotionWebhookEvent = {
 export type Database = {
   public: {
     Tables: {
+      whatsapp_delivery_actions: {
+        Row: { id: string; user_id: string; action_key: string; request_hash: string; slug: string; delivery_status: 'pending' | 'accepted' | 'failed' | 'skipped' | 'unknown'; delivery_reason: string | null; message_ids: string[]; created_at: string; updated_at: string }
+        Insert: { user_id: string; action_key: string; request_hash: string; slug: string; id?: string; delivery_status?: string; delivery_reason?: string | null; message_ids?: string[]; created_at?: string; updated_at?: string }
+        Update: { delivery_status?: string; delivery_reason?: string | null; message_ids?: string[]; updated_at?: string }
+        Relationships: []
+      }
       notion_crm_reconciliation: {
         Row: { id: number; next_page: number }
         Insert: { id: number; next_page?: number }
@@ -325,6 +331,23 @@ export type Database = {
       }
     }
     Views: Record<string, never>
-    Functions: Record<string, never>
+    Functions: {
+      claim_whatsapp_delivery_action: {
+        Args: { p_user_id: string; p_action_key: string; p_hash: string; p_slug: string; p_url: string; p_title: string; p_category: string }
+        Returns: { created: boolean; action_id: string; delivery_status: string; delivery_reason: string | null; updated_at: string }[]
+      }
+      finish_whatsapp_delivery_action: {
+        Args: { p_user_id: string; p_action_key: string; p_status: string; p_reason: string | null; p_message_ids: string[] }
+        Returns: boolean
+      }
+      reserve_whatsapp_otp: {
+        Args: { p_user_id: string; p_phone: string; p_otp_hash: string }
+        Returns: { outcome: string; expires_at: string | null }[]
+      }
+      verify_whatsapp_otp: {
+        Args: { p_user_id: string; p_otp_hash: string; p_first_name: string; p_email: string }
+        Returns: { outcome: string }[]
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import type { Session } from '@supabase/supabase-js'
@@ -41,6 +41,7 @@ export function DashboardClient() {
   const [whatsappError, setWhatsappError] = useState('')
   const [whatsappSuccess, setWhatsappSuccess] = useState('')
   const [whatsappLoading, setWhatsappLoading] = useState(false)
+  const whatsappRequestRef = useRef(false)
 
   // Saved Items State
   const [savedItems, setSavedItems] = useState<SavedItem[]>([])
@@ -192,6 +193,8 @@ export function DashboardClient() {
 
   async function handleSendOtp(e: React.FormEvent) {
     e.preventDefault()
+    if (whatsappRequestRef.current) return
+    whatsappRequestRef.current = true
     setWhatsappLoading(true)
     setWhatsappError('')
     setWhatsappSuccess('')
@@ -202,22 +205,35 @@ export function DashboardClient() {
         headers,
         body: JSON.stringify({ whatsappNumber })
       })
-      const data = await res.json()
+      const data = await res.json().catch(() => null) as { state?: string } | null
+      if (data?.state === 'unknown') {
+        setVerifyState('otp_sent')
+        setWhatsappError('We could not confirm whether your code was sent. If it arrives, enter it. Otherwise wait a minute before requesting another code.')
+        return
+      }
       if (!res.ok) {
-        setWhatsappError(typeof data.error === 'string' ? data.error : 'We could not send the code. Please check your number and try again.')
+        setWhatsappError('We could not send the code. Please check your number and try again after a minute.')
+        return
+      }
+      if (data?.state !== 'accepted') {
+        setWhatsappError('We could not confirm whether your code was sent. Check your WhatsApp before requesting another code.')
         return
       }
       setVerifyState('otp_sent')
       setWhatsappSuccess('Verification code sent to WhatsApp! Check your phone.')
     } catch {
-      setWhatsappError('We could not send the code. Please check your connection and try again.')
+      setVerifyState('otp_sent')
+      setWhatsappError('We could not confirm whether your code was sent. If it arrives, enter it. Otherwise check your connection and wait a minute before requesting another code.')
     } finally {
+      whatsappRequestRef.current = false
       setWhatsappLoading(false)
     }
   }
 
   async function handleVerifyOtp(e: React.FormEvent) {
     e.preventDefault()
+    if (whatsappRequestRef.current) return
+    whatsappRequestRef.current = true
     setWhatsappLoading(true)
     setWhatsappError('')
     setWhatsappSuccess('')
@@ -228,9 +244,8 @@ export function DashboardClient() {
         headers,
         body: JSON.stringify({ otp })
       })
-      const data = await res.json()
       if (!res.ok) {
-        setWhatsappError(typeof data.error === 'string' ? data.error : 'We could not verify the code. Please check it and try again.')
+        setWhatsappError('We could not verify the code. Please check the six digits and try again.')
         return
       }
       setVerifyState('verified')
@@ -239,6 +254,7 @@ export function DashboardClient() {
     } catch {
       setWhatsappError('We could not verify the code. Please check your connection and try again.')
     } finally {
+      whatsappRequestRef.current = false
       setWhatsappLoading(false)
     }
   }
@@ -508,7 +524,7 @@ export function DashboardClient() {
           </div>
 
           {/* WhatsApp Verification Widget */}
-          <div className="glass-card rounded-none p-6 sm:p-8 space-y-6">
+          <div className="glass-card rounded-none p-6 sm:p-8 space-y-6" aria-busy={whatsappLoading}>
             <h2 className="text-lg font-medium text-white border-b border-gray-800/80 pb-3">WhatsApp Link</h2>
             <p className="text-sm text-neutral-400 leading-relaxed">
               Verify your WhatsApp number to enable direct Save-to-Phone capabilities from web tools and articles.
@@ -521,7 +537,8 @@ export function DashboardClient() {
                   <span className="font-medium text-xs bg-[#FFBA2E] text-gray-950 px-2 py-0.5 rounded-full uppercase">Verified</span>
                 </div>
                 <button
-                  onClick={() => setVerifyState('unverified')}
+                  disabled={whatsappLoading}
+                  onClick={() => { if (!whatsappRequestRef.current) setVerifyState('unverified') }}
                   className="text-sm text-neutral-400 hover:text-white underline"
                 >
                   Change linked phone number
@@ -601,7 +618,9 @@ export function DashboardClient() {
                   </button>
                   <button
                     type="button"
+                    disabled={whatsappLoading}
                     onClick={() => {
+                      if (whatsappRequestRef.current) return
                       setVerifyState('unverified')
                       setWhatsappError('')
                       setWhatsappSuccess('')

@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { deliveryStatusMessage, type WhatsAppDeliveryResult } from '@/lib/whatsapp/deliveryClient'
 
 /** Timings from the v9 handoff. */
 const IN = 620
@@ -17,12 +18,13 @@ function ease(p: number) {
 
 const COPY = {
   rest: { lead: 'Save this piece', trail: 'tap the mark' },
-  done: { lead: 'Sent to your WhatsApp', trail: 'sorted.' },
+  done: { lead: 'Message sent', trail: 'sorted.' },
 } as const
 
 interface Props {
   /** The tangle resolves only after this operation succeeds. */
-  onSave?: () => void | Promise<void>
+  onSave?: () => Promise<WhatsAppDeliveryResult>
+  onRetry?: () => Promise<WhatsAppDeliveryResult>
   disabled?: boolean
   /**
    * When set, the mark navigates here instead of resolving. Everyone sees the
@@ -48,6 +50,7 @@ interface Props {
  */
 export function SortedSaveButton({
   onSave,
+  onRetry,
   disabled = false,
   href,
   copy: restCopy = COPY.rest,
@@ -57,10 +60,14 @@ export function SortedSaveButton({
   const rafRef = useRef<number | null>(null)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const tRef = useRef(0)
+  const sendingRef = useRef(false)
 
   const [done, setDone] = useState(false)
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
+  const [statusMessage, setStatusMessage] = useState('')
+  const [statusOnly, setStatusOnly] = useState(false)
+  const [canRetry, setCanRetry] = useState(false)
 
   const paint = useCallback((v: number) => {
     tRef.current = v
@@ -106,14 +113,27 @@ export function SortedSaveButton({
     }
   }, [])
 
-  async function handleClick() {
-    if (disabled || sending || !onSave) return
+  async function handleClick(retry = false) {
+    if (disabled || sendingRef.current || !onSave) return
     setError('')
     if (!done) {
+      sendingRef.current = true
       setSending(true)
-      try { await onSave() }
-      catch { setError('Could not send to WhatsApp. Please try again.'); return }
-      finally { setSending(false) }
+      if (retry) { setCanRetry(false); setStatusOnly(false) }
+      try {
+        const result = await (retry && onRetry ? onRetry() : onSave())
+        setStatusMessage(deliveryStatusMessage(result))
+        setStatusOnly(result.deliveryStatus !== 'accepted')
+        setCanRetry(result.deliveryStatus === 'failed' || result.deliveryStatus === 'skipped')
+        if (result.deliveryStatus !== 'accepted') return
+      } catch (failure) {
+        setStatusOnly(true)
+        setError(failure instanceof Error ? failure.message : 'Could not confirm sending. Tap again to check safely.')
+        return
+      } finally {
+        sendingRef.current = false
+        setSending(false)
+      }
     }
     if (timerRef.current) clearTimeout(timerRef.current)
 
@@ -129,7 +149,7 @@ export function SortedSaveButton({
     }
   }
 
-  const copy = done ? COPY.done : sending ? { lead: 'Sending to WhatsApp…', trail: 'one moment' } : restCopy
+  const copy = done ? COPY.done : sending ? { lead: statusOnly ? 'Checking WhatsApp status…' : 'Sending to WhatsApp…', trail: 'one moment' } : statusOnly ? { lead: 'Check WhatsApp status', trail: 'tap the mark' } : restCopy
 
   const mark = (
     <span className="sb__mark">
@@ -160,7 +180,7 @@ export function SortedSaveButton({
           type="button"
           className="sb__btn"
           aria-label={`${copy.lead} — SOR7ED`}
-          onClick={handleClick}
+          onClick={() => void handleClick()}
           disabled={disabled || sending}
         >
           {mark}
@@ -170,9 +190,11 @@ export function SortedSaveButton({
       <span className="sb__label">{copy.trail}</span>
 
       {error ? <span role="alert" className="sb__error">{error}</span> : null}
+      {statusMessage && !error ? <span className="sb__error">{statusMessage}</span> : null}
+      {canRetry && onRetry ? <button type="button" onClick={() => void handleClick(true)} disabled={sending} className="sb__retry">Try sending again</button> : null}
       {/* The visual change is quiet, so announce it. */}
       <span className="sr-only" role="status" aria-live="polite">
-        {sending ? 'Sending…' : done ? 'Sent to your WhatsApp' : ''}
+        {sending ? (statusOnly ? 'Checking status…' : 'Sending…') : statusMessage}
       </span>
 
       <style>{`
@@ -226,6 +248,16 @@ export function SortedSaveButton({
           line-height: 1.5;
           color: white;
         }
+        .sb__retry {
+          min-height: 44px;
+          padding: 8px 12px;
+          color: white;
+          font-family: var(--font-jost), sans-serif;
+          font-size: 14px;
+          text-decoration: underline;
+          text-underline-offset: 4px;
+        }
+        .sb__retry:focus-visible { outline: 1px solid var(--sb-accent); outline-offset: 3px; }
         .sb--compact {
           --sb-mark: 60px;
           flex-direction: column;

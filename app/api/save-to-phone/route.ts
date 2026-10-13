@@ -1,111 +1,111 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerClient, createSessionClient } from '@/lib/supabase/server'
-import {
-  isWhatsAppConversationWindowError,
-  sendWhatsAppMessage,
-  sendWhatsAppAudio,
-  sendWhatsAppContentCard,
-} from '@/lib/whatsapp/send'
+import { requireUser } from '@/lib/auth/requireUser'
+import { sendWhatsAppMessage, sendWhatsAppAudio, sendWhatsAppContentCard, WhatsAppSendError } from '@/lib/whatsapp/send'
 import { splitIntoChunks } from '@/lib/whatsapp/splitIntoChunks'
 import { ogImageForContent } from '@/lib/og/imageUrl'
+import { claimDelivery, finishDelivery, readDelivery, deliveryRequestHash, deliveryResponse, isActionId, DeliveryActionConflict, type DeliveryStatus } from '@/lib/whatsapp/deliveryActions'
 
-const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
+export const dynamic = 'force-dynamic'
+const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const PRIVATE_HEADERS = { 'Cache-Control': 'private, no-store' }
 const SAFE_LIMIT = 3500
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
+  const auth = await requireUser(req)
+  if (!auth.user) return auth.error
+  const actionId = req.nextUrl.searchParams.get('actionId')
+  if (!isActionId(actionId)) return NextResponse.json({ error: 'This send request could not be identified.' }, { status: 400, headers: PRIVATE_HEADERS })
   try {
-    // Identify the caller from their session cookies — a service-role client
-    // (createServerClient) carries no session, so getUser() on it always
-    // resolves to null. Same fix already applied in send-protocol-link/route.ts.
-    const session = await createSessionClient()
-    const { data: { user } } = await session.auth.getUser()
-    if (!user) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
+    const result = await readDelivery(auth.admin, auth.user.id, actionId)
+    if (!result) return NextResponse.json({ error: 'This send request could not be found.' }, { status: 404, headers: PRIVATE_HEADERS })
+    return NextResponse.json(result, { headers: PRIVATE_HEADERS })
+  } catch {
+    return NextResponse.json({ error: 'We could not check this message yet. Please try again.' }, { status: 503, headers: PRIVATE_HEADERS })
+  }
+}
 
-    const body = await req.json()
-    const slug = typeof body?.slug === 'string' ? body.slug : ''
-    // Default true: one rich-link card is the product. Callers that still
-    // want the full protocol dump can pass includeProtocol: true.
-    const includeLink = body?.includeLink !== false
-    const includeProtocol = body?.includeProtocol === true
-    const includeAudio = body?.includeAudio === true
-    if (!slug) return NextResponse.json({ error: 'Missing slug' }, { status: 400 })
+export async function POST(req: NextRequest) {
+  const auth = await requireUser(req)
+  if (!auth.user) return auth.error
+  const { user, admin } = auth
+  let body: Record<string, unknown>
+  try {
+    const parsed: unknown = await req.json()
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error()
+    body = parsed as Record<string, unknown>
+  } catch {
+    return NextResponse.json({ error: 'We could not read this send request.' }, { status: 400, headers: PRIVATE_HEADERS })
+  }
+  const slug = typeof body.slug === 'string' ? body.slug.trim() : ''
+  if (!/^[a-z0-9-]{1,150}$/.test(slug)) return NextResponse.json({ error: 'This item could not be identified.' }, { status: 400, headers: PRIVATE_HEADERS })
+  if (!isActionId(body.idempotencyKey)) {
+    return NextResponse.json({ error: 'Please refresh this page before sending this item.' }, { status: 400, headers: PRIVATE_HEADERS })
+  }
+  const actionId = body.idempotencyKey
+  const link = body.includeLink !== false, protocol = body.includeProtocol === true, audio = body.includeAudio === true
 
-    // Service-role client for the reads below, now that we know who is asking.
-    const supabase = createServerClient()
-    const { data: profile } = await supabase
-      .from('users')
-      .select('whatsapp_number, whatsapp_verified, whatsapp_opted_out')
-      .eq('user_id', user.id)
-      .single()
-
-    if (!profile?.whatsapp_verified || !profile?.whatsapp_number) {
-      return NextResponse.json({ error: 'WhatsApp not verified' }, { status: 403 })
+  try {
+    // Claim validates the payload hash. A replay returns its original status
+    // before reading preferences and can never initiate another send.
+    const { data: content, error: contentError } = await admin.from('protocols')
+      .select('title, summary, excerpt, cover_image, protocol, audio_url, slug, type, category')
+      .eq('slug', slug).eq('status', 'Published').single()
+    if (contentError || !content) return NextResponse.json({ error: 'This item is not available.' }, { status: 404, headers: PRIVATE_HEADERS })
+    if (!link && !(protocol && content.protocol) && !(audio && content.audio_url)) {
+      return NextResponse.json({ error: 'Choose an available item to send.' }, { status: 400, headers: PRIVATE_HEADERS })
     }
-    // Honour STOP — never push to a number that has opted out, even if verified
-    if (profile.whatsapp_opted_out) {
-      return NextResponse.json({ error: 'Number has opted out of WhatsApp messages' }, { status: 403 })
-    }
+    const action = await claimDelivery(admin, {
+      userId: user.id, actionId, hash: deliveryRequestHash(slug, link, protocol, audio), slug,
+      url: `${SITE}/r/${content.slug}`, title: content.title, category: content.category || 'General',
+    })
+    if (!action.created) return NextResponse.json(deliveryResponse(actionId, action.delivery_status, action.delivery_reason, action.updated_at), { headers: PRIVATE_HEADERS })
 
-    const { data: content } = await supabase
-      .from('protocols')
-      .select('title, summary, excerpt, cover_image, protocol, audio_url, slug, type, gamma_url')
-      .eq('slug', slug)
-      .eq('status', 'Published')
-      .single()
-
-    if (!content) return NextResponse.json({ error: 'Content not found' }, { status: 404 })
-
-    // Default path: ONE rich-link card. Sending the URL body twice (card +
-    // protocol dump) was the "two messages" bug in WhatsApp.
-    if (includeLink) {
-      await sendWhatsAppContentCard({
-        to: profile.whatsapp_number,
-        slug: content.slug,
-        title: content.title,
-        summary: content.summary || content.excerpt,
-        imageUrl: ogImageForContent(
-          content.cover_image,
-          content.title,
-          content.summary || content.excerpt
-        ),
-        // The CTA stays on the SOR7ED domain, then resolves the current Gamma
-        // field. This gives the approved template one stable URL format.
-        url: `${SITE}/go/${content.slug}`,
-      })
-    }
-
-    // Opt-in full protocol text (legacy / power-user). Off by default.
-    if (includeProtocol && content.protocol) {
-      const text = `*${content.title}*\n\n${content.protocol}`
-      if (text.length <= SAFE_LIMIT) {
-        await sendWhatsAppMessage(profile.whatsapp_number, text)
-      } else {
-        for (const chunk of splitIntoChunks(text, SAFE_LIMIT)) {
-          await sendWhatsAppMessage(profile.whatsapp_number, chunk)
+    let state: DeliveryStatus = 'skipped'
+    let reason: string | null = 'not_connected'
+    const ids: string[] = []
+    try {
+      const { data: profile, error } = await admin.from('users')
+        .select('whatsapp_number, whatsapp_verified, whatsapp_opted_out')
+        .eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).maybeSingle()
+      if (error) {
+        // No provider request has begun, so an explicit new action can safely
+        // retry after a temporary profile lookup failure.
+        state = 'failed'; reason = 'profile_unavailable'
+      } else if (profile?.whatsapp_verified && profile.whatsapp_number) {
+        if (profile.whatsapp_opted_out) reason = 'opted_out'
+        else {
+          if (link) {
+            const receipt = await sendWhatsAppContentCard({
+              to: profile.whatsapp_number, slug: content.slug, title: content.title,
+              summary: content.summary || content.excerpt,
+              imageUrl: ogImageForContent(content.cover_image, content.title, content.summary || content.excerpt),
+              url: `${SITE}/go/${content.slug}`,
+            })
+            ids.push(receipt.messageId)
+          }
+          if (protocol && content.protocol) {
+            const text = `*${content.title}*\n\n${content.protocol}`
+            for (const chunk of text.length <= SAFE_LIMIT ? [text] : splitIntoChunks(text, SAFE_LIMIT)) {
+              ids.push((await sendWhatsAppMessage(profile.whatsapp_number, chunk)).messageId)
+            }
+          }
+          if (audio && content.audio_url) ids.push((await sendWhatsAppAudio(profile.whatsapp_number, content.audio_url)).messageId)
+          state = 'accepted'; reason = null
         }
       }
+    } catch (error) {
+      state = ids.length > 0 ? 'unknown' : error instanceof WhatsAppSendError ? error.outcome : 'unknown'
+      reason = ids.length > 0 ? 'partial_send' : state === 'failed' ? 'send_failed' : 'unconfirmed'
+      console.warn('[WhatsApp send outcome]', { actionId, state })
     }
 
-    if (includeAudio && content.audio_url) {
-      await sendWhatsAppAudio(profile.whatsapp_number, content.audio_url)
-    }
-
-    return NextResponse.json({ success: true })
-  } catch (err: any) {
-    // Surface WHY it failed — especially the 24-hour-window/template case —
-    // instead of a generic 500 that hides the real reason.
-    const message = err?.message ?? 'Unknown error'
-    const isWindowClosed =
-      isWhatsAppConversationWindowError(err) ||
-      /re-?engagement|template|window/i.test(message)
-    console.error('[save-to-phone error]', message)
-    return NextResponse.json(
-      {
-        error: isWindowClosed
-          ? 'This member has not messaged us recently — a template message is required. See the fallback plan.'
-          : 'Internal error',
-      },
-      { status: 500 }
-    )
+    try { await finishDelivery(admin, user.id, actionId, state, reason, ids) }
+    catch { console.warn('[WhatsApp outcome storage unavailable]', { actionId }) }
+    // Provider acceptance is the strongest evidence available here. A DB
+    // failure must not turn it into a failed send or authorise a retry.
+    return NextResponse.json(deliveryResponse(actionId, state, reason, new Date().toISOString()), { status: 201, headers: PRIVATE_HEADERS })
+  } catch (error) {
+    if (error instanceof DeliveryActionConflict) return NextResponse.json({ error: 'This send request was already used for a different item.' }, { status: 409, headers: PRIVATE_HEADERS })
+    return NextResponse.json({ error: 'We could not save this send request. Please check again before retrying.' }, { status: 503, headers: PRIVATE_HEADERS })
   }
 }

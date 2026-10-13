@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { SortedSaveButton } from '@/components/SortedSaveButton'
 import { createBrowserClient } from '@/lib/supabase/client'
 import { safeNext } from '@/lib/safeNext'
+import { prepareDeliveryAction, requestWhatsAppDelivery, startNewDeliveryAction } from '@/lib/whatsapp/deliveryClient'
 
 interface Props {
   slug: string
@@ -13,6 +14,7 @@ interface Props {
 }
 
 type ConnectionStatus = 'checking' | 'signed-out' | 'connect' | 'ready' | 'opted-out'
+type Connection = { status: ConnectionStatus; userId?: string; actionId?: string }
 type WhatsAppProfile = { whatsapp_verified?: boolean; whatsapp_opted_out?: boolean }
 
 // Preview grids share concurrent profile reads, without retaining stale profile
@@ -32,69 +34,74 @@ function readProfile(token: string): Promise<WhatsAppProfile> {
   return request
 }
 
-function useWhatsAppStatus(): ConnectionStatus {
-  const [status, setStatus] = useState<ConnectionStatus>('checking')
+function useWhatsAppStatus(slug?: string, context?: Props['context']): Connection {
+  const [connection, setConnection] = useState<Connection>({ status: 'checking' })
 
   useEffect(() => {
     let cancelled = false
     let revision = 0
     const supabase = createBrowserClient()
 
-    async function resolve(token?: string) {
+    async function resolve(token?: string, userId?: string) {
       const current = ++revision
+      const actionId = slug && context ? prepareDeliveryAction({ slug, context }, userId) : undefined
       if (!token) {
-        setStatus('signed-out')
+        setConnection({ status: 'signed-out', actionId })
         return
       }
-      setStatus('checking')
+      setConnection({ status: 'checking', userId, actionId })
       try {
         const profile = await readProfile(token)
         if (cancelled || current !== revision) return
-        setStatus(profile.whatsapp_opted_out ? 'opted-out' : profile.whatsapp_verified ? 'ready' : 'connect')
+        setConnection({ status: profile.whatsapp_opted_out ? 'opted-out' : profile.whatsapp_verified ? 'ready' : 'connect', userId, actionId })
       } catch {
         // The server-backed connection page can check the session again.
-        if (!cancelled && current === revision) setStatus('connect')
+        if (!cancelled && current === revision) setConnection({ status: 'connect', userId, actionId })
       }
     }
 
     // INITIAL_SESSION supplies the current session. Later sign-in/out events
     // update all previews without reloading or trusting a stale client flag.
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      void resolve(session?.access_token)
+      void resolve(session?.access_token, session?.user.id)
     })
     return () => {
       cancelled = true
       revision++
       subscription.unsubscribe()
     }
-  }, [])
+  }, [slug, context])
 
-  return status
+  return connection
 }
 
-function connectPath(returnPath: string, slug?: string, context?: Props['context']): string {
+function connectPath(returnPath: string, slug?: string, context?: Props['context'], actionId?: string): string {
   const params = new URLSearchParams({ next: safeNext(returnPath) })
   if (slug && context) {
     params.set('slug', slug)
     params.set('context', context)
+    if (actionId) params.set('actionId', actionId)
   }
   return `/connect?${params}`
 }
 
 /** Auth is resolved in the browser so public content remains cacheable. */
 export function ToolWhatsAppCta({ slug, returnPath, context = 'tool', compact = false }: Props) {
-  const status = useWhatsAppStatus()
+  const { status, userId, actionId } = useWhatsAppStatus(slug, context)
   const destination = returnPath ?? `/${context === 'article' ? 'intelligence' : 'tools'}/${slug}`
-  const setup = connectPath(destination, slug, context)
+  const setup = connectPath(destination, slug, context, actionId)
   const lead = context === 'article' ? 'Get this protocol via WhatsApp' : 'Get this tool via WhatsApp'
 
   async function send() {
-    const response = await fetch('/api/save-to-phone', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, context, includeLink: true }),
-    })
-    if (!response.ok) throw new Error('Could not send to WhatsApp. Please try again.')
+    if (!userId) throw new Error('Please sign in again to send this item.')
+    return requestWhatsAppDelivery({ slug, context, includeLink: true }, userId)
+  }
+
+  async function retry() {
+    if (!userId) throw new Error('Please sign in again to send this item.')
+    const request = { slug, context, includeLink: true }
+    const nextActionId = startNewDeliveryAction(request, userId)
+    return requestWhatsAppDelivery(request, userId, nextActionId)
   }
 
   if (status === 'checking') {
@@ -109,12 +116,12 @@ export function ToolWhatsAppCta({ slug, returnPath, context = 'tool', compact = 
       />
     )
   }
-  return <SortedSaveButton onSave={send} compact={compact} copy={{ lead, trail: 'tap the mark to receive it' }} />
+  return <SortedSaveButton onSave={send} onRetry={retry} compact={compact} copy={{ lead, trail: 'tap the mark to receive it' }} />
 }
 
 /** General pages offer setup; they never claim to send an unspecified item. */
 export function WhatsAppConnectionCta({ returnPath = '/' }: { returnPath?: string }) {
-  const status = useWhatsAppStatus()
+  const { status } = useWhatsAppStatus()
   const setup = connectPath(returnPath)
   return (
     <SortedSaveButton

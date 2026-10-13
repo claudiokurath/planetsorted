@@ -1,12 +1,14 @@
 export class WhatsAppSendError extends Error {
   status?: number
   body?: string
+  outcome: 'failed' | 'unknown'
 
-  constructor(message: string, status?: number, body?: string) {
+  constructor(message: string, status?: number, body?: string, outcome?: 'failed' | 'unknown') {
     super(message)
     this.name = 'WhatsAppSendError'
     this.status = status
     this.body = body
+    this.outcome = outcome ?? (status && status < 500 && status !== 408 ? 'failed' : 'unknown')
   }
 }
 
@@ -19,6 +21,8 @@ const DEFAULT_CARD_TEMPLATE = 'sor7ed_revisit_card'
 const LEGACY_CARD_TEMPLATE = 'sor7ed_saved_card'
 
 type WhatsAppPayload = Record<string, unknown>
+
+export type WhatsAppSendReceipt = { kind: 'template' | 'interactive' | 'link' | 'text' | 'audio'; messageId: string }
 
 export type WhatsAppContentCard = {
   to: string
@@ -39,11 +43,11 @@ function graphVersion(): string {
 async function postWhatsAppPayload(
   payload: WhatsAppPayload,
   errorLabel = 'message'
-): Promise<void> {
+): Promise<string> {
   const phoneNumberId = process.env.META_PHONE_NUMBER_ID
   const token = process.env.META_WHATSAPP_TOKEN
   if (!phoneNumberId || !token) {
-    throw new WhatsAppSendError('WhatsApp is not configured on the server.')
+    throw new WhatsAppSendError('WhatsApp is not configured on the server.', undefined, undefined, 'failed')
   }
 
   let res: Response
@@ -57,22 +61,34 @@ async function postWhatsAppPayload(
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(15_000),
       }
     )
-  } catch (err) {
-    console.error(`[WhatsApp ${errorLabel} exception]`, err)
-    throw new WhatsAppSendError('Could not reach the WhatsApp API.')
+  } catch {
+    throw new WhatsAppSendError('WhatsApp sending could not be confirmed.')
   }
 
   if (!res.ok) {
-    const error = await res.text()
-    console.error(`[WhatsApp ${errorLabel} error]`, res.status, error)
+    const error = await res.text().catch(() => '')
     throw new WhatsAppSendError(
       `WhatsApp rejected the ${errorLabel}.`,
       res.status,
       error
     )
   }
+
+  try {
+    const body = await res.json() as { messages?: { id?: unknown }[] }
+    const id = body.messages?.[0]?.id
+    if (body.messages?.length === 1 && typeof id === 'string' && id.trim().length > 0) return id
+  } catch {}
+  throw new WhatsAppSendError('WhatsApp sending could not be confirmed.')
+}
+
+function canTryAnotherFormat(error: unknown): boolean {
+  // Only an explicit bad-request rejection permits a different message
+  // format. A timeout/5xx/missing ID may already have sent the first card.
+  return error instanceof WhatsAppSendError && error.outcome === 'failed' && error.status === 400
 }
 
 export function buildWhatsAppTemplateCardPayload(
@@ -160,53 +176,55 @@ export function isWhatsAppConversationWindowError(error: unknown): boolean {
  */
 export async function sendWhatsAppContentCard(
   card: WhatsAppContentCard
-): Promise<'template' | 'interactive' | 'link'> {
+): Promise<WhatsAppSendReceipt> {
   const templateName =
     process.env.WHATSAPP_CONTENT_CARD_TEMPLATE?.trim() || DEFAULT_CARD_TEMPLATE
 
   try {
-    await postWhatsAppPayload(
+    const messageId = await postWhatsAppPayload(
       buildWhatsAppTemplateCardPayload(card, templateName),
       'content-card template'
     )
-    return 'template'
-  } catch {
+    return { kind: 'template', messageId }
+  } catch (error) {
+    if (!canTryAnotherFormat(error)) throw error
     console.warn('[WhatsApp card] Preferred template unavailable; trying approved fallback')
   }
 
   if (templateName !== LEGACY_CARD_TEMPLATE) {
     try {
-      await postWhatsAppPayload(
+      const messageId = await postWhatsAppPayload(
         buildWhatsAppTemplateCardPayload(card, LEGACY_CARD_TEMPLATE, 'legacy'),
         'legacy content-card template'
       )
-      return 'template'
-    } catch {
+      return { kind: 'template', messageId }
+    } catch (error) {
+      if (!canTryAnotherFormat(error)) throw error
       console.warn('[WhatsApp card] Approved fallback unavailable; trying interactive card')
     }
   }
 
   try {
-    await postWhatsAppPayload(
+    const messageId = await postWhatsAppPayload(
       buildWhatsAppInteractiveCardPayload(card),
       'interactive content card'
     )
-    return 'interactive'
+    return { kind: 'interactive', messageId }
   } catch (interactiveError) {
-    if (isWhatsAppConversationWindowError(interactiveError)) {
+    if (isWhatsAppConversationWindowError(interactiveError) || !canTryAnotherFormat(interactiveError)) {
       throw interactiveError
     }
   }
 
-  await sendWhatsAppMessage(card.to, card.url, card.url)
-  return 'link'
+  const receipt = await sendWhatsAppMessage(card.to, card.url, card.url)
+  return { ...receipt, kind: 'link' }
 }
 
 export async function sendWhatsAppMessage(
   to: string,
   body: string,
   urlForPreview?: string
-): Promise<void> {
+): Promise<WhatsAppSendReceipt> {
   const payload = {
     messaging_product: 'whatsapp',
     to,
@@ -214,13 +232,14 @@ export async function sendWhatsAppMessage(
     text: { body, preview_url: !!urlForPreview },
   }
 
-  await postWhatsAppPayload(payload)
+  const messageId = await postWhatsAppPayload(payload)
+  return { kind: 'text', messageId }
 }
 
 export async function sendWhatsAppAudio(
   to: string,
   audioUrl: string
-): Promise<void> {
+): Promise<WhatsAppSendReceipt> {
   const payload = {
     messaging_product: 'whatsapp',
     to,
@@ -228,5 +247,6 @@ export async function sendWhatsAppAudio(
     audio: { link: audioUrl },
   }
 
-  await postWhatsAppPayload(payload, 'audio message')
+  const messageId = await postWhatsAppPayload(payload, 'audio message')
+  return { kind: 'audio', messageId }
 }
