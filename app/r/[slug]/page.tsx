@@ -8,7 +8,7 @@ import {
   STANDALONE_ACCESS_TTL_SECONDS,
 } from '@/lib/crypto/tokens'
 import { isOgCrawler } from '@/lib/og/crawlers'
-import { ogImageForContent, proxiedCoverImage } from '@/lib/og/imageUrl'
+import { whatsappPreviewMetadata } from '@/lib/og/whatsappPreview'
 import { PRIVATE_PDF_SLUG } from '@/lib/content/privateProtocol'
 
 export const dynamic = 'force-dynamic'
@@ -40,13 +40,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const systemItem = SYSTEM_SLUGS[lowerSlug]
 
   if (systemItem) {
-    return buildMetadata(systemItem.title, systemItem.description, slug, LOGO_IMAGE)
+    return whatsappPreviewMetadata(systemItem.title, slug, LOGO_IMAGE)
   }
 
   const supabase = createServerClient()
   const { data: content } = await supabase
     .from('protocols')
-    .select('title, summary, meta_description, cover_image')
+    .select('title, cover_image')
     .eq('slug', lowerSlug)
     .eq('status', 'Published')
     .single()
@@ -58,12 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
   }
 
-  return buildMetadata(
-    content.title,
-    content.meta_description || content.summary || '',
-    lowerSlug,
-    content.cover_image
-  )
+  return whatsappPreviewMetadata(content.title, lowerSlug, content.cover_image)
 }
 
 /**
@@ -85,7 +80,6 @@ export default async function RichLinkRedirect({ params }: Props) {
       return (
         <CrawlerShell
           title={systemItem.title}
-          description={systemItem.description}
         />
       )
     }
@@ -95,7 +89,7 @@ export default async function RichLinkRedirect({ params }: Props) {
   const supabase = createServerClient()
   const { data: content } = await supabase
     .from('protocols')
-    .select('slug, type, title, summary, meta_description')
+    .select('slug, type, title')
     .eq('slug', lowerSlug)
     .eq('status', 'Published')
     .single()
@@ -103,7 +97,7 @@ export default async function RichLinkRedirect({ params }: Props) {
   if (!content) {
     const standalonePath = STANDALONE_ROUTES[lowerSlug]
     if (standalonePath) {
-      if (crawler) return <CrawlerShell title={lowerSlug} description="" />
+      if (crawler) return <CrawlerShell title={lowerSlug} />
       const { token } = buildStandaloneAccessToken(lowerSlug, STANDALONE_ACCESS_TTL_SECONDS)
       redirect(`${SITE}${standalonePath}?access_token=${encodeURIComponent(token)}`)
     }
@@ -114,7 +108,6 @@ export default async function RichLinkRedirect({ params }: Props) {
     return (
       <CrawlerShell
         title={content.title}
-        description={content.meta_description || content.summary || ''}
       />
     )
   }
@@ -132,44 +125,10 @@ export default async function RichLinkRedirect({ params }: Props) {
   redirect(`/protocols/${content.slug}`)
 }
 
-function CrawlerShell({ title, description }: { title: string; description: string }) {
+function CrawlerShell({ title }: { title: string }) {
   return (
     <main style={{ fontFamily: 'system-ui, sans-serif', padding: 24, maxWidth: 720 }}>
-      <h1 style={{ fontSize: 28, margin: '0 0 12px' }}>{title}</h1>
-      {description ? (
-        <p style={{ color: '#444', lineHeight: 1.5, margin: 0 }}>{description}</p>
-      ) : null}
-      <p style={{ color: '#888', fontSize: 13, marginTop: 24 }}>PLANET SOR7ED</p>
+      <h1 style={{ fontSize: 28, margin: 0 }}>{title}</h1>
     </main>
   )
-}
-
-function buildMetadata(
-  title: string,
-  description: string,
-  slug: string,
-  imageUrl?: string | null
-): Metadata {
-  // Prefer sharp image-proxy JPEG; fall back to branded OG card.
-  const ogImage =
-    proxiedCoverImage(imageUrl) ?? ogImageForContent(null, title, description)
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      images: [{ url: ogImage, width: 1200, height: 630, alt: title }],
-      url: `${SITE}/r/${slug}`,
-      siteName: 'PLANET SOR7ED',
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [ogImage],
-    },
-  }
 }
