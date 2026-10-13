@@ -1,0 +1,3815 @@
+{
+  "decision-fatigue-brain-quits": {
+    "cards": [
+      {
+        "blocks": [],
+        "images": [
+          {
+            "src": "/images/presentations/decision-fatigue-brain-quits-1-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "DECISION FATIGUE: WHEN YOUR BRAIN QUIETLY PLACES ITSELF OUT OF OFFICE"
+          },
+          {
+            "kind": "p",
+            "text": "Cut through mental overload, shrink the menu, and protect your best thinking — so you can stop exhausting yourself on small choices and save real energy for the decisions that actually matter."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "WHEN DINNER BECOMES A TRADE AGREEMENT WITH THREE HOSTILE NATIONS"
+          },
+          {
+            "kind": "p",
+            "text": "By evening, choosing dinner can feel like negotiating with a very emotional potato. You open the takeaway app, face burgers, noodles, sushi, wraps, curry, pasta, salads pretending to be meals — and your brain, which has already decided a hundred things today, quietly refuses one more. This guide captures that pattern and turns daily mental chaos into a clear, honest path to fewer, smarter choices."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/decision-fatigue-brain-quits-3-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "HOW IT WORKS"
+          },
+          {
+            "kind": "h4",
+            "text": "PROTECT IT"
+          },
+          {
+            "kind": "h4",
+            "text": "SHRINK IT"
+          },
+          {
+            "kind": "h4",
+            "text": "NAME IT"
+          },
+          {
+            "kind": "p",
+            "text": "No more collapsing over six sauce options. No more internal committee meetings about dinner. Just a clear breakdown of what is happening, what you can automate, and which choices actually deserve your finest reasoning."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THREE DECISION ZONES THAT CHANGE HOW YOU SPEND YOUR MENTAL ENERGY"
+          },
+          {
+            "kind": "h4",
+            "text": "🟢 LOW-STAKES DEFAULTS"
+          },
+          {
+            "kind": "p",
+            "text": "The daily, repeatable stuff. Have a few good-enough meals, a basic outfit formula, a regular shopping list. A default is not a failure of imagination — it is a tiny executive assistant who works for free."
+          },
+          {
+            "kind": "h4",
+            "text": "🟡 MEDIUM-EFFORT SIMPLIFICATIONS"
+          },
+          {
+            "kind": "p",
+            "text": "Decisions that feel big but don't need to be. Limit options on purpose. Three dinner choices are kinder than forty. Decide tomorrow's first task the night before so morning-you doesn't have to negotiate with consciousness."
+          },
+          {
+            "kind": "h4",
+            "text": "🔴 HIGH-STAKES CHOICES"
+          },
+          {
+            "kind": "p",
+            "text": "Money, health, values, risk, relationships, long-term consequences. These deserve your freshest thinking. Make them earlier, write down the actual question, gather only the information you need, and choose something workable — not the mythical perfect option."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "STOP TREATING EVERY TINY DECISION LIKE IT DESERVES YOUR SOUL"
+          },
+          {
+            "kind": "li",
+            "text": "No more cycling through open menus forever — perfectionism keeps the restaurant tab running while your brain empties out on options that do not matter"
+          },
+          {
+            "kind": "li",
+            "text": "Surfaces the hidden pattern of daily micro-choices stacking up before they turn a manageable evening into a full internal committee meeting with minutes, objections, and one member dramatically abstaining"
+          },
+          {
+            "kind": "li",
+            "text": "Separates what deserves an automated default from what needs your best, freshest reasoning"
+          },
+          {
+            "kind": "p",
+            "text": "Removes the exhaustion of treating abundance like freedom — so you can make smarter decisions about what actually counts, every single day."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BUILT FOR PEOPLE WHOSE BRAINS ARE ALREADY RUNNING ON MENTAL OVERDRAFT"
+          },
+          {
+            "kind": "h4",
+            "text": "THE CHRONICALLY OVERLOADED"
+          },
+          {
+            "kind": "p",
+            "text": "Balancing too many small decisions alongside genuinely hard ones — without losing track of which choices actually deserve careful thought and which just need a workable default."
+          },
+          {
+            "kind": "h4",
+            "text": "THE NEURODIVERGENT AND ANXIOUS"
+          },
+          {
+            "kind": "p",
+            "text": "When you are neurodivergent, stressed, burned out, or sleep-deprived, decision costs stack faster. A simple choice becomes a full committee meeting. Smaller menus help more, not less."
+          },
+          {
+            "kind": "h4",
+            "text": "THE BURNED-OUT HIGH-PERFORMER"
+          },
+          {
+            "kind": "p",
+            "text": "Running the day on caffeine, impulse control, and several tiny negotiations nobody else saw — and arriving at 7 p.m. to find the decision-making department has closed for structural repairs."
+          },
+          {
+            "kind": "h4",
+            "text": "ANYONE WHO JUST NEEDS FEWER MENUS"
+          },
+          {
+            "kind": "p",
+            "text": "You are allowed to repeat what works. You are allowed to have a default order. A smaller menu is not a smaller life. It is fewer committee meetings inside your head — and honestly? That sounds peaceful."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "SMALL SHIFTS TO START, DEEPER HABITS WHEN YOU'RE READY"
+          },
+          {
+            "kind": "h4",
+            "text": "IMMEDIATE DEFAULTS"
+          },
+          {
+            "kind": "p",
+            "text": "Quick changes that cost nothing and reclaim mental bandwidth today — no willpower required."
+          },
+          {
+            "kind": "li",
+            "text": "A rotating shortlist of five good-enough dinner options"
+          },
+          {
+            "kind": "li",
+            "text": "A basic outfit formula you repeat without guilt"
+          },
+          {
+            "kind": "li",
+            "text": "A standard shopping list so the shop stops being a choosing exercise"
+          },
+          {
+            "kind": "h4",
+            "text": "DEEPER HABIT UNLOCKS"
+          },
+          {
+            "kind": "p",
+            "text": "When you are ready to build more durable systems around your decision energy, these go further."
+          },
+          {
+            "kind": "li",
+            "text": "Decision triage — rehearse sorting incoming choices into defaults, defer-to-later, or genuinely-worth-deciding before the day gets ahead of you"
+          },
+          {
+            "kind": "li",
+            "text": "Templates for common responses so low-stakes communication stops eating hours of mental bandwidth every week"
+          },
+          {
+            "kind": "li",
+            "text": "Energy mapping to identify your highest-clarity windows and protect them for decisions that actually involve money, health, or real consequences"
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "NAME IT. SHRINK IT. LET GOOD ENOUGH WIN."
+          },
+          {
+            "kind": "p",
+            "text": "Start by naming what is actually happening — not a character flaw, not laziness, just a brain that has spent the day choosing. Then shrink the menu, protect what matters, and give yourself permission to repeat what works."
+          },
+          {
+            "kind": "h4",
+            "text": "NAME IT"
+          },
+          {
+            "kind": "p",
+            "text": "Recognise decision fatigue as information, not failure — limited cognitive capacity after a day of repeated choosing, switching, filtering, and pretending every small decision is no big deal"
+          },
+          {
+            "kind": "h4",
+            "text": "SHRINK IT"
+          },
+          {
+            "kind": "p",
+            "text": "Use defaults, shorter menus, repeated patterns, and earlier decisions to reduce the volume of low-stakes choices demanding your finite mental energy"
+          },
+          {
+            "kind": "h4",
+            "text": "LET GOOD ENOUGH WIN"
+          },
+          {
+            "kind": "p",
+            "text": "Choose a workable option and leave the mental restaurant — with complete clarity that saving your best thinking for what actually matters is not settling, it is strategy"
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/decision-fatigue-brain-quits-9-1.webp",
+            "width": 400,
+            "height": 301
+          },
+          {
+            "src": "/images/presentations/decision-fatigue-brain-quits-9-2.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      }
+    ]
+  },
+  "financial-avoidance-trauma-response": {
+    "cards": [
+      {
+        "blocks": [],
+        "images": [
+          {
+            "src": "/images/presentations/financial-avoidance-trauma-response-1-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "FINANCIAL AVOIDANCE IS A TRAUMA RESPONSE: WHY OPENING YOUR BANKING APP FEELS UNSAFE AND HOW TO FACE IT ANYWAY"
+          },
+          {
+            "kind": "p",
+            "text": "Financial avoidance is not irresponsibility. It may be your nervous system protecting you from shame, panic and the fear that one number will confirm every unkind thing you have ever believed about yourself and money. The answer is not willpower — it is structure: short checks, notes, scripts, body doubling and one manageable next step at a time."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "WHEN MONEY FEELS UNSAFE"
+          },
+          {
+            "kind": "p",
+            "text": "Ever opened your banking app and immediately thought, \"Ah yes, the tiny digital portal where numbers come to judge my entire adulthood\"? Same. The screen loads. Your chest tightens. Your stomach drops. You have not even seen the balance yet, and your nervous system is already preparing a strongly worded resignation letter."
+          },
+          {
+            "kind": "p",
+            "text": "Maybe you close the app. Maybe you avoid the email. Maybe you move the unopened letter somewhere extremely safe, which apparently means a drawer you will never willingly approach again. Helpful."
+          },
+          {
+            "kind": "p",
+            "text": "You know ignoring money does not make it disappear. You also know that checking can trigger shame, panic, confusion or the immediate belief that you have ruined everything beyond repair. If money has previously meant scarcity, debt, conflict, punishment or survival stress, financial admin may not feel neutral. It may feel like danger wearing a clean user interface. No wonder you keep putting it off."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/financial-avoidance-trauma-response-3-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "AVOIDANCE CAN BE SELF-PROTECTION. IT JUST HAS SIDE EFFECTS."
+          },
+          {
+            "kind": "h4",
+            "text": "SHAME"
+          },
+          {
+            "kind": "h4",
+            "text": "URGENCY"
+          },
+          {
+            "kind": "h4",
+            "text": "AVOIDANCE"
+          },
+          {
+            "kind": "p",
+            "text": "Avoidance lowers the anxiety for a moment. A tiny nervous-system holiday. The banking app is not open, so the balance cannot hurt you. Unfortunately, avoidance is also an unpaid intern for urgency and shame. While you are not looking, the problem is doing push-ups in the corner. By the time you return, the task is no longer just \"check the balance.\" It is face the balance, the missed payment, the overdue bill, the consequences you cannot fully imagine and the emotional evidence that you are somehow a failed adult because a banking notification got ideas above its station."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "YOUR REACTION MAKES COMPLETE SENSE"
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT MONEY ADMIN ASKS OF YOU"
+          },
+          {
+            "kind": "p",
+            "text": "Financial admin asks you to face uncertainty, remember passwords, understand unfamiliar language, make decisions and tolerate numbers that may affect your housing, food, transport or sense of safety. Casual."
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT YOUR NERVOUS SYSTEM DOES WITH THAT"
+          },
+          {
+            "kind": "p",
+            "text": "If you have previously experienced financial instability, debt, family conflict or sudden loss of income, your nervous system is not being ridiculous. It is scanning for danger based on past experience. Your brain learned that financial information can feel threatening, even when you need it."
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT IT MEANS"
+          },
+          {
+            "kind": "p",
+            "text": "When you feel frozen, avoidant or desperate to escape a banking app — that is not weakness or irresponsibility. That is a body remembering a time when money did not feel safe. Very human. Very inconvenient."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "PREPARATION IS A QUIET POWER MOVE"
+          },
+          {
+            "kind": "p",
+            "text": "\"Just check your banking app\" is not a strategy. It is a slogan printed on a mug by someone who has never opened a balance notification while already convinced they have ruined everything. Preparation is your handrail. Before checking, write things down. Notes help you stay anchored when anxiety tries to turn \"check one payment\" into \"solve your entire financial life before lunch.\""
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT TO WRITE DOWN FIRST"
+          },
+          {
+            "kind": "li",
+            "text": "Which account, bill or letter you are looking at"
+          },
+          {
+            "kind": "li",
+            "text": "What you need to find out"
+          },
+          {
+            "kind": "li",
+            "text": "Any deadline you already know about"
+          },
+          {
+            "kind": "li",
+            "text": "The one question you need answered"
+          },
+          {
+            "kind": "li",
+            "text": "The smallest action you can take today"
+          },
+          {
+            "kind": "p",
+            "text": "Not all of it. Absolutely not all of it. Attempting the whole picture at once is a haunted mansion. We are simply locating the front door."
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT A SMALL ACTION LOOKS LIKE"
+          },
+          {
+            "kind": "li",
+            "text": "\"Open the app for five seconds\" is a task"
+          },
+          {
+            "kind": "li",
+            "text": "\"Find the bill due date\" is a task"
+          },
+          {
+            "kind": "li",
+            "text": "\"Write down the balance\" is a task"
+          },
+          {
+            "kind": "li",
+            "text": "\"Confirm one payment went through\" is a task"
+          },
+          {
+            "kind": "li",
+            "text": "\"Find a reference number\" is a task"
+          },
+          {
+            "kind": "li",
+            "text": "\"Ask someone to sit with me\" is a task"
+          },
+          {
+            "kind": "p",
+            "text": "Tiny is not childish. Tiny is not pathetic. Tiny is not cheating. Tiny is how stuck systems begin moving."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "START SMALL AND USE SCRIPTS IF YOU FREEZE"
+          },
+          {
+            "kind": "p",
+            "text": "The first goal when checking finances is not productivity. It is teaching your nervous system that looking is survivable. Open the app. Look at the home screen for five seconds. Close it. No scrolling, no fixing, no moral autopsy. When you are ready to go further — or when you need to contact a bank or adviser — scripts are not fake. Scripts are scaffolding."
+          },
+          {
+            "kind": "h4",
+            "text": "WHEN CHECKING FEELS OVERWHELMING"
+          },
+          {
+            "kind": "p",
+            "text": "\"I am checking one thing today. I do not need to solve everything at once.\"\n\n\"This number is information, not a judgement.\""
+          },
+          {
+            "kind": "h4",
+            "text": "WHEN CONTACTING A BANK OR PROVIDER"
+          },
+          {
+            "kind": "p",
+            "text": "\"I am feeling overwhelmed, so I have written down the main issue. Can we go through the options slowly?\"\n\n\"Can you explain what happens next and whether there is a deadline?\""
+          },
+          {
+            "kind": "h4",
+            "text": "WHEN YOU NEED CLARITY"
+          },
+          {
+            "kind": "p",
+            "text": "\"Could you confirm that in writing so I can review it afterwards?\"\n\n\"I am allowed to ask for clarification or support.\""
+          },
+          {
+            "kind": "h4",
+            "text": "THE PRINCIPLE"
+          },
+          {
+            "kind": "p",
+            "text": "You are allowed to ask questions. You are allowed to take notes. You are allowed to ask someone to repeat themselves. You are allowed to need financial information explained without shame. Wild concept, apparently."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BORROW STRUCTURE IF YOU NEED IT"
+          },
+          {
+            "kind": "h4",
+            "text": "USE A BODY DOUBLE"
+          },
+          {
+            "kind": "p",
+            "text": "If financial admin still will not move, use a body double. Another person does not need to understand your accounts. They do not need to solve the overdraft. They do not need to offer a TED Talk on budgeting in a cardigan."
+          },
+          {
+            "kind": "p",
+            "text": "They just need to be present while you do the next tiny action. This turns \"me alone versus the banking portal\" into \"me and another human quietly existing near the problem with a timer.\" Much better odds."
+          },
+          {
+            "kind": "h4",
+            "text": "THE 15-MINUTE BODY DOUBLE METHOD"
+          },
+          {
+            "kind": "li",
+            "text": "Set a timer for 15 minutes"
+          },
+          {
+            "kind": "li",
+            "text": "Say the task out loud: \"I am only confirming one payment went through\""
+          },
+          {
+            "kind": "li",
+            "text": "Stop when the timer ends — no extending, no guilt"
+          },
+          {
+            "kind": "li",
+            "text": "Note exactly where you got to and what happens next"
+          },
+          {
+            "kind": "li",
+            "text": "Do something kind for your nervous system afterwards"
+          },
+          {
+            "kind": "p",
+            "text": "And if the banking app has developed a personality, fine. Let it have one. But it does not get to be the main character."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THE GOAL IS NOT TO BECOME FEARLESS ABOUT MONEY."
+          },
+          {
+            "kind": "p",
+            "text": "The goal is to face what is there with more structure, more control and considerably less shame. You are not trying to become a frictionless financial machine with a suspiciously calm relationship to banking notifications and a colour-coded spreadsheet for every life event."
+          },
+          {
+            "kind": "h4",
+            "text": "PREPARE BEFORE YOU OPEN"
+          },
+          {
+            "kind": "p",
+            "text": "Write down what you are checking, what you need to find out and the one smallest action you can take — before you open anything"
+          },
+          {
+            "kind": "h4",
+            "text": "LOOK, THEN LEAVE WITH ONE NEXT STEP"
+          },
+          {
+            "kind": "p",
+            "text": "Do the short check, name what you found and write down what happens next. A balance is information. It is not a character witness."
+          },
+          {
+            "kind": "h4",
+            "text": "USE SUPPORT"
+          },
+          {
+            "kind": "p",
+            "text": "Scripts, notes, a body double, a trusted person — borrow structure when facing money feels too big alone. That is not failure. That is strategy. Your worth was never the number on the screen."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/financial-avoidance-trauma-response-9-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      }
+    ]
+  },
+  "adhd-admin-overwhelm-paperwork": {
+    "cards": [
+      {
+        "blocks": [],
+        "images": [
+          {
+            "src": "/images/presentations/adhd-admin-overwhelm-paperwork-1-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "ADHD ADMIN OVERWHELM: WHY PAPERWORK FEELS IMPOSSIBLE AND HOW TO MOVE ANYWAY"
+          },
+          {
+            "kind": "p",
+            "text": "ADHD admin overwhelm is not laziness. Paperwork feels impossible because it is rarely one task. The answer is not motivation — it is triage: sort by urgency, pick one item, find the smallest physical action and use support if your brain refuses to enter the building."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "WHY PAPERWORK FEELS IMPOSSIBLE"
+          },
+          {
+            "kind": "p",
+            "text": "It arrived as one innocent little PDF. Just one. A modest attachment. A humble download. A document that appeared to contain some boxes, a few dates and perhaps one mildly threatening reference number."
+          },
+          {
+            "kind": "p",
+            "text": "And yet somehow it has become the physical embodiment of taxes, authority, forgotten passwords, unclear instructions and the very real possibility that you have permanently damaged your future by failing to understand box 7b."
+          },
+          {
+            "kind": "p",
+            "text": "For an ADHD brain, admin is rarely one task. It is a nest of tasks disguised as one task, and each one has brought snacks. You need to find the document, open the document, understand what it wants, locate the missing reference number, remember which email account it lives in, reset the password for that email — and briefly consider moving to the woods."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/adhd-admin-overwhelm-paperwork-3-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "AVOIDANCE MAKES PERFECT SENSE. IT JUST HAS SIDE EFFECTS."
+          },
+          {
+            "kind": "h4",
+            "text": "SHAME"
+          },
+          {
+            "kind": "h4",
+            "text": "URGENCY"
+          },
+          {
+            "kind": "h4",
+            "text": "AVOIDANCE"
+          },
+          {
+            "kind": "p",
+            "text": "Avoidance lowers the anxiety for a moment. Beautiful. A tiny nervous-system holiday. The form is not being looked at, so the form cannot hurt you. Unfortunately, avoidance is also an unpaid intern for urgency and shame. While you are not looking at the form, the form is doing push-ups in the corner. By the time you return, the task is no longer just \"complete a form.\" It is face the form, the deadline, the consequences, the lost password and the emotional evidence that you are somehow a failed adult because a PDF got ideas above its station."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "YOUR REACTION MAKES COMPLETE SENSE"
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT ADMIN ASKS OF YOU"
+          },
+          {
+            "kind": "p",
+            "text": "Admin asks you to locate documents, remember passwords, decode unclear instructions, estimate consequences, hold multiple deadlines in your head simultaneously and somehow care enough to do all of this in one sitting. Casual."
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT AN ADHD BRAIN DOES WITH THAT"
+          },
+          {
+            "kind": "p",
+            "text": "The ADHD brain is not built for low-stimulation, high-friction tasks with invisible rewards. Executive function is not a personality flaw. It is a neurological reality. Your brain is not broken. It is scanning for a way to make this feel real enough to start."
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT IT MEANS"
+          },
+          {
+            "kind": "p",
+            "text": "When you feel frozen, avoidant or like you have failed before you have begun — that is not weakness. That is a brain doing exactly what ADHD brains do when faced with a task that is vague, multi-step and emotionally loaded. Very human. Very inconvenient."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THE ANSWER IS TRIAGE, NOT MOTIVATION"
+          },
+          {
+            "kind": "p",
+            "text": "\"Just do the admin\" is not a strategy. It is a slogan printed on a mug by someone who has never searched three inboxes for a twelve-digit reference number while mildly dissociating. The answer is triage. Not a personality transplant. Ask three questions before anything else."
+          },
+          {
+            "kind": "h4",
+            "text": "THE THREE TRIAGE QUESTIONS"
+          },
+          {
+            "kind": "li",
+            "text": "What is the consequence if this is not done?"
+          },
+          {
+            "kind": "li",
+            "text": "What is the actual deadline?"
+          },
+          {
+            "kind": "li",
+            "text": "What is the smallest physical action that moves this forward?"
+          },
+          {
+            "kind": "p",
+            "text": "Not the whole form. Absolutely not the whole form. The whole form is a haunted mansion and we are simply locating the front door."
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT A SMALL ACTION LOOKS LIKE"
+          },
+          {
+            "kind": "li",
+            "text": "\"Open the file\" is a task"
+          },
+          {
+            "kind": "li",
+            "text": "\"Find the reference number\" is a task"
+          },
+          {
+            "kind": "li",
+            "text": "\"Write down the deadline\" is a task"
+          },
+          {
+            "kind": "li",
+            "text": "\"Read the first instruction\" is a task"
+          },
+          {
+            "kind": "li",
+            "text": "\"Put the document somewhere visible\" is a task"
+          },
+          {
+            "kind": "li",
+            "text": "\"Send one clarification email\" is a task"
+          },
+          {
+            "kind": "p",
+            "text": "Tiny is not childish. Tiny is not pathetic. Tiny is not cheating. Tiny is how stuck systems begin moving."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "MAKE THE NEXT ACTION PHYSICAL, NOT FOGGY"
+          },
+          {
+            "kind": "p",
+            "text": "ADHD admin overwhelm thrives on vague instructions. Fog is where tasks go to become mythological threats. Physical, specific actions take away the fog's power. There is a difference between a task and a vague intention wearing a task's clothing."
+          },
+          {
+            "kind": "h4",
+            "text": "FOG VS. PHYSICAL: TAX"
+          },
+          {
+            "kind": "p",
+            "text": "\"Deal with tax\" is fog.\n\n\"Open the tax email and copy the deadline into notes\" is physical."
+          },
+          {
+            "kind": "h4",
+            "text": "FOG VS. PHYSICAL: PAPERWORK"
+          },
+          {
+            "kind": "p",
+            "text": "\"Sort paperwork\" is fog.\n\n\"Put all letters on the table\" is physical."
+          },
+          {
+            "kind": "h4",
+            "text": "FOG VS. PHYSICAL: INSURANCE"
+          },
+          {
+            "kind": "p",
+            "text": "\"Fix the insurance thing\" is fog.\n\n\"Call the number on the letter and ask what they need from me\" is physical."
+          },
+          {
+            "kind": "h4",
+            "text": "THE PRINCIPLE"
+          },
+          {
+            "kind": "p",
+            "text": "The smaller and more visible the next action, the less room your brain has to inflate the task into something that requires a cape and a crisis to begin."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BORROW STRUCTURE IF YOU NEED IT"
+          },
+          {
+            "kind": "h4",
+            "text": "USE A BODY DOUBLE"
+          },
+          {
+            "kind": "p",
+            "text": "If the task still will not move, use a body double. Another person does not need to solve the form. They do not need to understand the portal. They do not need to offer a TED Talk in a cardigan."
+          },
+          {
+            "kind": "p",
+            "text": "They just need to be present while you do the next tiny action. This turns \"me alone versus the paperwork swamp\" into \"me and another human quietly existing near the swamp with a timer.\" Much better odds."
+          },
+          {
+            "kind": "h4",
+            "text": "THE 15-MINUTE BODY DOUBLE METHOD"
+          },
+          {
+            "kind": "li",
+            "text": "Set a timer for 15 minutes"
+          },
+          {
+            "kind": "li",
+            "text": "Say the task out loud: \"I am only finding the deadline and reference number\""
+          },
+          {
+            "kind": "li",
+            "text": "Stop when the timer ends — no extending, no guilt"
+          },
+          {
+            "kind": "li",
+            "text": "Note exactly where you got to"
+          },
+          {
+            "kind": "li",
+            "text": "Do something kind for your nervous system afterwards"
+          },
+          {
+            "kind": "p",
+            "text": "And if the form has developed a personality, fine. Let it have one. But it does not get to be the main character."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THE GOAL IS NOT TO BECOME AN ADMIN MACHINE."
+          },
+          {
+            "kind": "p",
+            "text": "The goal is to reduce the fog enough to create one next step. One visible action. One less cape-wearing task lurking in the background, feeding on dread. You are not trying to become a frictionless admin machine with immaculate folders and a suspiciously calm relationship to government websites."
+          },
+          {
+            "kind": "h4",
+            "text": "GATHER AND TRIAGE"
+          },
+          {
+            "kind": "p",
+            "text": "Collect the admin pile, sort by urgency and consequence, and pick just one item — the one that matters most right now"
+          },
+          {
+            "kind": "h4",
+            "text": "NAME THE SMALLEST ACTION"
+          },
+          {
+            "kind": "p",
+            "text": "Make the next step specific and physical, not vague. Not \"sort it out\" — \"open the email and find the reference number\""
+          },
+          {
+            "kind": "h4",
+            "text": "USE SUPPORT"
+          },
+          {
+            "kind": "p",
+            "text": "A timer, a body double, a trusted person — borrow structure when your brain cannot generate its own. That is not failure. That is strategy"
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/adhd-admin-overwhelm-paperwork-9-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      }
+    ]
+  },
+  "masking-in-intimacy-cost": {
+    "cards": [
+      {
+        "blocks": [],
+        "images": [
+          {
+            "src": "/images/presentations/masking-in-intimacy-cost-1-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "MASKING IN INTIMACY: THE COST OF BEING EASY"
+          },
+          {
+            "kind": "p",
+            "text": "Masking in intimacy can look like being easy, agreeable and low-maintenance. Underneath, it can mean hiding needs, smoothing discomfort, saying yes too quickly — and quietly storing resentment in the body."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "WHEN BEING EASY STARTS COSTING TOO MUCH"
+          },
+          {
+            "kind": "p",
+            "text": "A request is made. A preference appears that does not quite match yours. And suddenly there you are: smiling, nodding, softening your voice and keeping the emotional weather pleasantly mild while your nervous system files a formal complaint with HR. Masking in intimacy often disguises itself as being \"easy.\" Easygoing. Easy to love. Easy to be around — until the word starts to feel less like a compliment and more like unpaid emotional labour in a silk robe. You say \"it's fine\" when it is absolutely not fine. You agree before checking whether you actually agree. You keep the vibe smooth, because apparently the vibe has become a fragile Victorian child and must not be disturbed."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/masking-in-intimacy-cost-3-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "HOW IT WORKS"
+          },
+          {
+            "kind": "h4",
+            "text": "REPAIR"
+          },
+          {
+            "kind": "h4",
+            "text": "SPEAK SMALL TRUTH"
+          },
+          {
+            "kind": "h4",
+            "text": "PAUSE"
+          },
+          {
+            "kind": "p",
+            "text": "No more watching resentment accumulate silently. No more performing ease until closeness feels like a role you have to keep earning. Just a clear breakdown of what is happening beneath the performance, what a pause looks like, and how to speak the true thing small."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THREE STAGES OF THE PERFORMANCE THAT CHANGE HOW YOU RESPOND TO IT"
+          },
+          {
+            "kind": "h4",
+            "text": "🟢 THE AUTOMATIC YES"
+          },
+          {
+            "kind": "p",
+            "text": "A request is made. A preference nudges yours. Before your body has had time to check whether it actually agrees, the yes is already out. You laugh something off before your nervous system has had a chance to say \"absolutely not.\" This is masking at speed — not dishonesty, just a trained reflex."
+          },
+          {
+            "kind": "h4",
+            "text": "🟡 THE ACCUMULATION"
+          },
+          {
+            "kind": "p",
+            "text": "Each yes that should have been a pause collects somewhere. Each laugh that should have been a boundary. Each silence that should have been a truth. Over time, intimacy stops feeling like a place where you can be known. It starts feeling like a place where you must be well-behaved."
+          },
+          {
+            "kind": "h4",
+            "text": "🔴 THE BILL ARRIVES"
+          },
+          {
+            "kind": "p",
+            "text": "Fatigue arrives first. Then resentment. Then a strange loneliness that feels especially sharp because technically, you are close to someone — sharing space, affection, plans, a bed or a life — and still feel unseen, because the version of you being received is the edited edition."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THE MASK MAY KEEP PEACE — BUT IT ALSO KEEPS DISTANCE"
+          },
+          {
+            "kind": "li",
+            "text": "When the mask finally slips, it can feel dramatic — you go numb, withdraw, cry, snap, avoid, lose desire — but that is not necessarily drama. It may be accumulated self-abandonment asking for the microphone"
+          },
+          {
+            "kind": "li",
+            "text": "You may start wondering why saying no feels so heavy, why naming a preference feels like opening court proceedings, why closeness now feels like a role you have to keep earning"
+          },
+          {
+            "kind": "li",
+            "text": "Masking often works beautifully in the short term — that is the annoying little trick. It avoids conflict, keeps the moment smooth, protects the other person's feelings — while your actual feelings stand in the corner holding a clipboard, wondering when they are allowed to speak"
+          },
+          {
+            "kind": "p",
+            "text": "The goal is not to become difficult for sport. The goal is to reclaim the space where you can be real."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BUILT FOR PEOPLE WHOSE BODY IS QUIETLY KEEPING SCORE"
+          },
+          {
+            "kind": "h4",
+            "text": "THE PEOPLE-PLEASER IN CLOSE RELATIONSHIPS"
+          },
+          {
+            "kind": "p",
+            "text": "You read the room, anticipated the need, softened your answer — and still did not say what you actually wanted. The gap between your internal experience and your external performance is what is costing you, not your care for the other person."
+          },
+          {
+            "kind": "h4",
+            "text": "THE CONFLICT-AVOIDER"
+          },
+          {
+            "kind": "p",
+            "text": "When keeping the peace becomes the priority, the activation cost of speaking truthfully becomes enormous. A small, honest preference spoken now costs less than a collapse of resentment spoken later — or never."
+          },
+          {
+            "kind": "h4",
+            "text": "THE PERSON IN A SAFE RELATIONSHIP"
+          },
+          {
+            "kind": "p",
+            "text": "Trusted people in your life can handle the actual you — preferences, pauses, boundaries, awkward honesty. One sentence of real feeling can save everyone a lot of dramatic interpretation that silence would otherwise invite."
+          },
+          {
+            "kind": "h4",
+            "text": "ANYONE WHO NEEDS PERMISSION TO PAUSE"
+          },
+          {
+            "kind": "p",
+            "text": "Slow the moment down. Check what you actually want. If the automatic yes is faster than your real answer, the pause is not rudeness — it is the gap where the true thing can arrive. And honestly? It sounds peaceful."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "PHRASES TO SAY NOW, DEEPER HABITS WHEN YOU'RE READY"
+          },
+          {
+            "kind": "h4",
+            "text": "PAUSE BEFORE THE AUTOMATIC YES"
+          },
+          {
+            "kind": "p",
+            "text": "These are not evasive phrases. They are the small gap where the real answer can arrive. Use them immediately — no speech required, no perfect wording needed."
+          },
+          {
+            "kind": "li",
+            "text": "\"Let me think about that.\""
+          },
+          {
+            "kind": "li",
+            "text": "\"I need a second.\""
+          },
+          {
+            "kind": "li",
+            "text": "\"I'm not sure yet.\""
+          },
+          {
+            "kind": "li",
+            "text": "\"I want to check in with myself before I answer.\""
+          },
+          {
+            "kind": "li",
+            "text": "\"I said yes too quickly. I need to rethink that.\""
+          },
+          {
+            "kind": "h4",
+            "text": "SAY THE TRUE THING SMALL"
+          },
+          {
+            "kind": "p",
+            "text": "You do not need a perfect boundary speech. You need a small gap where the real answer can arrive — and then these."
+          },
+          {
+            "kind": "li",
+            "text": "Gentle preference — \"I'd prefer not to.\" / \"I actually do have a preference.\""
+          },
+          {
+            "kind": "li",
+            "text": "Simple limit — \"I'm not comfortable with that.\" / \"That doesn't work for me.\""
+          },
+          {
+            "kind": "li",
+            "text": "Honest need — \"I need a break.\" / \"I need more time.\""
+          },
+          {
+            "kind": "li",
+            "text": "Clean repair — \"I kept quiet when I shouldn't have. Here's what I actually think.\" Then say it."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "PAUSE. SAY THE TRUE THING. REPAIR CLEAN."
+          },
+          {
+            "kind": "p",
+            "text": "Start by recognising what is actually happening — not a character flaw, not being difficult, just a trained reflex that learned to perform ease before checking whether ease was honest. Then slow the moment down, find the small true thing, and repair without drama when the mask has already won."
+          },
+          {
+            "kind": "h4",
+            "text": "PAUSE"
+          },
+          {
+            "kind": "p",
+            "text": "Interrupt the automatic yes before it becomes consent — try \"let me think about that\" or \"I need a second.\" Masking thrives on speed. A pause is the gap where the real answer can arrive"
+          },
+          {
+            "kind": "h4",
+            "text": "SAY THE TRUE THING SMALL"
+          },
+          {
+            "kind": "p",
+            "text": "You do not need a speech. \"I'd prefer not to.\" \"I'm not comfortable with that.\" \"I said yes too quickly.\" Small and honest reaches the other person. Performed ease does not"
+          },
+          {
+            "kind": "h4",
+            "text": "REPAIR WHEN THE MASK WINS"
+          },
+          {
+            "kind": "p",
+            "text": "When the yes escaped before you checked — name it, say the true thing now, and move forward. You deserve closeness that can handle the actual you: preferences, pauses, inconvenient truths and all"
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/masking-in-intimacy-cost-9-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      }
+    ]
+  },
+  "medical-trauma-healthcare-avoidance": {
+    "cards": [
+      {
+        "blocks": [],
+        "images": [
+          {
+            "src": "/images/presentations/medical-trauma-healthcare-avoidance-1-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "MEDICAL TRAUMA: WHEN DOCTORS FEEL UNSAFE AND HOW TO GET CARE ANYWAY"
+          },
+          {
+            "kind": "p",
+            "text": "Medical trauma can make an ordinary appointment feel unsafe before you have even sat down. Avoidance is not laziness — it may be your nervous system trying to protect you. You still deserve care. Here is how to get it with more structure, more control, and considerably less shame."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "WHEN DOCTORS FEEL UNSAFE"
+          },
+          {
+            "kind": "p",
+            "text": "The hallway smells like antiseptic. The waiting room is too quiet, too bright and full of people pretending they are not also silently negotiating with their nervous systems. You have not even sat down yet, and your body is already locating the nearest exit."
+          },
+          {
+            "kind": "p",
+            "text": "Maybe your chest tightens. Maybe your brain goes blank. Maybe you suddenly forget every symptom you have ever experienced — including the one you specifically came to discuss."
+          },
+          {
+            "kind": "p",
+            "text": "The last time you asked for help, you were brushed off, rushed out, spoken over or made to feel dramatic for having the audacity to possess a body with problems. So now booking an appointment feels less like routine healthcare and more like preparing for emotional combat in a paper gown."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/medical-trauma-healthcare-avoidance-3-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "AVOIDANCE CAN BE SELF-PROTECTION"
+          },
+          {
+            "kind": "h4",
+            "text": "SELF-PROTECTION"
+          },
+          {
+            "kind": "h4",
+            "text": "LOADED EXPERIENCE"
+          },
+          {
+            "kind": "h4",
+            "text": "AVOIDANCE"
+          },
+          {
+            "kind": "p",
+            "text": "Avoiding the doctor does not always mean you do not care about your health. Sometimes it means you care so much that the thought of being dismissed again feels unbearable. Avoidance can look like procrastination, but fear is often sitting underneath it, wearing a cheap disguise. That is not laziness. That is self-protection."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "YOUR REACTION MAKES COMPLETE SENSE"
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT THEY ASK OF YOU"
+          },
+          {
+            "kind": "p",
+            "text": "Medical settings ask you to describe private symptoms, sit with uncertainty, let someone examine your body, answer personal questions and trust the person in front of you will listen carefully. Casual."
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT PAST HARM DOES"
+          },
+          {
+            "kind": "p",
+            "text": "If you have been dismissed, misdiagnosed, shamed or rushed before, that trust becomes difficult. Your nervous system is not being ridiculous. It is scanning for danger based on past experience."
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT IT MEANS"
+          },
+          {
+            "kind": "p",
+            "text": "When you feel tense, emotional, frozen or desperate to leave — it may not be \"just anxiety.\" It may be your body remembering a time when asking for care did not feel safe. Very human. Very inconvenient."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "PREPARATION IS A QUIET POWER MOVE"
+          },
+          {
+            "kind": "p",
+            "text": "You do not have to stride in like you are about to cross-examine anyone. Instead, preparation can become your handrail. Anxiety has a fun little habit of deleting your entire personality the moment a medical professional says, \"So, what brings you in today?\" Notes keep you anchored."
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT TO WRITE DOWN"
+          },
+          {
+            "kind": "li",
+            "text": "Your symptoms and when they started"
+          },
+          {
+            "kind": "li",
+            "text": "How often they happen and what makes them better or worse"
+          },
+          {
+            "kind": "li",
+            "text": "How they affect your daily life"
+          },
+          {
+            "kind": "li",
+            "text": "What you are most worried about"
+          },
+          {
+            "kind": "li",
+            "text": "What questions you want answered"
+          },
+          {
+            "kind": "li",
+            "text": "Any medication, diagnoses, test results or relevant medical history"
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT ELSE TO BRING"
+          },
+          {
+            "kind": "li",
+            "text": "Photographs or visual evidence of symptoms"
+          },
+          {
+            "kind": "li",
+            "text": "Symptom logs or journals"
+          },
+          {
+            "kind": "li",
+            "text": "Previous test results"
+          },
+          {
+            "kind": "li",
+            "text": "Medication lists"
+          },
+          {
+            "kind": "li",
+            "text": "Any relevant documents"
+          },
+          {
+            "kind": "p",
+            "text": "Anything that prevents you from having to perform your entire medical history from memory while sitting on crinkly paper is extremely welcome."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "USE SCRIPTS IF YOU FREEZE"
+          },
+          {
+            "kind": "p",
+            "text": "Scripts are not fake. Scripts are scaffolding. There is a difference between being difficult and being clear. You are not causing trouble by expecting your appointment to address the reason you booked it."
+          },
+          {
+            "kind": "h4",
+            "text": "TO OPEN THE APPOINTMENT"
+          },
+          {
+            "kind": "p",
+            "text": "\"I'm here because these symptoms are affecting my daily life, and I'd like to understand what could be causing them.\""
+          },
+          {
+            "kind": "h4",
+            "text": "IF YOU'VE HAD HARD APPOINTMENTS BEFORE"
+          },
+          {
+            "kind": "p",
+            "text": "\"I've had difficult medical appointments before, so I've written down what I want to cover to help me explain everything clearly.\""
+          },
+          {
+            "kind": "h4",
+            "text": "IF YOU FEEL DISMISSED"
+          },
+          {
+            "kind": "p",
+            "text": "\"I'm worried this concern may be dismissed, and I'd really appreciate us taking it seriously.\""
+          },
+          {
+            "kind": "h4",
+            "text": "IF THINGS MOVE TOO FAST"
+          },
+          {
+            "kind": "p",
+            "text": "\"Can we pause? I want to make sure I understand.\" / \"I don't feel that concern has been addressed yet.\""
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BRING SUPPORT AND DEBRIEF AFTERWARDS"
+          },
+          {
+            "kind": "h4",
+            "text": "BRING A TRUSTED PERSON IF YOU CAN"
+          },
+          {
+            "kind": "p",
+            "text": "If appointments make you freeze, you don't have to go alone. A support person can help you remember your points, take notes, ask questions, or simply sit beside you so the whole experience feels less like a solo expedition into fluorescent doom."
+          },
+          {
+            "kind": "p",
+            "text": "You are allowed to ask questions. You are allowed to take notes. You are allowed to ask whether tests, referrals or follow-up appointments are appropriate."
+          },
+          {
+            "kind": "h4",
+            "text": "WRITE IT DOWN WHILE IT'S FRESH"
+          },
+          {
+            "kind": "li",
+            "text": "Who you saw"
+          },
+          {
+            "kind": "li",
+            "text": "What was discussed"
+          },
+          {
+            "kind": "li",
+            "text": "What was decided"
+          },
+          {
+            "kind": "li",
+            "text": "What happens next"
+          },
+          {
+            "kind": "li",
+            "text": "Which follow-ups are needed"
+          },
+          {
+            "kind": "li",
+            "text": "Any questions that remain"
+          },
+          {
+            "kind": "p",
+            "text": "Then do something kind for your nervous system. Have a snack. Take a nap. Buy yourself a little treat that says, \"That was hard, and I did it anyway.\""
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THE GOAL IS NOT TO BECOME FEARLESS."
+          },
+          {
+            "kind": "p",
+            "text": "The goal is to get the care you need with more structure, more control and considerably less shame. Getting medical care should not require a battle plan. But if preparation helps you feel steadier, clearer and less at the mercy of the system — bring it all."
+          },
+          {
+            "kind": "h4",
+            "text": "BRING THE NOTES"
+          },
+          {
+            "kind": "p",
+            "text": "Write down your symptoms, history, and questions so anxiety cannot erase them the moment you walk through the door"
+          },
+          {
+            "kind": "h4",
+            "text": "BRING THE SCRIPTS"
+          },
+          {
+            "kind": "p",
+            "text": "Use prepared phrases to slow things down, flag dismissal, and stay grounded even when the appointment moves too fast"
+          },
+          {
+            "kind": "h4",
+            "text": "BRING YOURSELF"
+          },
+          {
+            "kind": "p",
+            "text": "Your body is worth listening to. It always was. You deserve care that meets you where you are — with dignity, not doubt"
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/medical-trauma-healthcare-avoidance-9-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      }
+    ]
+  },
+  "adhd-forget-to-text-back": {
+    "cards": [
+      {
+        "blocks": [],
+        "images": [
+          {
+            "src": "/images/presentations/adhd-forget-to-text-back-1-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "WHY PEOPLE WITH ADHD FORGET TO TEXT BACK"
+          },
+          {
+            "kind": "p",
+            "text": "It is not carelessness, coldness, or a lack of care. It is an intention-to-action problem — and there are honest, small fixes that keep connections alive while your executive function catches up."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "WHEN THE REPLY BECOMES A HISTORICAL DOCUMENT"
+          },
+          {
+            "kind": "p",
+            "text": "You read the message while crossing the kitchen. You compose a warm, thoughtful, emotionally appropriate answer in your head. Beautiful work. Five stars. No notes. Unfortunately, your brain then files that reply under \"basically done\" and wanders off. Three days later, the chat is still glowing with the accusation of unfinished business. Replying now feels socially equivalent to returning a library book from 1998 and hoping the librarian does not call security. This is one of the quietly brutal parts of ADHD communication — and this guide names it honestly, then gives you the small, practical fixes that actually help."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/adhd-forget-to-text-back-3-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "HOW IT WORKS"
+          },
+          {
+            "kind": "h4",
+            "text": "NAME IT"
+          },
+          {
+            "kind": "p",
+            "text": "Recognise intention-to-action gap, not flaw"
+          },
+          {
+            "kind": "h4",
+            "text": "REPAIR IT"
+          },
+          {
+            "kind": "p",
+            "text": "Give a clean, short repair—no apology opera"
+          },
+          {
+            "kind": "h4",
+            "text": "BRIDGE IT"
+          },
+          {
+            "kind": "p",
+            "text": "Send a small honest placeholder to stay connected"
+          },
+          {
+            "kind": "p",
+            "text": "No more watching the chat grow heavier under the weight of imagined disappointment. No more apology operas. Just a clear breakdown of what is happening, what a bridge reply looks like, and how to repair cleanly when the gap has already happened."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THREE STAGES OF THE DELAY THAT CHANGE HOW YOU RESPOND TO IT"
+          },
+          {
+            "kind": "h4",
+            "text": "🟢 THE GAP"
+          },
+          {
+            "kind": "p",
+            "text": "The notification disappears. The person slips out of working memory. Another task interrupts. The reply becomes \"later.\" This is the intention-to-action gap — not indifference, just a brain that lost the thread between caring and completing."
+          },
+          {
+            "kind": "h4",
+            "text": "🟡 THE WEIGHT"
+          },
+          {
+            "kind": "p",
+            "text": "Later becomes awkward. Awkward becomes shame. Once shame joins the chat, the activation cost goes through the roof. Now you are not just replying to a message — you are replying to the message, the delay, the guilt, and the pressure to produce something magnificent."
+          },
+          {
+            "kind": "h4",
+            "text": "🔴 THE SPIRAL"
+          },
+          {
+            "kind": "p",
+            "text": "The perfect response becomes the reason there is no response. The longer the delay, the bigger the imagined reply becomes — more complete, more apologetic, perhaps with footnotes. Your brain quietly throws the phone into an emotional cupboard. This is the moment to shrink it."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "ADHD EXPLAINS THE GAP — BUT IMPACT STILL MATTERS"
+          },
+          {
+            "kind": "li",
+            "text": "Silence still affects people — someone on the other end may feel ignored, deprioritised, or hurt. They cannot see the warm reply you composed in your head while standing by the fridge"
+          },
+          {
+            "kind": "li",
+            "text": "The delay often grows because you care, not because you do not — if you did not care, you might reply with \"lol\" and move on with the breezy confidence of a person unburdened by consequence"
+          },
+          {
+            "kind": "li",
+            "text": "ADHD explains the gap between intention and action — it does not erase the impact, which means the fix is making replies smaller, not the apology larger"
+          },
+          {
+            "kind": "p",
+            "text": "A two-line response today is kinder than a magnificent message next month. Bridges do not need to be magnificent. They just need to reach the other side."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BUILT FOR PEOPLE WHOSE BRAINS FILED THE REPLY UNDER \"BASICALLY DONE\""
+          },
+          {
+            "kind": "h4",
+            "text": "THE ADHD COMMUNICATOR"
+          },
+          {
+            "kind": "p",
+            "text": "You read the message, mentally drafted the reply, felt emotionally connected — and still did not complete the final step where words leave your phone and enter the world. That bridge is what is missing, not the care."
+          },
+          {
+            "kind": "h4",
+            "text": "THE SHAME-SPIRAL AVOIDER"
+          },
+          {
+            "kind": "p",
+            "text": "When guilt and shame join the chat, the activation cost of replying becomes enormous. A smaller, honest reply right now costs less than waiting for the courage to send something perfect later."
+          },
+          {
+            "kind": "h4",
+            "text": "THE TRUSTED-PERSON NEGOTIATOR"
+          },
+          {
+            "kind": "p",
+            "text": "Safe people in your life deserve context before silence becomes a crisis. One sentence — \"if it's time-sensitive, nudge me once, I'm not ignoring you\" — can save everyone a lot of dramatic interpretation."
+          },
+          {
+            "kind": "h4",
+            "text": "ANYONE WHO NEEDS VISIBILITY ARCHITECTURE"
+          },
+          {
+            "kind": "p",
+            "text": "Pin important chats. Mark them unread. Add \"reply to Sam\" to your task list. If working memory is unreliable, external memory is not cheating — it is design. And honestly? It sounds peaceful."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BRIDGE REPLIES TO SEND NOW, DEEPER HABITS WHEN YOU'RE READY"
+          },
+          {
+            "kind": "h4",
+            "text": "SEND A BRIDGE REPLY NOW"
+          },
+          {
+            "kind": "p",
+            "text": "These are not lazy replies. They are relationship scaffolding. Use them immediately — no willpower or perfect phrasing required."
+          },
+          {
+            "kind": "li",
+            "text": "\"Sorry I went quiet — I lost the thread, but I do care. How are you?\""
+          },
+          {
+            "kind": "li",
+            "text": "\"I saw this and wanted to reply properly, then my brain parked it in the wrong cupboard. I'm here now.\""
+          },
+          {
+            "kind": "li",
+            "text": "\"I don't have a full reply yet, but I didn't want to leave you hanging.\""
+          },
+          {
+            "kind": "li",
+            "text": "\"I'm slow, not ignoring you.\""
+          },
+          {
+            "kind": "h4",
+            "text": "DEEPER SYSTEM HABITS"
+          },
+          {
+            "kind": "p",
+            "text": "When you are ready to build more durable structures around ADHD communication, these go further."
+          },
+          {
+            "kind": "li",
+            "text": "Visibility architecture — pin important chats, mark them unread, move people out of the general notification swamp and into somewhere your brain can actually see"
+          },
+          {
+            "kind": "li",
+            "text": "Agreed safe nudges — let trusted people know the pattern before it becomes a crisis, and agree on one gentle prompt as a system, not a demand"
+          },
+          {
+            "kind": "li",
+            "text": "Clean repair scripts — \"Sorry I vanished. I lost the thread. I'd still like to answer this.\" Then answer the actual message. No orchestra required."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "NAME IT. BRIDGE IT. REPAIR CLEAN."
+          },
+          {
+            "kind": "p",
+            "text": "Start by naming what is actually happening — not a character flaw, not coldness, just a brain where the bridge between intention and action sometimes has a gap in the middle. Then send the smallest honest reply you can, make important chats visible, and repair without the orchestra when the gap has already happened."
+          },
+          {
+            "kind": "h4",
+            "text": "NAME IT"
+          },
+          {
+            "kind": "p",
+            "text": "Recognise the intention-to-action gap as information, not a character flaw — a brain that cared, mentally drafted the reply, and still did not complete the final step where words leave the phone"
+          },
+          {
+            "kind": "h4",
+            "text": "BRIDGE IT"
+          },
+          {
+            "kind": "p",
+            "text": "Send a small, honest placeholder today — shrink the reply, use a template, mark the chat visible, and agree a safe nudge with trusted people so the gap does not grow into a historical event"
+          },
+          {
+            "kind": "h4",
+            "text": "REPAIR CLEAN"
+          },
+          {
+            "kind": "p",
+            "text": "When the gap has already happened, skip the apology opera — say sorry briefly, acknowledge the delay, then answer the actual message. Care can be real even when follow-through needs scaffolding"
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/adhd-forget-to-text-back-9-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      }
+    ]
+  },
+  "organise-digital-files-adhd": {
+    "cards": [
+      {
+        "blocks": [],
+        "images": [
+          {
+            "src": "/images/presentations/organise-digital-files-adhd-1-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "ORGANISING DIGITAL FILES WITH ADHD: A SYSTEM THAT STAYS USABLE"
+          },
+          {
+            "kind": "p",
+            "text": "Digital clutter is not laziness. It may be your brain protecting you from hundreds of tiny decisions about names, folders, duplicates and old versions. The answer is not willpower — it is structure: a simple inbox, clear file names, shallow folders, short reset sessions and one archive that actually works."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "WHEN YOUR FILES FEEL UNSAFE"
+          },
+          {
+            "kind": "p",
+            "text": "Ever opened your Downloads folder and immediately thought, \"Ah yes, the wildlife reserve\"? Same. There are screenshots, PDFs, duplicate forms, mystery images, files called document(7) and at least one item whose name appears to be a keyboard falling down the stairs. You have not even started sorting, and your brain is already locating the nearest exit."
+          },
+          {
+            "kind": "p",
+            "text": "Maybe you close the folder. Maybe you download the same document again because finding the original feels less likely than winning a small regional lottery. Maybe you rename something FINAL and then, with the confidence of a system clearly thriving, create FINAL2. Helpful."
+          },
+          {
+            "kind": "p",
+            "text": "You know the files need attention. You also know that \"organise everything\" is not exactly a small or emotionally neutral task. Each file asks a question. What is this? Where should it go? Will I need it again? Is this the latest version? Can I delete it safely? Why did I save six copies? No wonder you keep putting it off."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/organise-digital-files-adhd-3-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "AVOIDANCE CAN BE SELF-PROTECTION. IT JUST HAS SIDE EFFECTS."
+          },
+          {
+            "kind": "h4",
+            "text": "SHAME"
+          },
+          {
+            "kind": "h4",
+            "text": "FRICTION"
+          },
+          {
+            "kind": "h4",
+            "text": "AVOIDANCE"
+          },
+          {
+            "kind": "p",
+            "text": "Avoiding digital organisation does not always mean you do not care. Sometimes it means the task contains so many decisions that your brain refuses to enter the building. When previous attempts have turned into hours of renaming, reorganising and questioning the meaning of every screenshot you have ever taken, your brain remembers. It stores the experience as a warning: \"Last time we went there, we lost an afternoon.\" So the next reset does not feel neutral. It feels loaded. You are no longer just sorting files. You are wondering whether you will delete something important, create the wrong folder system, or spend three hours designing a beautiful structure you will never use again. Avoidance can look like carelessness, but overwhelm is often sitting underneath it, wearing a cheap disguise. That is not laziness. That is self-protection."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "YOUR REACTION MAKES COMPLETE SENSE"
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT DIGITAL ORGANISATION ASKS OF YOU"
+          },
+          {
+            "kind": "p",
+            "text": "Digital organisation asks you to classify information, predict future needs, compare versions, name things clearly and make repeated decisions without an obvious finish line. If you have ADHD, decision fatigue or working-memory difficulties, every extra folder and vague file name adds friction. Casual."
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT YOUR BRAIN DOES WITH THAT"
+          },
+          {
+            "kind": "p",
+            "text": "Your brain is not being ridiculous. It is responding to a system that demands constant invisible choices. When you open a folder and feel tense, bored, frozen or suddenly fascinated by cleaning the kettle, it may not be \"just procrastination.\" It may be your brain protecting itself from a task with too many moving parts."
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT IT MEANS"
+          },
+          {
+            "kind": "p",
+            "text": "When you feel frozen or avoidant in front of a cluttered Downloads folder — that is not weakness or irresponsibility. That is not laziness. That is self-protection. Very human. Very fixable."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "A SIMPLE SYSTEM IS A QUIET POWER MOVE"
+          },
+          {
+            "kind": "p",
+            "text": "You do not need a perfect taxonomy with seventeen colour codes and a folder for every possible version of your future personality. Tempting? Absolutely. Necessary? Probably not. Use four main folders and let search do much of the remaining work if your file names contain useful words."
+          },
+          {
+            "kind": "h4",
+            "text": "YOUR FOUR FOLDERS"
+          },
+          {
+            "kind": "li",
+            "text": "INBOX — new and unsorted files land here"
+          },
+          {
+            "kind": "li",
+            "text": "ACTIVE — current work you are using now"
+          },
+          {
+            "kind": "li",
+            "text": "REFERENCE — useful information you may need again"
+          },
+          {
+            "kind": "li",
+            "text": "ARCHIVE — finished or older material"
+          },
+          {
+            "kind": "p",
+            "text": "That is enough. Not seventeen folders. Not a colour-coded hierarchy. Four folders and a commitment to not inventing a fifth one at 11pm on a Wednesday."
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT GOES WHERE"
+          },
+          {
+            "kind": "li",
+            "text": "New download arrives → INBOX"
+          },
+          {
+            "kind": "li",
+            "text": "Document you are actively editing → ACTIVE"
+          },
+          {
+            "kind": "li",
+            "text": "Tax letter you might need someday → REFERENCE"
+          },
+          {
+            "kind": "li",
+            "text": "Finished project from last month → ARCHIVE"
+          },
+          {
+            "kind": "li",
+            "text": "Unsure? → INBOX first, sort later"
+          },
+          {
+            "kind": "li",
+            "text": "Ancient chaos from 2019? → Leave it. Start fresh."
+          },
+          {
+            "kind": "p",
+            "text": "The old chaos can remain peacefully contained while the new system begins earning your trust. This is not cheating. This is how usable systems are built."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "NAME FILES FOR FUTURE-YOU"
+          },
+          {
+            "kind": "p",
+            "text": "Future-you should not have to solve a riddle written by past-you during a caffeine event. The name does not need to be elegant. It needs to be searchable. Dates, subjects and version words are usually more helpful than a title like New Document 4, which tells us nothing except that hope was briefly present."
+          },
+          {
+            "kind": "h4",
+            "text": "WHAT TO PUT FIRST"
+          },
+          {
+            "kind": "p",
+            "text": "Put the most useful details at the start of the file name. A date in YYYY-MM format sorts chronologically and survives every operating system. Subject first means search can find it."
+          },
+          {
+            "kind": "h4",
+            "text": "EXAMPLES THAT WORK"
+          },
+          {
+            "kind": "p",
+            "text": "2026-10 HOUSING LETTER UNIVERSAL CREDIT DECISION\n\n2026-09-14 BLOG COVER FINANCIAL AVOIDANCE FINAL"
+          },
+          {
+            "kind": "h4",
+            "text": "EXAMPLES THAT DO NOT WORK"
+          },
+          {
+            "kind": "p",
+            "text": "New Document 4\n\nFINAL\n\nFINAL2\n\nFINAL_FINAL_REALLYFINAL2.pdf\n\nThese tell us nothing except that hope was briefly present and subsequently abandoned."
+          },
+          {
+            "kind": "h4",
+            "text": "THE PRINCIPLE"
+          },
+          {
+            "kind": "p",
+            "text": "You are allowed to use plain language. You are allowed to include a year and a subject and nothing else. You are allowed to skip the elegant naming convention and simply describe what the file is. Wild concept, apparently."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "USE SHORT RESET SESSIONS"
+          },
+          {
+            "kind": "h4",
+            "text": "THE TIMER METHOD"
+          },
+          {
+            "kind": "p",
+            "text": "Set a timer for ten or fifteen minutes. Choose one location: Downloads, Desktop or one project folder. Do not begin a full archaeological reclassification of 2017. Sort only what is visible. Delete obvious duplicates. Rename what needs to be found again. Move uncertain items into INBOX or ARCHIVE."
+          },
+          {
+            "kind": "p",
+            "text": "Then stop. Digital organisation should make retrieval easier. It should not become a second unpaid career in information governance."
+          },
+          {
+            "kind": "h4",
+            "text": "THE 15-MINUTE RESET STEPS"
+          },
+          {
+            "kind": "li",
+            "text": "Set a timer for 15 minutes"
+          },
+          {
+            "kind": "li",
+            "text": "Say the location out loud: \"I am only sorting Downloads today\""
+          },
+          {
+            "kind": "li",
+            "text": "Stop when the timer ends — no extending, no guilt"
+          },
+          {
+            "kind": "li",
+            "text": "Note exactly where you got to and what remains"
+          },
+          {
+            "kind": "li",
+            "text": "Do something kind for your brain afterwards"
+          },
+          {
+            "kind": "p",
+            "text": "Start with new files. The old chaos can wait. You were never supposed to support the files. The files are supposed to support you."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THE GOAL IS NOT TO CREATE A PERFECT DIGITAL MUSEUM."
+          },
+          {
+            "kind": "p",
+            "text": "The goal is to find what you need with more structure, more control and considerably less swearing. You are not trying to become a frictionless information architect with a suspiciously calm relationship to folder hierarchies and a colour-coded taxonomy for every possible life event."
+          },
+          {
+            "kind": "h4",
+            "text": "START WITH NEW FILES"
+          },
+          {
+            "kind": "p",
+            "text": "Move new downloads into INBOX. Name current work clearly. Put finished items into ARCHIVE. The old chaos can remain while the new system begins earning your trust."
+          },
+          {
+            "kind": "h4",
+            "text": "RESET IN SHORT SESSIONS"
+          },
+          {
+            "kind": "p",
+            "text": "Use a timer. Choose one location. Sort only what is visible. Stop when the timer ends. Name what you found and write down what comes next."
+          },
+          {
+            "kind": "h4",
+            "text": "USE THE SIMPLE FOUR"
+          },
+          {
+            "kind": "p",
+            "text": "Inbox, Active, Reference, Archive. Bring the timer. Bring the searchable names. Bring the entire emotional support external hard drive if necessary. Spoiler: you were never supposed to support the files."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/organise-digital-files-adhd-9-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      }
+    ]
+  },
+  "biometric-state-tracker": {
+    "cards": [
+      {
+        "blocks": [],
+        "images": [
+          {
+            "src": "/images/presentations/biometric-state-tracker-1-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THE BIOMETRIC STATE TRACKER"
+          },
+          {
+            "kind": "p",
+            "text": "Know your body's real-time state — so you can train, rest, and perform with precision."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "YOUR BODY SPEAKS. ARE YOU LISTENING?"
+          },
+          {
+            "kind": "p",
+            "text": "HRV, sleep quality, resting heart rate, stress load — your body sends signals every hour of every day. The Biometric State Tracker logs them all in Notion and turns raw data into one clear daily readiness picture."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/biometric-state-tracker-3-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "HOW IT WORKS"
+          },
+          {
+            "kind": "h4",
+            "text": "NOTION DASHBOARD"
+          },
+          {
+            "kind": "h4",
+            "text": "AI SCORES"
+          },
+          {
+            "kind": "h4",
+            "text": "LOG BIOMETRICS"
+          },
+          {
+            "kind": "p",
+            "text": "No spreadsheets. No guesswork. Just an instant picture of where your body is today."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THREE SIGNAL ZONES THAT CHANGE HOW YOU TRAIN"
+          },
+          {
+            "kind": "h4",
+            "text": "🟢 READY"
+          },
+          {
+            "kind": "p",
+            "text": "High HRV, quality sleep, low resting heart rate. Your body is primed — push hard, perform, go deep."
+          },
+          {
+            "kind": "h4",
+            "text": "🟡 MODERATE"
+          },
+          {
+            "kind": "p",
+            "text": "Mixed signals — some recovery, some strain. Maintain your routine but avoid maximal output today."
+          },
+          {
+            "kind": "h4",
+            "text": "🔴 RECOVER"
+          },
+          {
+            "kind": "p",
+            "text": "Elevated stress markers, poor sleep, suppressed HRV. Rest, restore, and protect your long-term progress."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "STOP TRAINING BLIND"
+          },
+          {
+            "kind": "li",
+            "text": "No more guessing whether today is a push day or a recovery day"
+          },
+          {
+            "kind": "li",
+            "text": "Catches physiological stress before it becomes burnout or injury"
+          },
+          {
+            "kind": "li",
+            "text": "Separates what needs output from what needs restoration"
+          },
+          {
+            "kind": "p",
+            "text": "Reduces the guesswork of reading your own body — so you can make smarter decisions about training, rest, and performance every single day."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BUILT FOR PERFORMANCE-FOCUSED PEOPLE"
+          },
+          {
+            "kind": "h4",
+            "text": "ATHLETES"
+          },
+          {
+            "kind": "p",
+            "text": "Optimizing training load, recovery windows, and race-day readiness."
+          },
+          {
+            "kind": "h4",
+            "text": "BIOHACKERS"
+          },
+          {
+            "kind": "p",
+            "text": "Correlating lifestyle choices with real physiological data to find the edge."
+          },
+          {
+            "kind": "h4",
+            "text": "HIGH-PERFORMERS & EXECUTIVES"
+          },
+          {
+            "kind": "p",
+            "text": "Managing cognitive load and stress before they compound into burnout."
+          },
+          {
+            "kind": "h4",
+            "text": "WELLNESS TRACKERS"
+          },
+          {
+            "kind": "p",
+            "text": "Anyone who wants to understand their body's signals and act on them daily."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "FREE TO START, MORE WHEN YOU'RE READY"
+          },
+          {
+            "kind": "h4",
+            "text": "FREE TIER"
+          },
+          {
+            "kind": "p",
+            "text": "Daily readiness scoring with three signal zones — no setup, no friction, no cost."
+          },
+          {
+            "kind": "li",
+            "text": "Unlimited daily log entries"
+          },
+          {
+            "kind": "li",
+            "text": "HRV, sleep, and heart rate tracking"
+          },
+          {
+            "kind": "li",
+            "text": "Notion-ready readiness dashboard"
+          },
+          {
+            "kind": "h4",
+            "text": "UPGRADE UNLOCKS"
+          },
+          {
+            "kind": "p",
+            "text": "When you're ready for deeper insight, powerful features are waiting."
+          },
+          {
+            "kind": "li",
+            "text": "Trend Analysis — spot multi-week patterns in your biometric state"
+          },
+          {
+            "kind": "li",
+            "text": "PDF export for sharing with coaches, doctors, or teammates"
+          },
+          {
+            "kind": "li",
+            "text": "History Compare to track recovery arc and performance peaks over time"
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "LOG IT. SCORE IT. PERFORM BETTER."
+          },
+          {
+            "kind": "p",
+            "text": "Start with a free daily log — no setup, no friction. Get your biometric readiness score in seconds and finally train and recover with confidence."
+          },
+          {
+            "kind": "h4",
+            "text": "LOG IT"
+          },
+          {
+            "kind": "p",
+            "text": "Enter your HRV, sleep, heart rate, and stress data"
+          },
+          {
+            "kind": "h4",
+            "text": "SCORE IT"
+          },
+          {
+            "kind": "p",
+            "text": "AI instantly calculates your daily readiness state"
+          },
+          {
+            "kind": "h4",
+            "text": "PERFORM BETTER"
+          },
+          {
+            "kind": "p",
+            "text": "Act on your clean Notion dashboard with clarity"
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/biometric-state-tracker-9-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      }
+    ]
+  },
+  "adhd-tax-calculator": {
+    "cards": [
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THE ADHD TAX: THE SILENT BILL YOU'VE BEEN PAYING FOR YEARS"
+          },
+          {
+            "kind": "p",
+            "text": "If you have ADHD, there's a good chance you've been paying a very specific kind of tax for most of your adult life."
+          },
+          {
+            "kind": "p",
+            "text": "Not income tax. Not sales tax. Not even that suspicious \"service fee\" no one understands."
+          },
+          {
+            "kind": "p",
+            "text": "I'm talking about the ADHD tax—the invisible, relentless, how-is-this-my-life stream of little costs that pile up simply because your brain refuses to play by neurotypical rules."
+          },
+          {
+            "kind": "p",
+            "text": "Let's be honest: it's not that you're bad with money. It's that money lives in boring spreadsheets and future consequences, and your brain lives in \"now\" and \"absolutely not that.\""
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/adhd-tax-calculator-1-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "WAIT, WHAT EXACTLY IS THE ADHD TAX?"
+          },
+          {
+            "kind": "p",
+            "text": "The ADHD tax is that quiet drain on your bank account that comes from things like:"
+          },
+          {
+            "kind": "h4",
+            "text": "LATE FEES"
+          },
+          {
+            "kind": "p",
+            "text": "Because the bill you absolutely meant to pay is chilling in a pile somewhere."
+          },
+          {
+            "kind": "h4",
+            "text": "IMPULSE PURCHASES"
+          },
+          {
+            "kind": "p",
+            "text": "That seemed vitally important for 7 minutes."
+          },
+          {
+            "kind": "h4",
+            "text": "FORGOTTEN SUBSCRIPTIONS"
+          },
+          {
+            "kind": "p",
+            "text": "You forgot you had… for 14 months."
+          },
+          {
+            "kind": "h4",
+            "text": "LOST PRODUCTIVITY"
+          },
+          {
+            "kind": "p",
+            "text": "Because your \"quick scroll\" turned into a 90-minute hyperfocus on something that is very much not your job."
+          },
+          {
+            "kind": "p",
+            "text": "Individually? Tiny. Collectively? A financial black hole, powered entirely by \"I'll do it later.\" Most people with ADHD have no idea what this is really costing them. They just know money feels tight, stressful, and vaguely haunted."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/adhd-tax-calculator-2-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "WHY YOU NEVER SEE IT COMING"
+          },
+          {
+            "kind": "p",
+            "text": "Here's the tricky part: the ADHD tax doesn't hit like a single big purchase. It's:"
+          },
+          {
+            "kind": "h4",
+            "text": "LATE FEE"
+          },
+          {
+            "kind": "p",
+            "text": "Here and there, barely noticeable on its own."
+          },
+          {
+            "kind": "h4",
+            "text": "FORGOTTEN SUB"
+          },
+          {
+            "kind": "p",
+            "text": "A subscription you forgot existed — still charging every month."
+          },
+          {
+            "kind": "h4",
+            "text": "MISSED RATE"
+          },
+          {
+            "kind": "p",
+            "text": "Because you missed an early-bird rate."
+          },
+          {
+            "kind": "h4",
+            "text": "TAKEOUT AGAIN"
+          },
+          {
+            "kind": "p",
+            "text": "Every time your executive function taps out and you choose takeout again."
+          },
+          {
+            "kind": "p",
+            "text": "None of those scream \"financial crisis.\" But add them up over 12 months? You're looking at money that could've gone to savings, debt, holidays, or that shiny thing you actually care about."
+          },
+          {
+            "kind": "p",
+            "text": "The worst part: you can't fight what you can't see."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "MAKING THE INVISIBLE VISIBLE (WITHOUT SHAME)"
+          },
+          {
+            "kind": "p",
+            "text": "Here's the good news: this isn't a moral failing. You're not irresponsible, lazy, or doomed."
+          },
+          {
+            "kind": "p",
+            "text": "You have a brain that:"
+          },
+          {
+            "kind": "li",
+            "text": "hates repetitive admin"
+          },
+          {
+            "kind": "li",
+            "text": "is allergic to boring tasks"
+          },
+          {
+            "kind": "li",
+            "text": "struggles with time blindness"
+          },
+          {
+            "kind": "li",
+            "text": "thrives on novelty and urgency"
+          },
+          {
+            "kind": "p",
+            "text": "So traditional financial advice? \"Just stick to a budget\" and \"set reminders\"? Adorable. Useless."
+          },
+          {
+            "kind": "p",
+            "text": "What you actually need is a way to see your ADHD tax clearly—without judgement—so you can start working with your brain instead of trying to bully it into being a spreadsheet."
+          },
+          {
+            "kind": "p",
+            "text": "That's exactly what this tool is designed to do."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/adhd-tax-calculator-4-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "HOW THE ADHD TAX CALCULATOR WORKS (NO MATHS DEGREE REQUIRED)"
+          },
+          {
+            "kind": "p",
+            "text": "You bring your real life. The tool brings the structure."
+          },
+          {
+            "kind": "h4",
+            "text": "GET BREAKDOWN"
+          },
+          {
+            "kind": "h4",
+            "text": "ADJUST SLIDERS"
+          },
+          {
+            "kind": "h4",
+            "text": "ANSWER QUESTIONS"
+          },
+          {
+            "kind": "h4",
+            "text": "RECORD HABITS"
+          },
+          {
+            "kind": "p",
+            "text": "We're not here to guilt you for ordering Uber Eats. We're here to show you what it's really costing, so you can decide what's worth it."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "WHAT YOU ACTUALLY GET OUT OF THIS (BESIDES MILD EXISTENTIAL HORROR)"
+          },
+          {
+            "kind": "p",
+            "text": "Once you run the numbers, you'll walk away with:"
+          },
+          {
+            "kind": "h4",
+            "text": "PERSONALISED ESTIMATE"
+          },
+          {
+            "kind": "p",
+            "text": "Your annual ADHD tax — not some generic average. Your patterns, your costs."
+          },
+          {
+            "kind": "h4",
+            "text": "BREAKDOWN BY CATEGORY"
+          },
+          {
+            "kind": "p",
+            "text": "Late fees, subscriptions, impulse buys, productivity loss — all laid out clearly."
+          },
+          {
+            "kind": "h4",
+            "text": "ADHD-FRIENDLY STRATEGIES"
+          },
+          {
+            "kind": "p",
+            "text": "No \"just be more disciplined\" nonsense. Real tactics that respect how your brain works."
+          },
+          {
+            "kind": "h4",
+            "text": "A SENSE OF CONTROL"
+          },
+          {
+            "kind": "p",
+            "text": "Because once you can see the leaks, you can start plugging them — on your terms."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "WHO THIS IS FOR (BESIDES YOU, PROBABLY)"
+          },
+          {
+            "kind": "h4",
+            "text": "PROFESSIONALS"
+          },
+          {
+            "kind": "p",
+            "text": "Whose paychecks look good on paper but never quite translate into stability."
+          },
+          {
+            "kind": "h4",
+            "text": "ENTREPRENEURS"
+          },
+          {
+            "kind": "p",
+            "text": "Whose brains are brilliant at ideas and slightly less brilliant at invoicing."
+          },
+          {
+            "kind": "h4",
+            "text": "ANYONE WITH ADHD"
+          },
+          {
+            "kind": "p",
+            "text": "Diagnosed or suspected — who feels like money is always \"almost\" under control."
+          },
+          {
+            "kind": "h4",
+            "text": "PARTNERS & FAMILY"
+          },
+          {
+            "kind": "p",
+            "text": "Trying to understand where the money is going — and how to help without nagging."
+          },
+          {
+            "kind": "p",
+            "text": "\"I make decent money… so why does it feel like it's evaporating?\""
+          },
+          {
+            "kind": "p",
+            "text": "If you've ever looked at your bank account and thought that… this is for you."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THIS ISN'T ABOUT PERFECTION. IT'S ABOUT POWER."
+          },
+          {
+            "kind": "p",
+            "text": "You're not going to stop every impulse buy. You're not going to magically love paying bills."
+          },
+          {
+            "kind": "p",
+            "text": "But you can:"
+          },
+          {
+            "kind": "h4",
+            "text": "REDUCE THE MOST PAINFUL LEAKS"
+          },
+          {
+            "kind": "h4",
+            "text": "DESIGN SYSTEMS THAT SUPPORT YOUR BRAIN"
+          },
+          {
+            "kind": "p",
+            "text": "Instead of working against it."
+          },
+          {
+            "kind": "h4",
+            "text": "STOP LETTING INVISIBLE COSTS QUIETLY DRAIN YOUR FUTURE"
+          },
+          {
+            "kind": "p",
+            "text": "The ADHD tax is real. So is your ability to do something about it—once you can actually see the bill."
+          },
+          {
+            "kind": "p",
+            "text": "Ready to find out what yours looks like?"
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [],
+        "images": [
+          {
+            "src": "/images/presentations/adhd-tax-calculator-9-1.webp",
+            "width": 2000,
+            "height": 1125
+          }
+        ]
+      }
+    ]
+  },
+  "financial-autopilot": {
+    "cards": [
+      {
+        "blocks": [],
+        "images": [
+          {
+            "src": "/images/presentations/financial-autopilot-1-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "FINANCIAL AUTOPILOT"
+          },
+          {
+            "kind": "p",
+            "text": "Cut through money chaos, competing priorities, and financial overwhelm — so you can automate with clarity, act with confidence, and stop second-guessing your finances."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "YOUR MONEY HAS A PATTERN. ARE YOU SEEING IT?"
+          },
+          {
+            "kind": "p",
+            "text": "Income, expenses, savings targets, and cash flow — every financial move carries signals about what's working and what's leaking. Financial Autopilot captures them all in Notion and turns money chaos into one clear, automated system."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/financial-autopilot-3-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "HOW IT WORKS"
+          },
+          {
+            "kind": "h4",
+            "text": "LOG FINANCES"
+          },
+          {
+            "kind": "p",
+            "text": "Enter income, expenses, goals, and cash flow"
+          },
+          {
+            "kind": "h4",
+            "text": "NOTION DASHBOARD"
+          },
+          {
+            "kind": "p",
+            "text": "Your financial autopilot lands in your workspace"
+          },
+          {
+            "kind": "h4",
+            "text": "AI ANALYZES IT"
+          },
+          {
+            "kind": "p",
+            "text": "Generates a structured budget and savings plan"
+          },
+          {
+            "kind": "p",
+            "text": "No more manual spreadsheets. No more flying blind. Just a clear breakdown of where your money goes, what to automate, and which financial moves make the most sense."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THREE FINANCIAL ZONES THAT CHANGE HOW YOU MANAGE MONEY"
+          },
+          {
+            "kind": "h4",
+            "text": "🟢 CASH FLOW"
+          },
+          {
+            "kind": "p",
+            "text": "Day-to-day income and spending. Automate recurring transactions and eliminate decisions about where every dollar goes."
+          },
+          {
+            "kind": "h4",
+            "text": "🟡 SAVINGS & GOALS"
+          },
+          {
+            "kind": "p",
+            "text": "Medium-term targets with clear trade-offs. Structure your savings buckets, compare your options, and set milestone dates."
+          },
+          {
+            "kind": "h4",
+            "text": "🔴 WEALTH & INVESTMENT"
+          },
+          {
+            "kind": "p",
+            "text": "Long-term, high-stakes financial moves. Map every variable fully before committing — strategy first, automation second."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "STOP MANAGING MONEY BLIND"
+          },
+          {
+            "kind": "li",
+            "text": "No more cycling through the same budget guesses without ever reaching a clear financial picture"
+          },
+          {
+            "kind": "li",
+            "text": "Surfaces hidden cash leaks before they turn a good income into a costly shortfall"
+          },
+          {
+            "kind": "li",
+            "text": "Separates what deserves immediate automation from what needs deeper financial planning"
+          },
+          {
+            "kind": "p",
+            "text": "Removes the overwhelm of managing money from scratch — so you can make smarter decisions about savings, spending, and timing every single day."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BUILT FOR PEOPLE WHO NEED THEIR MONEY TO WORK"
+          },
+          {
+            "kind": "h4",
+            "text": "EARNERS & SAVERS"
+          },
+          {
+            "kind": "p",
+            "text": "Balancing income, expenses, and savings goals without losing track of where every dollar actually goes."
+          },
+          {
+            "kind": "h4",
+            "text": "FOUNDERS & FREELANCERS"
+          },
+          {
+            "kind": "p",
+            "text": "Managing irregular income, business costs, and personal finances without falling into cash flow chaos."
+          },
+          {
+            "kind": "h4",
+            "text": "HIGH-EARNERS & EXECUTIVES"
+          },
+          {
+            "kind": "p",
+            "text": "Cutting through complexity and automating decisively before financial drift compounds into missed wealth."
+          },
+          {
+            "kind": "h4",
+            "text": "SOLO OPERATORS"
+          },
+          {
+            "kind": "p",
+            "text": "Anyone who manages money alone and needs a system that thinks through the numbers with them."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "FREE TO START, MORE WHEN YOU'RE READY"
+          },
+          {
+            "kind": "h4",
+            "text": "FREE TIER"
+          },
+          {
+            "kind": "p",
+            "text": "Instant financial tracking across three money zones — no setup, no friction, no cost."
+          },
+          {
+            "kind": "li",
+            "text": "Unlimited transaction entries"
+          },
+          {
+            "kind": "li",
+            "text": "Income, expenses, and savings mapping"
+          },
+          {
+            "kind": "li",
+            "text": "Notion-ready financial dashboard"
+          },
+          {
+            "kind": "h4",
+            "text": "UPGRADE UNLOCKS"
+          },
+          {
+            "kind": "p",
+            "text": "When you're ready for deeper financial intelligence, advanced features are waiting."
+          },
+          {
+            "kind": "li",
+            "text": "Scenario Modeler — simulate outcomes and second-order effects from your financial choices"
+          },
+          {
+            "kind": "li",
+            "text": "PDF export for sharing financial plans with partners, accountants, or stakeholders"
+          },
+          {
+            "kind": "li",
+            "text": "History Compare to track financial health over time and identify patterns in your spending"
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "LOG IT. AUTOMATE IT. FLY HIGHER."
+          },
+          {
+            "kind": "p",
+            "text": "Start with a free financial entry — no setup, no friction. Get your structured money plan in seconds and finally take control and act with total confidence."
+          },
+          {
+            "kind": "h4",
+            "text": "LOG IT"
+          },
+          {
+            "kind": "p",
+            "text": "Enter your income, expenses, goals, and key financial constraints"
+          },
+          {
+            "kind": "h4",
+            "text": "AUTOMATE IT"
+          },
+          {
+            "kind": "p",
+            "text": "AI instantly maps your cash flow and surfaces your clearest savings path forward"
+          },
+          {
+            "kind": "h4",
+            "text": "FLY HIGHER"
+          },
+          {
+            "kind": "p",
+            "text": "Act from your clean Notion dashboard with total financial clarity and zero second-guessing"
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/financial-autopilot-9-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      }
+    ]
+  },
+  "decision-paralysis-solver": {
+    "cards": [
+      {
+        "blocks": [],
+        "images": [
+          {
+            "src": "/images/presentations/decision-paralysis-solver-1-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THE DECISION PARALYSIS SOLVER"
+          },
+          {
+            "kind": "p",
+            "text": "Cut through overwhelm, options, and overthinking — so you can choose with clarity, act with confidence, and stop second-guessing yourself."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "YOUR DECISIONS HAVE A PATTERN. ARE YOU SEEING IT?"
+          },
+          {
+            "kind": "p",
+            "text": "Stakes, options, trade-offs, reversibility — every tough decision carries signals about what truly matters and what's just noise. The Decision Paralysis Solver captures them all in Notion and turns mental gridlock into one clear, committed choice."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/decision-paralysis-solver-3-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "HOW IT WORKS"
+          },
+          {
+            "kind": "h4",
+            "text": "LOG DECISION"
+          },
+          {
+            "kind": "p",
+            "text": "Enter the choice, stakes, and options"
+          },
+          {
+            "kind": "h4",
+            "text": "NOTION BOARD"
+          },
+          {
+            "kind": "p",
+            "text": "Clear recommendation lands in your workspace"
+          },
+          {
+            "kind": "h4",
+            "text": "AI WEIGHS IT"
+          },
+          {
+            "kind": "p",
+            "text": "Generates a structured trade-off analysis"
+          },
+          {
+            "kind": "p",
+            "text": "No ruminating. No spinning in circles. Just a clear breakdown of what matters, what doesn't, and which path forward makes the most sense."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THREE DECISION WEIGHTS THAT CHANGE HOW YOU CHOOSE"
+          },
+          {
+            "kind": "h4",
+            "text": "🟢 LOW STAKES"
+          },
+          {
+            "kind": "p",
+            "text": "Reversible, low-cost, limited impact. Decide fast and move on — overthinking here is the only mistake you can make."
+          },
+          {
+            "kind": "h4",
+            "text": "🟡 MEDIUM STAKES"
+          },
+          {
+            "kind": "p",
+            "text": "Some consequences, a few key trade-offs. Structure your thinking, compare your top options, and set a commit date."
+          },
+          {
+            "kind": "h4",
+            "text": "🔴 HIGH STAKES"
+          },
+          {
+            "kind": "p",
+            "text": "Hard to reverse, high impact, or multiple stakeholders. Map every variable fully before you move — clarity first, commitment second."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "STOP DECIDING BLIND"
+          },
+          {
+            "kind": "li",
+            "text": "No more cycling through the same options without ever reaching a conclusion"
+          },
+          {
+            "kind": "li",
+            "text": "Surfaces hidden trade-offs before they turn a good choice into a costly one"
+          },
+          {
+            "kind": "li",
+            "text": "Separates what deserves immediate commitment from what needs deeper evaluation"
+          },
+          {
+            "kind": "p",
+            "text": "Removes the paralysis of choosing from scratch — so you can make smarter decisions about priorities, trade-offs, and timing every single day."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BUILT FOR PEOPLE WHO NEED TO MOVE"
+          },
+          {
+            "kind": "h4",
+            "text": "LEADERS & MANAGERS"
+          },
+          {
+            "kind": "p",
+            "text": "Weighing competing priorities, navigating trade-offs, and making calls that keep teams moving."
+          },
+          {
+            "kind": "h4",
+            "text": "FOUNDERS & BUILDERS"
+          },
+          {
+            "kind": "p",
+            "text": "Choosing between strategies, tools, and pivots without losing momentum or falling into analysis loops."
+          },
+          {
+            "kind": "h4",
+            "text": "HIGH-PERFORMERS & EXECUTIVES"
+          },
+          {
+            "kind": "p",
+            "text": "Cutting through ambiguity and committing decisively before overthinking compounds into inaction."
+          },
+          {
+            "kind": "h4",
+            "text": "SOLO OPERATORS"
+          },
+          {
+            "kind": "p",
+            "text": "Anyone who faces decisions alone and needs a system that thinks through the angles with them."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "FREE TO START, MORE WHEN YOU'RE READY"
+          },
+          {
+            "kind": "h4",
+            "text": "FREE TIER"
+          },
+          {
+            "kind": "p",
+            "text": "Instant decision analysis with three weight zones — no setup, no friction, no cost."
+          },
+          {
+            "kind": "li",
+            "text": "Unlimited decision entries"
+          },
+          {
+            "kind": "li",
+            "text": "Stakes, options, and trade-off mapping"
+          },
+          {
+            "kind": "li",
+            "text": "Notion-ready recommendation dashboard"
+          },
+          {
+            "kind": "h4",
+            "text": "UPGRADE UNLOCKS"
+          },
+          {
+            "kind": "p",
+            "text": "When you're ready for deeper decision intelligence, advanced features are waiting."
+          },
+          {
+            "kind": "li",
+            "text": "Scenario Modeler — simulate outcomes and second-order consequences from your choices"
+          },
+          {
+            "kind": "li",
+            "text": "PDF export for sharing decision rationale with partners, teams, or stakeholders"
+          },
+          {
+            "kind": "li",
+            "text": "History Compare to track decision quality and identify patterns in your choices over time"
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "LOG IT. WEIGH IT. DECIDE BETTER."
+          },
+          {
+            "kind": "p",
+            "text": "Start with a free decision entry — no setup, no friction. Get your structured analysis in seconds and finally choose and act with confidence."
+          },
+          {
+            "kind": "h4",
+            "text": "LOG IT"
+          },
+          {
+            "kind": "p",
+            "text": "Enter your decision, stakes, options, and key constraints"
+          },
+          {
+            "kind": "h4",
+            "text": "WEIGH IT"
+          },
+          {
+            "kind": "p",
+            "text": "AI instantly maps trade-offs and surfaces your clearest path forward"
+          },
+          {
+            "kind": "h4",
+            "text": "DECIDE BETTER"
+          },
+          {
+            "kind": "p",
+            "text": "Act from your clean Notion board with total clarity and zero second-guessing"
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/decision-paralysis-solver-9-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      }
+    ]
+  },
+  "task-breakdown-wizard": {
+    "cards": [
+      {
+        "blocks": [],
+        "images": [
+          {
+            "src": "/images/presentations/task-breakdown-wizard-1-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THE TASK BREAKDOWN WIZARD"
+          },
+          {
+            "kind": "p",
+            "text": "Turn any overwhelming project into clear, actionable steps — so you can plan, execute, and deliver with confidence."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "YOUR PROJECT SPEAKS. ARE YOU LISTENING?"
+          },
+          {
+            "kind": "p",
+            "text": "Scope, dependencies, priorities, deadlines — every project sends signals about where to start and what matters most. The Task Breakdown Wizard captures them all in Notion and turns vague goals into one clear, structured action plan."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/task-breakdown-wizard-3-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "HOW IT WORKS"
+          },
+          {
+            "kind": "h4",
+            "text": "LOG TASK"
+          },
+          {
+            "kind": "p",
+            "text": "Enter goal, scope, constraints"
+          },
+          {
+            "kind": "h4",
+            "text": "NOTION BOARD"
+          },
+          {
+            "kind": "p",
+            "text": "Structured list lands in workspace"
+          },
+          {
+            "kind": "h4",
+            "text": "AI BREAKS IT DOWN"
+          },
+          {
+            "kind": "p",
+            "text": "Generates prioritized subtasks"
+          },
+          {
+            "kind": "p",
+            "text": "No chaos. No blank-page paralysis. Just a clear breakdown of exactly what needs to happen and in what order."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THREE COMPLEXITY ZONES THAT CHANGE HOW YOU PLAN"
+          },
+          {
+            "kind": "h4",
+            "text": "🟢 SIMPLE"
+          },
+          {
+            "kind": "p",
+            "text": "Clear scope, few dependencies, single owner. Break it into steps and ship it — this one is ready to execute now."
+          },
+          {
+            "kind": "h4",
+            "text": "🟡 MODERATE"
+          },
+          {
+            "kind": "p",
+            "text": "Some moving parts, mixed dependencies. Build a phased plan and keep your milestones visible as you go."
+          },
+          {
+            "kind": "h4",
+            "text": "🔴 COMPLEX"
+          },
+          {
+            "kind": "p",
+            "text": "High interdependencies, unclear scope, or multiple stakeholders. Map it fully before you act — strategy first, execution second."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "STOP PLANNING BLIND"
+          },
+          {
+            "kind": "li",
+            "text": "No more staring at a goal without knowing where to start"
+          },
+          {
+            "kind": "li",
+            "text": "Catches hidden dependencies before they derail your timeline"
+          },
+          {
+            "kind": "li",
+            "text": "Separates what needs immediate action from what needs deeper thinking"
+          },
+          {
+            "kind": "p",
+            "text": "Removes the paralysis of planning from scratch — so you can make smarter decisions about priorities, sequencing, and effort every single day."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BUILT FOR PEOPLE WHO GET THINGS DONE"
+          },
+          {
+            "kind": "h4",
+            "text": "PROJECT MANAGERS"
+          },
+          {
+            "kind": "p",
+            "text": "Scoping deliverables, managing timelines, and keeping complex projects on track."
+          },
+          {
+            "kind": "h4",
+            "text": "FOUNDERS & BUILDERS"
+          },
+          {
+            "kind": "p",
+            "text": "Translating big ideas into executable roadmaps without losing momentum or direction."
+          },
+          {
+            "kind": "h4",
+            "text": "HIGH-PERFORMERS & EXECUTIVES"
+          },
+          {
+            "kind": "p",
+            "text": "Cutting through ambiguity and delegating clearly before cognitive load compounds."
+          },
+          {
+            "kind": "h4",
+            "text": "SOLO OPERATORS"
+          },
+          {
+            "kind": "p",
+            "text": "Anyone who juggles multiple responsibilities and needs a system that thinks ahead with them."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "FREE TO START, MORE WHEN YOU'RE READY"
+          },
+          {
+            "kind": "h4",
+            "text": "FREE TIER"
+          },
+          {
+            "kind": "p",
+            "text": "Instant task breakdown with three complexity zones — no setup, no friction, no cost."
+          },
+          {
+            "kind": "li",
+            "text": "Unlimited task entries"
+          },
+          {
+            "kind": "li",
+            "text": "Goal, scope, and dependency mapping"
+          },
+          {
+            "kind": "li",
+            "text": "Notion-ready subtask dashboard"
+          },
+          {
+            "kind": "h4",
+            "text": "UPGRADE UNLOCKS"
+          },
+          {
+            "kind": "p",
+            "text": "When you're ready for deeper planning power, advanced features are waiting."
+          },
+          {
+            "kind": "li",
+            "text": "Timeline Builder — auto-generate milestone schedules from your task breakdown"
+          },
+          {
+            "kind": "li",
+            "text": "PDF export for sharing project plans with clients, teams, or stakeholders"
+          },
+          {
+            "kind": "li",
+            "text": "History Compare to track planning accuracy and delivery patterns over time"
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "LOG IT. BREAK IT. DELIVER BETTER."
+          },
+          {
+            "kind": "p",
+            "text": "Start with a free task entry — no setup, no friction. Get your structured breakdown in seconds and finally plan and execute with confidence."
+          },
+          {
+            "kind": "h4",
+            "text": "LOG IT"
+          },
+          {
+            "kind": "p",
+            "text": "Enter your goal, scope, deadline, and key constraints"
+          },
+          {
+            "kind": "h4",
+            "text": "BREAK IT DOWN"
+          },
+          {
+            "kind": "p",
+            "text": "AI instantly generates prioritized subtasks and milestones"
+          },
+          {
+            "kind": "h4",
+            "text": "DELIVER BETTER"
+          },
+          {
+            "kind": "p",
+            "text": "Act on your clean Notion board with total clarity"
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/task-breakdown-wizard-9-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      }
+    ]
+  },
+  "brain-dump-sorter": {
+    "cards": [
+      {
+        "blocks": [],
+        "images": [
+          {
+            "src": "/images/presentations/brain-dump-sorter-1-1.webp",
+            "width": 1232,
+            "height": 928
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THE BRAIN DUMP SORTER"
+          },
+          {
+            "kind": "p",
+            "text": "Turn mental chaos into clarity — instantly."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "YOUR BRAIN IS NOT A FILING CABINET"
+          },
+          {
+            "kind": "p",
+            "text": "Tasks, worries, ideas, errands, and half-finished plans all pile up in one overwhelming heap. The Brain Dump Sorter turns that chaos into clarity — instantly."
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/brain-dump-sorter-3-1.webp",
+            "width": 1200,
+            "height": 904
+          }
+        ]
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "WHAT IT DOES"
+          },
+          {
+            "kind": "h4",
+            "text": "NOTION OUTPUT"
+          },
+          {
+            "kind": "h4",
+            "text": "AI SORTS"
+          },
+          {
+            "kind": "h4",
+            "text": "PASTE NOTES"
+          },
+          {
+            "kind": "p",
+            "text": "No reformatting. No manual categorizing. Just clarity, in seconds."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "THREE BUCKETS THAT CHANGE EVERYTHING"
+          },
+          {
+            "kind": "h4",
+            "text": "✅ TASKS"
+          },
+          {
+            "kind": "p",
+            "text": "Things that need action — errands, to-dos, and deadlines. Ready to execute on immediately."
+          },
+          {
+            "kind": "h4",
+            "text": "💡 IDEAS"
+          },
+          {
+            "kind": "p",
+            "text": "Creative sparks and concepts worth developing later. Nothing gets lost in the noise."
+          },
+          {
+            "kind": "h4",
+            "text": "💛 EMOTIONS"
+          },
+          {
+            "kind": "p",
+            "text": "Worries, feelings, and reflections that need acknowledgement — not action."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "STOP LOSING THOUGHTS TO DECISION FATIGUE"
+          },
+          {
+            "kind": "li",
+            "text": "No more manually reviewing every line to figure out where it belongs"
+          },
+          {
+            "kind": "li",
+            "text": "Captures mental clutter before it disappears or becomes overwhelming"
+          },
+          {
+            "kind": "li",
+            "text": "Separates what needs doing from what needs feeling"
+          },
+          {
+            "kind": "p",
+            "text": "Reduces the decision fatigue of figuring out where each thought belongs — so you can focus on what matters."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BUILT FOR BUSY MINDS"
+          },
+          {
+            "kind": "h4",
+            "text": "STUDENTS"
+          },
+          {
+            "kind": "p",
+            "text": "Juggling coursework, deadlines, and stress all at once."
+          },
+          {
+            "kind": "h4",
+            "text": "CREATORS"
+          },
+          {
+            "kind": "p",
+            "text": "Capturing ideas across projects and platforms without losing a spark."
+          },
+          {
+            "kind": "h4",
+            "text": "PROFESSIONALS & ENTREPRENEURS"
+          },
+          {
+            "kind": "p",
+            "text": "Processing high-volume mental load and staying ahead."
+          },
+          {
+            "kind": "h4",
+            "text": "THOUGHT CAPTURERS"
+          },
+          {
+            "kind": "p",
+            "text": "Anyone who captures lots of thoughts throughout the day."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "FREE TO START, MORE WHEN YOU'RE READY"
+          },
+          {
+            "kind": "h4",
+            "text": "FREE TIER"
+          },
+          {
+            "kind": "p",
+            "text": "Instant sorting into Tasks, Ideas, and Emotions — no setup, no friction, no cost."
+          },
+          {
+            "kind": "li",
+            "text": "Unlimited brain dumps"
+          },
+          {
+            "kind": "li",
+            "text": "AI-powered three-bucket sorting"
+          },
+          {
+            "kind": "li",
+            "text": "Notion-ready output"
+          },
+          {
+            "kind": "h4",
+            "text": "UPGRADE UNLOCKS"
+          },
+          {
+            "kind": "p",
+            "text": "When you're ready for more, powerful features are waiting."
+          },
+          {
+            "kind": "li",
+            "text": "Action Plan generation"
+          },
+          {
+            "kind": "li",
+            "text": "PDF export for sharing and archiving"
+          },
+          {
+            "kind": "li",
+            "text": "History Compare to track your mental load over time"
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "DUMP IT. SORT IT. MOVE FORWARD."
+          },
+          {
+            "kind": "p",
+            "text": "Start with a free brain dump — no setup, no friction. Get your sorted Notion structure in seconds and finally feel the relief of a clear mind."
+          },
+          {
+            "kind": "h4",
+            "text": "DUMP IT"
+          },
+          {
+            "kind": "p",
+            "text": "Paste any thought, note, or transcript"
+          },
+          {
+            "kind": "h4",
+            "text": "SORT IT"
+          },
+          {
+            "kind": "p",
+            "text": "AI instantly categorizes everything"
+          },
+          {
+            "kind": "h4",
+            "text": "MOVE FORWARD"
+          },
+          {
+            "kind": "p",
+            "text": "Act on your clean Notion structure"
+          }
+        ],
+        "images": [
+          {
+            "src": "/images/presentations/brain-dump-sorter-9-1.webp",
+            "width": 816,
+            "height": 1456
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -28,6 +28,10 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // Required by Dockerfile multi-stage standalone runner
   output: "standalone",
+  outputFileTracingIncludes: {
+    "/api/protocols/[slug]": ["./private/protocols/*.enc"],
+    "/protocols/[slug]": ["./private/protocols/*.enc"],
+  },
   images: {
     remotePatterns: [
       {

@@ -261,48 +261,6 @@ p {
   }
 }
 
-/* Uploaded full-width hero artwork with live text and white sliding choices. */
-.sorted-paper-hero { --hero-backdrop: #dfad3d; position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: 3fr 2fr; max-width: 1280px; margin: 24px auto 0; min-height: 740px; background: var(--hero-backdrop); color: #191511; }
-.sorted-paper-content { position: relative; z-index: auto; max-width: 640px; align-self: center; background: transparent; padding: 32px clamp(24px, 3vw, 40px) 40px clamp(24px, 4vw, 64px); }
-.sorted-paper-mark { width: 112px; height: 112px; margin: 0 0 26px; mix-blend-mode: screen; }
-.sorted-paper-mark video { display: block; width: 100%; height: 100%; object-fit: contain; }
-.sorted-paper-static-mark { display: none; }
-.sorted-paper-panel { animation: sorted-clean-arrive .65s ease-out both; }
-.sorted-paper-eyebrow { display: block; font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; }
-.sorted-paper-panel h1 { margin: 20px 0 28px; font-family: var(--font-anton), sans-serif; font-size: clamp(3rem, 5.2vw, 4.75rem); line-height: 1.14; text-transform: uppercase; letter-spacing: -.015em; }
-.sorted-paper-panel h1 span { color: #fff; display: inline-block; transform: rotate(-4deg); animation: sorted-paper-word 1.2s .45s ease-out both; }
-.sorted-paper-panel p { font-size: 1.1rem; line-height: 1.65; color: #191511; }
-.sorted-paper-panel p + p { margin-top: 14px; }
-.sorted-paper-options { display: flex; justify-content: flex-start; gap: 12px; margin-top: 28px; }
-.sorted-paper-option { display: flex; align-items: center; justify-content: center; gap: 12px; flex: 1; max-width: 190px; min-height: 64px; padding: 16px; background: #fff; border-radius: 0; font-family: var(--font-anton), sans-serif; font-size: 1.25rem; text-transform: uppercase; animation: sorted-paper-option-in .65s 2.5s both cubic-bezier(.2,.8,.2,1); }
-.sorted-paper-option:nth-child(2) { animation-delay: 2.7s; }
-.sorted-paper-option:nth-child(3) { animation-delay: 2.9s; }
-.sorted-paper-option:hover { background: #fff5de; }
-.sorted-paper-option:focus-visible { outline: 3px solid #191511; outline-offset: 5px; opacity: 1; animation: none; }
-.sorted-paper-portrait { position: absolute; inset: 0; z-index: -1; background: var(--hero-backdrop); }
-.sorted-paper-portrait img { object-fit: contain; object-position: center; }
-@keyframes sorted-clean-arrive { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes sorted-paper-word { from { opacity: 0; transform: translateY(-12px) rotate(14deg); } to { opacity: 1; transform: translateY(0) rotate(-4deg); } }
-@keyframes sorted-paper-option-in { from { opacity: 0; translate: -90px 0; } to { opacity: 1; translate: 0 0; } }
-@media (max-width: 760px) {
-  .sorted-paper-hero { grid-template-columns: 1fr; min-height: 0; margin-top: 0; }
-  .sorted-paper-content { padding: 24px 20px 32px; grid-row: 1; max-width: 100%; width: 100%; }
-  .sorted-paper-mark { margin: 0 0 20px; width: 64px; height: 64px; }
-  .sorted-paper-portrait { position: absolute; inset: 24px 0 auto auto; width: 52%; height: 340px; min-height: 0; }
-  .sorted-paper-portrait img { object-fit: contain; object-position: right top; }
-  .sorted-paper-panel { padding: 0; width: 44%; min-height: 360px; }
-  .sorted-paper-eyebrow { font-size: .625rem; letter-spacing: .04em; }
-  .sorted-paper-panel h1 { margin: 16px 0 20px; font-size: clamp(1.375rem, 5.5vw, 2.75rem); }
-  .sorted-paper-panel p { font-size: .8125rem; line-height: 1.5; }
-  .sorted-paper-options { gap: 10px; flex-wrap: wrap; }
-  .sorted-paper-option { min-width: 74px; padding: 12px 8px; font-size: 1rem; gap: 6px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .sorted-paper-mark video { display: none; }
-  .sorted-paper-static-mark { display: block; width: 100%; height: 100%; }
-  .sorted-paper-panel, .sorted-paper-panel h1 span, .sorted-paper-option { animation: none; }
-}
-
 /* Native collection introductions share the About page's presentation style. */
 .sorted-collection-features { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
 .sorted-collection-features article { border-top: 2px solid #FFBA2E; padding-top: 24px; }

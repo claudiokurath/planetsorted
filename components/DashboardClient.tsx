@@ -418,9 +418,9 @@ export function DashboardClient() {
               {savedItems.length > 0 && <button type="button" onClick={() => setLibraryFilter('')} className="sorted-account-action mt-4">Clear search</button>}
             </div>
           ) : (
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="sorted-account-library-grid">
               {filteredLibrary.map((item) => (
-                <div key={item.id} className="glass-card glass-card-hover rounded-none p-5 sm:p-6 flex flex-col justify-between min-h-[140px]">
+                <div key={item.id} className="glass-card glass-card-hover sorted-account-library-card">
                   <div>
                     {item.category ? (
                       <p className="text-xs font-medium uppercase tracking-widest text-[#FFBA2E]/80 mb-2">
@@ -428,7 +428,8 @@ export function DashboardClient() {
                       </p>
                     ) : null}
                     <h3
-                      className="font-bebas break-words text-2xl sm:text-3xl uppercase leading-[1.1] text-white"
+                      className="font-bebas sorted-account-library-title"
+                      title={item.title || 'Saved item'}
                     >
                       {item.title || 'Saved Item'}
                     </h3>
@@ -438,7 +439,7 @@ export function DashboardClient() {
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-11 items-center gap-1.5 text-base font-medium text-[#FFBA2E] hover:underline mt-2"
+                    className="sorted-account-library-open"
                   >
                     <span>Open saved item<span className="sr-only">: {item.title || 'Saved item'} (opens in a new tab)</span></span>
                     <span aria-hidden="true">&rarr;</span>
