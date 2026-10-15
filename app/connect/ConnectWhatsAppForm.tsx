@@ -1,19 +1,22 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { deliveryStatusMessage, hasSubmittedDelivery, requestWhatsAppDelivery, startNewDeliveryAction, type WhatsAppDeliveryResult } from '@/lib/whatsapp/deliveryClient'
 
-type Phase = 'phone' | 'code' | 'confirm-send' | 'finishing' | 'delivery-error'
+type Phase = 'phone' | 'code' | 'confirm-send' | 'finishing' | 'delivery-status'
 
 interface ConnectWhatsAppFormProps {
   nextPath: string
   slug?: string
   context?: 'article' | 'tool'
   alreadyConnected?: boolean
+  actionId?: string
+  userId: string
 }
 
-export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected = false }: ConnectWhatsAppFormProps) {
+export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected = false, actionId, userId }: ConnectWhatsAppFormProps) {
   const router = useRouter()
   const [phase, setPhase] = useState<Phase>(alreadyConnected && slug && context ? 'confirm-send' : 'phone')
   const [countryCode, setCountryCode] = useState('44')
@@ -21,10 +24,28 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
   const [code, setCode] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [delivery, setDelivery] = useState<WhatsAppDeliveryResult | null>(null)
+  const codeRequestRef = useRef(false)
+  const verificationRef = useRef(false)
+  const finishRef = useRef(false)
+  const actionRef = useRef(actionId)
   const hasRequestedItem = Boolean(slug && context)
+
+  useEffect(() => {
+    let cancelled = false
+    // Restore the action without dispatching anything on a GET or reload.
+    void Promise.resolve().then(() => {
+      if (!cancelled && alreadyConnected && slug && context && hasSubmittedDelivery({ slug, context }, userId, actionId)) {
+        setPhase('delivery-status')
+      }
+    })
+    return () => { cancelled = true }
+  }, [alreadyConnected, slug, context, userId, actionId])
 
   async function sendCode(event: React.FormEvent) {
     event.preventDefault()
+    if (codeRequestRef.current || verificationRef.current || finishRef.current) return
+    codeRequestRef.current = true
     setLoading(true)
     setError('')
 
@@ -34,53 +55,70 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ whatsappNumber: `${countryCode}${phone.replace(/^0/, '')}` }),
       })
+      const result = await response.json().catch(() => null) as { state?: string } | null
+      if (result?.state === 'unknown') {
+        setPhase('code')
+        setError('We could not confirm whether your code was sent. If it arrives, enter it. Otherwise wait a minute before requesting another code.')
+        return
+      }
       if (!response.ok) {
         setError('We could not send the code. Check the number and try again.')
         return
       }
+      if (result?.state !== 'accepted') {
+        setError('We could not confirm whether your code was sent. Check your WhatsApp before requesting another code.')
+        return
+      }
       setPhase('code')
     } catch {
-      setError('We could not send the code. Check your connection and try again.')
+      setPhase('code')
+      setError('We could not confirm whether your code was sent. If it arrives, enter it. Otherwise check your connection and wait a minute before requesting another code.')
     } finally {
+      codeRequestRef.current = false
       setLoading(false)
     }
   }
 
-  async function finishConnection() {
+  async function finishConnection(retry = false) {
+    if (finishRef.current || codeRequestRef.current) return
+    finishRef.current = true
     setLoading(true)
     setError('')
     setPhase('finishing')
+    if (retry) setDelivery(null)
 
     try {
       if (slug && context) {
-        const delivery = await fetch('/api/save-to-phone', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ slug, context, includeLink: true }),
-        })
-        if (!delivery.ok) throw new Error('Delivery failed')
-
-        // Delivery has succeeded. A separate library failure must not prompt
-        // a second send or claim that the WhatsApp message did not arrive.
-        await fetch('/api/saved-items', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ slug, context }),
-        }).catch(() => undefined)
+        const request = { slug, context, includeLink: true }
+        if (retry) {
+          actionRef.current = startNewDeliveryAction(request, userId)
+          const currentUrl = new URL(window.location.href)
+          currentUrl.searchParams.set('actionId', actionRef.current)
+          window.history.replaceState(window.history.state, '', currentUrl)
+        }
+        const result = await requestWhatsAppDelivery(request, userId, actionRef.current)
+        setDelivery(result)
+        if (result.deliveryStatus !== 'accepted') {
+          setPhase('delivery-status')
+          return
+        }
       }
 
       router.replace(nextPath)
       router.refresh()
-    } catch {
-      setError('Your WhatsApp is connected, but the link could not be sent. Please try again.')
-      setPhase('delivery-error')
+    } catch (failure) {
+      setError(failure instanceof Error ? failure.message : 'Your WhatsApp is connected. Sending could not be confirmed. Check this request safely.')
+      setPhase('delivery-status')
     } finally {
+      finishRef.current = false
       setLoading(false)
     }
   }
 
   async function verifyCode(event: React.FormEvent) {
     event.preventDefault()
+    if (verificationRef.current || codeRequestRef.current || finishRef.current) return
+    verificationRef.current = true
     setLoading(true)
     setError('')
     try {
@@ -97,12 +135,13 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
     } catch {
       setError('We could not check the code. Check your connection and try again.')
     } finally {
+      verificationRef.current = false
       setLoading(false)
     }
   }
 
   return (
-    <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-6 shadow-2xl sm:p-10">
+    <div className="w-full max-w-lg rounded-none border border-white/10 bg-black p-6 shadow-2xl sm:p-10" aria-busy={loading}>
       <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#FFBA2E]">
         {alreadyConnected ? 'Ready for WhatsApp' : 'One-time connection'}
       </p>
@@ -114,7 +153,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
       </p>
 
       {phase === 'confirm-send' ? (
-        <button type="button" onClick={finishConnection} disabled={loading} className="mt-8 min-h-14 w-full bg-white px-6 text-sm font-medium uppercase tracking-wider text-black disabled:opacity-50">
+        <button type="button" onClick={() => void finishConnection()} disabled={loading} className="mt-8 min-h-14 w-full bg-white px-6 text-sm font-medium uppercase tracking-wider text-black disabled:opacity-50">
           {context === 'article' ? 'Get this protocol via WhatsApp →' : 'Get this tool via WhatsApp →'}
         </button>
       ) : null}
@@ -198,7 +237,8 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
           </button>
           <button
             type="button"
-            onClick={() => { setPhase('phone'); setCode(''); setError('') }}
+            disabled={loading}
+            onClick={() => { if (!verificationRef.current && !codeRequestRef.current) { setPhase('phone'); setCode(''); setError('') } }}
             className="w-full py-2 text-xs font-medium text-neutral-500 underline underline-offset-4 hover:text-white"
           >
             Change number
@@ -212,12 +252,17 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
         </div>
       ) : null}
 
-      {phase === 'delivery-error' ? (
+      {phase === 'delivery-status' ? (
         <div className="mt-8 space-y-4">
-          <p className="text-sm leading-6 text-neutral-300" role="alert">{error}</p>
-          <button type="button" onClick={finishConnection} disabled={loading} className="min-h-14 w-full bg-white px-6 text-sm font-medium uppercase tracking-wider text-black disabled:opacity-50">
-            Try sending my link again →
+          <p className="text-sm leading-6 text-neutral-300" role={error ? 'alert' : 'status'}>
+            {error || (delivery ? deliveryStatusMessage(delivery) : 'Your WhatsApp is connected. Check the status of your previous request before sending again.')}
+          </p>
+          <button type="button" onClick={() => void finishConnection()} disabled={loading} className="min-h-14 w-full bg-white px-6 text-sm font-medium uppercase tracking-wider text-black disabled:opacity-50">
+            Check my request status →
           </button>
+          {delivery && (delivery.deliveryStatus === 'failed' || delivery.deliveryStatus === 'skipped') ? (
+            <button type="button" onClick={() => void finishConnection(true)} disabled={loading} className="flex min-h-11 w-full items-center justify-center text-sm text-white underline underline-offset-4">Try sending again</button>
+          ) : null}
         </div>
       ) : null}
 
