@@ -36,7 +36,7 @@
 | **Canonical GitHub repo** | `claudiokurath/planetsorted` |
 | **Default branch** | `main` |
 | **Production URL (primary)** | https://planetsorted.com |
-| **Legacy domain** | `sor7ed.com` → **301** to `planetsorted.com` |
+| **Separate Button product** | `sor7ed.com`; website link compatibility must be configured separately |
 | **Host** | Vercel (Production from `main`) |
 | **Runtime** | Node **22**, Next.js App Router |
 | **Visible brand** | SOR7ED / PLANET SOR7ED |
@@ -102,12 +102,19 @@
 | Surface | Rule |
 | --- | --- |
 | **Primary public domain** | `planetsorted.com` |
-| **`sor7ed.com`** | 301 permanent redirect → `planetsorted.com` (DNS/Vercel). **Never** use as primary URL in code, OG tags, or copy |
+| **`sor7ed.com`** | Separate partner Button product, per the founder's current domain split. Never use as the website's primary URL or in website OG tags. Preserve historical website `/r`, `/go` and `/auth/whatsapp-confirm` links through explicit redirects on the Button host. |
 | **Email** | `hello@planetsorted.com` (keep `hello@sor7ed.com` forwarding during transition) |
 | **UI / WA copy brand** | SOR7ED / PLANET SOR7ED |
 | **Legal (footer, Terms, Privacy)** | Planet Sorted / SOR7ED LIMITED |
 
 > ⚠️ Older Notion drafts that say “www.sor7ed.com is production” are **stale**. Primary is `planetsorted.com`.
+
+Observed 2026-10-16: website apex redirects to `https://www.planetsorted.com`.
+`lib/siteUrl.js` uses that canonical origin and rejects legacy website host values
+in `SITE_URL`. Existing explicit development/preview origins remain supported.
+The separate Button domains currently return `DEPLOYMENT_NOT_FOUND`; see
+`docs/website-account-recovery.md`. Do not redirect the whole Button domain to
+the website or install the Button's monorepo service configuration in this repo.
 
 ### 🧰 Stack snapshot (deploy-relevant)
 
@@ -211,7 +218,7 @@ Triggers: every **pull_request**, and **push to `main`**.
 | --- | --- | --- |
 | Typecheck | `npx tsc --noEmit` | **Blocking** |
 | Tests | `npm test` | **Blocking** |
-| Lint | `npm run lint` | **Non-blocking today** (`continue-on-error: true`) — fix new issues; backlog exists |
+| Lint | `npm run lint` | **Blocking**; warnings do not currently fail the command |
 
 Node version in CI: **22** (matches Dockerfile / Vercel target).
 
@@ -233,9 +240,9 @@ Node version in CI: **22** (matches Dockerfile / Vercel target).
 
 - **One** canonical Vercel project for this app (no duplicate projects that drift)
 - Production domain: **`planetsorted.com`** (+ `www` if configured → apex or vice versa; document the canonical host)
-- `sor7ed.com` remains redirect-only
+- `sor7ed.com` belongs to the separate Button product; historical website paths need explicit compatibility redirects there
 - Vercel env vars set per environment (Production / Preview / Development as needed)
-- `SITE_URL` in Production must be `https://planetsorted.com` (no trailing slash inconsistency in new code)
+- `SITE_URL` in Production should be `https://www.planetsorted.com`, matching the observed canonical host
 
 ### Crons (`vercel.json`)
 
@@ -282,7 +289,7 @@ Grouped by area. **Required in Production** unless marked optional.
 
 | Variable | Client? | Notes |
 | --- | --- | --- |
-| `SITE_URL` | yes | Production: `https://planetsorted.com` |
+| `SITE_URL` | server | Production: `https://www.planetsorted.com`; public metadata is derived from it |
 | `NEXT_PUBLIC_WA_NUMBER` | yes | E.164 / wa.me builder number |
 | `NEXT_PUBLIC_API_BASE_URL` | yes | Optional legacy/alternate API base — avoid new uses |
 | `NEXT_PUBLIC_WEB_BASE_URL` | yes | Optional alternate web base — prefer `SITE_URL` |
@@ -338,6 +345,7 @@ Grouped by area. **Required in Production** unless marked optional.
 | Variable | Notes |
 | --- | --- |
 | `CRON_SECRET` | Bearer for `/api/cron/*` |
+| `OPENAI_API_KEY` | Required only for Task Breakdown generation; absence returns a plain unavailable state without a provider call |
 | `NODE_ENV` | Set by platform |
 
 ### Secret leak minimum response
@@ -452,6 +460,7 @@ npm run dev
 | --- | --- |
 | 2026-05-14 | Initial Notion “Master Doc” style for repo/deploy conventions. |
 | 2026-08-21 | Full rewrite: primary domain corrected to **planetsorted.com**; Meta WA (not Twilio) as core path; aligned with live `planetsorted` repo, CI, `vercel.json` crons, env inventory from code; split product SoT vs deploy SoT; added smoke tests, gaps, incident minimums. |
+| 2026-10-16 | Recorded the founder's website/Button domain split, observed www canonical host, and account/access recovery checks in `docs/website-account-recovery.md`. |
 
 ---
 

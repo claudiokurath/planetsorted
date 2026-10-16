@@ -1,10 +1,11 @@
+import { websiteSiteUrl, normaliseWebsiteResourceUrl } from '../siteUrl.js'
 /**
  * Canonical OG image URL builder.
  * Always routes covers through /api/image-proxy so WhatsApp gets a real
  * 1200×630 JPEG (sharp upscale) instead of a tiny source stretched by /api/og.
  */
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = websiteSiteUrl()
 
 const FIRST_PARTY_HOSTS = new Set([
   'planetsorted.com',
@@ -14,7 +15,7 @@ const FIRST_PARTY_HOSTS = new Set([
 ])
 
 export function proxiedCoverImage(rawCover: string | null | undefined): string | null {
-  const url = rawCover?.trim()
+  const url = rawCover?.trim() ? normaliseWebsiteResourceUrl(rawCover.trim()) : ''
   if (!url || !url.startsWith('http')) return null
 
   // First-party public assets are already sharp, stable and crawlable. Sending

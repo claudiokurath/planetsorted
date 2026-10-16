@@ -1,3 +1,4 @@
+import { websiteSiteUrl } from '@/lib/siteUrl'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createSessionClient } from '@/lib/supabase/server'
@@ -27,7 +28,7 @@ export default async function UpgradePage() {
       redirect('/signup')
     }
 
-    const site = process.env.SITE_URL ?? 'https://planetsorted.com'
+    const site = websiteSiteUrl()
     const priceId = process.env.STRIPE_PRICE_ID_PLUS_MONTHLY
 
     if (!priceId) {

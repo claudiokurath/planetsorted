@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
-import { STANDALONE_ROUTES } from '@/lib/standaloneRoutes'
+import { getToolRoute, INTERACTIVE_TOOL_ROUTES, STANDALONE_ROUTES } from '@/lib/standaloneRoutes'
 import {
   buildStandaloneAccessToken,
   STANDALONE_ACCESS_TTL_SECONDS,
@@ -10,11 +10,12 @@ import {
 import { isOgCrawler } from '@/lib/og/crawlers'
 import { whatsappPreviewMetadata } from '@/lib/og/whatsappPreview'
 import { PRIVATE_PDF_SLUG } from '@/lib/content/privateProtocol'
+import { websiteSiteUrl } from '@/lib/siteUrl'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = websiteSiteUrl(process.env.SITE_URL)
 const LOGO_IMAGE = `${SITE}/images/sor7ed-logo-white.png`
 
 const SYSTEM_SLUGS: Record<string, { target: string; title: string; description: string }> = {
@@ -37,7 +38,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const lowerSlug = slug.toLowerCase()
-  const systemItem = SYSTEM_SLUGS[lowerSlug]
+  const systemItem = Object.hasOwn(SYSTEM_SLUGS, lowerSlug) ? SYSTEM_SLUGS[lowerSlug] : undefined
 
   if (systemItem) {
     return whatsappPreviewMetadata(systemItem.title, slug, LOGO_IMAGE)
@@ -74,7 +75,7 @@ export default async function RichLinkRedirect({ params }: Props) {
   const ua = hdrs.get('user-agent')
   const crawler = isOgCrawler(ua)
 
-  const systemItem = SYSTEM_SLUGS[lowerSlug]
+  const systemItem = Object.hasOwn(SYSTEM_SLUGS, lowerSlug) ? SYSTEM_SLUGS[lowerSlug] : undefined
   if (systemItem) {
     if (crawler) {
       return (
@@ -95,7 +96,12 @@ export default async function RichLinkRedirect({ params }: Props) {
     .single()
 
   if (!content) {
-    const standalonePath = STANDALONE_ROUTES[lowerSlug]
+    const interactivePath = Object.hasOwn(INTERACTIVE_TOOL_ROUTES, lowerSlug) ? INTERACTIVE_TOOL_ROUTES[lowerSlug] : undefined
+    if (interactivePath) {
+      if (crawler) return <CrawlerShell title={lowerSlug} />
+      redirect(`${SITE}${interactivePath}`)
+    }
+    const standalonePath = Object.hasOwn(STANDALONE_ROUTES, lowerSlug) ? STANDALONE_ROUTES[lowerSlug] : undefined
     if (standalonePath) {
       if (crawler) return <CrawlerShell title={lowerSlug} />
       const { token } = buildStandaloneAccessToken(lowerSlug, STANDALONE_ACCESS_TTL_SECONDS)
@@ -115,7 +121,7 @@ export default async function RichLinkRedirect({ params }: Props) {
   // WhatsApp cards open the member protocol; public articles remain readable
   // at /intelligence/{slug}. A public short link does not grant private access.
   if (content.type === 'Tool') {
-    redirect(`${SITE}/tools/${content.slug}`)
+    redirect(`${SITE}${getToolRoute(content.slug)}`)
   }
 
   // Unlike the public article, this attachment requires a real member session.

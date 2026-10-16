@@ -1,3 +1,4 @@
+import { websiteSiteUrl } from '@/lib/siteUrl'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -10,7 +11,7 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = websiteSiteUrl()
 
 export function generateStaticParams() {
   return CATEGORY_LIST.map((c) => ({ slug: c.slug }))

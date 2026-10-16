@@ -5,12 +5,7 @@ import { StandaloneToolShell } from '@/components/StandaloneToolShell'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { createBrowserClient } from '@/lib/supabase/client'
-
-interface SortedResult {
-  tasks: string[]
-  ideas: string[]
-  emotions: string[]
-}
+import { classifyBrainDump, type SortedBrainDump } from '@/lib/brainDumpSorter'
 
 interface JournalEntry {
   id: string
@@ -18,48 +13,14 @@ interface JournalEntry {
   output_text: string
 }
 
-function classifyText(rawText: string): SortedResult {
-  const lines = rawText
-    .split(/(?:\.|\n|;|\band\b)+/i)
-    .map((s) => s.trim())
-    .filter((s) => s.length > 2)
-
-  const tasks: string[] = []
-  const ideas: string[] = []
-  const emotions: string[] = []
-
-  const taskRegex = /\b(need to|must|call|email|send|buy|finish|do|book|clean|fix|schedule|update|create|submit|pay|invoice|write|pick up|draft)\b/i
-  const ideaRegex = /\b(idea|what if|maybe|could|pitch|project|concept|feature|app|strategy|build|explore|design|plan|thought)\b/i
-  const emotionRegex = /\b(feel|feeling|anxious|tired|overwhelmed|stressed|happy|worried|exhausted|frustrated|scared|hopeful|behind|sad|angry)\b/i
-
-  lines.forEach((line) => {
-    if (taskRegex.test(line)) {
-      tasks.push(line)
-    } else if (ideaRegex.test(line)) {
-      ideas.push(line)
-    } else if (emotionRegex.test(line)) {
-      emotions.push(line)
-    } else {
-      // Default heuristics: shorter action-like sentences to task, others to idea
-      if (line.length < 35) {
-        tasks.push(line)
-      } else {
-        ideas.push(line)
-      }
-    }
-  })
-
-  return { tasks, ideas, emotions }
-}
-
 export function BrainDumpSorterApp() {
   const supabase = useMemo(() => createBrowserClient(), [])
   const [userId, setUserId] = useState<string | null>(null)
 
   const [inputText, setInputText] = useState(
-    'BRAINDUMP need to email the invoice to accounting, also what if the onboarding flow used a interactive checklist instead of a video? feeling kind of overwhelmed today tbh'
+    'Need to email the invoice to accounting. What if the onboarding flow used an interactive checklist instead of a video? Feeling kind of overwhelmed today.'
   )
-  const [sorted, setSorted] = useState<SortedResult | null>(null)
+  const [sorted, setSorted] = useState<SortedBrainDump | null>(null)
   const [saving, setSaving] = useState(false)
   const [savedSuccess, setSavedSuccess] = useState(false)
   const [saveError, setSaveError] = useState<string | null>(null)
@@ -111,7 +72,7 @@ export function BrainDumpSorterApp() {
 
     // Strip keyword if prepended
     const cleanText = inputText.replace(/^BRAINDUMP\s*/i, '').trim()
-    const result = classifyText(cleanText)
+    const result = classifyBrainDump(cleanText)
     setSorted(result)
     setSavedSuccess(false)
     setSaveError(null)
@@ -190,7 +151,7 @@ export function BrainDumpSorterApp() {
             <div>
               <span className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium uppercase tracking-wider"
                 style={{ borderColor: 'rgba(255,186,46,0.3)', background: 'rgba(255,186,46,0.05)', color: '#FFBA2E' }}>
-                ✨ NLP Thought Classifier
+                ✨ Thought Sorter
               </span>
               <h1 className="mt-6 text-5xl sm:text-6xl lg:text-6xl font-normal leading-[1.1] tracking-normal" style={{ fontFamily: 'var(--font-anton), Oswald, sans-serif' }}>
                 Dump your thoughts.{' '}
@@ -199,11 +160,11 @@ export function BrainDumpSorterApp() {
                 </span>
               </h1>
               <p className="mt-5 text-lg text-slate-400 max-w-lg">
-                Instantly classify raw, unfiltered brain dumps into 3 organized buckets — <strong className="text-white">Tasks, Ideas, and Emotions</strong> — so nothing you think ever gets lost.
+                Sort your brain dump into 3 useful buckets — <strong className="text-white">Tasks, Ideas, and Emotions</strong> — then choose one next step.
               </p>
               <div className="mt-8 flex items-center gap-4 text-xs font-mono text-slate-400">
-                <span className="rounded-full bg-black border border-white/10 px-3 py-1 text-[#FFBA2E]">WhatsApp Keyword: BRAINDUMP</span>
-                <span>Auto-sorts into Notion</span>
+                <span className="rounded-full bg-black border border-white/10 px-3 py-1 text-[#FFBA2E]">Sorts in your browser</span>
+                <span>Sign in to keep a history</span>
               </div>
             </div>
 
@@ -221,7 +182,7 @@ export function BrainDumpSorterApp() {
                 </div>
               </div>
               <p className="text-xs text-slate-400 text-center">
-                Paste any unstructured thoughts below to see live NLP classification in action.
+                Paste your thoughts below to sort them into useful buckets.
               </p>
             </div>
           </section>
@@ -242,7 +203,7 @@ export function BrainDumpSorterApp() {
                   rows={4}
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
-                  placeholder="e.g. BRAINDUMP need to email invoice, what if we made an interactive widget, feeling stressed today..."
+                  placeholder="e.g. Need to email the invoice. What if we made a checklist? Feeling stressed today."
                   className="w-full resize-none rounded-none border border-white/10 bg-black p-4 text-sm text-white placeholder-slate-500 outline-none focus:border-[#FFBA2E] transition"
                   required
                 />
@@ -331,18 +292,18 @@ export function BrainDumpSorterApp() {
             <div className="grid md:grid-cols-3 gap-6">
               <div className="glass rounded-none p-6 text-center space-y-3">
                 <span className="text-3xl">📱</span>
-                <h3 className="text-base font-medium text-white">1. Send on WhatsApp</h3>
-                <p className="text-xs text-slate-400">Message keyword <code className="text-[#FFBA2E] font-mono">BRAINDUMP</code> followed by whatever is on your mind.</p>
+                <h3 className="text-base font-medium text-white">1. Type or paste</h3>
+                <p className="text-xs text-slate-400">Put whatever is on your mind into the box above. Separate thoughts with sentences or new lines.</p>
               </div>
               <div className="glass rounded-none p-6 text-center space-y-3">
                 <span className="text-3xl">⚡</span>
-                <h3 className="text-base font-medium text-white">2. AI Classifies</h3>
-                <p className="text-xs text-slate-400">NLP prompt parses raw text into Task, Idea, or Emotion categories instantly.</p>
+                <h3 className="text-base font-medium text-white">2. Sort your thoughts</h3>
+                <p className="text-xs text-slate-400">The tool uses keywords to group thoughts as tasks, ideas, or emotions. Review the buckets before acting.</p>
               </div>
               <div className="glass rounded-none p-6 text-center space-y-3">
                 <span className="text-3xl">📊</span>
-                <h3 className="text-base font-medium text-white">3. Auto-Sync to Notion</h3>
-                <p className="text-xs text-slate-400">Classified notes land directly into your Notion board or account history.</p>
+                <h3 className="text-base font-medium text-white">3. Choose a next step</h3>
+                <p className="text-xs text-slate-400">Pick one manageable task to start. Sign in if you want to keep your sorted thoughts in account history.</p>
               </div>
             </div>
           </section>

@@ -1,3 +1,4 @@
+import { websiteSiteUrl } from '@/lib/siteUrl'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ToolClient } from '@/components/ToolClient'
@@ -8,7 +9,7 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = websiteSiteUrl()
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params

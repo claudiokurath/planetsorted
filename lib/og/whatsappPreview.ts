@@ -1,7 +1,8 @@
+import { websiteSiteUrl } from '../siteUrl.js'
 import type { Metadata } from 'next'
 import { proxiedCoverImage } from './imageUrl'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = websiteSiteUrl()
 
 /** Dedicated WhatsApp rich links: artwork followed by the title, no summary. */
 export function whatsappPreviewMetadata(

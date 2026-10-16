@@ -1,3 +1,4 @@
+import { websiteSiteUrl } from '@/lib/siteUrl'
 import { NextRequest, NextResponse } from 'next/server'
 import { requireUser } from '@/lib/auth/requireUser'
 import { sendWhatsAppMessage, sendWhatsAppAudio, sendWhatsAppContentCard, WhatsAppSendError } from '@/lib/whatsapp/send'
@@ -6,7 +7,7 @@ import { ogImageForContent } from '@/lib/og/imageUrl'
 import { claimDelivery, finishDelivery, readDelivery, deliveryRequestHash, deliveryResponse, isActionId, DeliveryActionConflict, type DeliveryStatus } from '@/lib/whatsapp/deliveryActions'
 
 export const dynamic = 'force-dynamic'
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = websiteSiteUrl()
 const PRIVATE_HEADERS = { 'Cache-Control': 'private, no-store' }
 const SAFE_LIMIT = 3500
 

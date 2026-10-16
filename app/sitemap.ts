@@ -1,10 +1,11 @@
+import { websiteSiteUrl } from '@/lib/siteUrl'
 import type { MetadataRoute } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
 import { CATEGORY_LIST } from '@/lib/categoryStyles'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = process.env.SITE_URL ?? 'https://planetsorted.com'
+  const siteUrl = websiteSiteUrl()
   const supabase = createServerClient()
 
   // Fetch dynamic published protocols from Supabase
