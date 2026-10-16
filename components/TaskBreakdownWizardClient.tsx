@@ -10,6 +10,7 @@ type Phase = 'form' | 'loading' | 'result' | 'error'
 interface ResultData {
   result: string
   whatsapp: boolean
+  deliveryStatus: 'accepted' | 'failed' | 'unknown'
 }
 
 export function TaskBreakdownWizardClient() {
@@ -18,6 +19,7 @@ export function TaskBreakdownWizardClient() {
   const [context, setContext] = useState('')
   const [data, setData] = useState<ResultData | null>(null)
   const [errorMsg, setErrorMsg] = useState('')
+  const [showWhatsAppSettings, setShowWhatsAppSettings] = useState(false)
   const [copied, setCopied] = useState(false)
   const resultRef = useRef<HTMLDivElement>(null)
 
@@ -26,6 +28,7 @@ export function TaskBreakdownWizardClient() {
     if (!task.trim()) return
     setPhase('loading')
     setErrorMsg('')
+    setShowWhatsAppSettings(false)
 
     try {
       const res = await fetch('/api/tools/task-breakdown', {
@@ -38,12 +41,25 @@ export function TaskBreakdownWizardClient() {
 
       if (res.status === 401) {
         // Redirect to sign in, come back after
-        window.location.href = `/signup?mode=first-time&next=${encodeURIComponent('/tools/task-breakdown-wizard')}`
+        window.location.href = `/signup?mode=first-time&next=${encodeURIComponent('/task-breakdown-wizard')}`
         return
       }
 
       if (res.status === 422 && json.error === 'no_whatsapp') {
-        window.location.href = `/connect?next=${encodeURIComponent('/tools/task-breakdown-wizard')}`
+        window.location.href = `/connect?next=${encodeURIComponent('/task-breakdown-wizard')}`
+        return
+      }
+
+      if (res.status === 403 && json.error === 'whatsapp_opted_out') {
+        setErrorMsg('WhatsApp messages are paused. Review your account settings before sending a result.')
+        setShowWhatsAppSettings(true)
+        setPhase('error')
+        return
+      }
+
+      if (res.status === 503 && json.error === 'service_unavailable') {
+        setErrorMsg('Task Breakdown is temporarily unavailable. Your answers are still here. Please try again later.')
+        setPhase('error')
         return
       }
 
@@ -53,7 +69,12 @@ export function TaskBreakdownWizardClient() {
         return
       }
 
-      setData({ result: json.result, whatsapp: json.whatsapp ?? false })
+      const accepted = json.whatsapp === true && json.deliveryStatus === 'accepted'
+      setData({
+        result: json.result,
+        whatsapp: accepted,
+        deliveryStatus: accepted ? 'accepted' : json.deliveryStatus === 'failed' ? 'failed' : 'unknown',
+      })
       setPhase('result')
       setTimeout(() => resultRef.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }), 100)
     } catch {
@@ -66,6 +87,7 @@ export function TaskBreakdownWizardClient() {
     setPhase('form')
     setData(null)
     setErrorMsg('')
+    setShowWhatsAppSettings(false)
     setCopied(false)
   }
 
@@ -99,6 +121,7 @@ export function TaskBreakdownWizardClient() {
               value={task}
               onChange={(e) => setTask(e.target.value)}
               rows={3}
+              maxLength={2000}
               required
               placeholder="For example: reply to an email I've been avoiding."
               className="w-full resize-none rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder-neutral-500 focus:border-[#FFBA2E]/60 focus:outline-none focus:ring-1 focus:ring-[#FFBA2E]/40"
@@ -120,6 +143,7 @@ export function TaskBreakdownWizardClient() {
               value={context}
               onChange={(e) => setContext(e.target.value)}
               rows={2}
+              maxLength={2000}
               placeholder="For example: low energy, not sure where to start, anxious about the reply."
               className="w-full resize-none rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder-neutral-500 focus:border-[#FFBA2E]/60 focus:outline-none focus:ring-1 focus:ring-[#FFBA2E]/40"
             />
@@ -129,6 +153,11 @@ export function TaskBreakdownWizardClient() {
           {phase === 'error' && errorMsg && (
             <div role="alert" className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
               {errorMsg}
+              {showWhatsAppSettings && (
+                <Link href="/dashboard?tab=settings" className="mt-3 flex min-h-11 items-center font-medium text-white underline underline-offset-4">
+                  Edit profile and WhatsApp settings &rarr;
+                </Link>
+              )}
             </div>
           )}
 
@@ -183,11 +212,13 @@ export function TaskBreakdownWizardClient() {
               )}
             </span>
             <div>
-              <p className="font-medium text-white">{data.whatsapp ? 'Your next step is on its way.' : 'Your next step is ready.'}</p>
+              <p className="font-medium text-white">Your next step is ready.</p>
               <p className="mt-1 text-sm text-neutral-400">
                 {data.whatsapp
-                  ? "It's arriving in your WhatsApp now. Here's a copy, in case you want it here too."
-                  : "Here's your result. We couldn't reach WhatsApp, but you can copy it below."}
+                  ? 'WhatsApp accepted the message. Delivery has not been confirmed. You can read or copy your next step below.'
+                  : data.deliveryStatus === 'failed'
+                    ? 'WhatsApp did not accept the message. You can read or copy your next step below.'
+                    : 'We could not confirm whether WhatsApp accepted the message. Check WhatsApp before generating another result. Your next step is below.'}
               </p>
             </div>
           </div>

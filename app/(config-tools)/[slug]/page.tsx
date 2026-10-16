@@ -1,3 +1,4 @@
+import { websiteSiteUrl } from '@/lib/siteUrl'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
@@ -5,7 +6,7 @@ import { getToolConfig, TOOL_SLUGS } from '@/lib/toolsRegistry'
 import { ToolConfigClient } from '@/components/toolEngine/ToolConfigClient'
 import { ogImageForContent } from '@/lib/og/imageUrl'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = websiteSiteUrl()
 
 interface ConfigToolPageProps {
   params: Promise<{ slug: string }>

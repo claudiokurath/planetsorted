@@ -5,8 +5,10 @@ import { buildConnectToken, CONNECT_TOKEN_TTL_SECONDS } from '@/lib/crypto/token
 import { sendWhatsAppSignInLink, signInTokenDigest } from '@/lib/whatsapp/signInLink'
 import { safeNext } from '@/lib/safeNext'
 import { scheduleCrmSync } from '@/lib/notion/syncCrmAccount'
+import { createPendingSignup, matchesPendingSignupSecret, parsePendingSignupCookie, pendingSignupForPhone, PENDING_SIGNUP_COOKIE } from '@/lib/auth/pendingSignup'
+import { websiteSiteUrl } from '@/lib/siteUrl'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = websiteSiteUrl()
 const RESEND_WINDOW_MS = 60 * 1000
 
 function cleanName(value: unknown): string {
@@ -56,6 +58,18 @@ export async function POST(req: NextRequest) {
 
   let userId = phoneOwner?.user_id
   let authEmail = phoneOwner?.email || submittedEmail || `${phone}@users.planetsorted.com`
+  let pendingCookie: { value: string; expiresAt: number } | null = null
+  function respond(payload: object, status = 200) {
+    const response = NextResponse.json(payload, { status })
+    if (pendingCookie) response.cookies.set(PENDING_SIGNUP_COOKIE, pendingCookie.value, {
+      httpOnly: true,
+      secure: req.nextUrl.protocol === 'https:',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: Math.max(0, Math.floor((pendingCookie.expiresAt - Date.now()) / 1000)),
+    })
+    return response
+  }
 
   if (!userId) {
     if (existingOnly) {
@@ -65,50 +79,55 @@ export async function POST(req: NextRequest) {
       )
     }
     if (!firstName) return NextResponse.json({ error: 'Please enter your first name.' }, { status: 400 })
-    const { data: generated, error: generateError } = await admin.auth.admin.generateLink({
-      type: 'magiclink',
-      email: authEmail,
-      options: {
-        redirectTo: `${SITE}/auth/callback?next=${encodeURIComponent(nextPath)}`,
-        data: { first_name: firstName },
-      },
-    })
-
-    if (generateError || !generated.user?.id) {
-      // Distinguish a genuine "this email is already registered" from a backend
-      // failure (bad config, Supabase outage) — the old code reported both as a
-      // conflict, which sent people chasing an account problem that wasn't real.
-      const alreadyRegistered =
-        (generateError as { status?: number } | null)?.status === 422 ||
-        /already|exist|registered/i.test(generateError?.message ?? '')
-
-      return NextResponse.json(
-        {
-          error: alreadyRegistered
-            ? 'That email is already linked to an account. Use "Returning email-only member? Sign in here" below.'
-            : 'We could not start sign-up just now. Please try again in a moment.',
-        },
-        { status: alreadyRegistered ? 409 : 502 }
-      )
+    const retry = parsePendingSignupCookie(req.cookies.get(PENDING_SIGNUP_COOKIE)?.value)
+    if (retry) {
+      const { data: retried, error: retryError } = await admin.auth.admin.getUserById(retry.userId)
+      const retryUser = retried.user
+      const marker = pendingSignupForPhone(retryUser?.app_metadata?.pending_signup_identity, phone)
+      if (!retryError && retryUser?.email === authEmail && !retryUser.email_confirmed_at &&
+          !retryUser.confirmed_at && !retryUser.last_sign_in_at && marker && matchesPendingSignupSecret(marker, retry.secret)) {
+        const { data: linkedProfile, error: profileError } = await admin.from('users')
+          .select('user_id').eq('user_id', retryUser.id).maybeSingle()
+        if (profileError) return respond({ error: 'We could not check your account. Please try again.' }, 502)
+        if (!linkedProfile) userId = retryUser.id
+      }
     }
-    userId = generated.user.id
-    authEmail = generated.user.email || authEmail
+    if (!userId) {
+      const { marker, secret } = createPendingSignup(phone)
+      // generateLink also returns existing email identities. Creating explicitly
+      // prevents an unproven email from authorizing a new WhatsApp login method.
+      const { data: created, error: createError } = await admin.auth.admin.createUser({
+        email: authEmail,
+        email_confirm: false,
+        user_metadata: { first_name: firstName },
+        app_metadata: { pending_signup_identity: marker },
+      })
+      if (createError || !created.user?.id) {
+        const alreadyRegistered = createError?.code === 'email_exists' ||
+          /already.*(?:exist|registered)|(?:email|user).*already/i.test(createError?.message ?? '')
+        return respond({ error: alreadyRegistered
+          ? 'That email is already linked to an account. Choose Returning member, then Email to sign in before connecting another number.'
+          : 'We could not start sign-up just now. Please try again in a moment.' }, alreadyRegistered ? 409 : 502)
+      }
+      userId = created.user.id
+      authEmail = created.user.email || authEmail
+      pendingCookie = { value: `${userId}.${secret}`, expiresAt: marker.expires_at }
+    }
   }
 
   const { data: authUserResult, error: lookupError } = await admin.auth.admin.getUserById(userId)
   if (lookupError || !authUserResult.user) {
-    return NextResponse.json({ error: 'We could not start sign-up. Please try again.' }, { status: 500 })
+    return respond({ error: 'We could not start sign-up. Please try again.' }, 500)
   }
 
   const authUser = authUserResult.user
   const lastSentAt = Number(authUser.app_metadata?.signup_links_sent_at ?? 0)
   if (lastSentAt && Date.now() - lastSentAt < RESEND_WINDOW_MS) {
-    return NextResponse.json({ error: 'Your links were just sent. Please wait a minute before trying again.' }, { status: 429 })
+    return respond({ error: 'Your links were just sent. Please wait a minute before trying again.' }, 429)
   }
 
   const { token } = buildConnectToken(userId, CONNECT_TOKEN_TTL_SECONDS)
   const { error: metadataError } = await admin.auth.admin.updateUserById(userId, {
-    user_metadata: { ...authUser.user_metadata, ...(firstName ? { first_name: firstName } : {}) },
     app_metadata: {
       ...authUser.app_metadata,
       pending_whatsapp_number: phone,
@@ -118,7 +137,7 @@ export async function POST(req: NextRequest) {
     },
   })
   if (metadataError) {
-    return NextResponse.json({ error: 'We could not prepare your verification links.' }, { status: 500 })
+    return respond({ error: 'We could not prepare your verification links.' }, 500)
   }
 
   scheduleCrmSync(userId)
@@ -126,7 +145,7 @@ export async function POST(req: NextRequest) {
   try {
     await sendWhatsAppSignInLink(phone, token, SITE)
   } catch {
-    return NextResponse.json({ error: 'We could not send your WhatsApp sign-in link. Please try again in a minute, or use email sign-in.' }, { status: 502 })
+    return respond({ error: 'We could not send your WhatsApp sign-in link. Please try again in a minute, or use email sign-in.' }, 502)
   }
 
   let emailSent = false
@@ -146,5 +165,5 @@ export async function POST(req: NextRequest) {
     else emailSent = true
   }
 
-  return NextResponse.json({ sent: true, emailSent })
+  return respond({ sent: true, emailSent })
 }

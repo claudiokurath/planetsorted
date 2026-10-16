@@ -1,7 +1,8 @@
+import { websiteSiteUrl } from '@/lib/siteUrl'
 import type { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const siteUrl = process.env.SITE_URL ?? 'https://planetsorted.com'
+  const siteUrl = websiteSiteUrl()
 
   return {
     rules: {

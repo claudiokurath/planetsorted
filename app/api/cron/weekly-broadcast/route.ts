@@ -1,3 +1,4 @@
+import { websiteSiteUrl } from '@/lib/siteUrl'
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
@@ -8,7 +9,8 @@ const MIN_RESEND_MS = 6 * 24 * 60 * 60 * 1000
 
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const cronSecret = process.env.CRON_SECRET
+  if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -39,6 +41,7 @@ export async function GET(req: NextRequest) {
       .from('users')
       .select('id, user_id, whatsapp_number, last_weekly_sent_at')
       .eq('weekly_opted_in', true)
+      .eq('whatsapp_verified', true)
       .eq('whatsapp_opted_out', false)
       .not('whatsapp_number', 'is', null)
 
@@ -56,7 +59,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ sent: 0, skipped: 0, message: 'No opted-in subscribers.' })
     }
 
-    const site = process.env.SITE_URL ?? 'https://planetsorted.com'
+    const site = websiteSiteUrl()
     const linkUrl = `${site}/r/${protocol.slug}`
     // Real newlines — previous version had a double-escaped "\\n\\n" literal.
     const messageBody = `*${protocol.title}*\n\n${
@@ -95,11 +98,8 @@ export async function GET(req: NextRequest) {
             .update({ last_weekly_sent_at: nowIso })
             .eq('user_id', user.user_id)
         }
-      } catch (err) {
-        console.error(
-          `[Weekly Broadcast] Failed to send to number ${user.whatsapp_number}:`,
-          err
-        )
+      } catch {
+        console.error('[Weekly Broadcast] Subscriber message was not confirmed')
       }
     }
 

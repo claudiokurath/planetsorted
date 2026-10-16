@@ -6,6 +6,7 @@ import Link from 'next/link'
 import type { Session } from '@supabase/supabase-js'
 import { createBrowserClient } from '@/lib/supabase/client'
 import type { SavedItem, User } from '@/lib/types/database'
+import { AccountMembersIntro } from '@/components/AccountMembersIntro'
 import './DashboardClient.css'
 
 type Tab = 'library' | 'settings'
@@ -51,6 +52,7 @@ export function DashboardClient() {
 
   // GDPR Deletion State
   const [deletingAccount, setDeletingAccount] = useState(false)
+  const accountDeletionCompletedRef = useRef(false)
 
   // Actual membership status; website tools are not metered by RUN credits.
   const [billingPlan, setBillingPlan] = useState<string>('Free')
@@ -154,9 +156,9 @@ export function DashboardClient() {
     initAuth()
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, activeSession) => {
-      if (!activeSession) {
+      if (!activeSession && !accountDeletionCompletedRef.current) {
         router.replace('/signup?error=session-expired&next=/dashboard')
-      } else {
+      } else if (activeSession) {
         setSession(activeSession)
       }
     })
@@ -261,7 +263,7 @@ export function DashboardClient() {
 
   async function handleDeleteAccount() {
     const confirmed = window.confirm(
-      'Are you sure you want to delete your account?\n\nThis will permanently remove your library and settings. This operation is fully GDPR compliant and cannot be undone.'
+      'Are you sure you want to delete your account?\n\nThis will permanently remove your website account, library, and settings, and cancel any linked membership. This cannot be undone.'
     )
     if (!confirmed) return
 
@@ -272,9 +274,22 @@ export function DashboardClient() {
         method: 'POST',
         headers
       })
-      if (!res.ok) throw new Error()
-      
-      await supabase.auth.signOut()
+      const data = await res.json().catch(() => null) as {
+        accountDeleted?: boolean
+        dataCleanupPending?: boolean
+        error?: string
+      } | null
+      if (!res.ok && data?.accountDeleted !== true) {
+        alert(data?.error || 'We could not delete your account. Please try again.')
+        setDeletingAccount(false)
+        return
+      }
+      if (data?.dataCleanupPending) {
+        alert(data.error || 'Your account has been deleted, but some saved data still needs to be removed. Please contact hello@planetsorted.com for help.')
+      }
+
+      accountDeletionCompletedRef.current = true
+      await supabase.auth.signOut({ scope: 'local' })
       router.replace('/signup?info=deleted')
     } catch {
       alert('Failed to delete account. Please try again.')
@@ -291,6 +306,7 @@ export function DashboardClient() {
     (item.title || '').toLowerCase().includes(libraryFilter.toLowerCase()) ||
     (item.category || '').toLowerCase().includes(libraryFilter.toLowerCase())
   )
+  const whatsappStartUrl = `https://wa.me/${(process.env.NEXT_PUBLIC_WA_NUMBER || '447591922247').replace(/\D/g, '')}?text=START`
 
   if (loading) {
     return (
@@ -305,52 +321,36 @@ export function DashboardClient() {
 
   return (
     <div className="sorted-account w-full">
-      {/* Compact account header — matches PageHeader language site-wide */}
-      <header className="mb-8 sm:mb-10">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <div className="min-w-0 space-y-3">
-            <div className="flex items-center gap-2.5">
-              <span className="h-0.5 w-8 rounded-full bg-[#FFBA2E]" />
-              <span className="text-sm font-medium uppercase tracking-[0.22em] text-neutral-400">
-                PLANET SOR7ED
-              </span>
-            </div>
-            <div className="flex flex-wrap items-center gap-3">
-              <h1
-                className="font-bebas break-words text-4xl uppercase leading-[1.1] tracking-normal text-white sm:text-5xl lg:text-6xl"
-              >
+      <div className="sorted-account-workspace">
+      <header className="sorted-account-header">
+          <div className="min-w-0">
+            <p className="sorted-account-eyebrow">Your SOR7ED account</p>
+            <div className="sorted-account-welcome">
+              <h1>
                 Welcome back{profile?.first_name ? `, ${profile.first_name}` : ''}
               </h1>
-              <span className="rounded-full border border-[#FFBA2E]/30 bg-[#FFBA2E]/10 px-3 py-0.5 text-sm font-medium text-[#FFBA2E]">
+              <span className="sorted-account-member">
                 {billingUnlimited ? billingPlan : 'Member'}
               </span>
             </div>
-            <p className="break-all font-mono text-sm tracking-wide text-neutral-400">
+            <p className="sorted-account-email">
               {session?.user?.email}
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="border border-white/20 bg-black px-4 py-2.5 text-center">
-              <span className="block text-sm font-medium uppercase tracking-wider text-neutral-400">
-                Your plan
-              </span>
-              <span className="block text-base font-normal text-[#FFBA2E]">
-                {billingUnavailable ? 'Plan unavailable' : billingPlan}
-              </span>
-              <Link href="/membership" className="mt-1 inline-flex min-h-11 items-center text-sm font-medium text-[#FFBA2E] underline hover:text-white">
-                Membership details
+          <div className="sorted-account-header-actions">
+              <Link href="/membership" className="sorted-account-plan">
+                <span>Your plan: {billingUnavailable ? 'Unavailable' : billingPlan}</span>
+                <span className="sorted-account-plan-link">Membership details</span>
               </Link>
-            </div>
 
             <button
               onClick={handleSignOut}
-              className="rounded-full border border-neutral-700 bg-black px-5 py-2.5 text-sm font-medium text-neutral-200 transition-all hover:border-neutral-500 hover:bg-neutral-800 hover:text-white active:scale-95"
+              className="sorted-account-signout"
             >
               Sign Out
             </button>
           </div>
-        </div>
       </header>
 
       {profileError && (
@@ -363,7 +363,7 @@ export function DashboardClient() {
       )}
 
       {/* Main Dashboard Tabs */}
-      <div role="group" aria-label="Account sections" className="mb-8 flex gap-4 border-b border-gray-800/80 sm:gap-6">
+      <div role="group" aria-label="Account sections" className="sorted-account-tabs">
         <button
           type="button"
           aria-pressed={activeTab === 'library'}
@@ -375,7 +375,7 @@ export function DashboardClient() {
               : 'border-transparent text-neutral-400 hover:text-gray-200'
           }`}
         >
-          <span>Saved library</span>
+          <span>Your library</span>
           <span className="rounded-full bg-black px-2 py-0.5 text-xs text-gray-300">
             {savedItems.length}
           </span>
@@ -392,17 +392,17 @@ export function DashboardClient() {
               : 'border-transparent text-neutral-400 hover:text-gray-200'
           }`}
         >
-          Account settings
+          Edit profile
         </button>
       </div>
 
       {/* Saved items only — no tool catalogue or recommendations. */}
       {activeTab === 'library' && (
-        <section id="account-library" aria-labelledby="account-library-title" className="space-y-6">
+        <section id="account-library" aria-labelledby="account-library-title" className="sorted-account-library space-y-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h2 id="account-library-title" className="text-xl font-medium text-white">Your saved library</h2>
-              <p className="text-base text-neutral-400 mt-1">The tools and protocols you have saved.</p>
+              <p className="text-sm text-neutral-400 mt-1">A backup of the tools and protocols you have saved.</p>
             </div>
 
             <label htmlFor="library-search" className="sr-only">Search your saved library</label>
@@ -417,16 +417,16 @@ export function DashboardClient() {
           </div>
 
           {itemsLoading ? (
-            <div role="status" className="glass-card rounded-none p-8 sm:p-12 text-center text-neutral-300 text-base">
+            <div role="status" className="sorted-account-library-state text-neutral-300 text-base">
               Loading your saved items...
             </div>
           ) : itemsError ? (
-            <div role="alert" className="glass-card rounded-none p-8 sm:p-12 text-center text-neutral-300">
+            <div role="alert" className="sorted-account-library-state text-neutral-300">
               <p className="mb-4 text-base">{itemsError}</p>
               <button type="button" onClick={() => void fetchSavedItems()} className="sorted-account-action">Try again</button>
             </div>
           ) : filteredLibrary.length === 0 ? (
-            <div role="status" className="glass-card rounded-none p-8 sm:p-12 text-center text-neutral-300">
+            <div role="status" className="sorted-account-library-state text-neutral-300">
               <p className="text-base font-medium text-gray-300 mb-2">{savedItems.length ? 'No saved items match your search' : 'Your library is currently empty'}</p>
               <p className="text-base text-neutral-400 max-w-md mx-auto leading-relaxed">
                 {savedItems.length ? 'Try another title or category, or clear the search to see your saved items.' : 'Items appear here after you save them. You have not saved any items yet.'}
@@ -469,7 +469,7 @@ export function DashboardClient() {
 
       {/* TAB 3: ACCOUNT SETTINGS */}
       {activeTab === 'settings' && (
-        <section id="account-settings" aria-label="Account settings" className="max-w-2xl space-y-10">
+        <section id="account-settings" aria-label="Account settings" className="sorted-account-settings">
           {/* Profile Form */}
           <div className="glass-card rounded-none p-6 sm:p-8 space-y-6">
             <h2 className="text-lg font-medium text-white border-b border-gray-800/80 pb-3">Profile Preferences</h2>
@@ -529,6 +529,15 @@ export function DashboardClient() {
             <p className="text-sm text-neutral-400 leading-relaxed">
               Verify your WhatsApp number to enable direct Save-to-Phone capabilities from web tools and articles.
             </p>
+
+            {profile?.whatsapp_opted_out && (
+              <div className="sorted-account-whatsapp-recovery">
+                <p>WhatsApp messages are paused. Send START to SOR7ED on WhatsApp to receive messages again.</p>
+                <a href={whatsappStartUrl} target="_blank" rel="noopener noreferrer">
+                  Open WhatsApp with START<span className="sr-only"> (opens in a new tab)</span> &rarr;
+                </a>
+              </div>
+            )}
 
             {verifyState === 'verified' && (
               <div className="space-y-4">
@@ -635,7 +644,7 @@ export function DashboardClient() {
           </div>
 
           {/* Account Deletion */}
-          <div className="glass-card rounded-none p-6 sm:p-8 space-y-4 border-red-500/20">
+          <div className="glass-card sorted-account-delete rounded-none p-6 sm:p-8 space-y-4 border-red-500/20">
             <h2 className="text-base font-medium text-red-400">Delete Account (GDPR)</h2>
             <p className="text-sm text-neutral-400 leading-relaxed">
               Permanently erase all saved articles, tool history, credits, and profiles. This operation cannot be reversed.
@@ -650,6 +659,9 @@ export function DashboardClient() {
           </div>
         </section>
       )}
+      </div>
+
+      <AccountMembersIntro />
     </div>
   )
 }

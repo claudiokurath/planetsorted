@@ -1,6 +1,7 @@
+import { websiteSiteUrl } from '@/lib/siteUrl'
 import { NextRequest, NextResponse } from 'next/server'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = websiteSiteUrl()
 
 /**
  * The URL the WhatsApp Sorted-button card points at. It must always land the

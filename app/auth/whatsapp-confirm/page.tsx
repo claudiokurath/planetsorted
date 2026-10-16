@@ -6,6 +6,8 @@ import { verifyConnectToken } from '@/lib/crypto/tokens'
 import { safeNext } from '@/lib/safeNext'
 import { scheduleCrmSync } from '@/lib/notion/syncCrmAccount'
 import { matchesPendingSignInToken } from '@/lib/whatsapp/signInLink'
+import { pendingSignupForPhone } from '@/lib/auth/pendingSignup'
+import { websiteSiteUrl } from '@/lib/siteUrl'
 
 interface Props {
   searchParams: Promise<{ token?: string }>
@@ -17,7 +19,7 @@ export default async function WhatsAppConfirmPage({ searchParams }: Props) {
   const { token = '' } = await searchParams
   // The approved card's button predates the primary-domain switch. Finish on
   // planetsorted.com so the session belongs to the site the member is using.
-  const site = process.env.SITE_URL ?? 'https://planetsorted.com'
+  const site = websiteSiteUrl()
   const requestHeaders = await headers()
   const host = requestHeaders.get('x-forwarded-host') || requestHeaders.get('host')
   if (host && host.replace(/^www\./, '') !== new URL(site).host.replace(/^www\./, '')) {
@@ -41,7 +43,7 @@ export default async function WhatsAppConfirmPage({ searchParams }: Props) {
 
   const { data: phoneOwner, error: phoneLookupError } = await admin
     .from('users')
-    .select('user_id, whatsapp_opted_out')
+    .select('user_id, first_name, whatsapp_opted_out')
     .eq('whatsapp_number', phone)
     .maybeSingle()
 
@@ -53,8 +55,18 @@ export default async function WhatsAppConfirmPage({ searchParams }: Props) {
     return <VerificationMessage title="Already connected." body="That WhatsApp number belongs to another SOR7ED account." href="/signup" label="Try another account" />
   }
 
+  if (phoneOwner?.user_id !== authUser.id) {
+    const { data: linkedProfile, error: linkedProfileError } = await admin.from('users')
+      .select('user_id').eq('user_id', authUser.id).maybeSingle()
+    // A signup marker may attach the first profile only. A member who has
+    // already connected another number must use authenticated verification.
+    if (linkedProfileError || linkedProfile || !pendingSignupForPhone(authUser.app_metadata?.pending_signup_identity, phone)) {
+      return <VerificationMessage title="Could not sign in." body="Use email sign-in before connecting another WhatsApp number." href="/signup?mode=returning" label="Back to sign in" />
+    }
+  }
+
   const profileValues = {
-    first_name: authUser.user_metadata?.first_name || '',
+    first_name: phoneOwner?.first_name ?? authUser.user_metadata?.first_name ?? '',
     email: authUser.email || '',
     whatsapp_number: phone,
     whatsapp_verified: true,
@@ -98,6 +110,7 @@ export default async function WhatsAppConfirmPage({ searchParams }: Props) {
       pending_whatsapp_number: null,
       pending_signup_next: null,
       pending_signin_token_digest: null,
+      pending_signup_identity: null,
     },
   })
 

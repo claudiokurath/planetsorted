@@ -1,3 +1,4 @@
+import { websiteSiteUrl } from '@/lib/siteUrl'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { detectCrisis, CRISIS_RESPONSE } from '@/lib/whatsapp/crisis'
@@ -5,7 +6,7 @@ import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
 import { verifyMetaSignature } from '@/lib/crypto/tokens'
 import type { Database } from '@/lib/types/database'
 
-const SITE = process.env.SITE_URL ?? 'https://www.sor7ed.com'
+const SITE = websiteSiteUrl()
 
 // The inbound command bot has been removed. This endpoint now does three things
 // and nothing else:

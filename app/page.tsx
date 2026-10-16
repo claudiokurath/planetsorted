@@ -1,7 +1,8 @@
+import { websiteSiteUrl } from '@/lib/siteUrl'
 import type { Metadata } from 'next'
 import { HomeGateway } from '@/components/HomeGateway'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = websiteSiteUrl()
 const OG_CARD = '/api/og?card=welcome'
 
 const DESC =

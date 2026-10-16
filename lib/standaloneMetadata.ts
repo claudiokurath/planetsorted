@@ -1,8 +1,9 @@
+import { websiteSiteUrl } from './siteUrl.js'
 import type { Metadata } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
 import { ogImageForContent } from '@/lib/og/imageUrl'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = websiteSiteUrl()
 
 export async function getStandaloneMetadata(
   slug: string,

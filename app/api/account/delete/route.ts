@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireUser } from '@/lib/auth/requireUser'
+import { stripe } from '@/lib/stripe'
+import { AccountDeletionBillingError, cancelAccountSubscriptions } from '@/lib/billing/accountDeletion'
 
 /**
  * GDPR account wipe. Requires an authenticated session/Bearer token.
@@ -29,42 +31,78 @@ export async function POST(req: NextRequest) {
   }
 
   const userId = authUser.id
+  let authDeleted = false
+  let phase = 'billing-lookup'
 
   try {
-    await supabase.from('saved_items').delete().eq('user_id', userId)
-    await supabase.from('credits_ledger').delete().eq('user_id', userId)
-    await supabase.from('entitlements').delete().eq('user_id', userId)
-
-    const { data: requests } = await supabase
-      .from('tool_requests')
-      .select('id')
+    // Keep the billing links until cancellation AND Auth deletion succeed.
+    // A failed/uncertain Stripe request must never erase the IDs needed to retry.
+    const { data: entitlements, error: billingReadError } = await supabase
+      .from('entitlements')
+      .select('status, stripe_customer_id, stripe_subscription_id')
       .eq('user_id', userId)
+    if (billingReadError) throw billingReadError
+    phase = 'billing-cancellation'
+    await cancelAccountSubscriptions(stripe, entitlements ?? [])
 
-    if (requests && requests.length > 0) {
-      const requestIds = requests.map((r) => r.id)
-      await supabase.from('tool_runs').delete().in('tool_request_id', requestIds)
-      await supabase.from('tool_requests').delete().in('id', requestIds)
-    }
+    // tool_runs are removed by their tool_request_id ON DELETE CASCADE FK.
+    // Scope the parent delete by owner rather than a stale snapshot of IDs.
+    phase = 'tool-requests-delete'
+    const { error: requestsError } = await supabase.from('tool_requests').delete().eq('user_id', userId)
+    if (requestsError) throw requestsError
 
-    await supabase.from('users').delete().eq('user_id', userId)
+    phase = 'saved-items-delete'
+    const { error: savedItemsError } = await supabase.from('saved_items').delete().eq('user_id', userId)
+    if (savedItemsError) throw savedItemsError
 
+    phase = 'credits-delete'
+    const { error: creditsError } = await supabase.from('credits_ledger').delete().eq('user_id', userId)
+    if (creditsError) throw creditsError
+
+    // public.users has an Auth FK without a delete cascade, so it goes first.
+    phase = 'profile-delete'
+    const { error: profileError } = await supabase.from('users').delete().eq('user_id', userId)
+    if (profileError) throw profileError
+
+    phase = 'auth-delete'
     const { error: deleteAuthError } = await supabase.auth.admin.deleteUser(userId)
     if (deleteAuthError) {
-      console.error('[GDPR delete auth user error]', deleteAuthError)
+      console.error('[account deletion]', { phase, status: 'failed' })
       return NextResponse.json(
-        { error: 'Failed to delete authentication profile' },
+        { error: 'We could not confirm account deletion. Please try signing in again or contact hello@planetsorted.com.' },
+        { status: 500 }
+      )
+    }
+    authDeleted = true
+
+    phase = 'billing-reference-cleanup'
+    const { error: entitlementsError } = await supabase.from('entitlements').delete().eq('user_id', userId)
+    if (entitlementsError) throw entitlementsError
+
+    return NextResponse.json({
+      success: true,
+      message: 'Your website account has been deleted.',
+    })
+  } catch (err) {
+    if (authDeleted) {
+      // Auth is gone: the caller cannot retry this authenticated endpoint.
+      // Retained entitlement rows identify the work support must reconcile.
+      console.error('[account deletion]', { phase, status: 'reconciliation-required' })
+      return NextResponse.json(
+        {
+          accountDeleted: true,
+          dataCleanupPending: true,
+          error: 'Your sign-in account has been deleted, but some account records still need to be removed. Please contact hello@planetsorted.com so we can complete your deletion.',
+        },
         { status: 500 }
       )
     }
 
-    return NextResponse.json({
-      success: true,
-      message: 'Account and all associated data permanently deleted.',
-    })
-  } catch (err) {
-    console.error('[GDPR delete error]', err)
+    console.error('[account deletion]', { phase, status: 'failed' })
     return NextResponse.json(
-      { error: 'An unexpected error occurred during account deletion.' },
+      { error: err instanceof AccountDeletionBillingError
+        ? err.message
+        : 'We could not finish deleting your account. Please try again or contact hello@planetsorted.com.' },
       { status: 500 }
     )
   }

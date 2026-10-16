@@ -1,7 +1,8 @@
+import { websiteSiteUrl, normaliseWebsiteResourceUrl } from '@/lib/siteUrl'
 import { NextRequest, NextResponse } from 'next/server'
 import { requireUser } from '@/lib/auth/requireUser'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = websiteSiteUrl()
 
 export async function GET(req: NextRequest) {
   const auth = await requireUser(req)
@@ -20,7 +21,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Failed to fetch saved items' }, { status: 500 })
     }
 
-    return NextResponse.json(items || [])
+    return NextResponse.json((items || []).map(item => ({ ...item, url: normaliseWebsiteResourceUrl(item.url) })))
   } catch (err) {
     console.error('[Saved items API error]', err)
     return NextResponse.json({ error: 'An unexpected error occurred.' }, { status: 500 })

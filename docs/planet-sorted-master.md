@@ -143,6 +143,13 @@ Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant o
 
 ## Visual Identity
 
+**Account source (2026-10-16):** `/dashboard` recreates the supplied four-page
+member-introduction PDF as native sections, using its original brain-and-chair
+artwork and wording. Keep the black canvas, four yellow experience cards and
+three outlined affirmation cards. The compact saved library and Edit profile
+controls remain above the introduction; only items actually saved by the signed-in
+member appear. Decorative artwork is hidden in the white-background print version.
+
 **Homepage hero:** remove the photographic hero image. The silent animated scribble
 sits beside the live headline at a larger size (up to 240px desktop, 84–100px mobile).
 Keep the black canvas, existing copy and entry choices; compact spacing fits ordinary

@@ -1,10 +1,11 @@
+import { websiteSiteUrl } from '@/lib/siteUrl'
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient, createSessionClient } from '@/lib/supabase/server'
 import { sendWhatsAppContentCard } from '@/lib/whatsapp/send'
 import type { User, Protocol } from '@/lib/types/database'
 import { ogImageForContent } from '@/lib/og/imageUrl'
 
-const SITE = process.env.SITE_URL ?? 'https://planetsorted.com'
+const SITE = websiteSiteUrl()
 
 export async function POST(req: NextRequest) {
   try {

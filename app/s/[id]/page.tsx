@@ -1,3 +1,4 @@
+import { websiteSiteUrl } from '@/lib/siteUrl'
 import { redirect } from 'next/navigation'
 import type { Metadata } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const row = data as Pick<SavedItem, 'title' | 'category' | 'url'> | null
   if (!row) return {}
 
-  const site = process.env.SITE_URL ?? 'https://planetsorted.com'
+  const site = websiteSiteUrl()
   const title = row.title ?? 'Saved Item — PLANET SOR7ED'
   // `saved_items` stores no per-item description or OG image, so fall back to the
   // category blurb and let the site-level default OG image apply.
