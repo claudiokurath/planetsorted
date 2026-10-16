@@ -2,6 +2,60 @@
   min-width: 0;
 }
 
+.sorted-account-workspace {
+  padding: clamp(18px, 3vw, 32px);
+  border: 1px solid var(--sor7ed-section-border);
+  margin-bottom: 32px;
+}
+.sorted-account-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.sorted-account-eyebrow {
+  margin-bottom: 8px;
+  color: #a3a3a3;
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.sorted-account-welcome { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.sorted-account h1 {
+  font-family: var(--font-anton), "Arial Narrow", sans-serif;
+  font-size: clamp(1.875rem, 3vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.15;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+.sorted-account-member {
+  border: 1px solid #ffba2e80;
+  border-radius: 30px;
+  padding: 3px 10px;
+  color: #ffba2e;
+  font-size: 12px;
+}
+.sorted-account-email { margin-top: 8px; overflow-wrap: anywhere; color: #a3a3a3; font-size: 14px; }
+.sorted-account-header-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 20px; flex-shrink: 0; }
+.sorted-account-plan { display: flex; flex-direction: column; justify-content: center; min-height: 44px; font-size: 14px; color: #d4d4d4; }
+.sorted-account-plan-link { color: #ffba2e; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
+.sorted-account-plan:hover .sorted-account-plan-link { color: #fff; }
+.sorted-account-signout { border: 1px solid #737373; padding: 8px 16px; color: #e5e5e5; }
+.sorted-account-signout:hover { border-color: #fff; color: #fff; }
+.sorted-account-tabs { display: flex; gap: 24px; margin-bottom: 20px; border-bottom: 1px solid #333; }
+.sorted-account .sorted-account-library h2 { font-size: 1.5rem; }
+.sorted-account-library-state { padding: 24px 16px; border: 1px solid #333; text-align: center; }
+.sorted-account-settings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 20px; }
+.sorted-account-delete { grid-column: 1 / -1; }
+.sorted-account-whatsapp-recovery { padding: 16px; border: 1px solid #ffba2e; font-size: 14px; line-height: 1.6; }
+.sorted-account-whatsapp-recovery p { color: #e5e5e5; }
+.sorted-account-whatsapp-recovery a { display: inline-flex; align-items: center; min-height: 44px; color: #ffba2e; text-decoration: underline; text-underline-offset: 3px; }
+.sorted-account-whatsapp-recovery a:hover { color: #fff; }
+.sorted-account a:focus-visible,
+.sorted-account button:focus-visible { outline: 2px solid #ffba2e; outline-offset: 4px; }
+
 /* A compact backup library, with equally sized cards and readable controls. */
 .sorted-account-library-grid {
   display: grid;
@@ -115,8 +169,71 @@
   line-height: 1.6;
 }
 
-@media (max-width: 639px) {
-  .sorted-account h1 {
-    font-size: clamp(2rem, 9vw, 2.5rem);
-  }
+/* The attached member presentation, kept as real web text and the original art. */
+.sorted-members-intro { border: 1px solid var(--sor7ed-section-border); background: #000; }
+.sorted-members-art { overflow: hidden; }
+.sorted-members-art img { display: block; width: 100%; height: auto; }
+.sorted-members-section { padding: clamp(28px, 4.4vw, 56px); border-top: 1px solid var(--sor7ed-section-border); }
+.sorted-account .sorted-members-section h2 {
+  margin: 0 0 32px;
+  color: #fff;
+  font-size: clamp(2rem, 4.2vw, 3.5rem);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.sorted-members-who { padding-block: clamp(40px, 6.25vw, 80px); }
+.sorted-members-copy { display: grid; gap: 20px; }
+.sorted-members-copy p,
+.sorted-members-note,
+.sorted-members-affirmation p { color: #c2c2c2; font-size: 17px; line-height: 1.75; }
+.sorted-members-experiences { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.sorted-members-experience { min-width: 0; padding: 24px 20px 28px; border-radius: 6px; background: #ffba2e; color: #000; }
+.sorted-members-experience svg { width: 28px; height: 28px; margin: 2px 0 30px 10px; }
+.sorted-members-intro h3 {
+  font-family: var(--font-anton), "Arial Narrow", sans-serif;
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+.sorted-members-experience h3 { margin-bottom: 14px; }
+.sorted-members-experience p { color: #272005; font-size: 17px; line-height: 1.75; }
+.sorted-members-note { margin: 0 0 24px; }
+.sorted-members-affirmations { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.sorted-members-affirmation { min-width: 0; padding: 20px; border: 2px solid #ffba2e; border-radius: 6px; }
+.sorted-members-affirmation h3 { margin-bottom: 14px; color: #fff; }
+.sorted-members-cross { white-space: nowrap; }
+
+@media (max-width: 1050px) {
+  .sorted-account-header { align-items: start; }
+  .sorted-account-header-actions { flex-direction: column; align-items: end; gap: 8px; }
+  .sorted-members-experiences { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sorted-members-affirmations { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .sorted-account-settings { grid-template-columns: 1fr; }
+  .sorted-account-header { flex-direction: column; gap: 16px; }
+  .sorted-account-header-actions { flex-direction: row; align-items: center; justify-content: space-between; width: 100%; }
+  .sorted-members-copy p,
+  .sorted-members-note,
+  .sorted-members-experience p,
+  .sorted-members-affirmation p { font-size: 16px; line-height: 1.65; }
+  .sorted-account .sorted-members-section h2 { margin-bottom: 24px; }
+}
+@media (max-width: 480px) {
+  .sorted-members-section { padding-inline: 22px; }
+  .sorted-members-experiences { grid-template-columns: 1fr; gap: 14px; }
+  .sorted-members-experience { padding: 24px; }
+  .sorted-members-experience svg { margin-bottom: 24px; }
+  .sorted-members-intro h3 { font-size: 1.5rem; }
+  .sorted-account-workspace { padding: 18px; }
+}
+@media print {
+  .sorted-members-art { display: none !important; }
+  .sorted-account-workspace, .sorted-members-intro, .sorted-members-section { background: #fff !important; color: #000 !important; border-color: #999 !important; }
+  .sorted-members-experience, .sorted-members-affirmation { background: #fff !important; color: #000 !important; border: 1px solid #999 !important; break-inside: avoid; }
+  .sorted-members-section { break-inside: auto; }
+  .sorted-members-intro h2, .sorted-members-intro h3, .sorted-members-intro p { color: #000 !important; }
+  .sorted-members-experiences { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sorted-members-affirmations { grid-template-columns: 1fr; }
 }
