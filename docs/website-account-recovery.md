@@ -3,8 +3,9 @@
 ## Account reference
 
 The supplied four-page `Untitled.pdf` is recreated as native, responsive account
-content. `AccountMembersIntro` retains the original embedded JPEG and source
-wording: the member introduction, four yellow experience cards, and three outlined
+content. `AccountMembersIntro` uses the separately supplied original `0_0 (7).jpg`
+(1280 × 853), unchanged, and the PDF's source wording: the member introduction,
+four yellow experience cards, and three outlined
 affirmation cards. The account workspace stays above it with Your library and
 Edit profile. Only the authenticated member's actual saved items are displayed.
 Printing uses white backgrounds and hides the decorative photograph.
@@ -65,7 +66,7 @@ operations. It refuses remote database URLs.
 - Isolated browser checks cover account widths 320–1440px, equal desktop cards,
   saved-only/empty/search/retry states, profile editing, STOP recovery, sign-out,
   partial deletion, signed-out gating and white print rendering.
-- The original account JPEG was extracted unchanged; artwork is not cropped.
+- The supplied original account JPEG is copied unchanged; artwork is not cropped.
 - Local webpack production build, TypeScript, lint and diff checks run before PR.
 - Production read-only checks covered public resource/category pages, local
   calculators, the reflection app and private-content gates. No actual signup,

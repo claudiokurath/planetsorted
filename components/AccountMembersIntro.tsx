@@ -57,8 +57,8 @@ export function AccountMembersIntro() {
         <Image
           src="/images/account-members-space.jpg"
           alt="A brain in a glass case on a red machine beside a red chair, against a yellow wall."
-          width={1344}
-          height={892}
+          width={1280}
+          height={853}
           loading="eager"
           sizes="(max-width: 1312px) calc(100vw - 32px), 1280px"
           unoptimized
