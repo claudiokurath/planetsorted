@@ -1,65 +1,57 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import Image from 'next/image'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
+import { BrandLogo } from '@/components/BrandLogo'
 import './HomeGateway.css'
 
 const OPTIONS = [
-  { href: '/about', title: 'About us' },
-  { href: '/tools', title: 'Toolbox' },
-  { href: '/intelligence', title: 'Guidebook' },
-]
+  { href: '/brain-type', id: 'start-brain-type', title: 'Find your starting point', description: 'A reflection on how your brain works · tools to try', featured: true },
+  { href: '/tools', id: 'start-toolbox', title: 'Sort one thing', description: 'Practical tools for the thing in front of you' },
+  { href: '/intelligence', id: 'start-guidebook', title: 'Read a thing', description: 'Plain-language guides for everyday life' },
+] as const
 
 export function HomeGateway() {
+  const [motion, setMotion] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const update = () => {
-      const video = videoRef.current
-      if (!video) return
-      if (preference.matches) video.pause()
-      else void video.play().catch(() => {})
-    }
+    const update = () => setMotion(!preference.matches)
     update()
     preference.addEventListener('change', update)
     return () => preference.removeEventListener('change', update)
   }, [])
+  useEffect(() => {
+    if (motion) void videoRef.current?.play().catch(() => {})
+  }, [motion])
 
   return (
-    <section className="sorted-paper-hero sorted-gateway" aria-labelledby="entry-heading">
-      <div className="sorted-paper-content">
-        <div className="sorted-paper-panel">
-          <span className="sorted-paper-eyebrow">Neurodivergent-first. Everyday life.</span>
-          <div className="sorted-gateway-heading">
-            <h1 id="entry-heading">Built for brains<br />that work <span>differently.</span></h1>
-            <div className="sorted-paper-mark" aria-hidden="true">
-              <video ref={videoRef} autoPlay muted loop playsInline preload="auto" tabIndex={-1} poster="/images/tangle-white.png">
-                <source src="/media/tangle-loop-256.mp4" type="video/mp4" />
-              </video>
-              <Image className="sorted-paper-static-mark" src="/images/tangle-white.png" alt="" width={256} height={256} loading="eager" />
-            </div>
-          </div>
-          <div className="sorted-paper-description">
-            <p>SOR7ED is a practical support hub for ADHD, autistic, AuDHD, dyslexic, bipolar and other neurodivergent adults.</p>
-            <p>Tools, protocols and plain-language guides that make everyday life less overwhelming. One clear next step.</p>
-          </div>
-        </div>
-        <Link href="/brain-type" className="sorted-paper-profiler">Find your starting point <span aria-hidden="true">→</span><span className="sorted-paper-profiler-note">A 2-minute reflection · tools suggested for you</span></Link>
-        <nav className="sorted-paper-options" aria-label="Choose where to start">
-          {OPTIONS.map(option => (
-            <Link href={option.href} key={option.href} className="sorted-paper-option">{option.title}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12" /></svg></Link>
-          ))}
-        </nav>
-        <div className="sorted-gateway-footer">
-          <Link href="/signup" className="sorted-gateway-signup">
-            <Image src="/images/signup-membership.webp" alt="" width={1344} height={896} sizes="60px" className="sorted-gateway-signup-image" />
-            <span className="sorted-gateway-signup-label">Create your free account</span>
-            <span className="sorted-gateway-signup-arrow" aria-hidden="true">→</span>
-          </Link>
-          <p className="sorted-paper-motto">Worry less, live more.</p>
+    <section className="sorted-home-entry" aria-labelledby="entry-heading">
+      <div className="sorted-home-entry__rule"><span>Start here</span><span>One question · three ways in</span></div>
+      <div className="sorted-home-entry__hero">
+        <header>
+          <h1 id="entry-heading"><span>What would</span><span>help <em>right now</em>?</span></h1>
+          <p className="sorted-home-entry__intro">Pick the closest match. You can change direction whenever you need to.</p>
+        </header>
+        <div className="sorted-home-entry__wordmark" aria-hidden="true">
+          <BrandLogo />
+          {motion ? <span className="sorted-home-entry__live-o"><video ref={videoRef} autoPlay muted loop playsInline preload="metadata" tabIndex={-1}><source src="/media/tangle-loop-256.mp4" type="video/mp4" /></video></span> : null}
         </div>
       </div>
+      <nav className="sorted-home-entry__paths" aria-label="Choose where to start">
+        {OPTIONS.map((option, i) => (
+          <Link href={option.href} id={option.id} key={option.href} className={`sorted-home-entry__path${'featured' in option ? ' sorted-home-entry__path--featured' : ''}`} style={{ '--path-order': i } as CSSProperties}>
+            <span className="sorted-home-entry__number" aria-hidden="true">0{i + 1}</span>
+            <span className="sorted-home-entry__choice">
+              <span className="sorted-home-entry__context">{'featured' in option ? <><strong>Start here</strong><span aria-hidden="true"> · </span></> : null}{option.description}</span>
+              <span className="sorted-home-entry__title">{option.title}</span>
+            </span>
+            <svg className="sorted-home-entry__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+          </Link>
+        ))}
+      </nav>
+      <p className="sorted-home-entry__note">The brain-type app is a reflection tool, not a diagnosis.</p>
+      <div className="sorted-home-entry__bottom"><Link href="/tools">Nothing quite fits? Browse all tools</Link><Link href="/signup">Create your free account →</Link><span>Worry less, live more.</span></div>
     </section>
   )
 }
