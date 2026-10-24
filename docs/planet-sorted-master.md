@@ -150,11 +150,14 @@ three outlined affirmation cards. The compact saved library and Edit profile
 controls remain above the introduction; only items actually saved by the signed-in
 member appear. Decorative artwork is hidden in the white-background print version.
 
-**Homepage hero:** remove the photographic hero image. The silent animated scribble
-sits beside the live headline at a larger size (up to 240px desktop, 84–100px mobile).
-Keep the black canvas, existing copy and entry choices; compact spacing fits ordinary
-desktop and phone viewports. Retain natural scrolling for short screens or enlarged
-text rather than clipping content, and show a still for reduced motion.
+**Homepage hero:** use the supplied black editorial /start reference: a large
+“What would help right now?” headline (RIGHT NOW in #FFBA2E), the real white
+SOR7ED wordmark with its silent tangle loop over the O, and three equal-height
+hairline-separated entry rows. Feature the brain-type reflection app first
+(“Find your starting point” → /brain-type), then Toolbox and Guidebook. Use no
+runtime badges. Keep natural scrolling on small screens, a static wordmark for
+reduced motion, clear keyboard focus and no video controls. The brain-type app
+is a reflection tool, not a diagnosis.
 
 **About source:** `/about` recreates https://untitled-tbkg71d.gamma.site/ and
 the supplied Untitled.pdf as native content. Omit the entire “The Numbers” section.
