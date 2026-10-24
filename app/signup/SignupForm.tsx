@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
+import { safeNext } from '@/lib/safeNext'
 
 type State = 'idle' | 'loading' | 'sent' | 'error'
 type Mode = 'first' | 'returning'
@@ -46,7 +47,7 @@ export function SignupForm() {
           ? 'Please sign in to continue to your account.'
           : null
   const requestedNext = searchParams.get('next')
-  const nextPath = requestedNext?.startsWith('/') && !requestedNext.startsWith('//') ? requestedNext : '/dashboard'
+  const nextPath = safeNext(requestedNext)
   const returningMode =
     errorParam === 'link-expired' ||
     errorParam === 'session-expired' ||
@@ -66,6 +67,7 @@ export function SignupForm() {
   const [state, setState] = useState<State>('idle')
   const [errorMessage, setErrorMessage] = useState('')
   const [emailLinkSent, setEmailLinkSent] = useState(false)
+  const [whatsappLinkSent, setWhatsAppLinkSent] = useState(false)
 
   function switchMode(next: Mode) {
     if (next === mode) return
@@ -92,6 +94,7 @@ export function SignupForm() {
         return
       }
       setEmailLinkSent(Boolean(body.emailSent))
+      setWhatsAppLinkSent(body.whatsappSent !== false)
       setState('sent')
     } catch {
       setState('error')
@@ -122,19 +125,21 @@ export function SignupForm() {
     setState('loading')
     setErrorMessage('')
 
-    const supabase = createBrowserClient()
-    const site = window.location.origin
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.trim().toLowerCase(),
-      options: { emailRedirectTo: `${site}/auth/callback?next=${encodeURIComponent(nextPath)}` },
-    })
-    if (error) {
+    try {
+      const supabase = createBrowserClient()
+      const site = window.location.origin
+      const { error } = await supabase.auth.signInWithOtp({
+        email: email.trim().toLowerCase(),
+        options: { shouldCreateUser: false, emailRedirectTo: `${site}/auth/callback?next=${encodeURIComponent(nextPath)}` },
+      })
+      if (error) throw error
+      setEmailLinkSent(true)
+      setWhatsAppLinkSent(false)
+      setState('sent')
+    } catch {
       setState('error')
-      setErrorMessage('Something went wrong sending your link. Please try again.')
-      return
+      setErrorMessage('We could not send your email link. Please check your connection and try again.')
     }
-    setEmailLinkSent(true)
-    setState('sent')
   }
 
   if (state === 'sent') {
@@ -150,18 +155,16 @@ export function SignupForm() {
           height={1024}
           className="mx-auto mb-6 h-16 w-16 select-none sm:h-20 sm:w-20"
         />
-        <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#FFBA2E]">Links sent</p>
+<p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#FFBA2E]">Sign-in link requested</p>
         <h1 className="font-bebas mt-4 text-4xl uppercase leading-[1.15] text-white sm:text-5xl">
           {viaEmail ? 'Check your email.' : 'Check your phone.'}
         </h1>
         <p className="mx-auto mt-5 max-w-sm text-sm leading-6 text-neutral-400 sm:text-base">
-          {mode === 'returning'
-            ? viaEmail
-              ? 'Your secure sign-in link is waiting in your email.'
-              : 'Your sign-in link has been submitted to WhatsApp. Tap the button in the message to sign in. If it does not arrive, wait a minute and try again, or use email sign-in.'
+          {viaEmail && !whatsappLinkSent
+            ? 'Open the sign-in link in your email. No WhatsApp message was sent with this request.'
             : viaEmail
-              ? 'Tap the button in your WhatsApp message to connect your number and sign in. We also sent an email sign-in link.'
-              : 'Your link has been submitted to WhatsApp. Tap the button in the message to connect your number and sign in.'}
+              ? 'An email sign-in link was requested too. WhatsApp accepted the phone-link request; this does not confirm it arrived.'
+              : 'WhatsApp accepted the sign-in link request. Open the message to continue. If it does not arrive, use your email backup.'}
         </p>
         {inboxUrl ? (
           <a href={inboxUrl} target="_blank" rel="noopener noreferrer" className="mt-7 block min-h-14 rounded-full border border-white/15 px-6 py-4 text-sm font-medium uppercase tracking-wider text-white hover:border-[#FFBA2E]">

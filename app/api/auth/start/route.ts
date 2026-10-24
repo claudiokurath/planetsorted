@@ -142,10 +142,13 @@ export async function POST(req: NextRequest) {
 
   scheduleCrmSync(userId)
 
+  let whatsappSent = false
   try {
     await sendWhatsAppSignInLink(phone, token, SITE)
+    whatsappSent = true
   } catch {
-    return respond({ error: 'We could not send your WhatsApp sign-in link. Please try again in a minute, or use email sign-in.' }, 502)
+    // A broken WhatsApp provider must not suppress an independently requested
+    // email backup. Keep the phone unverified until its own proof completes.
   }
 
   let emailSent = false
@@ -154,16 +157,23 @@ export async function POST(req: NextRequest) {
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     )
-    const { error: emailError } = await anon.auth.signInWithOtp({
-      email: authEmail,
-      options: {
-        shouldCreateUser: false,
-        emailRedirectTo: `${SITE}/auth/callback?next=${encodeURIComponent(nextPath)}`,
-      },
-    })
-    if (emailError) console.error('[Unified signup email error]', emailError)
-    else emailSent = true
+    try {
+      const { error: emailError } = await anon.auth.signInWithOtp({
+        email: authEmail,
+        options: {
+          shouldCreateUser: false,
+          emailRedirectTo: `${SITE}/auth/callback?next=${encodeURIComponent(nextPath)}`,
+        },
+      })
+      if (emailError) console.error('[Unified signup email] Provider rejected the sign-in request')
+      else emailSent = true
+    } catch {
+      console.error('[Unified signup email] Provider could not be reached')
+    }
+  }
+  if (!whatsappSent && !emailSent) {
+    return respond({ error: 'WhatsApp sign-in is temporarily unavailable. If you added an email backup, try Returning member → Email. Otherwise please try again later.' }, 502)
   }
 
-  return respond({ sent: true, emailSent })
+  return respond({ sent: true, emailSent, whatsappSent })
 }
