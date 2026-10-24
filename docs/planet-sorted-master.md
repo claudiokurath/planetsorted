@@ -31,6 +31,14 @@
 ---
 
 ## Executive Summary
+**Shared WhatsApp number (24 October 2026):** the Button remains a separate
+product at sor7ed.com with its own Neon accounts and history. PlanetSorted
+keeps Meta credentials and the callback; the optional authenticated Button
+relay routes its sign-in/library commands and text deliveries without copying
+Meta secrets. Crisis handling stays first and STOP/START updates both services.
+See `docs/button-whatsapp-gateway.md` for the receipt table, safeguards and
+deployment settings. Website protocol access and private PDFs are unchanged.
+
 **Planet Sorted** is the mother brand and main website — the umbrella everything else sits under. The current build is **Sorted Lab**: practical protocols, templates, and tools for neurodivergent adults, delivered via a website and remote-controlled through WhatsApp. Content is authored in Notion, synced to Supabase every 5 minutes, and surfaced on the website as public articles and member tools. The website delivers the value; WhatsApp is the delivery channel — results are pushed to the user's phone from the site and stay there, no new app required. (The inbound command bot has been removed; texting the number does not run tools.) Beyond Sorted Lab, Planet Sorted is built to house further divisions over time — **Sorted Concierge** (the original "we do it for you" idea, reinstated as a future line) and whatever else comes next — without being capped at a fixed number.
 
 ---
