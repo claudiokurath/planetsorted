@@ -54,7 +54,7 @@ export function SmartNav() {
         </Link>
         {authReady && !user && (
           <Link
-            href={`/signup?next=${encodeURIComponent(pathname || '/')}`}
+            href={`/signup?mode=returning&next=${encodeURIComponent(pathname || '/')}`}
             className="inline-flex min-h-11 items-center px-2 text-xs font-medium uppercase tracking-[0.16em] text-[#FFBA2E]"
           >
             Sign In
@@ -110,7 +110,7 @@ export function SmartNav() {
               </>
             ) : (
               <Link
-                href={`/signup?next=${encodeURIComponent(pathname || '/')}`}
+                href={`/signup?mode=returning&next=${encodeURIComponent(pathname || '/')}`}
                 aria-current={pathname === '/signup' ? 'page' : undefined}
                 className={`inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
                   pathname === '/signup'

@@ -13,8 +13,8 @@ export class WhatsAppSendError extends Error {
 }
 
 const DEFAULT_GRAPH_VERSION = 'v23.0'
-// Preferred clean card. Meta templates can take time to approve, so delivery
-// automatically falls back to the currently approved legacy card below.
+// Approved templates are retained for conversations where Meta rejects the
+// immediate image/title card. Their static wording is managed in Meta.
 // Body: "{{1}}\n\nType below to revisit."
 // Button: https://sor7ed.com/{{1}}
 const DEFAULT_CARD_TEMPLATE = 'sor7ed_revisit_card'
@@ -137,7 +137,7 @@ export function buildWhatsAppInteractiveCardPayload(
   card: WhatsAppContentCard
 ): WhatsAppPayload {
   const title = card.title.toLocaleUpperCase('en-GB')
-  const body = `*${title}*\n\nType below to revisit.`
+  const body = `*${title}*`
 
   return {
     messaging_product: 'whatsapp',
@@ -154,7 +154,7 @@ export function buildWhatsAppInteractiveCardPayload(
       action: {
         name: 'cta_url',
         parameters: {
-          display_text: 'Open protocol',
+          display_text: 'Open',
           url: card.url,
         },
       },
@@ -169,22 +169,25 @@ export function isWhatsAppConversationWindowError(error: unknown): boolean {
   )
 }
 
-/**
- * Send a large SOR7ED image card. The approved template works at any time;
- * while it is awaiting approval, active conversations use the interactive
- * image card automatically.
+/** Prefer the title-only image CTA in active conversations. Templates are
+ * a compatibility fallback only after an explicit rejection, never after
+ * an uncertain send. Their static wording cannot be changed in application code.
  */
 export async function sendWhatsAppContentCard(
   card: WhatsAppContentCard
 ): Promise<WhatsAppSendReceipt> {
-  const templateName =
-    process.env.WHATSAPP_CONTENT_CARD_TEMPLATE?.trim() || DEFAULT_CARD_TEMPLATE
-
+  let initialError: unknown
   try {
-    const messageId = await postWhatsAppPayload(
-      buildWhatsAppTemplateCardPayload(card, templateName),
-      'content-card template'
-    )
+    const messageId = await postWhatsAppPayload(buildWhatsAppInteractiveCardPayload(card), 'interactive content card')
+    return { kind: 'interactive', messageId }
+  } catch (error) {
+    if (!canTryAnotherFormat(error)) throw error
+    initialError = error
+  }
+
+  const templateName = process.env.WHATSAPP_CONTENT_CARD_TEMPLATE?.trim() || DEFAULT_CARD_TEMPLATE
+  try {
+    const messageId = await postWhatsAppPayload(buildWhatsAppTemplateCardPayload(card, templateName), 'content-card template')
     return { kind: 'template', messageId }
   } catch (error) {
     if (!canTryAnotherFormat(error)) throw error
@@ -193,29 +196,14 @@ export async function sendWhatsAppContentCard(
 
   if (templateName !== LEGACY_CARD_TEMPLATE) {
     try {
-      const messageId = await postWhatsAppPayload(
-        buildWhatsAppTemplateCardPayload(card, LEGACY_CARD_TEMPLATE, 'legacy'),
-        'legacy content-card template'
-      )
+      const messageId = await postWhatsAppPayload(buildWhatsAppTemplateCardPayload(card, LEGACY_CARD_TEMPLATE, 'legacy'), 'legacy content-card template')
       return { kind: 'template', messageId }
     } catch (error) {
       if (!canTryAnotherFormat(error)) throw error
-      console.warn('[WhatsApp card] Approved fallback unavailable; trying interactive card')
     }
   }
-
-  try {
-    const messageId = await postWhatsAppPayload(
-      buildWhatsAppInteractiveCardPayload(card),
-      'interactive content card'
-    )
-    return { kind: 'interactive', messageId }
-  } catch (interactiveError) {
-    if (isWhatsAppConversationWindowError(interactiveError) || !canTryAnotherFormat(interactiveError)) {
-      throw interactiveError
-    }
-  }
-
+  // A text message cannot reopen a closed conversation. Do not retry it.
+  if (isWhatsAppConversationWindowError(initialError)) throw initialError
   const receipt = await sendWhatsAppMessage(card.to, card.url, card.url)
   return { ...receipt, kind: 'link' }
 }

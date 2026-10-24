@@ -102,7 +102,7 @@ export function MobileNav() {
           icon: ICONS.account,
         }
       : {
-          href: `/signup?next=${encodeURIComponent(pathname)}`,
+          href: `/signup?mode=returning&next=${encodeURIComponent(pathname)}`,
           label: 'Sign In',
           match: (p: string) => p === '/signup',
           icon: ICONS.signin,

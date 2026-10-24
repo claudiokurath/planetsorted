@@ -1,10 +1,8 @@
 import { redirect } from 'next/navigation'
+import { safeNext } from '@/lib/safeNext'
 
-/**
- * Typed-URL alias for the sign-in surface. The auth experience is one
- * dual-mode page at /signup; /login always lands returning members in
- * the returning-member tab.
- */
-export default function LoginPage() {
-  redirect('/signup?mode=returning')
+/** Returning-member alias, preserving only a safe same-site destination. */
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
+  const next = safeNext((await searchParams).next)
+  redirect(`/signup?mode=returning&next=${encodeURIComponent(next)}`)
 }

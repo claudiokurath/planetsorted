@@ -670,6 +670,25 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 - Magic link auth only — no passwords. WhatsApp `LOGIN` sends a magic link directly to the user's thread.
 - `/dashboard` contains Overview (saved items, history, compare) and Settings (name, email, WhatsApp, weekly toggle, verification, deletion).
 
+### Website sign-in recovery
+
+Header and mobile Sign In links open the returning-member tab and preserve a
+safe next path. First-time signup attempts the optional requested email backup
+even when WhatsApp rejects its message. The UI reports each channel separately;
+email success never marks the phone verified. Email network failures leave the
+loading state and offer retry. Renew the website's Meta access token when Meta
+rejects authentication; application changes cannot repair an expired token.
+
+### WhatsApp content-card presentation
+
+Active conversations first request an image-header CTA with the resource title
+only and an Open link. No “Saved from” or “Type below to revisit” is inserted in
+that immediate card. Only an explicit provider rejection permits falling back
+to approved templates; uncertain outcomes are never resent automatically.
+Approved template static wording is managed in Meta and may still include the
+older copy outside the active conversation window. Already sent messages do
+not change when the code is deployed.
+
 ### WhatsApp Number Verification
 Returning-member sign-in (`/signup?mode=returning`) uses the existing approved
 `sor7ed_saved_card` link template, not a free-form message. This avoids Meta's
