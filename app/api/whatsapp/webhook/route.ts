@@ -1,5 +1,7 @@
 import { websiteSiteUrl } from '@/lib/siteUrl'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse, after } from 'next/server'
+import { buttonRelayConfigured, forwardButtonMessage } from '@/lib/whatsapp/buttonRelay'
+import { buttonCommand } from '@/lib/whatsapp/buttonRelayAuth'
 import { createClient } from '@supabase/supabase-js'
 import { detectCrisis, CRISIS_RESPONSE } from '@/lib/whatsapp/crisis'
 import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
@@ -51,7 +53,7 @@ export async function POST(req: NextRequest) {
     type WebhookChange = {
       field?: string
       value?: {
-        messages?: Array<{ type?: string; from?: string; text?: { body?: string } }>
+        messages?: Array<{ id?: string; type?: string; from?: string; text?: { body?: string }; context?: { id?: string } }>
         statuses?: Array<{
           status?: string
           recipient_id?: string
@@ -112,6 +114,16 @@ export async function POST(req: NextRequest) {
     if (detectCrisis(text)) {
       await sendWhatsAppMessage(from, CRISIS_RESPONSE)
       return NextResponse.json({ status: 'crisis' })
+    }
+
+    if (buttonRelayConfigured()) {
+      after(async () => {
+        try { await forwardButtonMessage(message) }
+        catch { console.error('[Button relay] Event forwarding failed') }
+      })
+      // Button commands are handled exclusively by the Button service.
+      // Ordinary messages refresh its session; consent still runs below.
+      if (buttonCommand(text)) return NextResponse.json({ status: 'button' })
     }
 
     const verb = text.toUpperCase()
