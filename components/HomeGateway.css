@@ -53,3 +53,15 @@
   .sorted-home-entry__arrow { transition: none; }
 }
 @media print { .sorted-home-entry { background: #fff; color: #000; } .sorted-home-entry__live-o { display: none; } }
+
+/* Two clear surfaces: black introduction, yellow choice section. */
+@media screen {
+  .sorted-home-entry__paths { background:#ffd400; color:#000; padding:0 24px; border:1px solid #ffd400; }
+  .sorted-home-entry__path { color:#000; border-top-color:#0005; }
+  .sorted-home-entry__path:first-child { border-top:0; }
+  .sorted-home-entry__path--featured::before { background:#000; }
+  .sorted-home-entry__number, .sorted-home-entry__context, .sorted-home-entry__context strong { color:#302800; }
+  .sorted-home-entry__path:hover .sorted-home-entry__title, .sorted-home-entry__path:hover .sorted-home-entry__arrow { color:#000; }
+  .sorted-home-entry__path:hover { background:#0000000a; }
+  .sorted-home-entry__path:focus-visible { outline-color:#000; }
+}

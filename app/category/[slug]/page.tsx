@@ -67,7 +67,7 @@ export default async function CategoryPage({ params }: Props) {
   const articles = (items ?? []).filter((item) => item.type !== 'Tool')
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="sorted-category-page min-h-screen bg-black text-white">
       {/* Pillar header */}
       <header className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-5 py-12 text-center sm:py-16">
         <span className="sor7ed-pill">Pillar</span>

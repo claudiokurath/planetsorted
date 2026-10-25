@@ -36,7 +36,7 @@ export default function FAQPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="sorted-faq-page min-h-screen bg-black text-white">
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader eyebrow="SOR7ED" title="Frequently asked questions" description="The useful answers, without the small print." />
         <div className="mt-8 space-y-6">
