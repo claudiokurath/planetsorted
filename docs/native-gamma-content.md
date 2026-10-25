@@ -2,8 +2,8 @@
 
 SOR7ED serves public guidebooks without sign-in. Their content is copied from the
 published **Blog Post Gamma** links in Notion, rather than the **Protocol Gamma**
-links. Six public tool presentations use the Tools database's **Gamma** embeds.
-`presentationSources.json` records the exact Notion sources checked on 12 October
+links. Public tool presentations use the Tools database's **Gamma** embeds.
+`presentationSources.json` records the exact Notion sources refreshed on 25 October
 2026; `nativeGammaCopy.json` contains only public presentation content. Original
 illustrations are stored locally as WebP images. The native renderer supplies
 semantic headings, responsive text, thin borders, and white-background printing.
@@ -55,3 +55,23 @@ override; do not use that mismatched domain. The digital file guidebook has no
 Protocol Gamma; its private delivery falls back to its synced Protocol text.
 The Tools schema currently has a Gamma embed property, not a separate domain
 property. All six published tool embeds and seven blog embeds match Supabase.
+
+## Refresh on 25 October 2026
+
+The three currently published tools and seven published public blog presentations
+were re-imported from the Notion-linked Gamma documents. Medical Trauma now uses
+`90xxncdrsrdji75`. Source revision timestamps are recorded in
+`lib/content/presentationVersions.json`; illustrations use content-versioned URLs
+so cached artwork cannot conceal an update. Hidden Gamma cards are omitted.
+
+The importer preserves source text, line breaks, emoji and diagram step labels
+as React text nodes; it never injects Gamma HTML. Only explicitly selected public
+captures may be passed to `scripts/import-gamma-presentations.py`. Captures contain
+the public Gamma `/docs/<id>` page's `pageProps`, not private Protocol Gamma data.
+
+Toolbox and Guidebook introductory copy was checked against their source decks
+and still matches. Their old hardcoded Gamma catalogs are intentionally not
+imported: live catalog visibility comes from Notion Published status. About's
+Gamma.site source could not be read from this execution environment; its existing
+approved copy remains unchanged. The Financial Avoidance private PDF and all
+other private protocol assets are unchanged.

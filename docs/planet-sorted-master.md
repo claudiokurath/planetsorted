@@ -116,6 +116,8 @@ Everything below this point in the document describes **Sorted Lab** specificall
 
 **Publication status (25 October 2026):** leaving Published in Notion must withdraw the corresponding row from the public catalog; the webhook update path now sets non-published pages to Draft rather than silently skipping them. The scheduled reconciliation remains once daily on Vercel Hobby, so immediate delivery still depends on a functioning webhook subscription.
 
+**Gamma refresh (25 October 2026):** published public blog/tool presentations were re-imported from the current Notion Gamma links, with revision metadata and versioned artwork. Medical Trauma now uses `90xxncdrsrdji75`. Task Breakdown Wizard is In progress in Notion and is no longer publicly listed. The full-width renderer, page-bottom SOR7ED action and private protocol/PDF boundaries remain unchanged.
+
 ### Tone Rules
 - Direct and plain English. Shame-free and practical. No fluff, no "just do it," no inspiration porn. Competent-colleague style, warm and specific.
 
