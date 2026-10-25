@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { PREVIEW_COVERS } from '@/lib/content/previewCovers'
 import { getCategoryStyle } from '@/lib/categoryStyles'
 import { ToolWhatsAppCta } from '@/components/ToolWhatsAppCta'
 import './ContentCard.css'
@@ -17,12 +18,14 @@ interface ContentCardProps {
 export function ContentCard({ href, title, summary, category, coverImage, showCover = true }: ContentCardProps) {
   const categoryStyle = getCategoryStyle(category)
   const description = summary?.replace(/<br\s*\/?\s*>/gi, '\n').replace(/<[^>]*>/g, '').replace(/^#{1,6}\s+/gm, '').replace(/\*\*/g, '').replace(/^OVERVIEW\s*/i, '').trim().split(/\n\s*\n/)[0]
-  const cover = showCover && coverImage ? coverImage : null
   const item = href.match(/^\/(tools|intelligence)\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?$/)
+  const artworkPreview = item?.[1] === 'tools'
+  const cover = showCover ? coverImage || (artworkPreview ? PREVIEW_COVERS[item[2]] : null) : null
+  const titleSize = title.length > 80 ? 'extra-long' : title.length > 44 ? 'long' : 'standard'
   const heading = <h3 className="sorted-preview-title font-bebas">{title}</h3>
 
   return (
-    <article className="sorted-preview-card">
+    <article className="sorted-preview-card" data-preview-style={artworkPreview ? 'artwork' : undefined} data-title-size={artworkPreview ? titleSize : undefined}>
       <Link href={href} aria-label={title} className="sorted-preview-link">
         {showCover ? (
           <div className="sorted-preview-image">
