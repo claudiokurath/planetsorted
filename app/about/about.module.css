@@ -49,3 +49,13 @@
   .differences article, .philosophy li, .promise article, .branches a { background: #fff; color: #000; border: 1px solid #bbb; break-inside: avoid; }
   .panel .callout { border: 1px solid #bbb; }
 }
+
+@media screen {
+  .panel { border-radius:0; }
+  .panel:nth-of-type(even) { background:#ffd400; color:#000; border-color:#ffd400; }
+  .panel:nth-of-type(even) p { color:#282200; }
+  .panel:nth-of-type(even) .differences article,
+  .panel:nth-of-type(even) .philosophy li { background:transparent; color:#000; border:1px solid #0005; border-radius:0; }
+  .panel:nth-of-type(even) .callout { background:#000; color:#fff; }
+  .panel:nth-of-type(even) a:focus-visible { outline-color:#000; }
+}

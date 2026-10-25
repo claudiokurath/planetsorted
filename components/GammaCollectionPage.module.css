@@ -118,3 +118,12 @@
   .features article, .steps li { break-inside: avoid; }
   .steps li > span { clip-path: none; background: transparent; }
 }
+
+@media screen {
+  .panel { border-radius:0; }
+  .introduction, .journey { background:#ffd400; color:#000; border-color:#ffd400; }
+  .introduction p, .journey p { color:#282200; }
+  .journeyArt { background:#ffd400; }
+  .journey .steps li > span { background:#000; color:#ffd400; }
+  .introduction a:focus-visible, .journey a:focus-visible { outline-color:#000; }
+}

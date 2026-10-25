@@ -473,3 +473,14 @@ p {
   .sorted-sitewide-save .sb__label--lead { text-align: right; }
 }
 @media print { .sorted-sitewide-save { display: none !important; } }
+
+/* Public editorial sections share the presentation's two-surface rhythm.
+   Scoped to named marketing surfaces; form, tool and account styles stay local. */
+@media screen {
+  .sorted-category-page > header { background:#ffd400; color:#000; max-width:none; border-bottom:1px solid #000; }
+  .sorted-category-page > header :is(h1,p,span,a) { color:#242000; }
+  .sorted-category-page > header .sor7ed-pill { border-color:#0007; }
+  .sorted-category-page > header a:focus-visible { outline:2px solid #000; outline-offset:4px; }
+  .sorted-faq-page .space-y-6 > div:nth-child(even) { background:#ffd400; color:#000; border-color:#ffd400; }
+  .sorted-faq-page .space-y-6 > div:nth-child(even) :is(h2,p) { color:#242000; }
+}
