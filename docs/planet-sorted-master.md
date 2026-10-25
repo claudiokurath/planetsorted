@@ -108,6 +108,10 @@ Everything below this point in the document describes **Sorted Lab** specificall
 
 **Section surfaces (25 October 2026):** public editorial pages use black/white sections alternating with #FFD400 yellow/black sections, following the supplied presentation. Home choices, collection introductions, selected About panels, category headers and alternate FAQ answers use yellow. Content cards keep their black surface; print remains white. Account forms and standalone tool controls retain their own styles.
 
+**Tool previews (25 October 2026):** tool cards use a full-bleed 3:2 cover, uniform dark overlay and large white Anton title centred vertically and aligned left. Longer titles scale down by card width without truncation. Descriptions and delivery controls remain below the image. Guidebook previews keep their existing layout and cover handling.
+
+**Entry hero (25 October 2026):** the navigation carries the full wordmark; the hero uses only the moving scribble beside the headline, with a static scribble for reduced-motion visitors and no video controls. The only main hero action is “Find your starting point” to `/brain-type`; Toolbox and Guidebook remain in site navigation. Hero highlights and focus outlines use the single #FFD400 accent. The hero follows sor7ed.com’s presentation style: Archivo body text, Anton headline, generous black space and one white primary action. A yellow/black explanatory section follows the hero to retain the same alternating section rhythm.
+
 ### Tone Rules
 - Direct and plain English. Shame-free and practical. No fluff, no "just do it," no inspiration porn. Competent-colleague style, warm and specific.
 

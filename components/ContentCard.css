@@ -25,3 +25,16 @@
   .sorted-preview-title { color: #000; text-shadow: none; }
   .sorted-preview-description p, .sorted-preview-category { color: #000; }
 }
+
+/* Tool previews follow the supplied artwork reference; guidebooks keep their layout. */
+.sorted-preview-card[data-preview-style="artwork"] { container-type:inline-size; }
+.sorted-preview-card[data-preview-style="artwork"] .sorted-preview-image { aspect-ratio:3 / 2; min-height:0; }
+.sorted-preview-card[data-preview-style="artwork"] .sorted-preview-heading { align-items:center; padding:clamp(16px,5.5cqw,28px); background:rgba(0,0,0,.48); }
+.sorted-preview-card[data-preview-style="artwork"] .sorted-preview-title { font-size:2.3rem; font-size:clamp(1.65rem,13.5cqw,4.5rem); line-height:1.07; text-wrap:balance; text-shadow:0 1px 4px #0007; }
+.sorted-preview-card[data-preview-style="artwork"][data-title-size="long"] .sorted-preview-title { font-size:clamp(1.4rem,10cqw,3.4rem); }
+.sorted-preview-card[data-preview-style="artwork"][data-title-size="extra-long"] .sorted-preview-title { font-size:clamp(1.25rem,8cqw,2.7rem); }
+@media print {
+  .sorted-preview-card[data-preview-style="artwork"] .sorted-preview-image { aspect-ratio:auto; }
+  .sorted-preview-card[data-preview-style="artwork"] .sorted-preview-heading { background:#fff; }
+  .sorted-preview-card[data-preview-style="artwork"] .sorted-preview-title { color:#000; text-shadow:none; }
+}
