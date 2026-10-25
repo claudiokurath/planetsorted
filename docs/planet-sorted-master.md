@@ -108,9 +108,13 @@ Everything below this point in the document describes **Sorted Lab** specificall
 
 **Section surfaces (25 October 2026):** public editorial pages use black/white sections alternating with #FFD400 yellow/black sections, following the supplied presentation. Home choices, collection introductions, selected About panels, category headers and alternate FAQ answers use yellow. Content cards keep their black surface; print remains white. Account forms and standalone tool controls retain their own styles.
 
+**Full-width public sections (25 October 2026):** Toolbox, Guidebook, About and individual article/tool presentations use edge-to-edge section backgrounds and covers, without floating outer panels or gaps. Text and catalog grids keep readable inner gutters. Individual presentations alternate yellow/black sections too. The shared page-bottom SOR7ED action binds article/tool routes to their own slug and stays outside the reading sections.
+
 **Tool previews (25 October 2026):** tool cards use a full-bleed 3:2 cover, uniform dark overlay and large white Anton title centred vertically and aligned left. Longer titles scale down by card width without truncation. Descriptions and delivery controls remain below the image. Guidebook previews keep their existing layout and cover handling.
 
 **Entry hero (25 October 2026):** the navigation carries the full wordmark; the hero uses only the moving scribble beside the headline, with a static scribble for reduced-motion visitors and no video controls. The only main hero action is “Find your starting point” to `/brain-type`; Toolbox and Guidebook remain in site navigation. Hero highlights and focus outlines use the single #FFD400 accent. The hero follows sor7ed.com’s presentation style: Archivo body text, Anton headline, generous black space and one white primary action. A yellow/black explanatory section follows the hero to retain the same alternating section rhythm.
+
+**Publication status (25 October 2026):** leaving Published in Notion must withdraw the corresponding row from the public catalog; the webhook update path now sets non-published pages to Draft rather than silently skipping them. The scheduled reconciliation remains once daily on Vercel Hobby, so immediate delivery still depends on a functioning webhook subscription.
 
 ### Tone Rules
 - Direct and plain English. Shame-free and practical. No fluff, no "just do it," no inspiration porn. Competent-colleague style, warm and specific.

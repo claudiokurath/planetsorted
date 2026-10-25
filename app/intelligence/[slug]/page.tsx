@@ -97,8 +97,8 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <main className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
-        <div className="mx-auto mb-5 max-w-6xl print:hidden"><PrintPageButton /></div>
+      <main className="w-full">
+        <div className="mx-auto max-w-6xl px-5 py-4 print:hidden"><PrintPageButton /></div>
         {native ? (
           <NativePresentation slug={slug} />
         ) : (

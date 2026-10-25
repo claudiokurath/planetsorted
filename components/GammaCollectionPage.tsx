@@ -21,7 +21,7 @@ export function GammaCollectionPage({ collection }: { collection: keyof typeof C
             width={1344}
             height={896}
             preload
-            sizes="(max-width: 1192px) calc(100vw - 32px), 1160px"
+            sizes="100vw"
           />
         </div>
         <header className={`${styles.panel} ${styles.introduction}`}>
@@ -52,7 +52,7 @@ export function GammaCollectionPage({ collection }: { collection: keyof typeof C
                 alt="A person in a yellow jacket with papers and books piled around their head"
                 width={928}
                 height={1232}
-                sizes="(max-width: 700px) calc(100vw - 32px), 440px"
+                sizes="(max-width: 700px) 100vw, 38vw"
               />
             </div>
             <div className={styles.journeyCopy}>

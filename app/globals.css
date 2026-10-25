@@ -484,3 +484,20 @@ p {
   .sorted-faq-page .space-y-6 > div:nth-child(even) { background:#ffd400; color:#000; border-color:#ffd400; }
   .sorted-faq-page .space-y-6 > div:nth-child(even) :is(h2,p) { color:#242000; }
 }
+
+/* Individual public articles and tools share the full-width section system. */
+.sorted-full-width-related { padding-inline:max(24px,calc((100% - 1112px) / 2)); }
+@media screen {
+  .protocol-deck .deck-slide { width:100%; max-width:none; margin-block:0; }
+  .protocol-deck .deck-slide:not(.deck-cover) { padding-inline:max(24px,calc((100% - 1064px) / 2)); }
+  .protocol-deck [data-section-tone="yellow"] { --deck-accent:#000; background:#ffd400; color:#000; border-color:#0005; }
+  .protocol-deck [data-section-tone="yellow"] > h2,
+  .protocol-deck [data-section-tone="yellow"] > h2 span,
+  .protocol-deck [data-section-tone="yellow"] > div > p,
+  .protocol-deck [data-section-tone="yellow"] > div > p strong,
+  .protocol-deck [data-section-tone="yellow"] > div > blockquote,
+  .protocol-deck [data-section-tone="yellow"] > div > blockquote strong,
+  .protocol-deck [data-section-tone="yellow"] .deck-stats :is(p,strong),
+  .protocol-deck [data-section-tone="yellow"] .deck-timeline :is(p,h3,strong) { color:#242000; }
+  .protocol-deck [data-section-tone="yellow"] .sor7ed-pill { color:#000; border-color:#0007; }
+}

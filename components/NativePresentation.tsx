@@ -46,16 +46,16 @@ export function NativePresentation({ slug, presentation }: { slug: string; prese
   const data = presentation ?? source[slug as keyof typeof source]
   if (!data) return null
   const titleCardIndex = data.cards.findIndex(card => /^h/.test(card.blocks[0]?.kind ?? ''))
-  return <article className={styles.presentation}>
+  return <article className={styles.presentation} data-presentation>
     {data.cards.map((card, index) => {
       const [first, ...rest] = card.blocks
       const hasHeading = first && /^h/.test(first.kind)
       const heading = hasHeading ? first.text : undefined
       const isTitle = Boolean(heading && index === titleCardIndex)
       const blocks = hasHeading ? rest : card.blocks
-      return <section key={index} className={`${styles.card} ${card.images.length > 0 && blocks.length > 0 ? styles.withArt : ''}`}>
+      return <section key={index} data-presentation-section className={`${styles.card} ${card.images.length > 0 && blocks.length > 0 ? styles.withArt : ''}`}>
         {card.images.map((img, n) => <div className={styles.art} key={img.src}>
-          <Image src={img.src} width={img.width} height={img.height} alt={`${heading ?? 'SOR7ED presentation'} — illustration ${n + 1}`} sizes="(max-width: 760px) calc(100vw - 32px), 1160px" preload={index === 0} />
+          <Image src={img.src} width={img.width} height={img.height} alt={`${heading ?? 'SOR7ED presentation'} — illustration ${n + 1}`} sizes="100vw" preload={index === 0} />
         </div>)}
         {card.blocks.length ? <div className={styles.copy}>
           {heading ? isTitle ? <h1>{heading}</h1> : <h2>{heading}</h2> : null}

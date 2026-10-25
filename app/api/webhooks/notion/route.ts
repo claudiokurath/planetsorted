@@ -220,19 +220,24 @@ async function queueWebhookEvent(entry: WebhookQueueEntry) {
 async function syncSinglePage(pageId: string, sourceType: 'Article' | 'Tool') {
   const page = await getNotion().pages.retrieve({ page_id: pageId })
 
-  // Only process published pages
-  const statusProp = (page as any).properties?.Status
-  const status = statusProp?.status?.name
-  if (status !== 'Published') {
-    console.log(`[Notion webhook] Skipping unpublished page: ${pageId}`)
+  const props = (page as any).properties
+  const slug = getText(props?.['Slug']).trim()
+  if (!slug) {
+    console.warn(`[Notion webhook] No slug for page: ${pageId}`)
     return
   }
 
-  const props = (page as any).properties
-
-  const slug = getText(props['Slug']).trim()
-  if (!slug) {
-    console.warn(`[Notion webhook] No slug for page: ${pageId}`)
+  const status = props?.Status?.status?.name
+  if (status !== 'Published' || (page as any).archived || (page as any).in_trash) {
+    // Leaving Published must withdraw an existing public row, not just skip
+    // the update. Scope by source type so unrelated content is never changed.
+    const now = new Date().toISOString()
+    const { error } = await getSupabase().from('protocols')
+      .update({ status: 'Draft', updated_at: now, last_synced_at: now, sync_status: 'synced', sync_error: null })
+      .eq('slug', slug)
+      .eq('type', sourceType)
+    if (error) throw error
+    console.log(`[Notion webhook] Withdrew ${sourceType}: ${slug}`)
     return
   }
 

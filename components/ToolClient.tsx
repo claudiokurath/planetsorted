@@ -26,8 +26,8 @@ export function ToolClient({ toolData, relatedArticles = [] }: ToolClientProps) 
         coverImage={toolData.cover_image}
       /> : null}
 
-      <main className="mx-auto max-w-5xl space-y-6 px-4 pb-20 pt-1 sm:px-6 lg:px-8">
-        <div className="print:hidden"><PrintPageButton /></div>
+      <main className="w-full pb-0 pt-1">
+        <div className="mx-auto max-w-6xl px-5 py-4 print:hidden"><PrintPageButton /></div>
         {native ? (
           <NativePresentation slug={toolData.slug} />
         ) : (
@@ -38,7 +38,7 @@ export function ToolClient({ toolData, relatedArticles = [] }: ToolClientProps) 
 
 
         {relatedArticles.length > 0 && (
-          <section className="border-t border-white/[0.12] pt-10">
+          <section className="sorted-full-width-related border-t border-white/[0.12] py-10">
             <p className="mb-5 text-xs font-medium uppercase tracking-[0.2em] text-neutral-500">
               Read related intelligence
             </p>

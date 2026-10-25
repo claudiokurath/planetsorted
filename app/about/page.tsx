@@ -18,7 +18,7 @@ export default function AboutPage() {
   return (
     <div className={`${styles.page} ${bodyFont.className}`}>
       <div className={styles.cover}>
-        <Image src="/images/about-gamma-brain.png" alt="A brain inside a transparent machine against a yellow background" width={1456} height={816} sizes="(min-width: 1200px) 1160px, 100vw" preload />
+        <Image src="/images/about-gamma-brain.png" alt="A brain inside a transparent machine against a yellow background" width={1456} height={816} sizes="100vw" preload />
       </div>
 
       <section className={styles.panel} aria-labelledby="about-story">
