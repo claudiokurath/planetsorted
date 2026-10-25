@@ -20,7 +20,7 @@ interface ProtocolDeckProps {
  * (e.g. BURNOUT DOESN'T WANT YOU DEAD kit): pure black field,
  * white display titles, cyan accents, charcoal cards.
  */
-const ACCENT = '#FFBA2E'
+const ACCENT = 'var(--deck-accent, #FFD400)'
 const ACCENT_DARK = '#000000'
 const ACCENT_SOFT = 'rgba(255,186,46, 0.14)'
 const CARD = '#000000'
@@ -194,7 +194,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
 
         if (block.kind === 'stats') {
           return (
-            <div key={i} className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+            <div key={i} className="deck-stats grid grid-cols-2 gap-6 sm:grid-cols-4">
               {block.items.map((stat, j) => (
                 <div key={j} className="text-center">
                   {stat.value ? (
@@ -233,7 +233,7 @@ function Blocks({ blocks }: { blocks: DeckBlock[] }) {
 
         if (useTimeline) {
           return (
-            <div key={i} className="relative mx-auto max-w-3xl py-2">
+            <div key={i} className="deck-timeline relative mx-auto max-w-3xl py-2">
               <div
                 className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 max-sm:left-3 max-sm:translate-x-0"
                 style={{ backgroundColor: '#333' }}
@@ -337,6 +337,7 @@ function SlideCard({ slide, index }: { slide: DeckSlide; index: number }) {
   return (
     <section
       data-deck-slide
+      data-section-tone={index % 2 === 0 ? 'yellow' : 'black'}
       className="deck-slide relative overflow-hidden rounded-none border border-white/[0.12] bg-black px-5 py-10 sm:px-10 sm:py-14 lg:px-14 lg:py-16"
       style={{ minHeight: 'min(62vh, 560px)' }}
     >
@@ -375,7 +376,7 @@ export function ProtocolDeck({
       {/* ── Cover slide (PDF page 1) ─────────────────────────────── */}
       <section
         data-deck-slide
-        className="deck-slide relative mx-auto mb-6 flex min-h-[min(78vh,640px)] max-w-6xl flex-col items-center justify-center overflow-hidden rounded-none border border-white/[0.12] bg-black px-6 py-16 text-center sm:mb-8 sm:px-12 sm:py-20"
+        className="deck-slide deck-cover relative mx-auto mb-0 flex min-h-[min(78vh,640px)] max-w-6xl flex-col items-center justify-center overflow-hidden rounded-none border border-white/[0.12] bg-black px-6 py-16 text-center sm:mb-8 sm:px-12 sm:py-20"
       >
         {deck.coverImage ? (
           <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -458,7 +459,7 @@ export function ProtocolDeck({
       </div>
 
       {/* Content slides */}
-      <div className="mx-auto flex max-w-6xl flex-col gap-5 sm:gap-7">
+      <div className="flex w-full flex-col">
         {deck.slides.map((slide, i) => (
           <SlideCard key={`${slide.badge}-${i}`} slide={slide} index={i} />
         ))}

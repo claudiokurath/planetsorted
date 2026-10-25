@@ -12,7 +12,7 @@ export function SitewideSortedButton() {
   const standaloneSlug = Object.entries(STANDALONE_ROUTES).find(([, route]) => route === pathname.replace(/\/$/, ''))?.[0]
   const slug = content?.[2] || standaloneSlug
   return (
-    <aside className={`sorted-sitewide-save print:hidden${isStandaloneToolRoute(pathname) ? ' sorted-sitewide-save--standalone' : ''}`} aria-label="Continue with SOR7ED on WhatsApp">
+    <aside id="get-sor7ed" data-content-slug={slug ?? undefined} className={`sorted-sitewide-save print:hidden${isStandaloneToolRoute(pathname) ? ' sorted-sitewide-save--standalone' : ''}`} aria-label="Continue with SOR7ED on WhatsApp">
       {slug ? <ToolWhatsAppCta slug={slug} returnPath={pathname} context={content?.[1] === 'intelligence' ? 'article' : 'tool'} /> : (
         <WhatsAppConnectionCta returnPath={pathname} />
       )}
