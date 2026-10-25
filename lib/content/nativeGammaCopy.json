@@ -2,16 +2,6 @@
   "decision-fatigue-brain-quits": {
     "cards": [
       {
-        "blocks": [],
-        "images": [
-          {
-            "src": "/images/presentations/decision-fatigue-brain-quits-1-1.webp",
-            "width": 1232,
-            "height": 928
-          }
-        ]
-      },
-      {
         "blocks": [
           {
             "kind": "h1",
@@ -37,9 +27,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/decision-fatigue-brain-quits-3-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/decision-fatigue-brain-quits-427f26857a6650d8.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       },
@@ -51,15 +41,15 @@
           },
           {
             "kind": "h4",
-            "text": "PROTECT IT"
+            "text": "Name It"
           },
           {
             "kind": "h4",
-            "text": "SHRINK IT"
+            "text": "Shrink It"
           },
           {
             "kind": "h4",
-            "text": "NAME IT"
+            "text": "Protect It"
           },
           {
             "kind": "p",
@@ -253,14 +243,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/decision-fatigue-brain-quits-9-1.webp",
-            "width": 400,
-            "height": 301
-          },
-          {
-            "src": "/images/presentations/decision-fatigue-brain-quits-9-2.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/decision-fatigue-brain-quits-70e2dbaee9e59376.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       }
@@ -269,20 +254,10 @@
   "financial-avoidance-trauma-response": {
     "cards": [
       {
-        "blocks": [],
-        "images": [
-          {
-            "src": "/images/presentations/financial-avoidance-trauma-response-1-1.webp",
-            "width": 1232,
-            "height": 928
-          }
-        ]
-      },
-      {
         "blocks": [
           {
             "kind": "h1",
-            "text": "FINANCIAL AVOIDANCE IS A TRAUMA RESPONSE: WHY OPENING YOUR BANKING APP FEELS UNSAFE AND HOW TO FACE IT ANYWAY"
+            "text": "FINANCIAL AVOIDANCE IS A TRAUMA RESPONSE: WHY OPENING YOUR BANKING APP FEELS UNSAFE"
           },
           {
             "kind": "p",
@@ -312,9 +287,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/financial-avoidance-trauma-response-3-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/financial-avoidance-trauma-response-f3258ff7c754efd8.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       },
@@ -326,15 +301,15 @@
           },
           {
             "kind": "h4",
-            "text": "SHAME"
+            "text": "Avoidance"
           },
           {
             "kind": "h4",
-            "text": "URGENCY"
+            "text": "Urgency"
           },
           {
             "kind": "h4",
-            "text": "AVOIDANCE"
+            "text": "Shame"
           },
           {
             "kind": "p",
@@ -580,9 +555,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/financial-avoidance-trauma-response-9-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/financial-avoidance-trauma-response-f215fb97f49de55a.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       }
@@ -590,16 +565,6 @@
   },
   "adhd-admin-overwhelm-paperwork": {
     "cards": [
-      {
-        "blocks": [],
-        "images": [
-          {
-            "src": "/images/presentations/adhd-admin-overwhelm-paperwork-1-1.webp",
-            "width": 1232,
-            "height": 928
-          }
-        ]
-      },
       {
         "blocks": [
           {
@@ -634,9 +599,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/adhd-admin-overwhelm-paperwork-3-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/adhd-admin-overwhelm-paperwork-1396bab17fca1c12.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       },
@@ -648,15 +613,15 @@
           },
           {
             "kind": "h4",
-            "text": "SHAME"
+            "text": "Avoidance"
           },
           {
             "kind": "h4",
-            "text": "URGENCY"
+            "text": "Urgency"
           },
           {
             "kind": "h4",
-            "text": "AVOIDANCE"
+            "text": "Shame"
           },
           {
             "kind": "p",
@@ -775,7 +740,7 @@
           },
           {
             "kind": "h4",
-            "text": "FOG VS. PHYSICAL: TAX"
+            "text": "FOG vs. PHYSICAL: TAX"
           },
           {
             "kind": "p",
@@ -783,7 +748,7 @@
           },
           {
             "kind": "h4",
-            "text": "FOG VS. PHYSICAL: PAPERWORK"
+            "text": "FOG vs. PHYSICAL: PAPERWORK"
           },
           {
             "kind": "p",
@@ -791,7 +756,7 @@
           },
           {
             "kind": "h4",
-            "text": "FOG VS. PHYSICAL: INSURANCE"
+            "text": "FOG vs. PHYSICAL: INSURANCE"
           },
           {
             "kind": "p",
@@ -894,9 +859,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/adhd-admin-overwhelm-paperwork-9-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/adhd-admin-overwhelm-paperwork-849ea1f224583e27.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       }
@@ -904,16 +869,6 @@
   },
   "masking-in-intimacy-cost": {
     "cards": [
-      {
-        "blocks": [],
-        "images": [
-          {
-            "src": "/images/presentations/masking-in-intimacy-cost-1-1.webp",
-            "width": 1232,
-            "height": 928
-          }
-        ]
-      },
       {
         "blocks": [
           {
@@ -940,9 +895,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/masking-in-intimacy-cost-3-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/masking-in-intimacy-cost-3b6ba93f8a768d0b.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       },
@@ -954,15 +909,15 @@
           },
           {
             "kind": "h4",
-            "text": "REPAIR"
+            "text": "Pause"
           },
           {
             "kind": "h4",
-            "text": "SPEAK SMALL TRUTH"
+            "text": "Speak Small Truth"
           },
           {
             "kind": "h4",
-            "text": "PAUSE"
+            "text": "Repair"
           },
           {
             "kind": "p",
@@ -1168,9 +1123,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/masking-in-intimacy-cost-9-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/masking-in-intimacy-cost-22f1ccf3dba77c65.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       }
@@ -1179,10 +1134,32 @@
   "medical-trauma-healthcare-avoidance": {
     "cards": [
       {
-        "blocks": [],
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "MEDICAL TRAUMA: WHEN DOCTORS FEEL UNSAFE AND HOW TO GET CARE ANYWAY"
+          },
+          {
+            "kind": "p",
+            "text": "Cut through fear, dismissal, and healthcare overwhelm — so you can advocate with clarity, act with confidence, and stop second-guessing your right to safe medical care."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "YOUR MEDICAL HISTORY HAS A PATTERN. ARE YOU SEEING IT?"
+          },
+          {
+            "kind": "p",
+            "text": "Dismissed symptoms, rushed appointments, botched procedures, and broken trust — every difficult healthcare experience leaves signals about what went wrong and where the system failed you. This guide captures them all and turns medical chaos into one clear path forward for getting the care you deserve."
+          }
+        ],
         "images": [
           {
-            "src": "/images/presentations/medical-trauma-healthcare-avoidance-1-1.webp",
+            "src": "/images/presentations/medical-trauma-healthcare-avoidance-eb789b09ec01ffa5.webp",
             "width": 1232,
             "height": 928
           }
@@ -1192,11 +1169,23 @@
         "blocks": [
           {
             "kind": "h1",
-            "text": "MEDICAL TRAUMA: WHEN DOCTORS FEEL UNSAFE AND HOW TO GET CARE ANYWAY"
+            "text": "HOW IT WORKS"
+          },
+          {
+            "kind": "h4",
+            "text": "Name It"
+          },
+          {
+            "kind": "h4",
+            "text": "Understand It"
+          },
+          {
+            "kind": "h4",
+            "text": "Access It"
           },
           {
             "kind": "p",
-            "text": "Medical trauma can make an ordinary appointment feel unsafe before you have even sat down. Avoidance is not laziness — it may be your nervous system trying to protect you. You still deserve care. Here is how to get it with more structure, more control, and considerably less shame."
+            "text": "No more avoiding appointments out of fear. No more suffering in silence. Just a clear breakdown of what happened, what you need, and which steps forward make the most sense for your healing."
           }
         ],
         "images": []
@@ -1205,294 +1194,190 @@
         "blocks": [
           {
             "kind": "h1",
-            "text": "WHEN DOCTORS FEEL UNSAFE"
+            "text": "THREE RESPONSE ZONES THAT CHANGE HOW YOU NAVIGATE CARE"
+          },
+          {
+            "kind": "h4",
+            "text": "🟢 IMMEDIATE SAFETY"
           },
           {
             "kind": "p",
-            "text": "The hallway smells like antiseptic. The waiting room is too quiet, too bright and full of people pretending they are not also silently negotiating with their nervous systems. You have not even sat down yet, and your body is already locating the nearest exit."
+            "text": "Day-to-day healthcare encounters. Identify safe providers, rehearse key phrases, and eliminate the freeze response when you need care most urgently."
+          },
+          {
+            "kind": "h4",
+            "text": "🟡 TRUST-BUILDING"
           },
           {
             "kind": "p",
-            "text": "Maybe your chest tightens. Maybe your brain goes blank. Maybe you suddenly forget every symptom you have ever experienced — including the one you specifically came to discuss."
+            "text": "Medium-term recovery with clear milestones. Structure your support network, compare care options, and set realistic timelines for rebuilding confidence in the system."
+          },
+          {
+            "kind": "h4",
+            "text": "🔴 SYSTEMIC ADVOCACY"
           },
           {
             "kind": "p",
-            "text": "The last time you asked for help, you were brushed off, rushed out, spoken over or made to feel dramatic for having the audacity to possess a body with problems. So now booking an appointment feels less like routine healthcare and more like preparing for emotional combat in a paper gown."
+            "text": "Long-term, high-stakes healthcare decisions. Map every variable fully before committing — understanding your rights first, then building sustainable access to safe care."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "STOP NAVIGATING THE SYSTEM BLIND"
+          },
+          {
+            "kind": "li",
+            "text": "No more cycling through the same fearful avoidance patterns without ever reaching a clear path to safe healthcare"
+          },
+          {
+            "kind": "li",
+            "text": "Surfaces hidden patterns of dismissal and gaslighting before they turn a manageable concern into a medical crisis"
+          },
+          {
+            "kind": "li",
+            "text": "Separates what deserves immediate safety planning from what needs deeper trauma-informed support"
+          },
+          {
+            "kind": "p",
+            "text": "Removes the overwhelm of navigating a frightening system alone — so you can make smarter decisions about providers, timing, and self-advocacy every single day."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BUILT FOR PEOPLE WHO DESERVE SAFE, DIGNIFIED CARE"
+          },
+          {
+            "kind": "h4",
+            "text": "TRAUMA SURVIVORS"
+          },
+          {
+            "kind": "p",
+            "text": "Balancing the need for medical care with real fear responses — without losing track of what you deserve and what safe treatment actually looks like."
+          },
+          {
+            "kind": "h4",
+            "text": "CHRONIC ILLNESS PATIENTS"
+          },
+          {
+            "kind": "p",
+            "text": "Managing repeated system encounters, inconsistent providers, and personal advocacy without falling into helplessness or care avoidance."
+          },
+          {
+            "kind": "h4",
+            "text": "MARGINALIZED PATIENTS"
+          },
+          {
+            "kind": "p",
+            "text": "Cutting through systemic bias and navigating decisively before delayed care compounds into worsening health outcomes and missed treatment windows."
+          },
+          {
+            "kind": "h4",
+            "text": "SOLO NAVIGATORS"
+          },
+          {
+            "kind": "p",
+            "text": "Anyone who faces the healthcare system without support and needs a framework that thinks through the barriers with them, not past them."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "FREE RESOURCES TO START, DEEPER SUPPORT WHEN YOU'RE READY"
+          },
+          {
+            "kind": "h4",
+            "text": "FREE FOUNDATIONS"
+          },
+          {
+            "kind": "p",
+            "text": "Immediate tools for understanding and naming your medical trauma — no gatekeeping, no cost."
+          },
+          {
+            "kind": "li",
+            "text": "Medical trauma self-assessment framework"
+          },
+          {
+            "kind": "li",
+            "text": "Provider red flag and green flag checklist"
+          },
+          {
+            "kind": "li",
+            "text": "Rights-based appointment preparation guide"
+          },
+          {
+            "kind": "h4",
+            "text": "DEEPER SUPPORT UNLOCKS"
+          },
+          {
+            "kind": "p",
+            "text": "When you're ready for more structured healing and advocacy, advanced resources are available."
+          },
+          {
+            "kind": "li",
+            "text": "Scenario Planner — rehearse difficult appointment conversations and map second-order outcomes before you walk in"
+          },
+          {
+            "kind": "li",
+            "text": "Documentation templates for filing complaints, requesting records, or sharing your history with new providers"
+          },
+          {
+            "kind": "li",
+            "text": "Progress Tracking to monitor your confidence and care access over time and identify growth in your advocacy"
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "NAME IT. NAVIGATE IT. HEAL FORWARD."
+          },
+          {
+            "kind": "p",
+            "text": "Start by naming what happened — no minimizing, no self-blame. Get a clear picture of your experience and finally take control of your healthcare with grounded, informed confidence."
+          },
+          {
+            "kind": "h4",
+            "text": "NAME IT"
+          },
+          {
+            "kind": "p",
+            "text": "Identify and document your medical trauma experiences, triggers, and the moments trust was broken"
+          },
+          {
+            "kind": "h4",
+            "text": "NAVIGATE IT"
+          },
+          {
+            "kind": "p",
+            "text": "Use your rights, provider checklists, and safety planning tools to map the clearest path to dignified care"
+          },
+          {
+            "kind": "h4",
+            "text": "HEAL FORWARD"
+          },
+          {
+            "kind": "p",
+            "text": "Access care from a position of knowledge and self-advocacy — with total clarity and zero self-doubt about what you deserve"
           }
         ],
         "images": [
           {
-            "src": "/images/presentations/medical-trauma-healthcare-avoidance-3-1.webp",
-            "width": 1200,
-            "height": 904
-          }
-        ]
-      },
-      {
-        "blocks": [
-          {
-            "kind": "h1",
-            "text": "AVOIDANCE CAN BE SELF-PROTECTION"
-          },
-          {
-            "kind": "h4",
-            "text": "SELF-PROTECTION"
-          },
-          {
-            "kind": "h4",
-            "text": "LOADED EXPERIENCE"
-          },
-          {
-            "kind": "h4",
-            "text": "AVOIDANCE"
-          },
-          {
-            "kind": "p",
-            "text": "Avoiding the doctor does not always mean you do not care about your health. Sometimes it means you care so much that the thought of being dismissed again feels unbearable. Avoidance can look like procrastination, but fear is often sitting underneath it, wearing a cheap disguise. That is not laziness. That is self-protection."
-          }
-        ],
-        "images": []
-      },
-      {
-        "blocks": [
-          {
-            "kind": "h1",
-            "text": "YOUR REACTION MAKES COMPLETE SENSE"
-          },
-          {
-            "kind": "h4",
-            "text": "WHAT THEY ASK OF YOU"
-          },
-          {
-            "kind": "p",
-            "text": "Medical settings ask you to describe private symptoms, sit with uncertainty, let someone examine your body, answer personal questions and trust the person in front of you will listen carefully. Casual."
-          },
-          {
-            "kind": "h4",
-            "text": "WHAT PAST HARM DOES"
-          },
-          {
-            "kind": "p",
-            "text": "If you have been dismissed, misdiagnosed, shamed or rushed before, that trust becomes difficult. Your nervous system is not being ridiculous. It is scanning for danger based on past experience."
-          },
-          {
-            "kind": "h4",
-            "text": "WHAT IT MEANS"
-          },
-          {
-            "kind": "p",
-            "text": "When you feel tense, emotional, frozen or desperate to leave — it may not be \"just anxiety.\" It may be your body remembering a time when asking for care did not feel safe. Very human. Very inconvenient."
-          }
-        ],
-        "images": []
-      },
-      {
-        "blocks": [
-          {
-            "kind": "h1",
-            "text": "PREPARATION IS A QUIET POWER MOVE"
-          },
-          {
-            "kind": "p",
-            "text": "You do not have to stride in like you are about to cross-examine anyone. Instead, preparation can become your handrail. Anxiety has a fun little habit of deleting your entire personality the moment a medical professional says, \"So, what brings you in today?\" Notes keep you anchored."
-          },
-          {
-            "kind": "h4",
-            "text": "WHAT TO WRITE DOWN"
-          },
-          {
-            "kind": "li",
-            "text": "Your symptoms and when they started"
-          },
-          {
-            "kind": "li",
-            "text": "How often they happen and what makes them better or worse"
-          },
-          {
-            "kind": "li",
-            "text": "How they affect your daily life"
-          },
-          {
-            "kind": "li",
-            "text": "What you are most worried about"
-          },
-          {
-            "kind": "li",
-            "text": "What questions you want answered"
-          },
-          {
-            "kind": "li",
-            "text": "Any medication, diagnoses, test results or relevant medical history"
-          },
-          {
-            "kind": "h4",
-            "text": "WHAT ELSE TO BRING"
-          },
-          {
-            "kind": "li",
-            "text": "Photographs or visual evidence of symptoms"
-          },
-          {
-            "kind": "li",
-            "text": "Symptom logs or journals"
-          },
-          {
-            "kind": "li",
-            "text": "Previous test results"
-          },
-          {
-            "kind": "li",
-            "text": "Medication lists"
-          },
-          {
-            "kind": "li",
-            "text": "Any relevant documents"
-          },
-          {
-            "kind": "p",
-            "text": "Anything that prevents you from having to perform your entire medical history from memory while sitting on crinkly paper is extremely welcome."
-          }
-        ],
-        "images": []
-      },
-      {
-        "blocks": [
-          {
-            "kind": "h1",
-            "text": "USE SCRIPTS IF YOU FREEZE"
-          },
-          {
-            "kind": "p",
-            "text": "Scripts are not fake. Scripts are scaffolding. There is a difference between being difficult and being clear. You are not causing trouble by expecting your appointment to address the reason you booked it."
-          },
-          {
-            "kind": "h4",
-            "text": "TO OPEN THE APPOINTMENT"
-          },
-          {
-            "kind": "p",
-            "text": "\"I'm here because these symptoms are affecting my daily life, and I'd like to understand what could be causing them.\""
-          },
-          {
-            "kind": "h4",
-            "text": "IF YOU'VE HAD HARD APPOINTMENTS BEFORE"
-          },
-          {
-            "kind": "p",
-            "text": "\"I've had difficult medical appointments before, so I've written down what I want to cover to help me explain everything clearly.\""
-          },
-          {
-            "kind": "h4",
-            "text": "IF YOU FEEL DISMISSED"
-          },
-          {
-            "kind": "p",
-            "text": "\"I'm worried this concern may be dismissed, and I'd really appreciate us taking it seriously.\""
-          },
-          {
-            "kind": "h4",
-            "text": "IF THINGS MOVE TOO FAST"
-          },
-          {
-            "kind": "p",
-            "text": "\"Can we pause? I want to make sure I understand.\" / \"I don't feel that concern has been addressed yet.\""
-          }
-        ],
-        "images": []
-      },
-      {
-        "blocks": [
-          {
-            "kind": "h1",
-            "text": "BRING SUPPORT AND DEBRIEF AFTERWARDS"
-          },
-          {
-            "kind": "h4",
-            "text": "BRING A TRUSTED PERSON IF YOU CAN"
-          },
-          {
-            "kind": "p",
-            "text": "If appointments make you freeze, you don't have to go alone. A support person can help you remember your points, take notes, ask questions, or simply sit beside you so the whole experience feels less like a solo expedition into fluorescent doom."
-          },
-          {
-            "kind": "p",
-            "text": "You are allowed to ask questions. You are allowed to take notes. You are allowed to ask whether tests, referrals or follow-up appointments are appropriate."
-          },
-          {
-            "kind": "h4",
-            "text": "WRITE IT DOWN WHILE IT'S FRESH"
-          },
-          {
-            "kind": "li",
-            "text": "Who you saw"
-          },
-          {
-            "kind": "li",
-            "text": "What was discussed"
-          },
-          {
-            "kind": "li",
-            "text": "What was decided"
-          },
-          {
-            "kind": "li",
-            "text": "What happens next"
-          },
-          {
-            "kind": "li",
-            "text": "Which follow-ups are needed"
-          },
-          {
-            "kind": "li",
-            "text": "Any questions that remain"
-          },
-          {
-            "kind": "p",
-            "text": "Then do something kind for your nervous system. Have a snack. Take a nap. Buy yourself a little treat that says, \"That was hard, and I did it anyway.\""
-          }
-        ],
-        "images": []
-      },
-      {
-        "blocks": [
-          {
-            "kind": "h1",
-            "text": "THE GOAL IS NOT TO BECOME FEARLESS."
-          },
-          {
-            "kind": "p",
-            "text": "The goal is to get the care you need with more structure, more control and considerably less shame. Getting medical care should not require a battle plan. But if preparation helps you feel steadier, clearer and less at the mercy of the system — bring it all."
-          },
-          {
-            "kind": "h4",
-            "text": "BRING THE NOTES"
-          },
-          {
-            "kind": "p",
-            "text": "Write down your symptoms, history, and questions so anxiety cannot erase them the moment you walk through the door"
-          },
-          {
-            "kind": "h4",
-            "text": "BRING THE SCRIPTS"
-          },
-          {
-            "kind": "p",
-            "text": "Use prepared phrases to slow things down, flag dismissal, and stay grounded even when the appointment moves too fast"
-          },
-          {
-            "kind": "h4",
-            "text": "BRING YOURSELF"
-          },
-          {
-            "kind": "p",
-            "text": "Your body is worth listening to. It always was. You deserve care that meets you where you are — with dignity, not doubt"
-          }
-        ],
-        "images": [
-          {
-            "src": "/images/presentations/medical-trauma-healthcare-avoidance-9-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/medical-trauma-healthcare-avoidance-91eed0231ea21307.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       }
@@ -1501,20 +1386,10 @@
   "adhd-forget-to-text-back": {
     "cards": [
       {
-        "blocks": [],
-        "images": [
-          {
-            "src": "/images/presentations/adhd-forget-to-text-back-1-1.webp",
-            "width": 1232,
-            "height": 928
-          }
-        ]
-      },
-      {
         "blocks": [
           {
             "kind": "h1",
-            "text": "WHY PEOPLE WITH ADHD FORGET TO TEXT BACK"
+            "text": "FORGETTING TO TEXT BACK WITH ADHD: WHY IT IS NOT A LACK OF CARE"
           },
           {
             "kind": "p",
@@ -1536,9 +1411,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/adhd-forget-to-text-back-3-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/adhd-forget-to-text-back-257e8f9087c52d90.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       },
@@ -1550,7 +1425,7 @@
           },
           {
             "kind": "h4",
-            "text": "NAME IT"
+            "text": "Name It"
           },
           {
             "kind": "p",
@@ -1558,19 +1433,19 @@
           },
           {
             "kind": "h4",
-            "text": "REPAIR IT"
-          },
-          {
-            "kind": "p",
-            "text": "Give a clean, short repair—no apology opera"
-          },
-          {
-            "kind": "h4",
-            "text": "BRIDGE IT"
+            "text": "Bridge It"
           },
           {
             "kind": "p",
             "text": "Send a small honest placeholder to stay connected"
+          },
+          {
+            "kind": "h4",
+            "text": "Repair It"
+          },
+          {
+            "kind": "p",
+            "text": "Give a clean, short repair—no apology opera"
           },
           {
             "kind": "p",
@@ -1768,9 +1643,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/adhd-forget-to-text-back-9-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/adhd-forget-to-text-back-af571aa6e7f4f9c5.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       }
@@ -1778,16 +1653,6 @@
   },
   "organise-digital-files-adhd": {
     "cards": [
-      {
-        "blocks": [],
-        "images": [
-          {
-            "src": "/images/presentations/organise-digital-files-adhd-1-1.webp",
-            "width": 1232,
-            "height": 928
-          }
-        ]
-      },
       {
         "blocks": [
           {
@@ -1822,9 +1687,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/organise-digital-files-adhd-3-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/organise-digital-files-adhd-a836821be00f8a67.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       },
@@ -1836,15 +1701,15 @@
           },
           {
             "kind": "h4",
-            "text": "SHAME"
+            "text": "Avoidance"
           },
           {
             "kind": "h4",
-            "text": "FRICTION"
+            "text": "Friction"
           },
           {
             "kind": "h4",
-            "text": "AVOIDANCE"
+            "text": "Shame"
           },
           {
             "kind": "p",
@@ -2086,9 +1951,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/organise-digital-files-adhd-9-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/organise-digital-files-adhd-d9d68cd8534e83bb.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       }
@@ -2383,7 +2248,7 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/adhd-tax-calculator-1-1.webp",
+            "src": "/images/presentations/adhd-tax-calculator-d01002a25583b27d.webp",
             "width": 1232,
             "height": 928
           }
@@ -2438,7 +2303,7 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/adhd-tax-calculator-2-1.webp",
+            "src": "/images/presentations/adhd-tax-calculator-9181bc866418e6e7.webp",
             "width": 1232,
             "height": 928
           }
@@ -2542,7 +2407,7 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/adhd-tax-calculator-4-1.webp",
+            "src": "/images/presentations/adhd-tax-calculator-f20b7e60a4ee86db.webp",
             "width": 1232,
             "height": 928
           }
@@ -2560,11 +2425,7 @@
           },
           {
             "kind": "h4",
-            "text": "GET BREAKDOWN"
-          },
-          {
-            "kind": "h4",
-            "text": "ADJUST SLIDERS"
+            "text": "RECORD HABITS"
           },
           {
             "kind": "h4",
@@ -2572,7 +2433,11 @@
           },
           {
             "kind": "h4",
-            "text": "RECORD HABITS"
+            "text": "ADJUST SLIDERS"
+          },
+          {
+            "kind": "h4",
+            "text": "GET BREAKDOWN"
           },
           {
             "kind": "p",
@@ -2720,7 +2585,7 @@
         "blocks": [],
         "images": [
           {
-            "src": "/images/presentations/adhd-tax-calculator-9-1.webp",
+            "src": "/images/presentations/adhd-tax-calculator-d94823971efbb6d1.webp",
             "width": 2000,
             "height": 1125
           }
@@ -3005,10 +2870,15 @@
   "decision-paralysis-solver": {
     "cards": [
       {
-        "blocks": [],
+        "blocks": [
+          {
+            "kind": "h3",
+            "text": "THE DECISION PARALYSIS SOLVer"
+          }
+        ],
         "images": [
           {
-            "src": "/images/presentations/decision-paralysis-solver-1-1.webp",
+            "src": "/images/presentations/decision-paralysis-solver-923d102eb5f99940.webp",
             "width": 1232,
             "height": 928
           }
@@ -3016,10 +2886,6 @@
       },
       {
         "blocks": [
-          {
-            "kind": "h1",
-            "text": "THE DECISION PARALYSIS SOLVER"
-          },
           {
             "kind": "p",
             "text": "Cut through overwhelm, options, and overthinking — so you can choose with clarity, act with confidence, and stop second-guessing yourself."
@@ -3040,9 +2906,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/decision-paralysis-solver-3-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/decision-paralysis-solver-ecfcd61193840f19.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       },
@@ -3054,7 +2920,7 @@
           },
           {
             "kind": "h4",
-            "text": "LOG DECISION"
+            "text": "Log Decision"
           },
           {
             "kind": "p",
@@ -3062,19 +2928,19 @@
           },
           {
             "kind": "h4",
-            "text": "NOTION BOARD"
-          },
-          {
-            "kind": "p",
-            "text": "Clear recommendation lands in your workspace"
-          },
-          {
-            "kind": "h4",
-            "text": "AI WEIGHS IT"
+            "text": "AI Weighs It"
           },
           {
             "kind": "p",
             "text": "Generates a structured trade-off analysis"
+          },
+          {
+            "kind": "h4",
+            "text": "Notion Board"
+          },
+          {
+            "kind": "p",
+            "text": "Clear recommendation lands in your workspace"
           },
           {
             "kind": "p",
@@ -3268,9 +3134,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/decision-paralysis-solver-9-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/decision-paralysis-solver-4c6f4e4696113698.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       }
@@ -3556,7 +3422,7 @@
         "blocks": [],
         "images": [
           {
-            "src": "/images/presentations/brain-dump-sorter-1-1.webp",
+            "src": "/images/presentations/brain-dump-sorter-1b64e14d63a665b6.webp",
             "width": 1232,
             "height": 928
           }
@@ -3588,9 +3454,9 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/brain-dump-sorter-3-1.webp",
-            "width": 1200,
-            "height": 904
+            "src": "/images/presentations/brain-dump-sorter-267e98695c9b00a3.webp",
+            "width": 1232,
+            "height": 928
           }
         ]
       },
@@ -3602,7 +3468,7 @@
           },
           {
             "kind": "h4",
-            "text": "NOTION OUTPUT"
+            "text": "PASTE NOTES"
           },
           {
             "kind": "h4",
@@ -3610,7 +3476,7 @@
           },
           {
             "kind": "h4",
-            "text": "PASTE NOTES"
+            "text": "NOTION OUTPUT"
           },
           {
             "kind": "p",
@@ -3804,7 +3670,7 @@
         ],
         "images": [
           {
-            "src": "/images/presentations/brain-dump-sorter-9-1.webp",
+            "src": "/images/presentations/brain-dump-sorter-8b12c62164552391.webp",
             "width": 816,
             "height": 1456
           }
