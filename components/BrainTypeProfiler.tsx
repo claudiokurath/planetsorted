@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { BRAIN_TYPES, DIMENSIONS, DIMENSION_LABELS, QUESTIONS, RECOMMENDED_TOOL_URLS, emptyBrainScores, getBrainType } from '@/lib/brainTypeProfiler'
+import { BRAIN_TYPES, DIMENSIONS, DIMENSION_LABELS, QUESTIONS, RECOMMENDED_TOOL_URLS, publishedRecommendations, emptyBrainScores, getBrainType } from '@/lib/brainTypeProfiler'
 import type { BrainDimension, BrainScores } from '@/lib/brainTypeProfiler'
 import './BrainTypeProfiler.css'
 
 type ProfilerState = { screen: 'intro' | 'quiz' | 'result'; index: number; scores: BrainScores }
 
-export function BrainTypeProfiler() {
+export function BrainTypeProfiler({ publishedToolSlugs, toolsAvailable }: { publishedToolSlugs: string[]; toolsAvailable: boolean }) {
   const [state, setState] = useState<ProfilerState>(() => ({ screen: 'intro', index: 0, scores: emptyBrainScores() }))
   const [copied, setCopied] = useState(false)
   const [animateBars, setAnimateBars] = useState(false)
@@ -44,6 +44,7 @@ export function BrainTypeProfiler() {
   }
 
   const type = BRAIN_TYPES[getBrainType(state.scores)]
+  const recommendations = publishedRecommendations(type, publishedToolSlugs)
   const maxScore = Math.max(...DIMENSIONS.map(dimension => state.scores[dimension])) || 1
 
   async function copyResult() {
@@ -88,7 +89,8 @@ export function BrainTypeProfiler() {
             </div>
             <hr className="rule" />
             <p className="kicker">Your toolkit</p>
-            <div className="tools">{type.tools.map(([name, description]) => <a className="tool" key={name} href={RECOMMENDED_TOOL_URLS[name]}><div className="n">{name}</div><div className="d">{description}</div></a>)}</div>
+            {!recommendations.length ? <p className="fineprint">{toolsAvailable ? 'There isn’t a published tool for this profile yet. You can explore the current Toolbox below.' : 'Tool recommendations are unavailable right now. Please try the Toolbox again shortly.'}</p> : null}
+            <div className="tools">{recommendations.map(([name, description]) => <a className="tool" key={name} href={RECOMMENDED_TOOL_URLS[name]}><div className="n">{name}</div><div className="d">{description}</div></a>)}</div>
             <hr className="rule" />
             <div className="share"><p className="brand">sor7ed · brain type</p><p className="big">{type.name}</p><p className="tag">{type.tag}</p></div>
             <div className="row"><button className="btn" onClick={begin}>Take it again</button><button className="btn ghost" onClick={copyResult}>{copied ? 'Copied' : 'Copy my result'}</button></div>

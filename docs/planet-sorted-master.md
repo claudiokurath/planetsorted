@@ -106,6 +106,10 @@ Everything below this point in the document describes **Sorted Lab** specificall
 
 ## Brand & Tone
 
+**Live Notion publication authority (26 October 2026):** public catalogues, category listings, tool/article previews, public embeds, standalone guards, Brain Sorter recommendations, saved-link resolution and the sitemap reconcile against Notion on read. Only Published pages in their configured source databases may appear; Draft, moved, archived and deleted rows are withdrawn. A maximum 30-second in-process snapshot coalesces requests; refresh failures do not return expired publication decisions. Visible public pages refresh every 30 seconds, so a change normally appears within about one minute without a manual removal request. The daily cron remains a backup and shares the same reconciliation implementation. Republished/recently edited pages bypass the older five-minute resync delay.
+
+**Preview endings (26 October 2026):** individual tool and guidebook pages finish with the shared, slug-specific SOR7ED delivery button. No related-tool or related-guide catalogue is appended after the preview content; normal site navigation/footer remain.
+
 **Explanation-first hero (26 October 2026):** Home first explains SOR7ED with “Built for brains that work differently” and practical tools/plain-language guide copy. The sole hero action remains “Find your starting point” → `/brain-type`, with reflection/non-diagnostic context below. The animated scribble and reduced-motion fallback remain. The duplicate yellow explanation section below the hero is removed; content browsing remains in separate navigation destinations.
 
 **Separate browsing tabs (26 October 2026, user correction):** Home is a focused entry into the Brain Sorter reflection. It contains the single starting-point action and brief explanation, without topic ledgers, featured tools or guidebook lists. Toolbox, Guidebook and About stay separate navigation destinations. No profiler completion gate or sign-in requirement is added to public reading.

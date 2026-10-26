@@ -1,3 +1,4 @@
+import { getLiveContent } from '@/lib/notion/liveContent'
 import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
@@ -44,6 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return whatsappPreviewMetadata(systemItem.title, slug, LOGO_IMAGE)
   }
 
+  await getLiveContent()
   const supabase = createServerClient()
   const { data: content } = await supabase
     .from('protocols')
@@ -87,6 +89,7 @@ export default async function RichLinkRedirect({ params }: Props) {
     redirect(`${SITE}${systemItem.target}`)
   }
 
+  await getLiveContent()
   const supabase = createServerClient()
   const { data: content } = await supabase
     .from('protocols')

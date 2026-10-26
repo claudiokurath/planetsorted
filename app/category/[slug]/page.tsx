@@ -1,3 +1,5 @@
+import { getLiveContent } from '@/lib/notion/liveContent'
+import { LiveContentRefresh } from '@/components/LiveContentRefresh'
 import { websiteSiteUrl } from '@/lib/siteUrl'
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -41,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
 const SectionLabel = ({ children }: { children: string }) => (
   <h2 className="mb-6 font-bebas text-3xl uppercase leading-tight text-white">{children}</h2>
@@ -55,6 +57,9 @@ export default async function CategoryPage({ params }: Props) {
     notFound()
   }
 
+  const snapshot = await getLiveContent()
+  const publishedTools = new Set(snapshot.tools)
+  const publishedArticles = new Set(snapshot.articles)
   const supabase = createServerClient()
   const { data: items } = await supabase
     .from('protocols')
@@ -63,11 +68,12 @@ export default async function CategoryPage({ params }: Props) {
     .eq('status', 'Published')
     .order('updated_at', { ascending: false })
 
-  const tools = (items ?? []).filter((item) => item.type === 'Tool')
-  const articles = (items ?? []).filter((item) => item.type !== 'Tool')
+  const tools = (items ?? []).filter((item) => item.type === 'Tool' && publishedTools.has(item.slug))
+  const articles = (items ?? []).filter((item) => item.type !== 'Tool' && publishedArticles.has(item.slug))
 
   return (
     <main className="sorted-category-page min-h-screen bg-black text-white">
+      <LiveContentRefresh />
       {/* Pillar header */}
       <header className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-5 py-12 text-center sm:py-16">
         <span className="sor7ed-pill">Pillar</span>

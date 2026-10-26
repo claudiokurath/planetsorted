@@ -1,3 +1,5 @@
+import { isContentPublished } from '@/lib/notion/liveContent'
+import { LiveContentRefresh } from '@/components/LiveContentRefresh'
 import { websiteSiteUrl } from '@/lib/siteUrl'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -9,10 +11,13 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
+export const dynamic = 'force-dynamic'
+
 const SITE = websiteSiteUrl()
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
+  if (!await isContentPublished(slug, 'Tool')) notFound()
   const supabase = createServerClient()
   const { data: tool } = await supabase
     .from('protocols')
@@ -51,6 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ToolPage({ params }: Props) {
   const { slug } = await params
+  if (!await isContentPublished(slug, 'Tool')) notFound()
   const supabase = createServerClient()
   
   const { data: tool } = await supabase
@@ -65,14 +71,5 @@ export default async function ToolPage({ params }: Props) {
     notFound()
   }
 
-  const { data: relatedArticles } = await supabase
-    .from('protocols')
-    .select('slug, title, cover_image, read_time, category')
-    .eq('category', tool.category)
-    .eq('status', 'Published')
-    .or('type.eq.Article,type.is.null')
-    .order('updated_at', { ascending: false })
-    .limit(3)
-
-  return <ToolClient toolData={tool as Protocol} relatedArticles={relatedArticles ?? []} />
+  return <><LiveContentRefresh /><ToolClient toolData={tool as Protocol} /></>
 }
