@@ -4,7 +4,7 @@ import { createServiceClient } from '@/lib/supabase/server'
 import { toCrmContact } from '@/lib/notion/crmContact'
 import { syncUserToCrm } from '@/lib/notion/syncUserToCrm'
 
-export async function syncCrmAccount(userId: string, force = false): Promise<'synced' | 'unchanged' | 'busy'> {
+export async function syncCrmAccount(userId: string, force = false): Promise<'synced' | 'unchanged' | 'busy' | 'archived'> {
   const admin = createServiceClient()
   const { data: auth, error: authError } = await admin.auth.admin.getUserById(userId)
   if (authError || !auth.user) throw new Error('CRM account lookup failed')
@@ -25,6 +25,14 @@ export async function syncCrmAccount(userId: string, force = false): Promise<'sy
   try {
     if (!force && state.contact_hash === hash && state.notion_page_id) return 'unchanged'
     const pageId = await syncUserToCrm(contact, { pageId: state.notion_page_id })
+    if (pageId === null) {
+      // Keep the page identity and do not claim a successful data sync. A later
+      // Notion restore is detected on the next reconciliation because hash is null.
+      const { error } = await admin.from('notion_crm_sync').update({ contact_hash: null, last_error: null })
+        .eq('user_id', userId).eq('lock_token', lockToken)
+      if (error) throw new Error('CRM tracking update failed')
+      return 'archived'
+    }
     const { error } = await admin.from('notion_crm_sync').update({ notion_page_id: pageId, contact_hash: hash, synced_at: new Date().toISOString(), last_error: null })
       .eq('user_id', userId).eq('lock_token', lockToken)
     if (error) throw new Error('CRM tracking update failed')

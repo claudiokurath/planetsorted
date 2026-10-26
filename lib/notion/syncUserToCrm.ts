@@ -6,7 +6,7 @@ import { newCrmStatus } from './crmContact'
 const DEFAULT_CRM = '35e0d601-4acc-80ff-8761-c320c06835ee'
 type WriterOptions = { client?: Client; pageId?: string | null; databaseId?: string }
 
-export async function syncUserToCrm(contact: CrmContact, options: WriterOptions = {}): Promise<string> {
+export async function syncUserToCrm(contact: CrmContact, options: WriterOptions = {}): Promise<string | null> {
   const token = process.env.NOTION_CRM_SECRET || process.env.NOTION_SECRET
   if (!options.client && !token) throw new Error('CRM integration is not configured')
   const notion = options.client || new Client({ auth: token, timeoutMs: 15000, logger: () => {} })
@@ -14,7 +14,9 @@ export async function syncUserToCrm(contact: CrmContact, options: WriterOptions 
   let existing: PageObjectResponse | undefined
   if (options.pageId) {
     const page = await notion.pages.retrieve({ page_id: options.pageId })
-    if (!('properties' in page) || page.archived) throw new Error('CRM record is unavailable')
+    if (!('properties' in page)) throw new Error('CRM record is unavailable')
+    // A deliberate Notion deletion is a tombstone, not a request to recreate.
+    if (page.archived || (page as PageObjectResponse & { in_trash?: boolean }).in_trash) return null
     existing = page
   } else {
     const byId = await notion.databases.query({ database_id: databaseId, page_size: 2,
