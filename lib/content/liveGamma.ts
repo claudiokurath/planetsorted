@@ -20,8 +20,8 @@ export async function getLiveGammaPresentation(publicSource: string | null | und
     try {
       // Gamma's public reader redirects browser/crawler reads to this public
       // document surface. No account, private API or exported token is used.
-      const response = await fetch(`https://gamma.app/docs-robot/${sourceId}`, { cache: 'no-store', signal: AbortSignal.timeout(12000) })
-      if (!response.ok || new URL(response.url).hostname !== 'gamma.app') throw new Error('Presentation unavailable')
+      const response = await fetch(`https://gamma.app/docs-robot/${sourceId}`, { cache: 'no-store', headers: { 'User-Agent': 'Mozilla/5.0 (compatible; SOR7ED/1.0; +https://planetsorted.com)', Accept: 'text/html' }, signal: AbortSignal.timeout(12000) })
+      if (!response.ok || new URL(response.url).hostname !== 'gamma.app') throw new Error(`Presentation unavailable (HTTP ${response.status})`)
       const html = await response.text()
       if (html.length > 5_000_000) throw new Error('Presentation too large')
       const value = { ...parsePublicGammaHtml(html, sourceId), sourceId }
