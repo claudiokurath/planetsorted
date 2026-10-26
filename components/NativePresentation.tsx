@@ -42,7 +42,7 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 }
 
 /** Source text is rendered as React nodes, never unsanitized Gamma HTML. */
-export function NativePresentation({ slug, presentation }: { slug: string; presentation?: Presentation }) {
+export function NativePresentation({ slug, presentation, sourceId, updatedAt }: { slug: string; presentation?: Presentation; sourceId?: string; updatedAt?: string | null }) {
   const data = presentation ?? source[slug as keyof typeof source]
   if (!data) return null
   // Opening artwork is decorative banner content. Keep every text block and
@@ -51,7 +51,7 @@ export function NativePresentation({ slug, presentation }: { slug: string; prese
   const cards = data.cards.map((card, index) => index <= sourceTitleIndex ? { ...card, images: [] } : card)
     .filter(card => card.blocks.length > 0 || card.images.length > 0)
   const titleCardIndex = cards.findIndex(card => /^h/.test(card.blocks[0]?.kind ?? ''))
-  return <article className={styles.presentation} data-presentation>
+  return <article className={styles.presentation} data-presentation data-gamma-source={sourceId} data-gamma-updated={updatedAt ?? undefined}>
     {cards.map((card, index) => {
       const [first, ...rest] = card.blocks
       const hasHeading = first && /^h/.test(first.kind)
@@ -60,7 +60,7 @@ export function NativePresentation({ slug, presentation }: { slug: string; prese
       const blocks = hasHeading ? rest : card.blocks
       return <section key={index} data-presentation-section className={`${styles.card} ${card.images.length > 0 && blocks.length > 0 ? styles.withArt : ''}`}>
         {card.images.map((img, n) => <div className={styles.art} key={img.src}>
-          <Image src={img.src} width={img.width} height={img.height} alt={`${heading ?? 'SOR7ED presentation'} — illustration ${n + 1}`} sizes="100vw" preload={index === 0} />
+          <Image src={img.src} width={img.width} height={img.height} alt={`${heading ?? 'SOR7ED presentation'} — illustration ${n + 1}`} sizes="100vw" preload={index === 0} unoptimized={img.src.startsWith('https://')} />
         </div>)}
         {card.blocks.length ? <div className={styles.copy}>
           {heading ? isTitle ? <h1>{heading}</h1> : <h2>{heading}</h2> : null}
