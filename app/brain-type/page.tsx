@@ -1,3 +1,5 @@
+import { getLiveContent } from '@/lib/notion/liveContent'
+import { LiveContentRefresh } from '@/components/LiveContentRefresh'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import Link from 'next/link'
@@ -16,10 +18,14 @@ export const metadata: Metadata = {
   description: 'A two-minute reflection: twelve questions about how you work, start and recover, then a profile and tools to try.',
 }
 
-export default function BrainTypePage() {
+export const dynamic = 'force-dynamic'
+
+export default async function BrainTypePage() {
+  const snapshot = await getLiveContent().catch(() => null)
   return (
     <div className={`${display.variable} ${body.variable}`}>
-      <BrainTypeProfiler />
+      <LiveContentRefresh />
+      <BrainTypeProfiler publishedToolSlugs={snapshot?.tools ?? []} toolsAvailable={snapshot !== null} />
       <nav aria-label="Explore SOR7ED" className="mx-auto flex max-w-[840px] flex-wrap gap-4 px-6 pb-8 text-sm text-neutral-300 print:hidden">
         <Link href="/" className="inline-flex min-h-12 items-center underline hover:text-white">Back to home</Link>
         <Link href="/tools" className="inline-flex min-h-12 items-center underline hover:text-white">Explore Toolbox</Link>

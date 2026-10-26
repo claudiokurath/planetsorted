@@ -1,6 +1,7 @@
+import { isContentPublished } from '@/lib/notion/liveContent'
+import { LiveContentRefresh } from '@/components/LiveContentRefresh'
 import { websiteSiteUrl } from '@/lib/siteUrl'
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
 import { ProtocolDeck } from '@/components/ProtocolDeck'
@@ -13,10 +14,13 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
+export const dynamic = 'force-dynamic'
+
 const SITE = websiteSiteUrl()
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
+  if (!await isContentPublished(slug, 'Article')) notFound()
   const supabase = createServerClient()
   const { data } = await supabase
     .from('protocols')
@@ -55,6 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params
+  if (!await isContentPublished(slug, 'Article')) notFound()
   const supabase = createServerClient()
 
   const { data: rawProtocol } = await supabase
@@ -72,17 +77,6 @@ export default async function ArticlePage({ params }: Props) {
   // Public article content only. Never query or serialize the private protocol.
   const native = hasNativePresentation(slug, item.blog_gamma_url)
 
-  const { data: relatedTools } = await supabase
-    .from('protocols')
-    .select('slug, title')
-    .eq('category', item.category)
-    .eq('type', 'Tool')
-    .eq('status', 'Published')
-    .order('updated_at', { ascending: false })
-    .limit(1)
-
-  const relatedTool = relatedTools?.[0] ?? null
-
   const deck = native
     ? null
     : buildProtocolDeck({
@@ -97,6 +91,7 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-black text-white">
+      <LiveContentRefresh />
       <main className="w-full">
         <div className="mx-auto max-w-6xl px-5 py-4 print:hidden"><PrintPageButton /></div>
         {native ? (
@@ -109,16 +104,6 @@ export default async function ArticlePage({ params }: Props) {
           />
         )}
 
-        {relatedTool ? (
-          <section className="mx-auto mt-8 max-w-6xl text-center">
-            <Link
-              href={`/tools/${relatedTool.slug}`}
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-black px-4 py-2 text-xs font-medium uppercase tracking-wider text-neutral-200 transition-colors hover:border-[#FFBA2E] hover:text-[#FFBA2E]"
-            >
-              Try the {item.category} tool: {relatedTool.title} →
-            </Link>
-          </section>
-        ) : null}
       </main>
     </div>
   )

@@ -1,11 +1,17 @@
+import { getLiveContent } from '@/lib/notion/liveContent'
 import { websiteSiteUrl } from '@/lib/siteUrl'
 import type { MetadataRoute } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
 import { CATEGORY_LIST } from '@/lib/categoryStyles'
 
+export const dynamic = 'force-dynamic'
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = websiteSiteUrl()
+  const snapshot = await getLiveContent()
+  const tools = new Set(snapshot.tools)
+  const articles = new Set(snapshot.articles)
   const supabase = createServerClient()
 
   // Fetch dynamic published protocols from Supabase
@@ -41,7 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic tool pages
   const toolRoutes = protocols
-    .filter((p) => p.type === 'Tool')
+    .filter((p) => p.type === 'Tool' && tools.has(p.slug))
     .map((item) => ({
       url: `${siteUrl}/tools/${item.slug}`,
       lastModified: item.updated_at ? new Date(item.updated_at) : new Date(),
@@ -51,7 +57,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic article pages
   const articleRoutes = protocols
-    .filter((p) => p.type === 'Article' || !p.type)
+    .filter((p) => (p.type === 'Article' || !p.type) && articles.has(p.slug))
     .map((item) => ({
       url: `${siteUrl}/intelligence/${item.slug}`,
       lastModified: item.updated_at ? new Date(item.updated_at) : new Date(),
