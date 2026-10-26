@@ -106,6 +106,8 @@ Everything below this point in the document describes **Sorted Lab** specificall
 
 ## Brand & Tone
 
+**Explanation-first hero (26 October 2026):** Home first explains SOR7ED with “Built for brains that work differently” and practical tools/plain-language guide copy. The sole hero action remains “Find your starting point” → `/brain-type`, with reflection/non-diagnostic context below. The animated scribble and reduced-motion fallback remain. The duplicate yellow explanation section below the hero is removed; content browsing remains in separate navigation destinations.
+
 **Separate browsing tabs (26 October 2026, user correction):** Home is a focused entry into the Brain Sorter reflection. It contains the single starting-point action and brief explanation, without topic ledgers, featured tools or guidebook lists. Toolbox, Guidebook and About stay separate navigation destinations. No profiler completion gate or sign-in requirement is added to public reading.
 
 **Banner removal (26 October 2026):** public About/Toolbox/Guidebook openings and individual article/tool presentations are title-led, without large decorative opening images. Native source data, in-content illustrations, preview covers and WhatsApp/social metadata images are retained.

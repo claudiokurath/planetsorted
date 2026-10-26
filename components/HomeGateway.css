@@ -1,5 +1,5 @@
 /* PlanetSorted uses the sor7ed.com presentation system, with its own entry flow. */
-.sorted-home-entry, .sorted-home-explanation { --entry-accent:var(--sor7ed-gold); font-family:var(--font-jost),system-ui,sans-serif; }
+.sorted-home-entry { --entry-accent:var(--sor7ed-gold); font-family:var(--font-jost),system-ui,sans-serif; }
 .sorted-home-entry { width:100%; max-width:1280px; margin:auto; padding:clamp(40px,6vw,80px) clamp(22px,5vw,64px); background:#000; color:#fff; }
 .sorted-home-entry__rule { display:flex; justify-content:space-between; gap:16px; padding-bottom:12px; border-bottom:1px solid #ffffff30; color:#a3a3a3; font:400 10px/1.5 var(--font-jetbrains-mono),monospace; letter-spacing:.16em; text-transform:uppercase; }
 .sorted-home-entry__hero { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,.85fr); gap:48px; align-items:center; padding-block:36px 40px; }
@@ -18,25 +18,18 @@
 .sorted-home-entry__path:focus-visible { outline:3px solid var(--entry-accent); outline-offset:4px; }
 .sorted-home-entry__note { margin:18px 0 0; color:#a3a3a3; font-size:12px; line-height:1.5; }
 .sorted-home-entry__bottom { margin-top:28px; color:#aaa; font-size:14px; line-height:1.5; }
-.sorted-home-explanation { background:var(--entry-accent); color:#000; border-block:1px solid #0005; }
-.sorted-home-explanation__inner { display:grid; grid-template-columns:1.1fr 1fr; align-items:center; gap:72px; max-width:1280px; margin:auto; padding:clamp(56px,7vw,100px) clamp(22px,5vw,64px); }
-.sorted-home-explanation__eyebrow { margin:0 0 22px; font:400 11px/1.5 var(--font-jetbrains-mono),monospace; text-transform:uppercase; letter-spacing:.16em; }
-.sorted-home-explanation h2 { margin:0; font:400 clamp(2.3rem,4vw,3.6rem)/1.14 var(--font-anton),sans-serif; text-transform:uppercase; }
-.sorted-home-explanation__inner > div > p:not(.sorted-home-explanation__eyebrow) { margin:0; color:#242000; font-size:1.1rem; line-height:1.65; }
-.sorted-home-explanation__rule { width:100px; height:2px; background:#000; margin-block:28px; }
 @keyframes sorted-home-row-in { from { opacity:0; transform:translateX(-14px); } to { opacity:1; transform:none; } }
-@media(max-width:800px) { .sorted-home-explanation__inner { grid-template-columns:1fr; gap:32px; } }
 @media(max-width:767px) {
   .sorted-home-entry__rule { font-size:9px; letter-spacing:.08em; }
   .sorted-home-entry__hero { grid-template-columns:1fr; gap:24px; padding-block:28px 32px; }
   .sorted-home-entry h1 { font-size:clamp(2.7rem,11vw,3.4rem); }
   .sorted-home-entry__intro { font-size:1rem; }
-  .sorted-home-entry__scribble { width:104px; justify-self:start; order:-1; }
+  .sorted-home-entry__scribble { width:80px; justify-self:start; }
   .sorted-home-entry__path { width:100%; }
 }
 @media(prefers-reduced-motion:reduce) { .sorted-home-entry__path { animation:none; } .sorted-home-entry__arrow { transition:none; } }
 @media print {
-  .sorted-home-entry,.sorted-home-explanation { background:#fff; color:#000; }
+  .sorted-home-entry { background:#fff; color:#000; }
   .sorted-home-entry__scribble { display:none; }
   .sorted-home-entry__intro,.sorted-home-entry__note,.sorted-home-entry h1 em { color:#000; }
 }
