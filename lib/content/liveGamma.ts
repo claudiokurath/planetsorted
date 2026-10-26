@@ -28,8 +28,9 @@ export async function getLiveGammaPresentation(publicSource: string | null | und
       if (cache.size >= 50 && !cache.has(sourceId)) cache.delete(cache.keys().next().value!)
       cache.set(sourceId, { value, expiresAt: Date.now() + 30_000 })
       return value
-    } catch {
+    } catch (error) {
       // Never silently show a previously imported or expired version instead.
+      console.warn('Public Gamma read failed', { sourceId, reason: error instanceof Error ? error.message.slice(0, 180) : 'Unavailable' })
       cache.delete(sourceId)
       return null
     } finally { requests.delete(sourceId) }
