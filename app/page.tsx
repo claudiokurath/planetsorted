@@ -1,10 +1,6 @@
-import { Suspense } from 'react'
-import { HomeExplore } from '@/components/HomeExplore'
 import { websiteSiteUrl } from '@/lib/siteUrl'
 import type { Metadata } from 'next'
 import { HomeGateway } from '@/components/HomeGateway'
-
-export const dynamic = 'force-dynamic'
 
 const SITE = websiteSiteUrl()
 const OG_CARD = '/api/og?card=welcome'
@@ -33,5 +29,5 @@ export const metadata: Metadata = {
 }
 
 export default function HomePage() {
-  return <><HomeGateway /><Suspense fallback={<section className="sorted-explore-section"><div className="sorted-explore-inner"><p role="status">Loading tools and guides…</p></div></section>}><HomeExplore /></Suspense></>
+  return <HomeGateway />
 }
