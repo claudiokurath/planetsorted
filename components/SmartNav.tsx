@@ -48,14 +48,14 @@ export function SmartNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/[0.08] bg-black/90 text-white backdrop-blur-xl">
       {/* Mobile: logo-only bar — primary nav lives in the bottom tab bar */}
-      <nav aria-label="Primary navigation" className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 md:hidden">
-        <Link href="/" aria-label="PLANET SOR7ED home" className="flex min-h-11 items-center">
+      <nav aria-label="Primary navigation" className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 py-2.5 md:hidden">
+        <Link href="/" aria-label="PLANET SOR7ED home" className="col-start-2 flex min-h-11 items-center">
           <BrandLogo className="h-7 w-auto" />
         </Link>
         {authReady && !user && (
           <Link
             href={`/signup?mode=returning&next=${encodeURIComponent(pathname || '/')}`}
-            className="inline-flex min-h-11 items-center px-2 text-xs font-medium uppercase tracking-[0.16em] text-[#FFD400]"
+            className="inline-flex min-h-11 items-center justify-self-end px-2 text-xs font-medium uppercase tracking-[0.16em] text-[#FFD400]"
           >
             Sign In
           </Link>
@@ -63,12 +63,12 @@ export function SmartNav() {
       </nav>
 
       {/* Desktop: full top nav */}
-      <nav aria-label="Primary navigation" className="mx-auto hidden max-w-7xl items-center justify-between gap-4 px-6 py-3 md:flex lg:px-8">
+      <nav aria-label="Primary navigation" className="mx-auto hidden max-w-7xl flex-col items-center justify-center gap-2 px-6 py-2 md:flex lg:px-8">
         <Link href="/" aria-label="PLANET SOR7ED home" className="flex min-h-11 shrink-0 items-center">
           <BrandLogo className="h-8 w-auto lg:h-10" />
         </Link>
 
-        <div className="flex items-center gap-3 lg:gap-6">
+        <div className="flex flex-wrap items-center justify-center gap-3 lg:gap-6">
           {navLinks.map((link) => {
             const isActive = pathname === link.href || pathname?.startsWith(`${link.href}/`)
             return (

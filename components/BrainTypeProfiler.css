@@ -83,3 +83,8 @@
 @media print { .brain-type-profiler {background:#fff;color:#000} .brain-type-profiler .row{display:none} }
 
 body:has(.brain-type-profiler) > main { padding-bottom: 0; }
+
+.brain-type-profiler .screen--intro { text-align:center; }
+.brain-type-profiler .display,.brain-type-profiler .q,.brain-type-profiler .you,.brain-type-profiler .identity,.brain-type-profiler .kicker,.brain-type-profiler .share { text-align:center; }
+.brain-type-profiler .lede,.brain-type-profiler .identity,.brain-type-profiler .fineprint,.brain-type-profiler .share .tag { margin-inline:auto; }
+.brain-type-profiler .row { justify-content:center; }
