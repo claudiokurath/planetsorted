@@ -163,6 +163,8 @@ Anton, heavy condensed caps, on black, separated by hairlines only. No beige bac
 - The sticky header uses a compact, centred SOR7ED logo on its own top row, with the navigation centred directly underneath.
 - Header navigation is GUIDEBOOK, TOOLBOX and ABOUT on every screen size. For signed-in users ACCOUNT appears in the header (top row for mobile, link row for desktop), and the phone bottom-tab bar (Home / Toolbox / Guide / Account) is enabled on mobile. Sign In links carry `?next=<current path>` so a fresh session returns the visitor to the page they came from, and `/login` 307s to `/signup?mode=returning`. (Section updated 2026-09-02 to match the running code; the previous note claiming ACCOUNT was hidden and the tab bar disabled was stale.)
 
+**Footer (26 October 2026):** remove the large multi-column footer, repeated logo, topics, promotional copy and long disclaimer block. Keep only a compact black copyright bar with Contact, Privacy, Terms and Cookies links. The shared SOR7ED delivery button remains above it. Sensitive tools and legal pages retain their contextual safety information.
+
 ### Global Disclaimers
 Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant outputs:
 - Planet Sorted provides educational information, templates, and practical tools.
