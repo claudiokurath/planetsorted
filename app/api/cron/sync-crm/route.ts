@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
   const requestedPage = requested ? Number(requested) : null
   if (requestedPage !== null && (!Number.isInteger(requestedPage) || requestedPage < 1)) return NextResponse.json({ error: 'Choose a valid account page.' }, { status: 400 })
   const admin = createServiceClient()
-  const counts = { synced: 0, unchanged: 0, busy: 0, failed: 0 }
+  const counts = { synced: 0, unchanged: 0, busy: 0, archived: 0, failed: 0 }
   try {
     const { data: cursor, error: cursorError } = await admin.from('notion_crm_reconciliation').select('next_page').eq('id', 1).single()
     if (cursorError) throw new Error('CRM cursor is unavailable')

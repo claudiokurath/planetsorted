@@ -739,6 +739,8 @@ receipt.
 5. Until step 4, `Sor7edButton` shows "CONNECT WHATSAPP →" instead of the send button — see "The SOR7ED Button" (the `?tab=settings` deep-link is fixed).
 
 ### Notion CRM Sync
+
+**Deleted-contact handling (26 October 2026):** a known Notion CRM page in Trash/archived is skipped and counted as archived, without restoring, recreating or re-opting-in the contact. Its ledger keeps the page ID, clears false retry errors and leaves synced_at unchanged. A manual restore in Notion is noticed on the next reconciliation. Current audit: 21 linked Supabase accounts, 17 deleted Notion contacts and 4 active linked pages; 16 old retry errors belonged to deleted pages.
 Supabase Auth is the source for all sign-ups, including pending and email-only
 accounts without a `users` profile. The Notion CRM is database
 `35e0d601-4acc-80ff-8761-c320c06835ee`. Each record is keyed by Supabase User ID;
