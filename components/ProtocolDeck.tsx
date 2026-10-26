@@ -1,7 +1,5 @@
 'use client'
 
-import Image from 'next/image'
-import { BrandLogo } from '@/components/BrandLogo'
 import Link from 'next/link'
 import type { DeckBlock, DeckSlide, ProtocolDeckData } from '@/lib/protocolDeck'
 import { ArticleAudioControls } from '@/components/ArticleAudioControls'
@@ -363,7 +361,6 @@ export function ProtocolDeck({
 }: ProtocolDeckProps) {
   const categoryStyle = getCategoryStyle(deck.category)
   const chips = [
-    deck.readTime || null,
     deck.protocolSlide ? 'Protocol included' : null,
   ].filter(Boolean) as string[]
 
@@ -376,21 +373,8 @@ export function ProtocolDeck({
       {/* ── Cover slide (PDF page 1) ─────────────────────────────── */}
       <section
         data-deck-slide
-        className="deck-slide deck-cover relative mx-auto mb-0 flex min-h-[min(78vh,640px)] max-w-6xl flex-col items-center justify-center overflow-hidden rounded-none border border-white/[0.12] bg-black px-6 py-16 text-center sm:mb-8 sm:px-12 sm:py-20"
+        className="deck-slide deck-cover relative mx-auto mb-0 flex max-w-6xl flex-col items-center justify-center overflow-hidden rounded-none border border-white/[0.12] bg-black px-6 py-16 text-center sm:mb-8 sm:px-12 sm:py-20"
       >
-        {deck.coverImage ? (
-          <div className="pointer-events-none absolute inset-0" aria-hidden>
-            <Image src={deck.coverImage} alt="" fill priority className="object-cover opacity-45" sizes="100vw" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/72 to-black" />
-          </div>
-        ) : null}
-        {/* SOR7ED wordmark */}
-        <div className="relative z-10 mb-10 sm:mb-14" aria-hidden>
-          <div className="relative mx-auto h-8 w-36 sm:h-10 sm:w-44">
-            <BrandLogo className="h-full w-full  opacity-95" />
-          </div>
-        </div>
-
         <h1 className="font-bebas relative z-10 max-w-5xl text-4xl uppercase leading-[1.1] tracking-normal text-white sm:text-6xl lg:text-6xl">
           {deck.title}
         </h1>

@@ -1,37 +1,26 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Roboto_Condensed } from 'next/font/google'
 import { CollectionCatalog } from '@/components/CollectionCatalog'
 import { COLLECTION_COPY } from '@/lib/content/collectionCopy'
 import styles from './GammaCollectionPage.module.css'
-
-const bodyFont = Roboto_Condensed({ subsets: ['latin'], weight: ['300', '400'], display: 'swap' })
 
 export function GammaCollectionPage({ collection }: { collection: keyof typeof COLLECTION_COPY }) {
   const copy = COLLECTION_COPY[collection]
   const guidebook = collection === 'guidebook'
 
   return (
-    <div className={`${styles.page} ${bodyFont.className}`}>
+    <div className={styles.page}>
       <div className={styles.opening}>
-        <div className={styles.cover}>
-          <Image
-            src={`/images/collections/${collection}-cover.png`}
-            alt={guidebook ? 'A red guidebook surrounded by stacks of books on a yellow background' : 'A red toolbox filled with tools on a yellow background'}
-            width={1344}
-            height={896}
-            preload
-            sizes="100vw"
-          />
-        </div>
         <header className={`${styles.panel} ${styles.introduction}`}>
           <h1>{copy.title}</h1>
           <p>{copy.description}</p>
         </header>
+
+
       </div>
 
       <div className={styles.sections}>
-        <section className={styles.panel} aria-labelledby="collection-features-heading">
+        <section className={`${styles.panel} ${!guidebook ? styles.featureSurface : ''}`} aria-labelledby="collection-features-heading">
           <h2 id="collection-features-heading">{copy.featureHeading}</h2>
           <div className={styles.features}>
             {copy.features.map((feature, index) => (

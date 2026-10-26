@@ -11,23 +11,6 @@ export function SiteFooter() {
 
   if (isStandaloneToolRoute(pathname)) return null
 
-  if (pathname === '/') {
-    return (
-      <footer className="border-t border-white/10 px-6 py-5 pb-24 text-sm text-neutral-300 md:pb-5">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} SOR7ED LIMITED</p>
-          <nav aria-label="Help and legal information" className="flex flex-wrap gap-x-5">
-            <Link href="/about" className="inline-flex min-h-11 items-center hover:text-white">About</Link>
-            <Link href="/faq" className="inline-flex min-h-11 items-center hover:text-white">FAQ</Link>
-            <Link href="/contact" className="inline-flex min-h-11 items-center hover:text-white">Contact</Link>
-            <Link href="/privacy" className="inline-flex min-h-11 items-center hover:text-white">Privacy</Link>
-            <Link href="/terms" className="inline-flex min-h-11 items-center hover:text-white">Terms</Link>
-            <Link href="/cookies" className="inline-flex min-h-11 items-center hover:text-white">Cookies</Link>
-          </nav>
-        </div>
-      </footer>
-    )
-  }
 
   return (
     <footer className="border-t border-white/10 bg-black py-12 text-white pb-24 md:pb-12">
@@ -36,7 +19,7 @@ export function SiteFooter() {
           {/* Column 1: Brand */}
           <div className="col-span-2 space-y-3 md:col-span-1">
             <BrandLogo className="h-8 w-auto" />
-            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#FFBA2E]">
+            <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#FFD400]">
               worry less, live more.
             </p>
             <p className="text-sm text-neutral-400 max-w-xs leading-relaxed">

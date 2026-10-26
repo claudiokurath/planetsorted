@@ -21,7 +21,7 @@
 @media print { .presentation, .card, .copy { background: white !important; color: black !important; } .copy p, .copy li { color: black !important; } .card { overflow: visible; break-inside: auto; border-color: #aaa; } .withArt { display: block; } .art { display: none; } .copy { padding: 16px; } }
 
 @media screen {
-  .card:nth-child(even) { background:#ffd400; color:#000; border-color:#0005; }
+  .card:nth-child(even) { background:var(--sor7ed-gold); color:#000; border-color:#0005; }
   .card:nth-child(even) .copy :is(p,li) { color:#282200; }
   .card:nth-child(even) .group { border-color:#0005; }
 }

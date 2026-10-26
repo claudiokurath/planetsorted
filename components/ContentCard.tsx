@@ -1,3 +1,4 @@
+import { ArrowIcon } from '@/components/ArrowIcon'
 import Image from 'next/image'
 import Link from 'next/link'
 import { PREVIEW_COVERS } from '@/lib/content/previewCovers'
@@ -11,11 +12,12 @@ interface ContentCardProps {
   summary?: string
   coverImage?: string | null
   category?: string | null
+  layout?: 'card' | 'row'
   compact?: boolean
   showCover?: boolean
 }
 
-export function ContentCard({ href, title, summary, category, coverImage, showCover = true }: ContentCardProps) {
+export function ContentCard({ href, title, summary, category, coverImage, showCover = true, layout = 'card' }: ContentCardProps) {
   const categoryStyle = getCategoryStyle(category)
   const description = summary?.replace(/<br\s*\/?\s*>/gi, '\n').replace(/<[^>]*>/g, '').replace(/^#{1,6}\s+/gm, '').replace(/\*\*/g, '').replace(/^OVERVIEW\s*/i, '').trim().split(/\n\s*\n/)[0]
   const item = href.match(/^\/(tools|intelligence)\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?$/)
@@ -23,6 +25,17 @@ export function ContentCard({ href, title, summary, category, coverImage, showCo
   const cover = showCover ? coverImage || (artworkPreview ? PREVIEW_COVERS[item[2]] : null) : null
   const titleSize = title.length > 80 ? 'extra-long' : title.length > 44 ? 'long' : 'standard'
   const heading = <h3 className="sorted-preview-title font-bebas">{title}</h3>
+
+  if (layout === 'row' && item?.[1] === 'intelligence') return (
+    <article className="sorted-guide-row">
+      <Link href={href}>
+        <div className="sorted-guide-thumb"><Image src={cover || '/images/tangle-white.png'} alt="" fill sizes="112px" className={cover ? 'sorted-preview-cover' : 'sorted-preview-fallback'} unoptimized={Boolean(cover && !cover.startsWith('/') && !cover.startsWith('https://wyxvbzbqbznqjftbgcxc.supabase.co/'))} /></div>
+        <div>{categoryStyle ? <span className="sorted-guide-category">{categoryStyle.label}</span> : null}<h3>{title}</h3>{description ? <p>{description}</p> : null}</div>
+        <span className="sorted-guide-arrow"><ArrowIcon /></span>
+      </Link>
+      <div className="sorted-preview-action print:hidden"><ToolWhatsAppCta slug={item[2]} context="article" returnPath={href} compact /></div>
+    </article>
+  )
 
   return (
     <article className="sorted-preview-card" data-preview-style={artworkPreview ? 'artwork' : undefined} data-title-size={artworkPreview ? titleSize : undefined}>

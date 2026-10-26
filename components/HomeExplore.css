@@ -1,0 +1,16 @@
+.sorted-explore-section { background:#000; color:#fff; border-top:1px solid var(--sor7ed-section-border); }
+.sorted-explore-inner { max-width:1280px; margin:auto; padding:clamp(56px,7vw,96px) clamp(24px,5vw,64px); }
+.sorted-explore-heading { display:flex; align-items:end; justify-content:space-between; gap:32px; margin-bottom:36px; }
+.sorted-explore-label { color:var(--sor7ed-gold); font:400 11px/1.5 var(--font-jetbrains-mono),monospace; text-transform:uppercase; letter-spacing:.12em; margin-bottom:20px; }
+.sorted-explore-heading h2 { font:400 clamp(2rem,3.6vw,3.2rem)/1.15 var(--font-anton),sans-serif; text-transform:uppercase; max-width:24ch; }
+.sorted-explore-heading > p { color:#c2c2c2; max-width:32ch; font-size:1.05rem; line-height:1.65; }
+.sorted-explore-all { display:inline-flex; align-items:center; min-height:44px; flex-shrink:0; gap:12px; text-decoration:underline; text-underline-offset:6px; }
+.sorted-topic-ledger { border-top:1px solid var(--sor7ed-section-border); }
+.sorted-topic-ledger a { display:grid; grid-template-columns:32px minmax(0,1fr) minmax(0,1.1fr) 32px 20px; gap:24px; align-items:center; min-height:84px; padding:20px 0; border-bottom:1px solid var(--sor7ed-section-border); transition:background 180ms; }
+.sorted-topic-ledger a:hover { background:#ffffff08; }
+.sorted-topic-ledger h3 { font:400 clamp(1.3rem,2.2vw,1.9rem)/1.15 var(--font-anton),sans-serif; text-transform:uppercase; overflow-wrap:break-word; }
+.sorted-topic-ledger p { color:#bdbdbd; font-size:1rem; line-height:1.5; }
+.sorted-topic-index,.sorted-topic-count { color:#aaa; font:400 11px/1.5 var(--font-jetbrains-mono),monospace; }
+.sorted-topic-count { text-align:right; }
+@media(max-width:700px) { .sorted-explore-heading { align-items:start; flex-direction:column; gap:18px; } .sorted-topic-ledger a { grid-template-columns:24px minmax(0,1fr) 24px 16px; gap:12px; } .sorted-topic-ledger p { grid-column:2; grid-row:2; font-size:.9rem; } .sorted-topic-count { grid-row:1; grid-column:3; } .sorted-topic-ledger a > svg:last-child { grid-row:1; grid-column:4; } }
+@media(prefers-reduced-motion:reduce) { .sorted-topic-ledger a { transition:none; } }

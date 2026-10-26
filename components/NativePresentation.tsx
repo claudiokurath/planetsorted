@@ -45,9 +45,14 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 export function NativePresentation({ slug, presentation }: { slug: string; presentation?: Presentation }) {
   const data = presentation ?? source[slug as keyof typeof source]
   if (!data) return null
-  const titleCardIndex = data.cards.findIndex(card => /^h/.test(card.blocks[0]?.kind ?? ''))
+  // Opening artwork is decorative banner content. Keep every text block and
+  // every illustration after the title; leave source/OG artwork untouched.
+  const sourceTitleIndex = Math.max(0, data.cards.findIndex(card => /^h/.test(card.blocks[0]?.kind ?? '')))
+  const cards = data.cards.map((card, index) => index <= sourceTitleIndex ? { ...card, images: [] } : card)
+    .filter(card => card.blocks.length > 0 || card.images.length > 0)
+  const titleCardIndex = cards.findIndex(card => /^h/.test(card.blocks[0]?.kind ?? ''))
   return <article className={styles.presentation} data-presentation>
-    {data.cards.map((card, index) => {
+    {cards.map((card, index) => {
       const [first, ...rest] = card.blocks
       const hasHeading = first && /^h/.test(first.kind)
       const heading = hasHeading ? first.text : undefined
