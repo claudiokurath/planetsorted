@@ -55,7 +55,7 @@ export function SmartNav() {
         {authReady && !user && (
           <Link
             href={`/signup?mode=returning&next=${encodeURIComponent(pathname || '/')}`}
-            className="inline-flex min-h-11 items-center px-2 text-xs font-medium uppercase tracking-[0.16em] text-[#FFBA2E]"
+            className="inline-flex min-h-11 items-center px-2 text-xs font-medium uppercase tracking-[0.16em] text-[#FFD400]"
           >
             Sign In
           </Link>
@@ -78,7 +78,7 @@ export function SmartNav() {
                 aria-current={isActive ? 'page' : undefined}
                 className={`inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
                   isActive
-                    ? 'border-b-2 border-[#FFBA2E] text-white'
+                    ? 'border-b-2 border-[#FFD400] text-white'
                     : 'text-white/70 hover:text-white'
                 }`}
               >
@@ -95,7 +95,7 @@ export function SmartNav() {
                   aria-current={pathname === '/dashboard' ? 'page' : undefined}
                   className={`inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
                     pathname === '/dashboard'
-                      ? 'border-b-2 border-[#FFBA2E] text-white'
+                      ? 'border-b-2 border-[#FFD400] text-white'
                       : 'text-white/70 hover:text-white'
                   }`}
                 >
@@ -103,7 +103,7 @@ export function SmartNav() {
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] text-white/70 transition-colors hover:text-[#FFBA2E]"
+                  className="inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] text-white/70 transition-colors hover:text-[#FFD400]"
                 >
                   Sign Out
                 </button>
@@ -114,8 +114,8 @@ export function SmartNav() {
                 aria-current={pathname === '/signup' ? 'page' : undefined}
                 className={`inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
                   pathname === '/signup'
-                    ? 'border-b-2 border-[#FFBA2E] text-white'
-                    : 'text-[#FFBA2E] hover:text-white'
+                    ? 'border-b-2 border-[#FFD400] text-white'
+                    : 'text-[#FFD400] hover:text-white'
                 }`}
               >
                 Sign In

@@ -1,10 +1,10 @@
 import 'server-only'
-import { ContentCard } from '@/components/ContentCard'
+import { CatalogBrowser } from '@/components/CatalogBrowser'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
 
 export type CollectionType = 'Tool' | 'Article'
-type CatalogItem = Pick<Protocol, 'slug' | 'title' | 'summary' | 'excerpt' | 'cover_image' | 'category' | 'read_time' | 'type' | 'status'>
+export type CatalogItem = Pick<Protocol, 'slug' | 'title' | 'summary' | 'excerpt' | 'cover_image' | 'category' | 'read_time' | 'type' | 'status'>
 type CatalogResult = { status: 'ready'; items: CatalogItem[] } | { status: 'error' }
 
 // Match the approved Toolbox presentation order. Content always comes from
@@ -68,26 +68,14 @@ export async function CollectionCatalog({ type, heading, description }: Collecti
           <p role="alert" className="text-base text-neutral-300">We couldn’t load the {label} right now. Please try again.</p>
           {/* A normal navigation reloads the server query rather than reusing
               an in-memory Next.js route result from the failed request. */}
-          <a href={route} className="mt-5 inline-flex min-h-12 items-center justify-center bg-white px-6 text-base font-medium text-black hover:bg-[#FFBA2E] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FFBA2E]">
+          <a href={route} className="mt-5 inline-flex min-h-12 items-center justify-center bg-white px-6 text-base font-medium text-black hover:bg-[#FFD400] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FFD400]">
             Try again →
           </a>
         </div>
       ) : result.items.length === 0 ? (
         <p className="border border-white/15 p-6 text-base text-neutral-300">No {label} have been published yet. Please check back soon.</p>
       ) : (
-        <div className="grid auto-rows-fr grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {result.items.map((item) => (
-            <ContentCard
-              key={item.slug}
-              href={`${route}/${item.slug}`}
-              title={item.title}
-              summary={(type === 'Article' ? item.excerpt || item.summary : item.summary || item.excerpt) || undefined}
-              coverImage={item.cover_image}
-              category={item.category}
-
-            />
-          ))}
-        </div>
+        <CatalogBrowser items={result.items} type={type} />
       )}
     </section>
   )

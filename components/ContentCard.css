@@ -1,7 +1,7 @@
 /* Image-led previews: the title belongs to the artwork, copy follows below. */
 .sorted-preview-card { display: flex; flex-direction: column; height: 100%; min-width: 0; overflow: hidden; background: #000; border: 1px solid var(--sor7ed-section-border); }
 .sorted-preview-link { display: flex; flex-direction: column; flex: 1; min-width: 0; }
-.sorted-preview-link:focus-visible { outline: 2px solid #FFBA2E; outline-offset: -2px; }
+.sorted-preview-link:focus-visible { outline: 2px solid #FFD400; outline-offset: -2px; }
 .sorted-preview-image { position: relative; width: 100%; aspect-ratio: 4 / 3; min-height: 240px; flex-shrink: 0; background: #000; }
 .sorted-preview-cover { object-fit: cover; object-position: center; }
 .sorted-preview-fallback { object-fit: contain; padding: 36px; opacity: .25; }
@@ -9,7 +9,7 @@
 .sorted-preview-title { margin: 0; font-size: clamp(1.65rem, 2.5vw, 2rem); line-height: 1.15; text-transform: uppercase; letter-spacing: -.01em; color: #fff; overflow-wrap: anywhere; text-shadow: 0 1px 4px #000; }
 .sorted-preview-heading-plain { padding: 18px 18px 0; }
 .sorted-preview-description { padding: 16px 18px 0; }
-.sorted-preview-category { display: block; margin-bottom: 8px; font-size: .75rem; line-height: 1.4; color: #FFBA2E; }
+.sorted-preview-category { display: block; margin-bottom: 8px; font-size: .75rem; line-height: 1.4; color: #FFD400; }
 .sorted-preview-description p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; font-size: 1rem; line-height: 1.6; color: #d4d4d4; }
 .sorted-preview-action { margin-top: auto; padding: 12px 18px 16px; }
 .sorted-preview-action .sb--compact { --sb-mark: 48px; display: grid; grid-template-columns: minmax(0, 1fr) 68px; gap: 4px 12px; padding: 12px 0 0; }
@@ -38,3 +38,9 @@
   .sorted-preview-card[data-preview-style="artwork"] .sorted-preview-heading { background:#fff; }
   .sorted-preview-card[data-preview-style="artwork"] .sorted-preview-title { color:#000; text-shadow:none; }
 }
+.sorted-preview-card { transition:border-color 200ms,background 200ms; }
+.sorted-preview-card:hover { border-color:var(--sor7ed-gold); background:#0b0b0b; }
+.sorted-preview-description { padding:20px 22px 0; }
+.sorted-preview-category { font:400 10px/1.5 var(--font-jetbrains-mono),monospace; text-transform:uppercase; letter-spacing:.08em; }
+.sorted-preview-action { padding:16px 22px 20px; }
+@media(prefers-reduced-motion:reduce) { .sorted-preview-card { transition:none; } }

@@ -106,6 +106,10 @@ Everything below this point in the document describes **Sorted Lab** specificall
 
 ## Brand & Tone
 
+**Banner removal (26 October 2026):** public About/Toolbox/Guidebook openings and individual article/tool presentations are title-led, without large decorative opening images. Native source data, in-content illustrations, preview covers and WhatsApp/social metadata images are retained.
+
+**Design handoff refresh (26 October 2026):** adopted its consistent Jost body type, readable editorial hierarchy, topic ledger, category filters and text-led guidebook index. Kept the single brain-type hero action, animated scribble, #FFD400 accent, full-width section backgrounds and the approved tool-image title overlays. Counts and featured items come from published live rows rather than the prototype’s stale six-tool catalogue; no reading times are shown. About now follows the supplied ABOUT-US.pdf, without its Numbers section, and uses the existing sign-in/connect/button delivery instructions rather than the obsolete text-a-keyword flow. Native Gamma article/tool text and private protocol delivery remain unchanged.
+
 **Section surfaces (25 October 2026):** public editorial pages use black/white sections alternating with #FFD400 yellow/black sections, following the supplied presentation. Home choices, collection introductions, selected About panels, category headers and alternate FAQ answers use yellow. Content cards keep their black surface; print remains white. Account forms and standalone tool controls retain their own styles.
 
 **Full-width public sections (25 October 2026):** Toolbox, Guidebook, About and individual article/tool presentations use edge-to-edge section backgrounds and covers, without floating outer panels or gaps. Text and catalog grids keep readable inner gutters. Individual presentations alternate yellow/black sections too. The shared page-bottom SOR7ED action binds article/tool routes to their own slug and stays outside the reading sections.

@@ -15,7 +15,7 @@
   --sor7ed-muted: #8A8A8A;
   --sor7ed-dim: #6A6A6A;
   --sor7ed-hairline: rgba(255, 255, 255, 0.12);
-  --sor7ed-section-border: rgba(255, 255, 255, 0.65);
+  --sor7ed-section-border: rgba(255, 255, 255, 0.24);
 
   /* The single accent. One primary action, one active state, the mark. */
   --sor7ed-gold: #FFD400;

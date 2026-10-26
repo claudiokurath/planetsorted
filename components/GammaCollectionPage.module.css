@@ -81,13 +81,13 @@
 .journeyCopy > p { margin-top: 28px; }
 .steps { display: grid; gap: 18px; margin-top: 32px; list-style: none; }
 .steps li { display: grid; grid-template-columns: 80px minmax(0, 1fr); align-items: center; gap: 18px; }
-.steps li > span { display: grid; place-items: center; height: 100%; min-height: 98px; padding-bottom: 14px; color: #000; background: #ffc107; clip-path: polygon(0 0, 50% 14%, 100% 0, 100% 86%, 50% 100%, 0 86%); font-family: var(--font-anton), sans-serif; font-size: 1.75rem; }
+.steps li > span { display: grid; place-items: center; height: 100%; min-height: 98px; padding-bottom: 14px; color: #000; background: var(--sor7ed-gold); clip-path: polygon(0 0, 50% 14%, 100% 0, 100% 86%, 50% 100%, 0 86%); font-family: var(--font-anton), sans-serif; font-size: 1.75rem; }
 .steps h3 { margin-bottom: 10px; }
 .steps p { line-height: 1.6; }
 .catalog :global(#collection-content) { scroll-margin-top: 100px; }
-.back { display: inline-flex; align-items: center; gap: 16px; min-height: 48px; background: #ffc107; color: #000; padding: 12px 20px; font-weight: 400; text-transform: uppercase; border-radius: 6px; }
+.back { display: inline-flex; align-items: center; gap: 16px; min-height: 48px; background: var(--sor7ed-gold); color: #000; padding: 12px 20px; font-weight: 400; text-transform: uppercase; border-radius: 6px; }
 .back:hover { background: #ffda66; }
-.page a:focus-visible { outline: 2px solid #ffc107; outline-offset: 5px; }
+.page a:focus-visible { outline: 2px solid var(--sor7ed-gold); outline-offset: 5px; }
 
 @media (max-width: 1000px) {
   .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -122,9 +122,25 @@
 
 @media screen {
   .panel { border-radius:0; }
-  .introduction, .journey { background:#ffd400; color:#000; border-color:#ffd400; }
+  .introduction, .journey { background:var(--sor7ed-gold); color:#000; border-color:var(--sor7ed-gold); }
   .introduction p, .journey p { color:#282200; }
-  .journeyArt { background:#ffd400; }
-  .journey .steps li > span { background:#000; color:#ffd400; }
+  .journeyArt { background:var(--sor7ed-gold); }
+  .journey .steps li > span { background:#000; color:var(--sor7ed-gold); }
   .introduction a:focus-visible, .journey a:focus-visible { outline-color:#000; }
 }
+
+/* Editorial hierarchy from the supplied handoff; full-width section rhythm stays. */
+.introduction { background:#000; color:#fff; }
+.introduction h1 { max-width:18ch; font-size:clamp(2.8rem,5.8vw,5rem); line-height:1.08; }
+.introduction p { max-width:62ch; color:#d4d4d4; margin-top:28px; }
+.features { gap:32px; }
+.features article { border:0; border-top:2px solid var(--sor7ed-gold); padding:22px 0 0; border-radius:0; }
+.features h3 { font-size:clamp(1.25rem,2vw,1.65rem); }
+.number { color:var(--sor7ed-gold); font:400 12px var(--font-jetbrains-mono),monospace; margin-bottom:0; }
+.journey .steps li > span { clip-path:none; background:transparent; color:#000; min-height:44px; padding:0; align-self:start; place-items:start; border-top:2px solid #000; padding-top:14px; }
+.steps li { grid-template-columns:44px minmax(0,1fr); gap:24px; align-items:start; }
+.back { border-radius:0; }
+
+.featureSurface { background:var(--sor7ed-gold); color:#000; border-color:#0004; }
+.featureSurface p,.featureSurface .number { color:#242000; }
+.featureSurface .features article { background:transparent; color:#000; border-top-color:#000; }
