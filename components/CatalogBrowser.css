@@ -21,3 +21,8 @@
 @media(max-width:600px) { .sorted-catalog-grid { grid-template-columns:1fr; } .sorted-guide-row > a { grid-template-columns:72px minmax(0,1fr); gap:16px; align-items:start; } .sorted-guide-row .sorted-guide-thumb { width:72px; } .sorted-guide-arrow { display:none; } .sorted-guide-row h3 { font-size:1.4rem; } .sorted-guide-row p { font-size:.95rem; } }
 @media(prefers-reduced-motion:reduce) { .sorted-guide-thumb img,.sorted-catalog-filters button { transition:none; } }
 @media print { .sorted-catalog-filters,.sorted-preview-action { display:none; } .sorted-guide-row { display:block; break-inside:avoid; } .sorted-guide-row h3,.sorted-guide-row p,.sorted-guide-category { color:#000; } }
+
+/* Centre the catalogue controls and summaries within the shared content column. */
+.sorted-catalog-filters { justify-content:center; }
+.sorted-catalog-count,.sorted-catalog-empty,.sorted-guide-row > a > div:not(.sorted-guide-thumb) { text-align:center; }
+@media(max-width:1000px) { .sorted-guide-row .sorted-preview-action { margin-inline:auto; } }

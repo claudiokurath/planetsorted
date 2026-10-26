@@ -11,7 +11,7 @@ export function SiteFooter() {
 
   return (
     <footer className="mb-20 border-t border-white/10 bg-black text-neutral-400 md:mb-0 print:hidden">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-1 px-6 py-3 text-xs">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-1 px-6 py-3 text-center text-xs">
         <p>© {new Date().getFullYear()} SOR7ED LIMITED</p>
         <nav aria-label="Legal and contact" className="flex flex-wrap gap-x-5">
           {[

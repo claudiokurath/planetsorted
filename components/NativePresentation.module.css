@@ -25,3 +25,7 @@
   .card:nth-child(even) .copy :is(p,li) { color:#282200; }
   .card:nth-child(even) .group { border-color:#0005; }
 }
+
+/* Centre the editorial hierarchy; keep body paragraphs and lists readable. */
+.copy h1,.copy h2,.copy h3 { text-align:center; text-wrap:balance; }
+.copy > p { max-width:68ch; margin-inline:auto; }

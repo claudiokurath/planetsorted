@@ -63,11 +63,11 @@ export async function CollectionCatalog({ type, heading, description }: Collecti
   return (
     <section id="collection-content" aria-labelledby="collection-heading" className="w-full scroll-mt-28">
       <LiveContentRefresh />
-      <header className="mb-8">
+      <header className="mb-8 text-center">
         <h2 id="collection-heading" className="font-bebas text-4xl uppercase text-white sm:text-5xl">
           {heading ?? (type === 'Tool' ? 'The free tools' : 'Library of guidebooks')}
         </h2>
-        {description ? <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-300 sm:text-lg">{description}</p> : null}
+        {description ? <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-neutral-300 sm:text-lg">{description}</p> : null}
       </header>
 
       {result.status === 'error' ? (

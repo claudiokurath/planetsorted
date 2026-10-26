@@ -44,3 +44,6 @@
 .sorted-preview-category { font:400 10px/1.5 var(--font-jetbrains-mono),monospace; text-transform:uppercase; letter-spacing:.08em; }
 .sorted-preview-action { padding:16px 22px 20px; }
 @media(prefers-reduced-motion:reduce) { .sorted-preview-card { transition:none; } }
+
+.sorted-preview-heading { justify-content:center; text-align:center; }
+.sorted-preview-heading-plain,.sorted-preview-description { text-align:center; }

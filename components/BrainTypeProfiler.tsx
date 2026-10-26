@@ -59,7 +59,7 @@ export function BrainTypeProfiler({ publishedToolSlugs, toolsAvailable }: { publ
   return (
     <div className="brain-type-profiler">
       <div className="wrap">
-        <section ref={screenRef} tabIndex={-1} key={state.screen} className="screen active" aria-label={state.screen === 'intro' ? 'How your brain runs' : state.screen === 'quiz' ? `Question ${state.index + 1} of ${QUESTIONS.length}` : 'Your brain type result'}>
+        <section ref={screenRef} tabIndex={-1} key={state.screen} className={`screen active screen--${state.screen}`} aria-label={state.screen === 'intro' ? 'How your brain runs' : state.screen === 'quiz' ? `Question ${state.index + 1} of ${QUESTIONS.length}` : 'Your brain type result'}>
           {state.screen === 'intro' ? <>
             <p className="kicker">A 2-minute reflection tool</p>
             <h1 className="display">How your<br />brain runs</h1>

@@ -27,6 +27,7 @@
 
 .panel {
   background: #000;
+  text-align: center;
   padding: clamp(48px, 6vw, 88px) max(24px, calc((100% - 1064px) / 2));
   box-shadow: none;
 }
@@ -131,8 +132,8 @@
 
 /* Editorial hierarchy from the supplied handoff; full-width section rhythm stays. */
 .introduction { background:#000; color:#fff; }
-.introduction h1 { max-width:18ch; font-size:clamp(2.8rem,5.8vw,5rem); line-height:1.08; }
-.introduction p { max-width:62ch; color:#d4d4d4; margin-top:28px; }
+.introduction h1 { max-width:18ch; margin-inline:auto; font-size:clamp(2.8rem,5.8vw,5rem); line-height:1.08; }
+.introduction p { max-width:62ch; margin-inline:auto; color:#d4d4d4; margin-top:28px; }
 .features { gap:32px; }
 .features article { border:0; border-top:2px solid var(--sor7ed-gold); padding:22px 0 0; border-radius:0; }
 .features h3 { font-size:clamp(1.25rem,2vw,1.65rem); }
