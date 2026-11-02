@@ -708,6 +708,11 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 
 ## Auth & Accounts
 
+**2 November 2026 security correction:** WhatsApp proves ownership of a number only. A newly supplied real email must first complete its own email sign-in link before WhatsApp may issue an email-identity magic link. Phone-only synthetic identities retain their existing WhatsApp-only flow. The signup endpoint atomically reserves server-only HMAC-digest quotas in Postgres before account creation or provider calls: per phone/email/IP plus a 200-attempt daily site ceiling, with retry headers and fail-closed behavior. No raw phone, email or IP is stored in quota rows. Analytics and feature-flag tables now exist with RLS and service-role-only access.
+
+**Notion webhook correction:** verify `sha256=` HMAC over the raw body using the subscription verification token in NOTION_SIGNING_SECRET. Handle real `page.*` events via entity.id, identify the current source parent and reuse the shared live publication reconciliation. Return retryable failures instead of claiming an asynchronous queue. Signed fixture events are tested; live subscription delivery is not yet verified.
+
+
 - Magic link auth only — no passwords. WhatsApp `LOGIN` sends a magic link directly to the user's thread.
 - `/dashboard` contains Overview (saved items, history, compare) and Settings (name, email, WhatsApp, weekly toggle, verification, deletion).
 
