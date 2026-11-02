@@ -1,9 +1,11 @@
+import { publicPageMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Terms of Service — Planet Sorted',
-  description: 'Clean and practical terms of service for Planet Sorted and Sorted Lab.',
-}
+export const metadata: Metadata = publicPageMetadata({
+  "title": "Terms of service",
+  "description": "Terms for using Planet Sorted educational tools, guides, accounts and optional WhatsApp delivery, operated by SOR7ED LIMITED.",
+  "path": "/terms"
+})
 
 export default function TermsPage() {
   return (

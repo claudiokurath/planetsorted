@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+export const metadata = { title: 'Page not found | PLANET SOR7ED', robots: { index: false, follow: false } }
+
 export default function NotFound() {
   return (
     <section className="mx-auto max-w-3xl px-6 py-16 text-white" aria-labelledby="not-found-heading">

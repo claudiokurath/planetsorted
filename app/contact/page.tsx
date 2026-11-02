@@ -1,11 +1,13 @@
+import { publicPageMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { PageHeader } from '@/components/PageHeader'
 
-export const metadata: Metadata = {
-  title: 'Contact — PLANET SOR7ED',
-  description: 'Contact SOR7ED with questions, feedback or help with your account.',
-}
+export const metadata: Metadata = publicPageMetadata({
+  "title": "Contact SOR7ED",
+  "description": "Contact SOR7ED about its tools, guides or your Planet Sorted account. Find the support email and WhatsApp contact details.",
+  "path": "/contact"
+})
 
 export default function ContactPage() {
   return (
