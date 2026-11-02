@@ -332,6 +332,11 @@ export type Database = {
     }
     Views: Record<string, never>
     Functions: {
+      reserve_signup_send: {
+        Args: { buckets: { key: string; limit: number; seconds: number }[] }
+        Returns: { allowed: boolean; retry_after: number }
+      }
+
       claim_whatsapp_delivery_action: {
         Args: { p_user_id: string; p_action_key: string; p_hash: string; p_slug: string; p_url: string; p_title: string; p_category: string }
         Returns: { created: boolean; action_id: string; delivery_status: string; delivery_reason: string | null; updated_at: string }[]

@@ -65,7 +65,8 @@ def main():
    # Mark failed reads explicitly. Never replace them with a stale imported deck.
    try:publish({'slug':entry['slug'],'sourceId':entry['sourceId'],'error':True})
    except Exception:pass
-   failed.append(entry['slug']);print('::error::Public presentation refresh failed: '+entry['slug']+' ('+type(e).__name__+')',flush=True)
+   detail = 'HTTP '+str(e.code)+' from '+str(urlparse(e.url).hostname) if isinstance(e,urllib.error.HTTPError) else type(e).__name__
+   failed.append(entry['slug']);print('::error::Public presentation refresh failed: '+entry['slug']+' ('+detail+')',flush=True)
  if failed:raise SystemExit('Refresh failed for '+', '.join(failed))
  print('All current Notion-published public presentations refreshed.',flush=True)
 if __name__=='__main__':main()
