@@ -39,6 +39,7 @@ export function StandaloneAdhdTaxApp() {
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <section className="rounded-none border border-white/10 bg-black p-6 shadow-2xl">
             <h2 className="text-2xl font-medium">Your inputs</h2>
+            <p className="mt-2 text-sm text-slate-300">Example values are shown below. Replace them with your own estimates.</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {[
                 { label: 'Late fees (£ / mo)', value: lateFees, setValue: setLateFees, placeholder: '0' },
@@ -64,12 +65,13 @@ export function StandaloneAdhdTaxApp() {
           </section>
 
           <section className="rounded-none border border-[#FFBA2E]/30 bg-[#FFBA2E]/10 p-6 shadow-2xl">
-            <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#FFBA2E]">Estimated annual leak</p>
-            <div className="mt-3 text-5xl font-normal sm:text-6xl">£{result.yearlyTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
-            <p className="mt-2 text-slate-200">That’s about £{result.monthlyTotal.toLocaleString(undefined, { maximumFractionDigits: 2 })} per month.</p>
+            <p className="text-sm font-medium uppercase tracking-[0.3em] text-[#FFBA2E]">Estimated annual spending leaks</p>
+            <div className="mt-3 text-5xl font-normal sm:text-6xl">£{(result.cashMonthlyTotal * 12).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+            <p className="mt-2 text-slate-200">That’s about £{result.cashMonthlyTotal.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} per month.</p>
+            <p className="mt-3 text-sm text-slate-300">Estimated value of time and missed opportunities: £{result.opportunityMonthlyTotal.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} per month. This is a personal estimate, not cash spent, and is excluded from the headline total.</p>
 
             <div className="mt-6 space-y-3">
-              {Object.entries(result.breakdown).map(([key, value]) => (
+              {Object.entries(result.breakdown).filter(([key]) => !['productivityLoss', 'missedOpportunities'].includes(key)).map(([key, value]) => (
                 <div key={key} className="flex items-center justify-between rounded-none border border-white/10 bg-black px-4 py-3 text-sm">
                   <span className="capitalize text-slate-300">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
                   <span className="font-medium text-white">£{value.toFixed(2)}</span>

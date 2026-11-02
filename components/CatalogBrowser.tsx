@@ -13,7 +13,7 @@ export function CatalogBrowser({ items, type }: { items: CatalogItem[]; type: Co
   const label = type === 'Tool' ? 'tools' : 'guides'
   return <div className="sorted-catalog-browser">
     <div role="group" aria-label={`Filter ${label} by topic`} className="sorted-catalog-filters">
-      {['All', ...CATEGORY_LIST.map(item => item.label)].map(name => <button type="button" key={name} aria-pressed={name === category} onClick={() => setCategory(name)}>{name}</button>)}
+      {['All', ...CATEGORY_LIST.filter(topic => items.some(item => item.category === topic.label)).map(item => item.label)].map(name => <button type="button" key={name} aria-pressed={name === category} onClick={() => setCategory(name)}>{name}</button>)}
     </div>
     <p className="sorted-catalog-count" role="status" aria-live="polite">{shown.length} {shown.length === 1 ? type === 'Tool' ? 'tool' : 'guide' : label}{category !== 'All' ? ` in ${category}` : ''}</p>
     {shown.length ? <div className={type === 'Tool' ? 'sorted-catalog-grid' : 'sorted-guide-index'}>

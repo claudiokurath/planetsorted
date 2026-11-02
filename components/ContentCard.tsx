@@ -1,3 +1,4 @@
+import { INTERACTIVE_TOOL_ROUTES } from '@/lib/standaloneRoutes'
 import { ArrowIcon } from '@/components/ArrowIcon'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -62,6 +63,7 @@ export function ContentCard({ href, title, summary, category, coverImage, showCo
       </Link>
       {item ? (
         <div className="sorted-preview-action print:hidden">
+          {item[1] === 'tools' && INTERACTIVE_TOOL_ROUTES[item[2]] ? <Link href={INTERACTIVE_TOOL_ROUTES[item[2]]} className="mb-3 inline-flex min-h-12 w-full items-center justify-center gap-3 bg-[#FFD400] px-5 py-3 font-bebas text-xl uppercase text-black">Use tool <span aria-hidden="true">→</span></Link> : null}
           <ToolWhatsAppCta slug={item[2]} context={item[1] === 'intelligence' ? 'article' : 'tool'} returnPath={href} compact />
         </div>
       ) : null}

@@ -217,7 +217,7 @@ export function SignupForm() {
         <p className="mt-5 max-w-md text-sm leading-6 text-neutral-400 sm:text-base">
           {mode === 'returning'
             ? 'Send a secure sign-in link to your WhatsApp or email. No password needed.'
-            : 'WhatsApp is your product key. Add email if you want a backup sign-in and recovery route.'}
+            : 'Use WhatsApp to sign in. If you add a backup email, verify that inbox using its own link before completing WhatsApp sign-in.'}
         </p>
       </div>
 
@@ -226,7 +226,7 @@ export function SignupForm() {
       {mode === 'first' ? (
         <form onSubmit={handleFirstTimeSubmit} className="space-y-4">
           <FieldLabel htmlFor="first-name">First name</FieldLabel>
-          <input id="first-name" required autoComplete="given-name" value={firstName} onChange={(event) => setFirstName(event.target.value)} placeholder="Claudio" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#FFBA2E]" />
+          <input id="first-name" required autoComplete="given-name" value={firstName} onChange={(event) => setFirstName(event.target.value)} placeholder="Your first name" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#FFBA2E]" />
 
           <FieldLabel htmlFor="signup-email">Email <span className="font-normal normal-case tracking-normal text-neutral-600">optional backup</span></FieldLabel>
           <input id="signup-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" className="min-h-14 w-full rounded-none border border-white/10 bg-black px-4 text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#FFBA2E]" />
@@ -237,7 +237,7 @@ export function SignupForm() {
             <select id="country-code" value={countryCode} onChange={(event) => setCountryCode(event.target.value)} className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-3 text-sm text-white outline-none focus:border-[#FFBA2E]">
               {COUNTRY_CODES.map(([iso, country, code]) => <option key={`${iso}-${code}`} value={code}>{iso === 'GB' ? 'UK' : country} (+{code})</option>)}
             </select>
-            <input id="signup-phone" type="tel" inputMode="numeric" autoComplete="tel-national" required value={phone} onChange={(event) => setPhone(event.target.value.replace(/\D/g, ''))} placeholder="7591 922247" className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#FFBA2E]" />
+            <input id="signup-phone" type="tel" inputMode="numeric" autoComplete="tel-national" required value={phone} onChange={(event) => setPhone(event.target.value.replace(/\D/g, ''))} placeholder="7700 900123" className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#FFBA2E]" />
           </div>
           <p className="text-xs text-neutral-600">Choose the code, then enter the number without its first zero.</p>
 
@@ -260,7 +260,7 @@ export function SignupForm() {
                 <select id="returning-country" value={countryCode} onChange={(event) => setCountryCode(event.target.value)} className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-3 text-sm text-white outline-none focus:border-[#FFBA2E]">
                   {COUNTRY_CODES.map(([iso, country, code]) => <option key={`${iso}-${code}`} value={code}>{iso === 'GB' ? 'UK' : country} (+{code})</option>)}
                 </select>
-                <input id="returning-phone" type="tel" inputMode="numeric" autoComplete="tel-national" required value={phone} onChange={(event) => setPhone(event.target.value.replace(/\D/g, ''))} placeholder="7591 922247" className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#FFBA2E]" />
+                <input id="returning-phone" type="tel" inputMode="numeric" autoComplete="tel-national" required value={phone} onChange={(event) => setPhone(event.target.value.replace(/\D/g, ''))} placeholder="7700 900123" className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none placeholder:text-neutral-600 focus:border-[#FFBA2E]" />
               </div>
               <p className="text-xs text-neutral-600">Choose the code, then enter the number without its first zero.</p>
 
