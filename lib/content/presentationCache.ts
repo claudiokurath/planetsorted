@@ -73,14 +73,13 @@ export async function getCurrentPresentation(slug: string, source: string | null
   if (!sourceId) return null
   const entry: PresentationSource = { slug, sourceId, type: 'Tool' }
   const snapshot = await readPresentationSnapshot(entry)
-  if (snapshot && isCurrentSnapshot(snapshot, sourceId) && snapshot.data) {
+  if (snapshot) {
+    if (!isCurrentSnapshot(snapshot, sourceId) || !snapshot.data) return null
     return { presentation: snapshot.data, sourceId, updatedAt: snapshot.sourceUpdatedAt }
   }
-  // Upstream refresh failures must not erase the last verified native preview.
-  // The Notion source ID must still match. Health reports staleness separately;
-  // an older copy is never labelled as a successfully refreshed snapshot.
-  const version = versions[slug as keyof typeof versions] as { id: string; updatedAt: string } | undefined
-  if (version?.id === sourceId && Object.hasOwn(localCopy, slug)) {
+  // A newly deployed, freshly verified local import may bridge the first worker run.
+  const version = versions[slug as keyof typeof versions] as { id: string; updatedAt: string; importedAt?: string } | undefined
+  if (version?.id === sourceId && version.importedAt && Date.now() - Date.parse(version.importedAt) < MAX_PRESENTATION_AGE && Object.hasOwn(localCopy, slug)) {
     return { presentation: localCopy[slug as keyof typeof localCopy], sourceId, updatedAt: version.updatedAt }
   }
   return null
