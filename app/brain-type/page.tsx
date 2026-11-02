@@ -1,3 +1,4 @@
+import { publicPageMetadata } from '@/lib/seo'
 import { getLiveContent } from '@/lib/notion/liveContent'
 import { LiveContentRefresh } from '@/components/LiveContentRefresh'
 import type { Metadata } from 'next'
@@ -12,11 +13,11 @@ const body = localFont({ src: [
   { path: './fonts/roboto-500.ttf', weight: '500' },
 ], variable: '--font-brain-body', display: 'swap' })
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/brain-type' },
-  title: 'How your brain runs — SOR7ED',
-  description: 'A two-minute reflection: twelve questions about how you work, start and recover, then a profile and tools to try.',
-}
+export const metadata: Metadata = publicPageMetadata({
+  "title": "Brain Sorter reflection: find your starting point",
+  "description": "Explore how you work, start and recover with twelve reflection questions and suggestions for published tools to try. A reflection, not a diagnosis.",
+  "path": "/brain-type"
+})
 
 export const dynamic = 'force-dynamic'
 

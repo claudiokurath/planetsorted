@@ -1,9 +1,11 @@
+import { publicPageMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy — Planet Sorted',
-  description: 'How we collect, store, and protect your personal data in plain English.',
-}
+export const metadata: Metadata = publicPageMetadata({
+  "title": "Privacy policy",
+  "description": "How Planet Sorted and SOR7ED LIMITED handle account information, saved items and WhatsApp data, and how to exercise your privacy rights.",
+  "path": "/privacy"
+})
 
 export default function PrivacyPage() {
   return (

@@ -1,70 +1,24 @@
 import { getLiveContent } from '@/lib/notion/liveContent'
-import { websiteSiteUrl } from '@/lib/siteUrl'
+import { SEO_SITE, PUBLIC_SEO_PATHS, publishedSeoEntries } from '@/lib/seo'
 import type { MetadataRoute } from 'next'
 import { createServerClient } from '@/lib/supabase/server'
-import type { Protocol } from '@/lib/types/database'
 import { CATEGORY_LIST } from '@/lib/categoryStyles'
 
 export const dynamic = 'force-dynamic'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = websiteSiteUrl()
   const snapshot = await getLiveContent()
-  const tools = new Set(snapshot.tools)
-  const articles = new Set(snapshot.articles)
-  const supabase = createServerClient()
-
-  // Fetch dynamic published protocols from Supabase
-  const { data } = await supabase
-    .from('protocols')
-    .select('slug, type, updated_at')
-    .eq('status', 'Published')
-
-  const protocols = (data as Pick<Protocol, 'slug' | 'type' | 'updated_at'>[]) || []
-
-  // Base paths
-  const routes = [
-    {
-      url: `${siteUrl}`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 1.0,
-    },
-    ...['tools', 'intelligence', 'about', 'brain-type', 'contact', 'faq', 'membership', 'privacy', 'terms', 'cookies'].map(path => ({
-      url: `${siteUrl}/${path}`,
-      changeFrequency: 'monthly' as const,
-      priority: path === 'brain-type' ? 0.8 : 0.5,
-    })),
+  const { data, error } = await createServerClient().from('protocols')
+    .select('slug, type, category').eq('status', 'Published')
+  if (error) throw new Error('The sitemap is temporarily unavailable')
+  const published = publishedSeoEntries(data ?? [], snapshot)
+  const categories = new Set(published.map(row => row.category))
+  const paths = [
+    ...PUBLIC_SEO_PATHS,
+    ...CATEGORY_LIST.filter(category => categories.has(category.label)).map(category => `/category/${category.slug}`),
+    ...published.map(row => `/${row.type === 'Tool' ? 'tools' : 'intelligence'}/${row.slug}`),
   ]
-
-  // Category hub pages
-  const categoryRoutes = CATEGORY_LIST.map((category) => ({
-    url: `${siteUrl}/category/${category.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
-  }))
-
-  // Dynamic tool pages
-  const toolRoutes = protocols
-    .filter((p) => p.type === 'Tool' && tools.has(p.slug))
-    .map((item) => ({
-      url: `${siteUrl}/tools/${item.slug}`,
-      lastModified: item.updated_at ? new Date(item.updated_at) : new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
-    }))
-
-  // Dynamic article pages
-  const articleRoutes = protocols
-    .filter((p) => (p.type === 'Article' || !p.type) && articles.has(p.slug))
-    .map((item) => ({
-      url: `${siteUrl}/intelligence/${item.slug}`,
-      lastModified: item.updated_at ? new Date(item.updated_at) : new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.6,
-    }))
-
-  return [...routes, ...categoryRoutes, ...toolRoutes, ...articleRoutes]
+  // Database updated_at is a sync timestamp, not a verified content revision.
+  // Do not invent lastmod dates whenever a crawler requests this document.
+  return [...new Set(paths)].map(path => ({ url: new URL(path, SEO_SITE).toString() }))
 }
-

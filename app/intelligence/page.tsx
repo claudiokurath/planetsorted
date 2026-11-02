@@ -1,19 +1,17 @@
+import { publicPageMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 import { GammaCollectionPage } from '@/components/GammaCollectionPage'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
-  title: 'Guidebook — PLANET SOR7ED',
-  description: 'Your intelligence was never the problem. Explore SOR7ED guides and get practical protocols via WhatsApp.',
-  alternates: { canonical: '/intelligence' },
-  openGraph: {
-    title: 'Guidebook — PLANET SOR7ED',
-    description: 'Your intelligence was never the problem. Practical guides for neurodivergent adults.',
-    url: '/intelligence',
-    images: [{ url: '/images/collections/guidebook-cover.png', width: 1344, height: 896, alt: 'SOR7ED Guidebook' }],
-  },
-}
+export const metadata: Metadata = publicPageMetadata({
+  "title": "ADHD and neurodivergent life guides",
+  "description": "Read free guides about financial avoidance, life admin, decision fatigue and neurodivergent relationships. Get practical protocols through WhatsApp.",
+  "path": "/intelligence",
+  "image": "/images/collections/guidebook-cover.png",
+  "imageWidth": 1344,
+  "imageHeight": 896
+})
 
 export default function GuidebookPage() {
   return <GammaCollectionPage collection="guidebook" />
