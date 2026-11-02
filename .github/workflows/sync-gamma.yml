@@ -1,0 +1,35 @@
+name: Sync Notion presentations and CRM
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-gamma.yml'
+      - 'scripts/sync-public-gamma.py'
+      - 'app/api/content/presentations/**'
+      - 'lib/content/presentationCache.ts'
+      - 'lib/content/automationPublisher.ts'
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: notion-presentation-crm-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Refresh public presentations linked in Notion
+        run: python3 scripts/sync-public-gamma.py
+      - name: Reconcile Supabase accounts into Notion CRM
+        if: ${{ !cancelled() }}
+        run: python3 scripts/sync-public-gamma.py --crm-only
+      - name: Check public presentation health
+        if: ${{ !cancelled() }}
+        run: curl --fail --silent --show-error 'https://www.planetsorted.com/api/content/presentations?health=1'

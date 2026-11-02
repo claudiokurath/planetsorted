@@ -5,7 +5,11 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
 import { ProtocolDeck } from '@/components/ProtocolDeck'
-import { NativePresentation, hasNativePresentation } from '@/components/NativePresentation'
+import { NativePresentation } from '@/components/NativePresentation'
+import { getCurrentPresentation } from '@/lib/content/presentationCache'
+import { GammaEmbed } from '@/components/GammaEmbed'
+import { gammaEmbedUrl } from '@/lib/content/gammaEmbed'
+import { ContentHero } from '@/components/ContentHero'
 import { PrintPageButton } from '@/components/PrintPageButton'
 import { buildProtocolDeck } from '@/lib/protocolDeck'
 import type { Protocol } from '@/lib/types/database'
@@ -75,9 +79,11 @@ export default async function ArticlePage({ params }: Props) {
   const description = item.excerpt?.trim() || item.summary?.trim() || item.meta_description?.trim()
   const rawBodyText = item.problem || ''
   // Public article content only. Never query or serialize the private protocol.
-  const native = hasNativePresentation(slug, item.blog_gamma_url)
+  const publicSource = gammaEmbedUrl(item.blog_gamma_url)
+  const current = await getCurrentPresentation(slug, item.blog_gamma_url)
+  const native = Boolean(current)
 
-  const deck = native
+  const deck = native || publicSource
     ? null
     : buildProtocolDeck({
         title: item.title,
@@ -95,7 +101,9 @@ export default async function ArticlePage({ params }: Props) {
       <main className="w-full">
         <div className="mx-auto max-w-6xl px-5 py-4 print:hidden"><PrintPageButton /></div>
         {native ? (
-          <NativePresentation slug={slug} />
+          <NativePresentation slug={slug} presentation={current!.presentation} sourceId={current!.sourceId} updatedAt={current!.updatedAt} />
+        ) : publicSource ? (
+          <><ContentHero title={item.title} description={description} category={item.category} articleMode /><GammaEmbed src={publicSource} title={item.title} /></>
         ) : (
           <ProtocolDeck
             deck={deck!}

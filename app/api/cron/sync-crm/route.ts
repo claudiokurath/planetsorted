@@ -1,3 +1,4 @@
+import { verifyAutomationPublisher, CRM_SYNC_AUDIENCE } from '@/lib/content/automationPublisher'
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 import { syncCrmAccount } from '@/lib/notion/syncCrmAccount'
@@ -5,8 +6,11 @@ import { syncCrmAccount } from '@/lib/notion/syncCrmAccount'
 export const maxDuration = 300
 
 export async function GET(req: NextRequest) {
-  if (!process.env.CRON_SECRET || req.headers.get('authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Not authorised.' }, { status: 401 })
+  const authorization = req.headers.get('authorization') ?? ''
+  const cronAuthorised = !!process.env.CRON_SECRET && authorization === `Bearer ${process.env.CRON_SECRET}`
+  if (!cronAuthorised) {
+    try { await verifyAutomationPublisher(authorization.replace(/^Bearer /, ''), CRM_SYNC_AUDIENCE) }
+    catch { return NextResponse.json({ error: 'Not authorised.' }, { status: 401 }) }
   }
   const requested = req.nextUrl.searchParams.get('page')
   const requestedPage = requested ? Number(requested) : null
@@ -25,7 +29,7 @@ export async function GET(req: NextRequest) {
       if (error) throw new Error('Account listing failed')
       for (const user of data.users) {
         if (Date.now() - started > 210000) { interrupted = true; break }
-        try { counts[await syncCrmAccount(user.id)]++ }
+        try { counts[await syncCrmAccount(user.id, true)]++ }
         catch { counts.failed++ }
       }
       nextPage = interrupted ? page : data.users.length === 25 ? page + 1 : 1
