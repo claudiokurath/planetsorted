@@ -106,6 +106,8 @@ Everything below this point in the document describes **Sorted Lab** specificall
 
 ## Brand & Tone
 
+**2 November 2026 — text-led website refresh:** Guidebook and Toolbox place their published library immediately after a concise, centred introduction. Guidebook uses the shared Anton/Jost/mono typography, black sections, #FFD400 support section and thin rules. Website catalogue cards and category listings have no cover photos or fallback thumbnails; sign-up/account decorative artwork is removed. Brand wordmark, animated/reduced-motion scribble and SOR7ED delivery mark remain. Original Gamma presentations and their authored illustrations, Notion cover data, private PDFs and WhatsApp/social preview images are preserved. Publication/filtering continues to use the current Notion source.
+
 **2 November 2026 — Notion Gamma correction (supersedes copied presentations and public-body fallbacks):** public guidebook readers use only the current **Blog Post Gamma** property, and tool previews use only **Gamma**. The official presentation is embedded directly in a viewport-filling reader, so the website does not scroll behind a separately scrolling presentation. Navigation and the slug-specific SOR7ED delivery button stay visible; tool previews keep a direct Use tool action. There is no bundled/native text fallback and no substitution of Blog Post or private Protocol Gamma. Publication, links and cover images continue to follow live Notion reconciliation. Gamma edits appear through the original presentation without a website import or deployment. The GitHub schedule now reconciles CRM only; the blocked hosted presentation-scraping job is not part of publishing.
 
 

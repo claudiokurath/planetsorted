@@ -506,3 +506,7 @@ p {
 #main-content > article > :is(h1,h2),
 .protocol-deck .deck-slide > h2 { text-align:center; margin-inline:auto; }
 .sorted-presentation-link { text-align:center; }
+
+/* Text-only collection introductions no longer reserve an artwork column. */
+.sorted-about-cover--text { grid-template-columns:minmax(0,1fr); text-align:center; }
+.sorted-about-cover--text .sorted-about-cover-copy { max-width:1120px; width:100%; margin-inline:auto; }

@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { CollectionCatalog } from '@/components/CollectionCatalog'
 import { COLLECTION_COPY } from '@/lib/content/collectionCopy'
@@ -10,62 +9,43 @@ export function GammaCollectionPage({ collection }: { collection: keyof typeof C
 
   return (
     <div className={styles.page}>
-      <div className={styles.opening}>
-        <header className={`${styles.panel} ${styles.introduction}`}>
-          <h1>{copy.title}</h1>
-          <p>{copy.description}</p>
-        </header>
+      <header className={`${styles.panel} ${styles.introduction}`}>
+        <p className={styles.eyebrow}>{guidebook ? 'Guidebook · Read at your pace' : 'Toolbox · One clear next step'}</p>
+        <h1>{copy.title}</h1>
+        <p>{copy.description}</p>
+        <a href="#collection-content" className={styles.explore}>Explore {guidebook ? 'the guides' : 'the tools'} <span aria-hidden="true">↓</span></a>
+      </header>
 
-
+      <div className={`${styles.panel} ${styles.catalog}`}>
+        <CollectionCatalog type={guidebook ? 'Article' : 'Tool'} />
       </div>
 
-      <div className={styles.sections}>
-        <section className={`${styles.panel} ${!guidebook ? styles.featureSurface : ''}`} aria-labelledby="collection-features-heading">
-          <h2 id="collection-features-heading">{copy.featureHeading}</h2>
-          <div className={styles.features}>
-            {copy.features.map((feature, index) => (
-              <article key={feature.title}>
-                {copy.numbered ? <span className={styles.number} aria-hidden="true">{index + 1}</span> : null}
-                <h3>{feature.title}</h3>
-                <p>{feature.description}</p>
-              </article>
-            ))}
-          </div>
+      {guidebook ? (
+        <section className={`${styles.panel} ${styles.yellow}`} aria-labelledby="collection-journey-heading">
+          <p className={styles.eyebrow}>From reading to doing</p>
+          <h2 id="collection-journey-heading">Read it here. Keep it handy.</h2>
+          <p>Read every guide for free. If you want its practical protocol in your WhatsApp thread, the SOR7ED button is there when you need it.</p>
+          <ol className={styles.steps}>
+            <li><span aria-hidden="true">01</span><h3>Choose a guide</h3><p>Pick the topic that fits today. No account is needed to read.</p></li>
+            <li><span aria-hidden="true">02</span><h3>Take a next step</h3><p>Read the guide and use what helps, at your own pace.</p></li>
+            <li><span aria-hidden="true">03</span><h3>Keep the protocol</h3><p>Optionally sign in, connect WhatsApp and tap the SOR7ED mark below the guide.</p></li>
+          </ol>
         </section>
+      ) : null}
 
-        {guidebook ? (
-          <section className={`${styles.panel} ${styles.journey}`} aria-labelledby="collection-journey-heading">
-            <div className={styles.journeyArt}>
-              <Image
-                src="/images/collections/guidebook-ending.png"
-                alt="A person in a yellow jacket with papers and books piled around their head"
-                width={928}
-                height={1232}
-                sizes="(max-width: 700px) 100vw, 38vw"
-              />
-            </div>
-            <div className={styles.journeyCopy}>
-              <h2 id="collection-journey-heading">YOUR INTELLIGENCE. FINALLY SORTED.</h2>
-              <p>Start with a free article — no setup, no friction. Use the SOR7ED button to get its practical protocol via WhatsApp. Finally, support that actually fits your brain.</p>
-              <ol className={styles.steps}>
-                <li><span aria-hidden="true">1</span><div><h3>READ IT</h3><p>Shame-free, specific long-form articles — choose the guide you need today.</p></div></li>
-                <li><span aria-hidden="true">2</span><div><h3>GET IT</h3><p>Tap the SOR7ED mark below your chosen guide. Sign in and connect WhatsApp once.</p></div></li>
-                <li><span aria-hidden="true">3</span><div><h3>USE IT</h3><p>Receive your framework, protocol, or script on WhatsApp.</p></div></li>
-              </ol>
-            </div>
-          </section>
-        ) : null}
-
-        <div className={`${styles.panel} ${styles.catalog}`}>
-          <CollectionCatalog type={guidebook ? 'Article' : 'Tool'} />
+      <section className={`${styles.panel} ${!guidebook ? styles.yellow : ''}`} aria-labelledby="collection-features-heading">
+        <p className={styles.eyebrow}>{guidebook ? 'Understand your brain' : 'How it works'}</p>
+        <h2 id="collection-features-heading">{copy.featureHeading}</h2>
+        <div className={styles.features}>
+          {copy.features.map(feature => (
+            <article key={feature.title}>
+              <h3>{feature.title}</h3>
+              <p>{feature.description}</p>
+            </article>
+          ))}
         </div>
-
-        {guidebook ? (
-          <div className={styles.panel}>
-            <Link href="/" className={styles.back}>Back to home <span aria-hidden="true">↗</span></Link>
-          </div>
-        ) : null}
-      </div>
+        <Link href="/brain-type" className={styles.next}>Not sure where to start? Try the Brain Sorter <span aria-hidden="true">↗</span></Link>
+      </section>
     </div>
   )
 }
