@@ -468,6 +468,9 @@ The first `entitlements` row must be created on `checkout.session.completed`, wh
 
 ## Technical Stack & Architecture
 
+**2 November 2026 dependency security update:** Next.js and its matching ESLint configuration are pinned to 16.4.4. Updated affected transitive runtime packages without changing the authentication, delivery or content model. The production dependency audit reports zero known advisories; tests, typecheck, lint and production build are rechecked. This does not guarantee absence of future advisories or remove the separately documented Gamma-host access restriction.
+
+
 ### Stack
 - **Framework:** Next.js App Router · **Auth & DB:** Supabase (magic link only, PostgreSQL, Storage) · **CMS:** Notion API · **Hosting:** Vercel (Vercel Cron) · **Languages:** TypeScript, React 19, TailwindCSS · **Messaging:** Meta WhatsApp Business API · **Payments:** Stripe
 
