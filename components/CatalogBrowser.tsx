@@ -18,8 +18,7 @@ export function CatalogBrowser({ items, type }: { items: CatalogItem[]; type: Co
     <p className="sorted-catalog-count" role="status" aria-live="polite">{shown.length} {shown.length === 1 ? type === 'Tool' ? 'tool' : 'guide' : label}{category !== 'All' ? ` in ${category}` : ''}</p>
     {shown.length ? <div className={type === 'Tool' ? 'sorted-catalog-grid' : 'sorted-guide-index'}>
       {shown.map(item => <ContentCard key={item.slug} href={`${route}/${item.slug}`} title={item.title}
-        summary={(type === 'Article' ? item.excerpt || item.summary : item.summary || item.excerpt) || undefined}
-        coverImage={item.cover_image} category={item.category} layout={type === 'Article' ? 'row' : 'card'} />)}
+        summary={(type === 'Article' ? item.excerpt || item.summary : item.summary || item.excerpt) || undefined} category={item.category} layout={type === 'Article' ? 'row' : 'card'} />)}
     </div> : <div className="sorted-catalog-empty"><p>Nothing published in {category} yet.</p><button type="button" onClick={() => setCategory('All')}>Show all {label} →</button></div>}
   </div>
 }

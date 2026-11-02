@@ -93,7 +93,6 @@ export default async function CategoryPage({ params }: Props) {
                       href={`/tools/${tool.slug}`}
                       title={tool.title}
                       summary={tool.summary}
-                      coverImage={tool.cover_image}
                       category={tool.category}
 
                     />
@@ -112,7 +111,6 @@ export default async function CategoryPage({ params }: Props) {
                       href={`/intelligence/${article.slug}`}
                       title={article.title}
                       summary={article.summary}
-                      coverImage={article.cover_image}
                       category={article.category}
 
                     />

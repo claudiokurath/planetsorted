@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 const memberExperiences = [
   {
     icon: 'hourglass',
@@ -53,18 +51,6 @@ function MemberIcon({ kind }: { kind: typeof memberExperiences[number]['icon'] }
 export function AccountMembersIntro() {
   return (
     <div className="sorted-members-intro">
-      <div className="sorted-members-art">
-        <Image
-          src="/images/account-members-space.jpg"
-          alt="A brain in a glass case on a red machine beside a red chair, against a yellow wall."
-          width={1280}
-          height={853}
-          loading="eager"
-          sizes="(max-width: 1312px) calc(100vw - 32px), 1280px"
-          unoptimized
-        />
-      </div>
-
       <section className="sorted-members-section sorted-members-who" aria-labelledby="members-who-title">
         <h2 id="members-who-title">Who our members are</h2>
         <div className="sorted-members-copy">

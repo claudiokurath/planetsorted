@@ -6,7 +6,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
 
 export type CollectionType = 'Tool' | 'Article'
-export type CatalogItem = Pick<Protocol, 'slug' | 'title' | 'summary' | 'excerpt' | 'cover_image' | 'category' | 'read_time' | 'type' | 'status'>
+export type CatalogItem = Pick<Protocol, 'slug' | 'title' | 'summary' | 'excerpt' | 'category' | 'type' | 'status'>
 type CatalogResult = { status: 'ready'; items: CatalogItem[] } | { status: 'error' }
 
 // Match the approved Toolbox presentation order. Content always comes from
@@ -28,7 +28,7 @@ export async function loadCollectionCatalog(type: CollectionType): Promise<Catal
     if (!published.length) return { status: 'ready', items: [] }
     const { data, error } = await createServerClient()
       .from('protocols')
-      .select('slug, title, summary, excerpt, cover_image, category, read_time, type, status')
+      .select('slug, title, summary, excerpt, category, type, status')
       .eq('status', 'Published')
       .eq('type', type)
       .in('slug', published)
