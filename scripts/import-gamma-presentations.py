@@ -80,7 +80,8 @@ def import_captures(input_dir, slugs):
    card['images']=local
   output[slug]=parsed
   doc=data['doc']
-  versions[slug]={'id':doc['id'],'title':doc['title'],'updatedAt':doc['updatedTime']}
+  from datetime import datetime,timezone
+  versions[slug]={'id':doc['id'],'title':doc['title'],'updatedAt':doc['updatedTime'],'importedAt':datetime.now(timezone.utc).isoformat()}
   print(slug,len(parsed['cards']),'cards',sum(len(c['images']) for c in parsed['cards']),'images',flush=True)
  output_path.write_text(json.dumps(output,ensure_ascii=False,indent=2)+'\n')
  versions_path.write_text(json.dumps(versions,ensure_ascii=False,indent=2)+'\n')
