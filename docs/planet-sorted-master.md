@@ -778,7 +778,9 @@ Wipes `saved_items`, `credits_ledger`, `entitlements`, `tool_requests` (cascadin
 ---
 
 ## SEO Strategy
-- **Primary domain:** `planetsorted.com`. `sor7ed.com` → 301 permanent redirect to `planetsorted.com` (DNS/Vercel level) — this is a **flip** of the previous direction.
+- **2 November 2026 cleanup:** shared metadata supplies bounded plain-text descriptions, one consistent brand suffix, canonical www URLs, matching social tags and safe Organization/WebSite/article/breadcrumb JSON-LD. Sitemap uses only currently Published Notion tools/articles and nonempty categories, without fabricated modification timestamps. Account, token, admin, embed and unrelated preview/music surfaces are noindex. Public guidebooks render the current Notion-synced public article body when a fresh Gamma snapshot is unavailable; the Gamma deck remains optional and private protocols are never queried.
+
+- **Canonical content domain:** `https://www.planetsorted.com`; apex redirects to www. `sor7ed.com` is the separate Button product and must not redirect wholesale to PlanetSorted.
 - `Organization` + `WebSite` schema JSON-LD in `<head>` with `alternateName: ['sorted', 'Sorted', 'planet sorted']`.
 - Dynamic `sitemap.xml` fetching live `Published` slugs; `robots.txt` blocking `/api/`, `/dashboard`, `/signup`.
 - `metadataBase` = `SITE_URL`. Logo alt text updated to reference Planet Sorted.

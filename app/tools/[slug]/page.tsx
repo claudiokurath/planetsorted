@@ -1,6 +1,6 @@
+import { publicPageMetadata, seoText, contentStructuredData, structuredDataJson } from '@/lib/seo'
 import { isContentPublished } from '@/lib/notion/liveContent'
 import { LiveContentRefresh } from '@/components/LiveContentRefresh'
-import { websiteSiteUrl } from '@/lib/siteUrl'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ToolClient } from '@/components/ToolClient'
@@ -13,7 +13,6 @@ interface Props {
 
 export const dynamic = 'force-dynamic'
 
-const SITE = websiteSiteUrl()
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
@@ -21,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const supabase = createServerClient()
   const { data: tool } = await supabase
     .from('protocols')
-    .select('title, summary, cover_image')
+    .select('title, seo_title, meta_description, excerpt, summary, cover_image')
     .eq('slug', slug)
     .eq('type', 'Tool')
     .eq('status', 'Published')
@@ -30,28 +29,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!tool) return {}
 
   const { ogImageForContent } = await import('@/lib/og/imageUrl')
-  const title = `${tool.title} — PLANET SOR7ED`
-  const description = tool.summary || ''
+  const title = tool.seo_title || tool.title
+  const description = seoText(tool.meta_description || tool.excerpt || tool.summary) || `Explore ${tool.title.toLowerCase()} and find a practical next step with SOR7ED.`
   const imageUrl = ogImageForContent(tool.cover_image, tool.title, description)
+  return publicPageMetadata({ title, description, path: `/tools/${slug}`, image: imageUrl })
 
-  return {
-    title,
-    description,
-    alternates: { canonical: `${SITE}/tools/${slug}` },
-    openGraph: {
-      title,
-      description,
-      url: `${SITE}/tools/${slug}`,
-      type: 'website',
-      images: [{ url: imageUrl, width: 1200, height: 630, alt: tool.title }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [imageUrl],
-    },
-  }
 }
 
 export default async function ToolPage({ params }: Props) {
@@ -71,5 +53,5 @@ export default async function ToolPage({ params }: Props) {
     notFound()
   }
 
-  return <><LiveContentRefresh /><ToolClient toolData={tool as Protocol} /></>
+  return <><LiveContentRefresh /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredDataJson(contentStructuredData(tool.title, tool.meta_description || tool.excerpt || tool.summary, `/tools/${slug}`, 'Tool', tool.cover_image)) }} /><ToolClient toolData={tool as Protocol} /></>
 }

@@ -1,19 +1,29 @@
 import { getLiveContent } from '@/lib/notion/liveContent'
 import { LiveContentRefresh } from '@/components/LiveContentRefresh'
-import { websiteSiteUrl } from '@/lib/siteUrl'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ContentCard } from '@/components/ContentCard'
 import { createServerClient } from '@/lib/supabase/server'
 import { CATEGORY_LIST, getCategoryBySlug } from '@/lib/categoryStyles'
-import { brandedOgImage } from '@/lib/og/imageUrl'
+import { publicPageMetadata } from '@/lib/seo'
+import { cache } from 'react'
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
-const SITE = websiteSiteUrl()
+const loadCategory = cache(async (label: string) => {
+  const snapshot = await getLiveContent()
+  const { data, error } = await createServerClient().from('protocols')
+    .select('slug, title, summary, cover_image, read_time, category, type')
+    .eq('category', label).eq('status', 'Published').order('updated_at', { ascending: false })
+  if (error) throw new Error('Published category content is unavailable')
+  return {
+    tools: (data ?? []).filter(item => item.type === 'Tool' && snapshot.tools.includes(item.slug)),
+    articles: (data ?? []).filter(item => item.type === 'Article' && snapshot.articles.includes(item.slug)),
+  }
+})
 
 export function generateStaticParams() {
   return CATEGORY_LIST.map((c) => ({ slug: c.slug }))
@@ -24,23 +34,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const category = getCategoryBySlug(slug)
   if (!category) return {}
 
-  const title = `${category.label} — PLANET SOR7ED`
-  const description = category.tagline
-  const imageUrl = brandedOgImage(title, description)
-
-  return {
-    title,
-    description,
-    alternates: { canonical: `${SITE}/category/${slug}` },
-    openGraph: {
-      title,
-      description,
-      url: `${SITE}/category/${category.slug}`,
-      type: 'website',
-      images: [{ url: imageUrl, width: 1200, height: 630, alt: category.label }],
-    },
-    twitter: { card: 'summary_large_image', title, description, images: [imageUrl] },
-  }
+  const { tools, articles } = await loadCategory(category.label)
+  return publicPageMetadata({
+    title: `${category.label}: neurodivergent tools and guides`,
+    description: `${category.tagline}. Practical ${category.label.toLowerCase()} tools and plain-language guides for neurodivergent adults from SOR7ED.`,
+    path: `/category/${category.slug}`,
+    noIndex: tools.length + articles.length === 0,
+  })
 }
 
 export const dynamic = 'force-dynamic'
@@ -57,19 +57,7 @@ export default async function CategoryPage({ params }: Props) {
     notFound()
   }
 
-  const snapshot = await getLiveContent()
-  const publishedTools = new Set(snapshot.tools)
-  const publishedArticles = new Set(snapshot.articles)
-  const supabase = createServerClient()
-  const { data: items } = await supabase
-    .from('protocols')
-    .select('slug, title, summary, cover_image, read_time, category, type')
-    .eq('category', category.label)
-    .eq('status', 'Published')
-    .order('updated_at', { ascending: false })
-
-  const tools = (items ?? []).filter((item) => item.type === 'Tool' && publishedTools.has(item.slug))
-  const articles = (items ?? []).filter((item) => item.type !== 'Tool' && publishedArticles.has(item.slug))
+  const { tools, articles } = await loadCategory(category.label)
 
   return (
     <main className="sorted-category-page min-h-screen bg-black text-white">

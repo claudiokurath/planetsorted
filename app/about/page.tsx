@@ -1,14 +1,15 @@
+import { publicPageMetadata } from '@/lib/seo'
 import { ArrowIcon } from '@/components/ArrowIcon'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ABOUT_COPY } from '@/lib/content/aboutCopy'
 import styles from './about.module.css'
 
-export const metadata: Metadata = {
-  title: 'About us — PLANET SOR7ED',
-  description: 'Practical, shame-free support for neurodivergent adults. Discover why SOR7ED exists and the seven areas of everyday life it covers.',
-  alternates: { canonical: '/about' },
-}
+export const metadata: Metadata = publicPageMetadata({
+  "title": "About SOR7ED and Planet Sorted",
+  "description": "Discover why SOR7ED exists: practical, shame-free tools and guides that help neurodivergent adults take one clear next step.",
+  "path": "/about"
+})
 
 export default function AboutPage() {
   const { story, differences, branches } = ABOUT_COPY

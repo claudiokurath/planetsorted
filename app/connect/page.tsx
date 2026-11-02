@@ -10,6 +10,7 @@ interface Props {
 
 export const metadata = {
   title: 'Connect WhatsApp — SOR7ED',
+  robots: { index: false, follow: false },
   description: 'Connect once to receive private SOR7ED product links.',
 }
 

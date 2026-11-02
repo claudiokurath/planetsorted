@@ -1,11 +1,13 @@
+import { publicPageMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { PageHeader } from '@/components/PageHeader'
 
-export const metadata: Metadata = {
-  title: 'FAQ — PLANET SOR7ED',
-  description: 'Frequently asked questions about PLANET SOR7ED and Sorted Lab.',
-}
+export const metadata: Metadata = publicPageMetadata({
+  "title": "Frequently asked questions",
+  "description": "How PLANET SOR7ED tools, free guides, accounts and optional WhatsApp delivery work. Clear answers for neurodivergent adults.",
+  "path": "/faq"
+})
 
 export default function FAQPage() {
   const faqs = [
