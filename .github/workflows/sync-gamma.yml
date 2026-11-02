@@ -25,6 +25,12 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
+          # Only the two public-import scripts are needed. Exclude the legacy
+          # unconfigured `mix` gitlink so checkout/auth cleanup can finish.
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/sync-public-gamma.py
+            /scripts/import-gamma-presentations.py
       - name: Refresh public presentations linked in Notion
         run: python3 scripts/sync-public-gamma.py
       - name: Reconcile Supabase accounts into Notion CRM
