@@ -7,6 +7,7 @@ import { safeNext } from '@/lib/safeNext'
 import { scheduleCrmSync } from '@/lib/notion/syncCrmAccount'
 import { createPendingSignup, matchesPendingSignupSecret, parsePendingSignupCookie, pendingSignupForPhone, PENDING_SIGNUP_COOKIE } from '@/lib/auth/pendingSignup'
 import { websiteSiteUrl } from '@/lib/siteUrl'
+import { reserveSignupSend } from '@/lib/auth/signupRateLimit'
 
 const SITE = websiteSiteUrl()
 const RESEND_WINDOW_MS = 60 * 1000
@@ -44,6 +45,16 @@ export async function POST(req: NextRequest) {
 
   if (!phone) return NextResponse.json({ error: 'Please enter a valid WhatsApp number.' }, { status: 400 })
   if (data.email && !submittedEmail) return NextResponse.json({ error: 'Please check the email address.' }, { status: 400 })
+
+  try {
+    const quota = await reserveSignupSend(phone, submittedEmail, req.headers)
+    if (!quota.allowed) return NextResponse.json(
+      { error: 'Too many sign-in requests. Please wait before requesting another link.' },
+      { status: 429, headers: { 'Retry-After': String(quota.retryAfter) } }
+    )
+  } catch {
+    return NextResponse.json({ error: 'Sign-in is temporarily unavailable. Please try again shortly.' }, { status: 503 })
+  }
 
   const admin = createServerClient()
   const { data: phoneOwner, error: phoneLookupError } = await admin

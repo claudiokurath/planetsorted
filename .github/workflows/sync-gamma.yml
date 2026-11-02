@@ -22,9 +22,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with:
-          persist-credentials: false
+      - name: Read worker scripts at this exact trusted commit
+        # This public repository contains an unrelated, unconfigured mix gitlink.
+        # Read only immutable script URLs; do not initialize git submodules or
+        # persist a repository credential in this content-only worker.
+        shell: bash
+        run: |
+          [[ "$GITHUB_SHA" =~ ^[a-f0-9]{40}$ ]]
+          mkdir -p scripts
+          for script in sync-public-gamma.py import-gamma-presentations.py; do
+            curl --fail --silent --show-error --retry 3 \
+              "https://raw.githubusercontent.com/claudiokurath/planetsorted/$GITHUB_SHA/scripts/$script" \
+              --output "scripts/$script"
+          done
       - name: Refresh public presentations linked in Notion
         run: python3 scripts/sync-public-gamma.py
       - name: Reconcile Supabase accounts into Notion CRM
