@@ -45,7 +45,7 @@ export function BrainTypeProfiler({ publishedToolSlugs, toolsAvailable }: { publ
 
   const type = BRAIN_TYPES[getBrainType(state.scores)]
   const recommendations = publishedRecommendations(type, publishedToolSlugs)
-  const maxScore = Math.max(...DIMENSIONS.map(dimension => state.scores[dimension])) || 1
+  const totalAnswers = DIMENSIONS.reduce((total, dimension) => total + state.scores[dimension], 0) || 1
 
   async function copyResult() {
     try {
@@ -81,7 +81,7 @@ export function BrainTypeProfiler({ publishedToolSlugs, toolsAvailable }: { publ
             <p className="identity">{type.tag} {type.identity}</p>
             <hr className="rule" />
             <p className="kicker">Your profile</p>
-            <div className="profile">{DIMENSIONS.map(dimension => <div className="dim" key={dimension}><span className="lbl">{DIMENSION_LABELS[dimension]}</span><span className="bar" role="meter" aria-label={DIMENSION_LABELS[dimension]} aria-valuenow={state.scores[dimension]} aria-valuemin={0} aria-valuemax={QUESTIONS.length}><i style={{ width: animateBars ? `${Math.round(state.scores[dimension] / maxScore * 100)}%` : '0%' }} /></span></div>)}</div>
+            <div className="profile">{DIMENSIONS.map(dimension => <div className="dim" key={dimension}><span className="lbl">{DIMENSION_LABELS[dimension]}</span><span className="bar" role="meter" aria-label={DIMENSION_LABELS[dimension]} aria-valuenow={state.scores[dimension]} aria-valuemin={0} aria-valuemax={QUESTIONS.length}><i style={{ width: animateBars ? `${Math.round(state.scores[dimension] / totalAnswers * 100)}%` : '0%' }} /></span></div>)}</div>
             <hr className="rule" />
             <div className="cols">
               <div><h3>What fuels you</h3><ul>{type.strengths.map(item => <li key={item}>{item}</li>)}</ul></div>

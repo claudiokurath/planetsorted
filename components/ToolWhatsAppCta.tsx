@@ -112,7 +112,7 @@ export function ToolWhatsAppCta({ slug, returnPath, context = 'tool', compact = 
       <SortedSaveButton
         compact={compact}
         href={status === 'signed-out' ? `/signup?next=${encodeURIComponent(setup)}` : status === 'opted-out' ? '/dashboard?tab=settings' : setup}
-        copy={{ lead, trail: status === 'signed-out' ? 'sign in to receive it' : status === 'opted-out' ? 'review messaging preferences' : 'connect WhatsApp once' }}
+        copy={{ lead, trail: status === 'signed-out' ? 'sign in for WhatsApp delivery' : status === 'opted-out' ? 'review messaging preferences' : 'connect WhatsApp once' }}
       />
     )
   }

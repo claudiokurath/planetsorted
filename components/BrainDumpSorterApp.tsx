@@ -17,9 +17,9 @@ export function BrainDumpSorterApp() {
   const supabase = useMemo(() => createBrowserClient(), [])
   const [userId, setUserId] = useState<string | null>(null)
 
-  const [inputText, setInputText] = useState(
-    'Need to email the invoice to accounting. What if the onboarding flow used an interactive checklist instead of a video? Feeling kind of overwhelmed today.'
-  )
+  const [inputText, setInputText] = useState('')
+  const [nextTask, setNextTask] = useState('')
+  const [copyStatus, setCopyStatus] = useState('')
   const [sorted, setSorted] = useState<SortedBrainDump | null>(null)
   const [saving, setSaving] = useState(false)
   const [savedSuccess, setSavedSuccess] = useState(false)
@@ -74,6 +74,8 @@ export function BrainDumpSorterApp() {
     const cleanText = inputText.replace(/^BRAINDUMP\s*/i, '').trim()
     const result = classifyBrainDump(cleanText)
     setSorted(result)
+    setNextTask('')
+    setCopyStatus('')
     setSavedSuccess(false)
     setSaveError(null)
 
@@ -237,11 +239,19 @@ export function BrainDumpSorterApp() {
                     <ul className="space-y-2">
                       {sorted.tasks.map((item, idx) => (
                         <li key={idx} className="rounded-xl border border-white/10 bg-black p-3 text-xs text-slate-200 leading-relaxed">
-                          {item}
+                          <label className="flex cursor-pointer items-start gap-3"><input type="radio" name="brain-dump-next-step" value={item} checked={nextTask === item} onChange={() => { setNextTask(item); setCopyStatus('') }} className="mt-1" /><span>{item}</span></label>
                         </li>
                       ))}
                     </ul>
                   )}
+                  {sorted.tasks.length ? <div className="space-y-2 border-t border-white/15 pt-4">
+                    <p className="text-sm text-slate-200">Pick one task above as your next step.</p>
+                    <button type="button" disabled={!nextTask} onClick={async () => {
+                      try { await navigator.clipboard.writeText(nextTask); setCopyStatus('Next step copied.') }
+                      catch { setCopyStatus('Could not copy. You can select and copy the task text above.') }
+                    }} className="min-h-12 bg-[#FFD400] px-5 py-3 text-sm font-medium text-black disabled:opacity-40">Copy my next step</button>
+                    <p role="status" className="text-sm text-slate-300">{copyStatus}</p>
+                  </div> : null}
                 </div>
 
                 {/* Ideas */}

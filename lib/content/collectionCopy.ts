@@ -33,22 +33,9 @@ export const COLLECTION_COPY = {
     "featureHeading": "WHAT THE TOOLS DO",
     "numbered": false,
     "features": [
-      {
-        "title": "EXECUTIVE FUNCTION SUPPORT",
-        "description": "Triage what your brain can actually handle right now — without guilt, pressure, or a 47-step productivity system."
-      },
-      {
-        "title": "HYPERFOCUS MANAGEMENT",
-        "description": "A timer and transition alert machine built to channel hyperfocus productively and guide you back out when it ends."
-      },
-      {
-        "title": "ENERGY TRACKING",
-        "description": "The Spoon Theory Tracker lets you monitor your daily energy so you stop crashing — and start planning around your actual capacity."
-      },
-      {
-        "title": "MONEY & TASK TOOLS",
-        "description": "The ADHD Tax Tracker and Task Breakdown Wizard reduce the overwhelm of finances and big tasks — one manageable step at a time."
-      }
+      { "title": "CHOOSE WHAT HELPS", "description": "Browse the tools published below. Choose the one that fits what you need today." },
+      { "title": "TRY IT HERE", "description": "Select Use tool to open its inputs and results on the website. No sign-up is needed for the free tools." },
+      { "title": "KEEP IT HANDY", "description": "WhatsApp delivery is optional. Sign in and connect your number if you want the tool link in your thread." }
     ]
   }
 } as const

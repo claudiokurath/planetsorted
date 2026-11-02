@@ -60,7 +60,11 @@ function computeConfidence(R: number, I: number, S: number, reversible: boolean)
   return { confidence: clamp(confidence, 0, 100), infoScore, fitScore, safetyScore }
 }
 
-function getVerdict(score: number): Verdict {
+function getVerdict(score: number, infoScore: number): Verdict {
+  if (infoScore < 55) return {
+    tier: 'Close one information gap', color: '#FFBA2E',
+    desc: 'Your information is still thin. Find the answer to your biggest unknown, then reassess before committing.',
+  }
   if (score >= 80)
     return {
       tier: 'Green Light — Decide Now',
@@ -71,7 +75,7 @@ function getVerdict(score: number): Verdict {
     return {
       tier: 'Lean In',
       color: '#FFBA2E',
-      desc: 'Your confidence is solid. Do one last gut check, set a decision deadline, and commit.',
+      desc: 'You have some useful signals. Check the remaining uncertainty, set a decision deadline, and choose your next step.',
     }
   if (score >= 35)
     return {
@@ -238,7 +242,7 @@ export function DecisionParalysisApp() {
       assessment.information_sufficiency,
       assessment.reversibility
     )
-    const verdict = getVerdict(confidence)
+    const verdict = getVerdict(confidence, infoScore)
     const advice = generateAdvice(
       infoScore,
       fitScore,
@@ -658,7 +662,8 @@ export function DecisionParalysisApp() {
               {/* Option Ratings per Criterion */}
               <div className="pt-6 border-t border-white/10 overflow-x-auto">
                 <label className="block text-xs font-medium uppercase tracking-wider text-slate-400 mb-3">Option Ratings per Criterion (1-5)</label>
-                <table className="w-full text-xs text-left">
+                <p className="mb-3 text-sm text-slate-300">Example options and ratings — replace them with your own before comparing.</p>
+                  <table className="w-full text-xs text-left">
                   <thead>
                     <tr className="border-b border-white/10 text-slate-400">
                       <th className="py-2 pr-4 font-medium">Option</th>
@@ -789,6 +794,11 @@ export function DecisionParalysisApp() {
                     className="w-full rounded-xl border border-white/10 bg-black px-3 py-2 text-xs text-slate-200 outline-none"
                   />
                 </div>
+                {t10_10_10_decision.trim() && t10m.trim() && t10mo.trim() && t10y.trim() ? <div className="border border-white/20 p-4 text-sm text-slate-200" role="status">
+                  <h4 className="mb-2 font-medium">Your longer view: {t10_10_10_decision}</h4>
+                  <p>10 minutes: {t10m}</p><p>10 months: {t10mo}</p><p>10 years: {t10y}</p>
+                  <p className="mt-3">Which outcome matters most to you? Use that to choose one small next step.</p>
+                </div> : null}
               </div>
             </div>
           </section>

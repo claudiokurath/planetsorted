@@ -37,7 +37,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           </p>
           <div className="flex flex-col gap-3">
             <Link
-              href="/auth"
+              href="/signup?mode=returning"
               className="w-full py-2.5 px-4 bg-[#FFBA2E] hover:bg-[#FFBA2E]/90 text-black text-xs uppercase tracking-widest font-bold transition-all"
             >
               Sign In via Magic Link

@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { INTERACTIVE_TOOL_ROUTES } from '@/lib/standaloneRoutes'
 import { PrintPageButton } from '@/components/PrintPageButton'
 import { ContentHero } from '@/components/ContentHero'
 import { NativePresentation } from '@/components/NativePresentation'
@@ -17,6 +19,7 @@ export async function ToolClient({ toolData }: ToolClientProps) {
   const currentSource = toolData.gamma_url ?? toolData.blog_gamma_url
   const current = await getCurrentPresentation(toolData.slug, currentSource)
   const native = Boolean(current)
+  const launch = INTERACTIVE_TOOL_ROUTES[toolData.slug]
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -28,6 +31,12 @@ export async function ToolClient({ toolData }: ToolClientProps) {
       /> : null}
 
       <main className="w-full pb-0 pt-1">
+        {launch ? <section className="mx-auto max-w-6xl px-5 py-8 text-center print:hidden" aria-label="Use this tool">
+          <Link href={launch} className="inline-flex min-h-14 items-center justify-center gap-4 bg-[#FFD400] px-8 py-4 font-bebas text-2xl uppercase text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+            Use {toolData.title} <span aria-hidden="true">→</span>
+          </Link>
+          <p className="mt-3 text-sm text-neutral-300">Free to try here. No sign-up needed. WhatsApp delivery is optional.</p>
+        </section> : null}
         <div className="mx-auto max-w-6xl px-5 py-4 print:hidden"><PrintPageButton /></div>
         {native ? (
           <NativePresentation slug={toolData.slug} presentation={current!.presentation} sourceId={current!.sourceId} updatedAt={current!.updatedAt} />

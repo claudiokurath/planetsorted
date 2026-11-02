@@ -6,7 +6,7 @@ export interface SortedBrainDump {
 
 export function classifyBrainDump(rawText: string): SortedBrainDump {
   const lines = rawText
-    .split(/(?:[.!?…\n;]|\band\b)+/i)
+    .split(/(?:[.!?…\n;])+/i)
     .map((line) => line.trim())
     .filter((line) => line.length > 2)
 
