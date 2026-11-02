@@ -1,4 +1,4 @@
-name: Sync Notion presentations and CRM
+name: Reconcile Supabase accounts with Notion CRM
 on:
   schedule:
     - cron: '7,22,37,52 * * * *'
@@ -7,7 +7,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/sync-gamma.yml'
-      - 'scripts/sync-public-gamma.py'
+      - 'scripts/reconcile-crm.py'
       - 'app/api/content/presentations/**'
       - 'lib/content/presentationCache.ts'
       - 'lib/content/automationPublisher.ts'
@@ -30,16 +30,10 @@ jobs:
         run: |
           [[ "$GITHUB_SHA" =~ ^[a-f0-9]{40}$ ]]
           mkdir -p scripts
-          for script in sync-public-gamma.py import-gamma-presentations.py; do
+          for script in reconcile-crm.py; do
             curl --fail --silent --show-error --retry 3 \
               "https://raw.githubusercontent.com/claudiokurath/planetsorted/$GITHUB_SHA/scripts/$script" \
               --output "scripts/$script"
           done
-      - name: Refresh public presentations linked in Notion
-        run: python3 scripts/sync-public-gamma.py
       - name: Reconcile Supabase accounts into Notion CRM
-        if: ${{ !cancelled() }}
-        run: python3 scripts/sync-public-gamma.py --crm-only
-      - name: Check public presentation health
-        if: ${{ !cancelled() }}
-        run: curl --fail --silent --show-error 'https://www.planetsorted.com/api/content/presentations?health=1'
+        run: python3 scripts/reconcile-crm.py
