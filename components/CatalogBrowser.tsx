@@ -9,7 +9,7 @@ import './CatalogBrowser.css'
 export function CatalogBrowser({ items, type }: { items: CatalogItem[]; type: CollectionType }) {
   const [category, setCategory] = useState('All')
   const shown = category === 'All' ? items : items.filter(item => item.category === category)
-  const route = type === 'Tool' ? '/tools' : '/intelligence'
+  const route = type === 'Tool' ? '/tools' : '/guidebooks'
   const label = type === 'Tool' ? 'tools' : 'guides'
   return <div className="sorted-catalog-browser">
     <div role="group" aria-label={`Filter ${label} by topic`} className="sorted-catalog-filters">

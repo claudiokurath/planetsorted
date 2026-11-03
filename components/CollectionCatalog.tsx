@@ -57,7 +57,7 @@ interface CollectionCatalogProps {
 
 export async function CollectionCatalog({ type, heading, description }: CollectionCatalogProps) {
   const result = await loadCollectionCatalog(type)
-  const route = type === 'Tool' ? '/tools' : '/intelligence'
+  const route = type === 'Tool' ? '/tools' : '/guidebooks'
   const label = type === 'Tool' ? 'tools' : 'guidebooks'
 
   return (

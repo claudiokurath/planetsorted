@@ -42,6 +42,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() { return [{source:'/intelligence/:path*',destination:'/guidebooks/:path*',permanent:true}] },
   async headers() {
     // X-Frame-Options has no "allow this origin" form and takes precedence in
     // browsers that support it, so /embed/* must not receive it at all. Those

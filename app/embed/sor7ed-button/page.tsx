@@ -8,7 +8,7 @@ export default async function ButtonEmbed({ searchParams }: { searchParams: Prom
   const context = params.context === 'article' ? 'article' : 'tool'
   return (
     <div className="sorted-button-embed bg-black px-4 py-6 text-white">
-      {slug ? <ToolWhatsAppCta slug={slug} context={context} returnPath={`/${context === 'article' ? 'intelligence' : 'tools'}/${slug}`} /> : <WhatsAppConnectionCta />}
+      {slug ? <ToolWhatsAppCta slug={slug} context={context} returnPath={`/${context === 'article' ? 'guidebooks' : 'tools'}/${slug}`} /> : <WhatsAppConnectionCta />}
       <style>{`body:has(.sorted-button-embed) > main { padding-bottom: 0; } body:has(.sorted-button-embed) .sorted-skip-link { display: none; }`}</style>
     </div>
   )

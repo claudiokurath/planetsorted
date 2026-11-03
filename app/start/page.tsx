@@ -31,7 +31,7 @@ const CARDS = [
   //   heading: 'Help me understand something',
   //   body: 'Find a plain-English explanation and something practical to try.',
   //   cta: 'Explore guides',
-  //   href: '/intelligence',
+  //   href: '/guidebooks',
   // },
 ] as const
 

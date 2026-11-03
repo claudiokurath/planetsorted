@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = row.seo_title || row.title
   const description = seoText(row.meta_description || row.excerpt || row.summary) || `Read ${row.title.toLowerCase()} and explore practical support for neurodivergent adults.`
   const imageUrl = ogImageForContent(row.cover_image, row.title, description)
-  return publicPageMetadata({ title, description, path: `/intelligence/${slug}`, image: imageUrl, type: 'article' })
+  return publicPageMetadata({ title, description, path: `/guidebooks/${slug}`, image: imageUrl, type: 'article' })
 
 }
 
@@ -58,7 +58,7 @@ export default async function ArticlePage({ params }: Props) {
   // a bundled deck, or the private Protocol Gamma field.
   return <>
     <LiveContentRefresh />
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredDataJson(contentStructuredData(item.title, description || '', `/intelligence/${slug}`, 'Article', item.cover_image)) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredDataJson(contentStructuredData(item.title, description || '', `/guidebooks/${slug}`, 'Article', item.cover_image)) }} />
     <GammaReader title={item.title} source={item.blog_gamma_url} collection="article" />
   </>
 }

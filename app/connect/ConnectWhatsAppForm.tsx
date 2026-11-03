@@ -1,5 +1,7 @@
 'use client'
 
+import { contentDeliveryRequest } from '@/lib/whatsapp/contentRequest'
+
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -35,7 +37,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
     let cancelled = false
     // Restore the action without dispatching anything on a GET or reload.
     void Promise.resolve().then(() => {
-      if (!cancelled && alreadyConnected && slug && context && hasSubmittedDelivery({ slug, context }, userId, actionId)) {
+      if (!cancelled && alreadyConnected && slug && context && hasSubmittedDelivery(contentDeliveryRequest(slug, context), userId, actionId)) {
         setPhase('delivery-status')
       }
     })
@@ -89,7 +91,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
 
     try {
       if (slug && context) {
-        const request = { slug, context, includeLink: true }
+        const request = contentDeliveryRequest(slug, context)
         if (retry) {
           actionRef.current = startNewDeliveryAction(request, userId)
           const currentUrl = new URL(window.location.href)
@@ -98,6 +100,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
         }
         const result = await requestWhatsAppDelivery(request, userId, actionRef.current)
         setDelivery(result)
+        if (result.whatsappUrl) { setPhase('delivery-status'); window.location.assign(result.whatsappUrl); return }
         if (result.deliveryStatus !== 'accepted') {
           setPhase('delivery-status')
           return
@@ -145,11 +148,12 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
       <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#FFBA2E]">
         {alreadyConnected ? 'Ready for WhatsApp' : 'One-time connection'}
       </p>
+      {delivery?.whatsappUrl ? <a className="mt-4 inline-flex min-h-12 bg-[#FFD400] px-6 py-3 text-black" href={delivery.whatsappUrl}>Open WhatsApp and press Send →</a> : null}
       <h1 id="connect-title" className="font-bebas mt-4 text-4xl uppercase leading-[1.15] text-white sm:text-5xl">
-        {hasRequestedItem ? 'Get the link.' : 'Connect WhatsApp.'}
+        {hasRequestedItem ? 'Get it sorted.' : 'Connect WhatsApp.'}
       </h1>
       <p className="mt-5 max-w-md text-sm leading-6 text-neutral-400 sm:text-base">
-        {alreadyConnected ? 'Your WhatsApp is connected. Choose below to receive this link in your chat.' : 'Your requested tools and protocols arrive as private WhatsApp links. Connect your number once; after that, the SOR7ED button does the rest.'}
+        {alreadyConnected ? 'Your number is connected. Continue below, then press Send in WhatsApp to receive your requested item.' : 'Your requested tools and protocols arrive as private WhatsApp links. Connect your number once. The SOR7ED button opens a WhatsApp request; press Send there to receive your item.'}
       </p>
 
       {phase === 'confirm-send' ? (
@@ -248,7 +252,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
 
       {phase === 'finishing' ? (
         <div className="mt-8 rounded-none border border-[#FFBA2E]/25 bg-[#FFBA2E]/5 p-5 text-sm font-medium text-[#FFBA2E]" role="status">
-          {hasRequestedItem ? 'Connected. Sending your private link…' : 'Connected. Returning to the website…'}
+          {hasRequestedItem ? 'Connected. Preparing your WhatsApp request…' : 'Connected. Returning to the website…'}
         </div>
       ) : null}
 

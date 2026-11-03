@@ -1,3 +1,4 @@
+import { websiteReplyLink } from './replyLink.js'
 import { createHash } from 'node:crypto'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/lib/types/database'
@@ -9,6 +10,7 @@ export type WebsiteDeliveryResponse = {
   saveStatus: 'saved'
   deliveryStatus: DeliveryStatus
   deliveryReason: string | null
+  whatsappUrl?: string
 }
 const STATUSES: DeliveryStatus[] = ['pending', 'accepted', 'failed', 'skipped', 'unknown']
 export const isActionId = (value: unknown): value is string => typeof value === 'string'
@@ -20,10 +22,11 @@ export function deliveryRequestHash(slug: string, link: boolean, protocol: boole
 
 export function deliveryResponse(actionId: string, status: string, reason: string | null, updatedAt: string): WebsiteDeliveryResponse {
   const timestamp = Date.parse(updatedAt)
-  const stale = status === 'pending' && (!Number.isFinite(timestamp) || Date.now() - timestamp > 120_000)
+  const stale = status === 'pending' && (!Number.isFinite(timestamp) || Date.now() - timestamp > (reason === 'awaiting_reply' ? 15*60_000 : 120_000))
   const valid = STATUSES.includes(status as DeliveryStatus)
-  const state: DeliveryStatus = stale || !valid ? 'unknown' : status as DeliveryStatus
-  return { success: state === 'accepted', actionId, saveStatus: 'saved', deliveryStatus: state, deliveryReason: stale || !valid ? 'unconfirmed' : reason }
+  const expiredReply = stale && reason === 'awaiting_reply'
+  const state: DeliveryStatus = expiredReply ? 'failed' : stale || !valid ? 'unknown' : status as DeliveryStatus
+  return { success: state === 'accepted', actionId, saveStatus: 'saved', deliveryStatus: state, deliveryReason: expiredReply ? 'request_expired' : stale || !valid ? 'unconfirmed' : reason, ...(state === 'pending' && reason === 'awaiting_reply' ? {whatsappUrl:websiteReplyLink(actionId)} : {}) }
 }
 
 export async function claimDelivery(admin: SupabaseClient<Database>, input: {
