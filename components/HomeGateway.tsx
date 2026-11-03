@@ -26,7 +26,7 @@ export function HomeGateway() {
           {motion ? <video ref={videoRef} autoPlay muted loop playsInline preload="metadata" tabIndex={-1}><source src="/media/tangle-loop-256.mp4" type="video/mp4" /></video> : <Image src="/images/tangle-white.png" alt="" width="256" height="256" />}
         </div>
         <header>
-          <h1 id="entry-heading"><span>Built for brains</span><span>that work</span><span><em>differently.</em></span></h1>
+          <h1 id="entry-heading"><span>Built for brains</span><span>that work <em>differently.</em></span></h1>
           <p className="sorted-home-entry__intro">SOR7ED offers practical tools and plain-language guides for neurodivergent adults — helping with everyday overwhelm, decisions, money and life admin.</p>
         </header>
       </div>

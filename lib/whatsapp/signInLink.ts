@@ -20,7 +20,7 @@ export function buildSignInLinkPayload(phone: string, token: string, site: strin
       name: 'sor7ed_saved_card',
       language: { code: process.env.WHATSAPP_CONTENT_CARD_LANGUAGE?.trim() || 'en_GB' },
       components: [
-        { type: 'header', parameters: [{ type: 'image', image: { link: `${site}/images/tangle-yellow.png` } }] },
+        { type: 'header', parameters: [{ type: 'image', image: { link: `${site}/api/og/scribble-v2` } }] },
         { type: 'body', parameters: [
           { type: 'text', text: 'SOR7ED' },
           { type: 'text', text: 'YOUR PRIVATE SIGN-IN LINK — EXPIRES IN 10 MINUTES' },
