@@ -55,7 +55,7 @@ export function contentStructuredData(title: string, description: string, path: 
 
 export function structuredDataJson(value: unknown): string { return JSON.stringify(value).replace(/</g, '\\u003c') }
 
-export const PUBLIC_SEO_PATHS = ['/', '/tools', '/intelligence', '/about', '/brain-type', '/contact', '/faq', '/membership', '/privacy', '/terms', '/cookies']
+export const PUBLIC_SEO_PATHS = ['/', '/tools', '/intelligence', '/about', '/brain-type', '/hidden-strength', '/self-perception-gap', '/adhd-money-reset', '/contact', '/faq', '/membership', '/privacy', '/terms', '/cookies']
 
 export function publishedSeoEntries<T extends { slug: string; type?: string | null; category?: string | null }>(rows: T[], published: { tools: string[]; articles: string[] }): T[] {
   const tools = new Set(published.tools), articles = new Set(published.articles)
