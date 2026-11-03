@@ -122,7 +122,7 @@ export default async function RichLinkRedirect({ params }: Props) {
   }
 
   // WhatsApp cards open the member protocol; public articles remain readable
-  // at /intelligence/{slug}. A public short link does not grant private access.
+  // at /guidebooks/{slug}. A public short link does not grant private access.
   if (content.type === 'Tool') {
     redirect(`${SITE}${getToolRoute(content.slug)}`)
   }

@@ -46,7 +46,7 @@ export function contentStructuredData(title: string, description: string, path: 
         publisher: { '@id': `${SEO_SITE}/#organization` }, isPartOf: { '@id': `${SEO_SITE}/#website` }, mainEntityOfPage: url },
       { '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: SEO_BRAND, item: SEO_SITE + '/' },
-        { '@type': 'ListItem', position: 2, name: type === 'Tool' ? 'Toolbox' : 'Guidebook', item: `${SEO_SITE}/${type === 'Tool' ? 'tools' : 'intelligence'}` },
+        { '@type': 'ListItem', position: 2, name: type === 'Tool' ? 'Toolbox' : 'Guidebooks', item: `${SEO_SITE}/${type === 'Tool' ? 'tools' : 'guidebooks'}` },
         { '@type': 'ListItem', position: 3, name: seoText(title, 200), item: url },
       ] },
     ],
@@ -55,7 +55,7 @@ export function contentStructuredData(title: string, description: string, path: 
 
 export function structuredDataJson(value: unknown): string { return JSON.stringify(value).replace(/</g, '\\u003c') }
 
-export const PUBLIC_SEO_PATHS = ['/', '/tools', '/intelligence', '/about', '/brain-type', '/hidden-strength', '/self-perception-gap', '/adhd-money-reset', '/contact', '/faq', '/membership', '/privacy', '/terms', '/cookies']
+export const PUBLIC_SEO_PATHS = ['/', '/tools', '/guidebooks', '/about', '/brain-type', '/hidden-strength', '/self-perception-gap', '/adhd-money-reset', '/contact', '/faq', '/membership', '/privacy', '/terms', '/cookies']
 
 export function publishedSeoEntries<T extends { slug: string; type?: string | null; category?: string | null }>(rows: T[], published: { tools: string[]; articles: string[] }): T[] {
   const tools = new Set(published.tools), articles = new Set(published.articles)

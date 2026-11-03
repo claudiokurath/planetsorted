@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 const CONTENT = {
   guidebook: {
-    label: 'Guidebook', title: 'Your intelligence was never the problem.',
+    label: 'Guidebooks', title: 'Guidebooks for everyday life.',
     description: 'Neurodivergent adults — ADHD, autism, AuDHD, bipolar, dyslexia, RSD — are told they are too much or not enough. This is the SOR7ED guide to your cognitive strengths.',
     heading: 'What the guidebooks cover',
     features: [
@@ -11,7 +11,7 @@ const CONTENT = {
       ['Cognitive load & fatigue', 'Strategies for managing a brain that processes more, tires faster, and needs different recovery rhythms than neurotypical expectations allow.'],
       ['Masking & unmasking', 'The cognitive cost of performing neurotypicality — and practical tools for reducing it without burning every bridge in the process.'],
     ],
-    ending: 'Your intelligence. Finally sorted.',
+    ending: 'Your next step. Finally sorted.',
   },
   toolbox: {
     label: 'Toolbox', title: 'The tools your brain actually needs.',

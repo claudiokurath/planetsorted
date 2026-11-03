@@ -10,7 +10,7 @@ export function GammaCollectionPage({ collection }: { collection: keyof typeof C
   return (
     <div className={styles.page}>
       <header className={`${styles.panel} ${styles.introduction}`}>
-        <p className={styles.eyebrow}>{guidebook ? 'Guidebook · Read at your pace' : 'Toolbox · One clear next step'}</p>
+        <p className={styles.eyebrow}>{guidebook ? 'Guidebooks · Read at your pace' : 'Toolbox · One clear next step'}</p>
         <h1>{copy.title}</h1>
         <p>{copy.description}</p>
         <a href="#collection-content" className={styles.explore}>Explore {guidebook ? 'the guides' : 'the tools'} <span aria-hidden="true">↓</span></a>

@@ -74,7 +74,7 @@ export default async function CategoryPage({ params }: Props) {
         <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-500">
           <Link href="/tools" className="transition-colors hover:text-white">All tools</Link>
           <span className="text-neutral-700">·</span>
-          <Link href="/intelligence" className="transition-colors hover:text-white">Guidebook</Link>
+          <Link href="/guidebooks" className="transition-colors hover:text-white">Guidebooks</Link>
         </div>
       </header>
 
@@ -103,12 +103,12 @@ export default async function CategoryPage({ params }: Props) {
 
             {articles.length > 0 && (
               <section>
-                <SectionLabel>Guidebook</SectionLabel>
+                <SectionLabel>Guidebooks</SectionLabel>
                 <div className="grid auto-rows-fr grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {articles.map((article) => (
                     <ContentCard
                       key={article.slug}
-                      href={`/intelligence/${article.slug}`}
+                      href={`/guidebooks/${article.slug}`}
                       title={article.title}
                       summary={article.summary}
                       category={article.category}

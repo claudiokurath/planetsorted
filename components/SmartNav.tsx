@@ -41,7 +41,7 @@ export function SmartNav() {
   const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'Toolbox', href: '/tools' },
-    { label: 'Guidebook', href: '/intelligence' },
+    { label: 'Guidebooks', href: '/guidebooks' },
     { label: 'About', href: '/about' },
   ]
 
@@ -68,7 +68,7 @@ export function SmartNav() {
           <BrandLogo className="h-8 w-auto lg:h-10" />
         </Link>
 
-        <div className="flex flex-wrap items-center justify-center gap-3 lg:gap-6">
+        <div className="flex w-full flex-wrap items-center justify-center gap-2 bg-[#FFD400] px-3 text-black lg:gap-4">
           {navLinks.map((link) => {
             const isActive = pathname === link.href || pathname?.startsWith(`${link.href}/`)
             return (
@@ -78,8 +78,8 @@ export function SmartNav() {
                 aria-current={isActive ? 'page' : undefined}
                 className={`inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
                   isActive
-                    ? 'border-b-2 border-[#FFD400] text-white'
-                    : 'text-white/70 hover:text-white'
+                    ? 'bg-black px-4 text-[#FFD400]'
+                    : 'px-4 text-black hover:bg-black/10'
                 }`}
               >
                 {link.label}
@@ -95,15 +95,15 @@ export function SmartNav() {
                   aria-current={pathname === '/dashboard' ? 'page' : undefined}
                   className={`inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
                     pathname === '/dashboard'
-                      ? 'border-b-2 border-[#FFD400] text-white'
-                      : 'text-white/70 hover:text-white'
+                      ? 'bg-black px-4 text-[#FFD400]'
+                      : 'px-4 text-black hover:bg-black/10'
                   }`}
                 >
                   Account
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] text-white/70 transition-colors hover:text-[#FFD400]"
+                  className="inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] px-4 text-black transition-colors hover:bg-black/10"
                 >
                   Sign Out
                 </button>
@@ -114,8 +114,8 @@ export function SmartNav() {
                 aria-current={pathname === '/signup' ? 'page' : undefined}
                 className={`inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
                   pathname === '/signup'
-                    ? 'border-b-2 border-[#FFD400] text-white'
-                    : 'text-[#FFD400] hover:text-white'
+                    ? 'bg-black px-4 text-[#FFD400]'
+                    : 'bg-black px-4 text-[#FFD400] hover:bg-neutral-800'
                 }`}
               >
                 Sign In

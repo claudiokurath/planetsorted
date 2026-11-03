@@ -1,3 +1,4 @@
+import { isWebsiteReplyLink } from './replyLink.js'
 /** Client-side journal: one deliberate request keeps its identity across retries. */
 export type WhatsAppDeliveryStatus = 'pending' | 'accepted' | 'failed' | 'skipped' | 'unknown'
 
@@ -7,6 +8,7 @@ export interface WhatsAppDeliveryResult {
   saveStatus: 'saved'
   deliveryStatus: WhatsAppDeliveryStatus
   deliveryReason: string | null
+  whatsappUrl?: string
 }
 
 export interface WhatsAppDeliveryRequest {
@@ -15,6 +17,7 @@ export interface WhatsAppDeliveryRequest {
   includeLink?: boolean
   includeProtocol?: boolean
   includeAudio?: boolean
+  viaWhatsAppReply?: boolean
 }
 
 type Action = { id: string; submitted: boolean; deliveryStatus?: WhatsAppDeliveryStatus }
@@ -28,7 +31,7 @@ export function isDeliveryActionId(value: unknown): value is string {
 
 function storageKey(request: WhatsAppDeliveryRequest, userId?: string): string {
   // Context is presentation only. Match the server's canonical delivery flags.
-  return `sor7ed:delivery:v1:${userId || 'visitor'}:${JSON.stringify([
+  return `sor7ed:${request.viaWhatsAppReply ? 'reply-delivery' : 'delivery'}:v1:${userId || 'visitor'}:${JSON.stringify([
     request.slug, request.includeLink !== false, request.includeProtocol === true, request.includeAudio === true,
   ])}`
 }
@@ -94,10 +97,13 @@ function parseResult(value: unknown, actionId: string): WhatsAppDeliveryResult {
     saveStatus: 'saved',
     deliveryStatus: result.deliveryStatus as WhatsAppDeliveryStatus,
     deliveryReason: typeof result.deliveryReason === 'string' ? result.deliveryReason : null,
+    ...(isWebsiteReplyLink(result.whatsappUrl) ? {whatsappUrl:result.whatsappUrl} : {}),
   }
 }
 
 export function deliveryStatusMessage(result: WhatsAppDeliveryResult): string {
+  if (result.deliveryReason === 'request_expired') return 'This WhatsApp request expired. Choose Try sending again to prepare a fresh request.'
+  if (result.deliveryReason === 'awaiting_reply') return 'Press Send in WhatsApp to request this item. Your protocol will arrive in reply.'
   switch (result.deliveryStatus) {
     case 'accepted': return 'Message sent. WhatsApp has accepted it; delivery is not yet confirmed.'
     case 'pending': return 'Saved. WhatsApp sending is still in progress. Check status in a moment.'
@@ -149,7 +155,7 @@ export async function requestWhatsAppDelivery(request: WhatsAppDeliveryRequest, 
     writeAction(key, { id: actionId, submitted: true })
     let response: Response
     try {
-      response = await fetch('/api/save-to-phone', {
+      response = await fetch(request.viaWhatsAppReply ? '/api/whatsapp/request-delivery' : '/api/save-to-phone', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         signal: AbortSignal.timeout(30_000),

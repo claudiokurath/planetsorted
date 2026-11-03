@@ -1,5 +1,7 @@
 'use client'
 
+import { contentDeliveryRequest } from '@/lib/whatsapp/contentRequest'
+
 import { useEffect, useState } from 'react'
 import { SortedSaveButton } from '@/components/SortedSaveButton'
 import { createBrowserClient } from '@/lib/supabase/client'
@@ -44,7 +46,7 @@ function useWhatsAppStatus(slug?: string, context?: Props['context']): Connectio
 
     async function resolve(token?: string, userId?: string) {
       const current = ++revision
-      const actionId = slug && context ? prepareDeliveryAction({ slug, context }, userId) : undefined
+      const actionId = slug && context ? prepareDeliveryAction(contentDeliveryRequest(slug, context), userId) : undefined
       if (!token) {
         setConnection({ status: 'signed-out', actionId })
         return
@@ -88,18 +90,18 @@ function connectPath(returnPath: string, slug?: string, context?: Props['context
 /** Auth is resolved in the browser so public content remains cacheable. */
 export function ToolWhatsAppCta({ slug, returnPath, context = 'tool', compact = false }: Props) {
   const { status, userId, actionId } = useWhatsAppStatus(slug, context)
-  const destination = returnPath ?? `/${context === 'article' ? 'intelligence' : 'tools'}/${slug}`
+  const destination = returnPath ?? `/${context === 'article' ? 'guidebooks' : 'tools'}/${slug}`
   const setup = connectPath(destination, slug, context, actionId)
   const lead = context === 'article' ? 'Get this protocol via WhatsApp' : 'Get this tool via WhatsApp'
 
   async function send() {
     if (!userId) throw new Error('Please sign in again to send this item.')
-    return requestWhatsAppDelivery({ slug, context, includeLink: true }, userId)
+    return requestWhatsAppDelivery(contentDeliveryRequest(slug, context), userId)
   }
 
   async function retry() {
     if (!userId) throw new Error('Please sign in again to send this item.')
-    const request = { slug, context, includeLink: true }
+    const request = contentDeliveryRequest(slug, context)
     const nextActionId = startNewDeliveryAction(request, userId)
     return requestWhatsAppDelivery(request, userId, nextActionId)
   }

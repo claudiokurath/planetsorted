@@ -1,3 +1,4 @@
+import { fulfilWebsiteReply } from '@/lib/whatsapp/websiteReplyDelivery'
 import { websiteSiteUrl } from '@/lib/siteUrl'
 import { NextRequest, NextResponse, after } from 'next/server'
 import { buttonRelayConfigured, forwardButtonMessage } from '@/lib/whatsapp/buttonRelay'
@@ -131,6 +132,8 @@ export async function POST(req: NextRequest) {
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
+
+    if (await fulfilWebsiteReply(sb, from, text)) return NextResponse.json({ status: 'website_delivery' })
 
     const cacheBust = Date.now()
     const START_URL = `${SITE}/r/start?v=${cacheBust}`

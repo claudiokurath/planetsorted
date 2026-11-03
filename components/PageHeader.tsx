@@ -12,7 +12,7 @@ interface PageHeaderProps {
 
 /**
  * Compact, uniform page header used across Home sections, Toolbox,
- * Guidebook, Account, Sounds, etc. Replaces the old fat rounded banners
+ * Guidebooks, Account, Sounds, etc. Replaces the old fat rounded banners
  * so every screen opens the same way: spectrum rule + title + short line.
  */
 export function PageHeader({

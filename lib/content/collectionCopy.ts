@@ -3,8 +3,8 @@
 export const COLLECTION_COPY = {
   "guidebook": {
     "sourceUrl": "https://untitled-3e9fdk1.gamma.site/",
-    "title": "YOUR INTELLIGENCE WAS NEVER THE PROBLEM",
-    "description": "Neurodivergent adults — ADHD, autism, AuDHD, bipolar, dyslexia, RSD — are told they are too much or not enough. The INTELLIGENCE domain exists to reframe that. This is the SOR7ED guide to your cognitive strengths.",
+    "title": "GUIDEBOOKS FOR EVERYDAY LIFE",
+    "description": "Neurodivergent adults — ADHD, autism, AuDHD, bipolar, dyslexia, RSD — are told they are too much or not enough. SOR7ED guidebooks offer plain-language explanations and practical next steps for everyday life.",
     "featureHeading": "WHAT THE GUIDEBOOKS COVER",
     "numbered": true,
     "features": [

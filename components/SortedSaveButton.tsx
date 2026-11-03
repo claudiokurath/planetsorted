@@ -62,6 +62,7 @@ export function SortedSaveButton({
   const tRef = useRef(0)
   const sendingRef = useRef(false)
 
+  const [whatsappUrl, setWhatsAppUrl] = useState('')
   const [done, setDone] = useState(false)
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
@@ -123,6 +124,8 @@ export function SortedSaveButton({
       try {
         const result = await (retry && onRetry ? onRetry() : onSave())
         setStatusMessage(deliveryStatusMessage(result))
+        setWhatsAppUrl(result.whatsappUrl || '')
+        if (result.whatsappUrl) window.location.assign(result.whatsappUrl)
         setStatusOnly(result.deliveryStatus !== 'accepted')
         setCanRetry(result.deliveryStatus === 'failed' || result.deliveryStatus === 'skipped')
         if (result.deliveryStatus !== 'accepted') return
@@ -169,11 +172,10 @@ export function SortedSaveButton({
 
   return (
     <div ref={rootRef} className={`sb${compact ? ' sb--compact' : ''}`} aria-busy={sending}>
-      <span className="sb__label sb__label--lead">{copy.lead}</span>
 
       {href ? (
         <Link href={href} target="_top" className="sb__btn" aria-label={`${copy.lead} — SOR7ED`}>
-          {mark}
+          {mark}<span className="sb__text">Get it sorted</span>
         </Link>
       ) : (
         <button
@@ -183,11 +185,11 @@ export function SortedSaveButton({
           onClick={() => void handleClick()}
           disabled={disabled || sending}
         >
-          {mark}
+          {mark}<span className="sb__text">{sending ? 'Preparing…' : done ? 'Sent to WhatsApp' : 'Get it sorted'}</span>
         </button>
       )}
 
-      <span className="sb__label">{copy.trail}</span>
+      {whatsappUrl ? <a className="sb__reply" href={whatsappUrl}>Open WhatsApp and press Send →</a> : null}
 
       {error ? <span role="alert" className="sb__error">{error}</span> : null}
       {statusMessage && !error ? <span className="sb__error">{statusMessage}</span> : null}
@@ -198,170 +200,18 @@ export function SortedSaveButton({
       </span>
 
       <style>{`
-        .sb {
-          /* Handoff defaults remapped to the site's tokens. The tangle asset
-             carries its own ink, so --sb-ink is not needed here. */
-          /* WhatsApp green: the tick is the destination, not the brand
-             accent. Scoped to this control — the site stays #FFBA2E. */
-          --sb-accent: #25d366;
-          --sb-muted: #a3a3a3;
-          --sb-line: rgba(255, 255, 255, 0.12);
-          --sb-ease: cubic-bezier(0.16, 1, 0.3, 1);
-          --sb-mark: 84px;
-
-          --t: 0;
-          --td: 0;
-
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          justify-content: center;
-          gap: 24px;
-          padding: 28px 0;
-          border-top: 1px solid var(--sb-line);
-          border-bottom: 1px solid var(--sb-line);
-          font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
-        }
-
-        .sb__label {
-          font-size: 11px;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          min-width: 15ch;
-          color: color-mix(
-            in oklab,
-            var(--sb-muted),
-            var(--sb-accent) calc(var(--td) * 100%)
-          );
-          transition: color 0.32s var(--sb-ease);
-          max-width: 25ch;
-          line-height: 1.6;
-        }
-        .sb__label--lead {
-          text-align: right;
-        }
-        .sb__error {
-          flex-basis: 100%;
-          text-align: center;
-          font-family: var(--font-jost), sans-serif;
-          font-size: 14px;
-          line-height: 1.5;
-          color: white;
-        }
-        .sb__retry {
-          min-height: 44px;
-          padding: 8px 12px;
-          color: white;
-          font-family: var(--font-jost), sans-serif;
-          font-size: 14px;
-          text-decoration: underline;
-          text-underline-offset: 4px;
-        }
-        .sb__retry:focus-visible { outline: 1px solid var(--sb-accent); outline-offset: 3px; }
-        .sb--compact {
-          --sb-mark: 60px;
-          flex-direction: column;
-          gap: 8px;
-          padding: 20px 0 0;
-          border-bottom: 0;
-        }
-        .sb--compact .sb__label {
-          min-width: 0;
-          text-align: center;
-          letter-spacing: 0.04em;
-        }
-        .sb--compact .sb__label--lead {
-          min-height: 3.2em;
-          font-size: 14px;
-          font-weight: 500;
-        }
-        .sb--compact .sb__error { flex-basis: auto; }
-
-        .sb__btn {
-          appearance: none;
-          width: calc(var(--sb-mark) + 20px);
-          height: calc(var(--sb-mark) + 20px);
-          padding: 0;
-          border: none;
-          background: transparent;
-          border-radius: 50%;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          -webkit-tap-highlight-color: transparent;
-          transition: transform 0.2s var(--sb-ease);
-        }
-        .sb__btn:active {
-          transform: scale(0.96);
-        }
-        .sb__btn:focus-visible {
-          outline: 1px solid var(--sb-accent);
-          outline-offset: 3px;
-        }
-        .sb__btn:disabled {
-          cursor: not-allowed;
-          opacity: 0.5;
-        }
-
-        .sb__mark {
-          position: relative;
-          display: block;
-          width: var(--sb-mark);
-          height: var(--sb-mark);
-          transition: transform 0.6s var(--sb-ease);
-        }
-        .sb__mark:hover {
-          transform: rotate(-3deg) scale(1.03);
-        }
-
-        /* Rest layer: the tangle, winding down as --t rises. */
-        .sb__tangle {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          transform-origin: 52% 54%;
-          opacity: calc(1 - var(--t));
-          transform: scale(calc(1 - 0.12 * var(--t)))
-            rotate(calc(var(--t) * -8deg));
-        }
-
-        /* Confirmed layer: the tick, drawing in on the delayed clock. */
-        .sb__tick {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          overflow: visible;
-          opacity: var(--td);
-        }
-        .sb__tick path {
-          fill: none;
-          stroke: var(--sb-accent);
-          stroke-width: 2.6;
-          stroke-linecap: round;
-          stroke-linejoin: round;
-          stroke-dasharray: 46;
-          stroke-dashoffset: calc(46px * (1 - var(--td)));
-        }
-
-        /* The labels are the widest part; stacking keeps it off the edge. */
-        @media (max-width: 420px) {
-          .sb {
-            flex-direction: column;
-            gap: 14px;
-          }
-          .sb__label,
-          .sb__label--lead {
-            text-align: center;
-            min-width: 0;
-          }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .sb *, .sb *::before, .sb *::after { transition: none !important; }
-          .sb__mark:hover { transform: none; }
-        }
+        .sb { --sb-accent:#000; --sb-mark:40px; --t:0; --td:0; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:12px; padding:12px 0; width:100%; }
+        .sb__btn { display:inline-flex; align-items:center; justify-content:center; gap:14px; min-height:60px; padding:10px 24px; border:1px solid #FFD400; border-radius:4px; background:#FFD400; color:#000; cursor:pointer; transition:background 180ms,transform 180ms; }
+        .sb__btn:hover { background:#fff; border-color:#fff; }.sb__btn:active { transform:scale(.98); }.sb__btn:disabled { cursor:wait; opacity:.55; }
+        .sb__text { font:400 23px/1.2 var(--font-anton),sans-serif; text-transform:uppercase; }
+        .sb__btn:focus-visible,.sb__reply:focus-visible,.sb__retry:focus-visible { outline:2px solid #fff; outline-offset:4px; }
+        .sb__mark { position:relative; flex:0 0 var(--sb-mark); width:var(--sb-mark); height:var(--sb-mark); }
+        .sb__tangle { position:absolute; inset:0; width:100%; height:100%; filter:brightness(0); opacity:calc(1 - var(--t)); transform:scale(calc(1 - .12*var(--t))) rotate(calc(var(--t)*-8deg)); }
+        .sb__tick { position:absolute; inset:0; width:100%; height:100%; opacity:var(--td); }.sb__tick path { fill:none; stroke:#000; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:46; stroke-dashoffset:calc(46px*(1 - var(--td))); }
+        .sb__error,.sb__reply { flex-basis:100%; text-align:center; font:400 14px/1.5 var(--font-jost),sans-serif; color:#fff; max-width:56ch; }
+        .sb__reply,.sb__retry { min-height:44px; text-decoration:underline; text-underline-offset:4px; }.sb__retry { color:#fff; padding:8px 12px; }
+        .sb--compact { --sb-mark:32px; }.sb--compact .sb__btn { width:100%; min-height:54px; padding:10px 16px; }.sb--compact .sb__text { font-size:20px; }
+        @media(prefers-reduced-motion:reduce) { .sb * { transition:none !important; } }
       `}</style>
     </div>
   )
