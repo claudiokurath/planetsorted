@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const paths = [
     ...PUBLIC_SEO_PATHS,
     ...CATEGORY_LIST.filter(category => categories.has(category.label)).map(category => `/category/${category.slug}`),
-    ...published.map(row => `/${row.type === 'Tool' ? 'tools' : 'intelligence'}/${row.slug}`),
+    ...published.map(row => `/${row.type === 'Tool' ? 'tools' : 'guidebooks'}/${row.slug}`),
   ]
   // Database updated_at is a sync timestamp, not a verified content revision.
   // Do not invent lastmod dates whenever a crawler requests this document.
