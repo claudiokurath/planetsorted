@@ -29,6 +29,7 @@ const nextConfig: NextConfig = {
   // Required by Dockerfile multi-stage standalone runner
   output: "standalone",
   outputFileTracingIncludes: {
+    "/api/og/scribble-v2": ["./public/images/tangle-white.png"],
     "/api/protocols/[slug]": ["./private/protocols/*.enc"],
     "/protocols/[slug]": ["./private/protocols/*.enc"],
   },
