@@ -1,7 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { WhatsAppWindowLink } from '@/components/WhatsAppWindowLink'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createBrowserClient } from '@/lib/supabase/client'
 import { safeNext } from '@/lib/safeNext'
@@ -68,6 +69,31 @@ export function SignupForm() {
   const [errorMessage, setErrorMessage] = useState('')
   const [emailLinkSent, setEmailLinkSent] = useState(false)
   const [whatsappLinkSent, setWhatsAppLinkSent] = useState(false)
+
+  // The magic link may finish in another browser tab. Recheck this browser's
+  // authenticated session when the member returns; never resend a link here.
+  useEffect(() => {
+    if (state !== 'sent') return
+    let cancelled = false
+    let checking = false
+    const supabase = createBrowserClient()
+    const resume = async () => {
+      if (checking || document.visibilityState === 'hidden') return
+      checking = true
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!cancelled && user) { router.replace(nextPath); router.refresh() }
+      } catch { /* Keep the existing form and backup options available. */ }
+      finally { checking = false }
+    }
+    window.addEventListener('focus', resume)
+    document.addEventListener('visibilitychange', resume)
+    return () => {
+      cancelled = true
+      window.removeEventListener('focus', resume)
+      document.removeEventListener('visibilitychange', resume)
+    }
+  }, [state, nextPath, router])
 
   function switchMode(next: Mode) {
     if (next === mode) return
@@ -166,6 +192,10 @@ export function SignupForm() {
               ? 'An email sign-in link was requested too. WhatsApp accepted the phone-link request; this does not confirm it arrived.'
               : 'WhatsApp accepted the sign-in link request. Open the message to continue. If it does not arrive, use your email backup.'}
         </p>
+        {whatsappLinkSent ? <>
+          <WhatsAppWindowLink url="https://wa.me/447591922247" className="mt-7 min-h-14 border border-white/15 px-6 py-4 text-white" />
+          <p className="mt-3 text-sm text-neutral-400">Keep this screen open. On your phone, switch to WhatsApp and open your private sign-in link. If it opens in another browser, continue there.</p>
+        </> : null}
         {inboxUrl ? (
           <a href={inboxUrl} target="_blank" rel="noopener noreferrer" className="mt-7 block min-h-14 rounded-full border border-white/15 px-6 py-4 text-sm font-medium uppercase tracking-wider text-white hover:border-[#FFBA2E]">
             Open email →

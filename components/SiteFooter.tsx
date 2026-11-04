@@ -15,6 +15,7 @@ export function SiteFooter() {
         <p>© {new Date().getFullYear()} SOR7ED LIMITED</p>
         <nav aria-label="Legal and contact" className="flex flex-wrap gap-x-5">
           {[
+            ['/install', 'Get the app'],
             ['/contact', 'Contact'],
             ['/privacy', 'Privacy'],
             ['/terms', 'Terms'],

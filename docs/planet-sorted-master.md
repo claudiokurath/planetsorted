@@ -31,6 +31,17 @@
 ---
 
 ## Executive Summary
+
+**4 November 2026 — phone app foundation and separate WhatsApp windows:**
+`/install` adds the current live website to Android/iPhone home screens with the
+original scribble icon and standalone manifest. This is an installable website,
+not a native app or store release; no earlier native project was found in the
+accessible code. No offline/private content cache is introduced. Sign-in and
+protocol requests keep the original screen while opening WhatsApp separately;
+blocked windows expose a retry control. A returning signup tab checks its
+browser's authenticated session without resending messages. Sessions are not
+shared with a separate browser or isolated home-screen storage. See
+`docs/mobile-app.md` for the limitations and next native milestone.
 **Shared WhatsApp number (24 October 2026):** the Button remains a separate
 product at sor7ed.com with its own Neon accounts and history. PlanetSorted
 keeps Meta credentials and the callback; the optional authenticated Button

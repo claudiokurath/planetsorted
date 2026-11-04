@@ -3,6 +3,8 @@
 import { contentDeliveryRequest } from '@/lib/whatsapp/contentRequest'
 
 import Link from 'next/link'
+import { WhatsAppWindowLink } from '@/components/WhatsAppWindowLink'
+import { reserveWhatsAppWindow } from '@/lib/whatsapp/window'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { deliveryStatusMessage, hasSubmittedDelivery, requestWhatsAppDelivery, startNewDeliveryAction, type WhatsAppDeliveryResult } from '@/lib/whatsapp/deliveryClient'
@@ -81,8 +83,9 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
     }
   }
 
-  async function finishConnection(retry = false) {
+  async function finishConnection(retry = false, reserved?: ReturnType<typeof reserveWhatsAppWindow>) {
     if (finishRef.current || codeRequestRef.current) return
+    const handoff = reserved ?? reserveWhatsAppWindow(window)
     finishRef.current = true
     setLoading(true)
     setError('')
@@ -100,7 +103,11 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
         }
         const result = await requestWhatsAppDelivery(request, userId, actionRef.current)
         setDelivery(result)
-        if (result.whatsappUrl) { setPhase('delivery-status'); window.location.assign(result.whatsappUrl); return }
+        if (result.whatsappUrl) {
+          setPhase('delivery-status')
+          if (!handoff.open(result.whatsappUrl)) setError('Your browser blocked WhatsApp. Open another window using the button above; your request is ready.')
+          return
+        }
         if (result.deliveryStatus !== 'accepted') {
           setPhase('delivery-status')
           return
@@ -113,6 +120,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
       setError(failure instanceof Error ? failure.message : 'Your WhatsApp is connected. Sending could not be confirmed. Check this request safely.')
       setPhase('delivery-status')
     } finally {
+      handoff.close()
       finishRef.current = false
       setLoading(false)
     }
@@ -121,6 +129,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
   async function verifyCode(event: React.FormEvent) {
     event.preventDefault()
     if (verificationRef.current || codeRequestRef.current || finishRef.current) return
+    const handoff = reserveWhatsAppWindow(window)
     verificationRef.current = true
     setLoading(true)
     setError('')
@@ -134,10 +143,11 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
         setError('That code did not work. Check the six digits and try again.')
         return
       }
-      await finishConnection()
+      await finishConnection(false, handoff)
     } catch {
       setError('We could not check the code. Check your connection and try again.')
     } finally {
+      handoff.close()
       verificationRef.current = false
       setLoading(false)
     }
@@ -148,7 +158,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
       <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#FFBA2E]">
         {alreadyConnected ? 'Ready for WhatsApp' : 'One-time connection'}
       </p>
-      {delivery?.whatsappUrl ? <a className="mt-4 inline-flex min-h-12 bg-[#FFD400] px-6 py-3 text-black" href={delivery.whatsappUrl}>Open WhatsApp and press Send →</a> : null}
+      {delivery?.whatsappUrl ? <WhatsAppWindowLink className="mt-4 inline-flex min-h-12 bg-[#FFD400] px-6 py-3 text-black" url={delivery.whatsappUrl} /> : null}
       <h1 id="connect-title" className="font-bebas mt-4 text-4xl uppercase leading-[1.15] text-white sm:text-5xl">
         {hasRequestedItem ? 'Get it sorted.' : 'Connect WhatsApp.'}
       </h1>
@@ -195,7 +205,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
                 required
                 value={phone}
                 onChange={(event) => setPhone(event.target.value.replace(/\D/g, ''))}
-                placeholder="7591 922247"
+                placeholder="7700 900123"
                 className="min-h-14 min-w-0 rounded-none border border-white/10 bg-black px-4 font-mono text-base text-white outline-none transition-colors placeholder:text-neutral-600 focus:border-[#FFBA2E]"
               />
             </div>
@@ -214,6 +224,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
 
       {phase === 'code' ? (
         <form onSubmit={verifyCode} className="mt-8 space-y-4">
+          <p className="text-sm text-neutral-300">Keep this screen open. Read the code in WhatsApp, then return here to enter it.</p>
           <div>
             <label htmlFor="whatsapp-code" className="mb-2 block text-xs font-medium uppercase tracking-wider text-neutral-300">
               Six-digit code
