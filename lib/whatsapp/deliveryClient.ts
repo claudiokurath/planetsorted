@@ -121,6 +121,14 @@ async function readStatus(actionId: string): Promise<Response> {
   }
 }
 
+/** Read-only refresh after a member returns from the WhatsApp handoff. */
+export async function checkWhatsAppDelivery(actionId: string): Promise<WhatsAppDeliveryResult> {
+  if (!isDeliveryActionId(actionId)) throw new Error('This request is invalid.')
+  const response = await readStatus(actionId)
+  if (!response.ok) throw new Error('We could not check this request. Please try again.')
+  return parseResult(await response.json(), actionId)
+}
+
 async function readResult(response: Response, actionId: string, key: string): Promise<WhatsAppDeliveryResult> {
   let value: unknown
   try { value = await response.json() }

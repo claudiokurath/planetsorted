@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { deliveryStatusMessage, type WhatsAppDeliveryResult } from '@/lib/whatsapp/deliveryClient'
+import { checkWhatsAppDelivery, deliveryStatusMessage, type WhatsAppDeliveryResult } from '@/lib/whatsapp/deliveryClient'
 
 /** Timings from the v9 handoff. */
 const IN = 620
@@ -18,7 +18,7 @@ function ease(p: number) {
 
 const COPY = {
   rest: { lead: 'Save this piece', trail: 'tap the mark' },
-  done: { lead: 'Message sent', trail: 'sorted.' },
+  done: { lead: 'WhatsApp accepted your message', trail: 'SOR7ED' },
 } as const
 
 interface Props {
@@ -69,6 +69,7 @@ export function SortedSaveButton({
   const [statusMessage, setStatusMessage] = useState('')
   const [statusOnly, setStatusOnly] = useState(false)
   const [canRetry, setCanRetry] = useState(false)
+  const [pendingAction, setPendingAction] = useState('')
 
   const paint = useCallback((v: number) => {
     tRef.current = v
@@ -114,6 +115,52 @@ export function SortedSaveButton({
     }
   }, [])
 
+  const resolveMark = useCallback(() => {
+    if (timerRef.current) clearTimeout(timerRef.current)
+    setDone(true)
+    run(1)
+    timerRef.current = setTimeout(() => { setDone(false); run(0) }, HOLD)
+  }, [run])
+
+  useEffect(() => {
+    if (!pendingAction) return
+    let cancelled = false
+    let checking = false
+    let attempts = 0
+    async function refresh() {
+      if (cancelled || checking || document.visibilityState === 'hidden' || attempts >= 30) return
+      checking = true
+      attempts++
+      try {
+        // This can only GET the owned action. It never stages or resends it.
+        const result = await checkWhatsAppDelivery(pendingAction)
+        if (cancelled) return
+        setStatusMessage(deliveryStatusMessage(result))
+        if (result.deliveryStatus === 'accepted') {
+          setPendingAction('')
+          setWhatsAppUrl('')
+          setStatusOnly(false)
+          resolveMark()
+        } else if (result.deliveryStatus !== 'pending') {
+          setPendingAction('')
+          setCanRetry(result.deliveryStatus === 'failed' || result.deliveryStatus === 'skipped')
+        }
+      } catch { /* Keep the explicit status/retry control available. */ }
+      finally { checking = false }
+    }
+    const resume = () => { attempts = 0; void refresh() }
+    const interval = setInterval(() => void refresh(), 2000)
+    window.addEventListener('focus', resume)
+    document.addEventListener('visibilitychange', resume)
+    void refresh()
+    return () => {
+      cancelled = true
+      clearInterval(interval)
+      window.removeEventListener('focus', resume)
+      document.removeEventListener('visibilitychange', resume)
+    }
+  }, [pendingAction, resolveMark])
+
   async function handleClick(retry = false) {
     if (disabled || sendingRef.current || !onSave) return
     setError('')
@@ -125,6 +172,7 @@ export function SortedSaveButton({
         const result = await (retry && onRetry ? onRetry() : onSave())
         setStatusMessage(deliveryStatusMessage(result))
         setWhatsAppUrl(result.whatsappUrl || '')
+        if (result.deliveryStatus === 'pending') setPendingAction(result.actionId)
         if (result.whatsappUrl) window.location.assign(result.whatsappUrl)
         setStatusOnly(result.deliveryStatus !== 'accepted')
         setCanRetry(result.deliveryStatus === 'failed' || result.deliveryStatus === 'skipped')
@@ -175,7 +223,7 @@ export function SortedSaveButton({
 
       {href ? (
         <Link href={href} target="_top" className="sb__btn" aria-label={`${copy.lead} — SOR7ED`}>
-          {mark}<span className="sb__text">Get it sorted</span>
+          {mark}<span className="sb__text">GET SOR7ED</span>
         </Link>
       ) : (
         <button
@@ -185,7 +233,7 @@ export function SortedSaveButton({
           onClick={() => void handleClick()}
           disabled={disabled || sending}
         >
-          {mark}<span className="sb__text">{sending ? 'Preparing…' : done ? 'Sent to WhatsApp' : 'Get it sorted'}</span>
+          {mark}<span className="sb__text">{sending ? 'Preparing…' : 'GET SOR7ED'}</span>
         </button>
       )}
 
@@ -200,17 +248,17 @@ export function SortedSaveButton({
       </span>
 
       <style>{`
-        .sb { --sb-accent:#000; --sb-mark:40px; --t:0; --td:0; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:12px; padding:12px 0; width:100%; }
-        .sb__btn { display:inline-flex; align-items:center; justify-content:center; gap:14px; min-height:60px; padding:10px 24px; border:1px solid #FFD400; border-radius:4px; background:#FFD400; color:#000; cursor:pointer; transition:background 180ms,transform 180ms; }
-        .sb__btn:hover { background:#fff; border-color:#fff; }.sb__btn:active { transform:scale(.98); }.sb__btn:disabled { cursor:wait; opacity:.55; }
+        .sb { --sb-accent:#FFD400; --sb-mark:84px; --t:0; --td:0; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:12px; padding:12px 0; width:100%; }
+        .sb__btn { display:inline-flex; align-items:center; justify-content:center; gap:12px; min-height:84px; padding:4px 8px; border:0; border-radius:0; background:transparent; color:#fff; cursor:pointer; transition:color 180ms,transform 180ms; }
+        .sb__btn:hover { color:var(--sb-accent); }.sb__btn:active { transform:scale(.98); }.sb__btn:disabled { cursor:wait; opacity:.55; }
         .sb__text { font:400 23px/1.2 var(--font-anton),sans-serif; text-transform:uppercase; }
         .sb__btn:focus-visible,.sb__reply:focus-visible,.sb__retry:focus-visible { outline:2px solid #fff; outline-offset:4px; }
         .sb__mark { position:relative; flex:0 0 var(--sb-mark); width:var(--sb-mark); height:var(--sb-mark); }
-        .sb__tangle { position:absolute; inset:0; width:100%; height:100%; filter:brightness(0); opacity:calc(1 - var(--t)); transform:scale(calc(1 - .12*var(--t))) rotate(calc(var(--t)*-8deg)); }
-        .sb__tick { position:absolute; inset:0; width:100%; height:100%; opacity:var(--td); }.sb__tick path { fill:none; stroke:#000; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:46; stroke-dashoffset:calc(46px*(1 - var(--td))); }
+        .sb__tangle { position:absolute; inset:0; width:100%; height:100%; opacity:calc(1 - var(--t)); transform:scale(calc(1 - .12*var(--t))) rotate(calc(var(--t)*-8deg)); }
+        .sb__tick { position:absolute; inset:0; width:100%; height:100%; opacity:var(--td); }.sb__tick path { fill:none; stroke:var(--sb-accent); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:46; stroke-dashoffset:calc(46px*(1 - var(--td))); }
         .sb__error,.sb__reply { flex-basis:100%; text-align:center; font:400 14px/1.5 var(--font-jost),sans-serif; color:#fff; max-width:56ch; }
         .sb__reply,.sb__retry { min-height:44px; text-decoration:underline; text-underline-offset:4px; }.sb__retry { color:#fff; padding:8px 12px; }
-        .sb--compact { --sb-mark:32px; }.sb--compact .sb__btn { width:100%; min-height:54px; padding:10px 16px; }.sb--compact .sb__text { font-size:20px; }
+        .sb--compact { --sb-mark:56px; }.sb--compact .sb__btn { min-height:56px; padding:4px 8px; }.sb--compact .sb__text { font-size:20px; }
         @media(prefers-reduced-motion:reduce) { .sb * { transition:none !important; } }
       `}</style>
     </div>
