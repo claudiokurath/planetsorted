@@ -32,6 +32,13 @@
 
 ## Executive Summary
 
+**4 November 2026 — SOR7ED account greeting:** Hi/Hello/Hey, account and login
+navigation requests route exclusively to the separate Button product. Its
+plain-text reply links only to `https://www.sor7ed.com/account`; visitors sign
+in/create their Button account there, members manage their history/profile and
+sign out there. A greeting never creates or links a PlanetSorted account. The
+website's protocol request and consent handling are preserved.
+
 **4 November 2026 — phone app foundation and separate WhatsApp windows:**
 `/install` adds the current live website to Android/iPhone home screens with the
 original scribble icon and standalone manifest. This is an installable website,

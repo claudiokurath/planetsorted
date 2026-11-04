@@ -11,5 +11,7 @@ export function verifyRelay(secret: string | undefined, purpose: string, timesta
 
 export function buttonCommand(text: string) {
   const verb = text.trim().toUpperCase()
+  const account = verb.replace(/[!.?]+$/, '').replace(/\s+/g, ' ')
+  if (/^(?:HI|HELLO|HEY)(?: (?:SOR7ED|SORTED))?$/.test(account) || ['ACCOUNT', 'MY ACCOUNT', 'MENU', 'HELP', 'SIGN IN', 'SIGNIN', 'SIGN UP', 'SIGNUP', 'LOG IN', 'LOGIN', 'SIGN OUT', 'SIGNOUT', 'LOG OUT', 'LOGOUT'].includes(account)) return true
   return /^SIGNIN-[A-F0-9]{48}$/.test(verb) || verb.startsWith('BUTTON-CONNECT-') || verb === 'LIBRARY' || verb.startsWith('LIBRARY ') || verb === 'HELP'
 }
