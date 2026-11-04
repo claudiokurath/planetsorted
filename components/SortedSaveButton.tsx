@@ -35,6 +35,7 @@ interface Props {
   /** Rest-state words. The done copy is fixed — it describes what happened. */
   copy?: { lead: string; trail: string }
   compact?: boolean
+  resumeActionId?: string
 }
 
 /**
@@ -55,12 +56,14 @@ export function SortedSaveButton({
   href,
   copy: restCopy = COPY.rest,
   compact = false,
+  resumeActionId,
 }: Props) {
   const rootRef = useRef<HTMLDivElement>(null)
   const rafRef = useRef<number | null>(null)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const tRef = useRef(0)
   const sendingRef = useRef(false)
+  const completedActions = useRef(new Set<string>())
 
   const [whatsappUrl, setWhatsAppUrl] = useState('')
   const [done, setDone] = useState(false)
@@ -70,6 +73,7 @@ export function SortedSaveButton({
   const [statusOnly, setStatusOnly] = useState(false)
   const [canRetry, setCanRetry] = useState(false)
   const [pendingAction, setPendingAction] = useState('')
+
 
   const paint = useCallback((v: number) => {
     tRef.current = v
@@ -123,7 +127,8 @@ export function SortedSaveButton({
   }, [run])
 
   useEffect(() => {
-    if (!pendingAction) return
+    const actionId = pendingAction || resumeActionId || ''
+    if (!actionId || completedActions.current.has(actionId)) return
     let cancelled = false
     let checking = false
     let attempts = 0
@@ -133,9 +138,14 @@ export function SortedSaveButton({
       attempts++
       try {
         // This can only GET the owned action. It never stages or resends it.
-        const result = await checkWhatsAppDelivery(pendingAction)
+        const result = await checkWhatsAppDelivery(actionId)
         if (cancelled) return
         setStatusMessage(deliveryStatusMessage(result))
+        if (result.deliveryStatus !== 'pending') {
+          completedActions.current.add(actionId)
+          cancelled = true
+          clearInterval(interval)
+        }
         if (result.deliveryStatus === 'accepted') {
           setPendingAction('')
           setWhatsAppUrl('')
@@ -159,7 +169,7 @@ export function SortedSaveButton({
       window.removeEventListener('focus', resume)
       document.removeEventListener('visibilitychange', resume)
     }
-  }, [pendingAction, resolveMark])
+  }, [pendingAction, resumeActionId, resolveMark])
 
   async function handleClick(retry = false) {
     if (disabled || sendingRef.current || !onSave) return
@@ -173,6 +183,7 @@ export function SortedSaveButton({
         setStatusMessage(deliveryStatusMessage(result))
         setWhatsAppUrl(result.whatsappUrl || '')
         if (result.deliveryStatus === 'pending') setPendingAction(result.actionId)
+        if (result.deliveryStatus === 'accepted') { completedActions.current.add(result.actionId); setPendingAction('') }
         if (result.whatsappUrl) window.location.assign(result.whatsappUrl)
         setStatusOnly(result.deliveryStatus !== 'accepted')
         setCanRetry(result.deliveryStatus === 'failed' || result.deliveryStatus === 'skipped')

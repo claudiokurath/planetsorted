@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { SortedSaveButton } from '@/components/SortedSaveButton'
 import { createBrowserClient } from '@/lib/supabase/client'
 import { safeNext } from '@/lib/safeNext'
-import { prepareDeliveryAction, requestWhatsAppDelivery, startNewDeliveryAction } from '@/lib/whatsapp/deliveryClient'
+import { pendingDeliveryAction, prepareDeliveryAction, requestWhatsAppDelivery, startNewDeliveryAction } from '@/lib/whatsapp/deliveryClient'
 
 interface Props {
   slug: string
@@ -118,7 +118,7 @@ export function ToolWhatsAppCta({ slug, returnPath, context = 'tool', compact = 
       />
     )
   }
-  return <SortedSaveButton onSave={send} onRetry={retry} compact={compact} copy={{ lead, trail: 'tap the mark to receive it' }} />
+  return <SortedSaveButton onSave={send} onRetry={retry} compact={compact} resumeActionId={userId ? pendingDeliveryAction(contentDeliveryRequest(slug, context), userId, actionId) : undefined} copy={{ lead, trail: 'tap the mark to receive it' }} />
 }
 
 /** General pages offer setup; they never claim to send an unspecified item. */
