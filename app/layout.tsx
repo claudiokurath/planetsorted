@@ -1,5 +1,5 @@
 import { publicPageMetadata, SEO_SITE, SEO_BRAND, SEO_DESCRIPTION, structuredDataJson } from '@/lib/seo'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Anton, Jost, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { SmartNav } from '@/components/SmartNav'
@@ -32,7 +32,12 @@ const jetBrainsMono = JetBrains_Mono({
   display: 'swap',
 })
 
+export const viewport: Viewport = { themeColor: '#000000' }
+
 export const metadata: Metadata = {
+  applicationName: 'SOR7ED',
+  appleWebApp: { capable: true, title: 'SOR7ED', statusBarStyle: 'black' },
+  icons: { apple: '/app-icons/sor7ed-180.png' },
   ...publicPageMetadata({ title: 'Tools and guides for neurodivergent adults', description: SEO_DESCRIPTION, path: '/' }),
   alternates: undefined,
   metadataBase: new URL(SEO_SITE),
