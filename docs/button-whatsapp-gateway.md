@@ -11,7 +11,7 @@ working callback. All functionality is off unless the two relay variables are
 configured; removing them restores the previous website routing.
 
 The original raw Meta signature and crisis checks precede forwarding. SIGNIN,
-BUTTON-CONNECT, LIBRARY and HELP go exclusively to Button; other messages only
+BUTTON-CONNECT, LIBRARY, account commands and greetings (Hi/Hello/Hey) go exclusively to Button; other messages only
 refresh its known accounts' session time and shared opt-out state. PlanetSorted
 still sends the single STOP/START acknowledgement and manages weekly consent.
 Private protocol delivery remains unchanged. No website account is created or
@@ -64,3 +64,14 @@ API project. No Google, new number, Redis or paid template is needed.
 After both builds and tests pass, deploy the API and its domain, deploy the
 gateway, and check HTTPS health and the public sign-in flow. Real receipt of
 a sign-in code and saved card still needs the owner's own WhatsApp action.
+
+## Account greeting (4 November 2026)
+
+A signed greeting routes exclusively to the Button API. It replies with the
+SOR7ED account URL (`https://www.sor7ed.com/account`), where visitors sign in or
+create a Button account and members manage history/profile or sign out. No
+PlanetSorted destination, image card, account creation or cross-product account
+linking occurs in response to a greeting. “Sign out” in chat gives directions to
+the browser account control; it never signs out an unidentified browser.
+Website protocol requests, crisis handling and single consent acknowledgements
+retain their existing handlers.
