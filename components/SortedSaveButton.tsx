@@ -269,12 +269,12 @@ export function SortedSaveButton({
         .sb__btn { display:inline-flex; align-items:center; justify-content:center; gap:12px; min-height:84px; padding:4px 8px; border:0; border-radius:0; background:transparent; color:#fff; cursor:pointer; transition:color 180ms,transform 180ms; }
         .sb__btn:hover { color:var(--sb-accent); }.sb__btn:active { transform:scale(.98); }.sb__btn:disabled { cursor:wait; opacity:.55; }
         .sb__text { font:400 23px/1.2 var(--font-anton),sans-serif; text-transform:uppercase; }
-        .sb__btn:focus-visible,.sb__reply:focus-visible,.sb__retry:focus-visible { outline:2px solid #fff; outline-offset:4px; }
+        .sb__btn:focus-visible,.sb :global(.sb__reply:focus-visible),.sb__retry:focus-visible { outline:2px solid #fff; outline-offset:4px; }
         .sb__mark { position:relative; flex:0 0 var(--sb-mark); width:var(--sb-mark); height:var(--sb-mark); }
         .sb__tangle { position:absolute; inset:0; width:100%; height:100%; opacity:calc(1 - var(--t)); transform:scale(calc(1 - .12*var(--t))) rotate(calc(var(--t)*-8deg)); }
         .sb__tick { position:absolute; inset:0; width:100%; height:100%; opacity:var(--td); }.sb__tick path { fill:none; stroke:var(--sb-accent); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:46; stroke-dashoffset:calc(46px*(1 - var(--td))); }
-        .sb__error,.sb__reply { flex-basis:100%; text-align:center; font:400 14px/1.5 var(--font-jost),sans-serif; color:#fff; max-width:56ch; }
-        .sb__reply,.sb__retry { min-height:44px; text-decoration:underline; text-underline-offset:4px; }.sb__retry { color:#fff; padding:8px 12px; }
+        .sb__error,.sb :global(.sb__reply) { flex-basis:100%; text-align:center; font:400 14px/1.5 var(--font-jost),sans-serif; color:#fff; max-width:56ch; }
+        .sb :global(.sb__reply),.sb__retry { min-height:44px; text-decoration:underline; text-underline-offset:4px; }.sb__retry { color:#fff; padding:8px 12px; }
         .sb--compact { --sb-mark:56px; }.sb--compact .sb__btn { min-height:56px; padding:4px 8px; }.sb--compact .sb__text { font-size:20px; }
         @media(prefers-reduced-motion:reduce) { .sb * { transition:none !important; } }
       `}</style>
