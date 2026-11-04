@@ -71,6 +71,12 @@ export function hasSubmittedDelivery(request: WhatsAppDeliveryRequest, userId: s
   return readAction(storageKey(request, userId))?.submitted === true
 }
 
+export function pendingDeliveryAction(request: WhatsAppDeliveryRequest, userId: string, preferredId?: string): string | undefined {
+  prepareDeliveryAction(request, userId, preferredId)
+  const action = readAction(storageKey(request, userId))
+  return action?.submitted && action.deliveryStatus === 'pending' ? action.id : undefined
+}
+
 /** Only a deliberate retry of a confirmed unsuccessful send creates a new ID. */
 export function startNewDeliveryAction(request: WhatsAppDeliveryRequest, userId: string): string {
   const key = storageKey(request, userId)
@@ -119,6 +125,18 @@ async function readStatus(actionId: string): Promise<Response> {
   } catch {
     throw new Error('We could not check this request. Check your connection and try again.')
   }
+}
+
+/** Read-only refresh after a member returns from the WhatsApp handoff. */
+export async function checkWhatsAppDelivery(actionId: string): Promise<WhatsAppDeliveryResult> {
+  if (!isDeliveryActionId(actionId)) throw new Error('This request is invalid.')
+  const response = await readStatus(actionId)
+  if (!response.ok) throw new Error('We could not check this request. Please try again.')
+  const result = parseResult(await response.json(), actionId)
+  for (const [key, action] of actions) {
+    if (action.id === actionId) writeAction(key, { ...action, deliveryStatus: result.deliveryStatus })
+  }
+  return result
 }
 
 async function readResult(response: Response, actionId: string, key: string): Promise<WhatsAppDeliveryResult> {
