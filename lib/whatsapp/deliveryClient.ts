@@ -77,6 +77,16 @@ export function pendingDeliveryAction(request: WhatsAppDeliveryRequest, userId: 
   return action?.submitted && action.deliveryStatus === 'pending' ? action.id : undefined
 }
 
+/** A new user click after confirmed acceptance is a fresh send, not a replay. */
+export function prepareUserDeliveryAction(request: WhatsAppDeliveryRequest, userId: string): string {
+  const id = prepareDeliveryAction(request, userId)
+  const key = storageKey(request, userId)
+  if (readAction(key)?.deliveryStatus !== 'accepted') return id
+  const next = crypto.randomUUID()
+  writeAction(key, { id: next, submitted: false })
+  return next
+}
+
 /** Only a deliberate retry of a confirmed unsuccessful send creates a new ID. */
 export function startNewDeliveryAction(request: WhatsAppDeliveryRequest, userId: string): string {
   const key = storageKey(request, userId)
@@ -109,7 +119,8 @@ function parseResult(value: unknown, actionId: string): WhatsAppDeliveryResult {
 
 export function deliveryStatusMessage(result: WhatsAppDeliveryResult): string {
   if (result.deliveryReason === 'request_expired') return 'This WhatsApp request expired. Choose Try sending again to prepare a fresh request.'
-  if (result.deliveryReason === 'awaiting_reply') return 'Press Send in WhatsApp to request this item. Your protocol will arrive in reply.'
+  if (result.deliveryReason === 'awaiting_reply') return 'An earlier WhatsApp request is still pending. Check its status before trying again.'
+  if (result.deliveryReason === 'template_link_only') return 'Your requested link was sent using an approved WhatsApp message. Open it to read the current protocol.'
   switch (result.deliveryStatus) {
     case 'accepted': return 'Message sent. WhatsApp has accepted it; delivery is not yet confirmed.'
     case 'pending': return 'Saved. WhatsApp sending is still in progress. Check status in a moment.'

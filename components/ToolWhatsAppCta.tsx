@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { SortedSaveButton } from '@/components/SortedSaveButton'
 import { createBrowserClient } from '@/lib/supabase/client'
 import { safeNext } from '@/lib/safeNext'
-import { pendingDeliveryAction, prepareDeliveryAction, requestWhatsAppDelivery, startNewDeliveryAction } from '@/lib/whatsapp/deliveryClient'
+import { pendingDeliveryAction, prepareDeliveryAction, prepareUserDeliveryAction, requestWhatsAppDelivery, startNewDeliveryAction } from '@/lib/whatsapp/deliveryClient'
 
 interface Props {
   slug: string
@@ -96,7 +96,8 @@ export function ToolWhatsAppCta({ slug, returnPath, context = 'tool', compact = 
 
   async function send() {
     if (!userId) throw new Error('Please sign in again to send this item.')
-    return requestWhatsAppDelivery(contentDeliveryRequest(slug, context), userId)
+    const request = contentDeliveryRequest(slug, context)
+    return requestWhatsAppDelivery(request, userId, prepareUserDeliveryAction(request, userId))
   }
 
   async function retry() {

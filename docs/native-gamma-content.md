@@ -19,10 +19,18 @@ The existing sender and approved card remain unchanged: `/go/{slug}` → `/r/{sl
 Public article previews link to `/intelligence/{slug}`; the WhatsApp card routes to
 private content. `/r` shows only public metadata to preview crawlers. Humans open:
 
-- Financial Avoidance: `/api/protocols/financial-avoidance-trauma-response`, which
-  delivers the original uploaded PDF as an attachment, never as a public page.
-- Other articles: `/protocols/{slug}`, a member page containing the corresponding
-  Protocol Gamma copy (five sources available) or the synced private Protocol text.
+- Every published article: `/protocols/{slug}`, a member page rendered from the
+  current Notion **Protocol** field. No encrypted historical presentation or
+  Protocol Gamma link can override that field. Missing/withdrawn content fails
+  closed. Financial Avoidance offers the original PDF as an optional protected
+  archive link; it no longer redirects to that archive automatically.
+
+As of 5 November 2026, connected members request delivery directly with the
+animated scribble button. No per-request WhatsApp reply/code is required. The
+legacy request-delivery POST delegates to the direct sender too. Active-window
+sends can include the current Protocol text; outside Meta's conversation window,
+the existing approved template delivers the current member link, with no invalid
+free-form follow-up. The tick means provider acceptance, not handset receipt.
 
 Private endpoints require a server-validated Supabase user and that user's own
 verified WhatsApp number. Forged `access_token` parameters and public `/r` links
@@ -50,11 +58,12 @@ whole-table SELECT grants to browser roles when adding new fields.
 ## Source discrepancies
 
 Notion's Financial Avoidance **Protocol Gamma** currently points to the digital
-file organisation domain. The uploaded private PDF is the explicit delivery
-override; do not use that mismatched domain. The digital file guidebook has no
-Protocol Gamma; its private delivery falls back to its synced Protocol text.
+file organisation document (confirmed from its page title on 5 November 2026).
+Do not use that mismatched domain. The current Protocol field is authoritative
+for Financial Avoidance and all other private article deliveries. The original
+PDF remains a protected archive, without overriding the current Notion text.
 The Tools schema currently has a Gamma embed property, not a separate domain
-property. All six published tool embeds and seven blog embeds match Supabase.
+property. All three published tool embeds and seven blog embeds match Supabase.
 
 ## Refresh on 25 October 2026
 

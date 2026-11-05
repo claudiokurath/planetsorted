@@ -1,8 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import { WhatsAppWindowLink } from '@/components/WhatsAppWindowLink'
-import { reserveWhatsAppWindow } from '@/lib/whatsapp/window'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { checkWhatsAppDelivery, deliveryStatusMessage, type WhatsAppDeliveryResult } from '@/lib/whatsapp/deliveryClient'
@@ -67,7 +65,6 @@ export function SortedSaveButton({
   const sendingRef = useRef(false)
   const completedActions = useRef(new Set<string>())
 
-  const [whatsappUrl, setWhatsAppUrl] = useState('')
   const [done, setDone] = useState(false)
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
@@ -150,7 +147,6 @@ export function SortedSaveButton({
         }
         if (result.deliveryStatus === 'accepted') {
           setPendingAction('')
-          setWhatsAppUrl('')
           setStatusOnly(false)
           resolveMark()
         } else if (result.deliveryStatus !== 'pending') {
@@ -180,16 +176,11 @@ export function SortedSaveButton({
       sendingRef.current = true
       setSending(true)
       if (retry) { setCanRetry(false); setStatusOnly(false) }
-      const handoff = reserveWhatsAppWindow(window)
       try {
         const result = await (retry && onRetry ? onRetry() : onSave())
         setStatusMessage(deliveryStatusMessage(result))
-        setWhatsAppUrl(result.whatsappUrl || '')
         if (result.deliveryStatus === 'pending') setPendingAction(result.actionId)
         if (result.deliveryStatus === 'accepted') { completedActions.current.add(result.actionId); setPendingAction('') }
-        if (result.whatsappUrl && !handoff.open(result.whatsappUrl)) {
-          setError('Your browser blocked WhatsApp. Use the link below to open another window; your request is ready.')
-        }
         setStatusOnly(result.deliveryStatus !== 'accepted')
         setCanRetry(result.deliveryStatus === 'failed' || result.deliveryStatus === 'skipped')
         if (result.deliveryStatus !== 'accepted') return
@@ -198,7 +189,6 @@ export function SortedSaveButton({
         setError(failure instanceof Error ? failure.message : 'Could not confirm sending. Tap again to check safely.')
         return
       } finally {
-        handoff.close()
         sendingRef.current = false
         setSending(false)
       }
@@ -254,7 +244,6 @@ export function SortedSaveButton({
         </button>
       )}
 
-      {whatsappUrl ? <WhatsAppWindowLink className="sb__reply" url={whatsappUrl} /> : null}
 
       {error ? <span role="alert" className="sb__error">{error}</span> : null}
       {statusMessage && !error ? <span className="sb__error">{statusMessage}</span> : null}
