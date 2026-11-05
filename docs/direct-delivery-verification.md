@@ -1,5 +1,9 @@
 # Website direct delivery regression checks — 5 November 2026
 
+Historical verification for PR #114. Its Protocol-text delivery contract was
+superseded by `gamma-rich-link-delivery.md`; automatic sending and animation
+checks remain applicable.
+
 The website must not stage a per-item WhatsApp reply code for a connected member.
 The canonical request goes to `/api/save-to-phone`; the legacy request-delivery
 POST delegates to that sender for compatibility with older open tabs.
