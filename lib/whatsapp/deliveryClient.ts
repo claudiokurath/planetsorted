@@ -197,6 +197,10 @@ export async function requestWhatsAppDelivery(request: WhatsAppDeliveryRequest, 
       // These failures occur before a delivery claim. Keep the same ID for a
       // deliberate retry. A conflict or server failure remains status-only.
       if ([400, 401, 403, 404, 429].includes(response.status)) writeAction(key, { id: actionId, submitted: false })
+      if (response.status === 400) {
+        const problem = await response.json().catch(() => null)
+        if (problem?.error === 'This protocol is not ready to send yet.') throw new Error(problem.error)
+      }
       throw new Error(response.status === 401 ? 'Please sign in again to send this item.' :
         response.status === 429 ? 'Please wait a moment before trying this request again.' :
         'We could not confirm sending. Tap again to check this request safely.')

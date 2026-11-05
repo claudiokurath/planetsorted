@@ -3,8 +3,8 @@ import type { Database } from '@/lib/types/database'
 import { getLiveContent } from '@/lib/notion/liveContent'
 import { websiteSiteUrl } from '@/lib/siteUrl'
 import { claimDelivery, deliveryRequestHash, deliveryResponse, finishDelivery, isActionId } from './deliveryActions'
-import { sendWhatsAppContentCard, sendWhatsAppMessage, sendWhatsAppAudio, WhatsAppSendError } from './send'
-import { splitIntoChunks } from './splitIntoChunks'
+import { sendWhatsAppContentCard, WhatsAppSendError } from './send'
+import { protocolGammaUrl } from '@/lib/content/protocolGamma'
 import { ogImageForContent } from '@/lib/og/imageUrl'
 
 type Admin = SupabaseClient<Database>
@@ -54,11 +54,11 @@ export async function fulfilWebsiteReply(admin: Admin, phone: string, text: stri
   try {
     const published=await getLiveContent()
     if (![...published.tools,...published.articles].includes(action.slug)) { await finishDelivery(admin,profile.user_id,actionId,'failed','not_available',[]);return true }
-    const {data:content,error:contentError}=await admin.from('protocols').select('title,summary,excerpt,cover_image,protocol,audio_url,slug').eq('slug',action.slug).eq('status','Published').single()
+    const {data:content,error:contentError}=await admin.from('protocols').select('title,summary,excerpt,cover_image,gamma_url,type,slug').eq('slug',action.slug).eq('status','Published').single()
     if (contentError || !content) throw new WhatsAppSendError('This item is unavailable.',undefined,undefined,'failed')
-    if (payload.includeLink) ids.push((await sendWhatsAppContentCard({to:phone,slug:content.slug,title:content.title,imageUrl:ogImageForContent(content.cover_image,content.title,content.summary || content.excerpt),url:`${SITE}/go/${content.slug}`})).messageId)
-    if (payload.includeProtocol && content.protocol) for (const chunk of splitIntoChunks(`*${content.title}*\n\n${content.protocol}`,3500)) ids.push((await sendWhatsAppMessage(phone,chunk)).messageId)
-    if (payload.includeAudio && content.audio_url) ids.push((await sendWhatsAppAudio(phone,content.audio_url)).messageId)
+    const destination=content.type==='Article' ? protocolGammaUrl(content.gamma_url) : `${SITE}/go/${content.slug}`
+    if (!destination) throw new WhatsAppSendError('This protocol is not ready to send yet.',undefined,undefined,'failed')
+    ids.push((await sendWhatsAppContentCard({to:phone,slug:content.slug,title:content.title,imageUrl:ogImageForContent(content.cover_image,content.title,content.summary || content.excerpt),url:destination})).messageId)
     if (!ids.length) { await finishDelivery(admin,profile.user_id,actionId,'failed','not_available',[]); return true }
     await finishDelivery(admin,profile.user_id,actionId,'accepted',null,ids)
   } catch (error) {

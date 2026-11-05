@@ -1,12 +1,9 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { createSessionClient, createServiceClient } from '@/lib/supabase/server'
-import { PRIVATE_PDF_SLUG, canDownloadProtocol } from '@/lib/content/privateProtocol'
+import { canDownloadProtocol } from '@/lib/content/privateProtocol'
 import { getLiveContent } from '@/lib/notion/liveContent'
-import { ProtocolDeck } from '@/components/ProtocolDeck'
-import { buildProtocolDeck } from '@/lib/protocolDeck'
-import { PrintPageButton } from '@/components/PrintPageButton'
+import { protocolGammaUrl } from '@/lib/content/protocolGamma'
 
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = { title: 'Your protocol — SOR7ED', robots: { index: false, follow: false } }
@@ -23,19 +20,11 @@ export default async function PrivateProtocolPage({ params }: { params: Promise<
   if (!canDownloadProtocol(user.id, profile)) redirect(`/connect?next=${encodeURIComponent(next)}`)
   const published = await getLiveContent()
   if (!published.articles.includes(slug)) notFound()
-  const { data: item } = await db.from('protocols').select('title, slug, protocol, category')
+  const { data: item } = await db.from('protocols').select('gamma_url')
     .eq('slug', slug).eq('status', 'Published').eq('type', 'Article').single()
-  if (!item?.protocol?.trim()) notFound()
-  // The live Notion Protocol field is authoritative. Never substitute an old
-  // encrypted presentation, a public article or a fixed PDF for this content.
-  return <div className="bg-black px-4 py-6 text-white sm:px-6" data-protocol-source="notion-protocol">
-    <div className="mx-auto mb-5 flex max-w-6xl flex-wrap items-center gap-4 print:hidden">
-      <PrintPageButton />
-      {slug === PRIVATE_PDF_SLUG ? <Link href={`/api/protocols/${slug}`} className="text-sm text-neutral-400 underline underline-offset-4">Original private PDF</Link> : null}
-    </div>
-    <ProtocolDeck
-      deck={buildProtocolDeck({ title: item.title, category: item.category, body: item.protocol, protocol: null, coverImage: null })}
-      bodyText={item.protocol} isSubscriber
-    />
-  </div>
+  const destination = protocolGammaUrl(item?.gamma_url)
+  if (!destination) notFound()
+  // Compatibility for previously sent cards. Open the live Notion Gamma slides;
+  // never replace the customer's designed protocol with a generated website deck.
+  redirect(destination)
 }

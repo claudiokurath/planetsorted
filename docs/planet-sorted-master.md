@@ -40,20 +40,25 @@ pending/uncertain actions retain their identity and status checks never resend.
 First-time account/number verification and STOP preferences remain mandatory.
 The legacy request-delivery POST delegates to the same direct sender.
 
-Private article links now open `/protocols/{slug}`, rendered exclusively from
-the current published Notion **Protocol** field after authentication and number
-verification. Publication is refreshed before new deliveries and private reads;
-unavailable sources fail closed. Old encrypted presentations cannot override
-Notion. Financial Avoidance's original PDF remains an optional protected archive,
-not the default destination. Notion's mismatched Financial Avoidance Protocol
-Gamma URL is not used. All seven published Protocol fields were compared with
-Supabase and matched exactly on this date.
+**5 November 2026 — clarified delivery contract (supersedes text delivery):**
+WhatsApp receives exactly one rich-link card, never a Protocol text dump or audio
+follow-up. The Article destination is the current published Notion **Protocol
+Gamma** (`gamma_url`) URL, sent directly in active-conversation cards. Approved
+template cards retain their fixed `/go/{slug}` link; its existing member route
+now redirects to that same current Gamma source after authentication/verification.
+`/protocols/{slug}` no longer renders a text-generated deck, an imported copy or
+an old PDF. This preserves the customer's designed Gamma slides and Gamma edits.
+The original optional PDF archive stays protected, but is not a card destination.
 
-Inside Meta's 24-hour conversation window, the sender can include the current
-protocol text. Outside it, the approved template delivers the protected protocol
-link automatically. Template acceptance does not open the free-form window, so
-no prohibited text/audio follow-up or forced reply-code handoff is attempted.
-Provider acceptance is not a claim of confirmed handset delivery.
+The server enforces link-only delivery even for older clients requesting text or
+audio. The legacy inbound reply fulfiller also sends just one card. No new reply
+codes are staged. Missing/unsafe Gamma links fail closed rather than substituting
+text or a PDF. Tool cards retain their existing tool destinations. Provider
+acceptance is not a claim of confirmed handset receipt.
+
+Source audit: five published Articles have Protocol Gamma sources; Digital Files
+has no Protocol Gamma, and Financial Avoidance currently points to Digital File
+Organisation in Notion. These upstream properties were not rewritten or guessed.
 
 
 **4 November 2026 — SOR7ED account greeting:** Hi/Hello/Hey, account and login

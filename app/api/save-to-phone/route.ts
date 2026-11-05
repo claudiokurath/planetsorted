@@ -2,15 +2,14 @@ import { websiteSiteUrl } from '@/lib/siteUrl'
 import { getLiveContent } from '@/lib/notion/liveContent'
 import { NextRequest, NextResponse } from 'next/server'
 import { requireUser } from '@/lib/auth/requireUser'
-import { sendWhatsAppMessage, sendWhatsAppAudio, sendWhatsAppContentCard, WhatsAppSendError } from '@/lib/whatsapp/send'
-import { splitIntoChunks } from '@/lib/whatsapp/splitIntoChunks'
+import { sendWhatsAppContentCard, WhatsAppSendError } from '@/lib/whatsapp/send'
+import { protocolGammaUrl } from '@/lib/content/protocolGamma'
 import { ogImageForContent } from '@/lib/og/imageUrl'
 import { claimDelivery, finishDelivery, readDelivery, deliveryRequestHash, deliveryResponse, isActionId, DeliveryActionConflict, type DeliveryStatus } from '@/lib/whatsapp/deliveryActions'
 
 export const dynamic = 'force-dynamic'
 const SITE = websiteSiteUrl()
 const PRIVATE_HEADERS = { 'Cache-Control': 'private, no-store' }
-const SAFE_LIMIT = 3500
 
 export async function GET(req: NextRequest) {
   const auth = await requireUser(req)
@@ -44,25 +43,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Please refresh this page before sending this item.' }, { status: 400, headers: PRIVATE_HEADERS })
   }
   const actionId = body.idempotencyKey
-  const link = body.includeLink !== false, protocol = body.includeProtocol === true, audio = body.includeAudio === true
+  // Rich cards only, including requests from older tabs asking for text/audio.
+  const link = true, protocol = false, audio = false
 
   try {
-    // Refresh publication and Protocol text from Notion before choosing any content.
+    // Refresh publication and Protocol Gamma from Notion before choosing a destination.
     const published = await getLiveContent()
     if (![...published.tools, ...published.articles].includes(slug)) return NextResponse.json({ error: 'This item is not available.' }, { status: 404, headers: PRIVATE_HEADERS })
     // Claim validates the payload hash. A replay returns its original status
     // before reading preferences and can never initiate another send.
     const { data: content, error: contentError } = await admin.from('protocols')
-      .select('title, summary, excerpt, cover_image, protocol, audio_url, slug, type, category')
+      .select('title, summary, excerpt, cover_image, gamma_url, slug, type, category')
       .eq('slug', slug).eq('status', 'Published').single()
     if (contentError || !content) return NextResponse.json({ error: 'This item is not available.' }, { status: 404, headers: PRIVATE_HEADERS })
-    const protocolText = content.type === 'Article' ? content.protocol?.trim() : undefined
-    if (!link && !(protocol && protocolText) && !(audio && content.audio_url)) {
-      return NextResponse.json({ error: 'Choose an available item to send.' }, { status: 400, headers: PRIVATE_HEADERS })
-    }
+    const destination = content.type === 'Article' ? protocolGammaUrl(content.gamma_url) : `${SITE}/go/${content.slug}`
+    if (!destination) return NextResponse.json({ error: 'This protocol is not ready to send yet.' }, { status: 400, headers: PRIVATE_HEADERS })
     const action = await claimDelivery(admin, {
       userId: user.id, actionId, hash: deliveryRequestHash(slug, link, protocol, audio), slug,
-      url: `${SITE}/r/${content.slug}`, title: content.title, category: content.category || 'General',
+      url: destination, title: content.title, category: content.category || 'General',
     })
     if (!action.created) return NextResponse.json(deliveryResponse(actionId, action.delivery_status, action.delivery_reason, action.updated_at), { headers: PRIVATE_HEADERS })
 
@@ -80,28 +78,14 @@ export async function POST(req: NextRequest) {
       } else if (profile?.whatsapp_verified && profile.whatsapp_number) {
         if (profile.whatsapp_opted_out) reason = 'opted_out'
         else {
-          let usedTemplate = false
-          if (link) {
-            const receipt = await sendWhatsAppContentCard({
-              to: profile.whatsapp_number, slug: content.slug, title: content.title,
-              summary: content.summary || content.excerpt,
-              imageUrl: ogImageForContent(content.cover_image, content.title, content.summary || content.excerpt),
-              url: `${SITE}/go/${content.slug}`,
-            })
-            ids.push(receipt.messageId)
-            usedTemplate = receipt.kind === 'template'
-          }
-          // A template does not open Meta's 24-hour free-form window. Its link
-          // already delivers the current member protocol; do not follow it with
-          // free-form text/audio that Meta will reject outside that window.
-          if (protocol && protocolText && !usedTemplate) {
-            const text = `*${content.title}*\n\n${protocolText}`
-            for (const chunk of text.length <= SAFE_LIMIT ? [text] : splitIntoChunks(text, SAFE_LIMIT)) {
-              ids.push((await sendWhatsAppMessage(profile.whatsapp_number, chunk)).messageId)
-            }
-          }
-          if (audio && content.audio_url && !usedTemplate) ids.push((await sendWhatsAppAudio(profile.whatsapp_number, content.audio_url)).messageId)
-          state = 'accepted'; reason = usedTemplate && (protocol || audio) ? 'template_link_only' : null
+          const receipt = await sendWhatsAppContentCard({
+            to: profile.whatsapp_number, slug: content.slug, title: content.title,
+            summary: content.summary || content.excerpt,
+            imageUrl: ogImageForContent(content.cover_image, content.title, content.summary || content.excerpt),
+            url: destination,
+          })
+          ids.push(receipt.messageId)
+          state = 'accepted'; reason = null
         }
       }
     } catch (error) {
