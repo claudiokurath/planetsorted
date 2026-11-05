@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
+import { getLiveContent } from '@/lib/notion/liveContent'
 import { NextRequest, NextResponse } from 'next/server'
 import { createSessionClient, createServiceClient } from '@/lib/supabase/server'
 import { canDownloadProtocol, decryptPrivateAsset, PRIVATE_PDF_SLUG } from '@/lib/content/privateProtocol'
@@ -13,7 +14,7 @@ const PRIVATE_HEADERS = {
   'X-Content-Type-Options': 'nosniff',
 }
 
-/** The WhatsApp card lands here; no PDF bytes are read until access is checked. */
+/** Optional original PDF archive; no bytes are read until access is checked. */
 export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   if (slug !== PRIVATE_PDF_SLUG) {
@@ -32,6 +33,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
     if (!canDownloadProtocol(user.id, profile)) {
       return NextResponse.redirect(new URL(`/connect?next=${encodeURIComponent(next)}`, req.url), { headers: PRIVATE_HEADERS })
     }
+    if (!(await getLiveContent()).articles.includes(slug)) return NextResponse.json({ error: 'This download is not available.' }, { status: 404, headers: PRIVATE_HEADERS })
     const { data: published } = await db.from('protocols').select('slug')
       .eq('slug', slug).eq('status', 'Published').eq('type', 'Article').single()
     if (!published) return NextResponse.json({ error: 'This download is not available.' }, { status: 404, headers: PRIVATE_HEADERS })

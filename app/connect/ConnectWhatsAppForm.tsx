@@ -3,8 +3,6 @@
 import { contentDeliveryRequest } from '@/lib/whatsapp/contentRequest'
 
 import Link from 'next/link'
-import { WhatsAppWindowLink } from '@/components/WhatsAppWindowLink'
-import { reserveWhatsAppWindow } from '@/lib/whatsapp/window'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { deliveryStatusMessage, hasSubmittedDelivery, requestWhatsAppDelivery, startNewDeliveryAction, type WhatsAppDeliveryResult } from '@/lib/whatsapp/deliveryClient'
@@ -83,9 +81,8 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
     }
   }
 
-  async function finishConnection(retry = false, reserved?: ReturnType<typeof reserveWhatsAppWindow>) {
+  async function finishConnection(retry = false) {
     if (finishRef.current || codeRequestRef.current) return
-    const handoff = reserved ?? reserveWhatsAppWindow(window)
     finishRef.current = true
     setLoading(true)
     setError('')
@@ -103,11 +100,6 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
         }
         const result = await requestWhatsAppDelivery(request, userId, actionRef.current)
         setDelivery(result)
-        if (result.whatsappUrl) {
-          setPhase('delivery-status')
-          if (!handoff.open(result.whatsappUrl)) setError('Your browser blocked WhatsApp. Open another window using the button above; your request is ready.')
-          return
-        }
         if (result.deliveryStatus !== 'accepted') {
           setPhase('delivery-status')
           return
@@ -120,7 +112,6 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
       setError(failure instanceof Error ? failure.message : 'Your WhatsApp is connected. Sending could not be confirmed. Check this request safely.')
       setPhase('delivery-status')
     } finally {
-      handoff.close()
       finishRef.current = false
       setLoading(false)
     }
@@ -129,7 +120,6 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
   async function verifyCode(event: React.FormEvent) {
     event.preventDefault()
     if (verificationRef.current || codeRequestRef.current || finishRef.current) return
-    const handoff = reserveWhatsAppWindow(window)
     verificationRef.current = true
     setLoading(true)
     setError('')
@@ -143,11 +133,10 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
         setError('That code did not work. Check the six digits and try again.')
         return
       }
-      await finishConnection(false, handoff)
+      await finishConnection()
     } catch {
       setError('We could not check the code. Check your connection and try again.')
     } finally {
-      handoff.close()
       verificationRef.current = false
       setLoading(false)
     }
@@ -158,12 +147,11 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
       <p className="text-[10px] font-normal uppercase tracking-[0.22em] text-[#FFBA2E]">
         {alreadyConnected ? 'Ready for WhatsApp' : 'One-time connection'}
       </p>
-      {delivery?.whatsappUrl ? <WhatsAppWindowLink className="mt-4 inline-flex min-h-12 bg-[#FFD400] px-6 py-3 text-black" url={delivery.whatsappUrl} /> : null}
       <h1 id="connect-title" className="font-bebas mt-4 text-4xl uppercase leading-[1.15] text-white sm:text-5xl">
         {hasRequestedItem ? 'Get it sorted.' : 'Connect WhatsApp.'}
       </h1>
       <p className="mt-5 max-w-md text-sm leading-6 text-neutral-400 sm:text-base">
-        {alreadyConnected ? 'Your number is connected. Continue below, then press Send in WhatsApp to receive your requested item.' : 'Your requested tools and protocols arrive as private WhatsApp links. Connect your number once. The SOR7ED button opens a WhatsApp request; press Send there to receive your item.'}
+        {alreadyConnected ? 'Your number is connected. Request your item below and SOR7ED will send it to WhatsApp automatically.' : 'Your requested tools and protocols arrive as private WhatsApp links. Verify your number once, then the SOR7ED button sends your chosen item automatically.'}
       </p>
 
       {phase === 'confirm-send' ? (
@@ -263,7 +251,7 @@ export function ConnectWhatsAppForm({ nextPath, slug, context, alreadyConnected 
 
       {phase === 'finishing' ? (
         <div className="mt-8 rounded-none border border-[#FFBA2E]/25 bg-[#FFBA2E]/5 p-5 text-sm font-medium text-[#FFBA2E]" role="status">
-          {hasRequestedItem ? 'Connected. Preparing your WhatsApp request…' : 'Connected. Returning to the website…'}
+          {hasRequestedItem ? 'Connected. Sending your requested item…' : 'Connected. Returning to the website…'}
         </div>
       ) : null}
 

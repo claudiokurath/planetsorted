@@ -1,4 +1,4 @@
-/** One canonical intent across preview, signup, connection and retry. */
+/** One canonical, direct-send intent across preview, signup and connection. */
 export function contentDeliveryRequest(slug: string, context: 'article' | 'tool') {
-  return { slug, context, includeLink: true, includeProtocol: context === 'article' && slug !== 'financial-avoidance-trauma-response', viaWhatsAppReply: true }
+  return { slug, context, includeLink: true, includeProtocol: context === 'article' }
 }

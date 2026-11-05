@@ -32,6 +32,30 @@
 
 ## Executive Summary
 
+**5 November 2026 — direct website delivery restored:** A connected member's
+content button posts directly to `/api/save-to-phone`. It does not open WhatsApp
+or require a per-item reply code. The scribble becomes a tick only after provider
+acceptance and then resets. A deliberate later click creates a fresh action;
+pending/uncertain actions retain their identity and status checks never resend.
+First-time account/number verification and STOP preferences remain mandatory.
+The legacy request-delivery POST delegates to the same direct sender.
+
+Private article links now open `/protocols/{slug}`, rendered exclusively from
+the current published Notion **Protocol** field after authentication and number
+verification. Publication is refreshed before new deliveries and private reads;
+unavailable sources fail closed. Old encrypted presentations cannot override
+Notion. Financial Avoidance's original PDF remains an optional protected archive,
+not the default destination. Notion's mismatched Financial Avoidance Protocol
+Gamma URL is not used. All seven published Protocol fields were compared with
+Supabase and matched exactly on this date.
+
+Inside Meta's 24-hour conversation window, the sender can include the current
+protocol text. Outside it, the approved template delivers the protected protocol
+link automatically. Template acceptance does not open the free-form window, so
+no prohibited text/audio follow-up or forced reply-code handoff is attempted.
+Provider acceptance is not a claim of confirmed handset delivery.
+
+
 **4 November 2026 — SOR7ED account greeting:** Hi/Hello/Hey, account and login
 navigation requests route exclusively to the separate Button product. Its
 plain-text reply links only to `https://www.sor7ed.com/account`; visitors sign

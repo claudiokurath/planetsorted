@@ -10,7 +10,6 @@ import {
 } from '@/lib/crypto/tokens'
 import { isOgCrawler } from '@/lib/og/crawlers'
 import { whatsappPreviewMetadata } from '@/lib/og/whatsappPreview'
-import { PRIVATE_PDF_SLUG } from '@/lib/content/privateProtocol'
 import { websiteSiteUrl } from '@/lib/siteUrl'
 
 export const dynamic = 'force-dynamic'
@@ -126,10 +125,6 @@ export default async function RichLinkRedirect({ params }: Props) {
   if (content.type === 'Tool') {
     redirect(`${SITE}${getToolRoute(content.slug)}`)
   }
-
-  // Unlike the public article, this attachment requires a real member session.
-  // An access_token minted by this public short link cannot unlock the PDF.
-  if (content.slug === PRIVATE_PDF_SLUG) redirect(`/api/protocols/${content.slug}`)
 
   redirect(`/protocols/${content.slug}`)
 }
