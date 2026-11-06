@@ -32,6 +32,10 @@
 
 ## Executive Summary
 
+**Homepage entry:** The hero uses a centred yellow Brain Type button linking to
+`/brain-type`. The hero QR code and scanning instructions are removed; printable
+flyer QR assets remain available. The moving scribble and introduction are retained.
+
 **5 November 2026 — direct website delivery restored:** A connected member's
 content button posts directly to `/api/save-to-phone`. It does not open WhatsApp
 or require a per-item reply code. The scribble becomes a tick only after provider
