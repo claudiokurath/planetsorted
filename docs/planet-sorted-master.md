@@ -32,6 +32,12 @@
 
 ## Executive Summary
 
+**Button card transport:** The authenticated Button gateway accepts text for
+account flows and narrowly validated image CTA cards for saved links. Image
+headers must use signed `api.sor7ed.com/api/card-images/{id}` URLs; Open points
+directly to the original public website. Provider credentials, replay handling
+and the separate Button account/database boundary remain unchanged.
+
 **Homepage entry:** The hero uses a centred yellow Brain Type button linking to
 `/brain-type`. The hero QR code and scanning instructions are removed; printable
 flyer QR assets remain available. The moving scribble and introduction are retained.
