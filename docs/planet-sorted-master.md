@@ -31,6 +31,57 @@
 ---
 
 ## Executive Summary
+
+**Homepage entry:** The hero uses a centred yellow Brain Type button linking to
+`/brain-type`. The hero QR code and scanning instructions are removed; printable
+flyer QR assets remain available. The moving scribble and introduction are retained.
+
+**5 November 2026 — direct website delivery restored:** A connected member's
+content button posts directly to `/api/save-to-phone`. It does not open WhatsApp
+or require a per-item reply code. The scribble becomes a tick only after provider
+acceptance and then resets. A deliberate later click creates a fresh action;
+pending/uncertain actions retain their identity and status checks never resend.
+First-time account/number verification and STOP preferences remain mandatory.
+The legacy request-delivery POST delegates to the same direct sender.
+
+**5 November 2026 — clarified delivery contract (supersedes text delivery):**
+WhatsApp receives exactly one rich-link card, never a Protocol text dump or audio
+follow-up. The Article destination is the current published Notion **Protocol
+Gamma** (`gamma_url`) URL, sent directly in active-conversation cards. Approved
+template cards retain their fixed `/go/{slug}` link; its existing member route
+now redirects to that same current Gamma source after authentication/verification.
+`/protocols/{slug}` no longer renders a text-generated deck, an imported copy or
+an old PDF. This preserves the customer's designed Gamma slides and Gamma edits.
+The original optional PDF archive stays protected, but is not a card destination.
+
+The server enforces link-only delivery even for older clients requesting text or
+audio. The legacy inbound reply fulfiller also sends just one card. No new reply
+codes are staged. Missing/unsafe Gamma links fail closed rather than substituting
+text or a PDF. Tool cards retain their existing tool destinations. Provider
+acceptance is not a claim of confirmed handset receipt.
+
+Source audit: five published Articles have Protocol Gamma sources; Digital Files
+has no Protocol Gamma, and Financial Avoidance currently points to Digital File
+Organisation in Notion. These upstream properties were not rewritten or guessed.
+
+
+**4 November 2026 — SOR7ED account greeting:** Hi/Hello/Hey, account and login
+navigation requests route exclusively to the separate Button product. Its
+plain-text reply links only to `https://www.sor7ed.com/account`; visitors sign
+in/create their Button account there, members manage their history/profile and
+sign out there. A greeting never creates or links a PlanetSorted account. The
+website's protocol request and consent handling are preserved.
+
+**4 November 2026 — phone app foundation and separate WhatsApp windows:**
+`/install` adds the current live website to Android/iPhone home screens with the
+original scribble icon and standalone manifest. This is an installable website,
+not a native app or store release; no earlier native project was found in the
+accessible code. No offline/private content cache is introduced. Sign-in and
+protocol requests keep the original screen while opening WhatsApp separately;
+blocked windows expose a retry control. A returning signup tab checks its
+browser's authenticated session without resending messages. Sessions are not
+shared with a separate browser or isolated home-screen storage. See
+`docs/mobile-app.md` for the limitations and next native milestone.
 **Shared WhatsApp number (24 October 2026):** the Button remains a separate
 product at sor7ed.com with its own Neon accounts and history. PlanetSorted
 keeps Meta credentials and the callback; the optional authenticated Button
@@ -106,6 +157,29 @@ Everything below this point in the document describes **Sorted Lab** specificall
 
 ## Brand & Tone
 
+**3 November 2026 — Guidebooks and WhatsApp reply delivery:** Guidebooks is the consistent public section name and `/guidebooks` is its canonical address. Old `/intelligence` links permanently redirect, including individual slugs. Authored Gamma documents remain Notion-owned. Desktop/mobile navigation and account tabs use high-contrast yellow/black surfaces. The shared SOR7ED control is one yellow button containing the black animated mark and “Get it sorted”, without side labels. Guidebook requests keep their intent through signup/connect and stage a 15-minute, account-owned WhatsApp request. The button opens a prefilled “GET IT SORTED <id>” message; after the verified recipient presses Send, the signed Meta webhook atomically claims that request and replies with its protected link plus available protocol text. This starts Meta’s 24-hour conversation window rather than assuming that an outgoing verification link opened it. Financial Avoidance remains a protected PDF link, never a public document. No automatic send occurs on a page GET, and duplicate or wrong-number replies cannot resend a request.
+
+**3 November 2026 — campaign quiz URLs:** The user requested direct URLs and QR posters for the uploaded reflections. `/self-perception-gap`, `/hidden-strength` and `/adhd-money-reset` are standalone campaign experiences; `/hidden-strength-test` redirects to the same five-challenge Hidden Strength revision. `/brain-type` remains the existing entry reflection. These routes do not add or republish Notion catalogue entries. Authored tasks, prediction metrics and money calculations run locally in bundled React. Brain Type/Hidden Strength are memory-only; Self-Perception/Money Reset have explicit browser-only storage and clear controls. No results are synced to Supabase/Notion or silently sent through WhatsApp. Source defects and simulated Money Reset purchase controls were corrected; the unrelated Genspark-only admin email prototype is not published. See `docs/reflection-launch.md`.
+
+**2 November 2026 — text-led website refresh:** Guidebook and Toolbox place their published library immediately after a concise, centred introduction. Guidebook uses the shared Anton/Jost/mono typography, black sections, #FFD400 support section and thin rules. Website catalogue cards and category listings have no cover photos or fallback thumbnails; sign-up/account decorative artwork is removed. Brand wordmark, animated/reduced-motion scribble and SOR7ED delivery mark remain. Original Gamma presentations and their authored illustrations, Notion cover data, private PDFs and WhatsApp/social preview images are preserved. Publication/filtering continues to use the current Notion source.
+
+**2 November 2026 — Notion Gamma correction (supersedes copied presentations and public-body fallbacks):** public guidebook readers use only the current **Blog Post Gamma** property, and tool previews use only **Gamma**. The official presentation is embedded directly in a viewport-filling reader, so the website does not scroll behind a separately scrolling presentation. Navigation and the slug-specific SOR7ED delivery button stay visible; tool previews keep a direct Use tool action. There is no bundled/native text fallback and no substitution of Blog Post or private Protocol Gamma. Publication, links and cover images continue to follow live Notion reconciliation. Gamma edits appear through the original presentation without a website import or deployment. The GitHub schedule now reconciles CRM only; the blocked hosted presentation-scraping job is not part of publishing.
+
+
+**2 November 2026 tool journey corrections:** Published tool cards and previews now have a direct Use tool link to the existing public interactive route, with no sign-up requirement. The WhatsApp action is explicitly optional delivery. Empty topic filters and promises for unpublished tools are removed from the collection introduction. Brain Dump starts empty, preserves emotional phrases across “and”, and lets users select/copy one next task. ADHD Tax labels its example inputs, formats pounds to two decimals, and separates cash spending from estimates of time/opportunity value. Decision advice respects thin information, labels example matrix ratings and summarizes the 10-10-10 reflection. Brain profile bars show shares of answers rather than normalizing every tied dimension to 100%. Signup placeholders use an illustrative reserved number; the page explains separate email verification. No new reminders, AI output or Notion export is claimed.
+
+
+**CRM reconciliation (2 November 2026):** `.github/workflows/sync-gamma.yml` retries the existing Supabase → Notion CRM reconciliation every 15 minutes using its own audience-bound signed identity. Reconciliation rechecks linked Notion records rather than skipping unchanged hashes, keeping Last Synced meaningful and detecting trashed contacts. Signup/profile callbacks and the daily Vercel fallback remain. The user explicitly confirmed that deleted Notion contacts must remain deleted; no restore or replacement contact is created for them.
+
+
+**Live Notion publication authority (26 October 2026):** public catalogues, category listings, tool/article previews, public embeds, standalone guards, Brain Sorter recommendations, saved-link resolution and the sitemap reconcile against Notion on read. Only Published pages in their configured source databases may appear; Draft, moved, archived and deleted rows are withdrawn. A maximum 30-second in-process snapshot coalesces requests; refresh failures do not return expired publication decisions. Visible public pages refresh every 30 seconds, so a change normally appears within about one minute without a manual removal request. The daily cron remains a backup and shares the same reconciliation implementation. Republished/recently edited pages bypass the older five-minute resync delay.
+
+**Preview endings (26 October 2026):** individual tool and guidebook pages finish with the shared, slug-specific SOR7ED delivery button. No related-tool or related-guide catalogue is appended after the preview content; normal site navigation/footer remain.
+
+**Centred public layout (26 October 2026):** hero, public collection introductions, filters, preview titles, About section headings, shared page headers, Brain Sorter introduction and primary actions use a centred axis. Reading columns remain bounded and centred; long article/legal paragraphs, lists and tool/form inputs keep their readable alignment. Full-width section colours, the single hero Brain Sorter action and compact footer remain.
+
+**Explanation-first hero (26 October 2026):** Home first explains SOR7ED with “Built for brains that work differently” and practical tools/plain-language guide copy. The sole hero action remains “Find your starting point” → `/brain-type`, with reflection/non-diagnostic context below. The animated scribble sits at the upper centre of the hero, above the headline on every screen size, with its reduced-motion image fallback retained. The duplicate yellow explanation section below the hero is removed; content browsing remains in separate navigation destinations.
+
 **Separate browsing tabs (26 October 2026, user correction):** Home is a focused entry into the Brain Sorter reflection. It contains the single starting-point action and brief explanation, without topic ledgers, featured tools or guidebook lists. Toolbox, Guidebook and About stay separate navigation destinations. No profiler completion gate or sign-in requirement is added to public reading.
 
 **Banner removal (26 October 2026):** public About/Toolbox/Guidebook openings and individual article/tool presentations are title-led, without large decorative opening images. Native source data, in-content illustrations, preview covers and WhatsApp/social metadata images are retained.
@@ -156,6 +230,8 @@ Anton, heavy condensed caps, on black, separated by hairlines only. No beige bac
 ### Global Header
 - The sticky header uses a compact, centred SOR7ED logo on its own top row, with the navigation centred directly underneath.
 - Header navigation is GUIDEBOOK, TOOLBOX and ABOUT on every screen size. For signed-in users ACCOUNT appears in the header (top row for mobile, link row for desktop), and the phone bottom-tab bar (Home / Toolbox / Guide / Account) is enabled on mobile. Sign In links carry `?next=<current path>` so a fresh session returns the visitor to the page they came from, and `/login` 307s to `/signup?mode=returning`. (Section updated 2026-09-02 to match the running code; the previous note claiming ACCOUNT was hidden and the tab bar disabled was stale.)
+
+**Footer (26 October 2026):** remove the large multi-column footer, repeated logo, topics, promotional copy and long disclaimer block. Keep only a compact black copyright bar with Contact, Privacy, Terms and Cookies links. The shared SOR7ED delivery button remains above it. Sensitive tools and legal pages retain their contextual safety information.
 
 ### Global Disclaimers
 Use across site footer, sensitive tool pages, WhatsApp HELP/MENU, and relevant outputs:
@@ -449,6 +525,9 @@ The first `entitlements` row must be created on `checkout.session.completed`, wh
 
 ## Technical Stack & Architecture
 
+**2 November 2026 dependency security update:** Next.js and its matching ESLint configuration are pinned to 16.4.4. Updated affected transitive runtime packages without changing the authentication, delivery or content model. The production dependency audit reports zero known advisories; tests, typecheck, lint and production build are rechecked. This does not guarantee absence of future advisories or remove the separately documented Gamma-host access restriction.
+
+
 ### Stack
 - **Framework:** Next.js App Router · **Auth & DB:** Supabase (magic link only, PostgreSQL, Storage) · **CMS:** Notion API · **Hosting:** Vercel (Vercel Cron) · **Languages:** TypeScript, React 19, TailwindCSS · **Messaging:** Meta WhatsApp Business API · **Payments:** Stripe
 
@@ -693,6 +772,11 @@ RLS enabled on all tables; service role for admin actions backend-only; client a
 
 ## Auth & Accounts
 
+**2 November 2026 security correction:** WhatsApp proves ownership of a number only. A newly supplied real email must first complete its own email sign-in link before WhatsApp may issue an email-identity magic link. Phone-only synthetic identities retain their existing WhatsApp-only flow. The signup endpoint atomically reserves server-only HMAC-digest quotas in Postgres before account creation or provider calls: per phone/email/IP plus a 200-attempt daily site ceiling, with retry headers and fail-closed behavior. No raw phone, email or IP is stored in quota rows. Analytics and feature-flag tables now exist with RLS and service-role-only access.
+
+**Notion webhook correction:** verify `sha256=` HMAC over the raw body using the subscription verification token in NOTION_SIGNING_SECRET. Handle real `page.*` events via entity.id, identify the current source parent and reuse the shared live publication reconciliation. Return retryable failures instead of claiming an asynchronous queue. Signed fixture events are tested; live subscription delivery is not yet verified.
+
+
 - Magic link auth only — no passwords. WhatsApp `LOGIN` sends a magic link directly to the user's thread.
 - `/dashboard` contains Overview (saved items, history, compare) and Settings (name, email, WhatsApp, weekly toggle, verification, deletion).
 
@@ -733,6 +817,8 @@ receipt.
 5. Until step 4, `Sor7edButton` shows "CONNECT WHATSAPP →" instead of the send button — see "The SOR7ED Button" (the `?tab=settings` deep-link is fixed).
 
 ### Notion CRM Sync
+
+**Deleted-contact handling (26 October 2026):** a known Notion CRM page in Trash/archived is skipped and counted as archived, without restoring, recreating or re-opting-in the contact. Its ledger keeps the page ID, clears false retry errors and leaves synced_at unchanged. A manual restore in Notion is noticed on the next reconciliation. Current audit: 21 linked Supabase accounts, 17 deleted Notion contacts and 4 active linked pages; 16 old retry errors belonged to deleted pages.
 Supabase Auth is the source for all sign-ups, including pending and email-only
 accounts without a `users` profile. The Notion CRM is database
 `35e0d601-4acc-80ff-8761-c320c06835ee`. Each record is keyed by Supabase User ID;
@@ -761,7 +847,9 @@ Wipes `saved_items`, `credits_ledger`, `entitlements`, `tool_requests` (cascadin
 ---
 
 ## SEO Strategy
-- **Primary domain:** `planetsorted.com`. `sor7ed.com` → 301 permanent redirect to `planetsorted.com` (DNS/Vercel level) — this is a **flip** of the previous direction.
+- **2 November 2026 cleanup:** shared metadata supplies bounded plain-text descriptions, one consistent brand suffix, canonical www URLs, matching social tags and safe Organization/WebSite/article/breadcrumb JSON-LD. Sitemap uses only currently Published Notion tools/articles and nonempty categories, without fabricated modification timestamps. Account, token, admin, embed and unrelated preview/music surfaces are noindex. Public guidebooks render the current Notion-synced public article body when a fresh Gamma snapshot is unavailable; the Gamma deck remains optional and private protocols are never queried.
+
+- **Canonical content domain:** `https://www.planetsorted.com`; apex redirects to www. `sor7ed.com` is the separate Button product and must not redirect wholesale to PlanetSorted.
 - `Organization` + `WebSite` schema JSON-LD in `<head>` with `alternateName: ['sorted', 'Sorted', 'planet sorted']`.
 - Dynamic `sitemap.xml` fetching live `Published` slugs; `robots.txt` blocking `/api/`, `/dashboard`, `/signup`.
 - `metadataBase` = `SITE_URL`. Logo alt text updated to reference Planet Sorted.

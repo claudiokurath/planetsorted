@@ -1,4 +1,4 @@
-import { websiteSiteUrl } from '@/lib/siteUrl'
+import { fulfilWebsiteReply } from '@/lib/whatsapp/websiteReplyDelivery'
 import { NextRequest, NextResponse, after } from 'next/server'
 import { buttonRelayConfigured, forwardButtonMessage } from '@/lib/whatsapp/buttonRelay'
 import { buttonCommand } from '@/lib/whatsapp/buttonRelayAuth'
@@ -8,7 +8,6 @@ import { sendWhatsAppMessage } from '@/lib/whatsapp/send'
 import { verifyMetaSignature } from '@/lib/crypto/tokens'
 import type { Database } from '@/lib/types/database'
 
-const SITE = websiteSiteUrl()
 
 // The inbound command bot has been removed. This endpoint now does three things
 // and nothing else:
@@ -132,40 +131,31 @@ export async function POST(req: NextRequest) {
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
 
-    const cacheBust = Date.now()
-    const START_URL = `${SITE}/r/start?v=${cacheBust}`
-    const GOODBYE_URL = `${SITE}/r/goodbye?v=${cacheBust}`
+    if (await fulfilWebsiteReply(sb, from, text)) return NextResponse.json({ status: 'website_delivery' })
 
     // ── Consent commands — isolated on purpose.
     if (verb === 'STOP') {
       await sb.from('users').update({ whatsapp_opted_out: true }).eq('whatsapp_number', from)
-      await sendWhatsAppMessage(from, GOODBYE_URL, GOODBYE_URL)
+      await sendWhatsAppMessage(from, 'SOR7ED messages paused. Reply START to resume.')
       return NextResponse.json({ status: 'ok' })
     }
     if (verb === 'START') {
       await sb.from('users').update({ whatsapp_opted_out: false }).eq('whatsapp_number', from)
-      await sendWhatsAppMessage(from, START_URL, START_URL)
+      await sendWhatsAppMessage(from, 'SOR7ED messages resumed.')
       return NextResponse.json({ status: 'ok' })
     }
     if (verb === 'STOPWEEKLY') {
       await sb.from('users').update({ weekly_opted_in: false }).eq('whatsapp_number', from)
-      await sendWhatsAppMessage(from, GOODBYE_URL, GOODBYE_URL)
+      await sendWhatsAppMessage(from, 'Weekly SOR7ED messages paused.')
       return NextResponse.json({ status: 'ok' })
     }
     if (verb === 'STARTWEEKLY') {
       await sb.from('users').update({ weekly_opted_in: true }).eq('whatsapp_number', from)
-      await sendWhatsAppMessage(from, START_URL, START_URL)
+      await sendWhatsAppMessage(from, 'Weekly SOR7ED messages resumed.')
       return NextResponse.json({ status: 'ok' })
     }
 
-    // ── Anything else. There are no tool keywords, no LOGIN, SAVE or LIBRARY
-    //    any more, so say so once in plain English rather than leaving the
-    //    sender wondering whether the number is broken.
-    await sendWhatsAppMessage(
-      from,
-      'This number only handles STOP and START. Everything else — your tools, ' +
-        `your saves and your account — lives at ${SITE}.`
-    )
+    // Unrecognised text needs no automatic website advert or outdated notice.
     return NextResponse.json({ status: 'ok' })
   } catch (err) {
     console.error('[Webhook error]', err)

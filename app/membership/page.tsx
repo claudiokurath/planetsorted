@@ -1,11 +1,13 @@
+import { publicPageMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { PageHeader } from '@/components/PageHeader'
 
-export const metadata: Metadata = {
-  title: 'Membership — PLANET SOR7ED',
-  description: 'Explore SOR7ED without a paid membership, and review Plus subscription details.',
-}
+export const metadata: Metadata = publicPageMetadata({
+  "title": "Membership and free access",
+  "description": "Explore SOR7ED without a paid membership, and review the available Plus subscription information.",
+  "path": "/membership"
+})
 
 const QUESTIONS = [
   {

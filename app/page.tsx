@@ -1,32 +1,12 @@
-import { websiteSiteUrl } from '@/lib/siteUrl'
+import { publicPageMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 import { HomeGateway } from '@/components/HomeGateway'
 
-const SITE = websiteSiteUrl()
-const OG_CARD = '/api/og?card=welcome'
-
-const DESC =
-  'SOR7ED is a practical support platform for ADHD, autistic, AuDHD, dyslexic, bipolar and other neurodivergent adults — honest editorial content paired with interactive tools that end in a real next step.'
-
-export const metadata: Metadata = {
-  alternates: { canonical: '/' },
-  title: 'PLANET SOR7ED — Tools built for brains that work differently',
-  description: DESC,
-  openGraph: {
-    title: 'PLANET SOR7ED',
-    description: DESC,
-    images: [{ url: `${SITE}${OG_CARD}`, type: 'image/png', alt: 'PLANET SOR7ED' }],
-    url: SITE,
-    siteName: 'PLANET SOR7ED',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'PLANET SOR7ED — Tools built for brains that work differently',
-    description: DESC,
-    images: [`${SITE}${OG_CARD}`],
-  },
-}
+export const metadata: Metadata = publicPageMetadata({
+  "title": "Tools and guides for neurodivergent adults",
+  "description": "Practical tools and plain-language guides for neurodivergent adults. Find support with overwhelm, decisions, money and everyday life admin.",
+  "path": "/"
+})
 
 export default function HomePage() {
   return <HomeGateway />

@@ -1,3 +1,4 @@
+import { isWebsiteReplyLink } from './replyLink.js'
 /** Client-side journal: one deliberate request keeps its identity across retries. */
 export type WhatsAppDeliveryStatus = 'pending' | 'accepted' | 'failed' | 'skipped' | 'unknown'
 
@@ -7,6 +8,7 @@ export interface WhatsAppDeliveryResult {
   saveStatus: 'saved'
   deliveryStatus: WhatsAppDeliveryStatus
   deliveryReason: string | null
+  whatsappUrl?: string
 }
 
 export interface WhatsAppDeliveryRequest {
@@ -15,6 +17,7 @@ export interface WhatsAppDeliveryRequest {
   includeLink?: boolean
   includeProtocol?: boolean
   includeAudio?: boolean
+  viaWhatsAppReply?: boolean
 }
 
 type Action = { id: string; submitted: boolean; deliveryStatus?: WhatsAppDeliveryStatus }
@@ -28,7 +31,7 @@ export function isDeliveryActionId(value: unknown): value is string {
 
 function storageKey(request: WhatsAppDeliveryRequest, userId?: string): string {
   // Context is presentation only. Match the server's canonical delivery flags.
-  return `sor7ed:delivery:v1:${userId || 'visitor'}:${JSON.stringify([
+  return `sor7ed:${request.viaWhatsAppReply ? 'reply-delivery' : 'delivery'}:v1:${userId || 'visitor'}:${JSON.stringify([
     request.slug, request.includeLink !== false, request.includeProtocol === true, request.includeAudio === true,
   ])}`
 }
@@ -68,6 +71,22 @@ export function hasSubmittedDelivery(request: WhatsAppDeliveryRequest, userId: s
   return readAction(storageKey(request, userId))?.submitted === true
 }
 
+export function pendingDeliveryAction(request: WhatsAppDeliveryRequest, userId: string, preferredId?: string): string | undefined {
+  prepareDeliveryAction(request, userId, preferredId)
+  const action = readAction(storageKey(request, userId))
+  return action?.submitted && action.deliveryStatus === 'pending' ? action.id : undefined
+}
+
+/** A new user click after confirmed acceptance is a fresh send, not a replay. */
+export function prepareUserDeliveryAction(request: WhatsAppDeliveryRequest, userId: string): string {
+  const id = prepareDeliveryAction(request, userId)
+  const key = storageKey(request, userId)
+  if (readAction(key)?.deliveryStatus !== 'accepted') return id
+  const next = crypto.randomUUID()
+  writeAction(key, { id: next, submitted: false })
+  return next
+}
+
 /** Only a deliberate retry of a confirmed unsuccessful send creates a new ID. */
 export function startNewDeliveryAction(request: WhatsAppDeliveryRequest, userId: string): string {
   const key = storageKey(request, userId)
@@ -94,10 +113,14 @@ function parseResult(value: unknown, actionId: string): WhatsAppDeliveryResult {
     saveStatus: 'saved',
     deliveryStatus: result.deliveryStatus as WhatsAppDeliveryStatus,
     deliveryReason: typeof result.deliveryReason === 'string' ? result.deliveryReason : null,
+    ...(isWebsiteReplyLink(result.whatsappUrl) ? {whatsappUrl:result.whatsappUrl} : {}),
   }
 }
 
 export function deliveryStatusMessage(result: WhatsAppDeliveryResult): string {
+  if (result.deliveryReason === 'request_expired') return 'This WhatsApp request expired. Choose Try sending again to prepare a fresh request.'
+  if (result.deliveryReason === 'awaiting_reply') return 'An earlier WhatsApp request is still pending. Check its status before trying again.'
+  if (result.deliveryReason === 'template_link_only') return 'Your requested link was sent using an approved WhatsApp message. Open it to read the current protocol.'
   switch (result.deliveryStatus) {
     case 'accepted': return 'Message sent. WhatsApp has accepted it; delivery is not yet confirmed.'
     case 'pending': return 'Saved. WhatsApp sending is still in progress. Check status in a moment.'
@@ -113,6 +136,18 @@ async function readStatus(actionId: string): Promise<Response> {
   } catch {
     throw new Error('We could not check this request. Check your connection and try again.')
   }
+}
+
+/** Read-only refresh after a member returns from the WhatsApp handoff. */
+export async function checkWhatsAppDelivery(actionId: string): Promise<WhatsAppDeliveryResult> {
+  if (!isDeliveryActionId(actionId)) throw new Error('This request is invalid.')
+  const response = await readStatus(actionId)
+  if (!response.ok) throw new Error('We could not check this request. Please try again.')
+  const result = parseResult(await response.json(), actionId)
+  for (const [key, action] of actions) {
+    if (action.id === actionId) writeAction(key, { ...action, deliveryStatus: result.deliveryStatus })
+  }
+  return result
 }
 
 async function readResult(response: Response, actionId: string, key: string): Promise<WhatsAppDeliveryResult> {
@@ -149,7 +184,7 @@ export async function requestWhatsAppDelivery(request: WhatsAppDeliveryRequest, 
     writeAction(key, { id: actionId, submitted: true })
     let response: Response
     try {
-      response = await fetch('/api/save-to-phone', {
+      response = await fetch(request.viaWhatsAppReply ? '/api/whatsapp/request-delivery' : '/api/save-to-phone', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         signal: AbortSignal.timeout(30_000),
@@ -162,6 +197,10 @@ export async function requestWhatsAppDelivery(request: WhatsAppDeliveryRequest, 
       // These failures occur before a delivery claim. Keep the same ID for a
       // deliberate retry. A conflict or server failure remains status-only.
       if ([400, 401, 403, 404, 429].includes(response.status)) writeAction(key, { id: actionId, submitted: false })
+      if (response.status === 400) {
+        const problem = await response.json().catch(() => null)
+        if (problem?.error === 'This protocol is not ready to send yet.') throw new Error(problem.error)
+      }
       throw new Error(response.status === 401 ? 'Please sign in again to send this item.' :
         response.status === 429 ? 'Please wait a moment before trying this request again.' :
         'We could not confirm sending. Tap again to check this request safely.')

@@ -1,13 +1,16 @@
+import { publicPageMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { PageHeader } from '@/components/PageHeader'
 
 const KLOUDAI_URL = 'https://kloudai-music.rare-pearl-4148.chatgpt.site'
 
-export const metadata: Metadata = {
-  title: 'Sounds — Planet Sorted',
-  description: 'Planet Sorted Sounds. Independent artists, new voices and music made to be felt.',
-}
+export const metadata: Metadata = publicPageMetadata({
+  "title": "Sounds",
+  "description": "Explore Planet Sorted Sounds and its independent music project.",
+  "path": "/sounds",
+  "noIndex": true
+})
 
 export default function SoundsPage() {
   return (

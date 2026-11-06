@@ -1,10 +1,12 @@
 'use client'
 
+import { contentDeliveryRequest } from '@/lib/whatsapp/contentRequest'
+
 import { useEffect, useState } from 'react'
 import { SortedSaveButton } from '@/components/SortedSaveButton'
 import { createBrowserClient } from '@/lib/supabase/client'
 import { safeNext } from '@/lib/safeNext'
-import { prepareDeliveryAction, requestWhatsAppDelivery, startNewDeliveryAction } from '@/lib/whatsapp/deliveryClient'
+import { pendingDeliveryAction, prepareDeliveryAction, prepareUserDeliveryAction, requestWhatsAppDelivery, startNewDeliveryAction } from '@/lib/whatsapp/deliveryClient'
 
 interface Props {
   slug: string
@@ -44,7 +46,7 @@ function useWhatsAppStatus(slug?: string, context?: Props['context']): Connectio
 
     async function resolve(token?: string, userId?: string) {
       const current = ++revision
-      const actionId = slug && context ? prepareDeliveryAction({ slug, context }, userId) : undefined
+      const actionId = slug && context ? prepareDeliveryAction(contentDeliveryRequest(slug, context), userId) : undefined
       if (!token) {
         setConnection({ status: 'signed-out', actionId })
         return
@@ -88,18 +90,19 @@ function connectPath(returnPath: string, slug?: string, context?: Props['context
 /** Auth is resolved in the browser so public content remains cacheable. */
 export function ToolWhatsAppCta({ slug, returnPath, context = 'tool', compact = false }: Props) {
   const { status, userId, actionId } = useWhatsAppStatus(slug, context)
-  const destination = returnPath ?? `/${context === 'article' ? 'intelligence' : 'tools'}/${slug}`
+  const destination = returnPath ?? `/${context === 'article' ? 'guidebooks' : 'tools'}/${slug}`
   const setup = connectPath(destination, slug, context, actionId)
   const lead = context === 'article' ? 'Get this protocol via WhatsApp' : 'Get this tool via WhatsApp'
 
   async function send() {
     if (!userId) throw new Error('Please sign in again to send this item.')
-    return requestWhatsAppDelivery({ slug, context, includeLink: true }, userId)
+    const request = contentDeliveryRequest(slug, context)
+    return requestWhatsAppDelivery(request, userId, prepareUserDeliveryAction(request, userId))
   }
 
   async function retry() {
     if (!userId) throw new Error('Please sign in again to send this item.')
-    const request = { slug, context, includeLink: true }
+    const request = contentDeliveryRequest(slug, context)
     const nextActionId = startNewDeliveryAction(request, userId)
     return requestWhatsAppDelivery(request, userId, nextActionId)
   }
@@ -112,11 +115,11 @@ export function ToolWhatsAppCta({ slug, returnPath, context = 'tool', compact = 
       <SortedSaveButton
         compact={compact}
         href={status === 'signed-out' ? `/signup?next=${encodeURIComponent(setup)}` : status === 'opted-out' ? '/dashboard?tab=settings' : setup}
-        copy={{ lead, trail: status === 'signed-out' ? 'sign in to receive it' : status === 'opted-out' ? 'review messaging preferences' : 'connect WhatsApp once' }}
+        copy={{ lead, trail: status === 'signed-out' ? 'sign in for WhatsApp delivery' : status === 'opted-out' ? 'review messaging preferences' : 'connect WhatsApp once' }}
       />
     )
   }
-  return <SortedSaveButton onSave={send} onRetry={retry} compact={compact} copy={{ lead, trail: 'tap the mark to receive it' }} />
+  return <SortedSaveButton onSave={send} onRetry={retry} compact={compact} resumeActionId={userId ? pendingDeliveryAction(contentDeliveryRequest(slug, context), userId, actionId) : undefined} copy={{ lead, trail: 'tap the mark to receive it' }} />
 }
 
 /** General pages offer setup; they never claim to send an unspecified item. */

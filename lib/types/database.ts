@@ -1,3 +1,4 @@
+type Json = { [key: string]: boolean }
 // lib/types/database.ts
 // TypeScript types for the five core Supabase tables.
 // Source of truth: docs/planet-sorted-master.md § Database Schema
@@ -208,9 +209,9 @@ export type Database = {
   public: {
     Tables: {
       whatsapp_delivery_actions: {
-        Row: { id: string; user_id: string; action_key: string; request_hash: string; slug: string; delivery_status: 'pending' | 'accepted' | 'failed' | 'skipped' | 'unknown'; delivery_reason: string | null; message_ids: string[]; created_at: string; updated_at: string }
+        Row: { request_payload: Json | null; awaiting_reply: boolean; reply_expires_at: string | null; id: string; user_id: string; action_key: string; request_hash: string; slug: string; delivery_status: 'pending' | 'accepted' | 'failed' | 'skipped' | 'unknown'; delivery_reason: string | null; message_ids: string[]; created_at: string; updated_at: string }
         Insert: { user_id: string; action_key: string; request_hash: string; slug: string; id?: string; delivery_status?: string; delivery_reason?: string | null; message_ids?: string[]; created_at?: string; updated_at?: string }
-        Update: { delivery_status?: string; delivery_reason?: string | null; message_ids?: string[]; updated_at?: string }
+        Update: { request_payload?: Json | null; awaiting_reply?: boolean; reply_expires_at?: string | null; delivery_status?: string; delivery_reason?: string | null; message_ids?: string[]; updated_at?: string }
         Relationships: []
       }
       notion_crm_reconciliation: {
@@ -332,6 +333,11 @@ export type Database = {
     }
     Views: Record<string, never>
     Functions: {
+      reserve_signup_send: {
+        Args: { buckets: { key: string; limit: number; seconds: number }[] }
+        Returns: { allowed: boolean; retry_after: number }
+      }
+
       claim_whatsapp_delivery_action: {
         Args: { p_user_id: string; p_action_key: string; p_hash: string; p_slug: string; p_url: string; p_title: string; p_category: string }
         Returns: { created: boolean; action_id: string; delivery_status: string; delivery_reason: string | null; updated_at: string }[]

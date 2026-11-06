@@ -65,6 +65,14 @@ export default async function WhatsAppConfirmPage({ searchParams }: Props) {
     }
   }
 
+  // Phone possession proves the phone, never a separately supplied inbox.
+  // Supabase magiclink generation confirms an unconfirmed email implicitly,
+  // so require its own email OTP before issuing a real-email login token.
+  const syntheticEmail = /^\d{10,15}@users\.planetsorted\.com$/.test(authUser.email ?? '')
+  if (!syntheticEmail && !authUser.email_confirmed_at) {
+    return <VerificationMessage title="Check your email first." body="Open the sign-in link sent to your email to verify that address. Then open this WhatsApp link again to finish connecting your number." href="/signup?mode=returning" label="Back to sign in" />
+  }
+
   const profileValues = {
     first_name: phoneOwner?.first_name ?? authUser.user_metadata?.first_name ?? '',
     email: authUser.email || '',

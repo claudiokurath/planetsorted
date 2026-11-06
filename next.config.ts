@@ -29,6 +29,7 @@ const nextConfig: NextConfig = {
   // Required by Dockerfile multi-stage standalone runner
   output: "standalone",
   outputFileTracingIncludes: {
+    "/api/og/scribble-v2": ["./public/images/tangle-white.png"],
     "/api/protocols/[slug]": ["./private/protocols/*.enc"],
     "/protocols/[slug]": ["./private/protocols/*.enc"],
   },
@@ -42,6 +43,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() { return [{source:'/intelligence/:path*',destination:'/guidebooks/:path*',permanent:true}] },
   async headers() {
     // X-Frame-Options has no "allow this origin" form and takes precedence in
     // browsers that support it, so /embed/* must not receive it at all. Those
@@ -50,6 +52,11 @@ const nextConfig: NextConfig = {
     // Everything else on the site — including the gated standalone pages —
     // keeps X-Frame-Options: DENY.
     return [
+      // Let crawlers see explicit noindex responses for utility/auth pages.
+      ...['/signup', '/login', '/connect', '/dashboard/:path*', '/admin/:path*', '/auth/:path*', '/embed/:path*', '/protocols/:path*', '/r/:path*', '/go/:path*', '/start', '/style-preview/:path*'].map(source => ({
+        source,
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      })),
       {
         source: "/((?!embed/).*)",
         headers: securityHeaders,

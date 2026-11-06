@@ -1,63 +1,7 @@
-import { PrintPageButton } from '@/components/PrintPageButton'
-import { ContentHero } from '@/components/ContentHero'
-import { ContentCard } from '@/components/ContentCard'
-import { NativePresentation, hasNativePresentation } from '@/components/NativePresentation'
+import { GammaReader } from '@/components/GammaReader'
+import { INTERACTIVE_TOOL_ROUTES } from '@/lib/standaloneRoutes'
 import type { Protocol } from '@/lib/types/database'
 
-type RelatedArticle = Pick<Protocol, 'slug' | 'title' | 'cover_image' | 'read_time' | 'category'>
-
-interface ToolClientProps {
-  toolData: Protocol
-  relatedArticles?: RelatedArticle[]
-}
-
-export function ToolClient({ toolData, relatedArticles = [] }: ToolClientProps) {
-  const description = toolData.meta_description || toolData.summary?.replace(/<br\s*\/?\s*>/gi, '\n').replace(/<[^>]*>/g, '').replace(/^OVERVIEW\s*/i, '').trim().split(/\n\s*\n/)[0]
-  // Tools sync their single Notion "Gamma" property into gamma_url;
-  // blog_gamma_url stays as a fallback for anything set the old way.
-  const native = hasNativePresentation(toolData.slug, toolData.gamma_url ?? toolData.blog_gamma_url)
-
-  return (
-    <div className="min-h-screen bg-black text-white">
-      {!native ? <ContentHero
-        title={toolData.title}
-        description={description}
-        category={toolData.category}
-        coverImage={toolData.cover_image}
-      /> : null}
-
-      <main className="w-full pb-0 pt-1">
-        <div className="mx-auto max-w-6xl px-5 py-4 print:hidden"><PrintPageButton /></div>
-        {native ? (
-          <NativePresentation slug={toolData.slug} />
-        ) : (
-          <p className="border border-white/15 p-6 text-base text-neutral-300">This tool’s content is not available yet. Please check back soon.</p>
-        )}
-
-        {/* The deck is the pitch; this is the next step off the back of it. */}
-
-
-        {relatedArticles.length > 0 && (
-          <section className="sorted-full-width-related border-t border-white/[0.12] py-10">
-            <p className="mb-5 text-xs font-medium uppercase tracking-[0.2em] text-neutral-500">
-              Read related intelligence
-            </p>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              {relatedArticles.map((article) => (
-                <ContentCard
-                  key={article.slug}
-                  href={`/intelligence/${article.slug}`}
-                  title={article.title}
-                  coverImage={article.cover_image}
-                  category={article.category}
-
-                  compact
-                />
-              ))}
-            </div>
-          </section>
-        )}
-      </main>
-    </div>
-  )
+export function ToolClient({ toolData }: { toolData: Protocol }) {
+  return <GammaReader title={toolData.title} source={toolData.gamma_url} collection="tool" launch={INTERACTIVE_TOOL_ROUTES[toolData.slug]} />
 }

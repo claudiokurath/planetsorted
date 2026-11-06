@@ -21,3 +21,6 @@
 @media(max-width:900px) { .differences { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:600px) { .differences { grid-template-columns:1fr; } .branches a { grid-template-columns:24px minmax(0,1fr) 18px; gap:14px; } .branches p { grid-column:2; grid-row:2; } .branches a > svg:last-child { grid-column:3; grid-row:1; } }
 @media print { .panel,.yellow { background:white; color:black; padding:24px; } .panel p,.panel .eyebrow { color:black; } .cover { display:none; } }
+
+.panel { text-align:center; }
+.panel h1,.panel h2,.panel > p:not(.eyebrow) { margin-inline:auto; }

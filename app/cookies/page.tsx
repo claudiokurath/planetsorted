@@ -1,9 +1,11 @@
+import { publicPageMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Cookie Policy — Planet Sorted',
-  description: 'Simple and transparent details on cookie usage on Planet Sorted.',
-}
+export const metadata: Metadata = publicPageMetadata({
+  "title": "Cookie policy",
+  "description": "How Planet Sorted uses cookies and similar technology to support the website and your account.",
+  "path": "/cookies"
+})
 
 export default function CookiesPage() {
   return (

@@ -1,0 +1,58 @@
+
+  .money-reset-app {
+    --bg: #000000;
+    --bg-2: #0f1114;
+    --surface: #14171c;
+    --surface-2: #1a1e24;
+    --border: rgba(255,255,255,0.06);
+    --border-strong: rgba(255,255,255,0.10);
+    --text: #f0f0f2;
+    --text-muted: #8a8f98;
+    --text-dim: #5a6069;
+    --gold: #FFD400;
+    --gold-soft: rgba(245,200,76,0.14);
+    --purple: #8B5CF6;
+    --purple-soft: rgba(139,92,246,0.14);
+    --green: #22c55e;
+    --orange: #f97316;
+    --red: #ef4444;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-lg: 20px;
+  }
+  .money-reset-app * { box-sizing: border-box; }
+  .money-reset-app, .money-reset-app {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+  .money-reset-app code, .money-reset-app pre, .money-reset-app .mono { font-family: var(--font-jetbrains-mono), ui-monospace, monospace; }
+  .money-reset-app button { font-family: inherit; }
+  .money-reset-app input, .money-reset-app textarea, .money-reset-app select { font-family: inherit; }
+  .money-reset-app ::selection { background: var(--gold); color: #000; }
+  .money-reset-app #root { min-height: 100vh; }
+  .money-reset-app a { color: inherit; }
+
+  /* thin scrollbar */
+  .money-reset-app ::-webkit-scrollbar { width: 8px; height: 8px; }
+  .money-reset-app ::-webkit-scrollbar-thumb { background: #2a2f36; border-radius: 8px; }
+  .money-reset-app ::-webkit-scrollbar-track { background: transparent; }
+.money-reset-app { overflow-wrap:break-word; --gold:#FFD400; }
+.money-reset-app .money-privacy,.money-reset-app .money-app-header,.money-reset-app .money-sample-actions { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px; padding:20px 24px; border-bottom:1px solid #ffffff30; font-size:14px; }
+.money-reset-app .money-privacy button,.money-reset-app .money-app-header button,.money-reset-app .money-sample-actions button { min-height:44px; text-decoration:underline; text-underline-offset:4px; color:#FFD400; }
+.money-reset-app :focus-visible { outline:2px solid #FFD400 !important; outline-offset:3px; }
+.money-reset-app input:focus-visible { outline-offset:-2px; }
+@media(max-width:760px) {
+ .money-reset-app div[style*="grid-template-columns"] { grid-template-columns:minmax(0,1fr) !important; }
+ .money-reset-app div[style*="position: fixed"] { bottom:76px !important; }
+ .money-reset-app h1 { font-size:clamp(2rem,7vw,3rem) !important; }
+ .money-reset-app div[style*="width: 280px"],.money-reset-app div[style*="width: 320px"] { max-width:100%; }
+}
+@media print { .money-reset-app .no-print { display:none !important; } }
+.money-reset-app .money-example-print { padding:20px 24px; border:2px solid #FFD400; color:#FFD400; font-weight:600; }
+@media print { .money-reset-app .money-example-print { color:#000; border-color:#000; } }

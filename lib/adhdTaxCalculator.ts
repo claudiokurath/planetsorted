@@ -18,6 +18,8 @@ export interface AdhdTaxBreakdown {
 }
 
 export interface AdhdTaxResult {
+  cashMonthlyTotal: number
+  opportunityMonthlyTotal: number
   monthlyTotal: number
   yearlyTotal: number
   breakdown: AdhdTaxBreakdown
@@ -68,6 +70,8 @@ export function calculateAdhdTax(rawInputs: AdhdTaxInputs): AdhdTaxResult {
   ]
 
   return {
+    cashMonthlyTotal: lateFees + impulsePurchases + forgottenSubscriptions + lostItemReplacement,
+    opportunityMonthlyTotal: productivityLoss + missedOpportunities,
     monthlyTotal,
     yearlyTotal: monthlyTotal * 12,
     breakdown,

@@ -1,3 +1,4 @@
+import { verifyAutomationPublisher, CRM_SYNC_AUDIENCE } from '@/lib/content/automationPublisher'
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 import { syncCrmAccount } from '@/lib/notion/syncCrmAccount'
@@ -5,14 +6,17 @@ import { syncCrmAccount } from '@/lib/notion/syncCrmAccount'
 export const maxDuration = 300
 
 export async function GET(req: NextRequest) {
-  if (!process.env.CRON_SECRET || req.headers.get('authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Not authorised.' }, { status: 401 })
+  const authorization = req.headers.get('authorization') ?? ''
+  const cronAuthorised = !!process.env.CRON_SECRET && authorization === `Bearer ${process.env.CRON_SECRET}`
+  if (!cronAuthorised) {
+    try { await verifyAutomationPublisher(authorization.replace(/^Bearer /, ''), CRM_SYNC_AUDIENCE) }
+    catch { return NextResponse.json({ error: 'Not authorised.' }, { status: 401 }) }
   }
   const requested = req.nextUrl.searchParams.get('page')
   const requestedPage = requested ? Number(requested) : null
   if (requestedPage !== null && (!Number.isInteger(requestedPage) || requestedPage < 1)) return NextResponse.json({ error: 'Choose a valid account page.' }, { status: 400 })
   const admin = createServiceClient()
-  const counts = { synced: 0, unchanged: 0, busy: 0, failed: 0 }
+  const counts = { synced: 0, unchanged: 0, busy: 0, archived: 0, failed: 0 }
   try {
     const { data: cursor, error: cursorError } = await admin.from('notion_crm_reconciliation').select('next_page').eq('id', 1).single()
     if (cursorError) throw new Error('CRM cursor is unavailable')
@@ -25,7 +29,7 @@ export async function GET(req: NextRequest) {
       if (error) throw new Error('Account listing failed')
       for (const user of data.users) {
         if (Date.now() - started > 210000) { interrupted = true; break }
-        try { counts[await syncCrmAccount(user.id)]++ }
+        try { counts[await syncCrmAccount(user.id, true)]++ }
         catch { counts.failed++ }
       }
       nextPage = interrupted ? page : data.users.length === 25 ? page + 1 : 1

@@ -1,0 +1,3 @@
+
+# Generated QR posters are binary assets, not text diffs.
+public/downloads/quiz-posters/*.pdf binary

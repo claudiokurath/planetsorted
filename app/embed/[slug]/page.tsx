@@ -1,3 +1,5 @@
+import { isContentPublished } from '@/lib/notion/liveContent'
+import { LiveContentRefresh } from '@/components/LiveContentRefresh'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
@@ -52,11 +54,9 @@ const EMBEDDABLE = {
   },
 } as const
 
-type EmbedSlug = keyof typeof EMBEDDABLE
+export const dynamic = 'force-dynamic'
 
-export function generateStaticParams() {
-  return Object.keys(EMBEDDABLE).map((slug) => ({ slug }))
-}
+type EmbedSlug = keyof typeof EMBEDDABLE
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -65,7 +65,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const entry = EMBEDDABLE[slug as EmbedSlug]
-  if (!entry) return { title: 'Not found — SOR7ED' }
+  if (!entry || !await isContentPublished(slug, 'Tool')) notFound()
 
   return {
     title: `${entry.title} — SOR7ED`,
@@ -77,8 +77,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function EmbedPage({ params }: Props) {
   const { slug } = await params
   const entry = EMBEDDABLE[slug as EmbedSlug]
-  if (!entry) notFound()
+  if (!entry || !await isContentPublished(slug, 'Tool')) notFound()
 
   const { Component } = entry
-  return <Component />
+  return <><LiveContentRefresh /><Component /></>
 }

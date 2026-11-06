@@ -22,18 +22,21 @@ export function gammaEmbedUrl(url: string | null | undefined): string | null {
     return null
   }
 
+  if (!['https:', 'http:'].includes(parsed.protocol) || parsed.username || parsed.password) return null
+
   if (parsed.hostname !== 'gamma.app' && !parsed.hostname.endsWith('.gamma.app')) {
     return null
   }
 
   // Already an embed link — hand it straight back.
   if (parsed.pathname.startsWith('/embed/')) {
-    return `https://gamma.app${parsed.pathname}`
+    const id = parsed.pathname.slice('/embed/'.length)
+    return /^[a-zA-Z0-9]{5,80}$/.test(id) ? `https://gamma.app/embed/${id}` : null
   }
 
   const lastSegment = parsed.pathname.split('/').filter(Boolean).pop() ?? ''
   const docId = lastSegment.split('-').pop() ?? ''
-  if (!docId) return null
+  if (!/^[a-zA-Z0-9]{5,80}$/.test(docId)) return null
 
   return `https://gamma.app/embed/${docId}`
 }

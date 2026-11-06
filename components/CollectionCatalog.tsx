@@ -1,10 +1,12 @@
+import { getLiveContent } from '@/lib/notion/liveContent'
+import { LiveContentRefresh } from '@/components/LiveContentRefresh'
 import 'server-only'
 import { CatalogBrowser } from '@/components/CatalogBrowser'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Protocol } from '@/lib/types/database'
 
 export type CollectionType = 'Tool' | 'Article'
-export type CatalogItem = Pick<Protocol, 'slug' | 'title' | 'summary' | 'excerpt' | 'cover_image' | 'category' | 'read_time' | 'type' | 'status'>
+export type CatalogItem = Pick<Protocol, 'slug' | 'title' | 'summary' | 'excerpt' | 'category' | 'type' | 'status'>
 type CatalogResult = { status: 'ready'; items: CatalogItem[] } | { status: 'error' }
 
 // Match the approved Toolbox presentation order. Content always comes from
@@ -21,11 +23,15 @@ const TOOL_RANK = new Map(TOOL_ORDER.map((slug, index) => [slug, index]))
 
 export async function loadCollectionCatalog(type: CollectionType): Promise<CatalogResult> {
   try {
+    const snapshot = await getLiveContent()
+    const published = type === 'Tool' ? snapshot.tools : snapshot.articles
+    if (!published.length) return { status: 'ready', items: [] }
     const { data, error } = await createServerClient()
       .from('protocols')
-      .select('slug, title, summary, excerpt, cover_image, category, read_time, type, status')
+      .select('slug, title, summary, excerpt, category, type, status')
       .eq('status', 'Published')
       .eq('type', type)
+      .in('slug', published)
       .order('title', { ascending: true })
       .abortSignal(AbortSignal.timeout(8000))
 
@@ -51,16 +57,17 @@ interface CollectionCatalogProps {
 
 export async function CollectionCatalog({ type, heading, description }: CollectionCatalogProps) {
   const result = await loadCollectionCatalog(type)
-  const route = type === 'Tool' ? '/tools' : '/intelligence'
+  const route = type === 'Tool' ? '/tools' : '/guidebooks'
   const label = type === 'Tool' ? 'tools' : 'guidebooks'
 
   return (
     <section id="collection-content" aria-labelledby="collection-heading" className="w-full scroll-mt-28">
-      <header className="mb-8">
+      <LiveContentRefresh />
+      <header className="mb-8 text-center">
         <h2 id="collection-heading" className="font-bebas text-4xl uppercase text-white sm:text-5xl">
           {heading ?? (type === 'Tool' ? 'The free tools' : 'Library of guidebooks')}
         </h2>
-        {description ? <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-300 sm:text-lg">{description}</p> : null}
+        {description ? <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-neutral-300 sm:text-lg">{description}</p> : null}
       </header>
 
       {result.status === 'error' ? (

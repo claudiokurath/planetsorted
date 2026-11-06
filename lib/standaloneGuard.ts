@@ -1,11 +1,14 @@
+import { isContentPublished } from '@/lib/notion/liveContent'
 import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
+import { redirect, notFound } from 'next/navigation'
 import { verifyStandaloneAccessToken } from '@/lib/crypto/tokens'
 
 export async function verifyStandaloneAccess(
   slug: string,
   searchParams?: { access_token?: string } | Promise<{ access_token?: string }>
 ) {
+  if (!await isContentPublished(slug, 'Tool')) notFound()
+
   // Resolved search params if Promise
   const resolvedParams = searchParams instanceof Promise ? await searchParams : searchParams
 

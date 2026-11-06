@@ -5,14 +5,14 @@ interface PageHeaderProps {
   eyebrow?: string
   title: string
   description?: string | null
-  /** Optional right-side slot (e.g. CTA link) */
+  /** Optional centred action below the heading (e.g. CTA link) */
   action?: ReactNode
   className?: string
 }
 
 /**
  * Compact, uniform page header used across Home sections, Toolbox,
- * Guidebook, Account, Sounds, etc. Replaces the old fat rounded banners
+ * Guidebooks, Account, Sounds, etc. Replaces the old fat rounded banners
  * so every screen opens the same way: spectrum rule + title + short line.
  */
 export function PageHeader({
@@ -23,8 +23,8 @@ export function PageHeader({
   className = '',
 }: PageHeaderProps) {
   return (
-    <header className={`mb-10 sm:mb-14 ${className}`}>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <header className={`mb-10 text-center sm:mb-14 ${className}`}>
+      <div className="flex flex-col items-center gap-4">
         <div className="min-w-0 space-y-3">
           {eyebrow ? (
             <span className="sor7ed-pill">{eyebrow}</span>
@@ -37,7 +37,7 @@ export function PageHeader({
           </h1>
 
           {description ? (
-            <p className="max-w-2xl text-sm leading-relaxed text-neutral-400 sm:text-base">
+            <p className="mx-auto max-w-2xl text-sm leading-relaxed text-neutral-400 sm:text-base">
               {description}
             </p>
           ) : null}

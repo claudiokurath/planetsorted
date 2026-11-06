@@ -386,3 +386,12 @@ export function emptyBrainScores(): BrainScores {
 export function getBrainType(scores: BrainScores): BrainDimension {
   return DIMENSIONS.reduce((best, dimension) => scores[dimension] > scores[best] ? dimension : best, DIMENSIONS[0])
 }
+
+/** Public recommendations are the intersection of profile fit and Notion publication. */
+export function publishedRecommendations(type: BrainType, publishedSlugs: string[]): string[][] {
+  const available = new Set(publishedSlugs)
+  return type.tools.filter(([name]) => {
+    const slug = RECOMMENDED_TOOL_URLS[name]?.split('/').at(-1)
+    return Boolean(slug && available.has(slug))
+  })
+}

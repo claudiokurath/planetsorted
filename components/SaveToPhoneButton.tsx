@@ -15,7 +15,7 @@ export function SaveToPhoneButton({ slug, context, isLoggedIn, whatsappVerified 
   const [message, setMessage] = useState('')
   const [canRetry, setCanRetry] = useState(false)
   const activeRef = useRef(false)
-  const returnPath = context === 'tool' ? `/tools/${slug}` : `/intelligence/${slug}`
+  const returnPath = context === 'tool' ? `/tools/${slug}` : `/guidebooks/${slug}`
   const setup = `/connect?${new URLSearchParams({ next: returnPath, slug, context })}`
 
   if (!isLoggedIn) {

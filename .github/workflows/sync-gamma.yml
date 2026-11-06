@@ -1,0 +1,39 @@
+name: Reconcile Supabase accounts with Notion CRM
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-gamma.yml'
+      - 'scripts/reconcile-crm.py'
+      - 'app/api/content/presentations/**'
+      - 'lib/content/presentationCache.ts'
+      - 'lib/content/automationPublisher.ts'
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: notion-presentation-crm-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Read worker scripts at this exact trusted commit
+        # This public repository contains an unrelated, unconfigured mix gitlink.
+        # Read only immutable script URLs; do not initialize git submodules or
+        # persist a repository credential in this content-only worker.
+        shell: bash
+        run: |
+          [[ "$GITHUB_SHA" =~ ^[a-f0-9]{40}$ ]]
+          mkdir -p scripts
+          for script in reconcile-crm.py; do
+            curl --fail --silent --show-error --retry 3 \
+              "https://raw.githubusercontent.com/claudiokurath/planetsorted/$GITHUB_SHA/scripts/$script" \
+              --output "scripts/$script"
+          done
+      - name: Reconcile Supabase accounts into Notion CRM
+        run: python3 scripts/reconcile-crm.py

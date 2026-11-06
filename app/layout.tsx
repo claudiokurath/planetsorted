@@ -1,5 +1,5 @@
-import { websiteSiteUrl } from '@/lib/siteUrl'
-import type { Metadata } from 'next'
+import { publicPageMetadata, SEO_SITE, SEO_BRAND, SEO_DESCRIPTION, structuredDataJson } from '@/lib/seo'
+import type { Metadata, Viewport } from 'next'
 import { Anton, Jost, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { SmartNav } from '@/components/SmartNav'
@@ -32,12 +32,15 @@ const jetBrainsMono = JetBrains_Mono({
   display: 'swap',
 })
 
+export const viewport: Viewport = { themeColor: '#000000' }
+
 export const metadata: Metadata = {
-  title: 'PLANET SOR7ED',
-  description: 'Practical protocols for neurodivergent minds.',
-  metadataBase: new URL(websiteSiteUrl()),
-  openGraph: { siteName: 'PLANET SOR7ED', type: 'website', images: [{ url: '/api/og?card=welcome', width: 1200, height: 630, alt: 'PLANET SOR7ED' }] },
-  twitter: { card: 'summary_large_image', images: ['/api/og?card=welcome'] },
+  applicationName: 'SOR7ED',
+  appleWebApp: { capable: true, title: 'SOR7ED', statusBarStyle: 'black' },
+  icons: { apple: '/app-icons/sor7ed-180.png' },
+  ...publicPageMetadata({ title: 'Tools and guides for neurodivergent adults', description: SEO_DESCRIPTION, path: '/' }),
+  alternates: undefined,
+  metadataBase: new URL(SEO_SITE),
 }
 
 export default function RootLayout({
@@ -48,28 +51,11 @@ export default function RootLayout({
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
-      {
-        '@type': 'Organization',
-        '@id': 'https://planetsorted.com/#organization',
-        'name': 'Planet Sorted',
-        'alternateName': ['sorted', 'Sorted', 'planet sorted'],
-        'url': 'https://planetsorted.com',
-        'foundingDate': '2025',
-        'address': {
-          '@type': 'PostalAddress',
-          'addressLocality': 'London',
-          'addressCountry': 'UK',
-        },
-      },
-      {
-        '@type': 'WebSite',
-        '@id': 'https://planetsorted.com/#website',
-        'url': 'https://planetsorted.com',
-        'name': 'Planet Sorted',
-        'publisher': {
-          '@id': 'https://planetsorted.com/#organization',
-        },
-      },
+      { '@type': 'Organization', '@id': `${SEO_SITE}/#organization`, name: SEO_BRAND,
+        legalName: 'SOR7ED LIMITED', alternateName: ['Planet Sorted', 'SOR7ED', 'Sorted'], url: SEO_SITE,
+        logo: { '@type': 'ImageObject', url: `${SEO_SITE}/images/sor7ed-logo-white.png`, width: 1832, height: 430 } },
+      { '@type': 'WebSite', '@id': `${SEO_SITE}/#website`, url: SEO_SITE, name: SEO_BRAND,
+        alternateName: ['Planet Sorted', 'SOR7ED'], inLanguage: 'en-GB', publisher: { '@id': `${SEO_SITE}/#organization` } },
     ],
   }
 
@@ -78,7 +64,7 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: structuredDataJson(jsonLd) }}
         />
       </head>
       <body className="min-h-full flex flex-col font-sans">

@@ -10,6 +10,7 @@ interface Props {
 
 export const metadata = {
   title: 'Connect WhatsApp — SOR7ED',
+  robots: { index: false, follow: false },
   description: 'Connect once to receive private SOR7ED product links.',
 }
 
@@ -43,7 +44,7 @@ export default async function ConnectPage({ searchParams }: Props) {
   // A returning member still needs to deliberately request the item. Sending
   // on GET would also send when a browser prefetches this connection URL.
   const alreadyConnected = Boolean(profile?.whatsapp_verified)
-  if (alreadyConnected && !(slug && context)) redirect(nextPath)
+  if (alreadyConnected) redirect(nextPath)
 
   return (
     <section aria-labelledby="connect-title" className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-black p-4 sm:p-6">

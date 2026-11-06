@@ -4,6 +4,7 @@ import { StandaloneToolShell } from '@/components/StandaloneToolShell'
 
 import { useState, useRef } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 type Phase = 'form' | 'loading' | 'result' | 'error'
 
@@ -14,6 +15,7 @@ interface ResultData {
 }
 
 export function TaskBreakdownWizardClient() {
+  const router = useRouter()
   const [phase, setPhase] = useState<Phase>('form')
   const [task, setTask] = useState('')
   const [context, setContext] = useState('')
@@ -41,12 +43,12 @@ export function TaskBreakdownWizardClient() {
 
       if (res.status === 401) {
         // Redirect to sign in, come back after
-        window.location.href = `/signup?mode=first-time&next=${encodeURIComponent('/task-breakdown-wizard')}`
+        router.push(`/signup?mode=first-time&next=${encodeURIComponent('/task-breakdown-wizard')}`)
         return
       }
 
       if (res.status === 422 && json.error === 'no_whatsapp') {
-        window.location.href = `/connect?next=${encodeURIComponent('/task-breakdown-wizard')}`
+        router.push(`/connect?next=${encodeURIComponent('/task-breakdown-wizard')}`)
         return
       }
 

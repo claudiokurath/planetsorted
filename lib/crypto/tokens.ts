@@ -114,7 +114,7 @@ export function verifyStandaloneAccessToken(
 }
 
 // ── Article / protocol unlock tokens (WhatsApp rich-link only) ──────────────
-// Public /intelligence/[slug] shows teaser only. Full body + protocol unlock
+// Public /guidebooks/[slug] shows teaser only. Full body + protocol unlock
 // when the visitor arrives via /r/[slug] (the link sent to WhatsApp), which
 // mints this HMAC. Being signed-in on the website is NOT a shortcut.
 

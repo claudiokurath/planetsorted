@@ -22,7 +22,7 @@ const CARDS = [
     heading: 'Help me deal with life admin',
     body: 'Choose one thing to deal with and work out where to begin.',
     cta: 'Find an admin tool',
-    href: '/adhd-tax-calculator',
+    href: '/embed/brain-dump-sorter',
   },
   // Guide card hidden until ≥5 solid guides exist
   // {
@@ -31,7 +31,7 @@ const CARDS = [
   //   heading: 'Help me understand something',
   //   body: 'Find a plain-English explanation and something practical to try.',
   //   cta: 'Explore guides',
-  //   href: '/intelligence',
+  //   href: '/guidebooks',
   // },
 ] as const
 

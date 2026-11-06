@@ -1,9 +1,8 @@
-import Image from 'next/image'
 import Link from 'next/link'
 
 const CONTENT = {
   guidebook: {
-    label: 'Guidebook', title: 'Your intelligence was never the problem.',
+    label: 'Guidebooks', title: 'Guidebooks for everyday life.',
     description: 'Neurodivergent adults — ADHD, autism, AuDHD, bipolar, dyslexia, RSD — are told they are too much or not enough. This is the SOR7ED guide to your cognitive strengths.',
     heading: 'What the guidebooks cover',
     features: [
@@ -12,7 +11,7 @@ const CONTENT = {
       ['Cognitive load & fatigue', 'Strategies for managing a brain that processes more, tires faster, and needs different recovery rhythms than neurotypical expectations allow.'],
       ['Masking & unmasking', 'The cognitive cost of performing neurotypicality — and practical tools for reducing it without burning every bridge in the process.'],
     ],
-    ending: 'Your intelligence. Finally sorted.',
+    ending: 'Your next step. Finally sorted.',
   },
   toolbox: {
     label: 'Toolbox', title: 'The tools your brain actually needs.',
@@ -34,8 +33,7 @@ export function CollectionIntroduction({ collection }: { collection: Collection 
   const content = CONTENT[collection]
   return (
     <>
-      <section className="sorted-about-cover" aria-labelledby="collection-heading">
-        <div className="sorted-about-art"><Image src="/images/introductions/collection-cover.png" alt="A golden brain with tangled wires resting on a suitcase" fill preload sizes="(max-width: 760px) 100vw, 40vw" /></div>
+      <section className="sorted-about-cover sorted-about-cover--text" aria-labelledby="collection-heading">
         <div className="sorted-about-cover-copy">
           <span className="sorted-eyebrow">{content.label} / SOR7ED</span>
           <h1 id="collection-heading">{content.title}</h1>
@@ -55,8 +53,7 @@ export function CollectionIntroduction({ collection }: { collection: Collection 
 
 export function CollectionEnding({ collection }: { collection: Collection }) {
   return (
-    <section className="sorted-about-cover sorted-about-ending" aria-labelledby="collection-ending">
-      <div className="sorted-about-art"><Image src="/images/introductions/collection-ending.png" alt="Golden brains and tangled wires stacked above a suitcase" fill sizes="(max-width: 760px) 100vw, 40vw" /></div>
+    <section className="sorted-about-cover sorted-about-cover--text sorted-about-ending" aria-labelledby="collection-ending">
       <div className="sorted-about-cover-copy">
         <h2 id="collection-ending">{CONTENT[collection].ending}</h2>
         <p>Start with the {collection === 'guidebook' ? 'guide' : 'tool'} that fits where you are right now. Find a framework, protocol or practical next step that actually fits your brain.</p>

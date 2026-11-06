@@ -2226,29 +2226,30 @@
       {
         "blocks": [
           {
+            "kind": "h2",
+            "text": "THE ADHD TAX CALCULATOR"
+          },
+          {
             "kind": "h1",
-            "text": "THE ADHD TAX: THE SILENT BILL YOU'VE BEEN PAYING FOR YEARS"
+            "text": "See what ADHD is really costing you — in seconds."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "YOUR ADHD HAS A PRICE TAG — AND IT'S INVISIBLE"
           },
           {
             "kind": "p",
-            "text": "If you have ADHD, there's a good chance you've been paying a very specific kind of tax for most of your adult life."
-          },
-          {
-            "kind": "p",
-            "text": "Not income tax. Not sales tax. Not even that suspicious \"service fee\" no one understands."
-          },
-          {
-            "kind": "p",
-            "text": "I'm talking about the ADHD tax—the invisible, relentless, how-is-this-my-life stream of little costs that pile up simply because your brain refuses to play by neurotypical rules."
-          },
-          {
-            "kind": "p",
-            "text": "Let's be honest: it's not that you're bad with money. It's that money lives in boring spreadsheets and future consequences, and your brain lives in \"now\" and \"absolutely not that.\""
+            "text": "Late fees, forgotten subscriptions, impulse buys, replaced lost items — they pile up silently. The ADHD Tax Calculator makes that invisible surcharge visible, so you can finally stop paying it."
           }
         ],
         "images": [
           {
-            "src": "/images/presentations/adhd-tax-calculator-d01002a25583b27d.webp",
+            "src": "/images/presentations/adhd-tax-calculator-267e98695c9b00a3.webp",
             "width": 1232,
             "height": 928
           }
@@ -2258,336 +2259,223 @@
         "blocks": [
           {
             "kind": "h1",
-            "text": "WAIT, WHAT EXACTLY IS THE ADHD TAX?"
-          },
-          {
-            "kind": "p",
-            "text": "The ADHD tax is that quiet drain on your bank account that comes from things like:"
+            "text": "HOW IT WORKS"
           },
           {
             "kind": "h4",
-            "text": "LATE FEES"
-          },
-          {
-            "kind": "p",
-            "text": "Because the bill you absolutely meant to pay is chilling in a pile somewhere."
+            "text": "Enter Leaks"
           },
           {
             "kind": "h4",
-            "text": "IMPULSE PURCHASES"
-          },
-          {
-            "kind": "p",
-            "text": "That seemed vitally important for 7 minutes."
+            "text": "Calculate Tax"
           },
           {
             "kind": "h4",
-            "text": "FORGOTTEN SUBSCRIPTIONS"
+            "text": "Get Plan"
           },
           {
             "kind": "p",
-            "text": "You forgot you had… for 14 months."
+            "text": "No judgment. No shame. Just clarity on where the money goes — and how to stop it."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "FOUR LEAKS DRAINING YOUR ACCOUNT"
           },
           {
             "kind": "h4",
-            "text": "LOST PRODUCTIVITY"
+            "text": "💸 LATE FEES"
           },
           {
             "kind": "p",
-            "text": "Because your \"quick scroll\" turned into a 90-minute hyperfocus on something that is very much not your job."
+            "text": "Bills paid after the due date, missed returns, parking fines, and overdraft charges that stack up quietly."
+          },
+          {
+            "kind": "h4",
+            "text": "🔄 ZOMBIE SUBS"
           },
           {
             "kind": "p",
-            "text": "Individually? Tiny. Collectively? A financial black hole, powered entirely by \"I'll do it later.\" Most people with ADHD have no idea what this is really costing them. They just know money feels tight, stressful, and vaguely haunted."
+            "text": "Forgotten subscriptions and free trials that silently convert — services you haven't touched in months."
+          },
+          {
+            "kind": "h4",
+            "text": "🛒 IMPULSE BUYS"
+          },
+          {
+            "kind": "p",
+            "text": "Late-night purchases, duplicate items, and \"I'll need this someday\" orders your future self never uses."
+          },
+          {
+            "kind": "h4",
+            "text": "🔑 REPLACEMENT COSTS"
+          },
+          {
+            "kind": "p",
+            "text": "The fourth phone charger, the locksmith, the grocery haul that expired. Losing things is expensive."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "STOP BLAMING YOURSELF FOR BRAIN WIRING"
+          },
+          {
+            "kind": "li",
+            "text": "The ADHD tax isn't carelessness — it's the predictable cost of executive dysfunction and time blindness"
+          },
+          {
+            "kind": "li",
+            "text": "Most adults with ADHD lose $500–$2,000+ per year to late fees and forgotten subscriptions alone"
+          },
+          {
+            "kind": "li",
+            "text": "Separates what needs automating from what needs a system"
+          },
+          {
+            "kind": "p",
+            "text": "Understanding the ADHD tax as a structural problem — not a personal failing — is the first step to building systems that actually fix it."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "BUILT FOR EVERY ADHD BRAIN"
+          },
+          {
+            "kind": "h4",
+            "text": "STUDENTS"
+          },
+          {
+            "kind": "p",
+            "text": "Juggling tuition deadlines, subscriptions, and first-time bills — all at once."
+          },
+          {
+            "kind": "h4",
+            "text": "FREELANCERS"
+          },
+          {
+            "kind": "p",
+            "text": "Tracking unbilled work, missed invoices, and tax deadlines without a finance team."
+          },
+          {
+            "kind": "h4",
+            "text": "PROFESSIONALS & ENTREPRENEURS"
+          },
+          {
+            "kind": "p",
+            "text": "Managing high-volume financial obligations and stopping the quiet account drain."
+          },
+          {
+            "kind": "h4",
+            "text": "LATE-DIAGNOSED ADULTS"
+          },
+          {
+            "kind": "p",
+            "text": "Anyone who finally has a name for why the money keeps disappearing."
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "FREE TO START, MORE WHEN YOU'RE READY"
+          },
+          {
+            "kind": "h4",
+            "text": "FREE TIER"
+          },
+          {
+            "kind": "p",
+            "text": "Calculate your ADHD tax across all four leak categories — no setup, no friction, no cost."
+          },
+          {
+            "kind": "li",
+            "text": "Unlimited expense entries"
+          },
+          {
+            "kind": "li",
+            "text": "AI-powered leak categorization"
+          },
+          {
+            "kind": "li",
+            "text": "Notion-ready annual tax total"
+          },
+          {
+            "kind": "h4",
+            "text": "UPGRADE UNLOCKS"
+          },
+          {
+            "kind": "p",
+            "text": "When you're ready to actually reduce the tax, powerful tools are waiting."
+          },
+          {
+            "kind": "li",
+            "text": "Reduction Action Plan generation"
+          },
+          {
+            "kind": "li",
+            "text": "PDF export for sharing with a partner or advisor"
+          },
+          {
+            "kind": "li",
+            "text": "History Compare to track your tax bill shrinking over time"
+          }
+        ],
+        "images": []
+      },
+      {
+        "blocks": [
+          {
+            "kind": "h1",
+            "text": "LOG IT. CALCULATE IT. STOP PAYING IT."
+          },
+          {
+            "kind": "p",
+            "text": "Start with a free calculation — no setup, no friction. Get your real ADHD tax total in your Notion dashboard and finally know exactly what you're working to reduce."
+          },
+          {
+            "kind": "h4",
+            "text": "LOG IT"
+          },
+          {
+            "kind": "p",
+            "text": "Enter your late fees, subscriptions, and impulse buys"
+          },
+          {
+            "kind": "h4",
+            "text": "CALCULATE IT"
+          },
+          {
+            "kind": "p",
+            "text": "AI totals your annual ADHD tax across every category"
+          },
+          {
+            "kind": "h4",
+            "text": "STOP PAYING IT"
+          },
+          {
+            "kind": "p",
+            "text": "Act on your personalized Notion reduction plan"
           }
         ],
         "images": [
           {
-            "src": "/images/presentations/adhd-tax-calculator-9181bc866418e6e7.webp",
-            "width": 1232,
-            "height": 928
-          }
-        ]
-      },
-      {
-        "blocks": [
-          {
-            "kind": "h1",
-            "text": "WHY YOU NEVER SEE IT COMING"
-          },
-          {
-            "kind": "p",
-            "text": "Here's the tricky part: the ADHD tax doesn't hit like a single big purchase. It's:"
-          },
-          {
-            "kind": "h4",
-            "text": "LATE FEE"
-          },
-          {
-            "kind": "p",
-            "text": "Here and there, barely noticeable on its own."
-          },
-          {
-            "kind": "h4",
-            "text": "FORGOTTEN SUB"
-          },
-          {
-            "kind": "p",
-            "text": "A subscription you forgot existed — still charging every month."
-          },
-          {
-            "kind": "h4",
-            "text": "MISSED RATE"
-          },
-          {
-            "kind": "p",
-            "text": "Because you missed an early-bird rate."
-          },
-          {
-            "kind": "h4",
-            "text": "TAKEOUT AGAIN"
-          },
-          {
-            "kind": "p",
-            "text": "Every time your executive function taps out and you choose takeout again."
-          },
-          {
-            "kind": "p",
-            "text": "None of those scream \"financial crisis.\" But add them up over 12 months? You're looking at money that could've gone to savings, debt, holidays, or that shiny thing you actually care about."
-          },
-          {
-            "kind": "p",
-            "text": "The worst part: you can't fight what you can't see."
-          }
-        ],
-        "images": []
-      },
-      {
-        "blocks": [
-          {
-            "kind": "h1",
-            "text": "MAKING THE INVISIBLE VISIBLE (WITHOUT SHAME)"
-          },
-          {
-            "kind": "p",
-            "text": "Here's the good news: this isn't a moral failing. You're not irresponsible, lazy, or doomed."
-          },
-          {
-            "kind": "p",
-            "text": "You have a brain that:"
-          },
-          {
-            "kind": "li",
-            "text": "hates repetitive admin"
-          },
-          {
-            "kind": "li",
-            "text": "is allergic to boring tasks"
-          },
-          {
-            "kind": "li",
-            "text": "struggles with time blindness"
-          },
-          {
-            "kind": "li",
-            "text": "thrives on novelty and urgency"
-          },
-          {
-            "kind": "p",
-            "text": "So traditional financial advice? \"Just stick to a budget\" and \"set reminders\"? Adorable. Useless."
-          },
-          {
-            "kind": "p",
-            "text": "What you actually need is a way to see your ADHD tax clearly—without judgement—so you can start working with your brain instead of trying to bully it into being a spreadsheet."
-          },
-          {
-            "kind": "p",
-            "text": "That's exactly what this tool is designed to do."
-          }
-        ],
-        "images": [
-          {
-            "src": "/images/presentations/adhd-tax-calculator-f20b7e60a4ee86db.webp",
-            "width": 1232,
-            "height": 928
-          }
-        ]
-      },
-      {
-        "blocks": [
-          {
-            "kind": "h1",
-            "text": "HOW THE ADHD TAX CALCULATOR WORKS (NO MATHS DEGREE REQUIRED)"
-          },
-          {
-            "kind": "p",
-            "text": "You bring your real life. The tool brings the structure."
-          },
-          {
-            "kind": "h4",
-            "text": "RECORD HABITS"
-          },
-          {
-            "kind": "h4",
-            "text": "ANSWER QUESTIONS"
-          },
-          {
-            "kind": "h4",
-            "text": "ADJUST SLIDERS"
-          },
-          {
-            "kind": "h4",
-            "text": "GET BREAKDOWN"
-          },
-          {
-            "kind": "p",
-            "text": "We're not here to guilt you for ordering Uber Eats. We're here to show you what it's really costing, so you can decide what's worth it."
-          }
-        ],
-        "images": []
-      },
-      {
-        "blocks": [
-          {
-            "kind": "h1",
-            "text": "WHAT YOU ACTUALLY GET OUT OF THIS (BESIDES MILD EXISTENTIAL HORROR)"
-          },
-          {
-            "kind": "p",
-            "text": "Once you run the numbers, you'll walk away with:"
-          },
-          {
-            "kind": "h4",
-            "text": "PERSONALISED ESTIMATE"
-          },
-          {
-            "kind": "p",
-            "text": "Your annual ADHD tax — not some generic average. Your patterns, your costs."
-          },
-          {
-            "kind": "h4",
-            "text": "BREAKDOWN BY CATEGORY"
-          },
-          {
-            "kind": "p",
-            "text": "Late fees, subscriptions, impulse buys, productivity loss — all laid out clearly."
-          },
-          {
-            "kind": "h4",
-            "text": "ADHD-FRIENDLY STRATEGIES"
-          },
-          {
-            "kind": "p",
-            "text": "No \"just be more disciplined\" nonsense. Real tactics that respect how your brain works."
-          },
-          {
-            "kind": "h4",
-            "text": "A SENSE OF CONTROL"
-          },
-          {
-            "kind": "p",
-            "text": "Because once you can see the leaks, you can start plugging them — on your terms."
-          }
-        ],
-        "images": []
-      },
-      {
-        "blocks": [
-          {
-            "kind": "h1",
-            "text": "WHO THIS IS FOR (BESIDES YOU, PROBABLY)"
-          },
-          {
-            "kind": "h4",
-            "text": "PROFESSIONALS"
-          },
-          {
-            "kind": "p",
-            "text": "Whose paychecks look good on paper but never quite translate into stability."
-          },
-          {
-            "kind": "h4",
-            "text": "ENTREPRENEURS"
-          },
-          {
-            "kind": "p",
-            "text": "Whose brains are brilliant at ideas and slightly less brilliant at invoicing."
-          },
-          {
-            "kind": "h4",
-            "text": "ANYONE WITH ADHD"
-          },
-          {
-            "kind": "p",
-            "text": "Diagnosed or suspected — who feels like money is always \"almost\" under control."
-          },
-          {
-            "kind": "h4",
-            "text": "PARTNERS & FAMILY"
-          },
-          {
-            "kind": "p",
-            "text": "Trying to understand where the money is going — and how to help without nagging."
-          },
-          {
-            "kind": "p",
-            "text": "\"I make decent money… so why does it feel like it's evaporating?\""
-          },
-          {
-            "kind": "p",
-            "text": "If you've ever looked at your bank account and thought that… this is for you."
-          }
-        ],
-        "images": []
-      },
-      {
-        "blocks": [
-          {
-            "kind": "h1",
-            "text": "THIS ISN'T ABOUT PERFECTION. IT'S ABOUT POWER."
-          },
-          {
-            "kind": "p",
-            "text": "You're not going to stop every impulse buy. You're not going to magically love paying bills."
-          },
-          {
-            "kind": "p",
-            "text": "But you can:"
-          },
-          {
-            "kind": "h4",
-            "text": "REDUCE THE MOST PAINFUL LEAKS"
-          },
-          {
-            "kind": "h4",
-            "text": "DESIGN SYSTEMS THAT SUPPORT YOUR BRAIN"
-          },
-          {
-            "kind": "p",
-            "text": "Instead of working against it."
-          },
-          {
-            "kind": "h4",
-            "text": "STOP LETTING INVISIBLE COSTS QUIETLY DRAIN YOUR FUTURE"
-          },
-          {
-            "kind": "p",
-            "text": "The ADHD tax is real. So is your ability to do something about it—once you can actually see the bill."
-          },
-          {
-            "kind": "p",
-            "text": "Ready to find out what yours looks like?"
-          }
-        ],
-        "images": []
-      },
-      {
-        "blocks": [],
-        "images": [
-          {
-            "src": "/images/presentations/adhd-tax-calculator-d94823971efbb6d1.webp",
-            "width": 2000,
-            "height": 1125
+            "src": "/images/presentations/adhd-tax-calculator-8b12c62164552391.webp",
+            "width": 816,
+            "height": 1456
           }
         ]
       }
@@ -2872,8 +2760,12 @@
       {
         "blocks": [
           {
-            "kind": "h3",
+            "kind": "h2",
             "text": "THE DECISION PARALYSIS SOLVer"
+          },
+          {
+            "kind": "h1",
+            "text": "Cut through overwhelm, options, and overthinking"
           }
         ],
         "images": [
@@ -2883,15 +2775,6 @@
             "height": 928
           }
         ]
-      },
-      {
-        "blocks": [
-          {
-            "kind": "p",
-            "text": "Cut through overwhelm, options, and overthinking — so you can choose with clarity, act with confidence, and stop second-guessing yourself."
-          }
-        ],
-        "images": []
       },
       {
         "blocks": [
@@ -3419,23 +3302,13 @@
   "brain-dump-sorter": {
     "cards": [
       {
-        "blocks": [],
-        "images": [
-          {
-            "src": "/images/presentations/brain-dump-sorter-1b64e14d63a665b6.webp",
-            "width": 1232,
-            "height": 928
-          }
-        ]
-      },
-      {
         "blocks": [
           {
-            "kind": "h1",
+            "kind": "h2",
             "text": "THE BRAIN DUMP SORTER"
           },
           {
-            "kind": "p",
+            "kind": "h1",
             "text": "Turn mental chaos into clarity — instantly."
           }
         ],

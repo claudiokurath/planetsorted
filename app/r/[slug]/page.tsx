@@ -1,3 +1,4 @@
+import { getLiveContent } from '@/lib/notion/liveContent'
 import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
@@ -9,7 +10,6 @@ import {
 } from '@/lib/crypto/tokens'
 import { isOgCrawler } from '@/lib/og/crawlers'
 import { whatsappPreviewMetadata } from '@/lib/og/whatsappPreview'
-import { PRIVATE_PDF_SLUG } from '@/lib/content/privateProtocol'
 import { websiteSiteUrl } from '@/lib/siteUrl'
 
 export const dynamic = 'force-dynamic'
@@ -44,6 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return whatsappPreviewMetadata(systemItem.title, slug, LOGO_IMAGE)
   }
 
+  await getLiveContent()
   const supabase = createServerClient()
   const { data: content } = await supabase
     .from('protocols')
@@ -87,6 +88,7 @@ export default async function RichLinkRedirect({ params }: Props) {
     redirect(`${SITE}${systemItem.target}`)
   }
 
+  await getLiveContent()
   const supabase = createServerClient()
   const { data: content } = await supabase
     .from('protocols')
@@ -119,14 +121,10 @@ export default async function RichLinkRedirect({ params }: Props) {
   }
 
   // WhatsApp cards open the member protocol; public articles remain readable
-  // at /intelligence/{slug}. A public short link does not grant private access.
+  // at /guidebooks/{slug}. A public short link does not grant private access.
   if (content.type === 'Tool') {
     redirect(`${SITE}${getToolRoute(content.slug)}`)
   }
-
-  // Unlike the public article, this attachment requires a real member session.
-  // An access_token minted by this public short link cannot unlock the PDF.
-  if (content.slug === PRIVATE_PDF_SLUG) redirect(`/api/protocols/${content.slug}`)
 
   redirect(`/protocols/${content.slug}`)
 }
