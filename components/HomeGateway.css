@@ -1,4 +1,4 @@
-/* A centered, readable introduction with the same QR destination as the flyers. */
+/* A centered introduction with a direct entry to the Brain Type reflection. */
 .sorted-home-entry { --entry-accent:var(--sor7ed-gold); width:100%; max-width:1440px; margin:auto; padding:clamp(24px,3vw,56px) clamp(20px,5vw,64px) 32px; background:#000; color:#fff; font-family:var(--font-jost),system-ui,sans-serif; text-align:center; }
 .sorted-home-entry__hero { display:grid; grid-template-columns:minmax(0,1fr); gap:20px; }
 .sorted-home-entry h1 { margin:0; font:400 clamp(3rem,5vw,6.5rem)/1.08 var(--font-anton),'Arial Narrow',sans-serif; text-transform:uppercase; letter-spacing:0; }
@@ -8,14 +8,10 @@
 .sorted-home-entry__scribble { width:clamp(128px,10vw,160px); aspect-ratio:1; justify-self:center; overflow:hidden; }
 .sorted-home-entry__scribble :is(video,img) { display:block; width:100%; height:100%; object-fit:contain; }
 .sorted-home-entry__start { margin-top:32px; }
-.sorted-home-entry__qr-link { display:inline-flex; align-items:center; justify-content:center; gap:28px; max-width:100%; color:#fff; text-align:left; text-decoration:none; }
-.sorted-home-entry__qr { display:block; width:160px; height:auto; flex-shrink:0; background:#fff; }
-.sorted-home-entry__qr-copy { display:grid; gap:8px; min-width:0; }
-.sorted-home-entry__qr-title { color:var(--entry-accent); font:400 clamp(1.4rem,2vw,2rem)/1.25 var(--font-anton),'Arial Narrow',sans-serif; text-transform:uppercase; }
-.sorted-home-entry__qr-instruction { font-size:1.125rem; text-decoration:underline; text-underline-offset:5px; }
-.sorted-home-entry__qr-detail { color:#d4d4d4; font-size:1rem; }
-.sorted-home-entry__qr-link:hover .sorted-home-entry__qr-instruction { color:var(--entry-accent); }
-.sorted-home-entry__qr-link:focus-visible { outline:3px solid var(--entry-accent); outline-offset:8px; }
+.sorted-home-entry__start-button { display:inline-flex; align-items:center; justify-content:center; gap:24px; max-width:100%; min-height:56px; padding:16px 28px; border:1px solid var(--entry-accent); background:var(--entry-accent); color:#000; font:400 clamp(1.25rem,2vw,1.6rem)/1.25 var(--font-anton),'Arial Narrow',sans-serif; text-transform:uppercase; text-decoration:none; }
+.sorted-home-entry__start-button:hover { background:#ffe24d; border-color:#ffe24d; }
+.sorted-home-entry__start-button:focus-visible { outline:3px solid var(--entry-accent); outline-offset:5px; }
+.sorted-home-entry__start-detail { margin:14px 0 0; color:#d4d4d4; font-size:1rem; }
 .sorted-home-entry__note { margin:20px 0 0; color:#a3a3a3; font-size:13px; line-height:1.5; }
 .sorted-home-entry__bottom { margin-top:24px; color:#aaa; font-size:14px; line-height:1.5; }
 @media(max-width:767px) {
@@ -26,16 +22,12 @@
   .sorted-home-entry h1 em { display:block; }
   .sorted-home-entry__intro { margin-top:20px; font-size:1.0625rem; }
   .sorted-home-entry__start { margin-top:24px; }
-  .sorted-home-entry__qr-link { gap:18px; }
-  .sorted-home-entry__qr { width:132px; }
-  .sorted-home-entry__qr-title { font-size:1.3rem; }
-  .sorted-home-entry__qr-instruction,.sorted-home-entry__qr-detail { font-size:.9375rem; }
-}
-@media(max-width:359px) {
-  .sorted-home-entry__qr-link { flex-direction:column; text-align:center; }
+  .sorted-home-entry__start-button { padding:14px 22px; font-size:1.25rem; gap:18px; }
+  .sorted-home-entry__start-detail { font-size:.9375rem; }
 }
 @media print {
   .sorted-home-entry { background:#fff; color:#000; }
   .sorted-home-entry__scribble { display:none; }
-  .sorted-home-entry__intro,.sorted-home-entry__note,.sorted-home-entry h1 em,.sorted-home-entry__qr-link,.sorted-home-entry__qr-title,.sorted-home-entry__qr-detail { color:#000; }
+  .sorted-home-entry__start-button { background:transparent; border-color:#000; }
+  .sorted-home-entry__intro,.sorted-home-entry__note,.sorted-home-entry h1 em,.sorted-home-entry__start-button,.sorted-home-entry__start-detail { color:#000; }
 }
