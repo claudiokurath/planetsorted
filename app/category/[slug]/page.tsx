@@ -59,6 +59,9 @@ export default async function CategoryPage({ params }: Props) {
 
   const { tools, articles } = await loadCategory(category.label)
 
+  const currentIndex = CATEGORY_LIST.findIndex((c) => c.slug === category.slug)
+  const nextCategory = CATEGORY_LIST[(currentIndex + 1) % CATEGORY_LIST.length]
+
   return (
     <main className="sorted-category-page min-h-screen bg-black text-white">
       <LiveContentRefresh />
@@ -121,6 +124,17 @@ export default async function CategoryPage({ params }: Props) {
           </div>
         )}
       </div>
+
+      {/* Next pillar */}
+      <footer className="border-t border-white/12 px-5 py-16 text-center">
+        <p className="mb-4 text-xs font-medium uppercase tracking-[0.24em] text-neutral-500">Next pillar</p>
+        <Link
+          href={`/category/${nextCategory.slug}`}
+          className="font-bebas text-3xl uppercase tracking-normal text-white transition-colors hover:text-[#F5C518] sm:text-4xl"
+        >
+          {nextCategory.label} &rarr;
+        </Link>
+      </footer>
     </main>
   )
 }
