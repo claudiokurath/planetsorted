@@ -22,7 +22,7 @@ export function ContentCard({ href, title, summary, category, layout = 'card' }:
   if (layout === 'row' && item?.[1] === 'guidebooks') return (
     <article className="sorted-guide-row">
       <Link href={href}>
-        <div>{categoryStyle ? <span className="sorted-guide-category">{categoryStyle.label}</span> : null}<h3>{title}</h3>{description ? <p>{description}</p> : null}</div>
+        <div>{categoryStyle ? <span className="sorted-guide-category" style={{ color: categoryStyle.accent }}>{categoryStyle.label}</span> : null}<h3>{title}</h3>{description ? <p>{description}</p> : null}</div>
         <span className="sorted-guide-arrow"><ArrowIcon /></span>
       </Link>
       <div className="sorted-preview-action print:hidden"><ToolWhatsAppCta slug={item[2]} context="article" returnPath={href} compact /></div>
@@ -35,7 +35,7 @@ export function ContentCard({ href, title, summary, category, layout = 'card' }:
         <div className="sorted-preview-heading-plain">{heading}</div>
         {(categoryStyle || description) ? (
           <div className="sorted-preview-description">
-            {categoryStyle ? <span className="sorted-preview-category">{categoryStyle.label}</span> : null}
+            {categoryStyle ? <span className="sorted-preview-category" style={{ color: categoryStyle.accent }}>{categoryStyle.label}</span> : null}
             {description ? <p>{description}</p> : null}
           </div>
         ) : null}

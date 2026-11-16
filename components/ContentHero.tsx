@@ -19,7 +19,7 @@ export function ContentHero({ title, description, category, meta, articleMode = 
   const inner = (
     <>
       {categoryStyle ? (
-        <Link href={`/category/${categoryStyle.slug}`} className="sor7ed-pill transition-opacity hover:opacity-80">
+        <Link href={`/category/${categoryStyle.slug}`} className="sor7ed-pill transition-opacity hover:opacity-80" style={{ color: categoryStyle.accent, borderColor: `${categoryStyle.accent}66` }}>
           {categoryStyle.label}
         </Link>
       ) : null}
