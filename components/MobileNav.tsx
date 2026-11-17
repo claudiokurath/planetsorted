@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import type { User } from '@supabase/supabase-js'
 import { createBrowserClient } from '@/lib/supabase/client'
 import { isStandaloneToolRoute } from '@/lib/isStandaloneToolRoute'
+import { useNavigationVisibility } from '@/lib/useNavigationVisibility'
 
 const ICONS = {
   home: (
@@ -51,6 +52,7 @@ const ICONS = {
  */
 export function MobileNav() {
   const pathname = usePathname() || '/'
+  const navigationVisible = useNavigationVisibility(pathname)
   const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
@@ -67,7 +69,7 @@ export function MobileNav() {
     return () => subscription.unsubscribe()
   }, [])
 
-  if (isStandaloneToolRoute(pathname)) return null
+  if (isStandaloneToolRoute(pathname) || !navigationVisible) return null
 
   const tabs = [
     {

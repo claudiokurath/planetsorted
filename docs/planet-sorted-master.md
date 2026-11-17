@@ -32,6 +32,12 @@
 
 ## Executive Summary
 
+**Homepage navigation:** The top header and phone bottom tabs are hidden at the
+top of `/` and appear after 80px of scrolling. The homepage header is fixed so
+revealing it does not shift the hero. Returning to the top hides navigation
+again; other pages retain their existing navigation. The entrance spans at least
+one viewport so navigation remains reachable on tall screens.
+
 **Button card transport:** The authenticated Button gateway accepts text for
 account flows and narrowly validated image CTA cards for saved links. Image
 headers must use signed `api.sor7ed.com/api/card-images/{id}` URLs; Open points
