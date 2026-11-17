@@ -7,9 +7,11 @@ import { useEffect, useState } from 'react'
 import type { User } from '@supabase/supabase-js'
 import { createBrowserClient } from '@/lib/supabase/client'
 import { isStandaloneToolRoute } from '@/lib/isStandaloneToolRoute'
+import { useNavigationVisibility } from '@/lib/useNavigationVisibility'
 
 export function SmartNav() {
   const pathname = usePathname()
+  const navigationVisible = useNavigationVisibility(pathname)
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
   const [authReady, setAuthReady] = useState(false)
@@ -36,7 +38,7 @@ export function SmartNav() {
     router.refresh()
   }
 
-  if (isStandaloneToolRoute(pathname)) return null
+  if (isStandaloneToolRoute(pathname) || !navigationVisible) return null
 
   const navLinks = [
     { label: 'Home', href: '/' },
@@ -46,7 +48,7 @@ export function SmartNav() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/[0.08] bg-black/90 text-white backdrop-blur-xl">
+    <header className={`${pathname === '/' ? 'fixed inset-x-0' : 'sticky'} top-0 z-50 border-b border-white/[0.08] bg-black/90 text-white backdrop-blur-xl`}>
       {/* Mobile: logo-only bar — primary nav lives in the bottom tab bar */}
       <nav aria-label="Primary navigation" className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 py-2.5 md:hidden">
         <Link href="/" aria-label="PLANET SOR7ED home" className="col-start-2 flex min-h-11 items-center">
