@@ -41,11 +41,12 @@ for signed-in members. Quiz results stay free and offer account creation and
 tool exploration afterwards. No signup gate or claim of saved quiz progress is
 introduced. This supersedes the earlier 80px scroll-reveal navigation rule.
 
-**Guidebook listing:** Compact black cards in a grid replace the long editorial
+**Toolbox and Guidebook listings:** Compact black cards in a grid replace the long editorial
 rows. Each card has a thin category-colour border, category label, title and
 short intro, with four columns on wide desktop, three on smaller desktop and
-two/one on tablets/phones. Cards open the existing guidebook route; delivery
-remains on individual pages. Tool cards, publication and readers are unchanged.
+two/one on tablets/phones. Cards open the existing content route; delivery and
+Use tool actions remain on individual pages. Redundant Explore jump buttons
+above both catalogues are removed. Publication and readers are unchanged.
 
 **19 November 2026 — redesign undone:** At the owner's request, restore the
 website layout and readers from before the seven-area redesign (PR 120).

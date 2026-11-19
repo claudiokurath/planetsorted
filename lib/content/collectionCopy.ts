@@ -34,7 +34,7 @@ export const COLLECTION_COPY = {
     "numbered": false,
     "features": [
       { "title": "CHOOSE WHAT HELPS", "description": "Browse the tools published below. Choose the one that fits what you need today." },
-      { "title": "TRY IT HERE", "description": "Select Use tool to open its inputs and results on the website. No sign-up is needed for the free tools." },
+      { "title": "TRY IT HERE", "description": "Open a tool preview, then choose Use tool to open its inputs and results. No sign-up is needed for the free tools." },
       { "title": "KEEP IT HANDY", "description": "WhatsApp delivery is optional. Sign in and connect your number if you want the tool link in your thread." }
     ]
   }

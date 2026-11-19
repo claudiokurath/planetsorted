@@ -20,7 +20,7 @@ export function ContentCard({ href, title, summary, category, layout = 'card' }:
   const item = href.match(/^\/(tools|guidebooks)\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?$/)
   const heading = <h3 className="sorted-preview-title font-bebas">{title}</h3>
 
-  if (layout === 'book' && item?.[1] === 'guidebooks') return (
+  if (layout === 'book' && item) return (
     <article className="sorted-guide-book" style={{ '--book-accent': categoryStyle?.accent || '#FFD400' } as CSSProperties}>
       <Link href={href} aria-label={title} title={title}>
         {categoryStyle ? <span className="sorted-guide-book__category">{categoryStyle.label}</span> : null}
