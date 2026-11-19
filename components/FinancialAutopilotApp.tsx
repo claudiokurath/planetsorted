@@ -125,7 +125,9 @@ function computePlan(inputs: AutopilotInputs): PlanResult {
   }
 }
 
-export function FinancialAutopilotApp() {
+// Legacy history stays available to dedicated migration/compatibility callers only.
+// Button-opened tools never attach to a second website account.
+export function FinancialAutopilotApp({ legacyHistory = false }: { legacyHistory?: boolean } = {}) {
   const supabase = useMemo(() => createBrowserClient(), [])
   const [userId, setUserId] = useState<string | null>(null)
 
@@ -147,10 +149,11 @@ export function FinancialAutopilotApp() {
   const [historyLoading, setHistoryLoading] = useState(false)
 
   useEffect(() => {
+    if (!legacyHistory) return
     supabase.auth.getSession().then(({ data }) => {
       setUserId(data.session?.user?.id ?? null)
     })
-  }, [supabase])
+  }, [supabase, legacyHistory])
 
   const fetchHistory = useCallback(async () => {
     if (!userId) return
@@ -316,7 +319,7 @@ export function FinancialAutopilotApp() {
             <div className="text-center mb-10">
               <p className="text-xs font-medium uppercase tracking-widest mb-2" style={{ color: '#FFBA2E' }}>Step 1</p>
               <h2 className="text-3xl font-normal sm:text-4xl">Tell Us About Your Money</h2>
-              <p className="mt-2 text-slate-400">Enter your figures — calculated instantly and saved to your account.</p>
+              <p className="mt-2 text-slate-400">Enter your figures — calculated instantly in this session.</p>
             </div>
 
             <form onSubmit={handleGenerate} className="glass rounded-none p-6 md:p-10 grid md:grid-cols-2 gap-8">

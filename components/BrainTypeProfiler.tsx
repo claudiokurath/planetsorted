@@ -96,8 +96,8 @@ export function BrainTypeProfiler({ publishedToolSlugs, toolsAvailable }: { publ
             <div className="row"><button className="btn" onClick={begin}>Take it again</button><button className="btn ghost" onClick={copyResult}>{copied ? 'Copied' : 'Copy my result'}</button></div>
             <div className="brain-next">
               <h2>Keep going with Sorted</h2>
-              <p>Create your account to access member protocols and connect WhatsApp.</p>
-              <div className="row"><a className="btn" href="/signup?next=%2Ftools">Create your Sorted account</a><a className="btn ghost" href="/tools">Explore tools</a></div>
+              <p>Explore the website freely. Your separate Button account keeps requested protocols, tools and saved links together.</p>
+              <div className="row"><a className="btn" href="https://www.sor7ed.com/account">Open your Button account</a><a className="btn ghost" href="/tools">Explore tools</a></div>
             </div>
           </>}
         </section>

@@ -239,10 +239,12 @@ const DEFAULTS: EntryInputs = {
   notes: '',
 }
 
-export function BiometricStateApp() {
+// Legacy history stays available to dedicated migration/compatibility callers only.
+// Button-opened tools never attach to a second website account.
+export function BiometricStateApp({ legacyHistory = false }: { legacyHistory?: boolean } = {}) {
   const supabase = useMemo(() => createBrowserClient(), [])
   const [userId, setUserId] = useState<string | null>(null)
-  const [authChecked, setAuthChecked] = useState(false)
+  const [authChecked, setAuthChecked] = useState(!legacyHistory)
 
   const [inputs, setInputs] = useState<EntryInputs>(DEFAULTS)
   const [result, setResult] = useState<{
@@ -262,11 +264,12 @@ export function BiometricStateApp() {
   }, [])
 
   useEffect(() => {
+    if (!legacyHistory) return
     supabase.auth.getSession().then(({ data }) => {
       setUserId(data.session?.user?.id ?? null)
       setAuthChecked(true)
     })
-  }, [supabase])
+  }, [supabase, legacyHistory])
 
   const fetchHistory = useCallback(async () => {
     if (!userId) return
@@ -536,12 +539,11 @@ export function BiometricStateApp() {
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 font-medium text-slate-900 shadow-lg transition hover:opacity-90 active:scale-95 disabled:opacity-60"
                   style={{ background: '#FFBA2E' }}
                 >
-                  {saving ? '⏳ Saving…' : '✨ Analyze & Save Check-In'}
+                  {saving ? '⏳ Saving…' : '✨ Analyze Check-In'}
                 </button>
                 {authChecked && !userId && (
                   <p className="text-xs text-slate-500">
-                    Results won&apos;t be saved.{' '}
-                    <a href="/signup" target="_top" className="text-[#FFBA2E] underline hover:text-[#FFBA2E]">Log in</a> to keep a history.
+                    These results stay in this session; they are not saved to your account.
                   </p>
                 )}
                 {saveError && <p role="alert" className="text-xs text-[#FFBA2E]">{saveError}</p>}

@@ -370,12 +370,12 @@ export const BRAIN_TYPES: Record<BrainDimension, BrainType> = {
 }
 
 export const RECOMMENDED_TOOL_URLS: Record<string, string> = {
-  'Brain Dump Sorter': '/embed/brain-dump-sorter',
-  'Weekly Wins Generator': '/embed/weekly-wins-generator',
-  'Financial Autopilot': '/embed/financial-autopilot',
-  'Decision Paralysis Solver': '/embed/decision-paralysis-solver',
-  'Biometric State Tracker': '/embed/biometric-state-tracker',
-  'ADHD Tax Calculator': '/embed/adhd-tax-calculator',
+  'Brain Dump Sorter': '/tools/brain-dump-sorter',
+  'Weekly Wins Generator': '/tools/weekly-wins-generator',
+  'Financial Autopilot': '/tools/financial-autopilot',
+  'Decision Paralysis Solver': '/tools/decision-paralysis-solver',
+  'Biometric State Tracker': '/tools/biometric-state-tracker',
+  'ADHD Tax Calculator': '/tools/adhd-tax-calculator',
 }
 
 export function emptyBrainScores(): BrainScores {

@@ -18,7 +18,7 @@ interface ProtocolDeckProps {
  * (e.g. BURNOUT DOESN'T WANT YOU DEAD kit): pure black field,
  * white display titles, cyan accents, charcoal cards.
  */
-const ACCENT = 'var(--deck-accent, #FFD400)'
+const ACCENT = 'var(--deck-accent, #FFBA2E)'
 const ACCENT_DARK = '#000000'
 const ACCENT_SOFT = 'rgba(255,186,46, 0.14)'
 const CARD = '#000000'

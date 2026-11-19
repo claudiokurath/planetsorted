@@ -130,7 +130,7 @@ export default async function CategoryPage({ params }: Props) {
         <p className="mb-4 text-xs font-medium uppercase tracking-[0.24em] text-neutral-500">Next pillar</p>
         <Link
           href={`/category/${nextCategory.slug}`}
-          className="font-bebas text-3xl uppercase tracking-normal text-white transition-colors hover:text-[#F5C518] sm:text-4xl"
+          className="font-bebas text-3xl uppercase tracking-normal text-white transition-colors hover:text-[#FFBA2E] sm:text-4xl"
         >
           {nextCategory.label} &rarr;
         </Link>

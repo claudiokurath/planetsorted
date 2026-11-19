@@ -18,8 +18,8 @@
   --sor7ed-section-border: rgba(255, 255, 255, 0.24);
 
   /* The single accent. One primary action, one active state, the mark. */
-  --sor7ed-gold: #FFD400;
-  --sor7ed-gold-dim: #C79A0E;
+  --sor7ed-gold: #FFBA2E;
+  --sor7ed-gold-dim: #FFBA2E;
 
   /* Font-var aliases. `font-bebas` (every heading) now resolves to Anton —
      the heavy condensed display face that matches the protocol deck.
@@ -197,7 +197,7 @@ p {
 .sorted-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .sorted-action { display: inline-flex; justify-content: center; align-items: center; min-height: 52px; padding: 12px 25px; font-size: .875rem; font-weight: 500; transition: background .18s, color .18s; }
 .sorted-action-primary { background: #FFBA2E; color: #000; border: 1px solid #FFBA2E; }
-.sorted-action-primary:hover { background: #ffda52; }
+.sorted-action-primary:hover { background: #FFBA2E; }
 .sorted-action-secondary { border: 1px solid #555; color: #fff; }
 .sorted-action-secondary:hover { border-color: #FFBA2E; color: #FFBA2E; }
 .sorted-brand-stamp { display: flex; flex-direction: column; align-items: center; gap: 14px; flex-shrink: 0; padding-inline: 24px; }
@@ -457,11 +457,11 @@ p {
 /* Public editorial sections share the presentation's two-surface rhythm.
    Scoped to named marketing surfaces; form, tool and account styles stay local. */
 @media screen {
-  .sorted-category-page > header { background:#ffd400; color:#000; max-width:none; border-bottom:1px solid #000; }
+  .sorted-category-page > header { background:#FFBA2E; color:#000; max-width:none; border-bottom:1px solid #000; }
   .sorted-category-page > header :is(h1,p,span,a) { color:#242000; }
   .sorted-category-page > header .sor7ed-pill { border-color:#0007; }
   .sorted-category-page > header a:focus-visible { outline:2px solid #000; outline-offset:4px; }
-  .sorted-faq-page .space-y-6 > div:nth-child(even) { background:#ffd400; color:#000; border-color:#ffd400; }
+  .sorted-faq-page .space-y-6 > div:nth-child(even) { background:#FFBA2E; color:#000; border-color:#FFBA2E; }
   .sorted-faq-page .space-y-6 > div:nth-child(even) :is(h2,p) { color:#242000; }
 }
 
@@ -470,7 +470,7 @@ p {
 @media screen {
   .protocol-deck .deck-slide { width:100%; max-width:none; margin-block:0; }
   .protocol-deck .deck-slide:not(.deck-cover) { padding-inline:max(24px,calc((100% - 1064px) / 2)); }
-  .protocol-deck [data-section-tone="yellow"] { --deck-accent:#000; background:#ffd400; color:#000; border-color:#0005; }
+  .protocol-deck [data-section-tone="yellow"] { --deck-accent:#000; background:#FFBA2E; color:#000; border-color:#0005; }
   .protocol-deck [data-section-tone="yellow"] > h2,
   .protocol-deck [data-section-tone="yellow"] > h2 span,
   .protocol-deck [data-section-tone="yellow"] > div > p,
@@ -491,7 +491,7 @@ p {
 .sorted-about-cover--text { grid-template-columns:minmax(0,1fr); text-align:center; }
 .sorted-about-cover--text .sorted-about-cover-copy { max-width:1120px; width:100%; margin-inline:auto; }
 
-.sorted-account-tabs { background:#FFD400; color:#000; padding:10px; gap:10px; border:1px solid #FFD400; }
+.sorted-account-tabs { background:#FFBA2E; color:#000; padding:10px; gap:10px; border:1px solid #FFBA2E; }
 .sorted-account-tabs button { min-height:48px; padding:12px 20px; border:1px solid #000; color:#000; }
-.sorted-account-tabs button[aria-pressed="true"] { background:#000; color:#FFD400; }
+.sorted-account-tabs button[aria-pressed="true"] { background:#000; color:#FFBA2E; }
 .sorted-account-tabs button:focus-visible { outline:2px solid #000; outline-offset:3px; }

@@ -75,7 +75,7 @@ export async function CollectionCatalog({ type, heading, description }: Collecti
           <p role="alert" className="text-base text-neutral-300">We couldn’t load the {label} right now. Please try again.</p>
           {/* A normal navigation reloads the server query rather than reusing
               an in-memory Next.js route result from the failed request. */}
-          <a href={route} className="mt-5 inline-flex min-h-12 items-center justify-center bg-white px-6 text-base font-medium text-black hover:bg-[#FFD400] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FFD400]">
+          <a href={route} className="mt-5 inline-flex min-h-12 items-center justify-center bg-white px-6 text-base font-medium text-black hover:bg-[#FFBA2E] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FFBA2E]">
             Try again →
           </a>
         </div>

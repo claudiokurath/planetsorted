@@ -32,20 +32,40 @@
 
 ## Executive Summary
 
-**Quiz-first entrance and quiet navigation:** The homepage has no global header,
-Sign In shortcut or bottom tab bar, including after scrolling. The centred moving
-mark leads to a prominent yellow Start the Brain Sorter control. Other normal
-pages use a centred wordmark with a collapsed burger menu underneath. Public
-membership access is Join Sorted inside the menu; account controls remain there
-for signed-in members. Quiz results stay free and offer account creation and
-tool exploration afterwards. No signup gate or claim of saved quiz progress is
-introduced. This supersedes the earlier 80px scroll-reveal navigation rule.
+**Brand yellow — 19 November 2026:** The single brand yellow is **#FFBA2E**,
+matched to the live Notion Gamma presentations. Use it for heroes, sections,
+buttons, tick marks, focus states and the yellow category accent. Opacity may
+change for subtle borders/surfaces; do not introduce another yellow hue.
+This supersedes the previous bright-yellow palette and earlier yellow values.
+
+
+**19 November 2026 — public website / separate Button membership:** Planet
+Sorted is a public information website, with no website sign-in or account.
+The centred logo and burger menu contain informational links only, including
+on the homepage. Free blog readers use Notion Blog Post Gamma; free tool
+explanations use Notion Gamma. The Brain Sorter quiz remains public.
+
+Requesting a protocol or interactive tool opens the separate Button service
+at its existing deployed address, https://www.sor7ed.com. Authentication,
+WhatsApp delivery and the saved library use that existing account and database,
+shared with extension saves. No new Planet Sorted member is created. Legacy
+website account routes forward to the Button account; existing records remain.
+Old protocol links open the Button resource reader without sending again.
+Publication and protocol destinations are resolved from current Notion data
+through a signed server-to-server request. Native tool access uses a short-lived
+signed grant issued after Button authentication. The scribble only ticks after
+confirmed provider acceptance. Pending/uncertain saves retain their action key;
+opening, checking or signing in is never presented as a successful send.
+This supersedes earlier website membership, dashboard and public native-tool
+access rules elsewhere in this historical document. The Button app can be the
+central member base; this does not claim mobile store publication, migrate old
+accounts, synchronize CRM schemas, or persist all interactive tool results.
 
 **Toolbox and Guidebook listings:** Compact black cards in a grid replace the long editorial
 rows. Each card has a thin category-colour border, category label, title and
 short intro, with four columns on wide desktop, three on smaller desktop and
 two/one on tablets/phones. Cards open the existing content route; delivery and
-Use tool actions remain on individual pages. Redundant Explore jump buttons
+resource requests remain on individual pages. Redundant Explore jump buttons
 above both catalogues are removed. Publication and readers are unchanged.
 
 **19 November 2026 — redesign undone:** At the owner's request, restore the
@@ -54,12 +74,6 @@ Keep the CRM repair: missing linked Notion pages are never recreated, and
 unverified phone numbers do not match another account's CRM contact. Verified
 production reconciliation completed with 8 synced, 17 left deleted and 0 failed.
 Notion content and publication settings are not reverted.
-
-**Homepage navigation:** The top header and phone bottom tabs are hidden at the
-top of `/` and appear after 80px of scrolling. The homepage header is fixed so
-revealing it does not shift the hero. Returning to the top hides navigation
-again; other pages retain their existing navigation. The entrance spans at least
-one viewport so navigation remains reachable on tall screens.
 
 **Button card transport:** The authenticated Button gateway accepts text for
 account flows and narrowly validated image CTA cards for saved links. Image
@@ -196,7 +210,7 @@ Everything below this point in the document describes **Sorted Lab** specificall
 
 **3 November 2026 — campaign quiz URLs:** The user requested direct URLs and QR posters for the uploaded reflections. `/self-perception-gap`, `/hidden-strength` and `/adhd-money-reset` are standalone campaign experiences; `/hidden-strength-test` redirects to the same five-challenge Hidden Strength revision. `/brain-type` remains the existing entry reflection. These routes do not add or republish Notion catalogue entries. Authored tasks, prediction metrics and money calculations run locally in bundled React. Brain Type/Hidden Strength are memory-only; Self-Perception/Money Reset have explicit browser-only storage and clear controls. No results are synced to Supabase/Notion or silently sent through WhatsApp. Source defects and simulated Money Reset purchase controls were corrected; the unrelated Genspark-only admin email prototype is not published. See `docs/reflection-launch.md`.
 
-**2 November 2026 — text-led website refresh:** Guidebook and Toolbox place their published library immediately after a concise, centred introduction. Guidebook uses the shared Anton/Jost/mono typography, black sections, #FFD400 support section and thin rules. Website catalogue cards and category listings have no cover photos or fallback thumbnails; sign-up/account decorative artwork is removed. Brand wordmark, animated/reduced-motion scribble and SOR7ED delivery mark remain. Original Gamma presentations and their authored illustrations, Notion cover data, private PDFs and WhatsApp/social preview images are preserved. Publication/filtering continues to use the current Notion source.
+**2 November 2026 — text-led website refresh:** Guidebook and Toolbox place their published library immediately after a concise, centred introduction. Guidebook uses the shared Anton/Jost/mono typography, black sections, #FFBA2E support section and thin rules. Website catalogue cards and category listings have no cover photos or fallback thumbnails; sign-up/account decorative artwork is removed. Brand wordmark, animated/reduced-motion scribble and SOR7ED delivery mark remain. Original Gamma presentations and their authored illustrations, Notion cover data, private PDFs and WhatsApp/social preview images are preserved. Publication/filtering continues to use the current Notion source.
 
 **2 November 2026 — Notion Gamma correction (supersedes copied presentations and public-body fallbacks):** public guidebook readers use only the current **Blog Post Gamma** property, and tool previews use only **Gamma**. The official presentation is embedded directly in a viewport-filling reader, so the website does not scroll behind a separately scrolling presentation. Navigation and the slug-specific SOR7ED delivery button stay visible; tool previews keep a direct Use tool action. There is no bundled/native text fallback and no substitution of Blog Post or private Protocol Gamma. Publication, links and cover images continue to follow live Notion reconciliation. Gamma edits appear through the original presentation without a website import or deployment. The GitHub schedule now reconciles CRM only; the blocked hosted presentation-scraping job is not part of publishing.
 
@@ -219,15 +233,15 @@ Everything below this point in the document describes **Sorted Lab** specificall
 
 **Banner removal (26 October 2026):** public About/Toolbox/Guidebook openings and individual article/tool presentations are title-led, without large decorative opening images. Native source data, in-content illustrations, preview covers and WhatsApp/social metadata images are retained.
 
-**Design handoff refresh (26 October 2026):** adopted its consistent Jost body type, readable editorial hierarchy, category filters and text-led guidebook index. Kept the single brain-type hero action, animated scribble, #FFD400 accent, full-width section backgrounds and the approved tool-image title overlays. Collection items and counts come from published live rows rather than the prototype’s stale six-tool catalogue; no reading times are shown. About now follows the supplied ABOUT-US.pdf, without its Numbers section, and uses the existing sign-in/connect/button delivery instructions rather than the obsolete text-a-keyword flow. Native Gamma article/tool text and private protocol delivery remain unchanged.
+**Design handoff refresh (26 October 2026):** adopted its consistent Jost body type, readable editorial hierarchy, category filters and text-led guidebook index. Kept the single brain-type hero action, animated scribble, #FFBA2E accent, full-width section backgrounds and the approved tool-image title overlays. Collection items and counts come from published live rows rather than the prototype’s stale six-tool catalogue; no reading times are shown. About now follows the supplied ABOUT-US.pdf, without its Numbers section, and uses the existing sign-in/connect/button delivery instructions rather than the obsolete text-a-keyword flow. Native Gamma article/tool text and private protocol delivery remain unchanged.
 
-**Section surfaces (25 October 2026):** public editorial pages use black/white sections alternating with #FFD400 yellow/black sections, following the supplied presentation. Home choices, collection introductions, selected About panels, category headers and alternate FAQ answers use yellow. Content cards keep their black surface; print remains white. Account forms and standalone tool controls retain their own styles.
+**Section surfaces (25 October 2026):** public editorial pages use black/white sections alternating with #FFBA2E yellow/black sections, following the supplied presentation. Home choices, collection introductions, selected About panels, category headers and alternate FAQ answers use yellow. Content cards keep their black surface; print remains white. Account forms and standalone tool controls retain their own styles.
 
 **Full-width public sections (25 October 2026):** Toolbox, Guidebook, About and individual article/tool presentations use edge-to-edge section backgrounds and covers, without floating outer panels or gaps. Text and catalog grids keep readable inner gutters. Individual presentations alternate yellow/black sections too. The shared page-bottom SOR7ED action binds article/tool routes to their own slug and stays outside the reading sections.
 
 **Tool previews (25 October 2026):** tool cards use a full-bleed 3:2 cover, uniform dark overlay and large white Anton title centred vertically and aligned left. Longer titles scale down by card width without truncation. Descriptions and delivery controls remain below the image. Guidebook previews keep their existing layout and cover handling.
 
-**Entry hero (25 October 2026):** the navigation carries the full wordmark; the hero uses only the moving scribble beside the headline, with a static scribble for reduced-motion visitors and no video controls. The only main hero action is “Find your starting point” to `/brain-type`; Toolbox and Guidebook remain in site navigation. Hero highlights and focus outlines use the single #FFD400 accent. The hero follows sor7ed.com’s presentation style: Archivo body text, Anton headline, generous black space and one white primary action. A yellow/black explanatory section follows the hero to retain the same alternating section rhythm.
+**Entry hero (25 October 2026):** the navigation carries the full wordmark; the hero uses only the moving scribble beside the headline, with a static scribble for reduced-motion visitors and no video controls. The only main hero action is “Find your starting point” to `/brain-type`; Toolbox and Guidebook remain in site navigation. Hero highlights and focus outlines use the single #FFBA2E accent. The hero follows sor7ed.com’s presentation style: Archivo body text, Anton headline, generous black space and one white primary action. A yellow/black explanatory section follows the hero to retain the same alternating section rhythm.
 
 **Publication status (25 October 2026):** leaving Published in Notion must withdraw the corresponding row from the public catalog; the webhook update path now sets non-published pages to Draft rather than silently skipping them. The scheduled reconciliation remains once daily on Vercel Hobby, so immediate delivery still depends on a functioning webhook subscription.
 

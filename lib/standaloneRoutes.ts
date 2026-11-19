@@ -13,7 +13,7 @@ export const STANDALONE_ROUTES: Record<string, string> = {
   'brain-dump-sorter': '/brain-dump-sorter',
 }
 
-// These public app routes render the inputs and results, while /tools/[slug]
+// These gated app routes render the inputs and results, while /tools/[slug]
 // remains the discovery presentation. Task Breakdown has its own member flow.
 export const INTERACTIVE_TOOL_ROUTES: Record<string, string> = {
   'adhd-tax-calculator': '/embed/adhd-tax-calculator',

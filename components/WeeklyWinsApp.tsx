@@ -154,11 +154,13 @@ function SliderField({
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export function WeeklyWinsApp() {
+// Legacy history stays available to dedicated migration/compatibility callers only.
+// Button-opened tools never attach to a second website account.
+export function WeeklyWinsApp({ legacyHistory = false }: { legacyHistory?: boolean } = {}) {
   const supabase = useMemo(() => createBrowserClient(), [])
 
   const [userId, setUserId] = useState<string | null>(null)
-  const [authChecked, setAuthChecked] = useState(false)
+  const [authChecked, setAuthChecked] = useState(!legacyHistory)
 
   const [tasksCompleted, setTasksCompleted] = useState(10)
   const [bodyDoublingSessions, setBodyDoublingSessions] = useState(2)
@@ -182,11 +184,12 @@ export function WeeklyWinsApp() {
 
   // ── Auth check ──────────────────────────────────────────────────────────────
   useEffect(() => {
+    if (!legacyHistory) return
     supabase.auth.getSession().then(({ data }) => {
       setUserId(data.session?.user?.id ?? null)
       setAuthChecked(true)
     })
-  }, [supabase])
+  }, [supabase, legacyHistory])
 
   // ── Fetch history ───────────────────────────────────────────────────────────
   const fetchHistory = useCallback(async () => {
@@ -508,7 +511,7 @@ export function WeeklyWinsApp() {
                 id="generate-wins" data-tool-primary
                 onClick={handleGenerate}
                 disabled={saving}
-                className="w-full rounded-none bg-[#FFBA2E] px-8 py-4 text-sm font-medium uppercase tracking-widest text-[#000000] shadow-lg transition-all hover:bg-[#C79A0E] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full rounded-none bg-[#FFBA2E] px-8 py-4 text-sm font-medium uppercase tracking-widest text-[#000000] shadow-lg transition-all hover:bg-[#FFBA2E] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {saving ? 'Saving…' : 'Generate my wins →'}
               </button>
@@ -519,11 +522,7 @@ export function WeeklyWinsApp() {
 
               {authChecked && !userId && (
                 <p className="rounded-xl border border-white/10 bg-black px-4 py-3 text-xs text-neutral-400">
-                  Your summary will generate but won&apos;t be saved.{' '}
-                  <a href="/signup" target="_top" className="text-[#FFBA2E] underline hover:text-[#FFBA2E]">
-                    Log in
-                  </a>{' '}
-                  to keep a wins history.
+                  Your summary stays in this session. Copy it to keep your results.
                 </p>
               )}
             </section>

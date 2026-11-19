@@ -5,6 +5,7 @@ import type { NextConfig } from "next";
 // clickjacking. Add a domain here if the Gamma is published to a custom one.
 const EMBED_FRAME_ANCESTORS = [
   "'self'",
+  "https://www.sor7ed.com",
   "https://gamma.app",
   "https://*.gamma.app",
   "https://gamma.site",

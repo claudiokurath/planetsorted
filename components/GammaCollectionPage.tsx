@@ -27,7 +27,7 @@ export function GammaCollectionPage({ collection }: { collection: keyof typeof C
           <ol className={styles.steps}>
             <li><span aria-hidden="true">01</span><h3>Choose a guide</h3><p>Pick the topic that fits today. No account is needed to read.</p></li>
             <li><span aria-hidden="true">02</span><h3>Take a next step</h3><p>Read the guide and use what helps, at your own pace.</p></li>
-            <li><span aria-hidden="true">03</span><h3>Keep the protocol</h3><p>Optionally sign in, connect WhatsApp and tap the SOR7ED mark below the guide.</p></li>
+            <li><span aria-hidden="true">03</span><h3>Keep the protocol</h3><p>Tap the SOR7ED mark below the guide. Your separate Button account keeps the protocol in your library and sends it to WhatsApp.</p></li>
           </ol>
         </section>
       ) : null}
