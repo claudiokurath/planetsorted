@@ -32,14 +32,13 @@
 
 ## Executive Summary
 
-**Quiz-first entrance and quiet navigation:** The homepage has no global header,
-Sign In shortcut or bottom tab bar, including after scrolling. The centred moving
-mark leads to a prominent yellow Start the Brain Sorter control. Other normal
-pages use a centred wordmark with a collapsed burger menu underneath. Public
-membership access is Join Sorted inside the menu; account controls remain there
-for signed-in members. Quiz results stay free and offer account creation and
-tool exploration afterwards. No signup gate or claim of saved quiz progress is
-introduced. This supersedes the earlier 80px scroll-reveal navigation rule.
+**Centred burger navigation:** The homepage and other normal pages share a
+centred wordmark with a collapsed burger menu underneath. The menu includes
+Sign in / Create account for visitors and Your account / Sign out for members.
+There is no mobile bottom tab bar. The yellow Start the Brain Sorter action
+remains the hero's main action, with the moving mark and introduction retained.
+Quiz results stay free and offer optional account creation and tool exploration.
+This supersedes both the hidden-homepage and 80px scroll-reveal navigation rules.
 
 **Toolbox and Guidebook listings:** Compact black cards in a grid replace the long editorial
 rows. Each card has a thin category-colour border, category label, title and
@@ -54,12 +53,6 @@ Keep the CRM repair: missing linked Notion pages are never recreated, and
 unverified phone numbers do not match another account's CRM contact. Verified
 production reconciliation completed with 8 synced, 17 left deleted and 0 failed.
 Notion content and publication settings are not reverted.
-
-**Homepage navigation:** The top header and phone bottom tabs are hidden at the
-top of `/` and appear after 80px of scrolling. The homepage header is fixed so
-revealing it does not shift the hero. Returning to the top hides navigation
-again; other pages retain their existing navigation. The entrance spans at least
-one viewport so navigation remains reachable on tall screens.
 
 **Button card transport:** The authenticated Button gateway accepts text for
 account flows and narrowly validated image CTA cards for saved links. Image

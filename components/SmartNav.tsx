@@ -38,7 +38,7 @@ export function SmartNav() {
     router.refresh()
   }
 
-  if (pathname === '/' || isStandaloneToolRoute(pathname)) return null
+  if (isStandaloneToolRoute(pathname)) return null
 
   const navLinks = [
     { label: 'Home', href: '/' },
@@ -64,7 +64,7 @@ export function SmartNav() {
           {authReady && (user ? <>
             <Link href="/dashboard" onClick={closeMenu}>Your account</Link>
             <button type="button" onClick={() => { closeMenu(); void handleSignOut() }}>Sign out</button>
-          </> : <Link href={`/signup?next=${encodeURIComponent(pathname || '/tools')}`} onClick={closeMenu}>Join Sorted</Link>)}
+          </> : <Link href={`/signup?next=${encodeURIComponent(pathname || '/tools')}`} onClick={closeMenu}>Sign in / Create account</Link>)}
         </nav>
       </details>
     </header>
