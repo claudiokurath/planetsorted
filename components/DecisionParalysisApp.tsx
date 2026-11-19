@@ -135,10 +135,12 @@ function generateAdvice(
   return advice
 }
 
-export function DecisionParalysisApp() {
+// Legacy history stays available to dedicated migration/compatibility callers only.
+// Button-opened tools never attach to a second website account.
+export function DecisionParalysisApp({ legacyHistory = false }: { legacyHistory?: boolean } = {}) {
   const supabase = useMemo(() => createBrowserClient(), [])
   const [userId, setUserId] = useState<string | null>(null)
-  const [authChecked, setAuthChecked] = useState(false)
+  const [authChecked, setAuthChecked] = useState(!legacyHistory)
 
   // ── Step 1: Assessment State ──
   const [assessment, setAssessment] = useState<AssessmentInputs>({
@@ -195,11 +197,12 @@ export function DecisionParalysisApp() {
   const [journalLoading, setJournalLoading] = useState(false)
 
   useEffect(() => {
+    if (!legacyHistory) return
     supabase.auth.getSession().then(({ data }) => {
       setUserId(data.session?.user?.id ?? null)
       setAuthChecked(true)
     })
-  }, [supabase])
+  }, [supabase, legacyHistory])
 
   const fetchJournal = useCallback(async () => {
     if (!userId) return

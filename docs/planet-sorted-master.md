@@ -32,19 +32,33 @@
 
 ## Executive Summary
 
-**Centred burger navigation:** The homepage and other normal pages share a
-centred wordmark with a collapsed burger menu underneath. The menu includes
-Sign in / Create account for visitors and Your account / Sign out for members.
-There is no mobile bottom tab bar. The yellow Start the Brain Sorter action
-remains the hero's main action, with the moving mark and introduction retained.
-Quiz results stay free and offer optional account creation and tool exploration.
-This supersedes both the hidden-homepage and 80px scroll-reveal navigation rules.
+**19 November 2026 — public website / separate Button membership:** Planet
+Sorted is a public information website, with no website sign-in or account.
+The centred logo and burger menu contain informational links only, including
+on the homepage. Free blog readers use Notion Blog Post Gamma; free tool
+explanations use Notion Gamma. The Brain Sorter quiz remains public.
+
+Requesting a protocol or interactive tool opens the separate Button service
+at its existing deployed address, https://www.sor7ed.com. Authentication,
+WhatsApp delivery and the saved library use that existing account and database,
+shared with extension saves. No new Planet Sorted member is created. Legacy
+website account routes forward to the Button account; existing records remain.
+Old protocol links open the Button resource reader without sending again.
+Publication and protocol destinations are resolved from current Notion data
+through a signed server-to-server request. Native tool access uses a short-lived
+signed grant issued after Button authentication. The scribble only ticks after
+confirmed provider acceptance. Pending/uncertain saves retain their action key;
+opening, checking or signing in is never presented as a successful send.
+This supersedes earlier website membership, dashboard and public native-tool
+access rules elsewhere in this historical document. The Button app can be the
+central member base; this does not claim mobile store publication, migrate old
+accounts, synchronize CRM schemas, or persist all interactive tool results.
 
 **Toolbox and Guidebook listings:** Compact black cards in a grid replace the long editorial
 rows. Each card has a thin category-colour border, category label, title and
 short intro, with four columns on wide desktop, three on smaller desktop and
 two/one on tablets/phones. Cards open the existing content route; delivery and
-Use tool actions remain on individual pages. Redundant Explore jump buttons
+resource requests remain on individual pages. Redundant Explore jump buttons
 above both catalogues are removed. Publication and readers are unchanged.
 
 **19 November 2026 — redesign undone:** At the owner's request, restore the

@@ -13,7 +13,9 @@ interface JournalEntry {
   output_text: string
 }
 
-export function BrainDumpSorterApp() {
+// Legacy history stays available to dedicated migration/compatibility callers only.
+// Button-opened tools never attach to a second website account.
+export function BrainDumpSorterApp({ legacyHistory = false }: { legacyHistory?: boolean } = {}) {
   const supabase = useMemo(() => createBrowserClient(), [])
   const [userId, setUserId] = useState<string | null>(null)
 
@@ -29,10 +31,11 @@ export function BrainDumpSorterApp() {
   const [historyLoading, setHistoryLoading] = useState(false)
 
   useEffect(() => {
+    if (!legacyHistory) return
     supabase.auth.getSession().then(({ data }) => {
       setUserId(data.session?.user?.id ?? null)
     })
-  }, [supabase])
+  }, [supabase, legacyHistory])
 
   const fetchHistory = useCallback(async () => {
     if (!userId) return
@@ -166,7 +169,7 @@ export function BrainDumpSorterApp() {
               </p>
               <div className="mt-8 flex items-center gap-4 text-xs font-mono text-slate-400">
                 <span className="rounded-full bg-black border border-white/10 px-3 py-1 text-[#FFBA2E]">Sorts in your browser</span>
-                <span>Sign in to keep a history</span>
+                <span>Copy your results to keep them</span>
               </div>
             </div>
 
@@ -313,7 +316,7 @@ export function BrainDumpSorterApp() {
               <div className="glass rounded-none p-6 text-center space-y-3">
                 <span className="text-3xl">📊</span>
                 <h3 className="text-base font-medium text-white">3. Choose a next step</h3>
-                <p className="text-xs text-slate-400">Pick one manageable task to start. Sign in if you want to keep your sorted thoughts in account history.</p>
+                <p className="text-xs text-slate-400">Pick one manageable task to start. Copy your sorted thoughts if you want to keep these results.</p>
               </div>
             </div>
           </section>

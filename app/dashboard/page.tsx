@@ -1,29 +1,6 @@
-import { Suspense } from 'react'
-import type { Metadata } from 'next'
-import { DashboardClient } from '@/components/DashboardClient'
+import { redirect } from 'next/navigation'
 
-export const dynamic = 'force-dynamic'
-
-export const metadata: Metadata = {
-  title: 'Account — PLANET SOR7ED',
-  description: 'Your saved items, history, and account settings.',
-  robots: { index: false, follow: false },
-}
-
-export default async function DashboardPage() {
-  return (
-    <div className="min-h-screen bg-black text-white">
-      <div className="flex min-h-screen items-start justify-center px-4 pt-8 pb-24 sm:pt-10 sm:pb-20">
-        <div className="w-full max-w-7xl">
-          <Suspense
-            fallback={
-              <p role="status" className="text-center text-neutral-300 py-20">Loading your account…</p>
-            }
-          >
-            <DashboardClient />
-          </Suspense>
-        </div>
-      </div>
-    </div>
-  )
+// Membership belongs to the separate Button service. Existing data is retained.
+export default function Page() {
+  redirect('https://www.sor7ed.com/account')
 }

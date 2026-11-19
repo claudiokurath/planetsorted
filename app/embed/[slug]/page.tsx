@@ -1,7 +1,8 @@
 import { isContentPublished } from '@/lib/notion/liveContent'
 import { LiveContentRefresh } from '@/components/LiveContentRefresh'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
+import { verifyToolGrant } from '@/lib/button/toolGrant'
 
 import { StandaloneAdhdTaxApp } from '@/components/StandaloneAdhdTaxApp'
 import { BiometricStateApp } from '@/components/BiometricStateApp'
@@ -10,23 +11,7 @@ import { DecisionParalysisApp } from '@/components/DecisionParalysisApp'
 import { FinancialAutopilotApp } from '@/components/FinancialAutopilotApp'
 import { WeeklyWinsApp } from '@/components/WeeklyWinsApp'
 
-/**
- * Public embed surface for the standalone tools, so they can be iframed into
- * Gamma (see the frame-ancestors rule in next.config.ts).
- *
- * Deliberately separate from the /(standalone) routes rather than unlocking
- * them. Those stay link-only behind verifyStandaloneAccess: an iframe carries
- * no access token and cannot hold a cross-site cookie, so embedding through
- * them is impossible without dismantling that gate for every visitor.
- *
- * Anything reachable here is public to whoever holds the embed URL — which is
- * the point of putting it in a shared deck, but it does mean these tools are
- * no longer link-only. Add a slug here only when that is intended.
- *
- * task-breakdown-wizard is deliberately absent: it requires a signed-in member
- * with a connected WhatsApp number and bounces to /connect, which cannot work
- * inside a frame.
- */
+// Native tools are opened by the separate authenticated Button library.
 const EMBEDDABLE = {
   'adhd-tax-calculator': {
     title: 'ADHD Tax Calculator',
@@ -60,6 +45,7 @@ type EmbedSlug = keyof typeof EMBEDDABLE
 
 interface Props {
   params: Promise<{ slug: string }>
+  searchParams: Promise<{ access?: string }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -74,10 +60,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function EmbedPage({ params }: Props) {
+export default async function EmbedPage({ params, searchParams }: Props) {
   const { slug } = await params
   const entry = EMBEDDABLE[slug as EmbedSlug]
   if (!entry || !await isContentPublished(slug, 'Tool')) notFound()
+
+  const { access } = await searchParams
+  if (!verifyToolGrant(process.env.BUTTON_RELAY_SECRET, slug, access)) {
+    redirect(`https://www.sor7ed.com/resource?context=tool&slug=${encodeURIComponent(slug)}`)
+  }
 
   const { Component } = entry
   return <><LiveContentRefresh /><Component /></>
