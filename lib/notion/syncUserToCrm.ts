@@ -34,7 +34,7 @@ export async function syncUserToCrm(contact: CrmContact, options: WriterOptions 
     if (byId.results.length > 1) throw new Error('CRM identity conflict')
     const result = byId.results[0]
     if (result && result.object === 'page' && 'properties' in result) existing = result
-    if (!existing && (contact.email || contact.whatsappNumber)) {
+    if (!existing && (contact.email || (contact.whatsappNumber && contact.whatsappVerified))) {
       const or = [
         ...(contact.email ? [{ property: 'Email', email: { equals: contact.email } }] : []),
         ...(contact.whatsappNumber && contact.whatsappVerified ? [
