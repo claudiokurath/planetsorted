@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ContentCard } from '@/components/ContentCard'
+import { ArrowIcon } from '@/components/ArrowIcon'
 import { createServiceClient } from '@/lib/supabase/server'
 import type { CSSProperties } from 'react'
 import './section.css'
@@ -98,7 +99,7 @@ export default async function CategoryPage({ params }: Props) {
       ))}
       <footer className="sorted-continent__next">
         <p className="sorted-continent__eyebrow">Explore the next area</p>
-        <Link href={`/category/${nextCategory.slug}`} style={{ color: nextCategory.accent }}>{nextCategory.label} <span aria-hidden="true">↗</span></Link>
+        <Link href={`/category/${nextCategory.slug}`} style={{ color: nextCategory.accent }}>{nextCategory.label} <span className="inline-flex" aria-hidden="true"><ArrowIcon /></span></Link>
         <Link href="/#sections" className="sorted-continent__all">All seven areas</Link>
       </footer>
     </div>

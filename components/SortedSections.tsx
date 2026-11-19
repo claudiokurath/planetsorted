@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import { CATEGORY_LIST } from '@/lib/categoryStyles'
+import { ArrowIcon } from '@/components/ArrowIcon'
 import './SortedSections.css'
 
 /** The seven entrances share the same canonical category and colour definitions. */
@@ -19,7 +20,7 @@ export function SortedSections() {
             <span className="sorted-worlds__number">0{index + 1}</span>
             <h3>{category.label}</h3>
             <p>{category.tagline}</p>
-            <span className="sorted-worlds__enter">Explore {category.label} <span aria-hidden="true">↗</span></span>
+            <span className="sorted-worlds__enter">Explore {category.label} <ArrowIcon /></span>
           </Link>
         ))}
       </div>
