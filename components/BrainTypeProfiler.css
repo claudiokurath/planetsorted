@@ -88,3 +88,7 @@ body:has(.brain-type-profiler) > main { padding-bottom: 0; }
 .brain-type-profiler .display,.brain-type-profiler .q,.brain-type-profiler .you,.brain-type-profiler .identity,.brain-type-profiler .kicker,.brain-type-profiler .share { text-align:center; }
 .brain-type-profiler .lede,.brain-type-profiler .identity,.brain-type-profiler .fineprint,.brain-type-profiler .share .tag { margin-inline:auto; }
 .brain-type-profiler .row { justify-content:center; }
+.brain-type-profiler .brain-next { margin-top:40px; padding-top:32px; border-top:1px solid var(--line); text-align:center; }
+.brain-type-profiler .brain-next h2 { margin:0 0 16px; font-family:var(--display); font-size:38px; text-transform:uppercase; }
+.brain-type-profiler .brain-next p { color:var(--muted); max-width:40ch; margin-inline:auto; }
+.brain-type-profiler .brain-next a.btn { display:inline-flex; align-items:center; justify-content:center; text-decoration:none; max-width:100%; }

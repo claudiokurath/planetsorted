@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { ArrowIcon } from '@/components/ArrowIcon'
 import './HomeGateway.css'
 
 export function HomeGateway() {
@@ -31,8 +32,8 @@ export function HomeGateway() {
         </header>
       </div>
       <div className="sorted-home-entry__start">
-        <Link href="/brain-type" id="start-brain-type" className="sorted-home-entry__start-button" aria-label="Start the free Brain Type reflection">
-          <span>What’s your brain type?</span><span aria-hidden="true">→</span>
+        <Link href="/brain-type" id="start-brain-type" className="sorted-home-entry__start-button" aria-label="Start the free Brain Sorter reflection">
+          <span>Start the Brain Sorter</span><span className="sorted-home-entry__start-arrow" aria-hidden="true"><ArrowIcon /></span>
         </Link>
         <p className="sorted-home-entry__start-detail">2 minutes. Free. Nothing saved.</p>
       </div>

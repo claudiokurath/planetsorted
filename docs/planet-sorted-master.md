@@ -32,6 +32,15 @@
 
 ## Executive Summary
 
+**Quiz-first entrance and quiet navigation:** The homepage has no global header,
+Sign In shortcut or bottom tab bar, including after scrolling. The centred moving
+mark leads to a prominent yellow Start the Brain Sorter control. Other normal
+pages use a centred wordmark with a collapsed burger menu underneath. Public
+membership access is Join Sorted inside the menu; account controls remain there
+for signed-in members. Quiz results stay free and offer account creation and
+tool exploration afterwards. No signup gate or claim of saved quiz progress is
+introduced. This supersedes the earlier 80px scroll-reveal navigation rule.
+
 **Guidebook listing:** Compact black cards in a grid replace the long editorial
 rows. Each card has a thin category-colour border, category label, title and
 short intro, with four columns on wide desktop, three on smaller desktop and
