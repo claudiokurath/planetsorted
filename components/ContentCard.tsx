@@ -1,6 +1,7 @@
 import { INTERACTIVE_TOOL_ROUTES } from '@/lib/standaloneRoutes'
 import { ArrowIcon } from '@/components/ArrowIcon'
 import Link from 'next/link'
+import type { CSSProperties } from 'react'
 import { getCategoryStyle } from '@/lib/categoryStyles'
 import { ToolWhatsAppCta } from '@/components/ToolWhatsAppCta'
 import './ContentCard.css'
@@ -10,7 +11,7 @@ interface ContentCardProps {
   title: string
   summary?: string
   category?: string | null
-  layout?: 'card' | 'row'
+  layout?: 'card' | 'row' | 'book'
 }
 
 export function ContentCard({ href, title, summary, category, layout = 'card' }: ContentCardProps) {
@@ -18,6 +19,17 @@ export function ContentCard({ href, title, summary, category, layout = 'card' }:
   const description = summary?.replace(/<br\s*\/?\s*>/gi, '\n').replace(/<[^>]*>/g, '').replace(/^#{1,6}\s+/gm, '').replace(/\*\*/g, '').replace(/^OVERVIEW\s*/i, '').trim().split(/\n\s*\n/)[0]
   const item = href.match(/^\/(tools|guidebooks)\/([a-z0-9]+(?:-[a-z0-9]+)*)\/?$/)
   const heading = <h3 className="sorted-preview-title font-bebas">{title}</h3>
+
+  if (layout === 'book' && item) return (
+    <article className="sorted-guide-book" style={{ '--book-accent': categoryStyle?.accent || '#FFD400' } as CSSProperties}>
+      <Link href={href} aria-label={title} title={title}>
+        {categoryStyle ? <span className="sorted-guide-book__category">{categoryStyle.label}</span> : null}
+        <h3>{title}</h3>
+        {description ? <p className="sorted-guide-book__intro">{description}</p> : null}
+        <span className="sorted-guide-book__arrow"><ArrowIcon /></span>
+      </Link>
+    </article>
+  )
 
   if (layout === 'row' && item?.[1] === 'guidebooks') return (
     <article className="sorted-guide-row">

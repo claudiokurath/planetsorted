@@ -3,17 +3,17 @@
 import { BrandLogo } from '@/components/BrandLogo'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { User } from '@supabase/supabase-js'
 import { createBrowserClient } from '@/lib/supabase/client'
 import { isStandaloneToolRoute } from '@/lib/isStandaloneToolRoute'
-import { useNavigationVisibility } from '@/lib/useNavigationVisibility'
+import './SmartNav.css'
 
 export function SmartNav() {
   const pathname = usePathname()
-  const navigationVisible = useNavigationVisibility(pathname)
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
+  const menuRef = useRef<HTMLDetailsElement>(null)
   const [authReady, setAuthReady] = useState(false)
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export function SmartNav() {
     router.refresh()
   }
 
-  if (isStandaloneToolRoute(pathname) || !navigationVisible) return null
+  if (pathname === '/' || isStandaloneToolRoute(pathname)) return null
 
   const navLinks = [
     { label: 'Home', href: '/' },
@@ -47,81 +47,26 @@ export function SmartNav() {
     { label: 'About', href: '/about' },
   ]
 
+  const closeMenu = () => menuRef.current?.removeAttribute('open')
+
   return (
-    <header className={`${pathname === '/' ? 'fixed inset-x-0' : 'sticky'} top-0 z-50 border-b border-white/[0.08] bg-black/90 text-white backdrop-blur-xl`}>
-      {/* Mobile: logo-only bar — primary nav lives in the bottom tab bar */}
-      <nav aria-label="Primary navigation" className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 py-2.5 md:hidden">
-        <Link href="/" aria-label="PLANET SOR7ED home" className="col-start-2 flex min-h-11 items-center">
-          <BrandLogo className="h-7 w-auto" />
-        </Link>
-        {authReady && !user && (
-          <Link
-            href={`/signup?mode=returning&next=${encodeURIComponent(pathname || '/')}`}
-            className="inline-flex min-h-11 items-center justify-self-end px-2 text-xs font-medium uppercase tracking-[0.16em] text-[#FFD400]"
-          >
-            Sign In
-          </Link>
-        )}
-      </nav>
-
-      {/* Desktop: full top nav */}
-      <nav aria-label="Primary navigation" className="mx-auto hidden max-w-7xl items-center justify-between gap-6 px-6 py-3 md:flex lg:px-8">
-        <Link href="/" aria-label="PLANET SOR7ED home" className="flex min-h-11 shrink-0 items-center">
-          <BrandLogo className="h-8 w-auto lg:h-10" />
-        </Link>
-
-        <div className="flex flex-wrap items-center justify-end gap-1 lg:gap-4">
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href || pathname?.startsWith(`${link.href}/`)
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-current={isActive ? 'page' : undefined}
-                className={`inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
-                  isActive
-                    ? 'border-b-2 border-[#FFD400] px-3 text-[#FFD400]'
-                    : 'px-3 text-white hover:text-[#FFD400]'
-                }`}
-              >
-                {link.label}
-              </Link>
-            )
-          })}
-
-          {authReady && (
-            user ? (
-              <>
-                <Link
-                  href="/dashboard"
-                  aria-current={pathname === '/dashboard' ? 'page' : undefined}
-                  className={`inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] transition-colors ${
-                    pathname === '/dashboard'
-                      ? 'border-b-2 border-[#FFD400] px-3 text-[#FFD400]'
-                      : 'px-3 text-white hover:text-[#FFD400]'
-                  }`}
-                >
-                  Account
-                </Link>
-                <button
-                  onClick={handleSignOut}
-                  className="inline-flex min-h-11 items-center pb-0.5 text-xs font-medium uppercase tracking-[0.12em] px-3 text-white transition-colors hover:text-[#FFD400]"
-                >
-                  Sign Out
-                </button>
-              </>
-            ) : (
-              <Link
-                href={`/signup?mode=returning&next=${encodeURIComponent(pathname || '/')}`}
-                aria-current={pathname === '/signup' ? 'page' : undefined}
-                className="inline-flex min-h-11 items-center px-3 text-xs font-medium uppercase tracking-[0.12em] text-[#FFD400] transition-colors hover:text-white"
-              >
-                Sign In
-              </Link>
-            )
-          )}
-        </div>
-      </nav>
+    <header className="sorted-menu-header">
+      <Link href="/" aria-label="Sorted home" className="sorted-menu-brand"><BrandLogo className="h-8 w-auto" /></Link>
+      <details ref={menuRef} className="sorted-menu" onKeyDown={event => {
+        if (event.key === 'Escape') {
+          closeMenu()
+          menuRef.current?.querySelector('summary')?.focus()
+        }
+      }}>
+        <summary aria-label="Navigation menu"><svg width="22" height="18" viewBox="0 0 22 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M1 2h20M1 9h20M1 16h20" /></svg><span>Menu</span></summary>
+        <nav aria-label="Primary navigation" className="sorted-menu-links">
+          {navLinks.map(link => <Link key={link.href} href={link.href} onClick={closeMenu} aria-current={pathname === link.href || pathname?.startsWith(`${link.href}/`) ? 'page' : undefined}>{link.label}</Link>)}
+          {authReady && (user ? <>
+            <Link href="/dashboard" onClick={closeMenu}>Your account</Link>
+            <button type="button" onClick={() => { closeMenu(); void handleSignOut() }}>Sign out</button>
+          </> : <Link href={`/signup?next=${encodeURIComponent(pathname || '/tools')}`} onClick={closeMenu}>Join Sorted</Link>)}
+        </nav>
+      </details>
     </header>
   )
 }

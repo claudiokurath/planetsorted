@@ -94,6 +94,11 @@ export function BrainTypeProfiler({ publishedToolSlugs, toolsAvailable }: { publ
             <hr className="rule" />
             <div className="share"><p className="brand">sor7ed · brain type</p><p className="big">{type.name}</p><p className="tag">{type.tag}</p></div>
             <div className="row"><button className="btn" onClick={begin}>Take it again</button><button className="btn ghost" onClick={copyResult}>{copied ? 'Copied' : 'Copy my result'}</button></div>
+            <div className="brain-next">
+              <h2>Keep going with Sorted</h2>
+              <p>Create your account to access member protocols and connect WhatsApp.</p>
+              <div className="row"><a className="btn" href="/signup?next=%2Ftools">Create your Sorted account</a><a className="btn ghost" href="/tools">Explore tools</a></div>
+            </div>
           </>}
         </section>
       </div>

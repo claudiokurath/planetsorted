@@ -6,8 +6,6 @@
 .page p { font-size:1.125rem; line-height:1.75; color:#d4d4d4; }
 .panel > p:not(.eyebrow) { max-width:66ch; margin-inline:auto; }
 .page .eyebrow { color:var(--sor7ed-gold); font:400 11px/1.5 var(--font-jetbrains-mono),monospace; text-transform:uppercase; letter-spacing:.14em; }
-.explore { display:inline-flex; align-items:center; justify-content:center; gap:32px; min-height:48px; margin-top:28px; padding:14px 24px; background:#fff; color:#000; font-size:.95rem; }
-.explore:hover { background:var(--sor7ed-gold); }
 .catalog { padding-top:clamp(32px,4vw,56px); }
 .catalog :global(#collection-content) { scroll-margin-top:140px; }
 .features,.steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:32px; margin-top:40px; }

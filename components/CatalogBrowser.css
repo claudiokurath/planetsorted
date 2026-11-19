@@ -6,6 +6,18 @@
 .sorted-catalog-count { padding:0 0 24px; text-align:center; color:#aaa; font:400 11px/1.5 var(--font-jetbrains-mono),monospace; text-transform:uppercase; letter-spacing:.08em; }
 .sorted-catalog-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; align-items:stretch; }
 .sorted-guide-index { border-top:1px solid var(--sor7ed-section-border); }
+.sorted-guide-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; align-items:stretch; }
+.sorted-guide-book { min-width:0; background:#000; border:1px solid var(--book-accent); border-color:color-mix(in srgb,var(--book-accent) 65%,transparent); }
+.sorted-guide-book:hover { border-color:var(--book-accent); }
+.sorted-guide-book > a { position:relative; display:flex; flex-direction:column; gap:16px; height:100%; min-height:280px; aspect-ratio:1; padding:22px; text-align:left; text-decoration:none; }
+.sorted-guide-book > a:focus-visible { outline:2px solid var(--book-accent); outline-offset:5px; }
+.sorted-guide-book__category { color:var(--book-accent); font:400 10px/1.5 var(--font-jetbrains-mono),monospace; text-transform:uppercase; letter-spacing:.1em; }
+.sorted-guide-grid .sorted-guide-book h3 { margin:0; color:#fff; font:400 clamp(1.15rem,1.55vw,1.4rem)/1.25 var(--font-anton),sans-serif; text-transform:uppercase; overflow-wrap:break-word; text-wrap:pretty; }
+.sorted-guide-book p.sorted-guide-book__intro { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden; margin:0; color:#bdbdbd; font-size:.9375rem; line-height:1.55; }
+.sorted-guide-book__arrow { display:flex; justify-content:flex-end; margin-top:auto; color:var(--book-accent); }
+@media(max-width:1279px) { .sorted-guide-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:959px) { .sorted-guide-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:599px) { .sorted-guide-grid { grid-template-columns:1fr; gap:16px; }.sorted-guide-book > a { min-height:260px; aspect-ratio:auto; }.sorted-guide-grid .sorted-guide-book h3 { font-size:1.35rem; } }
 .sorted-guide-row { display:grid; grid-template-columns:minmax(0,1fr) 240px; gap:40px; align-items:center; border-bottom:1px solid var(--sor7ed-section-border); padding:32px 0; }
 .sorted-guide-row > a { display:grid; grid-template-columns:minmax(0,1fr) 24px; gap:24px; align-items:center; min-width:0; }
 .sorted-guide-row h3 { margin:10px 0 14px; font:400 clamp(1.5rem,2.4vw,2rem)/1.2 var(--font-anton),sans-serif; color:#fff; text-transform:uppercase; overflow-wrap:break-word; text-wrap:balance; }
