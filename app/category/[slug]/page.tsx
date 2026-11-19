@@ -4,7 +4,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ContentCard } from '@/components/ContentCard'
-import { createServerClient } from '@/lib/supabase/server'
+import { ArrowIcon } from '@/components/ArrowIcon'
+import { createServiceClient } from '@/lib/supabase/server'
+import type { CSSProperties } from 'react'
+import './section.css'
 import { CATEGORY_LIST, getCategoryBySlug } from '@/lib/categoryStyles'
 import { publicPageMetadata } from '@/lib/seo'
 import { cache } from 'react'
@@ -15,9 +18,9 @@ interface Props {
 
 const loadCategory = cache(async (label: string) => {
   const snapshot = await getLiveContent()
-  const { data, error } = await createServerClient().from('protocols')
-    .select('slug, title, summary, cover_image, read_time, category, type')
-    .eq('category', label).eq('status', 'Published').order('updated_at', { ascending: false })
+  const { data, error } = await createServiceClient().from('protocols')
+    .select('slug, title, summary, category, type')
+    .eq('category', label).eq('status', 'Published').order('title', { ascending: true }).abortSignal(AbortSignal.timeout(8000))
   if (error) throw new Error('Published category content is unavailable')
   return {
     tools: (data ?? []).filter(item => item.type === 'Tool' && snapshot.tools.includes(item.slug)),
@@ -37,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tools, articles } = await loadCategory(category.label)
   return publicPageMetadata({
     title: `${category.label}: neurodivergent tools and guides`,
-    description: `${category.tagline}. Practical ${category.label.toLowerCase()} tools and plain-language guides for neurodivergent adults from SOR7ED.`,
+    description: `${category.tagline}. Practical ${category.label.toLowerCase()} tools and plain-language guides for neurodivergent adults from Sorted.`,
     path: `/category/${category.slug}`,
     noIndex: tools.length + articles.length === 0,
   })
@@ -45,96 +48,60 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export const dynamic = 'force-dynamic'
 
-const SectionLabel = ({ children }: { children: string }) => (
-  <h2 className="mb-6 font-bebas text-3xl uppercase leading-tight text-white">{children}</h2>
-)
-
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params
   const category = getCategoryBySlug(slug)
-
-  if (!category) {
-    notFound()
-  }
-
+  if (!category) notFound()
   const { tools, articles } = await loadCategory(category.label)
-
-  const currentIndex = CATEGORY_LIST.findIndex((c) => c.slug === category.slug)
+  const currentIndex = CATEGORY_LIST.findIndex(c => c.slug === category.slug)
   const nextCategory = CATEGORY_LIST[(currentIndex + 1) % CATEGORY_LIST.length]
+  const groups = [
+    { id: 'section-tools', label: 'Tools', intro: 'A practical place to begin.', items: tools, route: 'tools' },
+    { id: 'section-guidebooks', label: 'Guidebooks', intro: 'Understand what is going on. Find a next step.', items: articles, route: 'guidebooks' },
+  ]
 
   return (
-    <main className="sorted-category-page min-h-screen bg-black text-white">
+    <div className="sorted-continent" style={{ '--section-accent': category.accent } as CSSProperties}>
       <LiveContentRefresh />
-      {/* Pillar header */}
-      <header className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-5 py-12 text-center sm:py-16">
-        <span className="sor7ed-pill">Pillar</span>
-        <h1 className="font-bebas text-4xl uppercase leading-[1.15] tracking-normal text-white sm:text-5xl lg:text-6xl">
-          {category.label}
-        </h1>
-        {category.tagline ? (
-          <p className="max-w-xl text-base leading-relaxed text-neutral-400 sm:text-lg">{category.tagline}</p>
-        ) : null}
-        <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-500">
-          <Link href="/tools" className="transition-colors hover:text-white">All tools</Link>
-          <span className="text-neutral-700">·</span>
-          <Link href="/guidebooks" className="transition-colors hover:text-white">Guidebooks</Link>
+      <header className="sorted-continent__hero">
+        <Link href="/#sections" className="sorted-continent__back">← Back to Sorted</Link>
+        <p className="sorted-continent__eyebrow">Sorted · Area 0{currentIndex + 1} of 07</p>
+        <h1>{category.label}</h1>
+        <p className="sorted-continent__tagline">{category.tagline}</p>
+        <p className="sorted-continent__scope">{category.blurb}</p>
+        <div className="sorted-continent__actions">
+          <a href="#section-tools">Explore tools <span aria-hidden="true">↓</span></a>
+          <a href="#section-guidebooks">Read guidebooks <span aria-hidden="true">↓</span></a>
         </div>
       </header>
-
-      <div className="mx-auto max-w-6xl px-5 pb-24">
-        {tools.length === 0 && articles.length === 0 ? (
-          <p className="py-12 text-center text-neutral-500">Nothing published in {category.label} yet.</p>
-        ) : (
-          <div className="flex flex-col gap-10">
-            {tools.length > 0 && (
-              <section>
-                <SectionLabel>Tools</SectionLabel>
-                <div className="grid auto-rows-fr grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {tools.map((tool) => (
-                    <ContentCard
-                      key={tool.slug}
-                      href={`/tools/${tool.slug}`}
-                      title={tool.title}
-                      summary={tool.summary}
-                      category={tool.category}
-
-                    />
-                  ))}
-                </div>
-              </section>
+      <nav className="sorted-continent__areas" aria-label="Sorted areas">
+        {CATEGORY_LIST.map(area => (
+          <Link key={area.slug} href={`/category/${area.slug}`} aria-current={area.slug === slug ? 'page' : undefined}>
+            <span aria-hidden="true" style={{ backgroundColor: area.accent }} />{area.label}
+          </Link>
+        ))}
+      </nav>
+      {groups.map((group, index) => (
+        <section key={group.id} id={group.id} className={`sorted-continent__panel${index === 1 ? ' sorted-continent__panel--colour' : ''}`} aria-labelledby={`${group.id}-heading`}>
+          <div className="sorted-continent__panel-inner">
+            <p className="sorted-continent__eyebrow">{category.label} · {group.label}</p>
+            <h2 id={`${group.id}-heading`}>{group.intro}</h2>
+            {group.items.length ? (
+              <div className="sorted-continent__cards">
+                {group.items.slice(0, 2).map(item => <ContentCard key={item.slug} href={`/${group.route}/${item.slug}`} title={item.title} summary={item.summary} category={category.label} />)}
+              </div>
+            ) : (
+              <div className="sorted-continent__empty"><p>No {group.label.toLowerCase()} published in {category.label} yet.</p><Link href="/#sections">Explore another area →</Link></div>
             )}
-
-            {articles.length > 0 && (
-              <section>
-                <SectionLabel>Guidebooks</SectionLabel>
-                <div className="grid auto-rows-fr grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {articles.map((article) => (
-                    <ContentCard
-                      key={article.slug}
-                      href={`/guidebooks/${article.slug}`}
-                      title={article.title}
-                      summary={article.summary}
-                      category={article.category}
-
-                    />
-                  ))}
-                </div>
-              </section>
-            )}
+            {group.items.length > 2 ? <details className="sorted-continent__more"><summary>More {category.label} {group.label.toLowerCase()}</summary><div className="sorted-continent__cards">{group.items.slice(2).map(item => <ContentCard key={item.slug} href={`/${group.route}/${item.slug}`} title={item.title} summary={item.summary} category={category.label} />)}</div></details> : null}
           </div>
-        )}
-      </div>
-
-      {/* Next pillar */}
-      <footer className="border-t border-white/12 px-5 py-16 text-center">
-        <p className="mb-4 text-xs font-medium uppercase tracking-[0.24em] text-neutral-500">Next pillar</p>
-        <Link
-          href={`/category/${nextCategory.slug}`}
-          className="font-bebas text-3xl uppercase tracking-normal text-white transition-colors hover:text-[#F5C518] sm:text-4xl"
-        >
-          {nextCategory.label} &rarr;
-        </Link>
+        </section>
+      ))}
+      <footer className="sorted-continent__next">
+        <p className="sorted-continent__eyebrow">Explore the next area</p>
+        <Link href={`/category/${nextCategory.slug}`} style={{ color: nextCategory.accent }}>{nextCategory.label} <span className="inline-flex" aria-hidden="true"><ArrowIcon /></span></Link>
+        <Link href="/#sections" className="sorted-continent__all">All seven areas</Link>
       </footer>
-    </main>
+    </div>
   )
 }

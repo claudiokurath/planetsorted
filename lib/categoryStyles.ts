@@ -18,7 +18,7 @@ const CATEGORY_STYLES: Record<string, CategoryStyle> = {
   Body:       { label: 'Body',       tagline: 'Energy, sleep & sensory needs',    blurb: 'Burnout, sensory load, medication, sleep, chronic pain, substance use, physical regulation.', className: UNIFIED_TAG_STYLE, slug: 'body',       accent: '#D47E6A' },
   Tech:       { label: 'Tech',       tagline: 'Systems, calendars & setup',       blurb: 'Digital systems, automation, AI tools, accessibility, focus infrastructure, notification design.', className: UNIFIED_TAG_STYLE, slug: 'tech',       accent: '#5BB5B0' },
   Connection: { label: 'Connection', tagline: 'People, scripts & boundaries',     blurb: 'Relationships, friendship, consent, intimacy, boundaries, shared living, communication scripts.', className: UNIFIED_TAG_STYLE, slug: 'connection', accent: '#D9A077' },
-  Impression: { label: 'Impression', tagline: 'Identity & self-concept',          blurb: 'Masking, identity, confidence, visibility, personal presentation, social performance, unmasking.', className: UNIFIED_TAG_STYLE, slug: 'impression', accent: '#C48B9F' },
+  Impression: { label: 'Impression', tagline: 'Style, appearance & how you show up', blurb: 'Fashion, grooming, personal style, sensory-friendly clothing and how you present yourself in everyday life.', className: UNIFIED_TAG_STYLE, slug: 'impression', accent: '#C48B9F' },
   Growth:     { label: 'Growth',     tagline: 'Career & skills without burnout',  blurb: 'Work, career, learning, therapy, skills, self-advocacy, long-term change.', className: UNIFIED_TAG_STYLE, slug: 'growth',     accent: '#7FA88A' },
 }
 

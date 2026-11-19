@@ -32,6 +32,28 @@
 
 ## Executive Summary
 
+**19 November 2026 — seven Sorted areas:** The website is the public home for
+Mind, Wealth, Body, Tech, Connection, Impression and Growth, with seven entrances
+on `/` and focused full-screen destinations at `/category/{slug}`. Existing
+category colours are the shared source for entrances, page surfaces and labels.
+Impression means fashion, appearance, grooming and personal presentation. Each
+area leads with two published tools and two published guidebooks; Notion remains
+the only publication authority and drafts are never promoted to fill a gap.
+The original Brain Type entry, moving hero scribble and scroll-revealed global
+navigation remain. No hero QR or photographic banners are introduced.
+
+**Newly published blog posts without Gamma:** A configured Blog Post Gamma
+still renders the live Gamma presentation. Where that property is empty, render
+the public Notion **Blog Post** (stored as `problem`) in full-screen text
+sections. This supersedes the previous blanket ban on public-body rendering for
+posts without Gamma; private Protocol text is never a public fallback. A broken
+or invalid configured Gamma is not silently replaced with another source.
+
+**CRM reconciliation:** A missing previously linked Notion page is left missing
+after verifying CRM database access, never recreated or restored. Unverified
+phone numbers are excluded from legacy identity matching. True API/database
+access failures still fail the scheduled job; the fix does not disable alerts.
+
 **Homepage navigation:** The top header and phone bottom tabs are hidden at the
 top of `/` and appear after 80px of scrolling. The homepage header is fixed so
 revealing it does not shift the hero. Returning to the top hides navigation

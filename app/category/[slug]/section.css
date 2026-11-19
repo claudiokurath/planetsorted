@@ -1,0 +1,32 @@
+.sorted-continent { background:#000; color:#fff; }
+.sorted-continent__hero { min-height:calc(100svh - 80px); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:64px 24px; background:var(--section-accent); color:#000; text-align:center; }
+.sorted-continent__back { display:inline-flex; align-items:center; min-height:44px; margin-bottom:44px; color:#000; text-decoration:underline; text-underline-offset:5px; }
+.sorted-continent__eyebrow { margin:0 0 20px; font:400 11px/1.6 var(--font-jetbrains-mono),monospace; text-transform:uppercase; letter-spacing:.14em; }
+.sorted-continent__hero h1 { margin:0; color:#000; font:400 clamp(3.2rem,12vw,11rem)/1.08 var(--font-anton),sans-serif; text-transform:uppercase; overflow-wrap:anywhere; max-width:100%; }
+.sorted-continent__tagline { max-width:36ch; margin:24px 0 0; color:#111; font-size:clamp(1.25rem,2.5vw,1.9rem); line-height:1.4; }
+.sorted-continent__scope { max-width:52ch; margin:20px 0 0; color:#222; font-size:1.0625rem; line-height:1.7; }
+.sorted-continent__actions { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:36px; }
+.sorted-continent__actions a { display:inline-flex; justify-content:space-between; align-items:center; gap:24px; min-height:52px; padding:14px 22px; background:#000; color:#fff; }
+.sorted-continent :is(a,summary):focus-visible { outline:3px solid currentColor; outline-offset:5px; }
+.sorted-continent__areas { display:flex; justify-content:center; flex-wrap:wrap; gap:4px 12px; padding:16px 20px; border-bottom:1px solid #333; }
+.sorted-continent__areas a { display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:8px; color:#ccc; border-bottom:2px solid transparent; }
+.sorted-continent__areas a[aria-current=page] { color:#fff; border-color:var(--section-accent); }
+.sorted-continent__areas span { display:block; width:9px; height:9px; border-radius:50%; }
+.sorted-continent__panel { min-height:100svh; display:flex; align-items:center; padding:clamp(64px,8vw,112px) clamp(20px,5vw,64px); scroll-margin-top:80px; }
+.sorted-continent__panel-inner { width:100%; max-width:1120px; margin:auto; }
+.sorted-continent__panel .sorted-continent__eyebrow { color:var(--section-accent); text-align:center; }
+.sorted-continent__panel h2 { max-width:24ch; margin:0 auto 44px; color:#fff; font:400 clamp(2.3rem,4.5vw,4rem)/1.15 var(--font-anton),sans-serif; text-align:center; text-transform:uppercase; text-wrap:balance; }
+.sorted-continent__cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; }
+.sorted-continent__panel--colour { background:var(--section-accent); color:#000; }
+.sorted-continent__panel--colour h2,.sorted-continent__panel--colour .sorted-continent__eyebrow { color:#000; }
+.sorted-continent__panel .sorted-preview-card { border-top:4px solid var(--section-accent); }
+.sorted-continent__panel .sorted-preview-card:hover { border-color:var(--section-accent); }
+.sorted-continent__empty { max-width:620px; margin:40px auto 0; padding:32px; border:1px solid currentColor; text-align:center; }
+.sorted-continent__empty p { color:inherit; }
+.sorted-continent__empty a { display:inline-flex; min-height:44px; align-items:center; margin-top:16px; text-decoration:underline; text-underline-offset:5px; }
+.sorted-continent__more { margin-top:32px; }.sorted-continent__more summary { cursor:pointer; padding:16px 0; }.sorted-continent__more .sorted-continent__cards { margin-top:20px; }
+.sorted-continent__next { padding:72px 24px; text-align:center; }
+.sorted-continent__next > a:first-of-type { display:block; font:400 clamp(2.5rem,7vw,6rem)/1.2 var(--font-anton),sans-serif; text-transform:uppercase; overflow-wrap:anywhere; }
+.sorted-continent__all { display:inline-flex; align-items:center; min-height:44px; margin-top:24px; color:#ccc; text-decoration:underline; text-underline-offset:5px; }
+@media(max-width:639px) { .sorted-continent__cards { grid-template-columns:1fr; }.sorted-continent__hero { padding:40px 20px; }.sorted-continent__back { margin-bottom:28px; } }
+@media print { .sorted-continent__hero,.sorted-continent__panel { min-height:0; padding:24px; background:#fff; color:#000; }.sorted-continent__areas,.sorted-continent__actions,.sorted-continent__next { display:none; } }
