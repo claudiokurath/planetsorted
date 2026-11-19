@@ -41,8 +41,9 @@ This supersedes the previous bright-yellow palette and earlier yellow values.
 
 **19 November 2026 — public website / separate Button membership:** Planet
 Sorted is a public information website, with no website sign-in or account.
-The centred logo and burger menu contain informational links only, including
-on the homepage. Free blog readers use Notion Blog Post Gamma; free tool
+The centred logo and icon-only burger menu contain informational links only,
+including on the homepage. The burger keeps its accessible Navigation menu label;
+no Menu text is displayed. Free blog readers use Notion Blog Post Gamma; free tool
 explanations use Notion Gamma. The Brain Sorter quiz remains public.
 
 Requesting a protocol or interactive tool opens the separate Button service
