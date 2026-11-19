@@ -42,6 +42,7 @@ export function SmartNav() {
 
   const navLinks = [
     { label: 'Home', href: '/' },
+    { label: 'Explore', href: '/#sections' },
     { label: 'Toolbox', href: '/tools' },
     { label: 'Guidebooks', href: '/guidebooks' },
     { label: 'About', href: '/about' },

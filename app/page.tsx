@@ -1,6 +1,7 @@
 import { publicPageMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 import { HomeGateway } from '@/components/HomeGateway'
+import { SortedSections } from '@/components/SortedSections'
 
 export const metadata: Metadata = publicPageMetadata({
   "title": "Tools and guides for neurodivergent adults",
@@ -9,5 +10,5 @@ export const metadata: Metadata = publicPageMetadata({
 })
 
 export default function HomePage() {
-  return <HomeGateway />
+  return <><HomeGateway /><SortedSections /></>
 }

@@ -1,4 +1,4 @@
-import { Client } from '@notionhq/client'
+import { Client, isNotionClientError, APIErrorCode } from '@notionhq/client'
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import type { CrmContact } from './crmContact'
 import { newCrmStatus } from './crmContact'
@@ -13,7 +13,17 @@ export async function syncUserToCrm(contact: CrmContact, options: WriterOptions 
   const databaseId = options.databaseId || process.env.NOTION_CRM_DB_ID || DEFAULT_CRM
   let existing: PageObjectResponse | undefined
   if (options.pageId) {
-    const page = await notion.pages.retrieve({ page_id: options.pageId })
+    let page
+    try {
+      page = await notion.pages.retrieve({ page_id: options.pageId })
+    } catch (error) {
+      if (!isNotionClientError(error) || error.code !== APIErrorCode.ObjectNotFound) throw error
+      // An existing ledger identity must never be recreated when its page was
+      // deleted or unshared. First prove the integration can still access CRM;
+      // a lost database grant must remain a genuine operational failure.
+      await notion.databases.retrieve({ database_id: databaseId })
+      return null
+    }
     if (!('properties' in page)) throw new Error('CRM record is unavailable')
     // A deliberate Notion deletion is a tombstone, not a request to recreate.
     if (page.archived || (page as PageObjectResponse & { in_trash?: boolean }).in_trash) return null
@@ -27,7 +37,7 @@ export async function syncUserToCrm(contact: CrmContact, options: WriterOptions 
     if (!existing && (contact.email || contact.whatsappNumber)) {
       const or = [
         ...(contact.email ? [{ property: 'Email', email: { equals: contact.email } }] : []),
-        ...(contact.whatsappNumber ? [
+        ...(contact.whatsappNumber && contact.whatsappVerified ? [
           { property: 'WhatsApp', phone_number: { equals: contact.whatsappNumber } },
           { property: 'WhatsApp', phone_number: { equals: contact.whatsappNumber.replace(/^\+/, '') } },
         ] : []),
