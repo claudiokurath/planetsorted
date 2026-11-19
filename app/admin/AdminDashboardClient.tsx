@@ -275,7 +275,7 @@ export function AdminDashboardClient({
                         </td>
                         <td className="p-4 text-right text-white/80">{item.runs.toLocaleString()}</td>
                         <td className="p-4 text-right">
-                          <span className={item.successRatePercent >= 95 ? 'text-emerald-400' : 'text-amber-400'}>
+                          <span className={item.successRatePercent >= 95 ? 'text-emerald-400' : 'text-gold'}>
                             {item.successRatePercent}%
                           </span>
                         </td>

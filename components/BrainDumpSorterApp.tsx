@@ -252,7 +252,7 @@ export function BrainDumpSorterApp({ legacyHistory = false }: { legacyHistory?: 
                     <button type="button" disabled={!nextTask} onClick={async () => {
                       try { await navigator.clipboard.writeText(nextTask); setCopyStatus('Next step copied.') }
                       catch { setCopyStatus('Could not copy. You can select and copy the task text above.') }
-                    }} className="min-h-12 bg-[#FFD400] px-5 py-3 text-sm font-medium text-black disabled:opacity-40">Copy my next step</button>
+                    }} className="min-h-12 bg-[#FFBA2E] px-5 py-3 text-sm font-medium text-black disabled:opacity-40">Copy my next step</button>
                     <p role="status" className="text-sm text-slate-300">{copyStatus}</p>
                   </div> : null}
                 </div>

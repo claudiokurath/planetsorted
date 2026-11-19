@@ -114,7 +114,7 @@ export function MobileNav() {
   return (
     <nav
       aria-label="Mobile primary navigation"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-black bg-[#FFD400] text-black md:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-black bg-[#FFBA2E] text-black md:hidden"
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
     >
       <div className="mx-auto flex max-w-lg items-stretch">
@@ -127,15 +127,15 @@ export function MobileNav() {
               aria-current={active ? 'page' : undefined}
               className={`flex min-h-16 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 py-2.5 text-[10px] font-medium uppercase tracking-[0.04em] transition-colors ${
                 active
-                  ? 'bg-black text-[#FFD400]'
+                  ? 'bg-black text-[#FFBA2E]'
                   : 'text-black hover:bg-black/10'
               }`}
             >
-              <span className={active ? 'text-[#FFD400]' : 'text-current'}>{tab.icon}</span>
-              <span className={active ? 'bg-black text-[#FFD400]' : undefined}>{tab.label}</span>
+              <span className={active ? 'text-[#FFBA2E]' : 'text-current'}>{tab.icon}</span>
+              <span className={active ? 'bg-black text-[#FFBA2E]' : undefined}>{tab.label}</span>
               <span
                 className={`mt-0.5 h-0.5 w-5 rounded-full transition-colors ${
-                  active ? 'bg-[#FFD400]' : 'bg-transparent'
+                  active ? 'bg-[#FFBA2E]' : 'bg-transparent'
                 }`}
               />
             </Link>

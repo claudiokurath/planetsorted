@@ -34,13 +34,13 @@
   border: 1px solid #ffba2e80;
   border-radius: 30px;
   padding: 3px 10px;
-  color: #ffba2e;
+  color: var(--sor7ed-gold, #FFBA2E);
   font-size: 12px;
 }
 .sorted-account-email { margin-top: 8px; overflow-wrap: anywhere; color: #a3a3a3; font-size: 14px; }
 .sorted-account-header-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 20px; flex-shrink: 0; }
 .sorted-account-plan { display: flex; flex-direction: column; justify-content: center; min-height: 44px; font-size: 14px; color: #d4d4d4; }
-.sorted-account-plan-link { color: #ffba2e; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
+.sorted-account-plan-link { color: var(--sor7ed-gold, #FFBA2E); font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
 .sorted-account-plan:hover .sorted-account-plan-link { color: #fff; }
 .sorted-account-signout { border: 1px solid #737373; padding: 8px 16px; color: #e5e5e5; }
 .sorted-account-signout:hover { border-color: #fff; color: #fff; }
@@ -49,12 +49,12 @@
 .sorted-account-library-state { padding: 24px 16px; border: 1px solid #333; text-align: center; }
 .sorted-account-settings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 20px; }
 .sorted-account-delete { grid-column: 1 / -1; }
-.sorted-account-whatsapp-recovery { padding: 16px; border: 1px solid #ffba2e; font-size: 14px; line-height: 1.6; }
+.sorted-account-whatsapp-recovery { padding: 16px; border: 1px solid var(--sor7ed-gold, #FFBA2E); font-size: 14px; line-height: 1.6; }
 .sorted-account-whatsapp-recovery p { color: #e5e5e5; }
-.sorted-account-whatsapp-recovery a { display: inline-flex; align-items: center; min-height: 44px; color: #ffba2e; text-decoration: underline; text-underline-offset: 3px; }
+.sorted-account-whatsapp-recovery a { display: inline-flex; align-items: center; min-height: 44px; color: var(--sor7ed-gold, #FFBA2E); text-decoration: underline; text-underline-offset: 3px; }
 .sorted-account-whatsapp-recovery a:hover { color: #fff; }
 .sorted-account a:focus-visible,
-.sorted-account button:focus-visible { outline: 2px solid #ffba2e; outline-offset: 4px; }
+.sorted-account button:focus-visible { outline: 2px solid var(--sor7ed-gold, #FFBA2E); outline-offset: 4px; }
 
 /* A compact backup library, with equally sized cards and readable controls. */
 .sorted-account-library-grid {
@@ -90,7 +90,7 @@
   margin-top: 8px;
   font-size: .875rem;
   font-weight: 500;
-  color: #ffba2e;
+  color: var(--sor7ed-gold, #FFBA2E);
 }
 .sorted-account-library-open:hover { text-decoration: underline; }
 @media (min-width: 640px) {
@@ -143,8 +143,8 @@
 
 .sorted-account .glow-button:hover:not(:disabled),
 .sorted-account .sorted-account-action:hover:not(:disabled) {
-  border-color: #ffba2e;
-  background: #ffba2e;
+  border-color: var(--sor7ed-gold, #FFBA2E);
+  background: var(--sor7ed-gold, #FFBA2E);
 }
 
 .sorted-account button:disabled,
@@ -187,7 +187,7 @@
 .sorted-members-note,
 .sorted-members-affirmation p { color: #c2c2c2; font-size: 17px; line-height: 1.75; }
 .sorted-members-experiences { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
-.sorted-members-experience { min-width: 0; padding: 24px 20px 28px; border-radius: 6px; background: #ffba2e; color: #000; }
+.sorted-members-experience { min-width: 0; padding: 24px 20px 28px; border-radius: 6px; background: var(--sor7ed-gold, #FFBA2E); color: #000; }
 .sorted-members-experience svg { width: 28px; height: 28px; margin: 2px 0 30px 10px; }
 .sorted-members-intro h3 {
   font-family: var(--font-anton), "Arial Narrow", sans-serif;
@@ -200,7 +200,7 @@
 .sorted-members-experience p { color: #272005; font-size: 17px; line-height: 1.75; }
 .sorted-members-note { margin: 0 0 24px; }
 .sorted-members-affirmations { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-.sorted-members-affirmation { min-width: 0; padding: 20px; border: 2px solid #ffba2e; border-radius: 6px; }
+.sorted-members-affirmation { min-width: 0; padding: 20px; border: 2px solid var(--sor7ed-gold, #FFBA2E); border-radius: 6px; }
 .sorted-members-affirmation h3 { margin-bottom: 14px; color: #fff; }
 .sorted-members-cross { white-space: nowrap; }
 

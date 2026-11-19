@@ -254,7 +254,7 @@ export function SortedSaveButton({
       </span>
 
       <style>{`
-        .sb { --sb-accent:#FFD400; --sb-mark:84px; --t:0; --td:0; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:12px; padding:12px 0; width:100%; }
+        .sb { --sb-accent:var(--sor7ed-gold, #FFBA2E); --sb-mark:84px; --t:0; --td:0; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:12px; padding:12px 0; width:100%; }
         .sb__btn { display:inline-flex; align-items:center; justify-content:center; gap:12px; min-height:84px; padding:4px 8px; border:0; border-radius:0; background:transparent; color:#fff; cursor:pointer; transition:color 180ms,transform 180ms; }
         .sb__btn:hover { color:var(--sb-accent); }.sb__btn:active { transform:scale(.98); }.sb__btn:disabled { cursor:wait; opacity:.55; }
         .sb__text { font:400 23px/1.2 var(--font-anton),sans-serif; text-transform:uppercase; }

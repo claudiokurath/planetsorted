@@ -18,7 +18,7 @@ function ScoreGauge({ score, label, size = 220, thickness = 14 }) {
 
   const colorFor = (l) => {
     if (l === 'stable') return '#22c55e';
-    if (l === 'stretched') return '#FFD400';
+    if (l === 'stretched') return '#FFBA2E';
     if (l === 'danger_zone') return '#f97316';
     return '#ef4444';
   };
@@ -62,7 +62,7 @@ function ScoreGauge({ score, label, size = 220, thickness = 14 }) {
 function Pill({ children, color = 'default', style = {} }) {
   const colors = {
     default: { bg: 'rgba(255,255,255,0.05)', fg: '#8a8f98', border: 'rgba(255,255,255,0.08)' },
-    gold:    { bg: 'rgba(245,200,76,0.10)', fg: '#FFD400', border: 'rgba(245,200,76,0.24)' },
+    gold:    { bg: 'rgba(245,200,76,0.10)', fg: '#FFBA2E', border: 'rgba(245,200,76,0.24)' },
     purple:  { bg: 'rgba(139,92,246,0.12)', fg: '#a78bfa', border: 'rgba(139,92,246,0.28)' },
     green:   { bg: 'rgba(34,197,94,0.10)', fg: '#4ade80', border: 'rgba(34,197,94,0.24)' },
     orange:  { bg: 'rgba(249,115,22,0.10)', fg: '#fb923c', border: 'rgba(249,115,22,0.24)' },
@@ -186,7 +186,7 @@ function Segmented({ options, value, onChange, wrap = false }) {
               padding: '12px 14px', borderRadius: 10,
               background: active ? 'rgba(245,200,76,0.12)' : '#14171c',
               border: `1px solid ${active ? 'rgba(245,200,76,0.4)' : 'rgba(255,255,255,0.08)'}`,
-              color: active ? '#FFD400' : '#f0f0f2',
+              color: active ? '#FFBA2E' : '#f0f0f2',
               fontSize: 13, fontWeight: active ? 500 : 400,
               cursor: 'pointer', textAlign: 'left',
               transition: 'all 160ms',
@@ -209,7 +209,7 @@ function Slider({ value, onChange, min = 1, max = 10, leftLabel, rightLabel }) {
         display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10,
       }}>
         <span style={{ fontSize: 12, color: '#8a8f98' }}>{leftLabel}</span>
-        <span style={{ fontSize: 28, fontWeight: 700, color: '#FFD400', fontFamily: 'var(--font-jetbrains-mono), monospace', letterSpacing: '-0.02em' }}>
+        <span style={{ fontSize: 28, fontWeight: 700, color: '#FFBA2E', fontFamily: 'var(--font-jetbrains-mono), monospace', letterSpacing: '-0.02em' }}>
           {value}<span style={{ fontSize: 14, color: '#5a6069', fontWeight: 400 }}>/{max}</span>
         </span>
         <span style={{ fontSize: 12, color: '#8a8f98' }}>{rightLabel}</span>
@@ -217,7 +217,7 @@ function Slider({ value, onChange, min = 1, max = 10, leftLabel, rightLabel }) {
       <input type="range" min={min} max={max} value={value}
         onChange={e => onChange(Number(e.target.value))}
         style={{
-          width: '100%', accentColor: '#FFD400',
+          width: '100%', accentColor: '#FFBA2E',
           height: 6,
         }}
       />
@@ -239,7 +239,7 @@ function Toggle({ value, onChange, label, hint }) {
         style={{
           flexShrink: 0, marginTop: 2,
           width: 40, height: 24, borderRadius: 999,
-          background: value ? '#FFD400' : 'rgba(255,255,255,0.10)',
+          background: value ? '#FFBA2E' : 'rgba(255,255,255,0.10)',
           border: 0, position: 'relative', cursor: 'pointer',
           transition: 'background 160ms',
         }}>
@@ -263,7 +263,7 @@ function PrimaryButton({ children, onClick, disabled, style = {}, type = 'button
   return (
     <button type={type} onClick={onClick} disabled={disabled} style={{
       padding: '14px 28px', borderRadius: 999,
-      background: disabled ? 'rgba(245,200,76,0.24)' : '#FFD400',
+      background: disabled ? 'rgba(245,200,76,0.24)' : '#FFBA2E',
       color: '#000000', border: 0, cursor: disabled ? 'not-allowed' : 'pointer',
       fontSize: 14, fontWeight: 600, letterSpacing: '-0.005em',
       transition: 'transform 120ms, background 160ms',
@@ -312,7 +312,7 @@ function LandingPage({ onStart, onLoadSample }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{
             width: 30, height: 30, borderRadius: 9,
-            background: 'linear-gradient(135deg, #FFD400 0%, #d9a828 100%)',
+            background: 'linear-gradient(135deg, #FFBA2E 0%, #FFBA2E 100%)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             color: '#000000', fontWeight: 800, fontSize: 16,
           }}>R</div>
@@ -337,10 +337,10 @@ function LandingPage({ onStart, onLoadSample }) {
               display: 'inline-flex', alignItems: 'center', gap: 8,
               padding: '6px 12px', borderRadius: 999,
               background: 'rgba(245,200,76,0.08)', border: '1px solid rgba(245,200,76,0.20)',
-              color: '#FFD400', fontSize: 11, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase',
+              color: '#FFBA2E', fontSize: 11, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase',
               marginBottom: 28,
             }}>
-              <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#FFD400' }} />
+              <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#FFBA2E' }} />
               A 4-minute reset
             </div>
 
@@ -430,7 +430,7 @@ function LandingPage({ onStart, onLoadSample }) {
                 <div key={row.label} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
                   <div style={{ flex: 1, fontSize: 11, color: '#8a8f98' }}>{row.label}</div>
                   <div style={{ width: 100, height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 999, overflow: 'hidden' }}>
-                    <div style={{ width: `${(row.v/row.max)*100}%`, height: '100%', background: '#FFD400' }} />
+                    <div style={{ width: `${(row.v/row.max)*100}%`, height: '100%', background: '#FFBA2E' }} />
                   </div>
                   <div style={{ fontSize: 11, color: '#5a6069', fontFamily: 'var(--font-jetbrains-mono), monospace', width: 36, textAlign: 'right' }}>
                     {row.v}/{row.max}
@@ -484,7 +484,7 @@ function LandingPage({ onStart, onLoadSample }) {
               background: '#14171c', border: '1px solid rgba(255,255,255,0.06)',
             }}>
               <div style={{
-                fontSize: 11, color: '#FFD400', letterSpacing: '0.08em', fontFamily: 'var(--font-jetbrains-mono), monospace',
+                fontSize: 11, color: '#FFBA2E', letterSpacing: '0.08em', fontFamily: 'var(--font-jetbrains-mono), monospace',
                 marginBottom: 20,
               }}>{step.n}</div>
               <h3 style={{ fontSize: 18, fontWeight: 600, letterSpacing: '-0.01em', margin: '0 0 10px', lineHeight: 1.25 }}>
@@ -579,7 +579,7 @@ function StepShell({ step, total, meta, children, onBack, onNext, nextLabel = 'C
         display: 'inline-flex', alignItems: 'center', gap: 8,
         padding: '5px 12px', borderRadius: 999,
         background: 'rgba(245,200,76,0.08)', border: '1px solid rgba(245,200,76,0.20)',
-        color: '#FFD400', fontSize: 11, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase',
+        color: '#FFBA2E', fontSize: 11, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase',
         marginBottom: 20, fontFamily: 'var(--font-jetbrains-mono), monospace',
       }}>
         Step {step} · {meta.icon}
@@ -695,8 +695,8 @@ function StepBills({ inputs, setInputs, onBack, onNext }) {
         border: '1px solid rgba(245,200,76,0.16)', borderRadius: 12,
         marginTop: 8,
       }}>
-        <span style={{ fontSize: 13, color: '#FFD400', letterSpacing: '0.02em' }}>Total fixed bills / month</span>
-        <span style={{ fontSize: 22, fontWeight: 700, color: '#FFD400', fontFamily: 'var(--font-jetbrains-mono), monospace', letterSpacing: '-0.02em' }}>
+        <span style={{ fontSize: 13, color: '#FFBA2E', letterSpacing: '0.02em' }}>Total fixed bills / month</span>
+        <span style={{ fontSize: 22, fontWeight: 700, color: '#FFBA2E', fontFamily: 'var(--font-jetbrains-mono), monospace', letterSpacing: '-0.02em' }}>
           {fmtGBP(total)}
         </span>
       </div>
@@ -999,8 +999,8 @@ function LockedModule({ title, oneLine, onUpgrade, children, height }) {
           marginBottom: 16,
         }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <rect x="4" y="10" width="16" height="11" rx="2" stroke="#FFD400" strokeWidth="1.6"/>
-            <path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#FFD400" strokeWidth="1.6"/>
+            <rect x="4" y="10" width="16" height="11" rx="2" stroke="#FFBA2E" strokeWidth="1.6"/>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#FFBA2E" strokeWidth="1.6"/>
           </svg>
         </div>
         <div style={{ fontSize: 15, fontWeight: 600, color: '#f0f0f2', marginBottom: 6, letterSpacing: '-0.01em' }}>
@@ -1064,7 +1064,7 @@ function HeroResult({ pressure, inputs }) {
                 <div style={{ height: 4, background: 'rgba(255,255,255,0.05)', borderRadius: 999, overflow: 'hidden' }}>
                   <div style={{
                     width: `${(f.v / f.max) * 100}%`, height: '100%',
-                    background: '#FFD400',
+                    background: '#FFBA2E',
                     transition: 'width 700ms cubic-bezier(0.4, 0, 0.2, 1)',
                   }} />
                 </div>
@@ -1120,14 +1120,14 @@ function MonthlySnapshot({ snapshot }) {
         border: '1px solid rgba(255,255,255,0.05)',
         marginBottom: 8,
       }}>
-        <div style={{ background: '#FFD400' }} title="Fixed bills" />
+        <div style={{ background: '#FFBA2E' }} title="Fixed bills" />
         <div style={{ background: '#8B5CF6' }} title="Debt minimums" />
         <div style={{ background: '#f97316' }} title="Leaks" />
         <div style={{ background: surplusPositive ? '#22c55e' : '#ef4444' }} title={surplusPositive ? 'Surplus' : 'Shortfall'} />
       </div>
       <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 8 }}>
         {[
-          { c: '#FFD400', l: 'Fixed bills' },
+          { c: '#FFBA2E', l: 'Fixed bills' },
           { c: '#8B5CF6', l: 'Debt minimums' },
           { c: '#f97316', l: 'Leaks' },
           { c: surplusPositive ? '#22c55e' : '#ef4444', l: surplusPositive ? 'Surplus' : 'Shortfall' },
@@ -1189,7 +1189,7 @@ function LeakMap({ leaks, isPaid, onUpgrade }) {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
               <div style={{ fontSize: 14, color: '#f0f0f2', fontWeight: 500 }}>{leak.label}</div>
               <div style={{ display: 'flex', gap: 12, alignItems: 'baseline' }}>
-                <span style={{ fontSize: 16, fontWeight: 600, color: '#FFD400', fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
+                <span style={{ fontSize: 16, fontWeight: 600, color: '#FFBA2E', fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
                   {fmtGBP(leak.monthly)}<span style={{ fontSize: 11, color: '#5a6069' }}>/mo</span>
                 </span>
                 <span style={{ fontSize: 12, color: '#8a8f98', fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
@@ -1200,7 +1200,7 @@ function LeakMap({ leaks, isPaid, onUpgrade }) {
             <div style={{ height: 3, background: 'rgba(255,255,255,0.05)', borderRadius: 999, overflow: 'hidden' }}>
               <div style={{
                 width: `${(leak.monthly / max) * 100}%`, height: '100%',
-                background: '#FFD400',
+                background: '#FFBA2E',
               }} />
             </div>
           </div>
@@ -1223,7 +1223,7 @@ function LeakMap({ leaks, isPaid, onUpgrade }) {
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ fontSize: 14, color: '#f0f0f2' }}>{leak.label}</div>
-                    <div style={{ fontSize: 16, color: '#FFD400', fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
+                    <div style={{ fontSize: 16, color: '#FFBA2E', fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
                       {fmtGBP(leak.monthly)}/mo
                     </div>
                   </div>
@@ -1242,7 +1242,7 @@ function PaydaySplit({ split, isPaid, onUpgrade, paydayDate }) {
   const content = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       {split.map((row, i) => {
-        const toneColor = row.tone === 'core' ? '#FFD400' : row.tone === 'save' ? '#8B5CF6' : '#22c55e';
+        const toneColor = row.tone === 'core' ? '#FFBA2E' : row.tone === 'save' ? '#8B5CF6' : '#22c55e';
         return (
           <div key={row.bucket} style={{
             padding: '18px 20px', borderRadius: 14,
@@ -1358,7 +1358,7 @@ function ActionPlan({ sevenDay, thirtyDay, isPaid, onUpgrade }) {
             }}>
               <div style={{
                 width: 24, height: 24, borderRadius: 6,
-                background: 'rgba(245,200,76,0.12)', color: '#FFD400',
+                background: 'rgba(245,200,76,0.12)', color: '#FFBA2E',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 11, fontWeight: 700, flexShrink: 0,
                 fontFamily: 'var(--font-jetbrains-mono), monospace',
@@ -1456,7 +1456,7 @@ function RulesList({ rules, isPaid, onUpgrade }) {
         }}>
           <div style={{
             width: 22, height: 22, borderRadius: 6,
-            background: 'rgba(245,200,76,0.12)', color: '#FFD400',
+            background: 'rgba(245,200,76,0.12)', color: '#FFBA2E',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 11, fontWeight: 700, flexShrink: 0, marginTop: 1,
             fontFamily: 'var(--font-jetbrains-mono), monospace',
@@ -1503,7 +1503,7 @@ function ScriptsPack({ scripts, isPaid, onUpgrade }) {
             padding: '8px 14px', borderRadius: 999, cursor: 'pointer',
             background: openIdx === i ? 'rgba(245,200,76,0.12)' : 'rgba(255,255,255,0.03)',
             border: `1px solid ${openIdx === i ? 'rgba(245,200,76,0.32)' : 'rgba(255,255,255,0.06)'}`,
-            color: openIdx === i ? '#FFD400' : '#8a8f98',
+            color: openIdx === i ? '#FFBA2E' : '#8a8f98',
             fontSize: 12, fontWeight: 500, letterSpacing: '-0.005em',
           }}>{s.title}</button>
         ))}
@@ -1519,7 +1519,7 @@ function ScriptsPack({ scripts, isPaid, onUpgrade }) {
             padding: '6px 12px', borderRadius: 999, cursor: 'pointer',
             background: copied === openIdx ? 'rgba(34,197,94,0.16)' : 'rgba(245,200,76,0.10)',
             border: `1px solid ${copied === openIdx ? 'rgba(34,197,94,0.32)' : 'rgba(245,200,76,0.24)'}`,
-            color: copied === openIdx ? '#4ade80' : '#FFD400',
+            color: copied === openIdx ? '#4ade80' : '#FFBA2E',
             fontSize: 11, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase',
           }}>{copied === openIdx ? '✓ Copied' : 'Copy'}</button>
         </div>
@@ -1608,7 +1608,7 @@ function ResultsDashboard({ inputs, setView, planView, setPlanView }) {
         </div>
 
         <p style={{ color:'#a3a3a3', fontSize:14 }}>An illustrative planning indicator based on your answers, not a diagnosis, credit score or financial assessment.</p>
-        {snapshot.surplusOrShortfall < 0 ? <p role="status" style={{ borderLeft:'2px solid #FFD400', padding:16 }}>Your stated commitments and estimated leaks exceed your income. The amounts below show the gap; they are not all affordable transfers. If you are struggling with bills or debt, contact MoneyHelper or a free debt adviser before setting up a payment plan.</p> : null}
+        {snapshot.surplusOrShortfall < 0 ? <p role="status" style={{ borderLeft:'2px solid #FFBA2E', padding:16 }}>Your stated commitments and estimated leaks exceed your income. The amounts below show the gap; they are not all affordable transfers. If you are struggling with bills or debt, contact MoneyHelper or a free debt adviser before setting up a payment plan.</p> : null}
         <HeroResult pressure={pressure} inputs={inputs} />
 
         <MonthlySnapshot snapshot={snapshot} />

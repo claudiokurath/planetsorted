@@ -21,7 +21,7 @@ export function ContentCard({ href, title, summary, category, layout = 'card' }:
   const heading = <h3 className="sorted-preview-title font-bebas">{title}</h3>
 
   if (layout === 'book' && item) return (
-    <article className="sorted-guide-book" style={{ '--book-accent': categoryStyle?.accent || '#FFD400' } as CSSProperties}>
+    <article className="sorted-guide-book" style={{ '--book-accent': categoryStyle?.accent || '#FFBA2E' } as CSSProperties}>
       <Link href={href} aria-label={title} title={title}>
         {categoryStyle ? <span className="sorted-guide-book__category">{categoryStyle.label}</span> : null}
         <h3>{title}</h3>
@@ -54,7 +54,7 @@ export function ContentCard({ href, title, summary, category, layout = 'card' }:
       </Link>
       {item ? (
         <div className="sorted-preview-action print:hidden">
-          {item[1] === 'tools' && INTERACTIVE_TOOL_ROUTES[item[2]] ? <Link href={INTERACTIVE_TOOL_ROUTES[item[2]]} className="mb-3 inline-flex min-h-12 w-full items-center justify-center gap-3 bg-[#FFD400] px-5 py-3 font-bebas text-xl uppercase text-black">Use tool <span aria-hidden="true">→</span></Link> : null}
+          {item[1] === 'tools' && INTERACTIVE_TOOL_ROUTES[item[2]] ? <Link href={INTERACTIVE_TOOL_ROUTES[item[2]]} className="mb-3 inline-flex min-h-12 w-full items-center justify-center gap-3 bg-[#FFBA2E] px-5 py-3 font-bebas text-xl uppercase text-black">Use tool <span aria-hidden="true">→</span></Link> : null}
           <ToolWhatsAppCta slug={item[2]} context={item[1] === 'guidebooks' ? 'article' : 'tool'} returnPath={href} compact />
         </div>
       ) : null}

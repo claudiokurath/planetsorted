@@ -10,11 +10,11 @@ export interface CategoryStyle {
 }
 
 const UNIFIED_TAG_STYLE = 'bg-neutral-800/80 text-neutral-300 border border-neutral-700/60'
-const DEFAULT_ACCENT = '#F5C518'
+const DEFAULT_ACCENT = '#FFBA2E'
 
 const CATEGORY_STYLES: Record<string, CategoryStyle> = {
   Mind:       { label: 'Mind',       tagline: 'Momentum & executive function',    blurb: 'Executive function, attention, decision fatigue, emotional regulation, RSD, anxiety, ADHD systems.', className: UNIFIED_TAG_STYLE, slug: 'mind',       accent: '#8E99C9' },
-  Wealth:     { label: 'Wealth',     tagline: 'Money, bills & the ADHD tax',      blurb: 'ADHD tax, bills, debt, subscriptions, financial avoidance, money systems, admin survival.', className: UNIFIED_TAG_STYLE, slug: 'wealth',     accent: '#F5C518' },
+  Wealth:     { label: 'Wealth',     tagline: 'Money, bills & the ADHD tax',      blurb: 'ADHD tax, bills, debt, subscriptions, financial avoidance, money systems, admin survival.', className: UNIFIED_TAG_STYLE, slug: 'wealth',     accent: '#FFBA2E' },
   Body:       { label: 'Body',       tagline: 'Energy, sleep & sensory needs',    blurb: 'Burnout, sensory load, medication, sleep, chronic pain, substance use, physical regulation.', className: UNIFIED_TAG_STYLE, slug: 'body',       accent: '#D47E6A' },
   Tech:       { label: 'Tech',       tagline: 'Systems, calendars & setup',       blurb: 'Digital systems, automation, AI tools, accessibility, focus infrastructure, notification design.', className: UNIFIED_TAG_STYLE, slug: 'tech',       accent: '#5BB5B0' },
   Connection: { label: 'Connection', tagline: 'People, scripts & boundaries',     blurb: 'Relationships, friendship, consent, intimacy, boundaries, shared living, communication scripts.', className: UNIFIED_TAG_STYLE, slug: 'connection', accent: '#D9A077' },

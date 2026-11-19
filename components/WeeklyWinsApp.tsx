@@ -511,7 +511,7 @@ export function WeeklyWinsApp({ legacyHistory = false }: { legacyHistory?: boole
                 id="generate-wins" data-tool-primary
                 onClick={handleGenerate}
                 disabled={saving}
-                className="w-full rounded-none bg-[#FFBA2E] px-8 py-4 text-sm font-medium uppercase tracking-widest text-[#000000] shadow-lg transition-all hover:bg-[#C79A0E] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full rounded-none bg-[#FFBA2E] px-8 py-4 text-sm font-medium uppercase tracking-widest text-[#000000] shadow-lg transition-all hover:bg-[#FFBA2E] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {saving ? 'Saving…' : 'Generate my wins →'}
               </button>
