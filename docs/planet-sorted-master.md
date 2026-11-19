@@ -43,7 +43,8 @@ This supersedes the previous bright-yellow palette and earlier yellow values.
 Sorted is a public information website, with no website sign-in or account.
 The centred logo and icon-only burger menu contain informational links only,
 including on the homepage. The burger keeps its accessible Navigation menu label;
-no Menu text is displayed. General pages have no bottom GET SOR7ED/scribble
+no Menu text is displayed. The moving hero scribble is doubled in size
+(256–320px on desktop, 224px on phones), matching the Button website. General pages have no bottom GET SOR7ED/scribble
 block. Individual tools and guidebooks keep their resource-request control. Free blog readers use Notion Blog Post Gamma; free tool
 explanations use Notion Gamma. The Brain Sorter quiz remains public.
 
