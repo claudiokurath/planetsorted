@@ -31,7 +31,7 @@ export function SmartNav() {
           menuRef.current?.querySelector('summary')?.focus()
         }
       }}>
-        <summary aria-label="Navigation menu"><svg width="22" height="18" viewBox="0 0 22 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M1 2h20M1 9h20M1 16h20" /></svg><span>Menu</span></summary>
+        <summary aria-label="Navigation menu"><svg width="22" height="18" viewBox="0 0 22 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M1 2h20M1 9h20M1 16h20" /></svg></summary>
         <nav aria-label="Primary navigation" className="sorted-menu-links">
           {navLinks.map(link => <Link key={link.href} href={link.href} onClick={closeMenu} aria-current={pathname === link.href || pathname?.startsWith(`${link.href}/`) ? 'page' : undefined}>{link.label}</Link>)}
 

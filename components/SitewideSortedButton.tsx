@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { ToolWhatsAppCta, WhatsAppConnectionCta } from '@/components/ToolWhatsAppCta'
+import { ToolWhatsAppCta } from '@/components/ToolWhatsAppCta'
 import { STANDALONE_ROUTES } from '@/lib/standaloneRoutes'
 import { isStandaloneToolRoute } from '@/lib/isStandaloneToolRoute'
 
@@ -11,11 +11,10 @@ export function SitewideSortedButton() {
   const content = pathname.match(/^\/(tools|guidebooks|protocols|embed)\/([^/]+)\/?$/)
   const standaloneSlug = Object.entries(STANDALONE_ROUTES).find(([, route]) => route === pathname.replace(/\/$/, ''))?.[0]
   const slug = content?.[2] || standaloneSlug
+  if (!slug) return null
   return (
     <aside id="get-sor7ed" data-content-slug={slug ?? undefined} className={`sorted-sitewide-save print:hidden${isStandaloneToolRoute(pathname) ? ' sorted-sitewide-save--standalone' : ''}`} aria-label="Continue with SOR7ED on WhatsApp">
-      {slug ? <ToolWhatsAppCta slug={slug} returnPath={pathname} context={content?.[1] === 'guidebooks' || content?.[1] === 'protocols' ? 'article' : 'tool'} /> : (
-        <WhatsAppConnectionCta returnPath={pathname} />
-      )}
+      <ToolWhatsAppCta slug={slug} returnPath={pathname} context={content?.[1] === 'guidebooks' || content?.[1] === 'protocols' ? 'article' : 'tool'} />
     </aside>
   )
 }
