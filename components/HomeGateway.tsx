@@ -27,7 +27,7 @@ export function HomeGateway() {
         </div>
         <header>
           <h1 id="entry-heading"><span>Built for brains</span><span>that work <em>differently.</em></span></h1>
-          <p className="sorted-home-entry__intro">Sorted brings practical tools and plain-language guides together across seven areas of life. Find support with everyday overwhelm, decisions, money and the things that matter to you.</p>
+          <p className="sorted-home-entry__intro">SOR7ED offers practical tools and plain-language guides for neurodivergent adults — helping with everyday overwhelm, decisions, money and life admin.</p>
         </header>
       </div>
       <div className="sorted-home-entry__start">
@@ -37,7 +37,6 @@ export function HomeGateway() {
         <p className="sorted-home-entry__start-detail">2 minutes. Free. Nothing saved.</p>
       </div>
       <p className="sorted-home-entry__note">A short reflection that suggests tools to try. Not a diagnosis.</p>
-      <a href="#sections" className="sorted-home-entry__explore">Explore the seven areas <span aria-hidden="true">↓</span></a>
       <div className="sorted-home-entry__bottom"><span>Worry less, live more.</span></div>
     </section>
   )

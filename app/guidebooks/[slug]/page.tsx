@@ -5,7 +5,6 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
 import { GammaReader } from '@/components/GammaReader'
-import { NotionBlogReader } from '@/components/NotionBlogReader'
 import type { Protocol } from '@/lib/types/database'
 
 interface Props {
@@ -45,7 +44,7 @@ export default async function ArticlePage({ params }: Props) {
 
   const { data: rawProtocol } = await supabase
     .from('protocols')
-    .select('title, summary, category, cover_image, excerpt, meta_description, slug, blog_gamma_url, problem')
+    .select('title, summary, category, cover_image, excerpt, meta_description, slug, blog_gamma_url')
     .eq('slug', slug)
     .eq('type', 'Article')
     .eq('status', 'Published')
@@ -55,11 +54,11 @@ export default async function ArticlePage({ params }: Props) {
   if (!item) notFound()
 
   const description = item.excerpt?.trim() || item.summary?.trim() || item.meta_description?.trim()
-  // Preserve a configured Gamma as the designed source. Newly published text
-  // posts use their public Notion Blog Post; never substitute private Protocol.
+  // Blog Post Gamma is the public guidebook. Never substitute Blog Post text,
+  // a bundled deck, or the private Protocol Gamma field.
   return <>
     <LiveContentRefresh />
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredDataJson(contentStructuredData(item.title, description || '', `/guidebooks/${slug}`, 'Article', item.cover_image)) }} />
-    {!item.blog_gamma_url?.trim() && item.problem?.trim() ? <NotionBlogReader title={item.title} body={item.problem} category={item.category} /> : <GammaReader title={item.title} source={item.blog_gamma_url} collection="article" />}
+    <GammaReader title={item.title} source={item.blog_gamma_url} collection="article" />
   </>
 }

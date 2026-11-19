@@ -1,8 +1,6 @@
 /* A centered introduction with a direct entry to the Brain Type reflection. */
 /* Leave a full entrance screen, with the footer reachable by scrolling on tall displays. */
 .sorted-home-entry { min-height:100svh; }
-.sorted-home-entry__explore { display:inline-flex; align-items:center; gap:20px; min-height:48px; margin-top:20px; padding:8px 4px; color:#ffd400; text-decoration:underline; text-underline-offset:5px; }
-.sorted-home-entry__explore:focus-visible { outline:2px solid #ffd400; outline-offset:5px; }
 .sorted-home-entry { --entry-accent:var(--sor7ed-gold); width:100%; max-width:1440px; margin:auto; padding:clamp(24px,3vw,56px) clamp(20px,5vw,64px) 32px; background:#000; color:#fff; font-family:var(--font-jost),system-ui,sans-serif; text-align:center; }
 .sorted-home-entry__hero { display:grid; grid-template-columns:minmax(0,1fr); gap:20px; }
 .sorted-home-entry h1 { margin:0; font:400 clamp(3rem,5vw,6.5rem)/1.08 var(--font-anton),'Arial Narrow',sans-serif; text-transform:uppercase; letter-spacing:0; }
