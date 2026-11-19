@@ -32,6 +32,12 @@
 
 ## Executive Summary
 
+**Guidebook listing:** Compact black cards in a grid replace the long editorial
+rows. Each card has a thin category-colour border, category label, title and
+short intro, with four columns on wide desktop, three on smaller desktop and
+two/one on tablets/phones. Cards open the existing guidebook route; delivery
+remains on individual pages. Tool cards, publication and readers are unchanged.
+
 **19 November 2026 — redesign undone:** At the owner's request, restore the
 website layout and readers from before the seven-area redesign (PR 120).
 Keep the CRM repair: missing linked Notion pages are never recreated, and
