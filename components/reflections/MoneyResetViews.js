@@ -50,7 +50,7 @@ function ScoreGauge({ score, label, size = 220, thickness = 14 }) {
         <div style={{ fontSize: size * 0.28, fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1, fontFamily: 'var(--font-jetbrains-mono), monospace', color: '#f0f0f2' }}>
           {score}
         </div>
-        <div style={{ fontSize: 11, color: '#5a6069', marginTop: 4, letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 500 }}>
+        <div style={{ fontSize: 11, color: '#a3a3a3', marginTop: 4, letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 500 }}>
           out of 100
         </div>
       </div>
@@ -61,9 +61,9 @@ function ScoreGauge({ score, label, size = 220, thickness = 14 }) {
 // Small pill badge
 function Pill({ children, color = 'default', style = {} }) {
   const colors = {
-    default: { bg: 'rgba(255,255,255,0.05)', fg: '#8a8f98', border: 'rgba(255,255,255,0.08)' },
-    gold:    { bg: 'rgba(245,200,76,0.10)', fg: '#FFBA2E', border: 'rgba(245,200,76,0.24)' },
-    purple:  { bg: 'rgba(139,92,246,0.12)', fg: '#a78bfa', border: 'rgba(139,92,246,0.28)' },
+    default: { bg: 'rgba(255,255,255,0.05)', fg: '#b5b5b5', border: 'rgba(255,255,255,0.08)' },
+    gold:    { bg: 'rgba(255,186,46,0.10)', fg: '#FFBA2E', border: 'rgba(255,186,46,0.24)' },
+    purple:  { bg: 'rgba(255,186,46,0.12)', fg: '#FFBA2E', border: 'rgba(255,186,46,0.28)' },
     green:   { bg: 'rgba(34,197,94,0.10)', fg: '#4ade80', border: 'rgba(34,197,94,0.24)' },
     orange:  { bg: 'rgba(249,115,22,0.10)', fg: '#fb923c', border: 'rgba(249,115,22,0.24)' },
     red:     { bg: 'rgba(239,68,68,0.10)', fg: '#f87171', border: 'rgba(239,68,68,0.24)' },
@@ -91,13 +91,13 @@ function FooterDisclaimer() {
       background: '#0a0b0e',
     }}>
       <div style={{ maxWidth: 720, margin: '0 auto', textAlign: 'center' }}>
-        <p style={{ fontSize: 12, color: '#5a6069', lineHeight: 1.7, margin: 0, textWrap: 'pretty' }}>
+        <p style={{ fontSize: 12, color: '#a3a3a3', lineHeight: 1.7, margin: 0, textWrap: 'pretty' }}>
           This tool is for organisation and education only. It is not financial advice.
           For debt crisis or regulated advice, contact a qualified adviser or debt charity.
         </p>
         <div style={{
           display: 'flex', justifyContent: 'center', gap: 20, marginTop: 16,
-          fontSize: 11, color: '#5a6069', letterSpacing: '0.02em',
+          fontSize: 11, color: '#a3a3a3', letterSpacing: '0.02em',
         }}>
           <span>StepChange · 0800 138 1111</span>
           <span style={{ opacity: 0.4 }}>·</span>
@@ -115,19 +115,19 @@ function FieldGroup({ label, hint, children, prefix, suffix, style = {} }) {
   return (
     <label style={{ display: 'flex', flexDirection: 'column', gap: 6, ...style }}>
       <span style={{ fontSize: 13, color: '#f0f0f2', fontWeight: 500 }}>{label}</span>
-      {hint && <span style={{ fontSize: 12, color: '#8a8f98', lineHeight: 1.5, marginBottom: 2 }}>{hint}</span>}
+      {hint && <span style={{ fontSize: 12, color: '#b5b5b5', lineHeight: 1.5, marginBottom: 2 }}>{hint}</span>}
       <div style={{
         display: 'flex', alignItems: 'center',
-        background: '#14171c', border: '1px solid rgba(255,255,255,0.08)',
+        background: '#141414', border: '1px solid rgba(255,255,255,0.08)',
         borderRadius: 10, padding: '0 14px',
         transition: 'border-color 160ms',
       }}
-      onFocusCapture={(e) => e.currentTarget.style.borderColor = 'rgba(245,200,76,0.5)'}
+      onFocusCapture={(e) => e.currentTarget.style.borderColor = 'rgba(255,186,46,0.5)'}
       onBlurCapture={(e) => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'}
       >
-        {prefix && <span style={{ color: '#8a8f98', fontSize: 14, marginRight: 4, fontFamily: 'var(--font-jetbrains-mono), monospace' }}>{prefix}</span>}
+        {prefix && <span style={{ color: '#b5b5b5', fontSize: 14, marginRight: 4, fontFamily: 'var(--font-jetbrains-mono), monospace' }}>{prefix}</span>}
         {children}
-        {suffix && <span style={{ color: '#5a6069', fontSize: 12, marginLeft: 8 }}>{suffix}</span>}
+        {suffix && <span style={{ color: '#a3a3a3', fontSize: 12, marginLeft: 8 }}>{suffix}</span>}
       </div>
     </label>
   );
@@ -184,8 +184,8 @@ function Segmented({ options, value, onChange, wrap = false }) {
           <button key={opt.value} onClick={() => onChange(opt.value)} type="button"
             style={{
               padding: '12px 14px', borderRadius: 10,
-              background: active ? 'rgba(245,200,76,0.12)' : '#14171c',
-              border: `1px solid ${active ? 'rgba(245,200,76,0.4)' : 'rgba(255,255,255,0.08)'}`,
+              background: active ? 'rgba(255,186,46,0.12)' : '#141414',
+              border: `1px solid ${active ? 'rgba(255,186,46,0.4)' : 'rgba(255,255,255,0.08)'}`,
               color: active ? '#FFBA2E' : '#f0f0f2',
               fontSize: 13, fontWeight: active ? 500 : 400,
               cursor: 'pointer', textAlign: 'left',
@@ -193,7 +193,7 @@ function Segmented({ options, value, onChange, wrap = false }) {
               flex: wrap ? '1 1 140px' : undefined,
             }}>
             <div style={{ fontWeight: 500 }}>{opt.label}</div>
-            {opt.hint && <div style={{ fontSize: 11, color: active ? 'rgba(245,200,76,0.7)' : '#5a6069', marginTop: 2 }}>{opt.hint}</div>}
+            {opt.hint && <div style={{ fontSize: 11, color: active ? 'rgba(255,186,46,0.7)' : '#a3a3a3', marginTop: 2 }}>{opt.hint}</div>}
           </button>
         );
       })}
@@ -208,11 +208,11 @@ function Slider({ value, onChange, min = 1, max = 10, leftLabel, rightLabel }) {
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10,
       }}>
-        <span style={{ fontSize: 12, color: '#8a8f98' }}>{leftLabel}</span>
+        <span style={{ fontSize: 12, color: '#b5b5b5' }}>{leftLabel}</span>
         <span style={{ fontSize: 28, fontWeight: 700, color: '#FFBA2E', fontFamily: 'var(--font-jetbrains-mono), monospace', letterSpacing: '-0.02em' }}>
-          {value}<span style={{ fontSize: 14, color: '#5a6069', fontWeight: 400 }}>/{max}</span>
+          {value}<span style={{ fontSize: 14, color: '#a3a3a3', fontWeight: 400 }}>/{max}</span>
         </span>
-        <span style={{ fontSize: 12, color: '#8a8f98' }}>{rightLabel}</span>
+        <span style={{ fontSize: 12, color: '#b5b5b5' }}>{rightLabel}</span>
       </div>
       <input type="range" min={min} max={max} value={value}
         onChange={e => onChange(Number(e.target.value))}
@@ -230,7 +230,7 @@ function Toggle({ value, onChange, label, hint }) {
   return (
     <label style={{
       display: 'flex', alignItems: 'flex-start', gap: 14, cursor: 'pointer',
-      padding: '14px 16px', background: '#14171c',
+      padding: '14px 16px', background: '#141414',
       border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10,
     }}>
       <button
@@ -252,7 +252,7 @@ function Toggle({ value, onChange, label, hint }) {
       </button>
       <div style={{ flex: 1 }}>
         <div style={{ fontSize: 13, color: '#f0f0f2', fontWeight: 500 }}>{label}</div>
-        {hint && <div style={{ fontSize: 12, color: '#8a8f98', marginTop: 2, lineHeight: 1.5 }}>{hint}</div>}
+        {hint && <div style={{ fontSize: 12, color: '#b5b5b5', marginTop: 2, lineHeight: 1.5 }}>{hint}</div>}
       </div>
     </label>
   );
@@ -263,7 +263,7 @@ function PrimaryButton({ children, onClick, disabled, style = {}, type = 'button
   return (
     <button type={type} onClick={onClick} disabled={disabled} style={{
       padding: '14px 28px', borderRadius: 999,
-      background: disabled ? 'rgba(245,200,76,0.24)' : '#FFBA2E',
+      background: disabled ? 'rgba(255,186,46,0.24)' : '#FFBA2E',
       color: '#000000', border: 0, cursor: disabled ? 'not-allowed' : 'pointer',
       fontSize: 14, fontWeight: 600, letterSpacing: '-0.005em',
       transition: 'transform 120ms, background 160ms',
@@ -318,7 +318,7 @@ function LandingPage({ onStart, onLoadSample }) {
           }}>R</div>
           <span style={{ fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em' }}>ADHD Money Reset</span>
         </div>
-        <div style={{ fontSize: 12, color: '#5a6069' }}>
+        <div style={{ fontSize: 12, color: '#a3a3a3' }}>
           Organisation tool · Not financial advice
         </div>
       </div>
@@ -336,7 +336,7 @@ function LandingPage({ onStart, onLoadSample }) {
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               padding: '6px 12px', borderRadius: 999,
-              background: 'rgba(245,200,76,0.08)', border: '1px solid rgba(245,200,76,0.20)',
+              background: 'rgba(255,186,46,0.08)', border: '1px solid rgba(255,186,46,0.20)',
               color: '#FFBA2E', fontSize: 11, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase',
               marginBottom: 28,
             }}>
@@ -350,13 +350,13 @@ function LandingPage({ onStart, onLoadSample }) {
             }}>
               You're not bad<br />with money.
               <br />
-              <span style={{ color: '#8a8f98' }}>The system wasn't</span>
+              <span style={{ color: '#b5b5b5' }}>The system wasn't</span>
               <br />
-              <span style={{ color: '#8a8f98' }}>built for your brain.</span>
+              <span style={{ color: '#b5b5b5' }}>built for your brain.</span>
             </h1>
 
             <p style={{
-              fontSize: 18, color: '#8a8f98', lineHeight: 1.55, textWrap: 'pretty',
+              fontSize: 18, color: '#b5b5b5', lineHeight: 1.55, textWrap: 'pretty',
               margin: '0 0 40px', maxWidth: 480,
             }}>
               Answer six honest questions. Get a Money Pressure Score, a payday
@@ -371,7 +371,7 @@ function LandingPage({ onStart, onLoadSample }) {
 
             <div style={{
               display: 'flex', gap: 24, marginTop: 40, flexWrap: 'wrap',
-              fontSize: 12, color: '#5a6069',
+              fontSize: 12, color: '#a3a3a3',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
@@ -390,17 +390,17 @@ function LandingPage({ onStart, onLoadSample }) {
 
           {/* Right — pressure gauge preview */}
           <div style={{
-            background: 'linear-gradient(180deg, #14171c 0%, #0f1114 100%)',
+            background: 'linear-gradient(180deg, #141414 0%, #0b0b0b 100%)',
             border: '1px solid rgba(255,255,255,0.06)',
             borderRadius: 20, padding: 36,
             boxShadow: '0 24px 72px rgba(0,0,0,0.35)',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
               <div>
-                <div style={{ fontSize: 11, color: '#5a6069', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 500 }}>
+                <div style={{ fontSize: 11, color: '#a3a3a3', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 500 }}>
                   Money Pressure Score
                 </div>
-                <div style={{ fontSize: 13, color: '#8a8f98', marginTop: 4 }}>Sample: Sarah, £2,400/mo</div>
+                <div style={{ fontSize: 13, color: '#b5b5b5', marginTop: 4 }}>Sample: Sarah, £2,400/mo</div>
               </div>
               <Pill color="orange">Stretched</Pill>
             </div>
@@ -412,7 +412,7 @@ function LandingPage({ onStart, onLoadSample }) {
             <div style={{
               padding: 16, background: 'rgba(255,255,255,0.02)', borderRadius: 12,
               border: '1px solid rgba(255,255,255,0.04)',
-              fontSize: 12, color: '#8a8f98', lineHeight: 1.6, textWrap: 'pretty',
+              fontSize: 12, color: '#b5b5b5', lineHeight: 1.6, textWrap: 'pretty',
             }}>
               "Your bills and debt minimums are putting real pressure on your income.
               This is common and fixable — we'll stabilise first, then shrink leaks."
@@ -428,11 +428,11 @@ function LandingPage({ onStart, onLoadSample }) {
                 { label: 'Urgency flags', v: 5, max: 15 },
               ].map(row => (
                 <div key={row.label} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-                  <div style={{ flex: 1, fontSize: 11, color: '#8a8f98' }}>{row.label}</div>
+                  <div style={{ flex: 1, fontSize: 11, color: '#b5b5b5' }}>{row.label}</div>
                   <div style={{ width: 100, height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 999, overflow: 'hidden' }}>
                     <div style={{ width: `${(row.v/row.max)*100}%`, height: '100%', background: '#FFBA2E' }} />
                   </div>
-                  <div style={{ fontSize: 11, color: '#5a6069', fontFamily: 'var(--font-jetbrains-mono), monospace', width: 36, textAlign: 'right' }}>
+                  <div style={{ fontSize: 11, color: '#a3a3a3', fontFamily: 'var(--font-jetbrains-mono), monospace', width: 36, textAlign: 'right' }}>
                     {row.v}/{row.max}
                   </div>
                 </div>
@@ -452,7 +452,7 @@ function LandingPage({ onStart, onLoadSample }) {
           marginBottom: 40, gap: 24, flexWrap: 'wrap',
         }}>
           <div>
-            <div style={{ fontSize: 11, color: '#5a6069', letterSpacing: '0.10em', textTransform: 'uppercase', fontWeight: 500, marginBottom: 12 }}>
+            <div style={{ fontSize: 11, color: '#a3a3a3', letterSpacing: '0.10em', textTransform: 'uppercase', fontWeight: 500, marginBottom: 12 }}>
               How the reset works
             </div>
             <h2 style={{ fontSize: 34, fontWeight: 600, letterSpacing: '-0.025em', margin: 0, lineHeight: 1.15 }}>
@@ -481,7 +481,7 @@ function LandingPage({ onStart, onLoadSample }) {
           ].map(step => (
             <div key={step.n} style={{
               padding: 28, borderRadius: 16,
-              background: '#14171c', border: '1px solid rgba(255,255,255,0.06)',
+              background: '#141414', border: '1px solid rgba(255,255,255,0.06)',
             }}>
               <div style={{
                 fontSize: 11, color: '#FFBA2E', letterSpacing: '0.08em', fontFamily: 'var(--font-jetbrains-mono), monospace',
@@ -490,7 +490,7 @@ function LandingPage({ onStart, onLoadSample }) {
               <h3 style={{ fontSize: 18, fontWeight: 600, letterSpacing: '-0.01em', margin: '0 0 10px', lineHeight: 1.25 }}>
                 {step.title}
               </h3>
-              <p style={{ fontSize: 14, color: '#8a8f98', lineHeight: 1.6, margin: 0, textWrap: 'pretty' }}>
+              <p style={{ fontSize: 14, color: '#b5b5b5', lineHeight: 1.6, margin: 0, textWrap: 'pretty' }}>
                 {step.body}
               </p>
             </div>
@@ -504,19 +504,19 @@ function LandingPage({ onStart, onLoadSample }) {
         padding: '40px 24px 80px',
       }}>
         <div style={{
-          background: 'linear-gradient(180deg, #0f1114 0%, #000000 100%)',
+          background: 'linear-gradient(180deg, #0b0b0b 0%, #000000 100%)',
           border: '1px solid rgba(255,255,255,0.06)',
           borderRadius: 20, padding: 40,
           display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.6fr)', gap: 48, alignItems: 'start',
         }}>
           <div>
-            <div style={{ fontSize: 11, color: '#5a6069', letterSpacing: '0.10em', textTransform: 'uppercase', fontWeight: 500, marginBottom: 12 }}>
+            <div style={{ fontSize: 11, color: '#a3a3a3', letterSpacing: '0.10em', textTransform: 'uppercase', fontWeight: 500, marginBottom: 12 }}>
               What lands in your dashboard
             </div>
             <h3 style={{ fontSize: 26, fontWeight: 600, letterSpacing: '-0.02em', margin: '0 0 12px', lineHeight: 1.2 }}>
               Every module built around one principle: no willpower required.
             </h3>
-            <p style={{ fontSize: 14, color: '#8a8f98', lineHeight: 1.6, margin: 0, textWrap: 'pretty' }}>
+            <p style={{ fontSize: 14, color: '#b5b5b5', lineHeight: 1.6, margin: 0, textWrap: 'pretty' }}>
               Free view unlocks the score, the snapshot and your top two leaks.
               Premium unlocks the full payday split, debt priority, plans, rules and scripts.
             </p>
@@ -541,7 +541,7 @@ function LandingPage({ onStart, onLoadSample }) {
                   <div style={{ fontSize: 14, color: '#f0f0f2', fontWeight: 500, letterSpacing: '-0.005em' }}>{f.title}</div>
                   <Pill color={f.pill.startsWith('Premium') ? 'gold' : 'default'}>{f.pill}</Pill>
                 </div>
-                <div style={{ fontSize: 12, color: '#8a8f98', lineHeight: 1.5 }}>{f.body}</div>
+                <div style={{ fontSize: 12, color: '#b5b5b5', lineHeight: 1.5 }}>{f.body}</div>
               </div>
             ))}
           </div>
@@ -578,7 +578,7 @@ function StepShell({ step, total, meta, children, onBack, onNext, nextLabel = 'C
       <div style={{
         display: 'inline-flex', alignItems: 'center', gap: 8,
         padding: '5px 12px', borderRadius: 999,
-        background: 'rgba(245,200,76,0.08)', border: '1px solid rgba(245,200,76,0.20)',
+        background: 'rgba(255,186,46,0.08)', border: '1px solid rgba(255,186,46,0.20)',
         color: '#FFBA2E', fontSize: 11, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase',
         marginBottom: 20, fontFamily: 'var(--font-jetbrains-mono), monospace',
       }}>
@@ -589,7 +589,7 @@ function StepShell({ step, total, meta, children, onBack, onNext, nextLabel = 'C
         fontSize: 40, fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.08,
         margin: '0 0 12px',
       }}>{meta.title}</h1>
-      <p style={{ fontSize: 16, color: '#8a8f98', margin: '0 0 40px', lineHeight: 1.55, textWrap: 'pretty' }}>
+      <p style={{ fontSize: 16, color: '#b5b5b5', margin: '0 0 40px', lineHeight: 1.55, textWrap: 'pretty' }}>
         {meta.hint}
       </p>
 
@@ -604,7 +604,7 @@ function StepShell({ step, total, meta, children, onBack, onNext, nextLabel = 'C
         gap: 16, flexWrap: 'wrap',
       }}>
         <button onClick={onBack} style={{
-          background: 'none', border: 0, color: '#8a8f98', cursor: 'pointer',
+          background: 'none', border: 0, color: '#b5b5b5', cursor: 'pointer',
           fontSize: 14, padding: '10px 0', fontWeight: 500,
         }}>← Back</button>
         <PrimaryButton onClick={onNext} disabled={!canContinue}>
@@ -691,8 +691,8 @@ function StepBills({ inputs, setInputs, onBack, onNext }) {
 
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: '16px 20px', background: 'rgba(245,200,76,0.06)',
-        border: '1px solid rgba(245,200,76,0.16)', borderRadius: 12,
+        padding: '16px 20px', background: 'rgba(255,186,46,0.06)',
+        border: '1px solid rgba(255,186,46,0.16)', borderRadius: 12,
         marginTop: 8,
       }}>
         <span style={{ fontSize: 13, color: '#FFBA2E', letterSpacing: '0.02em' }}>Total fixed bills / month</span>
@@ -795,9 +795,9 @@ function StepLeaks({ inputs, setInputs, onBack, onNext }) {
   return (
     <StepShell step={5} total={6} meta={STEP_META[4]} onBack={onBack} onNext={onNext}>
       <div style={{
-        padding: '14px 18px', background: 'rgba(139,92,246,0.06)',
-        border: '1px solid rgba(139,92,246,0.16)', borderRadius: 12,
-        fontSize: 13, color: '#a78bfa', lineHeight: 1.55,
+        padding: '14px 18px', background: 'rgba(255,186,46,0.06)',
+        border: '1px solid rgba(255,186,46,0.16)', borderRadius: 12,
+        fontSize: 13, color: '#FFBA2E', lineHeight: 1.55,
         marginBottom: 4, textWrap: 'pretty',
       }}>
         Estimate honestly. Under-reporting leaks is normal and the point of this step
@@ -818,7 +818,7 @@ function StepLeaks({ inputs, setInputs, onBack, onNext }) {
       />
 
       <div style={{
-        padding: '20px 22px', background: '#14171c',
+        padding: '20px 22px', background: '#141414',
         border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12,
       }}>
         <Slider
@@ -828,7 +828,7 @@ function StepLeaks({ inputs, setInputs, onBack, onNext }) {
           leftLabel="I check often"
           rightLabel="I avoid completely"
         />
-        <div style={{ fontSize: 12, color: '#5a6069', marginTop: 12, textAlign: 'center' }}>
+        <div style={{ fontSize: 12, color: '#a3a3a3', marginTop: 12, textAlign: 'center' }}>
           How much do you avoid opening bank apps and letters?
         </div>
       </div>
@@ -876,7 +876,7 @@ function StepGoals({ inputs, setInputs, onBack, onNext }) {
       </div>
 
       <div style={{
-        padding: '20px 22px', background: '#14171c',
+        padding: '20px 22px', background: '#141414',
         border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12,
       }}>
         <Slider
@@ -886,7 +886,7 @@ function StepGoals({ inputs, setInputs, onBack, onNext }) {
           leftLabel="Calm"
           rightLabel="Crisis"
         />
-        <div style={{ fontSize: 12, color: '#5a6069', marginTop: 12, textAlign: 'center' }}>
+        <div style={{ fontSize: 12, color: '#a3a3a3', marginTop: 12, textAlign: 'center' }}>
           How stressful does money feel right now?
         </div>
       </div>
@@ -947,8 +947,8 @@ function MoneyResetForm({ view, setView, inputs, setInputs, onComplete }) {
 
 // -- Card shell -------------------------------------------------
 function Card({ children, title, subtitle, actions, tone = 'default', style = {} }) {
-  const bg = tone === 'purple' ? 'linear-gradient(180deg, rgba(139,92,246,0.05) 0%, #14171c 60%)' : '#14171c';
-  const border = tone === 'purple' ? 'rgba(139,92,246,0.14)' : 'rgba(255,255,255,0.06)';
+  const bg = tone === 'purple' ? 'linear-gradient(180deg, rgba(255,186,46,0.05) 0%, #141414 60%)' : '#141414';
+  const border = tone === 'purple' ? 'rgba(255,186,46,0.14)' : 'rgba(255,255,255,0.06)';
   return (
     <div style={{
       background: bg, border: `1px solid ${border}`,
@@ -962,7 +962,7 @@ function Card({ children, title, subtitle, actions, tone = 'default', style = {}
         }}>
           <div>
             {subtitle && (
-              <div style={{ fontSize: 11, color: '#5a6069', letterSpacing: '0.10em', textTransform: 'uppercase', fontWeight: 500, marginBottom: 6 }}>
+              <div style={{ fontSize: 11, color: '#a3a3a3', letterSpacing: '0.10em', textTransform: 'uppercase', fontWeight: 500, marginBottom: 6 }}>
                 {subtitle}
               </div>
             )}
@@ -994,7 +994,7 @@ function LockedModule({ title, oneLine, onUpgrade, children, height }) {
       }}>
         <div style={{
           width: 44, height: 44, borderRadius: '50%',
-          background: 'rgba(245,200,76,0.12)', border: '1px solid rgba(245,200,76,0.28)',
+          background: 'rgba(255,186,46,0.12)', border: '1px solid rgba(255,186,46,0.28)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           marginBottom: 16,
         }}>
@@ -1006,7 +1006,7 @@ function LockedModule({ title, oneLine, onUpgrade, children, height }) {
         <div style={{ fontSize: 15, fontWeight: 600, color: '#f0f0f2', marginBottom: 6, letterSpacing: '-0.01em' }}>
           {title}
         </div>
-        <div style={{ fontSize: 13, color: '#8a8f98', maxWidth: 320, lineHeight: 1.55, marginBottom: 18, textWrap: 'pretty' }}>
+        <div style={{ fontSize: 13, color: '#b5b5b5', maxWidth: 320, lineHeight: 1.55, marginBottom: 18, textWrap: 'pretty' }}>
           {oneLine}
         </div>
         <PrimaryButton onClick={onUpgrade} style={{ padding: '10px 22px', fontSize: 13 }}>
@@ -1059,7 +1059,7 @@ function HeroResult({ pressure, inputs }) {
               }}>
                 <div>
                   <div style={{ fontSize: 12, color: '#f0f0f2', fontWeight: 500 }}>{f.name}</div>
-                  <div style={{ fontSize: 10, color: '#5a6069' }}>{f.short}</div>
+                  <div style={{ fontSize: 10, color: '#a3a3a3' }}>{f.short}</div>
                 </div>
                 <div style={{ height: 4, background: 'rgba(255,255,255,0.05)', borderRadius: 999, overflow: 'hidden' }}>
                   <div style={{
@@ -1068,8 +1068,8 @@ function HeroResult({ pressure, inputs }) {
                     transition: 'width 700ms cubic-bezier(0.4, 0, 0.2, 1)',
                   }} />
                 </div>
-                <div style={{ fontSize: 12, color: '#8a8f98', fontFamily: 'var(--font-jetbrains-mono), monospace', textAlign: 'right' }}>
-                  {f.v}<span style={{ color: '#5a6069' }}>/{f.max}</span>
+                <div style={{ fontSize: 12, color: '#b5b5b5', fontFamily: 'var(--font-jetbrains-mono), monospace', textAlign: 'right' }}>
+                  {f.v}<span style={{ color: '#a3a3a3' }}>/{f.max}</span>
                 </div>
               </div>
             ))}
@@ -1099,12 +1099,12 @@ function MonthlySnapshot({ snapshot }) {
             padding: '16px 18px', borderRadius: 12,
             background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)',
           }}>
-            <div style={{ fontSize: 11, color: '#5a6069', letterSpacing: '0.02em', marginBottom: 6 }}>
+            <div style={{ fontSize: 11, color: '#a3a3a3', letterSpacing: '0.02em', marginBottom: 6 }}>
               {r.label}
             </div>
             <div style={{
               fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em',
-              color: r.tone === 'in' ? '#f0f0f2' : r.tone === 'leak' ? '#a78bfa' : '#f0f0f2',
+              color: r.tone === 'in' ? '#f0f0f2' : r.tone === 'leak' ? '#FFBA2E' : '#f0f0f2',
               fontFamily: 'var(--font-jetbrains-mono), monospace',
             }}>
               {r.tone === 'in' ? '' : '−'}{fmtGBP(r.v).replace('£', '£')}
@@ -1121,18 +1121,18 @@ function MonthlySnapshot({ snapshot }) {
         marginBottom: 8,
       }}>
         <div style={{ background: '#FFBA2E' }} title="Fixed bills" />
-        <div style={{ background: '#8B5CF6' }} title="Debt minimums" />
+        <div style={{ background: '#FFBA2E' }} title="Debt minimums" />
         <div style={{ background: '#f97316' }} title="Leaks" />
         <div style={{ background: surplusPositive ? '#22c55e' : '#ef4444' }} title={surplusPositive ? 'Surplus' : 'Shortfall'} />
       </div>
       <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 8 }}>
         {[
           { c: '#FFBA2E', l: 'Fixed bills' },
-          { c: '#8B5CF6', l: 'Debt minimums' },
+          { c: '#FFBA2E', l: 'Debt minimums' },
           { c: '#f97316', l: 'Leaks' },
           { c: surplusPositive ? '#22c55e' : '#ef4444', l: surplusPositive ? 'Surplus' : 'Shortfall' },
         ].map(x => (
-          <div key={x.l} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#8a8f98' }}>
+          <div key={x.l} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#b5b5b5' }}>
             <span style={{ width: 8, height: 8, borderRadius: 2, background: x.c }} />
             {x.l}
           </div>
@@ -1190,9 +1190,9 @@ function LeakMap({ leaks, isPaid, onUpgrade }) {
               <div style={{ fontSize: 14, color: '#f0f0f2', fontWeight: 500 }}>{leak.label}</div>
               <div style={{ display: 'flex', gap: 12, alignItems: 'baseline' }}>
                 <span style={{ fontSize: 16, fontWeight: 600, color: '#FFBA2E', fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
-                  {fmtGBP(leak.monthly)}<span style={{ fontSize: 11, color: '#5a6069' }}>/mo</span>
+                  {fmtGBP(leak.monthly)}<span style={{ fontSize: 11, color: '#a3a3a3' }}>/mo</span>
                 </span>
-                <span style={{ fontSize: 12, color: '#8a8f98', fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
+                <span style={{ fontSize: 12, color: '#b5b5b5', fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
                   ({fmtGBP(leak.annual)}/yr)
                 </span>
               </div>
@@ -1242,7 +1242,7 @@ function PaydaySplit({ split, isPaid, onUpgrade, paydayDate }) {
   const content = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       {split.map((row, i) => {
-        const toneColor = row.tone === 'core' ? '#FFBA2E' : row.tone === 'save' ? '#8B5CF6' : '#22c55e';
+        const toneColor = row.tone === 'core' ? '#FFBA2E' : row.tone === 'save' ? '#FFBA2E' : '#22c55e';
         return (
           <div key={row.bucket} style={{
             padding: '18px 20px', borderRadius: 14,
@@ -1259,8 +1259,8 @@ function PaydaySplit({ split, isPaid, onUpgrade, paydayDate }) {
               <div style={{ fontSize: 15, color: '#f0f0f2', fontWeight: 500, letterSpacing: '-0.005em', marginBottom: 3 }}>
                 {row.bucket}
               </div>
-              <div style={{ fontSize: 12, color: '#8a8f98', lineHeight: 1.55, marginBottom: 4 }}>{row.why}</div>
-              <div style={{ fontSize: 11, color: '#5a6069', letterSpacing: '0.02em' }}>{row.when}</div>
+              <div style={{ fontSize: 12, color: '#b5b5b5', lineHeight: 1.55, marginBottom: 4 }}>{row.why}</div>
+              <div style={{ fontSize: 11, color: '#a3a3a3', letterSpacing: '0.02em' }}>{row.when}</div>
             </div>
             <div style={{
               fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em',
@@ -1303,18 +1303,18 @@ function DebtPriority({ debtPlan, isPaid, onUpgrade }) {
           {debtPlan.strategy}
         </span>
       </div>
-      <p style={{ fontSize: 14, color: '#8a8f98', lineHeight: 1.6, margin: '0 0 20px', textWrap: 'pretty' }}>
+      <p style={{ fontSize: 14, color: '#b5b5b5', lineHeight: 1.6, margin: '0 0 20px', textWrap: 'pretty' }}>
         {debtPlan.reason}
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {debtPlan.firstThree.map((task, i) => (
           <div key={i} style={{
             display: 'flex', gap: 14, padding: '14px 16px', borderRadius: 10,
-            background: 'rgba(139,92,246,0.05)', border: '1px solid rgba(139,92,246,0.14)',
+            background: 'rgba(255,186,46,0.05)', border: '1px solid rgba(255,186,46,0.14)',
           }}>
             <div style={{
               width: 24, height: 24, borderRadius: '50%',
-              background: 'rgba(139,92,246,0.16)', color: '#a78bfa',
+              background: 'rgba(255,186,46,0.16)', color: '#FFBA2E',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 12, fontWeight: 700, flexShrink: 0,
               fontFamily: 'var(--font-jetbrains-mono), monospace',
@@ -1358,7 +1358,7 @@ function ActionPlan({ sevenDay, thirtyDay, isPaid, onUpgrade }) {
             }}>
               <div style={{
                 width: 24, height: 24, borderRadius: 6,
-                background: 'rgba(245,200,76,0.12)', color: '#FFBA2E',
+                background: 'rgba(255,186,46,0.12)', color: '#FFBA2E',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 11, fontWeight: 700, flexShrink: 0,
                 fontFamily: 'var(--font-jetbrains-mono), monospace',
@@ -1397,10 +1397,10 @@ function ActionPlan({ sevenDay, thirtyDay, isPaid, onUpgrade }) {
             {thirtyDay.map(week => (
               <div key={week.week} style={{
                 padding: 20, borderRadius: 14,
-                background: 'rgba(139,92,246,0.04)', border: '1px solid rgba(139,92,246,0.14)',
+                background: 'rgba(255,186,46,0.04)', border: '1px solid rgba(255,186,46,0.14)',
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
-                  <span style={{ fontSize: 11, color: '#a78bfa', letterSpacing: '0.10em', textTransform: 'uppercase', fontWeight: 600 }}>
+                  <span style={{ fontSize: 11, color: '#FFBA2E', letterSpacing: '0.10em', textTransform: 'uppercase', fontWeight: 600 }}>
                     {week.week}
                   </span>
                   <span style={{ fontSize: 15, color: '#f0f0f2', fontWeight: 600, letterSpacing: '-0.01em' }}>
@@ -1409,8 +1409,8 @@ function ActionPlan({ sevenDay, thirtyDay, isPaid, onUpgrade }) {
                 </div>
                 <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {week.tasks.map((t, i) => (
-                    <li key={i} style={{ display: 'flex', gap: 10, fontSize: 13, color: '#8a8f98', lineHeight: 1.5 }}>
-                      <span style={{ color: '#8B5CF6', flexShrink: 0 }}>◦</span>
+                    <li key={i} style={{ display: 'flex', gap: 10, fontSize: 13, color: '#b5b5b5', lineHeight: 1.5 }}>
+                      <span style={{ color: '#FFBA2E', flexShrink: 0 }}>◦</span>
                       <span>{t}</span>
                     </li>
                   ))}
@@ -1429,10 +1429,10 @@ function ActionPlan({ sevenDay, thirtyDay, isPaid, onUpgrade }) {
               {thirtyDay.map(week => (
                 <div key={week.week} style={{
                   padding: 20, borderRadius: 14,
-                  background: 'rgba(139,92,246,0.04)', border: '1px solid rgba(139,92,246,0.14)',
+                  background: 'rgba(255,186,46,0.04)', border: '1px solid rgba(255,186,46,0.14)',
                   minHeight: 140,
                 }}>
-                  <div style={{ fontSize: 11, color: '#a78bfa', marginBottom: 8 }}>{week.week}</div>
+                  <div style={{ fontSize: 11, color: '#FFBA2E', marginBottom: 8 }}>{week.week}</div>
                   <div style={{ fontSize: 15, color: '#f0f0f2' }}>{week.theme}</div>
                 </div>
               ))}
@@ -1456,7 +1456,7 @@ function RulesList({ rules, isPaid, onUpgrade }) {
         }}>
           <div style={{
             width: 22, height: 22, borderRadius: 6,
-            background: 'rgba(245,200,76,0.12)', color: '#FFBA2E',
+            background: 'rgba(255,186,46,0.12)', color: '#FFBA2E',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 11, fontWeight: 700, flexShrink: 0, marginTop: 1,
             fontFamily: 'var(--font-jetbrains-mono), monospace',
@@ -1501,9 +1501,9 @@ function ScriptsPack({ scripts, isPaid, onUpgrade }) {
         {scripts.map((s, i) => (
           <button key={i} onClick={() => setOpenIdx(i)} style={{
             padding: '8px 14px', borderRadius: 999, cursor: 'pointer',
-            background: openIdx === i ? 'rgba(245,200,76,0.12)' : 'rgba(255,255,255,0.03)',
-            border: `1px solid ${openIdx === i ? 'rgba(245,200,76,0.32)' : 'rgba(255,255,255,0.06)'}`,
-            color: openIdx === i ? '#FFBA2E' : '#8a8f98',
+            background: openIdx === i ? 'rgba(255,186,46,0.12)' : 'rgba(255,255,255,0.03)',
+            border: `1px solid ${openIdx === i ? 'rgba(255,186,46,0.32)' : 'rgba(255,255,255,0.06)'}`,
+            color: openIdx === i ? '#FFBA2E' : '#b5b5b5',
             fontSize: 12, fontWeight: 500, letterSpacing: '-0.005em',
           }}>{s.title}</button>
         ))}
@@ -1514,11 +1514,11 @@ function ScriptsPack({ scripts, isPaid, onUpgrade }) {
         background: '#000000', border: '1px solid rgba(255,255,255,0.06)',
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-          <span style={{ fontSize: 12, color: '#8a8f98', textWrap: 'pretty' }}>{scripts[openIdx].when}</span>
+          <span style={{ fontSize: 12, color: '#b5b5b5', textWrap: 'pretty' }}>{scripts[openIdx].when}</span>
           <button onClick={() => copy(openIdx)} style={{
             padding: '6px 12px', borderRadius: 999, cursor: 'pointer',
-            background: copied === openIdx ? 'rgba(34,197,94,0.16)' : 'rgba(245,200,76,0.10)',
-            border: `1px solid ${copied === openIdx ? 'rgba(34,197,94,0.32)' : 'rgba(245,200,76,0.24)'}`,
+            background: copied === openIdx ? 'rgba(34,197,94,0.16)' : 'rgba(255,186,46,0.10)',
+            border: `1px solid ${copied === openIdx ? 'rgba(34,197,94,0.32)' : 'rgba(255,186,46,0.24)'}`,
             color: copied === openIdx ? '#4ade80' : '#FFBA2E',
             fontSize: 11, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase',
           }}>{copied === openIdx ? '✓ Copied' : 'Copy'}</button>
@@ -1585,7 +1585,7 @@ function ResultsDashboard({ inputs, setView, planView, setPlanView }) {
           padding: '0 4px', marginBottom: 8, flexWrap: 'wrap',
         }}>
           <div>
-            <div style={{ fontSize: 11, color: '#5a6069', letterSpacing: '0.10em', textTransform: 'uppercase', fontWeight: 500, marginBottom: 6 }}>
+            <div style={{ fontSize: 11, color: '#a3a3a3', letterSpacing: '0.10em', textTransform: 'uppercase', fontWeight: 500, marginBottom: 6 }}>
               Your money reset
             </div>
             <h1 style={{ fontSize: 34, fontWeight: 600, letterSpacing: '-0.03em', margin: 0, lineHeight: 1.15 }}>
@@ -1694,7 +1694,7 @@ function ExportPage({ inputs, setView }) {
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       }}>
         <button onClick={() => setView('results')} style={{
-          background: 'none', border: 0, color: '#8a8f98', cursor: 'pointer',
+          background: 'none', border: 0, color: '#b5b5b5', cursor: 'pointer',
           fontSize: 13, fontWeight: 500,
         }}>← Back to dashboard</button>
         <div style={{ display: 'flex', gap: 10 }}>

@@ -34,3 +34,10 @@
 @media(max-width:900px) { .hidden-strength-app { grid-template-columns:minmax(0,1fr); }.hs-rail { display:none; }.hs-stage { padding-bottom:56px; } }
 @media(max-width:480px) { .hs-ratings { grid-template-columns:1fr; }.hs-ratings button { display:flex; align-items:center; text-align:left; gap:12px; min-height:48px; }.hs-ratings span { margin:0; }.hs-words { grid-template-columns:repeat(2,minmax(0,1fr)); }.hs-pair { gap:8px; } }
 @media print { .hs-rail,.hs-actions,.hs-primary,.hs-link { display:none; }.hidden-strength-app { display:block; color:#000; background:#fff; }.hs-stage { padding:0; }.hs-eyebrow,.hs-summary span,.hs-disclaimer { color:#000; } }
+
+/* The progress rail is a distinct yellow section, matching the site palette. */
+.hs-rail { background:var(--hs-gold); color:#000; border-right-color:#0005; }
+.hs-rail .hs-eyebrow, .hs-rail p, .hs-rail li, .hs-rail li span { color:#222; }
+.hs-rail li { border-color:#0004; }
+.hs-rail li[aria-current="step"], .hs-rail li[aria-current="step"] span { color:#000; font-weight:600; }
+.hs-rail h2 { color:#000; }

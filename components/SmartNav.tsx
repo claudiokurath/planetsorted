@@ -16,6 +16,7 @@ export function SmartNav() {
   const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'Toolbox', href: '/tools' },
+    { label: 'Quizzes & tools', href: '/quizzes-and-tools' },
     { label: 'Guidebooks', href: '/guidebooks' },
     { label: 'About', href: '/about' },
   ]
