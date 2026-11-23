@@ -56,3 +56,7 @@
 @media print { .money-reset-app .no-print { display:none !important; } }
 .money-reset-app .money-example-print { padding:20px 24px; border:2px solid var(--sor7ed-gold, #FFBA2E); color:var(--sor7ed-gold, #FFBA2E); font-weight:600; }
 @media print { .money-reset-app .money-example-print { color:#000; border-color:#000; } }
+
+/* Shared black/charcoal/yellow SOR7ED system; semantic risk colours are retained. */
+.money-reset-app { --bg:#000; --bg-2:#0b0b0b; --surface:#141414; --surface-2:#1c1c1c; --border:#ffffff24; --border-strong:#ffffff45; --text:#fff; --text-muted:#b5b5b5; --text-dim:#a3a3a3; --purple:#FFBA2E; --purple-soft:#FFBA2E20; --gold-soft:#FFBA2E20; }
+.money-reset-app :is(h1,h2,h3,h4,h5,h6) { font-family:var(--font-anton),'Arial Narrow',sans-serif !important; font-weight:400 !important; text-transform:uppercase; letter-spacing:.01em !important; line-height:1.15 !important; }

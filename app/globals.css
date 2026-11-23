@@ -495,3 +495,7 @@ p {
 .sorted-account-tabs button { min-height:48px; padding:12px 20px; border:1px solid #000; color:#000; }
 .sorted-account-tabs button[aria-pressed="true"] { background:#000; color:#FFBA2E; }
 .sorted-account-tabs button:focus-visible { outline:2px solid #000; outline-offset:3px; }
+
+/* Shared heading and charcoal surface treatment for public/native apps. */
+h1,h2,h3,h4,h5,h6 { text-transform:uppercase; }
+@media screen { .sorted-tool-app .glass, .sorted-tool-app section[class*="border"], .sorted-tool-app header[class*="border"] { background:#141414; } }

@@ -32,6 +32,18 @@
 
 ## Executive Summary
 
+**23 November 2026 — standalone brand consistency:** All display headings use
+Anton in capitals, with SOR7ED as the visible brand spelling. Black remains the
+page background; #141414 charcoal panels add contrast, white/light-grey text
+stays readable, and #FFBA2E remains the only decorative accent. Hidden Strength
+has a yellow progress rail with dark text. Self-Perception Gap drops the cream
+paper/serif treatment; the Brain Sorter no longer uses League Gothic or Roboto.
+Functional test-stimulus colours and neutral stimulus boards, risk indicators,
+scoring and consent/account boundaries remain unchanged. `/quizzes-and-tools`
+collects the four existing public reflections and the live Notion-published tool
+catalogue; it does not republish hidden tools or duplicate Hidden Strength Test,
+which redirects to Hidden Strength.
+
 **Brand yellow — 19 November 2026:** The single brand yellow is **#FFBA2E**,
 matched to the live Notion Gamma presentations. Use it for heroes, sections,
 buttons, tick marks, focus states and the yellow category accent. Opacity may

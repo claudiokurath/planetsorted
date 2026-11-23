@@ -2,8 +2,8 @@
 .brain-type-profiler{
   --bg:#000; --fg:#fff; --accent:var(--sor7ed-gold, #FFBA2E); --panel:#000;
   --line:rgba(255,255,255,.16); --muted:rgba(255,255,255,.58);
-  --display:var(--font-brain-display),'Arial Narrow',sans-serif;
-  --body:var(--font-brain-body),system-ui,sans-serif;
+  --display:var(--font-anton),'Arial Narrow',sans-serif;
+  --body:var(--font-jost),system-ui,sans-serif;
 }
 .brain-type-profiler *{box-sizing:border-box}
 
@@ -31,7 +31,7 @@
 .brain-type-profiler .btn.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
 .brain-type-profiler .btn.ghost:hover{border-color:var(--accent);color:var(--accent);background:transparent}
 .brain-type-profiler .meta{font-size:13px;color:var(--muted);letter-spacing:.04em}
-.brain-type-profiler .fineprint{font-size:12px;color:rgba(255,255,255,.4);margin-top:34px;max-width:52ch;line-height:1.6}
+.brain-type-profiler .fineprint{font-size:12px;color:#b5b5b5;margin-top:34px;max-width:52ch;line-height:1.6}
 /* quiz */
 .brain-type-profiler .prog{display:flex;align-items:center;gap:16px;margin-bottom:44px}
 .brain-type-profiler .prog .count{font-family:var(--display);font-size:24px;letter-spacing:.04em;color:var(--accent);min-width:74px}
