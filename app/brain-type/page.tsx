@@ -14,7 +14,7 @@ export const metadata: Metadata = publicPageMetadata({
 export const dynamic = 'force-dynamic'
 
 export default async function BrainTypePage() {
-  const snapshot = await getLiveContent().catch(() => null)
+  const snapshot = await getLiveContent('Tool').catch(() => null)
   return (
     <div>
       <LiveContentRefresh />

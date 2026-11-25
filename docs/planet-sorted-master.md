@@ -32,6 +32,15 @@
 
 ## Executive Summary
 
+**25 November 2026 — isolate live collection reads:** Public Tools catalogue,
+tool publication guards and Brain Sorter recommendations reconcile only the
+Tools source; guidebook reads reconcile only Blog. A missing Blog grant must not
+block accessible Tools. Each source keeps its own 30-second coalesced publication
+check and fails closed on refresh failure; unscoped maintenance callers still
+require both sources. No cached publication fallback or Notion status override
+is introduced. Read-only build preflight reports source access without credentials
+or page content. The Blog integration grant remains a separate operational fix.
+
 **23 November 2026 — standalone brand consistency:** All display headings use
 Anton in capitals, with SOR7ED as the visible brand spelling. Black remains the
 page background; #141414 charcoal panels add contrast, white/light-grey text

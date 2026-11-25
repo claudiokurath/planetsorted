@@ -19,17 +19,9 @@ if (!auth) {
   for (const [name, id] of [['Blog', process.env.NOTION_BLOG_DB_ID || process.env.NOTION_ARTICLES_DB_ID], ['Tools', process.env.NOTION_TOOLS_DB_ID]]) {
     if (!id) { console.warn(`[Content configuration] ${name}: database ID is missing.`); continue }
     const legacy = await probe(`databases/${encodeURIComponent(id)}/query`, '2022-06-28', { page_size: 1, filter: { property: 'Status', status: { equals: 'Published' } } })
-    console.log('[Content configuration]', JSON.stringify({ source: name, databaseId: id, legacyQueryStatus: legacy.status, code: legacy.code }))
+    console.log('[Content configuration]', JSON.stringify({ source: name, legacyQueryStatus: legacy.status, code: legacy.code }))
     const modern = await probe(`databases/${encodeURIComponent(id)}`, '2025-09-03')
     const sources = modern.data?.data_sources?.map(({ id, name }) => ({ id, name }))
     console.log('[Content configuration]', JSON.stringify({ source: name, modernDatabaseStatus: modern.status, code: modern.code, dataSources: sources }))
-    // A confirmed source from the connected Blog database, used only for
-    // diagnosis of a legacy linked-database API failure; never a publish fallback.
-    if (name === 'Blog' && modern.status !== 200) {
-      for (const [kind, candidate] of [['data_sources', '0010d601-4acc-8295-9519-07ed024a3679'], ['databases', 'db668e4687ed455498357b8d11d2c714']]) {
-        const result = await probe(`${kind}/${candidate}`, '2025-09-03')
-        console.log('[Content configuration]', JSON.stringify({ source: name, candidateKind: kind, candidateId: candidate, status: result.status, code: result.code, dataSources: result.data?.data_sources?.map(({ id, name }) => ({ id, name })) }))
-      }
-    }
   }
 }

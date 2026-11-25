@@ -23,7 +23,7 @@ const TOOL_RANK = new Map(TOOL_ORDER.map((slug, index) => [slug, index]))
 
 export async function loadCollectionCatalog(type: CollectionType): Promise<CatalogResult> {
   try {
-    const snapshot = await getLiveContent()
+    const snapshot = await getLiveContent(type)
     const published = type === 'Tool' ? snapshot.tools : snapshot.articles
     if (!published.length) return { status: 'ready', items: [] }
     const { data, error } = await createServerClient()
