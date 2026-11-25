@@ -8,6 +8,7 @@ import './HomeGateway.css'
 
 export function HomeGateway() {
   const [motion, setMotion] = useState(false)
+  const [playbackFailed, setPlaybackFailed] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -17,14 +18,14 @@ export function HomeGateway() {
     return () => preference.removeEventListener('change', update)
   }, [])
   useEffect(() => {
-    if (motion) void videoRef.current?.play().catch(() => {})
-  }, [motion])
+    if (motion && !playbackFailed) void videoRef.current?.play().catch(() => setPlaybackFailed(true))
+  }, [motion, playbackFailed])
 
   return (
     <section className="sorted-home-entry" aria-labelledby="entry-heading">
       <div className="sorted-home-entry__hero">
         <div className="sorted-home-entry__scribble" aria-hidden="true">
-          {motion ? <video ref={videoRef} autoPlay muted loop playsInline preload="metadata" tabIndex={-1}><source src="/media/tangle-loop-256.mp4" type="video/mp4" /></video> : <Image src="/images/tangle-white.png" alt="" width="256" height="256" />}
+          {motion && !playbackFailed ? <video ref={videoRef} autoPlay muted loop playsInline preload="metadata" poster="/media/scribble-yellow-loop-poster.jpg" tabIndex={-1} onError={() => setPlaybackFailed(true)}><source src="/media/scribble-yellow-loop.mp4" type="video/mp4" /></video> : <Image src="/media/scribble-yellow-loop-poster.jpg" alt="" width="192" height="192" />}
         </div>
         <header>
           <h1 id="entry-heading"><span>Built for brains</span><span>that work <em>differently.</em></span></h1>

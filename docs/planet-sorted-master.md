@@ -32,6 +32,12 @@
 
 ## Executive Summary
 
+**25 November 2026 — new shared hero video:** Replace the previous white hero
+loop with the owner's uploaded yellow scribble loop, also used on the SOR7ED
+homepage and Links page. Display it at 192px desktop and 144px mobile; the matching
+video poster handles reduced motion and playback failure. Preserve the existing
+Brain Sorter entry and public-site content/account boundary.
+
 **25 November 2026 — isolate live collection reads:** Public Tools catalogue,
 tool publication guards and Brain Sorter recommendations reconcile only the
 Tools source; guidebook reads reconcile only Blog. A missing Blog grant must not
