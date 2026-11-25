@@ -32,11 +32,22 @@ interface SyncSource {
   type: 'Article' | 'Tool'
 }
 
-/** Complete a fresh Notion snapshot before exposing any cached content. */
-export async function syncPublishedContent(): Promise<{ tools: string[]; articles: string[] }> {
+/** A source-specific read must not depend on another collection's grant. */
+export async function syncPublishedContent(type?: SyncSource['type']): Promise<{ tools: string[]; articles: string[] }> {
   const articleDatabaseId = process.env.NOTION_BLOG_DB_ID ?? process.env.NOTION_ARTICLES_DB_ID
   const toolDatabaseId = process.env.NOTION_TOOLS_DB_ID
-  if (!process.env.NOTION_SECRET || !articleDatabaseId || !toolDatabaseId) throw new Error('Notion content is not configured')
+  if (!process.env.NOTION_SECRET) throw new Error('Notion content is not configured')
+  if (type === 'Tool') {
+    if (!toolDatabaseId) throw new Error('Notion tools are not configured')
+    const result = await reconcilePublishedContent({ databaseId: toolDatabaseId, type })
+    return { tools: result.slugs, articles: [] }
+  }
+  if (type === 'Article') {
+    if (!articleDatabaseId) throw new Error('Notion guidebooks are not configured')
+    const result = await reconcilePublishedContent({ databaseId: articleDatabaseId, type })
+    return { tools: [], articles: result.slugs }
+  }
+  if (!articleDatabaseId || !toolDatabaseId) throw new Error('Notion content is not configured')
   const results = await Promise.all([
     reconcilePublishedContent({ databaseId: articleDatabaseId, type: 'Article' }),
     reconcilePublishedContent({ databaseId: toolDatabaseId, type: 'Tool' }),

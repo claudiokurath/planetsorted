@@ -14,7 +14,7 @@
     "test": "node --experimental-strip-types --test \"lib/**/*.test.js\"",
     "docker:build": "docker build -t sor7ed:latest .",
     "docker:run": "docker run -p 3000:3000 --env-file .env.production sor7ed:latest",
-    "prebuild": "node scripts/check-crm-config.mjs"
+    "prebuild": "node scripts/check-crm-config.mjs && node scripts/check-content-config.mjs"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.14",
