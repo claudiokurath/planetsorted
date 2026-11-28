@@ -32,6 +32,29 @@
 
 ## Executive Summary
 
+**28 November 2026 — one member database (owner decision; migration pending):**
+All SOR7ED products must use one authoritative member/account store. Target the
+existing SOR7ED Supabase Postgres project while retaining the Button API as the
+single account authority and preserving its current member IDs, login and
+WhatsApp rules. Notion is the CRM projection, not a second membership system.
+This supersedes earlier statements that separate customer databases are the
+intended permanent architecture. It does not claim that the data has moved.
+
+The live audit found 25 legacy Supabase Auth accounts, 5 profiles and 21 saved
+items; tool-run and assessment-history counts were zero. The existing CRM job
+still reads only those legacy Auth accounts, so it does not prove that new
+Button signups reach Notion. The old `/api/auth/start` account creator remains
+present and must be retired with a tested recovery path during consolidation.
+
+The Button and legacy `public.users` / `public.saved_items` schemas conflict.
+Do not point the existing Button migrations at public Supabase tables. Stage
+the canonical schema, verified identity mapping, backups, data copy, CRM
+reconciliation and coordinated writer cutover first. Preserve opt-outs and
+deleted Notion contact identities. No live customer records or credentials
+were moved during this audit; usable source-database access remains blocked.
+The executable read-only preflight and detailed cutover criteria are in the
+Button repository at `docs/member-database-consolidation.md`.
+
 **25 November 2026 — new shared hero video:** Replace the previous white hero
 loop with the owner's uploaded yellow scribble loop, also used on the SOR7ED
 homepage and Links page. Display it at 192px desktop and 144px mobile; the matching
